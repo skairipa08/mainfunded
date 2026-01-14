@@ -5,42 +5,35 @@ import { MongoClient, ObjectId } from 'mongodb';
 import { authConfig } from './auth.config';
 import { getDb } from './lib/db';
 
-let clientPromise: Promise<MongoClient> | null = null;
-
 function getMongoClientPromise(): Promise<MongoClient> {
-  if (clientPromise) {
-    return clientPromise;
+  if (typeof window !== 'undefined') {
+    return Promise.reject(new Error('MongoDB client can only be created on the server'));
   }
 
   if (!process.env.MONGO_URL) {
-    clientPromise = Promise.reject(new Error('MONGO_URL is not configured'));
-    return clientPromise;
+    return Promise.reject(new Error('MONGO_URL is not configured'));
   }
 
-  if (typeof window !== 'undefined') {
-    clientPromise = Promise.reject(new Error('MongoDB client can only be created on the server'));
-    return clientPromise;
+  if (process.env.NODE_ENV === 'development') {
+    const globalWithMongo = globalThis as typeof globalThis & {
+      _mongoClientPromise?: Promise<MongoClient>;
+    };
+
+    if (!globalWithMongo._mongoClientPromise) {
+      const client = new MongoClient(process.env.MONGO_URL);
+      globalWithMongo._mongoClientPromise = client.connect();
+    }
+    return globalWithMongo._mongoClientPromise;
   }
 
   const client = new MongoClient(process.env.MONGO_URL);
-  clientPromise = client.connect();
-  return clientPromise;
+  return client.connect();
 }
-
-const mongoClientPromise = new Promise<MongoClient>((resolve, reject) => {
-  Promise.resolve().then(() => {
-    try {
-      resolve(getMongoClientPromise());
-    } catch (error) {
-      reject(error);
-    }
-  });
-});
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   ...authConfig,
   // @ts-expect-error - Type mismatch between @auth/core versions, adapter works correctly at runtime
-  adapter: MongoDBAdapter(mongoClientPromise),
+  adapter: MongoDBAdapter(getMongoClientPromise),
   session: { strategy: 'database' },
   callbacks: {
     async session({ session, user }) {
