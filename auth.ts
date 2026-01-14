@@ -1,5 +1,4 @@
 import NextAuth from 'next-auth';
-import Google from 'next-auth/providers/google';
 import { MongoDBAdapter } from '@auth/mongodb-adapter';
 import { MongoClient, ObjectId } from 'mongodb';
 import { authConfig } from './auth.config';
@@ -39,14 +38,14 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     async session({ session, user }) {
       if (session.user && user) {
         (session.user as any).id = user.id;
-        
+
         const _id = typeof user.id === 'string' ? new ObjectId(user.id) : user.id;
         const db = await getDb();
         const adapterUser = await db.collection('users').findOne(
           { _id },
           { projection: { role: 1 } }
         );
-        
+
         (session.user as any).role = adapterUser?.role || 'user';
       }
       return session;
@@ -61,7 +60,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           .split(',')
           .map(e => e.trim().toLowerCase())
           .filter(Boolean);
-        
+
         const role = adminEmails.includes(email) ? 'admin' : 'user';
         await db.collection('users').updateOne(
           { email },

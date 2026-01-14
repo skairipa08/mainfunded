@@ -16,10 +16,12 @@ export default function Home() {
   const [featuredCampaigns, setFeaturedCampaigns] = useState([]);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadData = async () => {
       try {
+        setError(null);
         const [campaignsRes, categoriesRes] = await Promise.all([
           getCampaigns({ limit: 3 }),
           getCategories()
@@ -28,6 +30,7 @@ export default function Home() {
         setCategories(categoriesRes.data || []);
       } catch (error) {
         console.error('Failed to load data:', error);
+        setError('Unable to load campaigns. Please try again.');
       } finally {
         setLoading(false);
       }
@@ -112,6 +115,36 @@ export default function Home() {
               <div className="text-center py-12">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
                 <p className="text-gray-600">Loading campaigns...</p>
+              </div>
+            ) : error ? (
+              <div className="text-center py-12">
+                <p className="text-gray-600 mb-4">{error}</p>
+                <Button
+                  variant="outline"
+                  onClick={() => {
+                    setLoading(true);
+                    setError(null);
+                    setFeaturedCampaigns([]);
+                    const loadData = async () => {
+                      try {
+                        const [campaignsRes, categoriesRes] = await Promise.all([
+                          getCampaigns({ limit: 3 }),
+                          getCategories()
+                        ]);
+                        setFeaturedCampaigns(campaignsRes.data || []);
+                        setCategories(categoriesRes.data || []);
+                      } catch (error) {
+                        console.error('Failed to load data:', error);
+                        setError('Unable to load campaigns. Please try again.');
+                      } finally {
+                        setLoading(false);
+                      }
+                    };
+                    loadData();
+                  }}
+                >
+                  Retry
+                </Button>
               </div>
             ) : featuredCampaigns.length === 0 ? (
               <div className="text-center py-12">

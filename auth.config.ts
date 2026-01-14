@@ -9,7 +9,7 @@ export const authConfig = {
     }),
   ],
   callbacks: {
-    async signIn({ user, account, profile }) {
+    async signIn() {
       // Allow all Google sign-ins
       return true;
     },
@@ -24,5 +24,6 @@ export const authConfig = {
   },
   pages: {
     signIn: '/login',
+    error: '/auth/error',
   },
 } satisfies NextAuthConfig;

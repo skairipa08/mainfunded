@@ -6,6 +6,9 @@ import { campaignCreateSchema } from '@/lib/validators/campaign';
 import crypto from 'crypto';
 import { ObjectId } from 'mongodb';
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const db = await getDb();
