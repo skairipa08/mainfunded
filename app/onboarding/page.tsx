@@ -2,7 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { CheckCircle, Shield, Users, Heart, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -12,13 +12,23 @@ import Footer from '@/components/Footer';
 export default function OnboardingPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const [message, setMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const msg = params.get('message');
+    if (msg) {
+      setMessage(decodeURIComponent(msg));
+    }
+  }, []);
 
   useEffect(() => {
     if (status === 'loading') return;
     
-    // If not authenticated, redirect to login
+    // If not authenticated, redirect to login with return path
     if (!session) {
-      router.push('/login');
+      const currentPath = window.location.pathname + window.location.search;
+      router.push(`/login?callbackUrl=${encodeURIComponent(currentPath)}`);
       return;
     }
   }, [session, status, router]);
@@ -91,6 +101,12 @@ export default function OnboardingPage() {
                 })}
               </div>
             </div>
+
+            {message && (
+              <div className="mb-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+                <p className="text-blue-800">{message}</p>
+              </div>
+            )}
 
             <div className="border-t border-gray-200 pt-8 mt-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">

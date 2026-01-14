@@ -57,6 +57,12 @@ export default function Navbar() {
             <Link href="/how-it-works" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
               How It Works
             </Link>
+            <Link href="/who-we-are" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
+              Who We Are
+            </Link>
+            <Link href="/mission-vision" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
+              Mission & Vision
+            </Link>
             {user && (
               <Link href="/dashboard" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
                 Dashboard
@@ -86,7 +92,7 @@ export default function Navbar() {
                 <Button variant="ghost" onClick={() => router.push('/login')}>
                   Sign In
                 </Button>
-                <Button onClick={() => router.push('/create-campaign')} className="bg-blue-600 hover:bg-blue-700">
+                <Button onClick={() => router.push('/campaigns/new')} className="bg-blue-600 hover:bg-blue-700">
                   Start Campaign
                 </Button>
               </>

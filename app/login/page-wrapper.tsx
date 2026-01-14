@@ -9,7 +9,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 export default function LoginPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') || '/admin';
+  const callbackUrl = searchParams.get('callbackUrl') || '/dashboard';
 
   const handleGoogleSignIn = () => {
     signIn('google', { callbackUrl });

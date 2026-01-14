@@ -201,7 +201,7 @@ export default function DashboardPage() {
                 Your Campaigns
               </h2>
               {isVerified && (
-                <Button onClick={() => router.push('/onboarding')}>
+                <Button onClick={() => router.push('/campaigns/new')}>
                   <Plus className="mr-2 h-4 w-4" />
                   Create Campaign
                 </Button>
@@ -216,7 +216,7 @@ export default function DashboardPage() {
                     : "Get verified to start creating campaigns and raising funds for your education."}
                 </p>
                 {isVerified && (
-                  <Button onClick={() => router.push('/onboarding')}>
+                  <Button onClick={() => router.push('/campaigns/new')}>
                     Create Your First Campaign
                   </Button>
                 )}
