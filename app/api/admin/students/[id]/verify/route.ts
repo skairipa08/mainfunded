@@ -95,11 +95,10 @@ export async function POST(
         meta: { reason },
         created_at: new Date().toISOString(),
       });
-    } catch (auditError) {
-      console.warn('Failed to create audit log:', auditError);
+    } catch {
+      // Ignore audit log errors
     }
     
-    // Send email notification (non-blocking)
     try {
       const user = await db.collection('users').findOne(
         { _id: new ObjectId(userId) },
@@ -128,9 +127,8 @@ export async function POST(
           });
         }
       }
-    } catch (emailError) {
-      // Email failures don't break the flow
-      console.warn('Failed to send verification email:', emailError);
+    } catch {
+      // Ignore email errors
     }
     
     return NextResponse.json({
@@ -138,7 +136,6 @@ export async function POST(
       message: `Student ${action}d successfully`,
     });
   } catch (error: any) {
-    console.error('Student verify error:', error);
     return NextResponse.json(
       errorResponse(error),
       { status: getStatusCode(error) }

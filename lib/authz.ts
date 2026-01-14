@@ -23,10 +23,6 @@ export interface VerifiedStudent extends SessionUser {
   };
 }
 
-/**
- * Get the current session user from NextAuth
- * Returns null if not authenticated
- */
 export async function getSessionUser(): Promise<SessionUser | null> {
   const session = await auth();
   
@@ -44,9 +40,6 @@ export async function getSessionUser(): Promise<SessionUser | null> {
   };
 }
 
-/**
- * Require authentication - throws error if no session
- */
 export async function requireUser(): Promise<SessionUser> {
   const user = await getSessionUser();
   if (!user) {
@@ -55,9 +48,6 @@ export async function requireUser(): Promise<SessionUser> {
   return user;
 }
 
-/**
- * Require specific role(s) - throws error if role doesn't match
- */
 export async function requireRole(allowedRoles: string[]): Promise<SessionUser> {
   const user = await requireUser();
   if (!allowedRoles.includes(user.role)) {
@@ -69,31 +59,21 @@ export async function requireRole(allowedRoles: string[]): Promise<SessionUser> 
   return user;
 }
 
-/**
- * Require admin role
- */
 export async function requireAdmin(): Promise<SessionUser> {
   return requireRole(['admin']);
 }
 
-/**
- * Require verified student - checks student_profiles collection only
- * Admins bypass verification check
- */
 export async function requireVerifiedStudent(): Promise<VerifiedStudent> {
   const user = await requireUser();
   
-  // Admins bypass verification check
   if (user.role === 'admin') {
     return {
       ...user,
-      studentProfile: null as any, // Admins don't need student profile
+      studentProfile: null as any,
     };
   }
 
   const db = await getDb();
-  
-  // Query ONLY student_profiles collection by canonical user.id
   const studentProfile = await db.collection('student_profiles').findOne(
     { user_id: user.id },
     { projection: { _id: 0 } }

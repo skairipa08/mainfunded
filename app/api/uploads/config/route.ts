@@ -3,6 +3,8 @@ import { requireUser } from '@/lib/authz';
 import crypto from 'crypto';
 import { successResponse, handleRouteError } from '@/lib/api-response';
 
+export const dynamic = 'force-dynamic';
+
 function getCloudinaryConfig() {
   const cloudName = process.env.CLOUDINARY_CLOUD_NAME;
   const apiKey = process.env.CLOUDINARY_API_KEY;

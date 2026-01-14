@@ -14,29 +14,23 @@ const stripe = new Stripe(process.env.STRIPE_API_KEY || '', {
 export const runtime = 'nodejs';
 
 async function processSuccessfulPayment(db: any, sessionId: string, paymentIntentId: string | null) {
-  // Check if already processed (idempotency)
   const existingDonation = await db.collection('donations').findOne(
     { stripe_session_id: sessionId },
     { projection: { _id: 0 } }
   );
   
   if (existingDonation) {
-    console.log(`Payment ${sessionId} already processed, skipping`);
     return;
   }
   
-  // Get transaction record
   const transaction = await db.collection('payment_transactions').findOne(
     { session_id: sessionId },
     { projection: { _id: 0 } }
   );
   
   if (!transaction) {
-    console.error(`Transaction not found for session ${sessionId}`);
     return;
   }
-  
-  // Create donation record
   const donation = {
     donation_id: `donation_${crypto.randomBytes(6).toString('hex')}`,
     campaign_id: transaction.campaign_id,
@@ -54,7 +48,6 @@ async function processSuccessfulPayment(db: any, sessionId: string, paymentInten
   
   await db.collection('donations').insertOne(donation);
   
-  // Update transaction status
   await db.collection('payment_transactions').updateOne(
     { session_id: sessionId },
     { $set: {
@@ -64,7 +57,6 @@ async function processSuccessfulPayment(db: any, sessionId: string, paymentInten
     }}
   );
   
-  // Update campaign
   await db.collection('campaigns').updateOne(
     { campaign_id: transaction.campaign_id },
     {
@@ -78,7 +70,6 @@ async function processSuccessfulPayment(db: any, sessionId: string, paymentInten
     }
   );
   
-  // Check if campaign reached target
   const campaign = await db.collection('campaigns').findOne(
     { campaign_id: transaction.campaign_id },
     { projection: { _id: 0 } }
@@ -91,7 +82,6 @@ async function processSuccessfulPayment(db: any, sessionId: string, paymentInten
     );
   }
   
-  // Send donation success email (non-blocking)
   if (transaction.donor_email && !transaction.anonymous) {
     try {
       await sendEmail({
@@ -106,13 +96,10 @@ async function processSuccessfulPayment(db: any, sessionId: string, paymentInten
           anonymous: transaction.anonymous || false,
         }),
       });
-    } catch (emailError) {
-      // Email failures don't break the flow
-      console.warn('Failed to send donation email:', emailError);
+    } catch {
+      // Ignore email errors
     }
   }
-  
-  console.log(`Successfully processed payment ${sessionId}`);
 }
 
 async function processPaymentFailure(db: any, sessionId: string) {
@@ -123,7 +110,6 @@ async function processPaymentFailure(db: any, sessionId: string) {
       updated_at: new Date().toISOString(),
     }}
   );
-  console.log(`Marked payment ${sessionId} as failed`);
 }
 
 async function processRefund(db: any, paymentIntentId: string, refundAmount: number) {
@@ -133,11 +119,9 @@ async function processRefund(db: any, paymentIntentId: string, refundAmount: num
   );
   
   if (!donation) {
-    console.warn(`No donation found for refunded payment intent ${paymentIntentId}`);
     return;
   }
   
-  // Update donation status
   await db.collection('donations').updateOne(
     { stripe_payment_intent_id: paymentIntentId },
     { $set: {
@@ -147,7 +131,6 @@ async function processRefund(db: any, paymentIntentId: string, refundAmount: num
     }}
   );
   
-  // Update campaign totals
   await db.collection('campaigns').updateOne(
     { campaign_id: donation.campaign_id },
     {
@@ -160,8 +143,6 @@ async function processRefund(db: any, paymentIntentId: string, refundAmount: num
       },
     }
   );
-  
-  console.log(`Processed refund for payment intent ${paymentIntentId}`);
 }
 
 export async function POST(request: NextRequest) {
@@ -178,7 +159,6 @@ export async function POST(request: NextRequest) {
       );
     }
     
-    // Get raw body as text (required for signature verification)
     const body = await request.text();
     const signature = request.headers.get('stripe-signature');
     
@@ -191,14 +171,11 @@ export async function POST(request: NextRequest) {
     try {
       event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
     } catch (error: any) {
-      console.error(`Invalid webhook signature: ${error.message}`);
       return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
     }
     
     const db = await getDb();
     const eventType = event.type;
-    
-    console.log(`Received Stripe webhook: ${eventType}`);
     
     try {
       if (eventType === 'checkout.session.completed') {
@@ -237,8 +214,6 @@ export async function POST(request: NextRequest) {
       
       return NextResponse.json({ success: true, event_type: eventType });
     } catch (error: any) {
-      console.error(`Error processing webhook ${eventType}: ${error.message}`);
-      // Return 200 to prevent Stripe retries for processing errors
       return NextResponse.json({ success: false, error: error.message });
     }
   } catch (error: any) {

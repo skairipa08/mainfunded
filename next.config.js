@@ -4,6 +4,9 @@ const nextConfig = {
   env: {
     MONGO_URL: process.env.MONGO_URL || 'mongodb://localhost:27017/funded_db',
     DB_NAME: process.env.DB_NAME || 'funded_db',
+    AUTH_SECRET: process.env.AUTH_SECRET,
+    AUTH_URL: process.env.AUTH_URL,
+    ADMIN_EMAILS: process.env.ADMIN_EMAILS,
     GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
     GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
     STRIPE_API_KEY: process.env.STRIPE_API_KEY,

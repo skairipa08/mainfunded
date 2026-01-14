@@ -10,11 +10,8 @@ interface RequestRecord {
   resetAt: number;
 }
 
-// In-memory store: key -> RequestRecord
 const store = new Map<string, RequestRecord>();
-
-// Cleanup interval to prevent memory leaks
-const CLEANUP_INTERVAL = 60000; // 1 minute
+const CLEANUP_INTERVAL = 60000;
 let cleanupTimer: NodeJS.Timeout | null = null;
 
 function startCleanup() {
@@ -31,7 +28,6 @@ function startCleanup() {
 }
 
 function getClientIdentifier(request: NextRequest): string {
-  // Try to get IP from various headers (for proxied requests)
   const forwarded = request.headers.get('x-forwarded-for');
   if (forwarded) {
     const ips = forwarded.split(',').map(ip => ip.trim());
@@ -43,7 +39,6 @@ function getClientIdentifier(request: NextRequest): string {
     return realIp;
   }
   
-  // Fallback to a default identifier
   return 'unknown';
 }
 
@@ -59,7 +54,6 @@ export function checkRateLimit(
   
   let record = store.get(key);
   
-  // If no record or window expired, create new record
   if (!record || record.resetAt < now) {
     record = {
       count: 1,
@@ -73,7 +67,6 @@ export function checkRateLimit(
     };
   }
   
-  // Increment count
   record.count++;
   
   if (record.count > config.maxRequests) {
@@ -120,7 +113,6 @@ export function createRateLimitMiddleware(config: RateLimitConfig) {
   };
 }
 
-// Helper function to check rate limit and return response if exceeded
 export function withRateLimit(
   request: NextRequest,
   config: RateLimitConfig
@@ -129,9 +121,8 @@ export function withRateLimit(
   return middleware(request);
 }
 
-// Rate limit configs
 export const RATE_LIMITS = {
-  admin: { windowMs: 60 * 1000, maxRequests: 100 }, // 100 requests per minute
-  checkout: { windowMs: 60 * 1000, maxRequests: 10 }, // 10 requests per minute
-  auth: { windowMs: 60 * 1000, maxRequests: 20 }, // 20 requests per minute
+  admin: { windowMs: 60 * 1000, maxRequests: 100 },
+  checkout: { windowMs: 60 * 1000, maxRequests: 10 },
+  auth: { windowMs: 60 * 1000, maxRequests: 20 },
 };

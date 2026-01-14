@@ -75,9 +75,8 @@ export async function POST(
           }),
         });
       }
-    } catch (emailError) {
-      // Email failures don't break the flow
-      console.warn('Failed to send campaign published email:', emailError);
+    } catch {
+      // Ignore email errors
     }
     
     return NextResponse.json({
@@ -86,7 +85,6 @@ export async function POST(
       message: 'Campaign published successfully',
     });
   } catch (error: any) {
-    console.error('Campaign publish error:', error);
     return NextResponse.json(
       errorResponse(error),
       { status: getStatusCode(error) }

@@ -1,6 +1,3 @@
-// Lightweight toast notification system
-// Simple in-memory toast management for admin panel
-
 type ToastType = 'success' | 'error' | 'info';
 
 interface Toast {
@@ -17,7 +14,6 @@ export function showToast(message: string, type: ToastType = 'info') {
   toasts.push({ id, message, type });
   listeners.forEach(listener => listener());
   
-  // Auto-remove after 5 seconds
   setTimeout(() => {
     removeToast(id);
   }, 5000);

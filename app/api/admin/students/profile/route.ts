@@ -70,9 +70,8 @@ export async function POST(request: NextRequest) {
           )
         );
       }
-    } catch (emailError) {
-      // Email failures don't break the flow
-      console.warn('Failed to send admin notification:', emailError);
+    } catch {
+      // Ignore email errors
     }
     
     return NextResponse.json({
@@ -81,7 +80,6 @@ export async function POST(request: NextRequest) {
       message: 'Student profile created. Awaiting verification.',
     }, { status: 201 });
   } catch (error: any) {
-    console.error('Create student profile error:', error);
     return NextResponse.json(
       errorResponse(error),
       { status: getStatusCode(error) }

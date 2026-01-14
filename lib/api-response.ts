@@ -33,7 +33,6 @@ export function errorResponse(error: ApiError | string, status = 400) {
 }
 
 export function handleRouteError(error: unknown): NextResponse {
-  // Handle Zod validation errors
   if (error && typeof error === 'object' && 'issues' in error) {
     return errorResponse({
       code: 'VALIDATION_ERROR',
@@ -42,14 +41,12 @@ export function handleRouteError(error: unknown): NextResponse {
     }, 400);
   }
 
-  // Handle auth errors
   if (error && typeof error === 'object' && 'statusCode' in error) {
     const statusCode = (error as any).statusCode;
     const message = (error as any).message || 'Error';
     return errorResponse({ code: 'AUTH_ERROR', message }, statusCode);
   }
 
-  // Handle unknown errors
   console.error('Route error:', error);
   return errorResponse(
     {

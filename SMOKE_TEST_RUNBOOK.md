@@ -265,5 +265,43 @@ After completing all flows, verify:
 
 ---
 
-**Last Updated**: 2024  
-**Status**: Ready for manual testing
+## Vercel Deployment Testing
+
+### Pre-Deployment Checklist
+- [ ] All environment variables set in Vercel Dashboard
+- [ ] `AUTH_URL` matches Vercel deployment URL
+- [ ] Google OAuth redirect URI configured for production domain
+- [ ] Stripe webhook endpoint configured for production domain
+
+### Post-Deployment Verification
+
+#### 1. Verify Environment Variables
+```bash
+# Test health endpoint (if available)
+curl https://your-app.vercel.app/api/health
+```
+
+#### 2. Test Google OAuth Redirect
+1. Navigate to `https://your-app.vercel.app/login`
+2. Click "Sign in with Google"
+3. **Expected**: Redirects to Google OAuth, then back to `/auth/callback`
+4. **Verify**: URL in Google Cloud Console matches: `https://your-app.vercel.app/api/auth/callback/google`
+
+#### 3. Test Stripe Webhook
+1. Create a test donation
+2. Check Stripe Dashboard → Webhooks → Your endpoint
+3. **Expected**: Events appear in "Recent events"
+4. **Verify**: Webhook URL is: `https://your-app.vercel.app/api/stripe/webhook`
+
+#### 4. Verify MongoDB Connection
+- Test any authenticated route (e.g., `/dashboard`)
+- **Expected**: No connection errors in Vercel logs
+
+#### 5. Check Build Logs
+- Vercel Dashboard → Deployments → Latest → Build Logs
+- **Expected**: No errors, only warnings about optional MongoDB deps (acceptable)
+
+---
+
+**Last Updated**: 2024-01-13  
+**Status**: Ready for production deployment

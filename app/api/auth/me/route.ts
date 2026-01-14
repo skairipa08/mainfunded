@@ -5,6 +5,8 @@ import { errorResponse, getStatusCode } from '@/lib/api-error';
 import { withRateLimit, RATE_LIMITS } from '@/lib/rate-limit';
 import { ObjectId } from 'mongodb';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   // Rate limiting
   const rateLimitResponse = withRateLimit(request, RATE_LIMITS.auth);

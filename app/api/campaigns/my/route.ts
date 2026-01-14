@@ -3,6 +3,8 @@ import { getDb } from '@/lib/db';
 import { requireUser } from '@/lib/authz';
 import { errorResponse, getStatusCode } from '@/lib/api-error';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request: NextRequest) {
   try {
     const user = await requireUser();
