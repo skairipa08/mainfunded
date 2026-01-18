@@ -147,3 +147,29 @@ export interface UserSession {
   expires_at: string;
   created_at: string;
 }
+
+// MVP/Demo Types for Student Applications (simpler than StudentProfile)
+export type ApplicationStatus = 'Received' | 'Under Review' | 'Approved' | 'Rejected';
+
+export interface StudentApplication {
+  id: string;
+  fullName: string;
+  email: string;
+  country: string;
+  educationLevel: string;
+  needSummary: string;
+  status: ApplicationStatus;
+  createdAt: string;
+  updatedAt: string;
+}
+
+// MVP/Demo Types for Donations (simpler than full Donation)
+export interface SimpleDonation {
+  id: string;
+  amount: number;
+  target: 'Support a verified student' | 'General education fund';
+  donorName?: string;
+  donorEmail?: string;
+  status: 'Completed';
+  createdAt: string;
+}

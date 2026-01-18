@@ -51,17 +51,26 @@ export default function Navbar() {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-6">
-            <Link href="/browse" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
-              Browse Campaigns
-            </Link>
-            <Link href="/how-it-works" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
-              How It Works
+            <Link href="/mission-vision" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
+              Mission & Vision
             </Link>
             <Link href="/who-we-are" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
               Who We Are
             </Link>
-            <Link href="/mission-vision" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
-              Mission & Vision
+            <Link href="/how-it-works" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
+              How It Works
+            </Link>
+            <Link href="/apply" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
+              Apply
+            </Link>
+            <Link href="/donate" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
+              Donate
+            </Link>
+            <Link href="/ops/applications" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
+              Ops
+            </Link>
+            <Link href="/institution/dashboard" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
+              Institution Dashboard
             </Link>
             {user && (
               <Link href="/dashboard" className="text-gray-600 hover:text-blue-600 transition-colors font-medium">
