@@ -18,9 +18,11 @@ import { createDonation } from '@/lib/mockDb';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { validateAmount, sanitizeInput, validateEmail } from '@/lib/validation';
 import { toast } from 'sonner';
+import { useTranslation } from '@/lib/i18n';
 
 export default function DonatePage() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -33,28 +35,26 @@ export default function DonatePage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Prevent double submission
+
     if (loading || submitted) {
       return;
     }
 
-    // Validate form
     const newErrors: Record<string, string> = {};
     const amount = parseFloat(formData.amount);
     const amountValidation = validateAmount(amount);
-    
+
     if (!amountValidation.valid) {
-      newErrors.amount = amountValidation.error || 'Invalid amount';
+      newErrors.amount = amountValidation.error || t('common.error');
     }
 
     if (formData.donorEmail && !validateEmail(formData.donorEmail)) {
-      newErrors.donorEmail = 'Please enter a valid email address';
+      newErrors.donorEmail = t('common.error');
     }
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      toast.error('Please fix the errors in the form');
+      toast.error(t('common.error'));
       return;
     }
 
@@ -69,15 +69,14 @@ export default function DonatePage() {
         donorEmail: formData.donorEmail ? formData.donorEmail.trim().toLowerCase() : undefined,
       });
 
-      toast.success(`Donation of $${amount.toFixed(2)} submitted successfully!`);
-      
-      // Small delay to show success message
+      toast.success(t('donation.success'));
+
       setTimeout(() => {
         router.push(`/donor/dashboard?donation=${donation.id}`);
       }, 500);
     } catch (error) {
       console.error('Failed to process donation:', error);
-      toast.error('Failed to process donation. Please try again.');
+      toast.error(t('donation.error'));
       setSubmitted(false);
     } finally {
       setLoading(false);
@@ -89,19 +88,19 @@ export default function DonatePage() {
       <Navbar />
       <main className="flex-grow">
         <div className="max-w-2xl mx-auto px-4 py-16">
-          <h1 className="text-4xl font-bold text-gray-900 mb-8">Make a Donation</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-8">{t('donation.title')}</h1>
           <p className="text-gray-600 mb-8">
-            Support verified students and education impact. FundEd does not take a percentage from donations.
+            {t('home.hero.subtitle')}
           </p>
 
           <Card>
             <CardHeader>
-              <CardTitle>Donation Details</CardTitle>
+              <CardTitle>{t('donation.amount')}</CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2">
-                  <Label htmlFor="amount">Donation Amount (USD) *</Label>
+                  <Label htmlFor="amount">{t('donation.amount')} (USD) *</Label>
                   <Input
                     id="amount"
                     type="number"
@@ -113,7 +112,7 @@ export default function DonatePage() {
                       setFormData({ ...formData, amount: e.target.value });
                       if (errors.amount) setErrors({ ...errors, amount: '' });
                     }}
-                    placeholder="Enter amount"
+                    placeholder={t('donation.customAmount')}
                     className={errors.amount ? 'border-red-500' : ''}
                   />
                   {errors.amount && (
@@ -122,7 +121,7 @@ export default function DonatePage() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="target">Funding Target *</Label>
+                  <Label htmlFor="target">{t('campaign.category')} *</Label>
                   <Select
                     required
                     value={formData.target}
@@ -131,30 +130,30 @@ export default function DonatePage() {
                     }
                   >
                     <SelectTrigger id="target">
-                      <SelectValue placeholder="Select funding target" />
+                      <SelectValue placeholder={t('campaign.category')} />
                     </SelectTrigger>
                     <SelectContent>
                       <SelectItem value="Support a verified student">
-                        Support a verified student
+                        {t('campaign.verified')}
                       </SelectItem>
-                      <SelectItem value="General education fund">General education fund</SelectItem>
+                      <SelectItem value="General education fund">{t('nav.campaigns')}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="donorName">Your Name (Optional)</Label>
+                  <Label htmlFor="donorName">{t('verification.form.firstName')} ({t('donation.anonymous')})</Label>
                   <Input
                     id="donorName"
                     type="text"
                     value={formData.donorName}
                     onChange={(e) => setFormData({ ...formData, donorName: e.target.value })}
-                    placeholder="Enter your name"
+                    placeholder={t('verification.form.firstName')}
                   />
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="donorEmail">Your Email (Optional)</Label>
+                  <Label htmlFor="donorEmail">Email ({t('donation.anonymous')})</Label>
                   <Input
                     id="donorEmail"
                     type="email"
@@ -163,7 +162,7 @@ export default function DonatePage() {
                       setFormData({ ...formData, donorEmail: e.target.value });
                       if (errors.donorEmail) setErrors({ ...errors, donorEmail: '' });
                     }}
-                    placeholder="Enter your email"
+                    placeholder="Email"
                     className={errors.donorEmail ? 'border-red-500' : ''}
                   />
                   {errors.donorEmail && (
@@ -173,13 +172,12 @@ export default function DonatePage() {
 
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
                   <p className="text-sm text-blue-900">
-                    <strong>Note:</strong> This is a demo donation flow. No actual payment will be processed.
-                    Your contribution will be recorded for demonstration purposes.
+                    <strong>Note:</strong> {t('donation.message')}
                   </p>
                 </div>
 
                 <Button type="submit" disabled={loading || submitted} className="w-full">
-                  {loading ? 'Processing...' : 'Donate (Mock)'}
+                  {loading ? t('donation.processing') : t('campaign.donate')}
                 </Button>
               </form>
             </CardContent>

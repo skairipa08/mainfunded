@@ -1,0 +1,219 @@
+{
+    "common": {
+        "login": "Login",
+        "signup": "Sign Up",
+        "logout": "Logout",
+        "language": "Language",
+        "english": "English",
+        "turkish": "Türkçe",
+        "loading": "Loading...",
+        "error": "Error",
+        "success": "Success",
+        "cancel": "Cancel",
+        "confirm": "Confirm",
+        "save": "Save",
+        "delete": "Delete",
+        "edit": "Edit",
+        "view": "View",
+        "back": "Back",
+        "next": "Next",
+        "submit": "Submit",
+        "search": "Search",
+        "filter": "Filter",
+        "all": "All",
+        "none": "None",
+        "yes": "Yes",
+        "no": "No",
+        "close": "Close",
+        "learnMore": "Learn More",
+        "getStarted": "Get Started"
+    },
+    "nav": {
+        "home": "Home",
+        "browse": "Browse Campaigns",
+        "howItWorks": "How It Works",
+        "aboutUs": "About Us",
+        "dashboard": "Dashboard",
+        "apply": "Apply as Student",
+        "admin": "Admin Panel",
+        "campaigns": "Campaigns",
+        "students": "Students",
+        "verifications": "Verifications",
+        "donate": "Donate"
+    },
+    "home": {
+        "hero": {
+            "title": "Fund Education, Change Lives",
+            "subtitle": "Support verified students in their educational journey. Every donation makes a difference.",
+            "cta": "Start Donating",
+            "ctaStudent": "Apply as Student"
+        },
+        "stats": {
+            "studentsHelped": "Students Helped",
+            "totalRaised": "Total Raised",
+            "campaigns": "Active Campaigns",
+            "donors": "Generous Donors"
+        },
+        "howItWorks": {
+            "title": "How It Works",
+            "step1Title": "Students Apply",
+            "step1Desc": "Verified students create campaigns with their educational goals and funding needs.",
+            "step2Title": "Donors Support",
+            "step2Desc": "Donors browse campaigns and contribute to students they want to help.",
+            "step3Title": "Dreams Realized",
+            "step3Desc": "Students receive funds directly and achieve their educational goals."
+        },
+        "featured": {
+            "title": "Featured Campaigns",
+            "viewAll": "View All Campaigns"
+        },
+        "cta": {
+            "title": "Ready to Make a Difference?",
+            "description": "Join thousands of donors supporting students worldwide.",
+            "button": "Explore Campaigns"
+        }
+    },
+    "auth": {
+        "login": {
+            "title": "Welcome Back",
+            "subtitle": "Sign in to your account",
+            "withGoogle": "Continue with Google",
+            "noAccount": "Don't have an account?",
+            "signUp": "Sign up"
+        },
+        "signup": {
+            "title": "Create Account",
+            "subtitle": "Join FundEd today",
+            "withGoogle": "Sign up with Google",
+            "hasAccount": "Already have an account?",
+            "signIn": "Sign in"
+        },
+        "errors": {
+            "default": "An error occurred during authentication.",
+            "configuration": "There is a problem with the server configuration.",
+            "accessDenied": "Access denied. You may not have permission.",
+            "verification": "The verification link has expired or has already been used.",
+            "oauthCallback": "Error during authentication. Please try again.",
+            "oauthAccountNotLinked": "This email is already associated with another account.",
+            "sessionRequired": "Please sign in to access this page.",
+            "tryAgain": "Try Again",
+            "backToHome": "Back to Home"
+        }
+    },
+    "verification": {
+        "title": "Student Verification",
+        "status": {
+            "draft": "Draft",
+            "pendingReview": "Pending Review",
+            "approved": "Approved",
+            "rejected": "Rejected",
+            "needsMoreInfo": "Needs More Info",
+            "underInvestigation": "Under Investigation",
+            "suspended": "Suspended",
+            "expired": "Expired",
+            "revoked": "Revoked",
+            "banned": "Permanently Banned",
+            "abandoned": "Abandoned"
+        },
+        "documents": {
+            "studentId": "Student ID",
+            "enrollmentLetter": "Enrollment Letter",
+            "governmentId": "Government ID",
+            "selfieWithId": "Selfie with ID",
+            "transcript": "Transcript",
+            "proofOfAddress": "Proof of Address",
+            "other": "Other Document"
+        },
+        "form": {
+            "personalInfo": "Personal Information",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "dateOfBirth": "Date of Birth",
+            "phone": "Phone Number",
+            "country": "Country",
+            "city": "City",
+            "educationInfo": "Education Information",
+            "institution": "Institution Name",
+            "program": "Degree Program",
+            "degreeLevel": "Degree Level",
+            "enrollmentYear": "Enrollment Year",
+            "graduationYear": "Expected Graduation",
+            "fullTime": "Full-time Student",
+            "uploadDocuments": "Upload Documents",
+            "submit": "Submit for Review"
+        }
+    },
+    "campaign": {
+        "createCampaign": "Create Campaign",
+        "editCampaign": "Edit Campaign",
+        "goal": "Goal",
+        "raised": "Raised",
+        "donors": "Donors",
+        "daysLeft": "Days Left",
+        "donate": "Donate Now",
+        "share": "Share",
+        "updates": "Updates",
+        "about": "About This Campaign",
+        "student": "Student",
+        "verified": "Verified Student",
+        "category": "Category",
+        "createdAt": "Created",
+        "endDate": "End Date"
+    },
+    "donation": {
+        "title": "Make a Donation",
+        "amount": "Donation Amount",
+        "customAmount": "Custom Amount",
+        "anonymous": "Donate Anonymously",
+        "message": "Leave a Message (Optional)",
+        "processing": "Processing...",
+        "success": "Thank you for your donation!",
+        "error": "Donation failed. Please try again."
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "welcome": "Welcome back",
+        "myCampaigns": "My Campaigns",
+        "myDonations": "My Donations",
+        "totalRaised": "Total Raised",
+        "totalDonated": "Total Donated",
+        "verificationStatus": "Verification Status",
+        "recentActivity": "Recent Activity"
+    },
+    "admin": {
+        "dashboard": "Admin Dashboard",
+        "users": "Users",
+        "campaigns": "Campaigns",
+        "verifications": "Verifications",
+        "pendingReview": "Pending Review",
+        "queue": "Queue",
+        "actions": {
+            "approve": "Approve",
+            "reject": "Reject",
+            "needsMoreInfo": "Request Info",
+            "suspend": "Suspend",
+            "investigate": "Investigate",
+            "revoke": "Revoke",
+            "ban": "Ban"
+        },
+        "filters": {
+            "all": "All",
+            "pending": "Pending",
+            "approved": "Approved",
+            "rejected": "Rejected"
+        }
+    },
+    "footer": {
+        "about": "About",
+        "howItWorks": "How It Works",
+        "terms": "Terms of Service",
+        "privacy": "Privacy Policy",
+        "contact": "Contact Us",
+        "copyright": "© 2026 FundEd. All rights reserved.",
+        "social": {
+            "twitter": "Twitter",
+            "facebook": "Facebook",
+            "instagram": "Instagram"
+        }
+    }
+}

@@ -1,0 +1,219 @@
+{
+    "common": {
+        "login": "Giriş Yap",
+        "signup": "Kayıt Ol",
+        "logout": "Çıkış Yap",
+        "language": "Dil",
+        "english": "English",
+        "turkish": "Türkçe",
+        "loading": "Yükleniyor...",
+        "error": "Hata",
+        "success": "Başarılı",
+        "cancel": "İptal",
+        "confirm": "Onayla",
+        "save": "Kaydet",
+        "delete": "Sil",
+        "edit": "Düzenle",
+        "view": "Görüntüle",
+        "back": "Geri",
+        "next": "İleri",
+        "submit": "Gönder",
+        "search": "Ara",
+        "filter": "Filtrele",
+        "all": "Tümü",
+        "none": "Hiçbiri",
+        "yes": "Evet",
+        "no": "Hayır",
+        "close": "Kapat",
+        "learnMore": "Daha Fazla Bilgi",
+        "getStarted": "Başla"
+    },
+    "nav": {
+        "home": "Ana Sayfa",
+        "browse": "Kampanyalara Göz At",
+        "howItWorks": "Nasıl Çalışır",
+        "aboutUs": "Hakkımızda",
+        "dashboard": "Panel",
+        "apply": "Öğrenci Olarak Başvur",
+        "admin": "Yönetici Paneli",
+        "campaigns": "Kampanyalar",
+        "students": "Öğrenciler",
+        "verifications": "Doğrulamalar",
+        "donate": "Bağış Yap"
+    },
+    "home": {
+        "hero": {
+            "title": "Eğitime Destek Ol, Hayatları Değiştir",
+            "subtitle": "Doğrulanmış öğrencilerin eğitim yolculuğunda onlara destek olun. Her bağış fark yaratır.",
+            "cta": "Bağış Yapmaya Başla",
+            "ctaStudent": "Öğrenci Olarak Başvur"
+        },
+        "stats": {
+            "studentsHelped": "Desteklenen Öğrenci",
+            "totalRaised": "Toplam Bağış",
+            "campaigns": "Aktif Kampanya",
+            "donors": "Cömert Bağışçı"
+        },
+        "howItWorks": {
+            "title": "Nasıl Çalışır",
+            "step1Title": "Öğrenciler Başvurur",
+            "step1Desc": "Doğrulanmış öğrenciler, eğitim hedefleri ve finansman ihtiyaçlarıyla kampanyalar oluşturur.",
+            "step2Title": "Bağışçılar Destek Olur",
+            "step2Desc": "Bağışçılar kampanyalara göz atar ve desteklemek istedikleri öğrencilere katkıda bulunur.",
+            "step3Title": "Hayaller Gerçekleşir",
+            "step3Desc": "Öğrenciler fonları doğrudan alır ve eğitim hedeflerine ulaşır."
+        },
+        "featured": {
+            "title": "Öne Çıkan Kampanyalar",
+            "viewAll": "Tüm Kampanyaları Gör"
+        },
+        "cta": {
+            "title": "Fark Yaratmaya Hazır mısınız?",
+            "description": "Dünya genelinde öğrencileri destekleyen binlerce bağışçıya katılın.",
+            "button": "Kampanyaları Keşfet"
+        }
+    },
+    "auth": {
+        "login": {
+            "title": "Tekrar Hoş Geldiniz",
+            "subtitle": "Hesabınıza giriş yapın",
+            "withGoogle": "Google ile devam et",
+            "noAccount": "Hesabınız yok mu?",
+            "signUp": "Kayıt olun"
+        },
+        "signup": {
+            "title": "Hesap Oluştur",
+            "subtitle": "FundEd'e bugün katılın",
+            "withGoogle": "Google ile kayıt ol",
+            "hasAccount": "Zaten hesabınız var mı?",
+            "signIn": "Giriş yapın"
+        },
+        "errors": {
+            "default": "Kimlik doğrulama sırasında bir hata oluştu.",
+            "configuration": "Sunucu yapılandırmasında bir sorun var.",
+            "accessDenied": "Erişim reddedildi. Yetkiniz olmayabilir.",
+            "verification": "Doğrulama bağlantısının süresi dolmuş veya zaten kullanılmış.",
+            "oauthCallback": "Kimlik doğrulama sırasında hata. Lütfen tekrar deneyin.",
+            "oauthAccountNotLinked": "Bu e-posta zaten başka bir hesapla ilişkili.",
+            "sessionRequired": "Bu sayfaya erişmek için giriş yapın.",
+            "tryAgain": "Tekrar Dene",
+            "backToHome": "Ana Sayfaya Dön"
+        }
+    },
+    "verification": {
+        "title": "Öğrenci Doğrulaması",
+        "status": {
+            "draft": "Taslak",
+            "pendingReview": "İnceleme Bekliyor",
+            "approved": "Onaylandı",
+            "rejected": "Reddedildi",
+            "needsMoreInfo": "Ek Bilgi Gerekli",
+            "underInvestigation": "İnceleme Altında",
+            "suspended": "Askıya Alındı",
+            "expired": "Süresi Doldu",
+            "revoked": "İptal Edildi",
+            "banned": "Kalıcı Olarak Yasaklandı",
+            "abandoned": "Terk Edildi"
+        },
+        "documents": {
+            "studentId": "Öğrenci Kimliği",
+            "enrollmentLetter": "Öğrenci Belgesi",
+            "governmentId": "Devlet Kimliği",
+            "selfieWithId": "Kimlikle Selfie",
+            "transcript": "Transkript",
+            "proofOfAddress": "Adres Kanıtı",
+            "other": "Diğer Belge"
+        },
+        "form": {
+            "personalInfo": "Kişisel Bilgiler",
+            "firstName": "Ad",
+            "lastName": "Soyad",
+            "dateOfBirth": "Doğum Tarihi",
+            "phone": "Telefon Numarası",
+            "country": "Ülke",
+            "city": "Şehir",
+            "educationInfo": "Eğitim Bilgileri",
+            "institution": "Kurum Adı",
+            "program": "Bölüm",
+            "degreeLevel": "Derece Seviyesi",
+            "enrollmentYear": "Kayıt Yılı",
+            "graduationYear": "Tahmini Mezuniyet",
+            "fullTime": "Tam Zamanlı Öğrenci",
+            "uploadDocuments": "Belgeleri Yükle",
+            "submit": "İncelemeye Gönder"
+        }
+    },
+    "campaign": {
+        "createCampaign": "Kampanya Oluştur",
+        "editCampaign": "Kampanyayı Düzenle",
+        "goal": "Hedef",
+        "raised": "Toplanan",
+        "donors": "Bağışçı",
+        "daysLeft": "Kalan Gün",
+        "donate": "Şimdi Bağış Yap",
+        "share": "Paylaş",
+        "updates": "Güncellemeler",
+        "about": "Bu Kampanya Hakkında",
+        "student": "Öğrenci",
+        "verified": "Doğrulanmış Öğrenci",
+        "category": "Kategori",
+        "createdAt": "Oluşturulma",
+        "endDate": "Bitiş Tarihi"
+    },
+    "donation": {
+        "title": "Bağış Yap",
+        "amount": "Bağış Miktarı",
+        "customAmount": "Özel Miktar",
+        "anonymous": "Anonim Bağış Yap",
+        "message": "Mesaj Bırakın (İsteğe Bağlı)",
+        "processing": "İşleniyor...",
+        "success": "Bağışınız için teşekkür ederiz!",
+        "error": "Bağış başarısız oldu. Lütfen tekrar deneyin."
+    },
+    "dashboard": {
+        "title": "Panel",
+        "welcome": "Tekrar hoş geldiniz",
+        "myCampaigns": "Kampanyalarım",
+        "myDonations": "Bağışlarım",
+        "totalRaised": "Toplam Toplanan",
+        "totalDonated": "Toplam Bağış",
+        "verificationStatus": "Doğrulama Durumu",
+        "recentActivity": "Son Aktivite"
+    },
+    "admin": {
+        "dashboard": "Yönetici Paneli",
+        "users": "Kullanıcılar",
+        "campaigns": "Kampanyalar",
+        "verifications": "Doğrulamalar",
+        "pendingReview": "İnceleme Bekleyenler",
+        "queue": "Sıra",
+        "actions": {
+            "approve": "Onayla",
+            "reject": "Reddet",
+            "needsMoreInfo": "Bilgi İste",
+            "suspend": "Askıya Al",
+            "investigate": "İncele",
+            "revoke": "İptal Et",
+            "ban": "Yasakla"
+        },
+        "filters": {
+            "all": "Tümü",
+            "pending": "Bekleyen",
+            "approved": "Onaylanan",
+            "rejected": "Reddedilen"
+        }
+    },
+    "footer": {
+        "about": "Hakkımızda",
+        "howItWorks": "Nasıl Çalışır",
+        "terms": "Kullanım Şartları",
+        "privacy": "Gizlilik Politikası",
+        "contact": "İletişim",
+        "copyright": "© 2026 FundEd. Tüm hakları saklıdır.",
+        "social": {
+            "twitter": "Twitter",
+            "facebook": "Facebook",
+            "instagram": "Instagram"
+        }
+    }
+}

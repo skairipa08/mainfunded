@@ -81,6 +81,15 @@ export default function AdminLayout({
               Students
             </Link>
             <Link
+              href="/admin/verifications"
+              className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100"
+            >
+              <span className="flex items-center">
+                Verifications
+                <span className="ml-2 bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">Queue</span>
+              </span>
+            </Link>
+            <Link
               href="/admin/campaigns"
               className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100"
             >

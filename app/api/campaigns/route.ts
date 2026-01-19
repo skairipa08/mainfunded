@@ -37,12 +37,39 @@ export async function GET(request: NextRequest) {
     
     // Get campaigns with pagination
     const skip = (page - 1) * limit;
-    const campaigns = await db.collection('campaigns')
-      .find(query, { projection: { _id: 0 } })
-      .sort({ created_at: -1 })
-      .skip(skip)
-      .limit(limit)
-      .toArray();
+    let campaigns: any[] = [];
+    let total = 0;
+    
+    try {
+      campaigns = await db.collection('campaigns')
+        .find(query, { projection: { _id: 0 } })
+        .sort({ created_at: -1 })
+        .skip(skip)
+        .limit(limit)
+        .toArray();
+      
+      total = await db.collection('campaigns').countDocuments(query);
+    } catch (dbError: any) {
+      // Log database error but don't crash - return empty result
+      console.error('[Campaigns GET] Database error:', {
+        message: dbError.message,
+        name: dbError.name,
+        // Don't log full stack in production
+        ...(process.env.NODE_ENV === 'development' && { stack: dbError.stack }),
+      });
+      
+      // Return empty result instead of error to keep homepage functional
+      return NextResponse.json({
+        success: true,
+        data: [],
+        pagination: {
+          page,
+          limit,
+          total: 0,
+          total_pages: 0,
+        },
+      });
+    }
     
     // Collect unique owner IDs (canonical NextAuth user.id)
     const ownerIds = [...new Set(campaigns.map((c: any) => c.owner_id).filter(Boolean))];
@@ -109,9 +136,6 @@ export async function GET(request: NextRequest) {
       };
     });
     
-    // Get total count for pagination
-    const total = await db.collection('campaigns').countDocuments(query);
-    
     return NextResponse.json({
       success: true,
       data: enrichedCampaigns,
@@ -123,11 +147,26 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error: any) {
-    console.error('Campaigns GET error:', error);
-    return NextResponse.json(
-      errorResponse(error),
-      { status: getStatusCode(error) }
-    );
+    // Log error with safe details (no secrets)
+    console.error('[Campaigns GET] Error:', {
+      message: error.message,
+      name: error.name,
+      // Only log stack in development
+      ...(process.env.NODE_ENV === 'development' && { stack: error.stack }),
+    });
+    
+    // Return empty result instead of error to keep homepage functional
+    // This ensures the homepage never breaks, even if there's an unexpected error
+    return NextResponse.json({
+      success: true,
+      data: [],
+      pagination: {
+        page: 1,
+        limit: 12,
+        total: 0,
+        total_pages: 0,
+      },
+    }, { status: 200 }); // Always return 200 to prevent frontend error state
   }
 }
 

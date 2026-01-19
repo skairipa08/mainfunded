@@ -3,6 +3,8 @@
 import { signIn, useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useTranslation } from '@/lib/i18n';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 /**
  * Client component that uses useSearchParams - must be wrapped in Suspense
@@ -11,6 +13,7 @@ export default function LoginPageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: session, status } = useSession();
+  const { t } = useTranslation();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -27,9 +30,9 @@ export default function LoginPageContent() {
   // Show error from URL params
   useEffect(() => {
     if (errorParam) {
-      setError(getErrorMessage(errorParam));
+      setError(getErrorMessage(errorParam, t));
     }
-  }, [errorParam]);
+  }, [errorParam, t]);
 
   const handleGoogleSignIn = async () => {
     try {
@@ -38,7 +41,7 @@ export default function LoginPageContent() {
       await signIn('google', { callbackUrl });
     } catch (err) {
       console.error('Sign in error:', err);
-      setError('Failed to start sign in process. Please try again.');
+      setError(t('auth.errors.default'));
       setIsLoading(false);
     }
   };
@@ -49,7 +52,7 @@ export default function LoginPageContent() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-blue-50">
         <div className="text-center">
           <div className="h-10 w-10 animate-spin mx-auto text-blue-600 mb-4 border-4 border-blue-200 border-t-blue-600 rounded-full" />
-          <p className="text-gray-600">Checking authentication...</p>
+          <p className="text-gray-600">{t('common.loading')}</p>
         </div>
       </div>
     );
@@ -57,6 +60,11 @@ export default function LoginPageContent() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-50 flex items-center justify-center py-12 px-4">
+      {/* Language Switcher - Top Right */}
+      <div className="fixed top-4 right-4 z-50">
+        <LanguageSwitcher variant="minimal" />
+      </div>
+
       <div className="max-w-md w-full">
         <div className="bg-white rounded-xl shadow-xl p-8">
           {/* Logo */}
@@ -64,8 +72,8 @@ export default function LoginPageContent() {
             <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-full mb-4">
               <span className="text-2xl font-bold text-white">F</span>
             </div>
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome to FundEd</h1>
-            <p className="text-gray-600">Sign in to access your account</p>
+            <h1 className="text-3xl font-bold text-gray-900 mb-2">{t('auth.login.title')}</h1>
+            <p className="text-gray-600">{t('auth.login.subtitle')}</p>
           </div>
 
           {/* Error Alert */}
@@ -89,7 +97,7 @@ export default function LoginPageContent() {
             {isLoading ? (
               <>
                 <div className="h-5 w-5 animate-spin border-2 border-gray-300 border-t-blue-600 rounded-full" />
-                Signing in...
+                {t('common.loading')}
               </>
             ) : (
               <>
@@ -111,25 +119,25 @@ export default function LoginPageContent() {
                     d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
                   />
                 </svg>
-                Sign in with Google
+                {t('auth.login.withGoogle')}
               </>
             )}
           </button>
 
           {/* Info */}
           <p className="mt-6 text-xs text-center text-gray-500">
-            By signing in, you agree to our{' '}
-            <a href="/terms" className="text-blue-600 hover:underline">Terms of Service</a>
-            {' '}and{' '}
-            <a href="/privacy" className="text-blue-600 hover:underline">Privacy Policy</a>
+            {t('footer.terms')} •{' '}
+            <a href="/terms" className="text-blue-600 hover:underline">{t('footer.terms')}</a>
+            {' '}&amp;{' '}
+            <a href="/privacy" className="text-blue-600 hover:underline">{t('footer.privacy')}</a>
           </p>
         </div>
 
         {/* Help text */}
         <p className="mt-6 text-center text-sm text-gray-500">
-          Having trouble signing in?{' '}
+          {t('auth.errors.tryAgain')}?{' '}
           <a href="mailto:support@funded.com" className="text-blue-600 hover:underline">
-            Contact support
+            {t('footer.contact')}
           </a>
         </p>
       </div>
@@ -137,16 +145,16 @@ export default function LoginPageContent() {
   );
 }
 
-function getErrorMessage(error: string): string {
-  const errorMessages: Record<string, string> = {
-    OAuthSignin: 'Could not start the sign in process. Please try again.',
-    OAuthCallback: 'Could not complete sign in. Please try again.',
-    OAuthCreateAccount: 'Could not create your account. Please try again.',
-    OAuthAccountNotLinked: 'This email is already linked to another account.',
-    Callback: 'There was an error during sign in. Please try again.',
-    AccessDenied: 'Access denied. You may not have permission to sign in.',
-    Configuration: 'Server configuration error. Please contact support.',
-    default: 'An error occurred during sign in. Please try again.',
+function getErrorMessage(error: string, t: (key: string) => string): string {
+  const errorMap: Record<string, string> = {
+    OAuthSignin: t('auth.errors.oauthCallback'),
+    OAuthCallback: t('auth.errors.oauthCallback'),
+    OAuthCreateAccount: t('auth.errors.oauthCallback'),
+    OAuthAccountNotLinked: t('auth.errors.oauthAccountNotLinked'),
+    Callback: t('auth.errors.oauthCallback'),
+    AccessDenied: t('auth.errors.accessDenied'),
+    Configuration: t('auth.errors.configuration'),
+    default: t('auth.errors.default'),
   };
-  return errorMessages[error] || errorMessages.default;
+  return errorMap[error] || errorMap.default;
 }

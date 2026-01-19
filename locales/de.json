@@ -1,0 +1,219 @@
+{
+    "common": {
+        "login": "Anmelden",
+        "signup": "Registrieren",
+        "logout": "Abmelden",
+        "language": "Sprache",
+        "english": "English",
+        "turkish": "Türkçe",
+        "loading": "Wird geladen...",
+        "error": "Fehler",
+        "success": "Erfolg",
+        "cancel": "Abbrechen",
+        "confirm": "Bestätigen",
+        "save": "Speichern",
+        "delete": "Löschen",
+        "edit": "Bearbeiten",
+        "view": "Ansehen",
+        "back": "Zurück",
+        "next": "Weiter",
+        "submit": "Absenden",
+        "search": "Suchen",
+        "filter": "Filtern",
+        "all": "Alle",
+        "none": "Keine",
+        "yes": "Ja",
+        "no": "Nein",
+        "close": "Schließen",
+        "learnMore": "Mehr erfahren",
+        "getStarted": "Loslegen"
+    },
+    "nav": {
+        "home": "Startseite",
+        "browse": "Kampagnen durchsuchen",
+        "howItWorks": "So funktioniert es",
+        "aboutUs": "Über uns",
+        "dashboard": "Dashboard",
+        "apply": "Als Student bewerben",
+        "admin": "Admin-Bereich",
+        "campaigns": "Kampagnen",
+        "students": "Studenten",
+        "verifications": "Verifizierungen",
+        "donate": "Spenden"
+    },
+    "home": {
+        "hero": {
+            "title": "Bildung fördern, Leben verändern",
+            "subtitle": "Unterstützen Sie verifizierte Studenten auf ihrem Bildungsweg. Jede Spende macht einen Unterschied.",
+            "cta": "Jetzt spenden",
+            "ctaStudent": "Als Student bewerben"
+        },
+        "stats": {
+            "studentsHelped": "Unterstützte Studenten",
+            "totalRaised": "Gesamt gesammelt",
+            "campaigns": "Aktive Kampagnen",
+            "donors": "Großzügige Spender"
+        },
+        "howItWorks": {
+            "title": "So funktioniert es",
+            "step1Title": "Studenten bewerben sich",
+            "step1Desc": "Verifizierte Studenten erstellen Kampagnen mit ihren Bildungszielen und Finanzierungsbedarf.",
+            "step2Title": "Spender unterstützen",
+            "step2Desc": "Spender durchsuchen Kampagnen und unterstützen die Studenten ihrer Wahl.",
+            "step3Title": "Träume werden wahr",
+            "step3Desc": "Studenten erhalten Mittel direkt und erreichen ihre Bildungsziele."
+        },
+        "featured": {
+            "title": "Ausgewählte Kampagnen",
+            "viewAll": "Alle Kampagnen anzeigen"
+        },
+        "cta": {
+            "title": "Bereit, etwas zu bewegen?",
+            "description": "Schließen Sie sich Tausenden von Spendern an, die Studenten weltweit unterstützen.",
+            "button": "Kampagnen entdecken"
+        }
+    },
+    "auth": {
+        "login": {
+            "title": "Willkommen zurück",
+            "subtitle": "Melden Sie sich bei Ihrem Konto an",
+            "withGoogle": "Mit Google fortfahren",
+            "noAccount": "Noch kein Konto?",
+            "signUp": "Registrieren"
+        },
+        "signup": {
+            "title": "Konto erstellen",
+            "subtitle": "Treten Sie FundEd noch heute bei",
+            "withGoogle": "Mit Google registrieren",
+            "hasAccount": "Bereits ein Konto?",
+            "signIn": "Anmelden"
+        },
+        "errors": {
+            "default": "Bei der Authentifizierung ist ein Fehler aufgetreten.",
+            "configuration": "Es gibt ein Problem mit der Serverkonfiguration.",
+            "accessDenied": "Zugriff verweigert. Möglicherweise haben Sie keine Berechtigung.",
+            "verification": "Der Verifizierungslink ist abgelaufen oder wurde bereits verwendet.",
+            "oauthCallback": "Fehler bei der Authentifizierung. Bitte versuchen Sie es erneut.",
+            "oauthAccountNotLinked": "Diese E-Mail ist bereits mit einem anderen Konto verknüpft.",
+            "sessionRequired": "Bitte melden Sie sich an, um auf diese Seite zuzugreifen.",
+            "tryAgain": "Erneut versuchen",
+            "backToHome": "Zurück zur Startseite"
+        }
+    },
+    "verification": {
+        "title": "Studentenverifizierung",
+        "status": {
+            "draft": "Entwurf",
+            "pendingReview": "Überprüfung ausstehend",
+            "approved": "Genehmigt",
+            "rejected": "Abgelehnt",
+            "needsMoreInfo": "Weitere Informationen erforderlich",
+            "underInvestigation": "Wird untersucht",
+            "suspended": "Gesperrt",
+            "expired": "Abgelaufen",
+            "revoked": "Widerrufen",
+            "banned": "Dauerhaft gesperrt",
+            "abandoned": "Aufgegeben"
+        },
+        "documents": {
+            "studentId": "Studentenausweis",
+            "enrollmentLetter": "Immatrikulationsbescheinigung",
+            "governmentId": "Personalausweis",
+            "selfieWithId": "Selfie mit Ausweis",
+            "transcript": "Zeugnis",
+            "proofOfAddress": "Adressnachweis",
+            "other": "Anderes Dokument"
+        },
+        "form": {
+            "personalInfo": "Persönliche Informationen",
+            "firstName": "Vorname",
+            "lastName": "Nachname",
+            "dateOfBirth": "Geburtsdatum",
+            "phone": "Telefonnummer",
+            "country": "Land",
+            "city": "Stadt",
+            "educationInfo": "Bildungsinformationen",
+            "institution": "Institution",
+            "program": "Studiengang",
+            "degreeLevel": "Abschlusstyp",
+            "enrollmentYear": "Immatrikulationsjahr",
+            "graduationYear": "Voraussichtlicher Abschluss",
+            "fullTime": "Vollzeitstudent",
+            "uploadDocuments": "Dokumente hochladen",
+            "submit": "Zur Überprüfung einreichen"
+        }
+    },
+    "campaign": {
+        "createCampaign": "Kampagne erstellen",
+        "editCampaign": "Kampagne bearbeiten",
+        "goal": "Ziel",
+        "raised": "Gesammelt",
+        "donors": "Spender",
+        "daysLeft": "Tage übrig",
+        "donate": "Jetzt spenden",
+        "share": "Teilen",
+        "updates": "Updates",
+        "about": "Über diese Kampagne",
+        "student": "Student",
+        "verified": "Verifizierter Student",
+        "category": "Kategorie",
+        "createdAt": "Erstellt am",
+        "endDate": "Enddatum"
+    },
+    "donation": {
+        "title": "Spenden",
+        "amount": "Spendenbetrag",
+        "customAmount": "Eigener Betrag",
+        "anonymous": "Anonym spenden",
+        "message": "Nachricht hinterlassen (optional)",
+        "processing": "Wird verarbeitet...",
+        "success": "Vielen Dank für Ihre Spende!",
+        "error": "Spende fehlgeschlagen. Bitte versuchen Sie es erneut."
+    },
+    "dashboard": {
+        "title": "Dashboard",
+        "welcome": "Willkommen zurück",
+        "myCampaigns": "Meine Kampagnen",
+        "myDonations": "Meine Spenden",
+        "totalRaised": "Insgesamt gesammelt",
+        "totalDonated": "Insgesamt gespendet",
+        "verificationStatus": "Verifizierungsstatus",
+        "recentActivity": "Letzte Aktivität"
+    },
+    "admin": {
+        "dashboard": "Admin-Dashboard",
+        "users": "Benutzer",
+        "campaigns": "Kampagnen",
+        "verifications": "Verifizierungen",
+        "pendingReview": "Ausstehende Überprüfung",
+        "queue": "Warteschlange",
+        "actions": {
+            "approve": "Genehmigen",
+            "reject": "Ablehnen",
+            "needsMoreInfo": "Info anfordern",
+            "suspend": "Sperren",
+            "investigate": "Untersuchen",
+            "revoke": "Widerrufen",
+            "ban": "Verbannen"
+        },
+        "filters": {
+            "all": "Alle",
+            "pending": "Ausstehend",
+            "approved": "Genehmigt",
+            "rejected": "Abgelehnt"
+        }
+    },
+    "footer": {
+        "about": "Über uns",
+        "howItWorks": "So funktioniert es",
+        "terms": "Nutzungsbedingungen",
+        "privacy": "Datenschutz",
+        "contact": "Kontakt",
+        "copyright": "© 2026 FundEd. Alle Rechte vorbehalten.",
+        "social": {
+            "twitter": "Twitter",
+            "facebook": "Facebook",
+            "instagram": "Instagram"
+        }
+    }
+}

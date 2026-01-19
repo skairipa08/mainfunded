@@ -1,0 +1,219 @@
+{
+    "common": {
+        "login": "تسجيل الدخول",
+        "signup": "التسجيل",
+        "logout": "تسجيل الخروج",
+        "language": "اللغة",
+        "english": "English",
+        "turkish": "Türkçe",
+        "loading": "جاري التحميل...",
+        "error": "خطأ",
+        "success": "نجاح",
+        "cancel": "إلغاء",
+        "confirm": "تأكيد",
+        "save": "حفظ",
+        "delete": "حذف",
+        "edit": "تعديل",
+        "view": "عرض",
+        "back": "رجوع",
+        "next": "التالي",
+        "submit": "إرسال",
+        "search": "بحث",
+        "filter": "تصفية",
+        "all": "الكل",
+        "none": "لا شيء",
+        "yes": "نعم",
+        "no": "لا",
+        "close": "إغلاق",
+        "learnMore": "اعرف المزيد",
+        "getStarted": "ابدأ الآن"
+    },
+    "nav": {
+        "home": "الرئيسية",
+        "browse": "تصفح الحملات",
+        "howItWorks": "كيف يعمل",
+        "aboutUs": "من نحن",
+        "dashboard": "لوحة التحكم",
+        "apply": "تقدم كطالب",
+        "admin": "لوحة الإدارة",
+        "campaigns": "الحملات",
+        "students": "الطلاب",
+        "verifications": "التحققات",
+        "donate": "تبرع"
+    },
+    "home": {
+        "hero": {
+            "title": "مول التعليم، غير حياة",
+            "subtitle": "ادعم الطلاب المعتمدين في رحلتهم التعليمية. كل تبرع يصنع فرقاً.",
+            "cta": "ابدأ التبرع",
+            "ctaStudent": "تقدم كطالب"
+        },
+        "stats": {
+            "studentsHelped": "طلاب تم مساعدتهم",
+            "totalRaised": "إجمالي المبلغ",
+            "campaigns": "حملات نشطة",
+            "donors": "متبرعون كرماء"
+        },
+        "howItWorks": {
+            "title": "كيف يعمل",
+            "step1Title": "الطلاب يتقدمون",
+            "step1Desc": "يقوم الطلاب المعتمدون بإنشاء حملات تتضمن أهدافهم التعليمية واحتياجاتهم المالية.",
+            "step2Title": "المتبرعون يدعمون",
+            "step2Desc": "يتصفح المتبرعون الحملات ويساهمون في دعم الطلاب الذين يرغبون في مساعدتهم.",
+            "step3Title": "الأحلام تتحقق",
+            "step3Desc": "يتلقى الطلاب الأموال مباشرة ويحققون أهدافهم التعليمية."
+        },
+        "featured": {
+            "title": "حملات مميزة",
+            "viewAll": "عرض جميع الحملات"
+        },
+        "cta": {
+            "title": "مستعد لإحداث فرق؟",
+            "description": "انضم إلى آلاف المتبرعين الذين يدعمون الطلاب حول العالم.",
+            "button": "استكشف الحملات"
+        }
+    },
+    "auth": {
+        "login": {
+            "title": "مرحباً بعودتك",
+            "subtitle": "سجل الدخول إلى حسابك",
+            "withGoogle": "المتابعة مع Google",
+            "noAccount": "ليس لديك حساب؟",
+            "signUp": "سجل الآن"
+        },
+        "signup": {
+            "title": "إنشاء حساب",
+            "subtitle": "انضم إلى FundEd اليوم",
+            "withGoogle": "التسجيل مع Google",
+            "hasAccount": "لديك حساب بالفعل؟",
+            "signIn": "سجل الدخول"
+        },
+        "errors": {
+            "default": "حدث خطأ أثناء المصادقة.",
+            "configuration": "هناك مشكلة في تكوين الخادم.",
+            "accessDenied": "تم رفض الوصول. قد لا يكون لديك الإذن.",
+            "verification": "انتهت صلاحية رابط التحقق أو تم استخدامه بالفعل.",
+            "oauthCallback": "خطأ أثناء المصادقة. يرجى المحاولة مرة أخرى.",
+            "oauthAccountNotLinked": "هذا البريد الإلكتروني مرتبط بالفعل بحساب آخر.",
+            "sessionRequired": "يرجى تسجيل الدخول للوصول إلى هذه الصفحة.",
+            "tryAgain": "حاول مرة أخرى",
+            "backToHome": "العودة للرئيسية"
+        }
+    },
+    "verification": {
+        "title": "التحقق من الطالب",
+        "status": {
+            "draft": "مسودة",
+            "pendingReview": "قيد المراجعة",
+            "approved": "موافق عليه",
+            "rejected": "مرفوض",
+            "needsMoreInfo": "يحتاج معلومات إضافية",
+            "underInvestigation": "قيد التحقيق",
+            "suspended": "معلق",
+            "expired": "منتهي الصلاحية",
+            "revoked": "ملغى",
+            "banned": "محظور نهائياً",
+            "abandoned": "متروك"
+        },
+        "documents": {
+            "studentId": "هوية الطالب",
+            "enrollmentLetter": "خطاب التسجيل",
+            "governmentId": "الهوية الحكومية",
+            "selfieWithId": "صورة شخصية مع الهوية",
+            "transcript": "كشف الدرجات",
+            "proofOfAddress": "إثبات العنوان",
+            "other": "مستند آخر"
+        },
+        "form": {
+            "personalInfo": "المعلومات الشخصية",
+            "firstName": "الاسم الأول",
+            "lastName": "اسم العائلة",
+            "dateOfBirth": "تاريخ الميلاد",
+            "phone": "رقم الهاتف",
+            "country": "البلد",
+            "city": "المدينة",
+            "educationInfo": "معلومات التعليم",
+            "institution": "المؤسسة التعليمية",
+            "program": "البرنامج الدراسي",
+            "degreeLevel": "مستوى الدرجة",
+            "enrollmentYear": "سنة التسجيل",
+            "graduationYear": "سنة التخرج المتوقعة",
+            "fullTime": "طالب بدوام كامل",
+            "uploadDocuments": "رفع المستندات",
+            "submit": "إرسال للمراجعة"
+        }
+    },
+    "campaign": {
+        "createCampaign": "إنشاء حملة",
+        "editCampaign": "تعديل الحملة",
+        "goal": "الهدف",
+        "raised": "تم جمعه",
+        "donors": "المتبرعون",
+        "daysLeft": "أيام متبقية",
+        "donate": "تبرع الآن",
+        "share": "مشاركة",
+        "updates": "التحديثات",
+        "about": "عن هذه الحملة",
+        "student": "الطالب",
+        "verified": "طالب معتمد",
+        "category": "الفئة",
+        "createdAt": "تاريخ الإنشاء",
+        "endDate": "تاريخ الانتهاء"
+    },
+    "donation": {
+        "title": "قدم تبرعاً",
+        "amount": "مبلغ التبرع",
+        "customAmount": "مبلغ مخصص",
+        "anonymous": "تبرع بشكل مجهول",
+        "message": "اترك رسالة (اختياري)",
+        "processing": "جاري المعالجة...",
+        "success": "شكراً لتبرعك!",
+        "error": "فشل التبرع. يرجى المحاولة مرة أخرى."
+    },
+    "dashboard": {
+        "title": "لوحة التحكم",
+        "welcome": "مرحباً بعودتك",
+        "myCampaigns": "حملاتي",
+        "myDonations": "تبرعاتي",
+        "totalRaised": "إجمالي المجموع",
+        "totalDonated": "إجمالي التبرعات",
+        "verificationStatus": "حالة التحقق",
+        "recentActivity": "النشاط الأخير"
+    },
+    "admin": {
+        "dashboard": "لوحة الإدارة",
+        "users": "المستخدمون",
+        "campaigns": "الحملات",
+        "verifications": "التحققات",
+        "pendingReview": "قيد المراجعة",
+        "queue": "قائمة الانتظار",
+        "actions": {
+            "approve": "موافقة",
+            "reject": "رفض",
+            "needsMoreInfo": "طلب معلومات",
+            "suspend": "تعليق",
+            "investigate": "تحقيق",
+            "revoke": "إلغاء",
+            "ban": "حظر"
+        },
+        "filters": {
+            "all": "الكل",
+            "pending": "قيد الانتظار",
+            "approved": "موافق عليه",
+            "rejected": "مرفوض"
+        }
+    },
+    "footer": {
+        "about": "من نحن",
+        "howItWorks": "كيف يعمل",
+        "terms": "شروط الخدمة",
+        "privacy": "سياسة الخصوصية",
+        "contact": "اتصل بنا",
+        "copyright": "© 2026 FundEd. جميع الحقوق محفوظة.",
+        "social": {
+            "twitter": "تويتر",
+            "facebook": "فيسبوك",
+            "instagram": "إنستغرام"
+        }
+    }
+}

@@ -18,9 +18,11 @@ import { Label } from '@/components/ui/label';
 import { createStudentApplication } from '@/lib/mockDb';
 import { validateEmail, sanitizeInput } from '@/lib/validation';
 import { toast } from 'sonner';
+import { useTranslation } from '@/lib/i18n';
 
 export default function ApplyPage() {
   const router = useRouter();
+  const { t } = useTranslation();
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -36,29 +38,29 @@ export default function ApplyPage() {
     const newErrors: Record<string, string> = {};
 
     if (!formData.fullName.trim()) {
-      newErrors.fullName = 'Full name is required';
+      newErrors.fullName = t('common.error');
     } else if (formData.fullName.trim().length < 2) {
-      newErrors.fullName = 'Full name must be at least 2 characters';
+      newErrors.fullName = t('common.error');
     }
 
     if (!formData.email.trim()) {
-      newErrors.email = 'Email is required';
+      newErrors.email = t('common.error');
     } else if (!validateEmail(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = t('common.error');
     }
 
     if (!formData.country.trim()) {
-      newErrors.country = 'Country is required';
+      newErrors.country = t('common.error');
     }
 
     if (!formData.educationLevel) {
-      newErrors.educationLevel = 'Education level is required';
+      newErrors.educationLevel = t('common.error');
     }
 
     if (!formData.needSummary.trim()) {
-      newErrors.needSummary = 'Need summary is required';
+      newErrors.needSummary = t('common.error');
     } else if (formData.needSummary.trim().length < 10) {
-      newErrors.needSummary = 'Need summary must be at least 10 characters';
+      newErrors.needSummary = t('common.error');
     }
 
     setErrors(newErrors);
@@ -67,14 +69,13 @@ export default function ApplyPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Prevent double submission
+
     if (loading || submitted) {
       return;
     }
 
     if (!validateForm()) {
-      toast.error('Please fix the errors in the form');
+      toast.error(t('common.error'));
       return;
     }
 
@@ -90,15 +91,14 @@ export default function ApplyPage() {
         needSummary: sanitizeInput(formData.needSummary),
       });
 
-      toast.success('Application submitted successfully!');
-      
-      // Small delay to show success message
+      toast.success(t('common.success'));
+
       setTimeout(() => {
         router.push(`/student/status?id=${application.id}`);
       }, 500);
     } catch (error) {
       console.error('Failed to submit application:', error);
-      toast.error('Failed to submit application. Please try again.');
+      toast.error(t('common.error'));
       setSubmitted(false);
     } finally {
       setLoading(false);
@@ -110,14 +110,14 @@ export default function ApplyPage() {
       <Navbar />
       <main className="flex-grow">
         <div className="max-w-2xl mx-auto px-4 py-16">
-          <h1 className="text-4xl font-bold text-gray-900 mb-8">Student Application</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-8">{t('nav.apply')}</h1>
           <p className="text-gray-600 mb-8">
-            Apply for verified education funding. We verify students before funding to ensure accountability and transparency.
+            {t('home.howItWorks.step1Desc')}
           </p>
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="fullName">Full Name *</Label>
+              <Label htmlFor="fullName">{t('verification.form.firstName')} {t('verification.form.lastName')} *</Label>
               <Input
                 id="fullName"
                 type="text"
@@ -127,7 +127,7 @@ export default function ApplyPage() {
                   setFormData({ ...formData, fullName: e.target.value });
                   if (errors.fullName) setErrors({ ...errors, fullName: '' });
                 }}
-                placeholder="Enter your full name"
+                placeholder={t('verification.form.firstName')}
                 className={errors.fullName ? 'border-red-500' : ''}
               />
               {errors.fullName && (
@@ -146,7 +146,7 @@ export default function ApplyPage() {
                   setFormData({ ...formData, email: e.target.value });
                   if (errors.email) setErrors({ ...errors, email: '' });
                 }}
-                placeholder="Enter your email address"
+                placeholder="Email"
                 className={errors.email ? 'border-red-500' : ''}
               />
               {errors.email && (
@@ -155,7 +155,7 @@ export default function ApplyPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="country">Country *</Label>
+              <Label htmlFor="country">{t('verification.form.country')} *</Label>
               <Input
                 id="country"
                 type="text"
@@ -165,7 +165,7 @@ export default function ApplyPage() {
                   setFormData({ ...formData, country: e.target.value });
                   if (errors.country) setErrors({ ...errors, country: '' });
                 }}
-                placeholder="Enter your country"
+                placeholder={t('verification.form.country')}
                 className={errors.country ? 'border-red-500' : ''}
               />
               {errors.country && (
@@ -174,7 +174,7 @@ export default function ApplyPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="educationLevel">Education Level *</Label>
+              <Label htmlFor="educationLevel">{t('verification.form.degreeLevel')} *</Label>
               <Select
                 required
                 value={formData.educationLevel}
@@ -184,7 +184,7 @@ export default function ApplyPage() {
                 }}
               >
                 <SelectTrigger id="educationLevel" className={errors.educationLevel ? 'border-red-500' : ''}>
-                  <SelectValue placeholder="Select education level" />
+                  <SelectValue placeholder={t('verification.form.degreeLevel')} />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="High School">High School</SelectItem>
@@ -200,7 +200,7 @@ export default function ApplyPage() {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="needSummary">Need Summary *</Label>
+              <Label htmlFor="needSummary">{t('campaign.about')} *</Label>
               <Textarea
                 id="needSummary"
                 required
@@ -209,7 +209,7 @@ export default function ApplyPage() {
                   setFormData({ ...formData, needSummary: e.target.value });
                   if (errors.needSummary) setErrors({ ...errors, needSummary: '' });
                 }}
-                placeholder="Describe your educational need and how funding would help"
+                placeholder={t('donation.message')}
                 rows={6}
                 className={errors.needSummary ? 'border-red-500' : ''}
               />
@@ -219,7 +219,7 @@ export default function ApplyPage() {
             </div>
 
             <Button type="submit" disabled={loading || submitted} className="w-full">
-              {loading ? 'Submitting...' : 'Submit Application'}
+              {loading ? t('common.loading') : t('common.submit')}
             </Button>
           </form>
         </div>

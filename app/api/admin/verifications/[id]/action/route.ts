@@ -14,9 +14,12 @@ import {
     createAuditLog,
     createNote,
     actionToStatus,
+    sendVerificationStatusEmail,
+    handleVerificationStatusChange,
     AdminActionDTO,
     VerificationStatusType
 } from '@/lib/verification';
+import { getDb } from '@/lib/db';
 
 interface Params {
     params: {
@@ -176,8 +179,53 @@ export async function POST(request: NextRequest, { params }: Params) {
             );
         }
 
-        // TODO: Send email notification to user based on action
-        // await sendVerificationStatusEmail(detail.user_id, body.action, body.message);
+        // Send email notification to user
+        if (result.newStatus) {
+            try {
+                // Get user info for email (using email from verification or lookup)
+                const db = await getDb();
+                // The user_id might be a string, use lookup by verification reference
+                const verification = await db.collection('verifications').findOne({ verification_id: verificationId });
+                const userEmail = verification?.user_email;
+
+                // If no email on verification, try to find user
+                let userName = '';
+                if (userEmail) {
+                    const user = await db.collection('users').findOne({ email: userEmail });
+                    userName = user?.name || '';
+                }
+
+                if (userEmail) {
+                    await sendVerificationStatusEmail({
+                        userId: detail.user_id,
+                        userEmail: userEmail,
+                        userName: userName,
+                        status: result.newStatus,
+                        reason: body.reason,
+                        reasonCode: body.reason_code,
+                        requestedDocuments: body.requested_documents,
+                        message: body.message
+                    });
+                }
+            } catch (emailError) {
+                // Log but don't fail the request
+                console.error('[AdminAction] Email notification failed:', emailError);
+            }
+
+            // Handle campaign fate (pause/cancel campaigns on revoke/suspend)
+            try {
+                const fateResult = await handleVerificationStatusChange(
+                    detail.user_id,
+                    detail.status,
+                    result.newStatus
+                );
+                if (fateResult.campaignsAffected > 0) {
+                    console.log(`[AdminAction] Campaign fate handled: ${fateResult.campaignsAffected} campaigns ${fateResult.action}`);
+                }
+            } catch (fateError) {
+                console.error('[AdminAction] Campaign fate handling failed:', fateError);
+            }
+        }
 
         const updatedDetail = await getVerificationDetail(verificationId);
 

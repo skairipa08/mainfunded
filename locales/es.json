@@ -1,0 +1,219 @@
+{
+    "common": {
+        "login": "Iniciar sesión",
+        "signup": "Registrarse",
+        "logout": "Cerrar sesión",
+        "language": "Idioma",
+        "english": "English",
+        "turkish": "Türkçe",
+        "loading": "Cargando...",
+        "error": "Error",
+        "success": "Éxito",
+        "cancel": "Cancelar",
+        "confirm": "Confirmar",
+        "save": "Guardar",
+        "delete": "Eliminar",
+        "edit": "Editar",
+        "view": "Ver",
+        "back": "Atrás",
+        "next": "Siguiente",
+        "submit": "Enviar",
+        "search": "Buscar",
+        "filter": "Filtrar",
+        "all": "Todo",
+        "none": "Ninguno",
+        "yes": "Sí",
+        "no": "No",
+        "close": "Cerrar",
+        "learnMore": "Más información",
+        "getStarted": "Comenzar"
+    },
+    "nav": {
+        "home": "Inicio",
+        "browse": "Explorar campañas",
+        "howItWorks": "Cómo funciona",
+        "aboutUs": "Sobre nosotros",
+        "dashboard": "Panel de control",
+        "apply": "Aplicar como estudiante",
+        "admin": "Panel de administración",
+        "campaigns": "Campañas",
+        "students": "Estudiantes",
+        "verifications": "Verificaciones",
+        "donate": "Donar"
+    },
+    "home": {
+        "hero": {
+            "title": "Financia la educación, cambia vidas",
+            "subtitle": "Apoya a estudiantes verificados en su camino educativo. Cada donación hace la diferencia.",
+            "cta": "Comenzar a donar",
+            "ctaStudent": "Aplicar como estudiante"
+        },
+        "stats": {
+            "studentsHelped": "Estudiantes ayudados",
+            "totalRaised": "Total recaudado",
+            "campaigns": "Campañas activas",
+            "donors": "Donantes generosos"
+        },
+        "howItWorks": {
+            "title": "Cómo funciona",
+            "step1Title": "Los estudiantes aplican",
+            "step1Desc": "Los estudiantes verificados crean campañas con sus metas educativas y necesidades de financiamiento.",
+            "step2Title": "Los donantes apoyan",
+            "step2Desc": "Los donantes exploran las campañas y contribuyen a los estudiantes que desean ayudar.",
+            "step3Title": "Los sueños se hacen realidad",
+            "step3Desc": "Los estudiantes reciben los fondos directamente y alcanzan sus metas educativas."
+        },
+        "featured": {
+            "title": "Campañas destacadas",
+            "viewAll": "Ver todas las campañas"
+        },
+        "cta": {
+            "title": "¿Listo para hacer la diferencia?",
+            "description": "Únete a miles de donantes que apoyan a estudiantes en todo el mundo.",
+            "button": "Explorar campañas"
+        }
+    },
+    "auth": {
+        "login": {
+            "title": "Bienvenido de nuevo",
+            "subtitle": "Inicia sesión en tu cuenta",
+            "withGoogle": "Continuar con Google",
+            "noAccount": "¿No tienes cuenta?",
+            "signUp": "Regístrate"
+        },
+        "signup": {
+            "title": "Crear cuenta",
+            "subtitle": "Únete a FundEd hoy",
+            "withGoogle": "Registrarse con Google",
+            "hasAccount": "¿Ya tienes cuenta?",
+            "signIn": "Iniciar sesión"
+        },
+        "errors": {
+            "default": "Ocurrió un error durante la autenticación.",
+            "configuration": "Hay un problema con la configuración del servidor.",
+            "accessDenied": "Acceso denegado. Es posible que no tengas permiso.",
+            "verification": "El enlace de verificación ha expirado o ya fue usado.",
+            "oauthCallback": "Error durante la autenticación. Por favor intenta de nuevo.",
+            "oauthAccountNotLinked": "Este correo ya está asociado con otra cuenta.",
+            "sessionRequired": "Por favor inicia sesión para acceder a esta página.",
+            "tryAgain": "Intentar de nuevo",
+            "backToHome": "Volver al inicio"
+        }
+    },
+    "verification": {
+        "title": "Verificación de estudiante",
+        "status": {
+            "draft": "Borrador",
+            "pendingReview": "Pendiente de revisión",
+            "approved": "Aprobado",
+            "rejected": "Rechazado",
+            "needsMoreInfo": "Necesita más información",
+            "underInvestigation": "En investigación",
+            "suspended": "Suspendido",
+            "expired": "Expirado",
+            "revoked": "Revocado",
+            "banned": "Baneado permanentemente",
+            "abandoned": "Abandonado"
+        },
+        "documents": {
+            "studentId": "Credencial estudiantil",
+            "enrollmentLetter": "Carta de inscripción",
+            "governmentId": "Identificación oficial",
+            "selfieWithId": "Selfie con identificación",
+            "transcript": "Historial académico",
+            "proofOfAddress": "Comprobante de domicilio",
+            "other": "Otro documento"
+        },
+        "form": {
+            "personalInfo": "Información personal",
+            "firstName": "Nombre",
+            "lastName": "Apellido",
+            "dateOfBirth": "Fecha de nacimiento",
+            "phone": "Número de teléfono",
+            "country": "País",
+            "city": "Ciudad",
+            "educationInfo": "Información educativa",
+            "institution": "Institución",
+            "program": "Programa de estudios",
+            "degreeLevel": "Nivel de grado",
+            "enrollmentYear": "Año de inscripción",
+            "graduationYear": "Año de graduación esperado",
+            "fullTime": "Estudiante de tiempo completo",
+            "uploadDocuments": "Subir documentos",
+            "submit": "Enviar para revisión"
+        }
+    },
+    "campaign": {
+        "createCampaign": "Crear campaña",
+        "editCampaign": "Editar campaña",
+        "goal": "Meta",
+        "raised": "Recaudado",
+        "donors": "Donantes",
+        "daysLeft": "Días restantes",
+        "donate": "Donar ahora",
+        "share": "Compartir",
+        "updates": "Actualizaciones",
+        "about": "Sobre esta campaña",
+        "student": "Estudiante",
+        "verified": "Estudiante verificado",
+        "category": "Categoría",
+        "createdAt": "Creado el",
+        "endDate": "Fecha de fin"
+    },
+    "donation": {
+        "title": "Hacer una donación",
+        "amount": "Monto de la donación",
+        "customAmount": "Monto personalizado",
+        "anonymous": "Donar anónimamente",
+        "message": "Dejar un mensaje (opcional)",
+        "processing": "Procesando...",
+        "success": "¡Gracias por tu donación!",
+        "error": "La donación falló. Por favor intenta de nuevo."
+    },
+    "dashboard": {
+        "title": "Panel de control",
+        "welcome": "Bienvenido de nuevo",
+        "myCampaigns": "Mis campañas",
+        "myDonations": "Mis donaciones",
+        "totalRaised": "Total recaudado",
+        "totalDonated": "Total donado",
+        "verificationStatus": "Estado de verificación",
+        "recentActivity": "Actividad reciente"
+    },
+    "admin": {
+        "dashboard": "Panel de administración",
+        "users": "Usuarios",
+        "campaigns": "Campañas",
+        "verifications": "Verificaciones",
+        "pendingReview": "Pendiente de revisión",
+        "queue": "Cola",
+        "actions": {
+            "approve": "Aprobar",
+            "reject": "Rechazar",
+            "needsMoreInfo": "Solicitar información",
+            "suspend": "Suspender",
+            "investigate": "Investigar",
+            "revoke": "Revocar",
+            "ban": "Banear"
+        },
+        "filters": {
+            "all": "Todo",
+            "pending": "Pendiente",
+            "approved": "Aprobado",
+            "rejected": "Rechazado"
+        }
+    },
+    "footer": {
+        "about": "Sobre nosotros",
+        "howItWorks": "Cómo funciona",
+        "terms": "Términos de servicio",
+        "privacy": "Política de privacidad",
+        "contact": "Contáctanos",
+        "copyright": "© 2026 FundEd. Todos los derechos reservados.",
+        "social": {
+            "twitter": "Twitter",
+            "facebook": "Facebook",
+            "instagram": "Instagram"
+        }
+    }
+}

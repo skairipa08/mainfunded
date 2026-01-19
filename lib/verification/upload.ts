@@ -221,16 +221,217 @@ export function generateStoragePath(
 }
 
 // =======================================
+// Cloudinary Configuration
+// =======================================
+
+const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
+const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY;
+const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;
+
+const SIGNED_URL_EXPIRY = 15 * 60 * 1000; // 15 minutes
+const SIGNED_URL_EXPIRY_SECONDS = 15 * 60; // 15 minutes in seconds
+
+/**
+ * Check if Cloudinary is configured
+ */
+function isCloudinaryConfigured(): boolean {
+    return !!(CLOUDINARY_CLOUD_NAME && CLOUDINARY_API_KEY && CLOUDINARY_API_SECRET);
+}
+
+/**
+ * Generate Cloudinary API signature for authenticated requests
+ */
+function generateCloudinarySignature(params: Record<string, string | number>): string {
+    const sortedKeys = Object.keys(params).sort();
+    const paramString = sortedKeys.map(key => `${key}=${params[key]}`).join('&');
+    return crypto
+        .createHash('sha1')
+        .update(paramString + CLOUDINARY_API_SECRET)
+        .digest('hex');
+}
+
+// =======================================
+// Storage Operations (Cloudinary)
+// =======================================
+
+/**
+ * Upload file to Cloudinary
+ * Uses signed upload with authenticated requests
+ */
+export async function uploadToStorage(
+    storagePath: string,
+    buffer: Buffer,
+    mimeType: string
+): Promise<{ success: boolean; url?: string; publicId?: string; error?: string }> {
+    // If Cloudinary not configured, use local fallback
+    if (!isCloudinaryConfigured()) {
+        console.warn('[Upload] Cloudinary not configured, using local storage fallback');
+        return {
+            success: true,
+            url: `/api/verification/documents/file/${encodeURIComponent(storagePath)}`,
+            publicId: storagePath,
+        };
+    }
+
+    try {
+        const timestamp = Math.round(Date.now() / 1000);
+        const publicId = storagePath.replace(/\.[^/.]+$/, ''); // Remove extension
+
+        // Determine resource type based on MIME type
+        const resourceType = mimeType === 'application/pdf' ? 'raw' : 'image';
+
+        const params: Record<string, string | number> = {
+            folder: 'verifications',
+            public_id: publicId,
+            timestamp,
+            resource_type: resourceType,
+        };
+
+        const signature = generateCloudinarySignature(params);
+
+        // Convert buffer to base64 data URI for Cloudinary upload
+        // Cloudinary accepts data URI in the 'file' field of FormData
+        const base64Data = buffer.toString('base64');
+        const dataUri = `data:${mimeType};base64,${base64Data}`;
+
+        // Use FormData (Node.js 18+ global FormData)
+        const formData = new FormData();
+        formData.append('file', dataUri);
+        formData.append('api_key', CLOUDINARY_API_KEY!);
+        formData.append('timestamp', timestamp.toString());
+        formData.append('signature', signature);
+        formData.append('public_id', publicId);
+        formData.append('folder', 'verifications');
+
+        const response = await fetch(
+            `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/upload`,
+            {
+                method: 'POST',
+                body: formData,
+            }
+        );
+
+        if (!response.ok) {
+            const error = await response.text();
+            console.error('[Upload] Cloudinary upload failed:', error);
+            return { success: false, error: 'Upload failed' };
+        }
+
+        const result = await response.json();
+
+        return {
+            success: true,
+            url: result.secure_url,
+            publicId: result.public_id,
+        };
+    } catch (error: any) {
+        console.error('[Upload] Error uploading to Cloudinary:', error);
+        return { success: false, error: error.message || 'Upload failed' };
+    }
+}
+
+/**
+ * Delete file from Cloudinary
+ */
+export async function deleteFromStorage(
+    publicId: string,
+    resourceType: 'image' | 'raw' = 'image'
+): Promise<{ success: boolean; error?: string }> {
+    // If Cloudinary not configured, skip
+    if (!isCloudinaryConfigured()) {
+        console.warn('[Upload] Cloudinary not configured, skipping delete');
+        return { success: true };
+    }
+
+    try {
+        const timestamp = Math.round(Date.now() / 1000);
+
+        const params: Record<string, string | number> = {
+            public_id: publicId,
+            timestamp,
+        };
+
+        const signature = generateCloudinarySignature(params);
+
+        const formData = new FormData();
+        formData.append('public_id', publicId);
+        formData.append('api_key', CLOUDINARY_API_KEY!);
+        formData.append('timestamp', timestamp.toString());
+        formData.append('signature', signature);
+
+        const response = await fetch(
+            `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/${resourceType}/destroy`,
+            {
+                method: 'POST',
+                body: formData,
+            }
+        );
+
+        if (!response.ok) {
+            const error = await response.text();
+            console.error('[Upload] Cloudinary delete failed:', error);
+            return { success: false, error: 'Delete failed' };
+        }
+
+        const result = await response.json();
+        return { success: result.result === 'ok' };
+    } catch (error: any) {
+        console.error('[Upload] Error deleting from Cloudinary:', error);
+        return { success: false, error: error.message || 'Delete failed' };
+    }
+}
+
+// =======================================
 // Signed URL Generation
 // =======================================
 
-const SIGNED_URL_EXPIRY = 15 * 60 * 1000; // 15 minutes
-
 /**
  * Generate a signed URL for document access
- * This is a placeholder - implement with your storage provider (S3, Cloudinary, etc.)
+ * Uses Cloudinary signed URLs when configured, falls back to local signing
  */
 export function generateSignedUrl(
+    storagePath: string,
+    expiresInMs: number = SIGNED_URL_EXPIRY
+): string {
+    // If Cloudinary is configured, generate Cloudinary signed URL
+    if (isCloudinaryConfigured()) {
+        return generateCloudinarySignedUrl(storagePath, expiresInMs);
+    }
+
+    // Fallback to local signed URL
+    return generateLocalSignedUrl(storagePath, expiresInMs);
+}
+
+/**
+ * Generate Cloudinary signed URL with expiration
+ */
+function generateCloudinarySignedUrl(
+    storagePath: string,
+    expiresInMs: number = SIGNED_URL_EXPIRY
+): string {
+    const publicId = storagePath.replace(/\.[^/.]+$/, '');
+    const timestamp = Math.round((Date.now() + expiresInMs) / 1000);
+
+    // Determine if it's a PDF (raw resource) or image
+    const isPdf = storagePath.toLowerCase().endsWith('.pdf');
+    const resourceType = isPdf ? 'raw' : 'image';
+
+    // Create signature for authenticated URL
+    const toSign = `public_id=${publicId}&timestamp=${timestamp}`;
+    const signature = crypto
+        .createHash('sha1')
+        .update(toSign + CLOUDINARY_API_SECRET)
+        .digest('hex');
+
+    // Build the signed URL
+    const baseUrl = `https://res.cloudinary.com/${CLOUDINARY_CLOUD_NAME}/${resourceType}/authenticated`;
+    return `${baseUrl}/s--${signature.substring(0, 8)}--/verifications/${publicId}?timestamp=${timestamp}`;
+}
+
+/**
+ * Generate local signed URL (for development/fallback)
+ */
+function generateLocalSignedUrl(
     storagePath: string,
     expiresInMs: number = SIGNED_URL_EXPIRY
 ): string {
@@ -240,13 +441,11 @@ export function generateSignedUrl(
         .update(`${storagePath}:${expires}`)
         .digest('hex');
 
-    // In production, this would generate an actual signed URL from S3/Cloudinary
-    // For now, return a placeholder that can be validated
     return `/api/verification/documents/file/${encodeURIComponent(storagePath)}?expires=${expires}&sig=${signature}`;
 }
 
 /**
- * Validate a signed URL
+ * Validate a signed URL (local signing only)
  */
 export function validateSignedUrl(
     storagePath: string,
@@ -265,6 +464,11 @@ export function validateSignedUrl(
         .createHmac('sha256', process.env.UPLOAD_SECRET || 'dev-secret')
         .update(`${storagePath}:${expiresNum}`)
         .digest('hex');
+
+    // Use timing-safe comparison
+    if (signature.length !== expectedSig.length) {
+        return false;
+    }
 
     return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expectedSig));
 }

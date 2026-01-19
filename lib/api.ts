@@ -14,14 +14,77 @@ async function apiCall(endpoint: string, options: RequestInit = {}, includeCrede
     config.credentials = 'include';
   }
 
-  const response = await fetch(url, config);
-  const data = await response.json();
+  try {
+    const response = await fetch(url, config);
+    
+    // Check if response is ok before trying to parse JSON
+    if (!response.ok) {
+      // Try to parse error response as JSON
+      let errorData: any;
+      try {
+        const text = await response.text();
+        errorData = text ? JSON.parse(text) : {};
+      } catch {
+        // If not JSON, create a generic error
+        errorData = {};
+      }
+      
+      // Extract error message from various possible formats
+      const errorMessage = 
+        errorData?.error?.message || 
+        errorData?.error?.code || 
+        errorData?.detail || 
+        errorData?.error || 
+        errorData?.message ||
+        `API request failed with status ${response.status}`;
+      
+      // Log detailed error in development only
+      if (process.env.NODE_ENV === 'development') {
+        console.error(`[API Error] ${endpoint}:`, {
+          status: response.status,
+          statusText: response.statusText,
+          error: errorMessage,
+        });
+      }
+      
+      throw new Error(errorMessage);
+    }
 
-  if (!response.ok) {
-    throw new Error(data.detail || data.error || 'API request failed');
+    // Parse successful response
+    const contentType = response.headers.get('content-type');
+    if (contentType && contentType.includes('application/json')) {
+      const text = await response.text();
+      if (!text) {
+        // Empty response - return empty object
+        return {};
+      }
+      try {
+        return JSON.parse(text);
+      } catch (parseError) {
+        // Log parse error in development
+        if (process.env.NODE_ENV === 'development') {
+          console.error(`[API Parse Error] ${endpoint}:`, parseError);
+        }
+        throw new Error('Invalid JSON response from server');
+      }
+    }
+    
+    // Non-JSON response
+    const text = await response.text();
+    return { data: text };
+  } catch (error: any) {
+    // Handle network errors and other fetch failures
+    if (error.name === 'TypeError' && error.message.includes('fetch')) {
+      const networkError = new Error('Network error: Unable to reach server');
+      if (process.env.NODE_ENV === 'development') {
+        console.error(`[API Network Error] ${endpoint}:`, error);
+      }
+      throw networkError;
+    }
+    
+    // Re-throw other errors (including our Error from above)
+    throw error;
   }
-
-  return data;
 }
 
 export const getCategories = () => apiCall('/static/categories', {}, false);

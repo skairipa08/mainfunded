@@ -1,8 +1,13 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { GraduationCap, Heart } from 'lucide-react';
+import { useTranslation } from '@/lib/i18n';
 
 export default function Footer() {
+  const { t } = useTranslation();
+
   return (
     <footer className="bg-gray-900 text-white py-12">
       <div className="max-w-7xl mx-auto px-4">
@@ -16,47 +21,47 @@ export default function Footer() {
               <span className="text-xl font-bold">FundEd</span>
             </div>
             <p className="text-gray-400 text-sm">
-              Empowering students worldwide through verified educational crowdfunding.
+              {t('home.hero.subtitle')}
             </p>
           </div>
 
           {/* Quick Links */}
           <div>
-            <h3 className="font-semibold mb-4">Quick Links</h3>
+            <h3 className="font-semibold mb-4">{t('nav.browse')}</h3>
             <ul className="space-y-2">
-              <li><Link href="/browse" className="text-gray-400 hover:text-white transition-colors">Browse Campaigns</Link></li>
-              <li><Link href="/campaigns/new" className="text-gray-400 hover:text-white transition-colors">Start a Campaign</Link></li>
-              <li><Link href="/login" className="text-gray-400 hover:text-white transition-colors">Sign In</Link></li>
+              <li><Link href="/browse" className="text-gray-400 hover:text-white transition-colors">{t('nav.browse')}</Link></li>
+              <li><Link href="/campaigns/new" className="text-gray-400 hover:text-white transition-colors">{t('campaign.createCampaign')}</Link></li>
+              <li><Link href="/login" className="text-gray-400 hover:text-white transition-colors">{t('common.login')}</Link></li>
             </ul>
           </div>
 
           {/* Support */}
           <div>
-            <h3 className="font-semibold mb-4">Support</h3>
+            <h3 className="font-semibold mb-4">{t('footer.contact')}</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Help Center</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Contact Us</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">FAQ</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">{t('footer.about')}</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">{t('footer.contact')}</a></li>
+              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">{t('nav.howItWorks')}</a></li>
             </ul>
           </div>
 
           {/* Legal */}
           <div>
-            <h3 className="font-semibold mb-4">Legal</h3>
+            <h3 className="font-semibold mb-4">{t('footer.terms')}</h3>
             <ul className="space-y-2">
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Privacy Policy</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Terms of Service</a></li>
-              <li><a href="#" className="text-gray-400 hover:text-white transition-colors">Cookie Policy</a></li>
+              <li><Link href="/privacy" className="text-gray-400 hover:text-white transition-colors">{t('footer.privacy')}</Link></li>
+              <li><Link href="/terms" className="text-gray-400 hover:text-white transition-colors">{t('footer.terms')}</Link></li>
+              <li><Link href="/disclaimer" className="text-gray-400 hover:text-white transition-colors">{t('footer.about')}</Link></li>
             </ul>
           </div>
         </div>
 
         <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            © {new Date().getFullYear()} FundEd. All rights reserved.
+            {t('footer.copyright')}
           </p>
           <p className="text-gray-400 text-sm flex items-center mt-4 md:mt-0">
-            Made with <Heart className="h-4 w-4 text-red-500 mx-1" /> for students worldwide
+            Made with <Heart className="h-4 w-4 text-red-500 mx-1" /> {t('home.hero.subtitle')}
           </p>
         </div>
       </div>
