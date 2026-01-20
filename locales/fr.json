@@ -140,7 +140,55 @@
             "graduationYear": "Année de diplôme prévue",
             "fullTime": "Étudiant à temps plein",
             "uploadDocuments": "Télécharger les documents",
-            "submit": "Soumettre pour révision"
+            "submit": "Soumettre pour révision",
+            "addDocument": "Add Document",
+            "removeDocument": "Remove Document",
+            "documentName": "Document Name",
+            "documentHelp": "Add documents such as student ID, enrollment letter, or transcript"
+        },
+        "tiers": {
+            "tier0": {
+                "name": "Email Verified",
+                "description": "Verified through institutional email domain"
+            },
+            "tier1": {
+                "name": "Document Verified",
+                "description": "Verified with enrollment certificate"
+            },
+            "tier2": {
+                "name": "High Trust",
+                "description": "Enhanced verification with school portal screenshot"
+            },
+            "tier3": {
+                "name": "Partner Verified",
+                "description": "Verified through official university attestation"
+            }
+        },
+        "badges": {
+            "tier0": "Email Verified",
+            "tier1": "Verified Student",
+            "tier2": "Verified Student: High Trust",
+            "tier3": "Partner Verified"
+        },
+        "checks": {
+            "email": "Institutional Email",
+            "enrollment": "Enrollment Document",
+            "portal": "School Portal",
+            "partner": "University Attestation"
+        },
+        "steps": {
+            "tierSelect": "Select Verification Level",
+            "personalInfo": "Personal Information",
+            "educationInfo": "Education Details",
+            "documents": "Upload Documents",
+            "review": "Review & Submit"
+        },
+        "statusLabels": {
+            "draft": "Draft",
+            "pending_review": "Under Review",
+            "approved": "Approved",
+            "rejected": "Rejected",
+            "needs_more_info": "More Info Needed"
         }
     },
     "campaign": {
