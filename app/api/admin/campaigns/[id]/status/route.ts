@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
 import { requireAdmin } from '@/lib/authz';
@@ -17,11 +19,11 @@ export async function PUT(
 
   try {
     await requireAdmin();
-    
+
     const { id } = params;
     const db = await getDb();
     const body = await request.json();
-    
+
     // Validate input
     const validation = campaignStatusSchema.safeParse({ body, params: { id } });
     if (!validation.success) {
@@ -36,40 +38,40 @@ export async function PUT(
         { status: 400 }
       );
     }
-    
+
     const { status, reason } = validation.data.body;
-    
+
     const campaign = await db.collection('campaigns').findOne(
       { campaign_id: id },
       { projection: { _id: 0 } }
     );
-    
+
     if (!campaign) {
       return NextResponse.json(
         { error: { code: 'NOT_FOUND', message: 'Campaign not found' } },
         { status: 404 }
       );
     }
-    
+
     const updateData: any = {
       status,
       updated_at: new Date().toISOString(),
     };
-    
+
     if (reason) {
       updateData.status_reason = reason;
     }
-    
+
     await db.collection('campaigns').updateOne(
       { campaign_id: id },
       { $set: updateData }
     );
-    
+
     const updatedCampaign = await db.collection('campaigns').findOne(
       { campaign_id: id },
       { projection: { _id: 0 } }
     );
-    
+
     return NextResponse.json({
       success: true,
       data: updatedCampaign,

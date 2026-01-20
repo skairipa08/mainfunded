@@ -3,7 +3,7 @@
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useTranslation } from '@/lib/i18n';
@@ -17,7 +17,7 @@ interface VerificationStatus {
     tier_approved?: number;
 }
 
-export default function AccountPage() {
+function AccountPageContent() {
     const { data: session, status } = useSession();
     const router = useRouter();
     const searchParams = useSearchParams();
@@ -384,5 +384,18 @@ export default function AccountPage() {
             </main>
             <Footer />
         </div>
+    );
+}
+
+export default function AccountPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-gray-50">
+            <div className="text-center">
+                <div className="h-12 w-12 animate-spin mx-auto text-blue-600 mb-4 border-4 border-blue-200 border-t-blue-600 rounded-full" />
+                <p className="text-gray-600">Loading...</p>
+            </div>
+        </div>}>
+            <AccountPageContent />
+        </Suspense>
     );
 }

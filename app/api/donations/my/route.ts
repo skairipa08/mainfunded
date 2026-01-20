@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
 import { requireUser } from '@/lib/authz';
@@ -7,7 +9,7 @@ export async function GET(request: NextRequest) {
   try {
     const db = await getDb();
     const user = await requireUser();
-    
+
     const donations = await db.collection('donations')
       .find(
         { donor_id: user.id, status: 'paid' },
@@ -16,7 +18,7 @@ export async function GET(request: NextRequest) {
       .sort({ created_at: -1 })
       .limit(100)
       .toArray();
-    
+
     // Enrich with campaign data
     const enriched = [];
     for (const donation of donations) {
@@ -26,7 +28,7 @@ export async function GET(request: NextRequest) {
       );
       enriched.push({ ...donation, campaign });
     }
-    
+
     return successResponse(enriched);
   } catch (error) {
     return handleRouteError(error);

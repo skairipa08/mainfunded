@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Navbar from '@/components/Navbar';
@@ -38,7 +38,7 @@ const STATUS_CONFIG: Record<VerificationStatusType, { color: string; icon: strin
     'ABANDONED': { color: 'text-gray-500', icon: '📦', bgColor: 'bg-gray-100' },
 };
 
-export default function VerifyStatusPage() {
+function VerifyStatusPageContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { data: session, status: authStatus } = useSession();
@@ -251,5 +251,15 @@ export default function VerifyStatusPage() {
             </main>
             <Footer />
         </div>
+    );
+}
+
+export default function VerifyStatusPage() {
+    return (
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center">
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>
+        </div>}>
+            <VerifyStatusPageContent />
+        </Suspense>
     );
 }

@@ -4,6 +4,8 @@
  * GET /api/admin/verifications - Get verification queue
  */
 
+export const dynamic = 'force-dynamic';
+
 import { NextRequest, NextResponse } from 'next/server';
 import {
     requireAdmin,
