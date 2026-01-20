@@ -101,46 +101,67 @@
         }
     },
     "verification": {
-        "title": "学生验证",
+        "title": "Choose Verification Level",
+        "subtitle": "Select a verification level to increase donor trust. Higher levels require more evidence.",
+        "tierSelectDescription": "Select a verification level to increase donor trust. Higher levels require more evidence.",
+        "tier0Option": "Verify with School Email",
+        "tier0Description": "Receive a verification link via your school email (e.g., student@university.edu).",
+        "required": "Required",
         "status": {
-            "draft": "草稿",
-            "pendingReview": "待审核",
-            "approved": "已批准",
-            "rejected": "已拒绝",
-            "needsMoreInfo": "需要更多信息",
-            "underInvestigation": "调查中",
-            "suspended": "已暂停",
-            "expired": "已过期",
-            "revoked": "已撤销",
-            "banned": "永久封禁",
-            "abandoned": "已放弃"
+            "draft": "Draft",
+            "pendingReview": "Pending Review",
+            "approved": "Approved",
+            "rejected": "Rejected",
+            "needsMoreInfo": "Needs More Info",
+            "underInvestigation": "Under Investigation",
+            "suspended": "Suspended",
+            "expired": "Expired",
+            "revoked": "Revoked",
+            "banned": "Permanently Banned",
+            "abandoned": "Abandoned"
         },
         "documents": {
-            "studentId": "学生证",
-            "enrollmentLetter": "入学证明",
-            "governmentId": "政府身份证",
-            "selfieWithId": "手持证件自拍",
-            "transcript": "成绩单",
-            "proofOfAddress": "地址证明",
-            "other": "其他文件"
+            "studentId": "Student ID",
+            "enrollmentLetter": "Enrollment Letter",
+            "governmentId": "Government ID",
+            "selfieWithId": "Selfie with ID",
+            "transcript": "Transcript",
+            "proofOfAddress": "Proof of Address",
+            "other": "Other Document"
         },
         "form": {
-            "personalInfo": "个人信息",
-            "firstName": "名",
-            "lastName": "姓",
-            "dateOfBirth": "出生日期",
-            "phone": "电话号码",
-            "country": "国家",
-            "city": "城市",
-            "educationInfo": "教育信息",
-            "institution": "学校名称",
-            "program": "专业",
-            "degreeLevel": "学位等级",
-            "enrollmentYear": "入学年份",
-            "graduationYear": "预计毕业年份",
-            "fullTime": "全日制学生",
-            "uploadDocuments": "上传文件",
-            "submit": "提交审核",
+            "personalInfo": "Personal Information",
+            "firstName": "First Name",
+            "lastName": "Last Name",
+            "dateOfBirth": "Date of Birth",
+            "phone": "Phone Number",
+            "country": "Country",
+            "city": "City",
+            "educationInfo": "Education Information",
+            "institution": "Institution Name",
+            "institutionCountry": "Country",
+            "institutionType": "Institution Type",
+            "program": "Program",
+            "degreeLevel": "Degree Level",
+            "studentId": "Student ID (Optional)",
+            "enrollmentYear": "Enrollment Year",
+            "graduationYear": "Expected Graduation",
+            "fullTime": "Full-time student",
+            "institutionTypes": {
+                "university": "University",
+                "college": "College",
+                "vocational": "Vocational School",
+                "high_school": "High School"
+            },
+            "degreeLevels": {
+                "associate": "Associate",
+                "bachelor": "Bachelor's",
+                "master": "Master's",
+                "phd": "PhD",
+                "certificate": "Certificate"
+            },
+            "uploadDocuments": "Upload Documents",
+            "submit": "Submit for Review",
             "addDocument": "Add Document",
             "removeDocument": "Remove Document",
             "documentName": "Document Name",
@@ -148,20 +169,22 @@
         },
         "tiers": {
             "tier0": {
-                "name": "Email Verified",
-                "description": "Verified through institutional email domain"
+                "name": "Verify with School Email",
+                "description": "Receive a verification link via your school email (e.g., student@university.edu)."
             },
             "tier1": {
                 "name": "Document Verified",
-                "description": "Verified with enrollment certificate"
+                "description": "Verify by uploading an enrollment letter or student status document.",
+                "subtext": "Required: Enrollment letter"
             },
             "tier2": {
                 "name": "High Trust",
-                "description": "Enhanced verification with school portal screenshot"
+                "description": "Verify with documents plus a school portal screenshot or QR/barcode proof.",
+                "subtext": "Required: Enrollment letter, Portal screenshot"
             },
             "tier3": {
                 "name": "Partner Verified",
-                "description": "Verified through official university attestation"
+                "description": "Verified through official university/partner attestation"
             }
         },
         "badges": {
@@ -177,9 +200,9 @@
             "partner": "University Attestation"
         },
         "steps": {
-            "tierSelect": "Select Verification Level",
-            "personalInfo": "Personal Information",
-            "educationInfo": "Education Details",
+            "tierSelect": "Choose Level",
+            "personalInfo": "Personal Info",
+            "educationInfo": "Education",
             "documents": "Upload Documents",
             "review": "Review & Submit"
         },
@@ -189,7 +212,26 @@
             "approved": "Approved",
             "rejected": "Rejected",
             "needs_more_info": "More Info Needed"
-        }
+        },
+        "documentGuidance": "Please upload clear and up-to-date documents.",
+        "documentMaskingHint": "You may mask non-required sensitive details (ID number, address, etc.).",
+        "acceptedDocs": {
+            "enrollment": "Enrollment letter / student status document",
+            "studentId": "Student ID card",
+            "transcript": "Transcript",
+            "portalScreenshot": "School portal screenshot"
+        },
+        "dragDrop": "Drag & drop or browse",
+        "fileTypes": "PDF, JPG, PNG (max 10MB)",
+        "documentsNote": "Documents are used only for verification and stored securely.",
+        "review": {
+            "tier": "Selected Level",
+            "personal": "Personal Info",
+            "education": "Education",
+            "note": "Note (Optional)",
+            "notePlaceholder": "Add any extra context."
+        },
+        "reviewNote": "By submitting, you confirm that all information provided is accurate. Our team will review your application within 1-3 business days."
     },
     "campaign": {
         "createCampaign": "创建活动",
