@@ -12,7 +12,9 @@
     "doctor": "tsx scripts/doctor.ts",
     "check:env": "tsx scripts/check-env.ts",
     "db:indexes": "tsx scripts/create-indexes.ts",
-    "seed:dev": "tsx scripts/seed-dev.ts"
+    "seed:dev": "tsx scripts/seed-dev.ts",
+    "i18n:check": "node scripts/i18n-check.mjs",
+    "prebuild": "npm run i18n:check"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.0.1",

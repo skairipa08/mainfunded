@@ -86,11 +86,21 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
         // Update HTML lang attribute
         document.documentElement.lang = newLocale;
+        // Update HTML dir attribute for RTL
+        document.documentElement.dir = newLocale === 'ar' ? 'rtl' : 'ltr';
     };
 
     // Translation function
     const t = (key: string, params?: Record<string, string | number>): string => {
         let translation = getNestedValue(translations[locale], key);
+
+        // Fallback to English if translation is missing (i.e., returns the key) and we are not already in English
+        if (translation === key && locale !== 'en') {
+            const enTranslation = getNestedValue(translations['en'], key);
+            if (enTranslation !== key) {
+                translation = enTranslation;
+            }
+        }
 
         // Replace parameters like {name} with actual values
         if (params) {
