@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { ArrowLeft, MapPin, GraduationCap, Calendar, Target, Share2, Heart, CheckCircle2, Loader2, Clock } from 'lucide-react';
@@ -72,7 +73,7 @@ export default function CampaignDetailPage() {
 
     try {
       const response = await getPaymentStatus(sessionId);
-      
+
       if (response.data?.payment_status === 'paid') {
         setCheckingPayment(false);
         // Reload campaign to show updated amounts
@@ -127,9 +128,9 @@ export default function CampaignDetailPage() {
         setProcessingPayment(false);
       }
     } catch (error: any) {
-      const errorMessage = error?.response?.data?.error?.message || 
-                          error?.message || 
-                          'Payment could not be processed. Please try again.';
+      const errorMessage = error?.response?.data?.error?.message ||
+        error?.message ||
+        'Payment could not be processed. Please try again.';
       setDonationError(errorMessage);
       setProcessingPayment(false);
     }
@@ -178,8 +179,8 @@ export default function CampaignDetailPage() {
   }
 
   const student = campaign.student || {};
-  const progress = campaign.goal_amount > 0 
-    ? (campaign.raised_amount / campaign.goal_amount) * 100 
+  const progress = campaign.goal_amount > 0
+    ? (campaign.raised_amount / campaign.goal_amount) * 100
     : 0;
   const remaining = Math.max(0, campaign.goal_amount - campaign.raised_amount);
   const verificationStatus = student.verification_status || 'pending';
@@ -212,10 +213,11 @@ export default function CampaignDetailPage() {
               {/* Campaign Image */}
               {campaign.cover_image && (
                 <div className="relative h-64 md:h-96 rounded-lg overflow-hidden">
-                  <img
+                  <Image
                     src={campaign.cover_image}
                     alt={campaign.title}
-                    className="w-full h-full object-cover"
+                    fill
+                    className="object-cover"
                   />
                 </div>
               )}

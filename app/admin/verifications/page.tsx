@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 
 interface VerificationItem {
@@ -50,11 +50,7 @@ export default function VerificationQueuePage() {
     const [minRiskScore, setMinRiskScore] = useState<string>('');
     const [page, setPage] = useState(1);
 
-    useEffect(() => {
-        fetchQueue();
-    }, [statusFilter, tierFilter, minRiskScore, page]);
-
-    const fetchQueue = async () => {
+    const fetchQueue = useCallback(async () => {
         setLoading(true);
         setError(null);
 
@@ -77,7 +73,11 @@ export default function VerificationQueuePage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [page, statusFilter, minRiskScore, tierFilter]);
+
+    useEffect(() => {
+        fetchQueue();
+    }, [fetchQueue]);
 
     const formatDate = (dateStr: string) => {
         if (!dateStr) return '-';

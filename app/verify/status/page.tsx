@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Navbar from '@/components/Navbar';
@@ -50,18 +50,7 @@ export default function VerifyStatusPage() {
 
     const verificationId = searchParams.get('id');
 
-    useEffect(() => {
-        if (authStatus === 'unauthenticated') {
-            router.push('/login?callbackUrl=/verify/status');
-            return;
-        }
-
-        if (authStatus === 'authenticated') {
-            fetchVerificationStatus();
-        }
-    }, [authStatus, verificationId]);
-
-    const fetchVerificationStatus = async () => {
+    const fetchVerificationStatus = useCallback(async () => {
         try {
             const url = verificationId
                 ? `/api/verification?id=${verificationId}`
@@ -80,7 +69,18 @@ export default function VerifyStatusPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [verificationId]);
+
+    useEffect(() => {
+        if (authStatus === 'unauthenticated') {
+            router.push('/login?callbackUrl=/verify/status');
+            return;
+        }
+
+        if (authStatus === 'authenticated') {
+            fetchVerificationStatus();
+        }
+    }, [authStatus, verificationId, router, fetchVerificationStatus]);
 
     if (authStatus === 'loading' || loading) {
         return (

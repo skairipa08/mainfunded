@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 
@@ -60,11 +60,7 @@ export default function VerificationDetailPage() {
     const [actionReason, setActionReason] = useState('');
     const [actionMessage, setActionMessage] = useState('');
 
-    useEffect(() => {
-        if (id) fetchDetail();
-    }, [id]);
-
-    const fetchDetail = async () => {
+    const fetchDetail = useCallback(async () => {
         setLoading(true);
         try {
             const response = await fetch(`/api/admin/verifications/${id}`);
@@ -76,7 +72,11 @@ export default function VerificationDetailPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [id]);
+
+    useEffect(() => {
+        if (id) fetchDetail();
+    }, [id, fetchDetail]);
 
     const handleAction = async (action: string) => {
         if (!data) return;
@@ -141,9 +141,9 @@ export default function VerificationDetailPage() {
                 </div>
                 <div className="flex items-center gap-2">
                     <span className={`px-3 py-1 rounded-full text-sm font-medium ${data.status === 'APPROVED' ? 'bg-green-100 text-green-800' :
-                            data.status === 'REJECTED' ? 'bg-red-100 text-red-800' :
-                                data.status === 'PENDING_REVIEW' ? 'bg-yellow-100 text-yellow-800' :
-                                    'bg-gray-100 text-gray-800'
+                        data.status === 'REJECTED' ? 'bg-red-100 text-red-800' :
+                            data.status === 'PENDING_REVIEW' ? 'bg-yellow-100 text-yellow-800' :
+                                'bg-gray-100 text-gray-800'
                         }`}>
                         {data.status.replace(/_/g, ' ')}
                     </span>

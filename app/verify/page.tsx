@@ -456,8 +456,8 @@ export default function VerifyPage() {
                                             </SelectTrigger>
                                             <SelectContent>
                                                 <SelectItem value="associate">Associate</SelectItem>
-                                                <SelectItem value="bachelor">Bachelor's</SelectItem>
-                                                <SelectItem value="master">Master's</SelectItem>
+                                                <SelectItem value="bachelor">Bachelor&apos;s</SelectItem>
+                                                <SelectItem value="master">Master&apos;s</SelectItem>
                                                 <SelectItem value="phd">PhD</SelectItem>
                                                 <SelectItem value="certificate">Certificate</SelectItem>
                                             </SelectContent>

@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { MapPin, GraduationCap, CheckCircle2, Clock, TrendingUp } from 'lucide-react';
 import { Card, CardContent } from './ui/card';
@@ -25,11 +26,14 @@ export default function CampaignCard({ campaign }: CampaignCardProps) {
       <Card className="hover:shadow-xl transition-all duration-300 hover:-translate-y-1 cursor-pointer overflow-hidden group">
         <div className="relative">
           {campaign.cover_image ? (
-            <img
-              src={campaign.cover_image}
-              alt={campaign.title}
-              className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-            />
+            <div className="relative w-full h-48">
+              <Image
+                src={campaign.cover_image}
+                alt={campaign.title}
+                fill
+                className="object-cover group-hover:scale-105 transition-transform duration-300"
+              />
+            </div>
           ) : (
             <div className="w-full h-48 bg-gradient-to-br from-blue-400 to-indigo-600 flex items-center justify-center">
               <GraduationCap className="h-16 w-16 text-white opacity-50" />

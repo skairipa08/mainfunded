@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
@@ -93,11 +94,14 @@ export default function Navbar() {
                   className="flex items-center space-x-2 px-3 py-2 rounded-lg hover:bg-gray-100 transition-colors"
                 >
                   {user.image ? (
-                    <img
-                      src={user.image}
-                      alt={user.name || 'User'}
-                      className="w-8 h-8 rounded-full border-2 border-blue-500"
-                    />
+                    <div className="relative w-8 h-8">
+                      <Image
+                        src={user.image}
+                        alt={user.name || 'User'}
+                        fill
+                        className="rounded-full border-2 border-blue-500 object-cover"
+                      />
+                    </div>
                   ) : (
                     <div className="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white font-medium">
                       {user.name?.charAt(0) || user.email?.charAt(0) || 'U'}

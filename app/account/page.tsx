@@ -1,6 +1,7 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
+import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
@@ -133,11 +134,14 @@ export default function AccountPage() {
                         <div className="flex items-center justify-between">
                             <div className="flex items-center space-x-6">
                                 {user.image ? (
-                                    <img
-                                        src={user.image}
-                                        alt={user.name || 'User'}
-                                        className="w-24 h-24 rounded-full border-4 border-white shadow-lg"
-                                    />
+                                    <div className="relative w-24 h-24">
+                                        <Image
+                                            src={user.image}
+                                            alt={user.name || 'User'}
+                                            fill
+                                            className="rounded-full border-4 border-white shadow-lg object-cover"
+                                        />
+                                    </div>
                                 ) : (
                                     <div className="w-24 h-24 rounded-full bg-white/20 flex items-center justify-center text-4xl font-bold">
                                         {user.name?.charAt(0) || user.email?.charAt(0) || 'U'}
