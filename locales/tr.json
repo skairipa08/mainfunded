@@ -102,6 +102,11 @@
     },
     "verification": {
         "title": "Öğrenci Doğrulaması",
+        "subtitle": "Bağışçıların güvenini artırmak için doğrulama seviyeni seç ve gerekli belgeleri yükle.",
+        "tierSelectDescription": "Daha yüksek seviye = daha yüksek güven. Seviye arttıkça ek kanıt istenebilir.",
+        "tier0Option": "Okul E-postası ile Doğrulama",
+        "tier0Description": "Okul e-postana bir doğrulama bağlantısı göndeririz.",
+        "required": "Gerekli",
         "status": {
             "draft": "Taslak",
             "pendingReview": "İnceleme Bekliyor",
@@ -134,11 +139,27 @@
             "city": "Şehir",
             "educationInfo": "Eğitim Bilgileri",
             "institution": "Kurum Adı",
+            "institutionCountry": "Ülke",
+            "institutionType": "Kurum Türü",
             "program": "Bölüm",
             "degreeLevel": "Derece Seviyesi",
+            "studentId": "Öğrenci No (Opsiyonel)",
             "enrollmentYear": "Kayıt Yılı",
             "graduationYear": "Tahmini Mezuniyet",
-            "fullTime": "Tam Zamanlı Öğrenci",
+            "fullTime": "Tam zamanlı öğrenci",
+            "institutionTypes": {
+                "university": "Üniversite",
+                "college": "Yüksekokul",
+                "vocational": "Meslek Yüksekokulu",
+                "high_school": "Lise"
+            },
+            "degreeLevels": {
+                "associate": "Ön Lisans",
+                "bachelor": "Lisans",
+                "master": "Yüksek Lisans",
+                "phd": "Doktora",
+                "certificate": "Sertifika"
+            },
             "uploadDocuments": "Belgeleri Yükle",
             "submit": "İncelemeye Gönder",
             "addDocument": "Belge Ekle",
@@ -148,16 +169,18 @@
         },
         "tiers": {
             "tier0": {
-                "name": "E-posta Doğrulandı",
-                "description": "Kurumsal e-posta alan adı ile doğrulandı"
+                "name": "Okul E-postası ile Doğrulama",
+                "description": "Okul e-postana bir doğrulama bağlantısı göndeririz."
             },
             "tier1": {
-                "name": "Belge Doğrulandı",
-                "description": "Kayıt belgesi ile doğrulandı"
+                "name": "Belge ile Doğrulama",
+                "description": "Öğrenci belgesi veya kayıt belgesi yükleyerek doğrula.",
+                "subtext": "Gerekli: Öğrenci belgesi"
             },
             "tier2": {
                 "name": "Yüksek Güven",
-                "description": "Okul portalı ekran görüntüsü ile gelişmiş doğrulama"
+                "description": "Belge + okul portalı ekran görüntüsü (veya QR/barkod kanıtı) ile doğrula.",
+                "subtext": "Gerekli: Öğrenci belgesi, Portal ekran görüntüsü"
             },
             "tier3": {
                 "name": "Partner Doğrulandı",
@@ -189,7 +212,26 @@
             "approved": "Onaylandı",
             "rejected": "Reddedildi",
             "needs_more_info": "Daha Fazla Bilgi Gerekli"
-        }
+        },
+        "documentGuidance": "Belgeler okunaklı, tam kadraj ve güncel olmalı.",
+        "documentMaskingHint": "Gerekli olmayan hassas bilgileri (TC kimlik no, adres vb.) kapatabilirsin.",
+        "acceptedDocs": {
+            "enrollment": "Öğrenci belgesi / Kayıt belgesi",
+            "studentId": "Öğrenci kimliği",
+            "transcript": "Transkript",
+            "portalScreenshot": "Okul portalı ekran görüntüsü"
+        },
+        "dragDrop": "Sürükle bırak veya dosya seç",
+        "fileTypes": "PDF, JPG, PNG (maks. 10MB)",
+        "documentsNote": "Belgeler sadece doğrulama için kullanılır ve güvenli şekilde saklanır.",
+        "review": {
+            "tier": "Seçilen Seviye",
+            "personal": "Kişisel Bilgiler",
+            "education": "Eğitim Bilgileri",
+            "note": "Not (Opsiyonel)",
+            "notePlaceholder": "Varsa ek açıklama yazabilirsin."
+        },
+        "reviewNote": "Göndererek, sağlanan tüm bilgilerin doğru olduğunu onaylarsınız. Ekibimiz başvurunuzu 1-3 iş günü içinde inceleyecektir."
     },
     "campaign": {
         "createCampaign": "Kampanya Oluştur",

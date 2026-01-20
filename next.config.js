@@ -19,6 +19,16 @@ const nextConfig = {
     EMAIL_FROM: process.env.EMAIL_FROM,
     SENTRY_DSN: process.env.SENTRY_DSN,
   },
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
   webpack: (config, { isServer }) => {
     // Ignore optional dependencies that may not be installed
     if (!isServer) {

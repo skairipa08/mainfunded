@@ -284,7 +284,7 @@ function VerifyPageContent() {
                                                         <h3 className="font-semibold text-gray-900">{tier.name}</h3>
                                                         <p className="text-sm text-gray-600 mt-1">{tier.description}</p>
                                                         <div className="mt-2 text-xs text-gray-500">
-                                                            <strong>{t('verification.required') || 'Required'}:</strong> {tier.required.join(', ')}
+                                                            {t(tier.nameKey.replace('.name', '.subtext'))}
                                                         </div>
                                                     </div>
                                                     {formData.tierRequested === tier.tier && (
@@ -424,10 +424,10 @@ function VerifyPageContent() {
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="university">University</SelectItem>
-                                                <SelectItem value="college">College</SelectItem>
-                                                <SelectItem value="vocational">Vocational School</SelectItem>
-                                                <SelectItem value="high_school">High School</SelectItem>
+                                                <SelectItem value="university">{t('verification.form.institutionTypes.university') || 'University'}</SelectItem>
+                                                <SelectItem value="college">{t('verification.form.institutionTypes.college') || 'College'}</SelectItem>
+                                                <SelectItem value="vocational">{t('verification.form.institutionTypes.vocational') || 'Vocational School'}</SelectItem>
+                                                <SelectItem value="high_school">{t('verification.form.institutionTypes.high_school') || 'High School'}</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </div>
@@ -455,11 +455,11 @@ function VerifyPageContent() {
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                <SelectItem value="associate">Associate</SelectItem>
-                                                <SelectItem value="bachelor">Bachelor&apos;s</SelectItem>
-                                                <SelectItem value="master">Master&apos;s</SelectItem>
-                                                <SelectItem value="phd">PhD</SelectItem>
-                                                <SelectItem value="certificate">Certificate</SelectItem>
+                                                <SelectItem value="associate">{t('verification.form.degreeLevels.associate') || 'Associate'}</SelectItem>
+                                                <SelectItem value="bachelor">{t('verification.form.degreeLevels.bachelor') || 'Bachelor\'s'}</SelectItem>
+                                                <SelectItem value="master">{t('verification.form.degreeLevels.master') || 'Master\'s'}</SelectItem>
+                                                <SelectItem value="phd">{t('verification.form.degreeLevels.phd') || 'PhD'}</SelectItem>
+                                                <SelectItem value="certificate">{t('verification.form.degreeLevels.certificate') || 'Certificate'}</SelectItem>
                                             </SelectContent>
                                         </Select>
                                     </div>
@@ -585,6 +585,17 @@ function VerifyPageContent() {
                                             <span className="text-gray-900">{formData.expectedGraduation}</span>
                                         </div>
                                     </div>
+                                </div>
+
+                                <div className="space-y-2">
+                                    <Label htmlFor="financialNeedStatement">{t('verification.review.note')}</Label>
+                                    <Textarea
+                                        id="financialNeedStatement"
+                                        placeholder={t('verification.review.notePlaceholder') || 'Add any extra context.'}
+                                        value={formData.financialNeedStatement}
+                                        onChange={(e: any) => setFormData({ ...formData, financialNeedStatement: e.target.value })}
+                                        className="h-24 resize-none"
+                                    />
                                 </div>
 
                                 <div className="p-4 bg-emerald-50 rounded-lg border border-emerald-200">
