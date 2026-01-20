@@ -57,6 +57,8 @@ export default function VerificationQueuePage() {
         try {
             const params = new URLSearchParams();
             if (statusFilter) params.set('status', statusFilter);
+            if (tierFilter) params.set('tier', tierFilter);
+            if (minRiskScore) params.set('minRiskScore', minRiskScore);
             params.set('page', page.toString());
             params.set('limit', '20');
 
