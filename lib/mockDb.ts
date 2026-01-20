@@ -10,6 +10,7 @@ export interface StudentApplication {
   country: string;
   educationLevel: string;
   needSummary: string;
+  documents: string[];
   status: 'Received' | 'Under Review' | 'Approved' | 'Rejected';
   createdAt: string;
   updatedAt: string;

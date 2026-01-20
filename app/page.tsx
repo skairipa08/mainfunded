@@ -93,7 +93,7 @@ export default function Home() {
                   placeholder={t('common.search') + '...'}
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="flex-1 text-gray-900"
+                  className="flex-1 text-white placeholder:text-blue-200 bg-white/10 border-white/30 focus:border-white"
                 />
                 <Button type="submit" size="lg">
                   <Search className="mr-2 h-5 w-5" />

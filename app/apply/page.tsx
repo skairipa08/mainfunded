@@ -32,7 +32,9 @@ export default function ApplyPage() {
     country: '',
     educationLevel: '',
     needSummary: '',
+    documents: [] as string[],
   });
+  const [newDocument, setNewDocument] = useState('');
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
@@ -89,6 +91,7 @@ export default function ApplyPage() {
         country: sanitizeInput(formData.country),
         educationLevel: formData.educationLevel,
         needSummary: sanitizeInput(formData.needSummary),
+        documents: formData.documents,
       });
 
       toast.success(t('common.success'));
@@ -215,6 +218,66 @@ export default function ApplyPage() {
               />
               {errors.needSummary && (
                 <p className="text-sm text-red-600">{errors.needSummary}</p>
+              )}
+            </div>
+
+            {/* Document Upload Section */}
+            <div className="space-y-4 border-t pt-6">
+              <div>
+                <Label>{t('verification.form.uploadDocuments')}</Label>
+                <p className="text-sm text-gray-500 mt-1">{t('verification.form.documentHelp')}</p>
+              </div>
+
+              <div className="flex gap-2">
+                <Input
+                  type="text"
+                  value={newDocument}
+                  onChange={(e) => setNewDocument(e.target.value)}
+                  placeholder={t('verification.form.documentName')}
+                  className="flex-1"
+                />
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => {
+                    if (newDocument.trim()) {
+                      setFormData({
+                        ...formData,
+                        documents: [...formData.documents, newDocument.trim()]
+                      });
+                      setNewDocument('');
+                    }
+                  }}
+                >
+                  {t('verification.form.addDocument')}
+                </Button>
+              </div>
+
+              {formData.documents.length > 0 && (
+                <div className="space-y-2">
+                  {formData.documents.map((doc, index) => (
+                    <div key={index} className="flex items-center justify-between bg-gray-50 p-3 rounded-lg border">
+                      <div className="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                        <span className="text-sm font-medium text-gray-700">{doc}</span>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setFormData({
+                            ...formData,
+                            documents: formData.documents.filter((_, i) => i !== index)
+                          });
+                        }}
+                        className="text-red-500 hover:text-red-700 text-sm font-medium"
+                      >
+                        {t('verification.form.removeDocument')}
+                      </button>
+                    </div>
+                  ))}
+                </div>
               )}
             </div>
 

@@ -9,7 +9,7 @@ export const runtime = 'nodejs';
 
 async function checkAccess() {
   const user = await getSessionUser();
-  
+
   if (!user) {
     const currentPath = '/campaigns/new';
     redirect(`/login?callbackUrl=${encodeURIComponent(currentPath)}`);
@@ -17,27 +17,36 @@ async function checkAccess() {
 
   // Admin can always create campaigns
   if (user.role === 'admin') {
-    return { allowed: true, user, verificationStatus: 'admin' };
+    return { allowed: true, user, verificationStatus: 'admin', tier: 3 };
   }
 
-  // Check student profile
   const db = await getDb();
+
+  // Check new tiered verification system first
+  const verification = await db.collection('verifications').findOne(
+    { user_id: user.id, status: 'APPROVED' },
+    { projection: { _id: 0, tier_approved: 1, status: 1 } }
+  );
+
+  if (verification && verification.tier_approved !== undefined && verification.tier_approved >= 1) {
+    return { allowed: true, user, verificationStatus: 'verified', tier: verification.tier_approved };
+  }
+
+  // Fallback: Check legacy student_profiles for backwards compatibility
   const studentProfile = await db.collection('student_profiles').findOne(
     { user_id: user.id },
     { projection: { _id: 0, verificationStatus: 1, verification_status: 1 } }
   );
 
-  if (!studentProfile) {
-    redirect('/onboarding?message=' + encodeURIComponent('Create a student profile to start a campaign'));
+  if (studentProfile) {
+    const verificationStatus = studentProfile.verificationStatus || studentProfile.verification_status;
+    if (verificationStatus === 'verified') {
+      return { allowed: true, user, verificationStatus: 'verified', tier: 1 };
+    }
   }
 
-  const verificationStatus = studentProfile.verificationStatus || studentProfile.verification_status;
-
-  if (verificationStatus !== 'verified') {
-    redirect('/onboarding?message=' + encodeURIComponent('Verify your student profile to start a campaign'));
-  }
-
-  return { allowed: true, user, verificationStatus: 'verified' };
+  // Not verified - redirect to verification page
+  redirect('/verify?message=' + encodeURIComponent('Verification required to create a campaign. You need Tier 1 or higher.'));
 }
 
 export default async function CreateCampaignPage() {

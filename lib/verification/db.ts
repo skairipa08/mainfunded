@@ -16,6 +16,7 @@ import {
     StripeEventRecord,
     InternalNote,
     VerificationStatusType,
+    VerificationTier,
     EventType,
     RiskFlag,
     CreateVerificationDTO,
@@ -60,6 +61,15 @@ export async function createVerification(
         user_id: userId,
         status: 'DRAFT',
         status_changed_at: now(),
+
+        // Tier info - default to Tier 1 (document verification)
+        tier_requested: (data as any).tier_requested ?? 1 as VerificationTier,
+        tier_approved: undefined,
+
+        // Email verification fields (for Tier 0)
+        institution_email: (data as any).institution_email,
+        institution_email_domain: (data as any).institution_email_domain,
+        institution_email_verified: false,
 
         first_name: data.first_name,
         last_name: data.last_name,
@@ -277,6 +287,15 @@ export async function transitionStatus(
         expiresAt.setFullYear(expiresAt.getFullYear() + 1);
         updateData.expires_at = expiresAt.toISOString();
         updateData.reviewed_at = now();
+
+        // Set tier_approved from additionalData or default to tier_requested
+        if (additionalData?.tier_approved !== undefined) {
+            updateData.tier_approved = additionalData.tier_approved;
+        } else if (verification.tier_requested !== undefined) {
+            updateData.tier_approved = verification.tier_requested;
+        } else {
+            updateData.tier_approved = 1; // Default to Tier 1
+        }
     }
 
     // Set reapply cooldown for rejected status (7 days)

@@ -40,6 +40,37 @@ export type InstitutionType = typeof INSTITUTION_TYPES[number];
 export const DEGREE_LEVELS = ['bachelor', 'master', 'phd', 'associate', 'certificate'] as const;
 export type DegreeLevel = typeof DEGREE_LEVELS[number];
 
+// =======================================
+// Verification Tiers
+// =======================================
+
+// Tier levels: 0 = email only, 1 = document, 2 = high trust, 3 = partner
+export const VERIFICATION_TIERS = [0, 1, 2, 3] as const;
+export type VerificationTier = typeof VERIFICATION_TIERS[number];
+
+// Tier requirements configuration
+export interface TierRequirements {
+  tier: VerificationTier;
+  name: string;
+  nameKey: string; // i18n key
+  description: string;
+  descriptionKey: string; // i18n key
+  required: string[];  // Required document/verification types
+  optional: string[];  // Optional enhancements
+  minCampaignTier: boolean; // Can create campaigns at this tier
+}
+
+// Badge info for donor-facing display
+export interface TierBadgeInfo {
+  tier: VerificationTier;
+  label: string;
+  labelKey: string;
+  color: string;
+  icon: string;
+  checks: string[]; // What was verified
+  checksKeys: string[]; // i18n keys for checks
+}
+
 // Risk flags for fraud detection
 export const RISK_FLAGS = [
   'DOCUMENT_QUALITY_LOW',
@@ -117,6 +148,23 @@ export interface Verification {
   status_changed_at: string;
   expires_at?: string;
   reapply_eligible_at?: string;
+
+  // Tier info
+  tier_requested: VerificationTier;
+  tier_approved?: VerificationTier;
+
+  // Institutional email verification (Tier 0)
+  institution_email?: string;
+  institution_email_domain?: string;
+  institution_email_verified?: boolean;
+  institution_email_verified_at?: string;
+  institution_email_otp_hash?: string;
+  institution_email_otp_expires_at?: string;
+
+  // Partner attestation (Tier 3)
+  partner_attestation_id?: string;
+  partner_name?: string;
+  partner_verified_at?: string;
 
   // Profile info
   first_name: string;

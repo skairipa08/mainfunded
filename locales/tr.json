@@ -140,7 +140,55 @@
             "graduationYear": "Tahmini Mezuniyet",
             "fullTime": "Tam Zamanlı Öğrenci",
             "uploadDocuments": "Belgeleri Yükle",
-            "submit": "İncelemeye Gönder"
+            "submit": "İncelemeye Gönder",
+            "addDocument": "Belge Ekle",
+            "removeDocument": "Belgeyi Kaldır",
+            "documentName": "Belge Adı",
+            "documentHelp": "Öğrenci kimliği, kayıt belgesi veya transkript gibi belgelerinizi ekleyin"
+        },
+        "tiers": {
+            "tier0": {
+                "name": "E-posta Doğrulandı",
+                "description": "Kurumsal e-posta alan adı ile doğrulandı"
+            },
+            "tier1": {
+                "name": "Belge Doğrulandı",
+                "description": "Kayıt belgesi ile doğrulandı"
+            },
+            "tier2": {
+                "name": "Yüksek Güven",
+                "description": "Okul portalı ekran görüntüsü ile gelişmiş doğrulama"
+            },
+            "tier3": {
+                "name": "Partner Doğrulandı",
+                "description": "Resmi üniversite onayı ile doğrulandı"
+            }
+        },
+        "badges": {
+            "tier0": "E-posta Doğrulandı",
+            "tier1": "Doğrulanmış Öğrenci",
+            "tier2": "Doğrulanmış Öğrenci: Yüksek Güven",
+            "tier3": "Partner Doğrulandı"
+        },
+        "checks": {
+            "email": "Kurumsal E-posta",
+            "enrollment": "Kayıt Belgesi",
+            "portal": "Okul Portalı",
+            "partner": "Üniversite Onayı"
+        },
+        "steps": {
+            "tierSelect": "Doğrulama Seviyesi Seçin",
+            "personalInfo": "Kişisel Bilgiler",
+            "educationInfo": "Eğitim Bilgileri",
+            "documents": "Belge Yükle",
+            "review": "İncele ve Gönder"
+        },
+        "statusLabels": {
+            "draft": "Taslak",
+            "pending_review": "İnceleniyor",
+            "approved": "Onaylandı",
+            "rejected": "Reddedildi",
+            "needs_more_info": "Daha Fazla Bilgi Gerekli"
         }
     },
     "campaign": {

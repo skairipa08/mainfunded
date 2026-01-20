@@ -1,7 +1,7 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { ToastNotifier } from '@/components/ToastNotifier';
@@ -13,9 +13,18 @@ export default function AdminLayout({
 }) {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [loading, setLoading] = useState(true);
 
+  // Preview mode for demo - skip auth
+  const isPreviewMode = searchParams.get('preview') === 'true';
+
   useEffect(() => {
+    if (isPreviewMode) {
+      setLoading(false);
+      return;
+    }
+
     if (status === 'loading') return;
 
     if (!session) {
@@ -29,21 +38,25 @@ export default function AdminLayout({
     }
 
     setLoading(false);
-  }, [session, status, router]);
+  }, [session, status, router, isPreviewMode]);
 
   if (loading || status === 'loading') {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
-      </div>
-    );
+    if (!isPreviewMode) {
+      return (
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        </div>
+      );
+    }
   }
 
-  if (!session || (session.user as any)?.role !== 'admin') {
+  if (!isPreviewMode && (!session || (session.user as any)?.role !== 'admin')) {
     return null;
   }
 
-  const user = session.user as any;
+  const user = isPreviewMode
+    ? { name: 'Demo Admin', email: 'admin@demo.com', role: 'admin' }
+    : session?.user as any;
 
   return (
     <div className="min-h-screen bg-gray-50">

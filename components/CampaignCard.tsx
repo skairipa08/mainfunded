@@ -5,17 +5,19 @@ import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
 import { Progress } from './ui/progress';
 import { verificationStatuses } from '@/lib/api';
+import { VerificationBadgeCompact } from './VerificationBadge';
 
 interface CampaignCardProps {
   campaign: any;
 }
 
 export default function CampaignCard({ campaign }: CampaignCardProps) {
-  const progress = campaign.goal_amount > 0 
-    ? (campaign.raised_amount / campaign.goal_amount) * 100 
+  const progress = campaign.goal_amount > 0
+    ? (campaign.raised_amount / campaign.goal_amount) * 100
     : 0;
   const student = campaign.student || {};
   const verificationStatus = student.verification_status || 'pending';
+  const tierApproved = campaign.tier_approved ?? student.tier_approved;
   const status = verificationStatuses[verificationStatus as keyof typeof verificationStatuses] || verificationStatuses.pending;
 
   return (
@@ -34,14 +36,19 @@ export default function CampaignCard({ campaign }: CampaignCardProps) {
             </div>
           )}
           <div className="absolute top-3 right-3">
-            <Badge className={`${status.color} border`}>
-              {verificationStatus === 'verified' ? (
-                <CheckCircle2 className="h-3 w-3 mr-1" />
-              ) : (
-                <Clock className="h-3 w-3 mr-1" />
-              )}
-              {status.label}
-            </Badge>
+            {/* Show tier badge if tier_approved exists, otherwise show legacy badge */}
+            {tierApproved !== undefined && tierApproved >= 1 ? (
+              <VerificationBadgeCompact tier={tierApproved} />
+            ) : (
+              <Badge className={`${status.color} border`}>
+                {verificationStatus === 'verified' ? (
+                  <CheckCircle2 className="h-3 w-3 mr-1" />
+                ) : (
+                  <Clock className="h-3 w-3 mr-1" />
+                )}
+                {status.label}
+              </Badge>
+            )}
           </div>
         </div>
 

@@ -13,6 +13,8 @@ interface VerificationItem {
     submitted_at: string;
     risk_score: number;
     assigned_to?: string;
+    tier_requested?: number;
+    tier_approved?: number;
 }
 
 interface QueueResponse {
@@ -32,16 +34,25 @@ const STATUS_COLORS: Record<string, string> = {
     DRAFT: 'bg-gray-100 text-gray-600',
 };
 
+const TIER_COLORS: Record<number, string> = {
+    0: 'bg-blue-100 text-blue-800',
+    1: 'bg-emerald-100 text-emerald-800',
+    2: 'bg-purple-100 text-purple-800',
+    3: 'bg-amber-100 text-amber-800',
+};
+
 export default function VerificationQueuePage() {
     const [data, setData] = useState<QueueResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [statusFilter, setStatusFilter] = useState<string>('PENDING_REVIEW');
+    const [tierFilter, setTierFilter] = useState<string>('');
+    const [minRiskScore, setMinRiskScore] = useState<string>('');
     const [page, setPage] = useState(1);
 
     useEffect(() => {
         fetchQueue();
-    }, [statusFilter, page]);
+    }, [statusFilter, tierFilter, minRiskScore, page]);
 
     const fetchQueue = async () => {
         setLoading(true);
@@ -92,20 +103,62 @@ export default function VerificationQueuePage() {
             </div>
 
             {/* Filters */}
-            <div className="bg-white rounded-lg shadow p-4 mb-6">
-                <div className="flex gap-2 flex-wrap">
-                    {['PENDING_REVIEW', 'NEEDS_MORE_INFO', 'UNDER_INVESTIGATION', 'APPROVED', 'REJECTED', 'ALL'].map((status) => (
-                        <button
-                            key={status}
-                            onClick={() => { setStatusFilter(status === 'ALL' ? '' : status); setPage(1); }}
-                            className={`px-3 py-1.5 text-sm rounded-full transition-colors ${(status === 'ALL' && !statusFilter) || statusFilter === status
+            <div className="bg-white rounded-lg shadow p-4 mb-6 space-y-4">
+                {/* Status filters */}
+                <div>
+                    <label className="text-xs font-medium text-gray-500 uppercase mb-2 block">Status</label>
+                    <div className="flex gap-2 flex-wrap">
+                        {['PENDING_REVIEW', 'NEEDS_MORE_INFO', 'UNDER_INVESTIGATION', 'APPROVED', 'REJECTED', 'ALL'].map((status) => (
+                            <button
+                                key={status}
+                                onClick={() => { setStatusFilter(status === 'ALL' ? '' : status); setPage(1); }}
+                                className={`px-3 py-1.5 text-sm rounded-full transition-colors ${(status === 'ALL' && !statusFilter) || statusFilter === status
                                     ? 'bg-blue-600 text-white'
                                     : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                }`}
-                        >
-                            {status.replace(/_/g, ' ')}
-                        </button>
-                    ))}
+                                    }`}
+                            >
+                                {status.replace(/_/g, ' ')}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Tier filters */}
+                <div>
+                    <label className="text-xs font-medium text-gray-500 uppercase mb-2 block">Tier Requested</label>
+                    <div className="flex gap-2 flex-wrap">
+                        {['', '0', '1', '2', '3'].map((tier) => (
+                            <button
+                                key={tier || 'all'}
+                                onClick={() => { setTierFilter(tier); setPage(1); }}
+                                className={`px-3 py-1.5 text-sm rounded-full transition-colors ${tierFilter === tier
+                                    ? 'bg-emerald-600 text-white'
+                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                    }`}
+                            >
+                                {tier === '' ? 'All Tiers' : `Tier ${tier}`}
+                            </button>
+                        ))}
+                    </div>
+                </div>
+
+                {/* Risk score filter */}
+                <div>
+                    <label className="text-xs font-medium text-gray-500 uppercase mb-2 block">Min Risk Score</label>
+                    <div className="flex gap-2">
+                        {['', '25', '50', '75'].map((score) => (
+                            <button
+                                key={score || 'any'}
+                                onClick={() => { setMinRiskScore(score); setPage(1); }}
+                                className={`px-3 py-1.5 text-sm rounded-full transition-colors ${minRiskScore === score
+                                    ? 'bg-red-600 text-white'
+                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                    }`}
+                            >
+                                {score === '' ? 'Any' : `≥${score}`}
+                            </button>
+                        ))}
+                    </div>
                 </div>
             </div>
 
@@ -163,7 +216,7 @@ export default function VerificationQueuePage() {
                                             </td>
                                             <td className="px-6 py-4 whitespace-nowrap">
                                                 <span className={`text-sm font-medium ${item.risk_score >= 50 ? 'text-red-600' :
-                                                        item.risk_score >= 25 ? 'text-yellow-600' : 'text-green-600'
+                                                    item.risk_score >= 25 ? 'text-yellow-600' : 'text-green-600'
                                                     }`}>
                                                     {item.risk_score || 0}
                                                 </span>

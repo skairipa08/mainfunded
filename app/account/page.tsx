@@ -1,27 +1,69 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useTranslation } from '@/lib/i18n';
-import { User, Heart, Target, Calendar, Mail, Shield, TrendingUp } from 'lucide-react';
+import { User, Heart, Target, Calendar, Mail, Shield, TrendingUp, BadgeCheck, ArrowRight } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+
+interface VerificationStatus {
+    verification_id: string;
+    status: string;
+    tier_requested?: number;
+    tier_approved?: number;
+}
 
 export default function AccountPage() {
     const { data: session, status } = useSession();
     const router = useRouter();
+    const searchParams = useSearchParams();
     const { t } = useTranslation();
     const [activeTab, setActiveTab] = useState<'overview' | 'donations' | 'campaigns'>('overview');
+    const [verification, setVerification] = useState<VerificationStatus | null>(null);
+    const [verificationLoading, setVerificationLoading] = useState(true);
 
-    // Redirect to login if not authenticated
+    // Preview mode for demo
+    const isPreviewMode = searchParams.get('preview') === 'true';
+    const previewTier = parseInt(searchParams.get('tier') || '1');
+
+    // Redirect to login if not authenticated (skip in preview mode)
     useEffect(() => {
-        if (status === 'unauthenticated') {
+        if (!isPreviewMode && status === 'unauthenticated') {
             router.push('/login');
         }
-    }, [status, router]);
+    }, [status, router, isPreviewMode]);
 
-    if (status === 'loading') {
+    // Fetch verification status (or use mock data in preview mode)
+    useEffect(() => {
+        if (isPreviewMode) {
+            // Mock verification for demo
+            setVerification({
+                verification_id: 'demo-123',
+                status: 'APPROVED',
+                tier_requested: previewTier,
+                tier_approved: previewTier,
+            });
+            setVerificationLoading(false);
+            return;
+        }
+
+        if (session?.user) {
+            fetch('/api/verification')
+                .then(res => res.json())
+                .then(data => {
+                    if (data.verification) {
+                        setVerification(data.verification);
+                    }
+                })
+                .catch(console.error)
+                .finally(() => setVerificationLoading(false));
+        }
+    }, [session, isPreviewMode, previewTier]);
+
+    if (status === 'loading' && !isPreviewMode) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
                 <div className="text-center">
@@ -32,12 +74,36 @@ export default function AccountPage() {
         );
     }
 
-    if (!session?.user) {
+    if (!isPreviewMode && !session?.user) {
         return null;
     }
 
-    const user = session.user;
-    const isAdmin = (user as any)?.role === 'admin';
+    // Mock user for preview mode
+    const user = isPreviewMode
+        ? { name: 'Demo User', email: 'demo@university.edu', image: null as string | null }
+        : session?.user;
+
+    if (!user) return null;
+
+    const isAdmin = !isPreviewMode && (session?.user as any)?.role === 'admin';
+
+    // Get tier info for display
+    const getTierBadge = () => {
+        if (!verification || verification.status !== 'APPROVED') return null;
+
+        const tier = verification.tier_approved ?? verification.tier_requested ?? 0;
+
+        const tierConfig: Record<number, { label: string; color: string; bgColor: string }> = {
+            0: { label: 'Email Verified', color: 'text-blue-700', bgColor: 'bg-blue-100' },
+            1: { label: 'Tier 1 - Verified', color: 'text-orange-700', bgColor: 'bg-orange-100' },
+            2: { label: 'Tier 2 - High Trust', color: 'text-green-700', bgColor: 'bg-green-100' },
+            3: { label: 'Tier 3 - Partner', color: 'text-purple-700', bgColor: 'bg-purple-100' },
+        };
+
+        return tierConfig[tier] || tierConfig[0];
+    };
+
+    const tierBadge = getTierBadge();
 
     // Mock data for demonstration
     const mockDonations = [
@@ -64,29 +130,77 @@ export default function AccountPage() {
                 {/* Profile Header */}
                 <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white py-12">
                     <div className="max-w-5xl mx-auto px-4">
-                        <div className="flex items-center space-x-6">
-                            {user.image ? (
-                                <img
-                                    src={user.image}
-                                    alt={user.name || 'User'}
-                                    className="w-24 h-24 rounded-full border-4 border-white shadow-lg"
-                                />
-                            ) : (
-                                <div className="w-24 h-24 rounded-full bg-white/20 flex items-center justify-center text-4xl font-bold">
-                                    {user.name?.charAt(0) || user.email?.charAt(0) || 'U'}
+                        <div className="flex items-center justify-between">
+                            <div className="flex items-center space-x-6">
+                                {user.image ? (
+                                    <img
+                                        src={user.image}
+                                        alt={user.name || 'User'}
+                                        className="w-24 h-24 rounded-full border-4 border-white shadow-lg"
+                                    />
+                                ) : (
+                                    <div className="w-24 h-24 rounded-full bg-white/20 flex items-center justify-center text-4xl font-bold">
+                                        {user.name?.charAt(0) || user.email?.charAt(0) || 'U'}
+                                    </div>
+                                )}
+                                <div>
+                                    <h1 className="text-3xl font-bold">{user.name}</h1>
+                                    <p className="text-blue-200 flex items-center mt-1">
+                                        <Mail className="h-4 w-4 mr-2" />
+                                        {user.email}
+                                    </p>
+                                    <div className="flex items-center gap-2 mt-2">
+                                        {isAdmin && (
+                                            <span className="inline-flex items-center px-3 py-1 bg-purple-500 text-white text-sm rounded-full">
+                                                <Shield className="h-4 w-4 mr-1" />
+                                                Admin
+                                            </span>
+                                        )}
+                                        {/* Verification Tier Badge */}
+                                        {tierBadge ? (
+                                            <span className={`inline-flex items-center px-3 py-1 ${tierBadge.bgColor} ${tierBadge.color} text-sm rounded-full font-medium`}>
+                                                <BadgeCheck className="h-4 w-4 mr-1" />
+                                                {tierBadge.label}
+                                            </span>
+                                        ) : verification?.status === 'PENDING_REVIEW' ? (
+                                            <span className="inline-flex items-center px-3 py-1 bg-yellow-100 text-yellow-700 text-sm rounded-full font-medium">
+                                                <BadgeCheck className="h-4 w-4 mr-1" />
+                                                {t('verification.statusLabels.pending_review') || 'Pending Review'}
+                                            </span>
+                                        ) : null}
+                                    </div>
                                 </div>
-                            )}
-                            <div>
-                                <h1 className="text-3xl font-bold">{user.name}</h1>
-                                <p className="text-blue-200 flex items-center mt-1">
-                                    <Mail className="h-4 w-4 mr-2" />
-                                    {user.email}
-                                </p>
-                                {isAdmin && (
-                                    <span className="inline-flex items-center mt-2 px-3 py-1 bg-purple-500 text-white text-sm rounded-full">
-                                        <Shield className="h-4 w-4 mr-1" />
-                                        Admin
-                                    </span>
+                            </div>
+
+                            {/* Verification Button */}
+                            <div className="hidden md:block">
+                                {verification?.status === 'APPROVED' ? (
+                                    <Button
+                                        variant="outline"
+                                        onClick={() => router.push(`/verify/status?id=${verification.verification_id}`)}
+                                        className="bg-white/10 border-white/30 text-white hover:bg-white/20"
+                                    >
+                                        <BadgeCheck className="h-4 w-4 mr-2" />
+                                        {t('verification.viewStatus') || 'View Verification'}
+                                    </Button>
+                                ) : verification?.status === 'PENDING_REVIEW' ? (
+                                    <Button
+                                        variant="outline"
+                                        onClick={() => router.push(`/verify/status?id=${verification.verification_id}`)}
+                                        className="bg-white/10 border-white/30 text-white hover:bg-white/20"
+                                    >
+                                        <BadgeCheck className="h-4 w-4 mr-2" />
+                                        {t('verification.checkStatus') || 'Check Status'}
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        onClick={() => router.push('/verify')}
+                                        className="bg-emerald-500 hover:bg-emerald-600 text-white"
+                                    >
+                                        <BadgeCheck className="h-4 w-4 mr-2" />
+                                        {t('verification.getVerified') || 'Get Verified'}
+                                        <ArrowRight className="h-4 w-4 ml-2" />
+                                    </Button>
                                 )}
                             </div>
                         </div>
@@ -127,8 +241,8 @@ export default function AccountPage() {
                             <button
                                 onClick={() => setActiveTab('overview')}
                                 className={`flex-1 px-6 py-4 text-center font-medium transition-colors ${activeTab === 'overview'
-                                        ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
-                                        : 'text-gray-500 hover:text-gray-700'
+                                    ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
+                                    : 'text-gray-500 hover:text-gray-700'
                                     }`}
                             >
                                 {t('dashboard.title')}
@@ -136,8 +250,8 @@ export default function AccountPage() {
                             <button
                                 onClick={() => setActiveTab('donations')}
                                 className={`flex-1 px-6 py-4 text-center font-medium transition-colors ${activeTab === 'donations'
-                                        ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
-                                        : 'text-gray-500 hover:text-gray-700'
+                                    ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
+                                    : 'text-gray-500 hover:text-gray-700'
                                     }`}
                             >
                                 {t('dashboard.myDonations')}
@@ -145,8 +259,8 @@ export default function AccountPage() {
                             <button
                                 onClick={() => setActiveTab('campaigns')}
                                 className={`flex-1 px-6 py-4 text-center font-medium transition-colors ${activeTab === 'campaigns'
-                                        ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
-                                        : 'text-gray-500 hover:text-gray-700'
+                                    ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
+                                    : 'text-gray-500 hover:text-gray-700'
                                     }`}
                             >
                                 {t('dashboard.myCampaigns')}
@@ -236,8 +350,8 @@ export default function AccountPage() {
                                                             </p>
                                                         </div>
                                                         <span className={`px-3 py-1 rounded-full text-sm ${campaign.status === 'active'
-                                                                ? 'bg-green-100 text-green-700'
-                                                                : 'bg-gray-100 text-gray-700'
+                                                            ? 'bg-green-100 text-green-700'
+                                                            : 'bg-gray-100 text-gray-700'
                                                             }`}>
                                                             {campaign.status}
                                                         </span>
