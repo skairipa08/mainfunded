@@ -4,8 +4,6 @@ import { useEffect, useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { getApplication, updateApplicationStatus } from '@/lib/mockDb';
-import type { StudentApplication } from '@/lib/mockDb';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
@@ -19,6 +17,24 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { CheckCircle, Clock, XCircle, ArrowLeft } from 'lucide-react';
 import { toast } from 'sonner';
 
+interface StudentApplication {
+  id: string;
+  fullName: string;
+  email: string;
+  country: string;
+  educationLevel: string;
+  needSummary: string;
+  documents: string[];
+  // New fields
+  targetAmount?: number;
+  classYear?: string;
+  faculty?: string;
+  department?: string;
+  status: 'Received' | 'Under Review' | 'Approved' | 'Rejected';
+  createdAt: string;
+  updatedAt: string;
+}
+
 export default function ApplicationDetailPage() {
   const params = useParams();
   const router = useRouter();
@@ -30,30 +46,57 @@ export default function ApplicationDetailPage() {
 
   useEffect(() => {
     if (id) {
-      const app = getApplication(id);
-      setApplication(app);
-      if (app) {
-        setNewStatus(app.status);
-      }
-      setLoading(false);
+      fetchApplication();
     }
   }, [id]);
+
+  const fetchApplication = async () => {
+    try {
+      const response = await fetch(`/api/ops/applications/${id}`, { cache: 'no-store' });
+      const data = await response.json();
+
+      if (data.success && data.data) {
+        setApplication(data.data);
+        setNewStatus(data.data.status);
+      } else {
+        setApplication(null);
+      }
+    } catch (error) {
+      console.error('Failed to fetch application:', error);
+      setApplication(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleStatusUpdate = async () => {
     if (!application || !newStatus || newStatus === application.status) return;
 
     setUpdating(true);
     try {
-      const updated = updateApplicationStatus(id, newStatus as StudentApplication['status']);
-      if (updated) {
-        setApplication(updated);
-        toast.success(`Application status updated to "${newStatus}"`);
-        // Refresh parent list after a short delay
+      const response = await fetch(`/api/ops/applications/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        setApplication(data.data);
+
+        if (newStatus === 'Approved') {
+          toast.success('Application approved! Campaign created and now visible on /browse');
+        } else {
+          toast.success(`Application status updated to "${newStatus}"`);
+        }
+
+        // Refresh parent list
         setTimeout(() => {
           window.dispatchEvent(new CustomEvent('applicationUpdated'));
         }, 100);
       } else {
-        toast.error('Failed to update application status');
+        toast.error(data.error || 'Failed to update application status');
       }
     } catch (error) {
       console.error('Failed to update status:', error);
@@ -166,8 +209,34 @@ export default function ApplicationDetailPage() {
                   <dt className="text-sm font-medium text-gray-500">Education Level</dt>
                   <dd className="text-gray-900 mt-1">{application.educationLevel}</dd>
                 </div>
+                {application.faculty && (
+                  <div>
+                    <dt className="text-sm font-medium text-gray-500">Faculty</dt>
+                    <dd className="text-gray-900 mt-1">{application.faculty}</dd>
+                  </div>
+                )}
+                {application.department && (
+                  <div>
+                    <dt className="text-sm font-medium text-gray-500">Department</dt>
+                    <dd className="text-gray-900 mt-1">{application.department}</dd>
+                  </div>
+                )}
+                {application.classYear && (
+                  <div>
+                    <dt className="text-sm font-medium text-gray-500">Class Year</dt>
+                    <dd className="text-gray-900 mt-1">{application.classYear}</dd>
+                  </div>
+                )}
+                {application.targetAmount && (
+                  <div>
+                    <dt className="text-sm font-medium text-gray-500">Target Amount</dt>
+                    <dd className="text-gray-900 mt-1">${application.targetAmount}</dd>
+                  </div>
+                )}
                 <div>
-                  <dt className="text-sm font-medium text-gray-500">Need Summary</dt>
+                  <dt className="text-sm font-medium text-gray-500">
+                    Need Summary <span className="text-xs text-gray-400 font-normal">({application.needSummary.length} chars)</span>
+                  </dt>
                   <dd className="text-gray-900 mt-1 whitespace-pre-wrap bg-gray-50 p-4 rounded-md">
                     {application.needSummary}
                   </dd>
@@ -223,6 +292,16 @@ export default function ApplicationDetailPage() {
                       </SelectContent>
                     </Select>
                   </div>
+
+                  {newStatus === 'Approved' && application.status !== 'Approved' && (
+                    <div className="bg-green-50 border border-green-200 rounded-md p-4">
+                      <p className="text-green-800 text-sm">
+                        <strong>Note:</strong> Approving this application will automatically create a campaign
+                        that will be visible on the public /browse page.
+                      </p>
+                    </div>
+                  )}
+
                   <Button
                     onClick={handleStatusUpdate}
                     disabled={updating || newStatus === application.status}

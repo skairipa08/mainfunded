@@ -1,305 +1,329 @@
 {
     "common": {
-        "login": "Giriş Yap",
-        "signup": "Kayıt Ol",
-        "logout": "Çıkış Yap",
+        "login": "Giris Yap",
+        "signup": "Kayit Ol",
+        "logout": "Cikis Yap",
         "language": "Dil",
         "english": "English",
-        "turkish": "Türkçe",
-        "loading": "Yükleniyor...",
+        "turkish": "Turkce",
+        "loading": "Yukleniyor...",
         "error": "Hata",
-        "success": "Başarılı",
-        "cancel": "İptal",
+        "success": "Basarili",
+        "cancel": "Iptal",
         "confirm": "Onayla",
         "save": "Kaydet",
         "delete": "Sil",
-        "edit": "Düzenle",
-        "view": "Görüntüle",
+        "edit": "Duzenle",
+        "view": "Goruntule",
         "back": "Geri",
-        "next": "İleri",
-        "submit": "Gönder",
+        "next": "Ileri",
+        "submit": "Gonder",
         "search": "Ara",
         "filter": "Filtrele",
-        "all": "Tümü",
-        "none": "Hiçbiri",
+        "all": "Tumu",
+        "none": "Hicbiri",
         "yes": "Evet",
-        "no": "Hayır",
+        "no": "Hayir",
         "close": "Kapat",
         "learnMore": "Daha Fazla Bilgi",
-        "getStarted": "Başla"
+        "getStarted": "Basla"
     },
     "nav": {
         "home": "Ana Sayfa",
-        "browse": "Kampanyalara Göz At",
-        "howItWorks": "Nasıl Çalışır",
-        "aboutUs": "Hakkımızda",
+        "browse": "Kampanyalara Goz At",
+        "howItWorks": "Nasil Calisir",
+        "aboutUs": "Hakkimizda",
         "dashboard": "Panel",
-        "apply": "Öğrenci Olarak Başvur",
-        "admin": "Yönetici Paneli",
+        "apply": "Ogrenci Olarak Basvur",
+        "admin": "Yonetici Paneli",
         "campaigns": "Kampanyalar",
-        "students": "Öğrenciler",
-        "verifications": "Doğrulamalar",
-        "donate": "Bağış Yap"
+        "students": "Ogrenciler",
+        "verifications": "Dogrulamalar",
+        "donate": "Bagis Yap"
     },
     "home": {
         "hero": {
-            "title": "Eğitime Destek Ol, Hayatları Değiştir",
-            "subtitle": "Doğrulanmış öğrencilerin eğitim yolculuğunda onlara destek olun. Her bağış fark yaratır.",
-            "cta": "Bağış Yapmaya Başla",
-            "ctaStudent": "Öğrenci Olarak Başvur"
+            "title": "Egitime Destek Ol, Hayatlari Degistir",
+            "subtitle": "Dogrulanmis ogrencilerin egitim yolculugunda onlara destek olun. Her bagis fark yaratir.",
+            "cta": "Bagis Yapmaya Basla",
+            "ctaStudent": "Ogrenci Olarak Basvur"
         },
         "stats": {
-            "studentsHelped": "Desteklenen Öğrenci",
-            "totalRaised": "Toplam Bağış",
+            "studentsHelped": "Desteklenen Ogrenci",
+            "totalRaised": "Toplam Bagis",
             "campaigns": "Aktif Kampanya",
-            "donors": "Cömert Bağışçı"
+            "donors": "Comert Bagisci"
         },
         "howItWorks": {
-            "title": "Nasıl Çalışır",
-            "step1Title": "Öğrenciler Başvurur",
-            "step1Desc": "Doğrulanmış öğrenciler, eğitim hedefleri ve finansman ihtiyaçlarıyla kampanyalar oluşturur.",
-            "step2Title": "Bağışçılar Destek Olur",
-            "step2Desc": "Bağışçılar kampanyalara göz atar ve desteklemek istedikleri öğrencilere katkıda bulunur.",
-            "step3Title": "Hayaller Gerçekleşir",
-            "step3Desc": "Öğrenciler fonları doğrudan alır ve eğitim hedeflerine ulaşır."
+            "title": "Nasil Calisir",
+            "step1Title": "Ogrenciler Basvurur",
+            "step1Desc": "Dogrulanmis ogrenciler, egitim hedefleri ve finansman ihtiyaclariyla kampanyalar olusturur.",
+            "step2Title": "Bagiscilar Destek Olur",
+            "step2Desc": "Bagiscilar kampanyalara goz atar ve desteklemek istedikleri ogrencilere katkida bulunur.",
+            "step3Title": "Hayaller Gerceklesir",
+            "step3Desc": "Ogrenciler fonlari dogrudan alir ve egitim hedeflerine ulasir."
         },
         "featured": {
-            "title": "Öne Çıkan Kampanyalar",
-            "viewAll": "Tüm Kampanyaları Gör"
+            "title": "One Cikan Kampanyalar",
+            "viewAll": "Tum Kampanyalari Gor"
         },
         "cta": {
-            "title": "Fark Yaratmaya Hazır mısınız?",
-            "description": "Dünya genelinde öğrencileri destekleyen binlerce bağışçıya katılın.",
-            "button": "Kampanyaları Keşfet"
+            "title": "Fark Yaratmaya Hazir misiniz?",
+            "description": "Dunya genelinde ogrencileri destekleyen binlerce bagisciya katilin.",
+            "button": "Kampanyalari Kesfet"
         }
     },
     "auth": {
         "login": {
-            "title": "Tekrar Hoş Geldiniz",
-            "subtitle": "Hesabınıza giriş yapın",
+            "title": "Tekrar Hos Geldiniz",
+            "subtitle": "Hesabiniza giris yapin",
             "withGoogle": "Google ile devam et",
-            "noAccount": "Hesabınız yok mu?",
-            "signUp": "Kayıt olun"
+            "noAccount": "Hesabiniz yok mu?",
+            "signUp": "Kayit olun"
         },
         "signup": {
-            "title": "Hesap Oluştur",
-            "subtitle": "FundEd'e bugün katılın",
-            "withGoogle": "Google ile kayıt ol",
-            "hasAccount": "Zaten hesabınız var mı?",
-            "signIn": "Giriş yapın"
+            "title": "Hesap Olustur",
+            "subtitle": "FundEd'e bugun katilin",
+            "withGoogle": "Google ile kayit ol",
+            "hasAccount": "Zaten hesabiniz var mi?",
+            "signIn": "Giris yapin"
         },
         "errors": {
-            "default": "Kimlik doğrulama sırasında bir hata oluştu.",
-            "configuration": "Sunucu yapılandırmasında bir sorun var.",
-            "accessDenied": "Erişim reddedildi. Yetkiniz olmayabilir.",
-            "verification": "Doğrulama bağlantısının süresi dolmuş veya zaten kullanılmış.",
-            "oauthCallback": "Kimlik doğrulama sırasında hata. Lütfen tekrar deneyin.",
-            "oauthAccountNotLinked": "Bu e-posta zaten başka bir hesapla ilişkili.",
-            "sessionRequired": "Bu sayfaya erişmek için giriş yapın.",
+            "default": "Kimlik dogrulama sirasinda bir hata olustu.",
+            "configuration": "Sunucu yapilandirmasinda bir sorun var.",
+            "accessDenied": "Erisim reddedildi. Yetkiniz olmayabilir.",
+            "verification": "Dogrulama baglantisinin suresi dolmus veya zaten kullanilmis.",
+            "oauthCallback": "Kimlik dogrulama sirasinda hata. Lutfen tekrar deneyin.",
+            "oauthAccountNotLinked": "Bu e-posta zaten baska bir hesapla iliskili.",
+            "sessionRequired": "Bu sayfaya erismek icin giris yapin.",
             "tryAgain": "Tekrar Dene",
-            "backToHome": "Ana Sayfaya Dön"
+            "backToHome": "Ana Sayfaya Don"
         }
     },
     "verification": {
-        "title": "Öğrenci Doğrulaması",
-        "subtitle": "Bağışçıların güvenini artırmak için doğrulama seviyeni seç ve gerekli belgeleri yükle.",
-        "tierSelectDescription": "Daha yüksek seviye = daha yüksek güven. Seviye arttıkça ek kanıt istenebilir.",
-        "tier0Option": "Okul E-postası ile Doğrulama",
-        "tier0Description": "Okul e-postana bir doğrulama bağlantısı göndeririz.",
+        "title": "Ogrenci Dogrulamasi",
+        "subtitle": "Bagiscilarin guvenini artirmak icin dogrulama seviyeni sec ve gerekli belgeleri yukle.",
+        "tierSelectDescription": "Daha yuksek seviye = daha yuksek guven. Seviye arttikca ek kanit istenebilir.",
+        "tier0Option": "Okul E-postasi ile Dogrulama",
+        "tier0Description": "Okul e-postana bir dogrulama baglantisi gondeririz.",
         "required": "Gerekli",
         "status": {
             "draft": "Taslak",
-            "pendingReview": "İnceleme Bekliyor",
-            "approved": "Onaylandı",
+            "pendingReview": "Inceleme Bekliyor",
+            "approved": "Onaylandi",
             "rejected": "Reddedildi",
             "needsMoreInfo": "Ek Bilgi Gerekli",
-            "underInvestigation": "İnceleme Altında",
-            "suspended": "Askıya Alındı",
-            "expired": "Süresi Doldu",
-            "revoked": "İptal Edildi",
-            "banned": "Kalıcı Olarak Yasaklandı",
+            "underInvestigation": "Inceleme Altinda",
+            "suspended": "Askiya Alindi",
+            "expired": "Suresi Doldu",
+            "revoked": "Iptal Edildi",
+            "banned": "Kalici Olarak Yasaklandi",
             "abandoned": "Terk Edildi"
         },
         "documents": {
-            "studentId": "Öğrenci Kimliği",
-            "enrollmentLetter": "Öğrenci Belgesi",
-            "governmentId": "Devlet Kimliği",
+            "studentId": "Ogrenci Kimligi",
+            "enrollmentLetter": "Ogrenci Belgesi",
+            "governmentId": "Devlet Kimligi",
             "selfieWithId": "Kimlikle Selfie",
             "transcript": "Transkript",
-            "proofOfAddress": "Adres Kanıtı",
-            "other": "Diğer Belge"
+            "proofOfAddress": "Adres Kaniti",
+            "other": "Diger Belge"
         },
         "form": {
-            "personalInfo": "Kişisel Bilgiler",
+            "personalInfo": "Kisisel Bilgiler",
             "firstName": "Ad",
             "lastName": "Soyad",
-            "dateOfBirth": "Doğum Tarihi",
-            "phone": "Telefon Numarası",
-            "country": "Ülke",
-            "city": "Şehir",
-            "educationInfo": "Eğitim Bilgileri",
-            "institution": "Kurum Adı",
-            "institutionCountry": "Ülke",
-            "institutionType": "Kurum Türü",
-            "program": "Bölüm",
+            "dateOfBirth": "Dogum Tarihi",
+            "phone": "Telefon Numarasi",
+            "country": "Ulke",
+            "city": "Sehir",
+            "educationInfo": "Egitim Bilgileri",
+            "institution": "Kurum Adi",
+            "institutionCountry": "Ulke",
+            "institutionType": "Kurum Turu",
+            "program": "Bolum",
             "degreeLevel": "Derece Seviyesi",
-            "studentId": "Öğrenci No (Opsiyonel)",
-            "enrollmentYear": "Kayıt Yılı",
+            "studentId": "Ogrenci No (Opsiyonel)",
+            "enrollmentYear": "Kayit Yili",
             "graduationYear": "Tahmini Mezuniyet",
-            "fullTime": "Tam zamanlı öğrenci",
+            "fullTime": "Tam zamanli ogrenci",
             "institutionTypes": {
-                "university": "Üniversite",
-                "college": "Yüksekokul",
-                "vocational": "Meslek Yüksekokulu",
+                "university": "Universite",
+                "college": "Yuksekokul",
+                "vocational": "Meslek Yuksekokulu",
                 "high_school": "Lise"
             },
             "degreeLevels": {
-                "associate": "Ön Lisans",
+                "associate": "On Lisans",
                 "bachelor": "Lisans",
-                "master": "Yüksek Lisans",
+                "master": "Yuksek Lisans",
                 "phd": "Doktora",
                 "certificate": "Sertifika"
             },
-            "uploadDocuments": "Belgeleri Yükle",
-            "submit": "İncelemeye Gönder",
+            "uploadDocuments": "Belgeleri Yukle",
+            "submit": "Incelemeye Gonder",
             "addDocument": "Belge Ekle",
-            "removeDocument": "Belgeyi Kaldır",
-            "documentName": "Belge Adı",
-            "documentHelp": "Öğrenci kimliği, kayıt belgesi veya transkript gibi belgelerinizi ekleyin"
+            "removeDocument": "Belgeyi Kaldir",
+            "documentName": "Belge Adi",
+            "documentHelp": "Ogrenci kimligi, kayit belgesi veya transkript gibi belgelerinizi ekleyin"
         },
         "tiers": {
             "tier0": {
-                "name": "Okul E-postası ile Doğrulama",
-                "description": "Okul e-postana bir doğrulama bağlantısı göndeririz."
+                "name": "Okul E-postasi ile Dogrulama",
+                "description": "Okul e-postana bir dogrulama baglantisi gondeririz."
             },
             "tier1": {
-                "name": "Belge ile Doğrulama",
-                "description": "Öğrenci belgesi veya kayıt belgesi yükleyerek doğrula.",
-                "subtext": "Gerekli: Öğrenci belgesi"
+                "name": "Belge ile Dogrulama",
+                "description": "Ogrenci belgesi veya kayit belgesi yukleyerek dogrula.",
+                "subtext": "Gerekli: Ogrenci belgesi"
             },
             "tier2": {
-                "name": "Yüksek Güven",
-                "description": "Belge + okul portalı ekran görüntüsü (veya QR/barkod kanıtı) ile doğrula.",
-                "subtext": "Gerekli: Öğrenci belgesi, Portal ekran görüntüsü"
+                "name": "Yuksek Guven",
+                "description": "Belge + okul portali ekran goruntusu (veya QR/barkod kaniti) ile dogrula.",
+                "subtext": "Gerekli: Ogrenci belgesi, Portal ekran goruntusu"
             },
             "tier3": {
-                "name": "Partner Doğrulandı",
-                "description": "Resmi üniversite onayı ile doğrulandı"
+                "name": "Partner Dogrulandi",
+                "description": "Resmi universite onayi ile dogrulandi"
             }
         },
         "badges": {
-            "tier0": "E-posta Doğrulandı",
-            "tier1": "Doğrulanmış Öğrenci",
-            "tier2": "Doğrulanmış Öğrenci: Yüksek Güven",
-            "tier3": "Partner Doğrulandı"
+            "tier0": "E-posta Dogrulandi",
+            "tier1": "Dogrulanmis Ogrenci",
+            "tier2": "Dogrulanmis Ogrenci: Yuksek Guven",
+            "tier3": "Partner Dogrulandi"
         },
         "checks": {
             "email": "Kurumsal E-posta",
-            "enrollment": "Kayıt Belgesi",
-            "portal": "Okul Portalı",
-            "partner": "Üniversite Onayı"
+            "enrollment": "Kayit Belgesi",
+            "portal": "Okul Portali",
+            "partner": "Universite Onayi"
         },
         "steps": {
-            "tierSelect": "Doğrulama Seviyesi Seçin",
-            "personalInfo": "Kişisel Bilgiler",
-            "educationInfo": "Eğitim Bilgileri",
-            "documents": "Belge Yükle",
-            "review": "İncele ve Gönder"
+            "tierSelect": "Dogrulama Seviyesi Secin",
+            "personalInfo": "Kisisel Bilgiler",
+            "educationInfo": "Egitim Bilgileri",
+            "documents": "Belge Yukle",
+            "review": "Incele ve Gonder"
         },
         "statusLabels": {
             "draft": "Taslak",
-            "pending_review": "İnceleniyor",
-            "approved": "Onaylandı",
+            "pending_review": "Inceleniyor",
+            "approved": "Onaylandi",
             "rejected": "Reddedildi",
             "needs_more_info": "Daha Fazla Bilgi Gerekli"
         },
-        "documentGuidance": "Belgeler okunaklı, tam kadraj ve güncel olmalı.",
+        "documentGuidance": "Belgeler okunakli, tam kadraj ve guncel olmali.",
         "documentMaskingHint": "Gerekli olmayan hassas bilgileri (TC kimlik no, adres vb.) kapatabilirsin.",
         "acceptedDocs": {
-            "enrollment": "Öğrenci belgesi / Kayıt belgesi",
-            "studentId": "Öğrenci kimliği",
+            "enrollment": "Ogrenci belgesi / Kayit belgesi",
+            "studentId": "Ogrenci kimligi",
             "transcript": "Transkript",
-            "portalScreenshot": "Okul portalı ekran görüntüsü"
+            "portalScreenshot": "Okul portali ekran goruntusu"
         },
-        "dragDrop": "Sürükle bırak veya dosya seç",
+        "dragDrop": "Surukle birak veya dosya sec",
         "fileTypes": "PDF, JPG, PNG (max 10MB)",
-        "documentsNote": "Belgeler sadece doğrulama için kullanılır ve güvenli şekilde saklanır.",
+        "documentsNote": "Belgeler sadece dogrulama icin kullanilir ve guvenli sekilde saklanir.",
         "review": {
-            "tier": "Seçilen Seviye",
-            "personal": "Kişisel Bilgiler",
-            "education": "Eğitim Bilgileri",
+            "tier": "Secilen Seviye",
+            "personal": "Kisisel Bilgiler",
+            "education": "Egitim Bilgileri",
             "note": "Not (Opsiyonel)",
-            "notePlaceholder": "Varsa ek açıklama yazabilirsin."
+            "notePlaceholder": "Varsa ek aciklama yazabilirsin."
         },
-        "reviewNote": "Göndererek, sağlanan tüm bilgilerin doğru olduğunu onaylarsınız. Ekibimiz başvurunuzu 1-3 iş günü içinde inceleyecektir."
+        "reviewNote": "Gondererek, saglanan tum bilgilerin dogru oldugunu onaylarsiniz. Ekibimiz basvurunuzu 1-3 is gunu icinde inceleyecektir.",
+        "submitError": "Failed to submit verification. Please try again.",
+        "selectedFiles": "Selected Files"
     },
     "campaign": {
-        "createCampaign": "Kampanya Oluştur",
-        "editCampaign": "Kampanyayı Düzenle",
+        "createCampaign": "Kampanya Olustur",
+        "editCampaign": "Kampanyayi Duzenle",
         "goal": "Hedef",
         "raised": "Toplanan",
-        "donors": "Bağışçı",
-        "daysLeft": "Kalan Gün",
-        "donate": "Şimdi Bağış Yap",
-        "share": "Paylaş",
-        "updates": "Güncellemeler",
-        "about": "Bu Kampanya Hakkında",
-        "student": "Öğrenci",
-        "verified": "Doğrulanmış Öğrenci",
+        "donors": "Bagisci",
+        "daysLeft": "Kalan Gun",
+        "donate": "Simdi Bagis Yap",
+        "share": "Paylas",
+        "updates": "Guncellemeler",
+        "about": "Bu Kampanya Hakkinda",
+        "student": "Ogrenci",
+        "verified": "Dogrulanmis Ogrenci",
         "category": "Kategori",
-        "createdAt": "Oluşturulma",
-        "endDate": "Bitiş Tarihi"
+        "createdAt": "Olusturulma",
+        "endDate": "Bitis Tarihi"
     },
     "donation": {
-        "title": "Bağış Yap",
-        "amount": "Bağış Miktarı",
-        "customAmount": "Özel Miktar",
-        "anonymous": "Anonim Bağış Yap",
-        "message": "Mesaj Bırakın (İsteğe Bağlı)",
-        "processing": "İşleniyor...",
-        "success": "Bağışınız için teşekkür ederiz!",
-        "error": "Bağış başarısız oldu. Lütfen tekrar deneyin."
+        "title": "Bagis Yap",
+        "amount": "Bagis Miktari",
+        "customAmount": "Ozel Miktar",
+        "anonymous": "Anonim Bagis Yap",
+        "message": "Mesaj Birakin (Istege Bagli)",
+        "processing": "Isleniyor...",
+        "success": "Bagisiniz icin tesekkur ederiz!",
+        "error": "Bagis basarisiz oldu. Lutfen tekrar deneyin."
     },
     "dashboard": {
         "title": "Panel",
-        "welcome": "Tekrar hoş geldiniz",
-        "myCampaigns": "Kampanyalarım",
-        "myDonations": "Bağışlarım",
+        "welcome": "Tekrar hos geldiniz",
+        "myCampaigns": "Kampanyalarim",
+        "myDonations": "Bagislarim",
         "totalRaised": "Toplam Toplanan",
-        "totalDonated": "Toplam Bağış",
-        "verificationStatus": "Doğrulama Durumu",
+        "totalDonated": "Toplam Bagis",
+        "verificationStatus": "Dogrulama Durumu",
         "recentActivity": "Son Aktivite"
     },
+    "applicationStatus": {
+        "title": "Basvuru Durumu",
+        "applicationId": "Basvuru No",
+        "status": "Durum",
+        "details": "Basvuru Detaylari",
+        "fullName": "Ad Soyad",
+        "email": "E-posta",
+        "country": "Ulke",
+        "educationLevel": "Egitim Seviyesi",
+        "needSummary": "Ihtiyac Ozeti",
+        "submitted": "Gonderildi",
+        "notFound": "Basvuru Bulunamadi",
+        "notFoundDesc": "Girdiginiz basvuru numarasi gecersiz veya bulunamadi.",
+        "applyNow": "Simdi Basvur",
+        "returnHome": "Ana Sayfaya Don",
+        "statuses": {
+            "received": "Alindi",
+            "underReview": "Inceleniyor",
+            "approved": "Onaylandi",
+            "rejected": "Reddedildi"
+        }
+    },
     "admin": {
-        "dashboard": "Yönetici Paneli",
-        "users": "Kullanıcılar",
+        "dashboard": "Yonetici Paneli",
+        "users": "Kullanicilar",
         "campaigns": "Kampanyalar",
-        "verifications": "Doğrulamalar",
-        "pendingReview": "İnceleme Bekleyenler",
-        "queue": "Sıra",
+        "verifications": "Dogrulamalar",
+        "pendingReview": "Inceleme Bekleyenler",
+        "queue": "Sira",
         "actions": {
             "approve": "Onayla",
             "reject": "Reddet",
-            "needsMoreInfo": "Bilgi İste",
-            "suspend": "Askıya Al",
-            "investigate": "İncele",
-            "revoke": "İptal Et",
+            "needsMoreInfo": "Bilgi Iste",
+            "suspend": "Askiya Al",
+            "investigate": "Incele",
+            "revoke": "Iptal Et",
             "ban": "Yasakla"
         },
         "filters": {
-            "all": "Tümü",
+            "all": "Tumu",
             "pending": "Bekleyen",
             "approved": "Onaylanan",
             "rejected": "Reddedilen"
         }
     },
     "footer": {
-        "about": "Hakkımızda",
-        "howItWorks": "Nasıl Çalışır",
-        "terms": "Kullanım Şartları",
-        "privacy": "Gizlilik Politikası",
-        "contact": "İletişim",
-        "copyright": "© 2026 FundEd. Tüm hakları saklıdır.",
+        "about": "Hakkimizda",
+        "howItWorks": "Nasil Calisir",
+        "terms": "Kullanim Sartlari",
+        "privacy": "Gizlilik Politikasi",
+        "contact": "Iletisim",
+        "copyright": "© 2026 FundEd. Tum haklari saklidir.",
         "social": {
             "twitter": "Twitter",
             "facebook": "Facebook",
@@ -482,6 +506,91 @@
             "liability": {
                 "title": "Limitation of Liability",
                 "content": "To the maximum extent permitted by law, FundEd shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the platform."
+            }
+        }
+    },
+    "apply": {
+        "title": "Ogrenci Olarak Basvur",
+        "subtitle": "Egitim destegi basvurunuzu asagidaki formu doldurarak yapabilirsiniz.",
+        "labels": {
+            "fullName": "Ad Soyad",
+            "email": "E-posta",
+            "country": "Ulke",
+            "targetAmount": "Hedeflenen Miktar (USD)",
+            "educationLevel": "Egitim Seviyesi",
+            "classYear": "Sinif",
+            "faculty": "Fakulte",
+            "department": "Bolum",
+            "needSummary": "Kampanya Aciklamasi (min. {min} karakter)",
+            "documents": "Belgeler (Opsiyonel)",
+            "documentName": "Belge Adi"
+        },
+        "placeholders": {
+            "fullName": "Adiniz ve soyadiniz",
+            "email": "ornek@email.com",
+            "country": "Turkiye",
+            "targetAmount": "500",
+            "select": "Seciniz",
+            "faculty": "Muhendislik Fakultesi",
+            "department": "Bilgisayar Muhendisligi",
+            "needSummary": "Egitim hedefinizi, neden destege ihtiyac duydugunuzu ve fonlari nasil kullanacaginizi detayli olarak anlatin...",
+            "documentName": "Belge adi (opsiyonel)"
+        },
+        "validation": {
+            "fullName": "Ad soyad gerekli",
+            "invalidName": "Gecersiz isim",
+            "email": "Email gerekli",
+            "invalidEmail": "Gecersiz email",
+            "country": "Ulke gerekli",
+            "educationLevel": "Egitim seviyesi gerekli",
+            "targetAmount": "Hedef miktar en az 1 USD olmali",
+            "classYear": "Sinif secimi gerekli",
+            "faculty": "Fakulte gerekli",
+            "department": "Bolum gerekli",
+            "needSummary": "Aciklama gerekli",
+            "needSummaryMin": "En az {min} karakter gerekli ({remaining} karakter daha yazin)",
+            "fileType": "Gecersiz dosya turu. PDF, JPG veya PNG yukleyin.",
+            "fileSize": "Dosya boyutu 10MB sinirini asiyor.",
+            "fixErrors": "Lutfen tum alanlari dogru doldurun",
+            "waitUpload": "Dosyalarin yuklenmesini bekleyin.",
+            "removeFailed": "Basarisiz yuklemeleri kaldirin veya tekrar deneyin.",
+            "success": "Basvurunuz basariyla gonderildi!",
+            "error": "Bir hata olustu"
+        },
+        "documents": {
+            "help": "Ogrenci belgesi, transkript vb. yukleyebilirsiniz (PDF, JPG, PNG - max 10MB)",
+            "add": "Belge Ekle",
+            "remove": "Kaldir",
+            "status": {
+                "uploaded": "Yuklendi",
+                "uploading": "Yukleniyor...",
+                "failed": "Basarisiz",
+                "ready": "Hazir"
+            }
+        },
+        "submit": {
+            "default": "Basvuruyu Gonder",
+            "submitting": "Gonderiliyor..."
+        },
+        "options": {
+            "classYear": {
+                "prep": "Hazirlik",
+                "1": "1. Sinif",
+                "2": "2. Sinif",
+                "3": "3. Sinif",
+                "4": "4. Sinif",
+                "5": "5. Sinif",
+                "6": "6. Sinif",
+                "grad": "Mezun",
+                "master": "Yuksek Lisans",
+                "phd": "Doktora"
+            },
+            "educationLevel": {
+                "highSchool": "Lise",
+                "undergrad": "Lisans",
+                "master": "Yuksek Lisans",
+                "phd": "Doktora",
+                "vocational": "Meslek Yuksekokulu"
             }
         }
     }

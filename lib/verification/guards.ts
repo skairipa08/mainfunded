@@ -55,17 +55,20 @@ export async function requireAdmin(): Promise<AuthUser> {
 }
 
 /**
- * Require student role
+ * Require student role (or regular user - non-admin)
  */
 export async function requireStudent(): Promise<AuthUser> {
     const user = await requireAuth();
 
-    if (user.role !== 'student') {
+    // Accept both 'user' (default from auth.ts) and 'student' roles
+    // Only admins are blocked from student-only routes
+    if (user.role === 'admin') {
         throw { status: 403, message: 'Forbidden: Student access required' } as AuthError;
     }
 
     return user;
 }
+
 
 /**
  * Get verification with ownership check

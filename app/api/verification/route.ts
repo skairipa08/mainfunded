@@ -6,6 +6,10 @@
  * PUT  /api/verification - Update verification (draft only)
  */
 
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 import { NextRequest, NextResponse } from 'next/server';
 import {
     requireStudent,
@@ -16,6 +20,7 @@ import {
     CreateVerificationDTO,
     UpdateVerificationDTO
 } from '@/lib/verification';
+
 
 /**
  * GET /api/verification

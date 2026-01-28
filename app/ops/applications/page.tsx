@@ -1,12 +1,9 @@
-// @ts-nocheck
 'use client';
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { listApplications, updateApplicationStatus, resetDemoData } from '@/lib/mockDb';
-import type { StudentApplication } from '@/lib/mockDb';
 import { toast } from 'sonner';
 import {
   Table,
@@ -16,37 +13,67 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+
+interface StudentApplication {
+  id: string;
+  fullName: string;
+  email: string;
+  country: string;
+  educationLevel: string;
+  needSummary: string;
+  documents: string[];
+  status: 'Received' | 'Under Review' | 'Approved' | 'Rejected';
+  createdAt: string;
+  updatedAt: string;
+}
 
 // Type fix for Table component from JSX file
 const TableComponent = Table as React.ComponentType<any>;
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
 
 export default function OperationsApplicationsPage() {
   const router = useRouter();
   const [applications, setApplications] = useState<StudentApplication[]>([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     loadApplications();
-    
+
     // Listen for updates from detail page
     const handleUpdate = () => {
       loadApplications();
     };
-    
+
     window.addEventListener('applicationUpdated', handleUpdate);
     return () => {
       window.removeEventListener('applicationUpdated', handleUpdate);
     };
   }, []);
 
-  const loadApplications = () => {
-    const apps = listApplications();
-    // Sort by created date, newest first
-    apps.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-    setApplications(apps);
-    setLoading(false);
+  const loadApplications = async () => {
+    try {
+      const response = await fetch('/api/ops/applications', { cache: 'no-store' });
+      const data = await response.json();
+
+      if (data.success) {
+        // Sort by created date, newest first
+        const apps = data.data || [];
+        apps.sort((a: StudentApplication, b: StudentApplication) =>
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+        setApplications(apps);
+        setError(null);
+      } else {
+        setError(data.error || 'Failed to load applications');
+      }
+    } catch (err: any) {
+      console.error('Failed to load applications:', err);
+      setError(err.message || 'Failed to load applications');
+    } finally {
+      setLoading(false);
+    }
   };
 
   const getStatusBadge = (status: string) => {
@@ -67,30 +94,15 @@ export default function OperationsApplicationsPage() {
           <div className="flex justify-between items-center mb-8">
             <div>
               <h1 className="text-4xl font-bold text-gray-900">Student Applications</h1>
-              <p className="text-gray-600 mt-2">Review and manage student applications</p>
+              <p className="text-gray-600 mt-2">Review and manage student applications (stored in MongoDB)</p>
             </div>
             <div className="flex gap-4">
-              {/* Demo Tools Section */}
-              <div className="border border-gray-200 rounded-lg p-4 bg-gray-50">
-                <p className="text-xs text-gray-500 mb-2">Demo Tools</p>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    if (confirm('Are you sure you want to reset all demo data? This cannot be undone.')) {
-                      try {
-                        resetDemoData();
-                        loadApplications();
-                        toast.success('Demo data reset successfully');
-                      } catch (error) {
-                        toast.error('Failed to reset demo data');
-                      }
-                    }
-                  }}
-                >
-                  Reset Demo Data
-                </Button>
-              </div>
+              <Button
+                variant="outline"
+                onClick={() => loadApplications()}
+              >
+                Refresh
+              </Button>
             </div>
           </div>
 
@@ -99,10 +111,15 @@ export default function OperationsApplicationsPage() {
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
               <p className="text-gray-600">Loading applications...</p>
             </div>
+          ) : error ? (
+            <div className="bg-red-50 border border-red-200 rounded-lg p-8 text-center">
+              <p className="text-red-800 mb-4">{error}</p>
+              <Button onClick={() => loadApplications()}>Try Again</Button>
+            </div>
           ) : applications.length === 0 ? (
             <div className="text-center py-12 bg-gray-50 rounded-lg">
-              <p className="text-gray-600 mb-4">No applications found.</p>
-              <p className="text-sm text-gray-500">Applications will appear here once students submit them.</p>
+              <p className="text-gray-600 mb-4">No applications found in database.</p>
+              <p className="text-sm text-gray-500">Applications will appear here once students submit them via /apply.</p>
             </div>
           ) : (
             <div className="bg-white border border-gray-200 rounded-lg overflow-hidden">
@@ -125,7 +142,7 @@ export default function OperationsApplicationsPage() {
                       className="cursor-pointer hover:bg-gray-50"
                       onClick={() => router.push(`/ops/applications/${app.id}`)}
                     >
-                      <TableCell className="font-mono text-sm">{app.id}</TableCell>
+                      <TableCell className="font-mono text-sm text-xs">{app.id.slice(0, 12)}...</TableCell>
                       <TableCell className="font-medium">{app.fullName}</TableCell>
                       <TableCell>{app.country}</TableCell>
                       <TableCell>{app.educationLevel}</TableCell>
@@ -151,9 +168,9 @@ export default function OperationsApplicationsPage() {
                         </button>
                       </TableCell>
                     </TableRow>
-                    ))}
-                  </TableBody>
-                </TableComponent>
+                  ))}
+                </TableBody>
+              </TableComponent>
             </div>
           )}
 

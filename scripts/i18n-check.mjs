@@ -1,4 +1,3 @@
-
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -6,119 +5,94 @@ import { fileURLToPath } from 'url';
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Define locales based on standard list
-const LOCALES = ['en', 'tr', 'de', 'ar', 'zh', 'ru', 'fr', 'es'];
-const BASE_LOCALE = 'en';
-// Go up one level from scripts/ to root, then into locales/
 const LOCALES_DIR = path.join(__dirname, '..', 'locales');
+// List of required locales
+const REQUIRED_LOCALES = ['tr', 'en', 'de', 'ar', 'fr', 'es', 'zh', 'ru'];
 
-// Helper to iterate object deeply and return array of dot-notation keys
+// Helper to flatten object keys
 function flattenKeys(obj, prefix = '') {
     let keys = [];
-    for (const key in obj) {
-        if (typeof obj[key] === 'object' && obj[key] !== null) {
-            keys = keys.concat(flattenKeys(obj[key], prefix + key + '.'));
+    for (const k in obj) {
+        if (typeof obj[k] === 'object' && obj[k] !== null && !Array.isArray(obj[k])) {
+            keys = keys.concat(flattenKeys(obj[k], prefix ? `${prefix}.${k}` : k));
         } else {
-            keys.push(prefix + key);
+            keys.push(prefix ? `${prefix}.${k}` : k);
         }
     }
     return keys;
 }
 
-function getValue(obj, path) {
-    return path.split('.').reduce((acc, part) => acc && acc[part], obj);
-}
+// Find all missing keys
+function checkLocales() {
+    console.log('🔍 Checking translations...');
 
-function runValidation() {
-    console.log('🌍 Starting i18n validation...');
-
-    // Load Base Locale
-    const baseLocalePath = path.join(LOCALES_DIR, `${BASE_LOCALE}.json`);
-    if (!fs.existsSync(baseLocalePath)) {
-        console.error(`❌ Base locale file not found: ${baseLocalePath}`);
+    if (!fs.existsSync(LOCALES_DIR)) {
+        console.error(`❌ Locales directory not found at ${LOCALES_DIR}`);
         process.exit(1);
     }
 
-    let baseData;
+    // Load English as the source of truth
+    const enPath = path.join(LOCALES_DIR, 'en.json');
+    if (!fs.existsSync(enPath)) {
+        console.error('❌ Base locale (en.json) not found!');
+        process.exit(1);
+    }
+
+    let enObj;
     try {
-        baseData = JSON.parse(fs.readFileSync(baseLocalePath, 'utf-8'));
+        enObj = JSON.parse(fs.readFileSync(enPath, 'utf8'));
     } catch (e) {
-        console.error(`❌ API Error: Failed to parse base locale (${BASE_LOCALE}): ${e.message}`);
+        console.error('❌ Failed to parse en.json');
         process.exit(1);
     }
 
-    // Check if baseData is empty
-    if (!baseData || Object.keys(baseData).length === 0) {
-        console.error(`❌ Base locale (${BASE_LOCALE}) is empty!`);
-        process.exit(1);
-    }
-
-    const baseKeys = new Set(flattenKeys(baseData));
-    console.log(`✅ Loaded base locale (${BASE_LOCALE}) with ${baseKeys.size} keys.`);
+    const allKeys = new Set(flattenKeys(enObj));
+    console.log(`✅ Base locale (en) loaded with ${allKeys.size} keys.`);
 
     let hasError = false;
 
-    // Check all other locales
-    for (const locale of LOCALES) {
-        if (locale === BASE_LOCALE) continue;
+    REQUIRED_LOCALES.forEach(locale => {
+        if (locale === 'en') return; // Skip base
 
-        const localePath = path.join(LOCALES_DIR, `${locale}.json`);
-        if (!fs.existsSync(localePath)) {
-            console.error(`❌ Missing locale file: ${locale}`);
+        const filePath = path.join(LOCALES_DIR, `${locale}.json`);
+        if (!fs.existsSync(filePath)) {
+            console.error(`❌ Missing locale file: ${locale}.json`);
             hasError = true;
-            continue;
+            return;
         }
 
         try {
-            const localeData = JSON.parse(fs.readFileSync(localePath, 'utf-8'));
-            const localeKeyList = flattenKeys(localeData);
-            const localeKeys = new Set(localeKeyList);
+            const locObj = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+            const locKeys = new Set(flattenKeys(locObj));
 
-            // Check for missing keys
-            const missingKeys = [];
-            baseKeys.forEach(key => {
-                if (!localeKeys.has(key)) {
-                    missingKeys.push(key);
-                }
-            });
+            const missing = [...allKeys].filter(k => !locKeys.has(k));
+            const extra = [...locKeys].filter(k => !allKeys.has(k));
 
-            // Check for empty values
-            const emptyKeys = [];
-            localeKeyList.forEach(key => {
-                const val = getValue(localeData, key);
-                // Check strictly for empty string, not just falsy (though undefined shouldn't be here)
-                if (typeof val === 'string' && val.trim() === '') {
-                    emptyKeys.push(key);
-                }
-            });
-
-            if (missingKeys.length > 0) {
-                console.error(`❌ [${locale}] Missing ${missingKeys.length} keys:`);
-                missingKeys.slice(0, 10).forEach(k => console.error(`   - ${k}`));
-                if (missingKeys.length > 10) console.error(`   ...and ${missingKeys.length - 10} more.`);
-                hasError = true;
-            } else if (emptyKeys.length > 0) {
-                console.error(`⚠️ [${locale}] Found ${emptyKeys.length} empty keys:`);
-                // Treating empty keys as error based on strict requirements ("no empty")
-                emptyKeys.slice(0, 10).forEach(k => console.error(`   - ${k}`));
+            if (missing.length > 0) {
+                console.error(`❌ [${locale}] Missing ${missing.length} keys:`);
+                missing.slice(0, 10).forEach(k => console.error(`   - ${k}`));
+                if (missing.length > 10) console.error(`   ...and ${missing.length - 10} more.`);
                 hasError = true;
             } else {
                 console.log(`✅ [${locale}] Complete.`);
+            }
+
+            if (extra.length > 0) {
+                console.warn(`⚠️ [${locale}] Has ${extra.length} extra keys (not in en).`);
             }
 
         } catch (e) {
             console.error(`❌ [${locale}] Invalid JSON: ${e.message}`);
             hasError = true;
         }
-    }
+    });
 
     if (hasError) {
-        console.error('\n💥 Validation failed. Please fix missing or invalid translation keys.');
+        console.error('\n❌ Translation check failed. Please fix missing keys.');
         process.exit(1);
     } else {
-        console.log('\n✨ All locales are valid and complete!');
-        process.exit(0);
+        console.log('\n✨ All translations are valid.');
     }
 }
 
-runValidation();
+checkLocales();

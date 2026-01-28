@@ -7,6 +7,7 @@ let clientPromise: Promise<MongoClient> | null = null;
 
 function getClientPromise(): Promise<MongoClient> {
   if (!process.env.MONGO_URL) {
+    console.error('[DB] MONGO_URL is not set in environment variables');
     return Promise.reject(new Error('Please add your Mongo URI to .env.local'));
   }
 
@@ -15,6 +16,15 @@ function getClientPromise(): Promise<MongoClient> {
   }
 
   const uri = process.env.MONGO_URL;
+
+  // Debug logging (safe - no secrets)
+  try {
+    const url = new URL(uri);
+    console.log(`[DB] Using MONGO_URL`);
+    console.log(`[DB] host=${url.hostname} db=${dbName}`);
+  } catch {
+    console.log(`[DB] Using MONGO_URL (could not parse for debug)`);
+  }
 
   if (process.env.NODE_ENV === 'development') {
     let globalWithMongo = global as typeof globalThis & {

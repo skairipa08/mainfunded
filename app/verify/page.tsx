@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, useRef, useCallback } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Navbar from '@/components/Navbar';
@@ -25,6 +25,7 @@ import {
     getTierBadgeInfo
 } from '@/lib/verification/tiers';
 import type { VerificationTier } from '@/types/verification';
+import { X, Upload, FileText, CheckCircle2, AlertCircle } from 'lucide-react';
 
 // Multi-step form stages
 type FormStep = 'tier-select' | 'personal-info' | 'education-info' | 'documents' | 'review';
@@ -79,6 +80,207 @@ const initialFormData: FormData = {
     isFullTime: true,
     financialNeedStatement: '',
 };
+
+// File upload types and constants
+const ALLOWED_FILE_TYPES = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
+const ALLOWED_EXTENSIONS = ['.pdf', '.jpg', '.jpeg', '.png'];
+const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+
+interface UploadedFile {
+    file: File;
+    status: 'queued' | 'uploading' | 'uploaded' | 'error';
+    error?: string;
+}
+
+// Documents Upload Component
+function DocumentsUploadStep({ tierRequested, t }: { tierRequested: number; t: (key: string) => string }) {
+    const fileInputRef = useRef<HTMLInputElement>(null);
+    const [files, setFiles] = useState<UploadedFile[]>([]);
+    const [dragActive, setDragActive] = useState(false);
+
+    const validateFile = (file: File): string | null => {
+        if (!ALLOWED_FILE_TYPES.includes(file.type)) {
+            return `Invalid file type. Allowed: ${ALLOWED_EXTENSIONS.join(', ')}`;
+        }
+        if (file.size > MAX_FILE_SIZE) {
+            return `File too large. Maximum size: 10MB`;
+        }
+        return null;
+    };
+
+    const handleFiles = useCallback((fileList: FileList | null) => {
+        if (!fileList) return;
+
+        const newFiles: UploadedFile[] = [];
+        for (let i = 0; i < fileList.length; i++) {
+            const file = fileList[i];
+            const error = validateFile(file);
+            newFiles.push({
+                file,
+                status: error ? 'error' : 'queued',
+                error: error || undefined,
+            });
+        }
+        setFiles(prev => [...prev, ...newFiles]);
+    }, []);
+
+    const handleButtonClick = () => {
+        fileInputRef.current?.click();
+    };
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        handleFiles(e.target.files);
+        // Reset input so same file can be selected again
+        if (fileInputRef.current) {
+            fileInputRef.current.value = '';
+        }
+    };
+
+    const handleDrag = (e: React.DragEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.type === 'dragenter' || e.type === 'dragover') {
+            setDragActive(true);
+        } else if (e.type === 'dragleave') {
+            setDragActive(false);
+        }
+    };
+
+    const handleDrop = (e: React.DragEvent) => {
+        e.preventDefault();
+        e.stopPropagation();
+        setDragActive(false);
+        handleFiles(e.dataTransfer.files);
+    };
+
+    const removeFile = (index: number) => {
+        setFiles(prev => prev.filter((_, i) => i !== index));
+    };
+
+    const formatFileSize = (bytes: number) => {
+        if (bytes < 1024) return bytes + ' B';
+        if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+        return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    };
+
+    return (
+        <div className="space-y-6">
+            <div className="p-4 bg-amber-50 rounded-lg border border-amber-200">
+                <h4 className="font-medium text-amber-900 mb-2">
+                    {t('verification.documentGuidance') || 'Document Guidance'}
+                </h4>
+                <p className="text-sm text-amber-700 mb-3">
+                    {t('verification.documentMaskingHint') || 'You may mask sensitive fields (ID number, student number, address) if you want. We only need to verify: name, institution, active status, and date.'}
+                </p>
+                <ul className="text-sm text-amber-700 space-y-1">
+                    <li>✓ {t('verification.acceptedDocs.enrollment') || 'Enrollment/Student Status Certificate'}</li>
+                    <li>✓ {t('verification.acceptedDocs.studentId') || 'Student ID Card'}</li>
+                    <li>✓ {t('verification.acceptedDocs.transcript') || 'Official Transcript'}</li>
+                    {tierRequested >= 2 && (
+                        <li>✓ {t('verification.acceptedDocs.portalScreenshot') || 'School Portal Screenshot'}</li>
+                    )}
+                </ul>
+            </div>
+
+            {/* Hidden file input */}
+            <input
+                ref={fileInputRef}
+                type="file"
+                multiple
+                accept={ALLOWED_EXTENSIONS.join(',')}
+                onChange={handleFileChange}
+                className="hidden"
+            />
+
+            {/* Drop zone */}
+            <div
+                className={`border-2 border-dashed rounded-lg p-8 text-center transition-colors cursor-pointer ${dragActive
+                        ? 'border-emerald-500 bg-emerald-50'
+                        : 'border-gray-300 hover:border-gray-400'
+                    }`}
+                onDragEnter={handleDrag}
+                onDragLeave={handleDrag}
+                onDragOver={handleDrag}
+                onDrop={handleDrop}
+                onClick={handleButtonClick}
+            >
+                <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+                <p className="text-gray-600 mb-2">
+                    {t('verification.dragDrop') || 'Drag and drop files here, or click to browse'}
+                </p>
+                <p className="text-sm text-gray-500">
+                    {t('verification.fileTypes') || 'PDF, JPG, or PNG (max 10MB)'}
+                </p>
+                <Button type="button" variant="outline" className="mt-4" onClick={(e) => { e.stopPropagation(); handleButtonClick(); }}>
+                    {t('verification.form.uploadDocuments') || 'Belgeleri Yükle'}
+                </Button>
+            </div>
+
+            {/* File list */}
+            {files.length > 0 && (
+                <div className="space-y-2">
+                    <h4 className="font-medium text-gray-900">
+                        {t('verification.selectedFiles') || 'Selected Files'} ({files.length})
+                    </h4>
+                    <div className="space-y-2">
+                        {files.map((uploadedFile, index) => (
+                            <div
+                                key={index}
+                                className={`flex items-center gap-3 p-3 rounded-lg border ${uploadedFile.status === 'error'
+                                        ? 'bg-red-50 border-red-200'
+                                        : uploadedFile.status === 'uploaded'
+                                            ? 'bg-green-50 border-green-200'
+                                            : 'bg-gray-50 border-gray-200'
+                                    }`}
+                            >
+                                <FileText className={`w-5 h-5 flex-shrink-0 ${uploadedFile.status === 'error' ? 'text-red-500' : 'text-gray-500'
+                                    }`} />
+                                <div className="flex-1 min-w-0">
+                                    <p className="text-sm font-medium text-gray-900 truncate">
+                                        {uploadedFile.file.name}
+                                    </p>
+                                    <p className="text-xs text-gray-500">
+                                        {formatFileSize(uploadedFile.file.size)}
+                                        {uploadedFile.error && (
+                                            <span className="text-red-600 ml-2">• {uploadedFile.error}</span>
+                                        )}
+                                    </p>
+                                </div>
+                                {uploadedFile.status === 'queued' && (
+                                    <span className="text-xs text-gray-500 bg-gray-200 px-2 py-1 rounded">Queued</span>
+                                )}
+                                {uploadedFile.status === 'uploaded' && (
+                                    <CheckCircle2 className="w-5 h-5 text-green-600" />
+                                )}
+                                {uploadedFile.status === 'error' && (
+                                    <AlertCircle className="w-5 h-5 text-red-500" />
+                                )}
+                                <button
+                                    type="button"
+                                    onClick={() => removeFile(index)}
+                                    className="p-1 hover:bg-gray-200 rounded"
+                                >
+                                    <X className="w-4 h-4 text-gray-500" />
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Upload API note */}
+            {files.filter(f => f.status === 'queued').length > 0 && (
+                <div className="p-3 bg-blue-50 rounded-lg border border-blue-200 text-sm text-blue-700">
+                    <strong>Note:</strong> Files are queued locally. Upload will happen when submit form in final step. (Upload API not yet configured for demo)
+                </div>
+            )}
+
+            <p className="text-sm text-gray-500 text-center">
+                {t('verification.documentsNote') || 'Documents will be securely stored and only accessible to our verification team.'}
+            </p>
+        </div>
+    );
+}
 
 function VerifyPageContent() {
     const router = useRouter();
@@ -516,43 +718,10 @@ function VerifyPageContent() {
 
                         {/* Step 4: Documents */}
                         {currentStep === 'documents' && (
-                            <div className="space-y-6">
-                                <div className="p-4 bg-amber-50 rounded-lg border border-amber-200">
-                                    <h4 className="font-medium text-amber-900 mb-2">
-                                        {t('verification.documentGuidance') || 'Document Guidance'}
-                                    </h4>
-                                    <p className="text-sm text-amber-700 mb-3">
-                                        {t('verification.documentMaskingHint') || 'You may mask sensitive fields (ID number, student number, address) if you want. We only need to verify: name, institution, active status, and date.'}
-                                    </p>
-                                    <ul className="text-sm text-amber-700 space-y-1">
-                                        <li>✓ {t('verification.acceptedDocs.enrollment') || 'Enrollment/Student Status Certificate'}</li>
-                                        <li>✓ {t('verification.acceptedDocs.studentId') || 'Student ID Card'}</li>
-                                        <li>✓ {t('verification.acceptedDocs.transcript') || 'Official Transcript'}</li>
-                                        {formData.tierRequested >= 2 && (
-                                            <li>✓ {t('verification.acceptedDocs.portalScreenshot') || 'School Portal Screenshot'}</li>
-                                        )}
-                                    </ul>
-                                </div>
-
-                                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-                                    <svg className="w-12 h-12 text-gray-400 mx-auto mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
-                                    </svg>
-                                    <p className="text-gray-600 mb-2">
-                                        {t('verification.dragDrop') || 'Drag and drop files here, or click to browse'}
-                                    </p>
-                                    <p className="text-sm text-gray-500">
-                                        {t('verification.fileTypes') || 'PDF, JPG, or PNG (max 10MB)'}
-                                    </p>
-                                    <Button variant="outline" className="mt-4">
-                                        {t('verification.form.uploadDocuments')}
-                                    </Button>
-                                </div>
-
-                                <p className="text-sm text-gray-500 text-center">
-                                    {t('verification.documentsNote') || 'Documents will be securely stored and only accessible to our verification team.'}
-                                </p>
-                            </div>
+                            <DocumentsUploadStep
+                                tierRequested={formData.tierRequested}
+                                t={t}
+                            />
                         )}
 
                         {/* Step 5: Review */}

@@ -231,7 +231,9 @@
             "note": "Note (Optional)",
             "notePlaceholder": "Add any extra context."
         },
-        "reviewNote": "By submitting, you confirm that all information provided is accurate. Our team will review your application within 1-3 business days."
+        "reviewNote": "By submitting, you confirm that all information provided is accurate. Our team will review your application within 1-3 business days.",
+        "submitError": "Failed to submit verification. Please try again.",
+        "selectedFiles": "Selected Files"
     },
     "campaign": {
         "createCampaign": "Crear campaña",
@@ -482,6 +484,113 @@
             "liability": {
                 "title": "Limitation of Liability",
                 "content": "To the maximum extent permitted by law, FundEd shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the platform."
+            }
+        }
+    },
+    "applicationStatus": {
+        "title": "Application Status",
+        "applicationId": "Application ID",
+        "status": "Status",
+        "details": "Application Details",
+        "fullName": "Full Name",
+        "email": "Email",
+        "country": "Country",
+        "educationLevel": "Education Level",
+        "needSummary": "Need Summary",
+        "submitted": "Submitted",
+        "notFound": "Application Not Found",
+        "notFoundDesc": "The application ID you provided is invalid or not found.",
+        "applyNow": "Apply Now",
+        "returnHome": "Return to Home",
+        "statuses": {
+            "received": "Received",
+            "underReview": "Under Review",
+            "approved": "Approved",
+            "rejected": "Rejected"
+        }
+    },
+    "apply": {
+        "title": "Apply as Student",
+        "subtitle": "You can apply for educational support by filling out the form below.",
+        "labels": {
+            "fullName": "Full Name",
+            "email": "Email",
+            "country": "Country",
+            "targetAmount": "Target Amount (USD)",
+            "educationLevel": "Education Level",
+            "classYear": "Class Year",
+            "faculty": "Faculty",
+            "department": "Department",
+            "needSummary": "Campaign Description (min. {min} chars)",
+            "documents": "Documents (Optional)",
+            "documentName": "Document Name"
+        },
+        "placeholders": {
+            "fullName": "Your full name",
+            "email": "example@email.com",
+            "country": "Turkey",
+            "targetAmount": "500",
+            "select": "Select",
+            "faculty": "Faculty of Engineering",
+            "department": "Computer Science",
+            "needSummary": "Describe your educational goal, why you need support, and how you will use the funds in detail...",
+            "documentName": "Document name (optional)"
+        },
+        "validation": {
+            "fullName": "Full name required",
+            "invalidName": "Invalid name",
+            "email": "Email required",
+            "invalidEmail": "Invalid email",
+            "country": "Country required",
+            "educationLevel": "Education level required",
+            "targetAmount": "Target amount must be at least $1",
+            "classYear": "Class year required",
+            "faculty": "Faculty required",
+            "department": "Department required",
+            "needSummary": "Description required",
+            "needSummaryMin": "Minimum {min} characters required ({remaining} more needed)",
+            "fileType": "Invalid file type. Upload PDF, JPG, or PNG.",
+            "fileSize": "File size exceeds 10MB limit.",
+            "fixErrors": "Please fill all fields correctly",
+            "waitUpload": "Please wait for files to finish uploading.",
+            "removeFailed": "Remove failed uploads or try again.",
+            "success": "Application submitted successfully!",
+            "error": "An error occurred"
+        },
+        "documents": {
+            "help": "You can upload student ID, transcript, etc. (PDF, JPG, PNG - max 10MB)",
+            "add": "Add Document",
+            "remove": "Remove",
+            "status": {
+                "uploaded": "Uploaded",
+                "uploading": "Uploading...",
+                "failed": "Failed",
+                "ready": "Ready"
+            }
+        },
+        "submit": {
+            "default": "Submit Application",
+            "submitting": "Submitting..."
+        },
+        "options": {
+            "classYear": {
+                "1": "1st Year",
+                "2": "2nd Year",
+                "3": "3rd Year",
+                "4": "4th Year",
+                "5": "5th Year",
+                "6": "6th Year",
+                "prep": "Prep",
+                "grad": "Graduated",
+                "master": "Master's",
+                "phd": "PhD"
+            },
+            "educationLevel": {
+                "highSchool": "High School",
+                "undergrad": "Undergraduate",
+                "master": "Master's",
+                "phd": "PhD",
+                "vocational": "Vocational School"
             }
         }
     }
