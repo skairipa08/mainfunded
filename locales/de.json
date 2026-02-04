@@ -39,7 +39,143 @@
         "campaigns": "Kampagnen",
         "students": "Studenten",
         "verifications": "Verifizierungen",
-        "donate": "Spenden"
+        "donate": "Spenden",
+        "menu": {
+            "leaderboard": "Bestenliste",
+            "badges": "Abzeichen",
+            "studentUpdates": "Studenten-Updates",
+            "alumni": "Unsere Alumni",
+            "donateNow": "Spenden",
+            "productDonation": "Sachspende",
+            "matchingGift": "Matching Gift",
+            "becomeMentor": "Mentor werden",
+            "howItWorks": "So funktioniert es",
+            "progressReports": "Fortschrittsberichte",
+            "donationGuarantee": "Spendengarantie",
+            "transparency": "Transparenz",
+            "stories": "Geschichten",
+            "social": "Sozial",
+            "donation": "Spende",
+            "about": "Über",
+            "leaderboardDesc": "Top-Spender ansehen",
+            "badgesDesc": "Verdienbare Abzeichen",
+            "studentUpdatesDesc": "Studenten-Updates",
+            "alumniDesc": "Erfolgsgeschichten",
+            "donateDesc": "Studenten unterstützen",
+            "productDonationDesc": "Laptop, Bücher etc. spenden",
+            "matchingGiftDesc": "Firmen-Matching-Programm",
+            "becomeMentorDesc": "Studenten anleiten",
+            "howItWorksDesc": "Über die Plattform",
+            "progressReportsDesc": "Vierteljährliche Berichte",
+            "donationGuaranteeDesc": "100% sichere Spende",
+            "transparencyDesc": "Ausgabenberichte",
+            "storiesDesc": "Erfolgsgeschichten"
+        }
+    },
+    "pages": {
+        "badges": {
+            "title": "Abzeichen",
+            "subtitle": "Verdienen Sie spezielle Abzeichen mit Ihren Spenden",
+            "progress": "Sie nähern sich Ihrem Ziel",
+            "allBadges": "Alle Abzeichen",
+            "howToEarn": "Wie verdient man Abzeichen?",
+            "donationCount": "Spendenanzahl-Abzeichen",
+            "totalAmount": "Gesamtbetrag-Abzeichen",
+            "firstStep": "Erster Schritt",
+            "regularSupporter": "Regelmäßiger Unterstützer",
+            "perfectDonor": "Perfekter Spender",
+            "legend": "Legende",
+            "donation": "Spende",
+            "donations": "Spenden"
+        },
+        "leaderboard": {
+            "title": "Bestenliste",
+            "subtitle": "Unsere größten Bildungsunterstützer",
+            "corporateDonations": "Unternehmensspenden",
+            "individualDonations": "Einzelspenden",
+            "activeDonors": "Aktive Spender",
+            "all": "Alle",
+            "corporate": "Unternehmen",
+            "individual": "Einzelpersonen",
+            "students": "Studenten",
+            "points": "Punkte",
+            "anonymousNotice": "Sie können anonym spenden und auf der Liste erscheinen"
+        },
+        "alumni": {
+            "title": "Unsere Alumni",
+            "subtitle": "Erfolgsgeschichten von Studenten, die mit FundEd ihre Träume verwirklicht haben",
+            "giveBackProgram": "Zurückgeben-Programm",
+            "giveBackDesc": "27% unserer Alumni unterstützen aktiv neue Studenten",
+            "joinProgram": "Programm beitreten"
+        },
+        "updates": {
+            "title": "Studenten-Tagebücher",
+            "subtitle": "Verfolgen Sie Updates von Studenten, die Sie unterstützen",
+            "activeJournals": "Aktive Tagebücher",
+            "posts": "Beiträge",
+            "likes": "Likes",
+            "loadMore": "Mehr laden"
+        },
+        "stories": {
+            "title": "Erfolgsgeschichten",
+            "subtitle": "Inspirierende Geschichten von Studenten",
+            "thankYouMessages": "Danksagungen",
+            "watchVideos": "Video-Geschichten ansehen",
+            "watchVideosDesc": "Hören Sie von Studenten in ihren eigenen Worten",
+            "watchNow": "Videos ansehen",
+            "collected": "Gesammelt"
+        },
+        "mentors": {
+            "title": "Mentoren",
+            "subtitle": "Begleiten Sie Studenten und teilen Sie Ihre Erfahrung",
+            "becomeMentor": "Mentor werden",
+            "mentorDesc": "Teilen Sie Ihr Wissen mit Studenten",
+            "applyNow": "Jetzt bewerben"
+        },
+        "donate": {
+            "title": "Spenden",
+            "subtitle": "Unterstützen Sie Studenten und verändern Sie Leben",
+            "selectAmount": "Betrag wählen",
+            "customAmount": "Eigener Betrag",
+            "continuePayment": "Zur Zahlung"
+        },
+        "guarantee": {
+            "title": "Spendengarantie",
+            "subtitle": "Ihre Spenden sind 100% sicher",
+            "howItWorks": "So funktioniert es",
+            "guaranteeDesc": "Wir garantieren, dass Ihre Spende den Studenten erreicht",
+            "securePayment": "Sichere Zahlung",
+            "verifiedStudents": "Verifizierte Studenten",
+            "transparentUse": "Transparente Verwendung"
+        },
+        "transparency": {
+            "title": "Transparenz",
+            "subtitle": "Volle Transparenz bei der Verwendung von Spenden",
+            "spendingReports": "Ausgabenberichte",
+            "downloadReport": "Bericht herunterladen"
+        },
+        "reports": {
+            "title": "Fortschrittsberichte",
+            "subtitle": "Vierteljährliche Berichte über Studentenfortschritte",
+            "viewReport": "Bericht ansehen",
+            "quarter": "Quartal"
+        },
+        "howItWorks": {
+            "title": "So funktioniert es",
+            "subtitle": "Erfahren Sie mehr über unsere Plattform",
+            "step1Title": "Student finden",
+            "step1Desc": "Durchsuchen Sie verifizierte Studentenprofile",
+            "step2Title": "Spenden",
+            "step2Desc": "Tragen Sie einen beliebigen Betrag bei",
+            "step3Title": "Fortschritt verfolgen",
+            "step3Desc": "Erhalten Sie Updates von Studenten"
+        },
+        "common": {
+            "bronze": "Bronze",
+            "silver": "Silber",
+            "gold": "Gold",
+            "platinum": "Platin"
+        }
     },
     "home": {
         "hero": {

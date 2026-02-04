@@ -7,6 +7,41 @@ const protectedRoutes = ['/account', '/admin', '/dashboard', '/create-campaign']
 // Routes that are only for admins
 const adminRoutes = ['/admin'];
 
+// Simple in-memory rate limiter for middleware
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+const RATE_LIMIT_WINDOW = 60 * 1000; // 1 minute
+const RATE_LIMIT_MAX = 100; // 100 requests per minute
+
+function getRateLimitKey(request: NextRequest): string {
+  const forwarded = request.headers.get('x-forwarded-for');
+  const ip = forwarded ? forwarded.split(',')[0].trim() : 'unknown';
+  return ip;
+}
+
+function checkRateLimit(key: string): { allowed: boolean; remaining: number } {
+  const now = Date.now();
+  const entry = rateLimitMap.get(key);
+
+  // Cleanup old entries periodically (1% chance)
+  if (Math.random() < 0.01) {
+    for (const [k, v] of rateLimitMap.entries()) {
+      if (now > v.resetTime) rateLimitMap.delete(k);
+    }
+  }
+
+  if (!entry || now > entry.resetTime) {
+    rateLimitMap.set(key, { count: 1, resetTime: now + RATE_LIMIT_WINDOW });
+    return { allowed: true, remaining: RATE_LIMIT_MAX - 1 };
+  }
+
+  if (entry.count >= RATE_LIMIT_MAX) {
+    return { allowed: false, remaining: 0 };
+  }
+
+  entry.count++;
+  return { allowed: true, remaining: RATE_LIMIT_MAX - entry.count };
+}
+
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -17,6 +52,25 @@ export default async function middleware(request: NextRequest) {
     pathname.includes('.') // static files
   ) {
     return NextResponse.next();
+  }
+
+  // Rate limiting
+  const rateLimitKey = getRateLimitKey(request);
+  const rateLimit = checkRateLimit(rateLimitKey);
+
+  if (!rateLimit.allowed) {
+    return new NextResponse(
+      JSON.stringify({ error: 'Too Many Requests', message: 'Cok fazla istek gonderdiniz. Lutfen bekleyin.' }),
+      {
+        status: 429,
+        headers: {
+          'Content-Type': 'application/json',
+          'Retry-After': '60',
+          'X-RateLimit-Limit': RATE_LIMIT_MAX.toString(),
+          'X-RateLimit-Remaining': '0',
+        },
+      }
+    );
   }
 
   // Check if route is protected
@@ -49,6 +103,10 @@ export default async function middleware(request: NextRequest) {
   // Create response with security headers
   const response = NextResponse.next();
 
+  // Rate limit headers
+  response.headers.set('X-RateLimit-Limit', RATE_LIMIT_MAX.toString());
+  response.headers.set('X-RateLimit-Remaining', rateLimit.remaining.toString());
+
   // Security Headers
   response.headers.set('X-DNS-Prefetch-Control', 'on');
   response.headers.set(
@@ -57,6 +115,7 @@ export default async function middleware(request: NextRequest) {
   );
   response.headers.set('X-Frame-Options', 'SAMEORIGIN');
   response.headers.set('X-Content-Type-Options', 'nosniff');
+  response.headers.set('X-XSS-Protection', '1; mode=block');
   response.headers.set('Referrer-Policy', 'strict-origin-when-cross-origin');
   response.headers.set(
     'Permissions-Policy',

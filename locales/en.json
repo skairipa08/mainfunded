@@ -39,7 +39,143 @@
         "campaigns": "Campaigns",
         "students": "Students",
         "verifications": "Verifications",
-        "donate": "Donate"
+        "donate": "Donate",
+        "menu": {
+            "leaderboard": "Leaderboard",
+            "badges": "Badges",
+            "studentUpdates": "Student Updates",
+            "alumni": "Our Alumni",
+            "donateNow": "Donate",
+            "productDonation": "Product Donation",
+            "matchingGift": "Matching Gift",
+            "becomeMentor": "Become a Mentor",
+            "howItWorks": "How It Works",
+            "progressReports": "Progress Reports",
+            "donationGuarantee": "Donation Guarantee",
+            "transparency": "Transparency",
+            "stories": "Stories",
+            "social": "Social",
+            "donation": "Donation",
+            "about": "About",
+            "leaderboardDesc": "See top donors",
+            "badgesDesc": "Earnable badges",
+            "studentUpdatesDesc": "Student updates",
+            "alumniDesc": "Success stories",
+            "donateDesc": "Support students",
+            "productDonationDesc": "Donate laptop, books etc.",
+            "matchingGiftDesc": "Corporate matching program",
+            "becomeMentorDesc": "Guide students",
+            "howItWorksDesc": "About the platform",
+            "progressReportsDesc": "Quarterly student reports",
+            "donationGuaranteeDesc": "100% secure donation",
+            "transparencyDesc": "Spending reports",
+            "storiesDesc": "Success stories"
+        }
+    },
+    "pages": {
+        "badges": {
+            "title": "Badges",
+            "subtitle": "Earn special badges with your donations and show your importance in the community",
+            "progress": "You're Getting Closer to Your Goal",
+            "allBadges": "All Badges",
+            "howToEarn": "How to Earn Badges?",
+            "donationCount": "Donation Count Badges",
+            "totalAmount": "Total Amount Badges",
+            "firstStep": "First Step",
+            "regularSupporter": "Regular Supporter",
+            "perfectDonor": "Perfect Donor",
+            "legend": "Legend",
+            "donation": "donation",
+            "donations": "donations"
+        },
+        "leaderboard": {
+            "title": "Leaderboard",
+            "subtitle": "Our donors who contributed most to education",
+            "corporateDonations": "Corporate Donations",
+            "individualDonations": "Individual Donations",
+            "activeDonors": "Active Donors",
+            "all": "All",
+            "corporate": "Corporate",
+            "individual": "Individual",
+            "students": "students",
+            "points": "points",
+            "anonymousNotice": "You can donate anonymously and appear on the list"
+        },
+        "alumni": {
+            "title": "Our Alumni",
+            "subtitle": "Success stories of students who achieved their dreams with FundEd",
+            "giveBackProgram": "Give Back Program",
+            "giveBackDesc": "27% of our alumni actively support new students",
+            "joinProgram": "Join the Program"
+        },
+        "updates": {
+            "title": "Student Journals",
+            "subtitle": "Follow updates and stories from students you support",
+            "activeJournals": "Active Journals",
+            "posts": "Posts",
+            "likes": "Likes",
+            "loadMore": "Load More"
+        },
+        "stories": {
+            "title": "Success Stories",
+            "subtitle": "Inspiring stories of students you support",
+            "thankYouMessages": "Thank You Messages",
+            "watchVideos": "Watch Video Stories",
+            "watchVideosDesc": "Hear from students in their own words",
+            "watchNow": "Watch Videos",
+            "collected": "Collected"
+        },
+        "mentors": {
+            "title": "Mentors",
+            "subtitle": "Guide students and share your experience",
+            "becomeMentor": "Become a Mentor",
+            "mentorDesc": "Share your knowledge with students who need guidance",
+            "applyNow": "Apply Now"
+        },
+        "donate": {
+            "title": "Donate",
+            "subtitle": "Support students and change their lives",
+            "selectAmount": "Select Amount",
+            "customAmount": "Custom Amount",
+            "continuePayment": "Continue to Payment"
+        },
+        "guarantee": {
+            "title": "Donation Guarantee",
+            "subtitle": "Your donations are 100% secure",
+            "howItWorks": "How It Works",
+            "guaranteeDesc": "We guarantee that your donation reaches the student",
+            "securePayment": "Secure Payment",
+            "verifiedStudents": "Verified Students",
+            "transparentUse": "Transparent Use"
+        },
+        "transparency": {
+            "title": "Transparency",
+            "subtitle": "Complete transparency in how donations are used",
+            "spendingReports": "Spending Reports",
+            "downloadReport": "Download Report"
+        },
+        "reports": {
+            "title": "Progress Reports",
+            "subtitle": "Quarterly reports on student progress",
+            "viewReport": "View Report",
+            "quarter": "Quarter"
+        },
+        "howItWorks": {
+            "title": "How It Works",
+            "subtitle": "Learn about our platform",
+            "step1Title": "Find a Student",
+            "step1Desc": "Browse verified student profiles",
+            "step2Title": "Make a Donation",
+            "step2Desc": "Contribute any amount you wish",
+            "step3Title": "Track Progress",
+            "step3Desc": "Receive updates from students"
+        },
+        "common": {
+            "bronze": "Bronze",
+            "silver": "Silver",
+            "gold": "Gold",
+            "platinum": "Platinum"
+        }
     },
     "home": {
         "hero": {

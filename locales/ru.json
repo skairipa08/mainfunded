@@ -39,7 +39,143 @@
         "campaigns": "Кампании",
         "students": "Студенты",
         "verifications": "Верификации",
-        "donate": "Пожертвовать"
+        "donate": "Пожертвовать",
+        "menu": {
+            "leaderboard": "Рейтинг",
+            "badges": "Значки",
+            "studentUpdates": "Новости студентов",
+            "alumni": "Наши выпускники",
+            "donateNow": "Пожертвовать",
+            "productDonation": "Вещевое пожертвование",
+            "matchingGift": "Matching Gift",
+            "becomeMentor": "Стать наставником",
+            "howItWorks": "Как это работает",
+            "progressReports": "Отчёты о прогрессе",
+            "donationGuarantee": "Гарантия пожертвования",
+            "transparency": "Прозрачность",
+            "stories": "Истории",
+            "social": "Социальное",
+            "donation": "Пожертвование",
+            "about": "О нас",
+            "leaderboardDesc": "Лучшие доноры",
+            "badgesDesc": "Доступные значки",
+            "studentUpdatesDesc": "Обновления студентов",
+            "alumniDesc": "Истории успеха",
+            "donateDesc": "Поддержать студентов",
+            "productDonationDesc": "Пожертвовать ноутбук, книги и т.д.",
+            "matchingGiftDesc": "Корпоративная программа",
+            "becomeMentorDesc": "Направлять студентов",
+            "howItWorksDesc": "О платформе",
+            "progressReportsDesc": "Ежеквартальные отчёты",
+            "donationGuaranteeDesc": "100% безопасное пожертвование",
+            "transparencyDesc": "Отчёты о расходах",
+            "storiesDesc": "Истории успеха"
+        }
+    },
+    "pages": {
+        "badges": {
+            "title": "Значки",
+            "subtitle": "Получайте специальные значки за ваши пожертвования",
+            "progress": "Вы приближаетесь к цели",
+            "allBadges": "Все значки",
+            "howToEarn": "Как получить значки?",
+            "donationCount": "Значки за количество пожертвований",
+            "totalAmount": "Значки за общую сумму",
+            "firstStep": "Первый шаг",
+            "regularSupporter": "Постоянный сторонник",
+            "perfectDonor": "Идеальный донор",
+            "legend": "Легенда",
+            "donation": "пожертвование",
+            "donations": "пожертвований"
+        },
+        "leaderboard": {
+            "title": "Рейтинг",
+            "subtitle": "Наши крупнейшие сторонники образования",
+            "corporateDonations": "Корпоративные пожертвования",
+            "individualDonations": "Индивидуальные пожертвования",
+            "activeDonors": "Активные доноры",
+            "all": "Все",
+            "corporate": "Корпорации",
+            "individual": "Частные лица",
+            "students": "студентов",
+            "points": "баллов",
+            "anonymousNotice": "Вы можете жертвовать анонимно и появляться в списке"
+        },
+        "alumni": {
+            "title": "Наши выпускники",
+            "subtitle": "Истории успеха студентов, осуществивших мечты с FundEd",
+            "giveBackProgram": "Программа возврата",
+            "giveBackDesc": "27% наших выпускников активно поддерживают новых студентов",
+            "joinProgram": "Присоединиться к программе"
+        },
+        "updates": {
+            "title": "Дневники студентов",
+            "subtitle": "Следите за обновлениями студентов, которых вы поддерживаете",
+            "activeJournals": "Активные дневники",
+            "posts": "Записи",
+            "likes": "Лайки",
+            "loadMore": "Загрузить ещё"
+        },
+        "stories": {
+            "title": "Истории успеха",
+            "subtitle": "Вдохновляющие истории студентов",
+            "thankYouMessages": "Сообщения благодарности",
+            "watchVideos": "Смотреть видео-истории",
+            "watchVideosDesc": "Услышьте студентов своими словами",
+            "watchNow": "Смотреть видео",
+            "collected": "Собрано"
+        },
+        "mentors": {
+            "title": "Наставники",
+            "subtitle": "Направляйте студентов и делитесь опытом",
+            "becomeMentor": "Стать наставником",
+            "mentorDesc": "Поделитесь знаниями со студентами",
+            "applyNow": "Подать заявку"
+        },
+        "donate": {
+            "title": "Пожертвовать",
+            "subtitle": "Поддержите студентов и измените жизни",
+            "selectAmount": "Выбрать сумму",
+            "customAmount": "Своя сумма",
+            "continuePayment": "Перейти к оплате"
+        },
+        "guarantee": {
+            "title": "Гарантия пожертвования",
+            "subtitle": "Ваши пожертвования на 100% защищены",
+            "howItWorks": "Как это работает",
+            "guaranteeDesc": "Мы гарантируем, что ваше пожертвование дойдёт до студента",
+            "securePayment": "Безопасная оплата",
+            "verifiedStudents": "Проверенные студенты",
+            "transparentUse": "Прозрачное использование"
+        },
+        "transparency": {
+            "title": "Прозрачность",
+            "subtitle": "Полная прозрачность использования пожертвований",
+            "spendingReports": "Отчёты о расходах",
+            "downloadReport": "Скачать отчёт"
+        },
+        "reports": {
+            "title": "Отчёты о прогрессе",
+            "subtitle": "Ежеквартальные отчёты о прогрессе студентов",
+            "viewReport": "Посмотреть отчёт",
+            "quarter": "Квартал"
+        },
+        "howItWorks": {
+            "title": "Как это работает",
+            "subtitle": "Узнайте о нашей платформе",
+            "step1Title": "Найти студента",
+            "step1Desc": "Просмотрите профили проверенных студентов",
+            "step2Title": "Пожертвовать",
+            "step2Desc": "Внесите любую сумму",
+            "step3Title": "Отслеживать прогресс",
+            "step3Desc": "Получайте обновления от студентов"
+        },
+        "common": {
+            "bronze": "Бронза",
+            "silver": "Серебро",
+            "gold": "Золото",
+            "platinum": "Платина"
+        }
     },
     "home": {
         "hero": {

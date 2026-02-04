@@ -108,6 +108,15 @@ function AdminLayoutContent({
             >
               Campaigns
             </Link>
+            <Link
+              href="/admin/analytics"
+              className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100"
+            >
+              <span className="flex items-center">
+                Analytics
+                <span className="ml-2 bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full">New</span>
+              </span>
+            </Link>
             <div className="border-t border-gray-200 my-4"></div>
             <button
               onClick={async () => {

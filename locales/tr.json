@@ -39,7 +39,143 @@
         "campaigns": "Kampanyalar",
         "students": "Ogrenciler",
         "verifications": "Dogrulamalar",
-        "donate": "Bagis Yap"
+        "donate": "Bagis Yap",
+        "menu": {
+            "leaderboard": "Lider Tablosu",
+            "badges": "Rozetler",
+            "studentUpdates": "Ogrenci Gunlukleri",
+            "alumni": "Mezunlarimiz",
+            "donateNow": "Bagis Yap",
+            "productDonation": "Urun Bagisi",
+            "matchingGift": "Matching Gift",
+            "becomeMentor": "Mentor Ol",
+            "howItWorks": "Nasil Calisir",
+            "progressReports": "Ilerleme Raporlari",
+            "donationGuarantee": "Bagis Guvencesi",
+            "transparency": "Seffaflik",
+            "stories": "Hikayeler",
+            "social": "Sosyal",
+            "donation": "Bagis",
+            "about": "Hakkinda",
+            "leaderboardDesc": "En iyi bagiscilari gor",
+            "badgesDesc": "Kazanilabilir rozetler",
+            "studentUpdatesDesc": "Ogrenci guncellemeleri",
+            "alumniDesc": "Basari hikayeleri",
+            "donateDesc": "Ogrencilere destek ol",
+            "productDonationDesc": "Laptop, kitap vs. bagisla",
+            "matchingGiftDesc": "Kurumsal eslesme programi",
+            "becomeMentorDesc": "Ogrencilere rehberlik et",
+            "howItWorksDesc": "Platform hakkinda",
+            "progressReportsDesc": "3 aylik ogrenci raporlari",
+            "donationGuaranteeDesc": "%100 guvenli bagis",
+            "transparencyDesc": "Harcama raporlari",
+            "storiesDesc": "Basari hikayeleri"
+        }
+    },
+    "pages": {
+        "badges": {
+            "title": "Rozetler",
+            "subtitle": "Bağışlarınızla özel rozetler kazanın ve topluluk içinde önecinizi gösterin",
+            "progress": "Hedefinize Yaklaşıyorsunuz",
+            "allBadges": "Tüm Rozetler",
+            "howToEarn": "Rozetler Nasıl Kazanılır?",
+            "donationCount": "Bağış Sayısı Rozetleri",
+            "totalAmount": "Toplam Tutar Rozetleri",
+            "firstStep": "İlk Adım",
+            "regularSupporter": "Sürekli Destekçi",
+            "perfectDonor": "Mükemmel Bağışçı",
+            "legend": "Efsane",
+            "donation": "bağış",
+            "donations": "bağış"
+        },
+        "leaderboard": {
+            "title": "Lider Tablosu",
+            "subtitle": "Eğitime en çok destek veren bağışçılarımız",
+            "corporateDonations": "Kurumsal Bağışlar",
+            "individualDonations": "Bireysel Bağışlar",
+            "activeDonors": "Aktif Bağışçı",
+            "all": "Tümü",
+            "corporate": "Kurumsal",
+            "individual": "Bireysel",
+            "students": "öğrenci",
+            "points": "puan",
+            "anonymousNotice": "Anonim olarak bağış yapabilir ve listede görünebilirsiniz"
+        },
+        "alumni": {
+            "title": "Mezunlarımız",
+            "subtitle": "FundEd ile hayallerine kavuşan öğrencilerimizin başarı hikayeleri",
+            "giveBackProgram": "Geri Ver Programı",
+            "giveBackDesc": "Mezunlarımızın %27'si aktif olarak yeni öğrencilere destek oluyor",
+            "joinProgram": "Programa Katıl"
+        },
+        "updates": {
+            "title": "Öğrenci Günlükleri",
+            "subtitle": "Desteklediğiniz öğrencilerin güncellemelerini ve hikayelerini takip edin",
+            "activeJournals": "Aktif Günlük",
+            "posts": "Gönderi",
+            "likes": "Beğeni",
+            "loadMore": "Daha Fazla Yükle"
+        },
+        "stories": {
+            "title": "Başarı Hikayeleri",
+            "subtitle": "Desteklediğiniz öğrencilerin ilham verici hikayeleri",
+            "thankYouMessages": "Teşekkür Mesajları",
+            "watchVideos": "Video Hikayelerini İzle",
+            "watchVideosDesc": "Öğrencilerin kendi ağzından dinleyin",
+            "watchNow": "Videoları İzle",
+            "collected": "Toplanan"
+        },
+        "mentors": {
+            "title": "Mentorlar",
+            "subtitle": "Öğrencilere rehberlik edin ve deneyiminizi paylaşın",
+            "becomeMentor": "Mentor Ol",
+            "mentorDesc": "Rehberliğe ihtiyaç duyan öğrencilerle bilginizi paylaşın",
+            "applyNow": "Hemen Başvur"
+        },
+        "donate": {
+            "title": "Bağış Yap",
+            "subtitle": "Öğrencilere destek olun ve hayatlarını değiştirin",
+            "selectAmount": "Miktar Seçin",
+            "customAmount": "Özel Miktar",
+            "continuePayment": "Ödemeye Devam Et"
+        },
+        "guarantee": {
+            "title": "Bağış Güvencesi",
+            "subtitle": "Bağışlarınız %100 güvende",
+            "howItWorks": "Nasıl Çalışır",
+            "guaranteeDesc": "Bağışınızın öğrenciye ulaşacağını garanti ediyoruz",
+            "securePayment": "Güvenli Ödeme",
+            "verifiedStudents": "Doğrulanmış Öğrenciler",
+            "transparentUse": "Şeffaf Kullanım"
+        },
+        "transparency": {
+            "title": "Şeffaflık",
+            "subtitle": "Bağışların nasıl kullanıldığı konusunda tam şeffaflık",
+            "spendingReports": "Harcama Raporları",
+            "downloadReport": "Raporu İndir"
+        },
+        "reports": {
+            "title": "İlerleme Raporları",
+            "subtitle": "Öğrenci ilerlemesi hakkında üç aylık raporlar",
+            "viewReport": "Raporu Görüntüle",
+            "quarter": "Çeyrek"
+        },
+        "howItWorks": {
+            "title": "Nasıl Çalışır",
+            "subtitle": "Platformumuz hakkında bilgi edinin",
+            "step1Title": "Öğrenci Bul",
+            "step1Desc": "Doğrulanmış öğrenci profillerine göz atın",
+            "step2Title": "Bağış Yap",
+            "step2Desc": "Dilediğiniz miktarda katkıda bulunun",
+            "step3Title": "İlerlemeyi Takip Et",
+            "step3Desc": "Öğrencilerden güncellemeler alın"
+        },
+        "common": {
+            "bronze": "Bronz",
+            "silver": "Gümüş",
+            "gold": "Altın",
+            "platinum": "Platin"
+        }
     },
     "home": {
         "hero": {

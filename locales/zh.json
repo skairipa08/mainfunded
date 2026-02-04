@@ -39,7 +39,143 @@
         "campaigns": "活动",
         "students": "学生",
         "verifications": "验证",
-        "donate": "捐款"
+        "donate": "捐款",
+        "menu": {
+            "leaderboard": "排行榜",
+            "badges": "徽章",
+            "studentUpdates": "学生动态",
+            "alumni": "我们的校友",
+            "donateNow": "捐款",
+            "productDonation": "物资捐赠",
+            "matchingGift": "配捐计划",
+            "becomeMentor": "成为导师",
+            "howItWorks": "如何运作",
+            "progressReports": "进度报告",
+            "donationGuarantee": "捐款保障",
+            "transparency": "透明度",
+            "stories": "故事",
+            "social": "社交",
+            "donation": "捐赠",
+            "about": "关于",
+            "leaderboardDesc": "查看顶级捐助者",
+            "badgesDesc": "可获得的徽章",
+            "studentUpdatesDesc": "学生动态更新",
+            "alumniDesc": "成功故事",
+            "donateDesc": "支持学生",
+            "productDonationDesc": "捐赠笔记本、书籍等",
+            "matchingGiftDesc": "企业配捐计划",
+            "becomeMentorDesc": "指导学生",
+            "howItWorksDesc": "关于平台",
+            "progressReportsDesc": "季度学生报告",
+            "donationGuaranteeDesc": "100%安全捐赠",
+            "transparencyDesc": "支出报告",
+            "storiesDesc": "成功故事"
+        }
+    },
+    "pages": {
+        "badges": {
+            "title": "徽章",
+            "subtitle": "通过捐款获得特别徽章",
+            "progress": "您正在接近目标",
+            "allBadges": "所有徽章",
+            "howToEarn": "如何获得徽章？",
+            "donationCount": "捐款次数徽章",
+            "totalAmount": "总金额徽章",
+            "firstStep": "第一步",
+            "regularSupporter": "常规支持者",
+            "perfectDonor": "完美捐助者",
+            "legend": "传奇",
+            "donation": "次捐款",
+            "donations": "次捐款"
+        },
+        "leaderboard": {
+            "title": "排行榜",
+            "subtitle": "我们最大的教育支持者",
+            "corporateDonations": "企业捐款",
+            "individualDonations": "个人捐款",
+            "activeDonors": "活跃捐助者",
+            "all": "全部",
+            "corporate": "企业",
+            "individual": "个人",
+            "students": "名学生",
+            "points": "积分",
+            "anonymousNotice": "您可以匿名捐款并出现在榜单上"
+        },
+        "alumni": {
+            "title": "我们的校友",
+            "subtitle": "通过FundEd实现梦想的学生成功故事",
+            "giveBackProgram": "回馈计划",
+            "giveBackDesc": "27%的校友积极支持新学生",
+            "joinProgram": "加入计划"
+        },
+        "updates": {
+            "title": "学生日志",
+            "subtitle": "关注您支持的学生的动态",
+            "activeJournals": "活跃日志",
+            "posts": "帖子",
+            "likes": "点赞",
+            "loadMore": "加载更多"
+        },
+        "stories": {
+            "title": "成功故事",
+            "subtitle": "学生的励志故事",
+            "thankYouMessages": "感谢信息",
+            "watchVideos": "观看视频故事",
+            "watchVideosDesc": "听学生亲口讲述",
+            "watchNow": "观看视频",
+            "collected": "已筹集"
+        },
+        "mentors": {
+            "title": "导师",
+            "subtitle": "指导学生并分享您的经验",
+            "becomeMentor": "成为导师",
+            "mentorDesc": "与学生分享您的知识",
+            "applyNow": "立即申请"
+        },
+        "donate": {
+            "title": "捐款",
+            "subtitle": "支持学生，改变生活",
+            "selectAmount": "选择金额",
+            "customAmount": "自定义金额",
+            "continuePayment": "继续支付"
+        },
+        "guarantee": {
+            "title": "捐款保障",
+            "subtitle": "您的捐款100%安全",
+            "howItWorks": "如何运作",
+            "guaranteeDesc": "我们保证您的捐款到达学生手中",
+            "securePayment": "安全支付",
+            "verifiedStudents": "已验证学生",
+            "transparentUse": "透明使用"
+        },
+        "transparency": {
+            "title": "透明度",
+            "subtitle": "捐款使用完全透明",
+            "spendingReports": "支出报告",
+            "downloadReport": "下载报告"
+        },
+        "reports": {
+            "title": "进度报告",
+            "subtitle": "学生进度季度报告",
+            "viewReport": "查看报告",
+            "quarter": "季度"
+        },
+        "howItWorks": {
+            "title": "如何运作",
+            "subtitle": "了解我们的平台",
+            "step1Title": "寻找学生",
+            "step1Desc": "浏览已验证的学生档案",
+            "step2Title": "捐款",
+            "step2Desc": "贡献您希望的金额",
+            "step3Title": "跟踪进度",
+            "step3Desc": "接收学生的更新"
+        },
+        "common": {
+            "bronze": "青铜",
+            "silver": "白银",
+            "gold": "黄金",
+            "platinum": "铂金"
+        }
     },
     "home": {
         "hero": {

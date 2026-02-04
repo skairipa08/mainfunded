@@ -39,7 +39,143 @@
         "campaigns": "الحملات",
         "students": "الطلاب",
         "verifications": "التحققات",
-        "donate": "تبرع"
+        "donate": "تبرع",
+        "menu": {
+            "leaderboard": "لوحة المتصدرين",
+            "badges": "الشارات",
+            "studentUpdates": "أخبار الطلاب",
+            "alumni": "خريجونا",
+            "donateNow": "تبرع",
+            "productDonation": "تبرع بمنتج",
+            "matchingGift": "مطابقة التبرع",
+            "becomeMentor": "كن مرشداً",
+            "howItWorks": "كيف يعمل",
+            "progressReports": "تقارير التقدم",
+            "donationGuarantee": "ضمان التبرع",
+            "transparency": "الشفافية",
+            "stories": "القصص",
+            "social": "اجتماعي",
+            "donation": "التبرع",
+            "about": "حول",
+            "leaderboardDesc": "عرض أفضل المتبرعين",
+            "badgesDesc": "شارات قابلة للكسب",
+            "studentUpdatesDesc": "تحديثات الطلاب",
+            "alumniDesc": "قصص النجاح",
+            "donateDesc": "دعم الطلاب",
+            "productDonationDesc": "تبرع بلابتوب، كتب إلخ.",
+            "matchingGiftDesc": "برنامج مطابقة الشركات",
+            "becomeMentorDesc": "توجيه الطلاب",
+            "howItWorksDesc": "عن المنصة",
+            "progressReportsDesc": "تقارير ربع سنوية",
+            "donationGuaranteeDesc": "تبرع آمن 100%",
+            "transparencyDesc": "تقارير الإنفاق",
+            "storiesDesc": "قصص النجاح"
+        }
+    },
+    "pages": {
+        "badges": {
+            "title": "الشارات",
+            "subtitle": "احصل على شارات خاصة بتبرعاتك",
+            "progress": "أنت تقترب من هدفك",
+            "allBadges": "جميع الشارات",
+            "howToEarn": "كيف تكسب الشارات؟",
+            "donationCount": "شارات عدد التبرعات",
+            "totalAmount": "شارات المبلغ الإجمالي",
+            "firstStep": "الخطوة الأولى",
+            "regularSupporter": "داعم منتظم",
+            "perfectDonor": "متبرع مثالي",
+            "legend": "أسطورة",
+            "donation": "تبرع",
+            "donations": "تبرعات"
+        },
+        "leaderboard": {
+            "title": "لوحة المتصدرين",
+            "subtitle": "أكبر الداعمين للتعليم",
+            "corporateDonations": "تبرعات الشركات",
+            "individualDonations": "التبرعات الفردية",
+            "activeDonors": "المتبرعون النشطون",
+            "all": "الكل",
+            "corporate": "شركات",
+            "individual": "أفراد",
+            "students": "طلاب",
+            "points": "نقاط",
+            "anonymousNotice": "يمكنك التبرع بشكل مجهول والظهور في القائمة"
+        },
+        "alumni": {
+            "title": "خريجونا",
+            "subtitle": "قصص نجاح الطلاب الذين حققوا أحلامهم مع FundEd",
+            "giveBackProgram": "برنامج رد الجميل",
+            "giveBackDesc": "27% من خريجينا يدعمون الطلاب الجدد بنشاط",
+            "joinProgram": "انضم للبرنامج"
+        },
+        "updates": {
+            "title": "مذكرات الطلاب",
+            "subtitle": "تابع تحديثات الطلاب الذين تدعمهم",
+            "activeJournals": "مذكرات نشطة",
+            "posts": "منشورات",
+            "likes": "إعجابات",
+            "loadMore": "تحميل المزيد"
+        },
+        "stories": {
+            "title": "قصص النجاح",
+            "subtitle": "قصص ملهمة من الطلاب",
+            "thankYouMessages": "رسائل الشكر",
+            "watchVideos": "شاهد قصص الفيديو",
+            "watchVideosDesc": "استمع للطلاب بكلماتهم الخاصة",
+            "watchNow": "شاهد الفيديوهات",
+            "collected": "تم جمعه"
+        },
+        "mentors": {
+            "title": "المرشدون",
+            "subtitle": "وجه الطلاب وشارك تجربتك",
+            "becomeMentor": "كن مرشداً",
+            "mentorDesc": "شارك معرفتك مع الطلاب",
+            "applyNow": "تقدم الآن"
+        },
+        "donate": {
+            "title": "تبرع",
+            "subtitle": "ادعم الطلاب وغير حياتهم",
+            "selectAmount": "اختر المبلغ",
+            "customAmount": "مبلغ مخصص",
+            "continuePayment": "متابعة الدفع"
+        },
+        "guarantee": {
+            "title": "ضمان التبرع",
+            "subtitle": "تبرعاتك آمنة 100%",
+            "howItWorks": "كيف يعمل",
+            "guaranteeDesc": "نضمن وصول تبرعك للطالب",
+            "securePayment": "دفع آمن",
+            "verifiedStudents": "طلاب موثقون",
+            "transparentUse": "استخدام شفاف"
+        },
+        "transparency": {
+            "title": "الشفافية",
+            "subtitle": "شفافية كاملة في استخدام التبرعات",
+            "spendingReports": "تقارير الإنفاق",
+            "downloadReport": "تحميل التقرير"
+        },
+        "reports": {
+            "title": "تقارير التقدم",
+            "subtitle": "تقارير ربع سنوية عن تقدم الطلاب",
+            "viewReport": "عرض التقرير",
+            "quarter": "ربع"
+        },
+        "howItWorks": {
+            "title": "كيف يعمل",
+            "subtitle": "تعرف على منصتنا",
+            "step1Title": "ابحث عن طالب",
+            "step1Desc": "تصفح ملفات الطلاب المعتمدين",
+            "step2Title": "تبرع",
+            "step2Desc": "ساهم بالمبلغ الذي تريده",
+            "step3Title": "تابع التقدم",
+            "step3Desc": "احصل على تحديثات من الطلاب"
+        },
+        "common": {
+            "bronze": "برونز",
+            "silver": "فضة",
+            "gold": "ذهب",
+            "platinum": "بلاتين"
+        }
     },
     "home": {
         "hero": {

@@ -1,0 +1,277 @@
+// Gamification: Badges, Points, and Leaderboard System
+
+export interface Badge {
+    id: string;
+    name: string;
+    description: string;
+    icon: string;
+    color: string;
+    requirement: {
+        type: 'donation_count' | 'donation_amount' | 'student_count' | 'streak' | 'special';
+        value: number;
+    };
+}
+
+export interface LeaderboardEntry {
+    id: string;
+    name: string;
+    type: 'individual' | 'corporate';
+    isAnonymous: boolean;
+    displayName: string;
+    totalDonated: number;
+    studentCount: number;
+    badges: string[];
+    rank: number;
+    points: number;
+    avatar?: string;
+}
+
+// Badge Definitions
+export const BADGES: Badge[] = [
+    {
+        id: 'first_step',
+        name: 'Ilk Adim',
+        description: 'Ilk bagisinizi yaptiniz',
+        icon: '🌱',
+        color: 'bg-green-100 text-green-800',
+        requirement: { type: 'donation_count', value: 1 },
+    },
+    {
+        id: 'supporter',
+        name: 'Destekci',
+        description: '5 bagis yaptiniz',
+        icon: '💪',
+        color: 'bg-blue-100 text-blue-800',
+        requirement: { type: 'donation_count', value: 5 },
+    },
+    {
+        id: 'champion',
+        name: 'Sampiyon',
+        description: '25 bagis yaptiniz',
+        icon: '🏆',
+        color: 'bg-amber-100 text-amber-800',
+        requirement: { type: 'donation_count', value: 25 },
+    },
+    {
+        id: 'legend',
+        name: 'Efsane',
+        description: '100 bagis yaptiniz',
+        icon: '⭐',
+        color: 'bg-purple-100 text-purple-800',
+        requirement: { type: 'donation_count', value: 100 },
+    },
+    {
+        id: 'generous',
+        name: 'Comert',
+        description: 'Toplam $1,000 bagis',
+        icon: '💎',
+        color: 'bg-cyan-100 text-cyan-800',
+        requirement: { type: 'donation_amount', value: 1000 },
+    },
+    {
+        id: 'philanthropist',
+        name: 'Hayirsever',
+        description: 'Toplam $10,000 bagis',
+        icon: '👑',
+        color: 'bg-yellow-100 text-yellow-800',
+        requirement: { type: 'donation_amount', value: 10000 },
+    },
+    {
+        id: 'patron',
+        name: 'Hamiler',
+        description: 'Toplam $50,000 bagis',
+        icon: '🌟',
+        color: 'bg-rose-100 text-rose-800',
+        requirement: { type: 'donation_amount', value: 50000 },
+    },
+    {
+        id: 'student_champion',
+        name: 'Ogrenci Sampiyonu',
+        description: '10 farkli ogrenciyi desteklediniz',
+        icon: '🎓',
+        color: 'bg-indigo-100 text-indigo-800',
+        requirement: { type: 'student_count', value: 10 },
+    },
+    {
+        id: 'streak_master',
+        name: 'Seri Ustasi',
+        description: '12 ay ust uste bagis yaptiniz',
+        icon: '🔥',
+        color: 'bg-orange-100 text-orange-800',
+        requirement: { type: 'streak', value: 12 },
+    },
+    {
+        id: 'early_bird',
+        name: 'Erken Kus',
+        description: 'Platform lansmanindan bu yana uye',
+        icon: '🐦',
+        color: 'bg-sky-100 text-sky-800',
+        requirement: { type: 'special', value: 1 },
+    },
+    {
+        id: 'matching_hero',
+        name: 'Eslestirme Kahramani',
+        description: 'Matching gift programina katildiniz',
+        icon: '🤝',
+        color: 'bg-teal-100 text-teal-800',
+        requirement: { type: 'special', value: 2 },
+    },
+    {
+        id: 'mentor',
+        name: 'Mentor',
+        description: 'Bir ogrenciye mentor oldunuz',
+        icon: '📚',
+        color: 'bg-violet-100 text-violet-800',
+        requirement: { type: 'special', value: 3 },
+    },
+];
+
+// Calculate points based on donations
+export function calculatePoints(
+    totalDonated: number,
+    donationCount: number,
+    studentCount: number,
+    streakMonths: number
+): number {
+    let points = 0;
+
+    // Base points from donation amount (1 point per $10)
+    points += Math.floor(totalDonated / 10);
+
+    // Bonus for number of donations (10 points each)
+    points += donationCount * 10;
+
+    // Bonus for supporting multiple students (50 points each)
+    points += studentCount * 50;
+
+    // Streak bonus (100 points per month)
+    points += streakMonths * 100;
+
+    return points;
+}
+
+// Check which badges a donor has earned
+export function getEarnedBadges(
+    donationCount: number,
+    totalDonated: number,
+    studentCount: number,
+    streakMonths: number,
+    specialBadges: string[] = []
+): Badge[] {
+    return BADGES.filter((badge) => {
+        switch (badge.requirement.type) {
+            case 'donation_count':
+                return donationCount >= badge.requirement.value;
+            case 'donation_amount':
+                return totalDonated >= badge.requirement.value;
+            case 'student_count':
+                return studentCount >= badge.requirement.value;
+            case 'streak':
+                return streakMonths >= badge.requirement.value;
+            case 'special':
+                return specialBadges.includes(badge.id);
+            default:
+                return false;
+        }
+    });
+}
+
+// Mock leaderboard data
+export const mockLeaderboard: LeaderboardEntry[] = [
+    {
+        id: '1',
+        name: 'Technology Ventures Inc.',
+        type: 'corporate',
+        isAnonymous: false,
+        displayName: 'Technology Ventures Inc.',
+        totalDonated: 125000,
+        studentCount: 45,
+        badges: ['patron', 'student_champion', 'matching_hero'],
+        rank: 1,
+        points: 15750,
+    },
+    {
+        id: '2',
+        name: 'Global Innovators Ltd.',
+        type: 'corporate',
+        isAnonymous: false,
+        displayName: 'Global Innovators Ltd.',
+        totalDonated: 87500,
+        studentCount: 32,
+        badges: ['philanthropist', 'student_champion', 'streak_master'],
+        rank: 2,
+        points: 11200,
+    },
+    {
+        id: '3',
+        name: 'Anonymous Corporation',
+        type: 'corporate',
+        isAnonymous: true,
+        displayName: 'Anonim Sirket',
+        totalDonated: 65000,
+        studentCount: 28,
+        badges: ['philanthropist', 'champion'],
+        rank: 3,
+        points: 8900,
+    },
+    {
+        id: '4',
+        name: 'Ahmet Yilmaz',
+        type: 'individual',
+        isAnonymous: false,
+        displayName: 'Ahmet Y.',
+        totalDonated: 15000,
+        studentCount: 12,
+        badges: ['philanthropist', 'student_champion', 'mentor'],
+        rank: 1,
+        points: 3200,
+    },
+    {
+        id: '5',
+        name: 'Ayse Kara',
+        type: 'individual',
+        isAnonymous: false,
+        displayName: 'Ayse K.',
+        totalDonated: 8500,
+        studentCount: 8,
+        badges: ['generous', 'supporter', 'streak_master'],
+        rank: 2,
+        points: 1850,
+    },
+    {
+        id: '6',
+        name: 'Hidden Donor',
+        type: 'individual',
+        isAnonymous: true,
+        displayName: 'Anonim Bagisci',
+        totalDonated: 7200,
+        studentCount: 6,
+        badges: ['generous', 'champion'],
+        rank: 3,
+        points: 1420,
+    },
+    {
+        id: '7',
+        name: 'Mehmet Demir',
+        type: 'individual',
+        isAnonymous: false,
+        displayName: 'Mehmet D.',
+        totalDonated: 5500,
+        studentCount: 5,
+        badges: ['generous', 'supporter'],
+        rank: 4,
+        points: 1100,
+    },
+    {
+        id: '8',
+        name: 'Zeynep Ozturk',
+        type: 'individual',
+        isAnonymous: false,
+        displayName: 'Zeynep O.',
+        totalDonated: 3200,
+        studentCount: 4,
+        badges: ['generous', 'supporter'],
+        rank: 5,
+        points: 720,
+    },
+];

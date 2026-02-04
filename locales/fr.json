@@ -39,7 +39,143 @@
         "campaigns": "Campagnes",
         "students": "Étudiants",
         "verifications": "Vérifications",
-        "donate": "Faire un don"
+        "donate": "Faire un don",
+        "menu": {
+            "leaderboard": "Classement",
+            "badges": "Badges",
+            "studentUpdates": "Actualités étudiantes",
+            "alumni": "Nos anciens",
+            "donateNow": "Faire un don",
+            "productDonation": "Don de produit",
+            "matchingGift": "Matching Gift",
+            "becomeMentor": "Devenir mentor",
+            "howItWorks": "Comment ça marche",
+            "progressReports": "Rapports de progrès",
+            "donationGuarantee": "Garantie de don",
+            "transparency": "Transparence",
+            "stories": "Histoires",
+            "social": "Social",
+            "donation": "Don",
+            "about": "À propos",
+            "leaderboardDesc": "Voir les meilleurs donateurs",
+            "badgesDesc": "Badges à gagner",
+            "studentUpdatesDesc": "Actualités des étudiants",
+            "alumniDesc": "Histoires de réussite",
+            "donateDesc": "Soutenir les étudiants",
+            "productDonationDesc": "Donner laptop, livres etc.",
+            "matchingGiftDesc": "Programme de matching entreprise",
+            "becomeMentorDesc": "Guider les étudiants",
+            "howItWorksDesc": "À propos de la plateforme",
+            "progressReportsDesc": "Rapports trimestriels",
+            "donationGuaranteeDesc": "Don 100% sécurisé",
+            "transparencyDesc": "Rapports de dépenses",
+            "storiesDesc": "Histoires de réussite"
+        }
+    },
+    "pages": {
+        "badges": {
+            "title": "Badges",
+            "subtitle": "Gagnez des badges spéciaux avec vos dons",
+            "progress": "Vous vous rapprochez de votre objectif",
+            "allBadges": "Tous les badges",
+            "howToEarn": "Comment gagner des badges?",
+            "donationCount": "Badges de nombre de dons",
+            "totalAmount": "Badges de montant total",
+            "firstStep": "Premier pas",
+            "regularSupporter": "Supporter régulier",
+            "perfectDonor": "Donateur parfait",
+            "legend": "Légende",
+            "donation": "don",
+            "donations": "dons"
+        },
+        "leaderboard": {
+            "title": "Classement",
+            "subtitle": "Nos plus grands soutiens à l'éducation",
+            "corporateDonations": "Dons d'entreprise",
+            "individualDonations": "Dons individuels",
+            "activeDonors": "Donateurs actifs",
+            "all": "Tous",
+            "corporate": "Entreprises",
+            "individual": "Particuliers",
+            "students": "étudiants",
+            "points": "points",
+            "anonymousNotice": "Vous pouvez faire un don anonyme et apparaître sur la liste"
+        },
+        "alumni": {
+            "title": "Nos anciens",
+            "subtitle": "Histoires de réussite d'étudiants qui ont réalisé leurs rêves avec FundEd",
+            "giveBackProgram": "Programme de retour",
+            "giveBackDesc": "27% de nos anciens soutiennent activement les nouveaux étudiants",
+            "joinProgram": "Rejoindre le programme"
+        },
+        "updates": {
+            "title": "Journaux étudiants",
+            "subtitle": "Suivez les mises à jour des étudiants que vous soutenez",
+            "activeJournals": "Journaux actifs",
+            "posts": "Publications",
+            "likes": "J'aime",
+            "loadMore": "Charger plus"
+        },
+        "stories": {
+            "title": "Histoires de réussite",
+            "subtitle": "Histoires inspirantes d'étudiants",
+            "thankYouMessages": "Messages de remerciement",
+            "watchVideos": "Regarder les vidéos",
+            "watchVideosDesc": "Écoutez les étudiants dans leurs propres mots",
+            "watchNow": "Regarder les vidéos",
+            "collected": "Collecté"
+        },
+        "mentors": {
+            "title": "Mentors",
+            "subtitle": "Guidez les étudiants et partagez votre expérience",
+            "becomeMentor": "Devenir mentor",
+            "mentorDesc": "Partagez vos connaissances avec les étudiants",
+            "applyNow": "Postuler maintenant"
+        },
+        "donate": {
+            "title": "Faire un don",
+            "subtitle": "Soutenez les étudiants et changez des vies",
+            "selectAmount": "Sélectionner le montant",
+            "customAmount": "Montant personnalisé",
+            "continuePayment": "Continuer vers le paiement"
+        },
+        "guarantee": {
+            "title": "Garantie de don",
+            "subtitle": "Vos dons sont 100% sécurisés",
+            "howItWorks": "Comment ça marche",
+            "guaranteeDesc": "Nous garantissons que votre don atteint l'étudiant",
+            "securePayment": "Paiement sécurisé",
+            "verifiedStudents": "Étudiants vérifiés",
+            "transparentUse": "Utilisation transparente"
+        },
+        "transparency": {
+            "title": "Transparence",
+            "subtitle": "Transparence totale sur l'utilisation des dons",
+            "spendingReports": "Rapports de dépenses",
+            "downloadReport": "Télécharger le rapport"
+        },
+        "reports": {
+            "title": "Rapports de progrès",
+            "subtitle": "Rapports trimestriels sur les progrès des étudiants",
+            "viewReport": "Voir le rapport",
+            "quarter": "Trimestre"
+        },
+        "howItWorks": {
+            "title": "Comment ça marche",
+            "subtitle": "Découvrez notre plateforme",
+            "step1Title": "Trouver un étudiant",
+            "step1Desc": "Parcourez les profils d'étudiants vérifiés",
+            "step2Title": "Faire un don",
+            "step2Desc": "Contribuez le montant de votre choix",
+            "step3Title": "Suivre les progrès",
+            "step3Desc": "Recevez des mises à jour des étudiants"
+        },
+        "common": {
+            "bronze": "Bronze",
+            "silver": "Argent",
+            "gold": "Or",
+            "platinum": "Platine"
+        }
     },
     "home": {
         "hero": {
