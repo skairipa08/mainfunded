@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { Bell, Search, ChevronDown, Download } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { useCorporateAuth } from '@/lib/corporate/auth';
 
 interface HeaderProps {
     title: string;
@@ -12,8 +14,18 @@ interface HeaderProps {
 }
 
 export default function CorporateHeader({ title, subtitle }: HeaderProps) {
+    const { user } = useCorporateAuth();
+
+    const initials = user
+        ? `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`.toUpperCase()
+        : 'KP';
+
+    const displayName = user
+        ? `${user.firstName} ${user.lastName}`
+        : 'Kurumsal Kullanıcı';
+
     const handleDownload = () => {
-        // Create printable ESG report
+        const companyName = user?.companyName || 'Şirket';
         const reportWindow = window.open('', '_blank');
         if (reportWindow) {
             reportWindow.document.write(`
@@ -34,24 +46,24 @@ export default function CorporateHeader({ title, subtitle }: HeaderProps) {
                 </head>
                 <body>
                     <h1>🌱 ESG Performans Raporu</h1>
-                    <p>TechVentures A.S. - Rapor Donemi: Ocak 2026 - Subat 2026</p>
+                    <p>${companyName} - Rapor Dönemi: Ocak 2026 - Şubat 2026</p>
                     
-                    <h2>Etki Ozeti</h2>
-                    <div class="stat"><div class="stat-value">24</div><div class="stat-label">Desteklenen Ogrenci</div></div>
-                    <div class="stat"><div class="stat-value">8</div><div class="stat-label">Mezun Sayisi</div></div>
-                    <div class="stat"><div class="stat-value">%92</div><div class="stat-label">Istihdam Orani</div></div>
+                    <h2>Etki Özeti</h2>
+                    <div class="stat"><div class="stat-value">24</div><div class="stat-label">Desteklenen Öğrenci</div></div>
+                    <div class="stat"><div class="stat-value">8</div><div class="stat-label">Mezun Sayısı</div></div>
+                    <div class="stat"><div class="stat-value">%92</div><div class="stat-label">İstihdam Oranı</div></div>
                     
                     <h2>BM SDG Uyumu</h2>
                     <ul>
-                        <li>SDG 1 - Yoksulluga Son: 🟢 Yuksek Etki</li>
-                        <li>SDG 4 - Nitelikli Egitim: 🟢 Yuksek Etki</li>
-                        <li>SDG 5 - Cinsiyet Esitligi: 🔵 Orta Etki</li>
-                        <li>SDG 10 - Esitsizliklerin Azaltilmasi: 🟢 Yuksek Etki</li>
+                        <li>SDG 1 - Yoksulluğa Son: 🟢 Yüksek Etki</li>
+                        <li>SDG 4 - Nitelikli Eğitim: 🟢 Yüksek Etki</li>
+                        <li>SDG 5 - Cinsiyet Eşitliği: 🔵 Orta Etki</li>
+                        <li>SDG 10 - Eşitsizliklerin Azaltılması: 🟢 Yüksek Etki</li>
                     </ul>
                     
                     <div class="footer">
-                        <p>Bu rapor FundEd platformu tarafindan otomatik olusturulmustur.</p>
-                        <p>Olusturma Tarihi: ${new Date().toLocaleDateString('tr-TR')}</p>
+                        <p>Bu rapor FundEd platformu tarafından otomatik oluşturulmuştur.</p>
+                        <p>Oluşturma Tarihi: ${new Date().toLocaleDateString('tr-TR')}</p>
                     </div>
                 </body>
                 </html>
@@ -92,8 +104,11 @@ export default function CorporateHeader({ title, subtitle }: HeaderProps) {
                         </Button>
                     </Link>
 
+                    {/* Language Switcher */}
+                    <LanguageSwitcher variant="minimal" />
+
                     {/* Download Report */}
-                    <Button variant="ghost" size="icon" onClick={handleDownload} title="ESG Raporu Indir">
+                    <Button variant="ghost" size="icon" onClick={handleDownload} title="ESG Raporu İndir">
                         <Download className="h-5 w-5 text-gray-600" />
                     </Button>
 
@@ -101,11 +116,11 @@ export default function CorporateHeader({ title, subtitle }: HeaderProps) {
                     <Link href="/corporate/settings">
                         <div className="flex items-center gap-2 cursor-pointer hover:bg-gray-50 px-2 md:px-3 py-2 rounded-lg transition-colors">
                             <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm font-bold flex-shrink-0">
-                                AY
+                                {initials}
                             </div>
                             <div className="hidden md:block">
-                                <p className="text-sm font-medium text-gray-900">Ahmet Yilmaz</p>
-                                <p className="text-xs text-gray-500">Admin</p>
+                                <p className="text-sm font-medium text-gray-900">{displayName}</p>
+                                <p className="text-xs text-gray-500">{user?.tier === 'enterprise' ? 'Enterprise' : user?.tier === 'growth' ? 'Growth' : user?.tier === 'starter' ? 'Starter' : 'Admin'}</p>
                             </div>
                             <ChevronDown className="h-4 w-4 text-gray-400 hidden md:block" />
                         </div>

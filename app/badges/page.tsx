@@ -34,7 +34,7 @@ export default function BadgesPage() {
                 {/* Demo Notice */}
                 <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8 flex items-center gap-3">
                     <span className="text-amber-600 font-bold text-lg">⚠️</span>
-                    <p className="text-amber-800 text-sm font-medium">Bu sayfa demo amaclidir. Rozetler ve ilerleme degerleri platform aktif oldugunda guncellenecektir.</p>
+                    <p className="text-amber-800 text-sm font-medium">{t('common.demoBadges')}</p>
                 </div>
 
                 {/* Progress Section */}

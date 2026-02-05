@@ -17,6 +17,7 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Input } from '@/components/ui/input';
 import { mockCampaigns, mockStudents } from '@/lib/corporate/mock-data';
+import { useTranslation } from '@/lib/i18n/context';
 
 interface CartItem {
     id: string;
@@ -26,6 +27,7 @@ interface CartItem {
 }
 
 export default function CampaignsPage() {
+    const { t } = useTranslation();
     const [cart, setCart] = useState<CartItem[]>([]);
     const [autoDonateMode, setAutoDonateMode] = useState(false);
     const [autoDonateAmount, setAutoDonateAmount] = useState('');
@@ -83,11 +85,24 @@ export default function CampaignsPage() {
         }
     };
 
+    const getCampaignStatus = (status: string) => {
+        switch (status) {
+            case 'active':
+                return t('corporate.campaigns.active');
+            case 'completed':
+                return t('corporate.campaigns.completed');
+            case 'paused':
+                return t('corporate.campaigns.paused');
+            default:
+                return status;
+        }
+    };
+
     return (
         <div className="min-h-screen">
             <CorporateHeader
-                title="Kampanyalar ve Bagis"
-                subtitle="Kampanyalara goz atin ve toplu bagis yapin"
+                title={t('corporate.campaigns.title')}
+                subtitle={t('corporate.campaigns.subtitle')}
             />
 
             <div className="p-6">
@@ -99,7 +114,7 @@ export default function CampaignsPage() {
                         className="flex items-center gap-2"
                     >
                         <Sparkles className="h-4 w-4" />
-                        Otomatik Bagis
+                        {t('corporate.campaigns.autoDonate')}
                     </Button>
                     <Button
                         variant="outline"
@@ -107,7 +122,7 @@ export default function CampaignsPage() {
                         className="flex items-center gap-2 relative"
                     >
                         <ShoppingCart className="h-4 w-4" />
-                        Sepet
+                        {t('corporate.campaigns.cart')}
                         {cart.length > 0 && (
                             <Badge className="ml-2 bg-blue-600">{cart.length}</Badge>
                         )}
@@ -119,21 +134,21 @@ export default function CampaignsPage() {
                     <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 mb-6 border border-blue-100">
                         <h3 className="text-lg font-semibold text-gray-900 mb-2 flex items-center gap-2">
                             <Sparkles className="h-5 w-5 text-blue-600" />
-                            Otomatik Bagis Sistemi
+                            {t('corporate.campaigns.autoDonateSystem')}
                         </h3>
                         <p className="text-gray-600 mb-4">
-                            Butce belirleyin, sistem en cok ihtiyaci olan ogrencilere otomatik dagitsin.
+                            {t('corporate.campaigns.autoDonateDesc')}
                         </p>
                         <div className="flex gap-3">
                             <Input
                                 type="number"
-                                placeholder="Butce (USD)"
+                                placeholder={t('corporate.campaigns.budgetPlaceholder')}
                                 value={autoDonateAmount}
                                 onChange={(e) => setAutoDonateAmount(e.target.value)}
                                 className="w-48"
                             />
                             <Button onClick={handleAutoDonate}>
-                                Dagit
+                                {t('corporate.campaigns.distribute')}
                             </Button>
                         </div>
                     </div>
@@ -144,7 +159,7 @@ export default function CampaignsPage() {
                     <div className="bg-white rounded-xl p-6 mb-6 shadow-sm border border-gray-100">
                         <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                             <ShoppingCart className="h-5 w-5" />
-                            Bagis Sepeti
+                            {t('corporate.campaigns.donationCart')}
                         </h3>
                         <div className="space-y-3 mb-4">
                             {cart.map((item) => (
@@ -152,7 +167,7 @@ export default function CampaignsPage() {
                                     <div>
                                         <p className="font-medium text-gray-900">{item.name}</p>
                                         <Badge variant="outline" className="text-xs">
-                                            {item.type === 'campaign' ? 'Kampanya' : 'Ogrenci'}
+                                            {item.type === 'campaign' ? t('corporate.campaigns.campaign') : t('corporate.campaigns.student')}
                                         </Badge>
                                     </div>
                                     <div className="flex items-center gap-2">
@@ -189,19 +204,19 @@ export default function CampaignsPage() {
                         </div>
                         <div className="flex items-center justify-between pt-4 border-t">
                             <div>
-                                <p className="text-gray-500">Toplam</p>
+                                <p className="text-gray-500">{t('corporate.campaigns.total')}</p>
                                 <p className="text-2xl font-bold text-gray-900">{formatCurrency(cartTotal)}</p>
                             </div>
                             <Button size="lg" className="gap-2">
                                 <CreditCard className="h-5 w-5" />
-                                Odeme Yap
+                                {t('corporate.campaigns.checkout')}
                             </Button>
                         </div>
                     </div>
                 )}
 
                 {/* Campaigns Grid */}
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Aktif Kampanyalar</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">{t('corporate.campaigns.activeCampaigns')}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                     {mockCampaigns.map((campaign) => (
                         <div
@@ -219,14 +234,14 @@ export default function CampaignsPage() {
                                             campaign.status === 'completed' ? 'bg-blue-100 text-blue-700' :
                                                 'bg-gray-100 text-gray-700'
                                     }>
-                                        {campaign.status === 'active' ? 'Aktif' : campaign.status === 'completed' ? 'Tamamlandi' : 'Durduruldu'}
+                                        {getCampaignStatus(campaign.status)}
                                     </Badge>
                                 </div>
                                 <p className="text-sm text-gray-500 mb-3">{campaign.description}</p>
                                 <div className="flex items-center gap-4 text-sm text-gray-500 mb-3">
                                     <span className="flex items-center gap-1">
                                         <Users className="h-4 w-4" />
-                                        {campaign.student_count} ogrenci
+                                        {campaign.student_count} {t('corporate.campaigns.studentsCount')}
                                     </span>
                                 </div>
                                 <Progress
@@ -248,7 +263,7 @@ export default function CampaignsPage() {
                                     onClick={() => addToCart(campaign.id, 'campaign', campaign.title, 500)}
                                 >
                                     <Plus className="h-4 w-4 mr-2" />
-                                    Sepete Ekle
+                                    {t('corporate.campaigns.addToCart')}
                                 </Button>
                             </div>
                         </div>
@@ -256,7 +271,7 @@ export default function CampaignsPage() {
                 </div>
 
                 {/* Individual Students */}
-                <h3 className="text-xl font-semibold text-gray-900 mb-4">Bireysel Ogrenciler</h3>
+                <h3 className="text-xl font-semibold text-gray-900 mb-4">{t('corporate.campaigns.individualStudents')}</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                     {mockStudents.filter(s => s.status === 'active').map((student) => (
                         <div
@@ -287,7 +302,7 @@ export default function CampaignsPage() {
                                 onClick={() => addToCart(student.id, 'student', student.name, 100)}
                             >
                                 <Plus className="h-3 w-3 mr-1" />
-                                Ekle
+                                {t('corporate.campaigns.add')}
                             </Button>
                         </div>
                     ))}

@@ -4,8 +4,11 @@ import React from 'react';
 import { Shield, PieChart, FileCheck, Users, DollarSign } from 'lucide-react';
 import { TransparencyCard, VerificationBadge } from '@/components/TransparencyCard';
 import MobileHeader from '@/components/MobileHeader';
+import { useTranslation } from '@/lib/i18n/context';
 
 export default function TransparencyPage() {
+    const { t } = useTranslation();
+
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-green-50">
             {/* Mobile Header */}
@@ -29,7 +32,7 @@ export default function TransparencyPage() {
                 {/* Demo Notice */}
                 <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8 flex items-center gap-3">
                     <span className="text-amber-600 font-bold text-lg">⚠️</span>
-                    <p className="text-amber-800 text-sm font-medium">Bu sayfa demo amaclidir. Gercek veriler platform aktif oldugunda guncellenecektir.</p>
+                    <p className="text-amber-800 text-sm font-medium">{t('common.demoTransparency')}</p>
                 </div>
 
                 <div className="grid md:grid-cols-4 gap-6 mb-12">

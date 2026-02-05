@@ -34,10 +34,12 @@ import {
     mockStudents,
     mockCampaigns,
 } from '@/lib/corporate/mock-data';
+import { useTranslation } from '@/lib/i18n/context';
 
 const COLORS = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6'];
 
 export default function CorporateDashboard() {
+    const { t } = useTranslation();
     const formatCurrency = (value: number) => {
         return new Intl.NumberFormat('tr-TR', {
             style: 'currency',
@@ -49,34 +51,34 @@ export default function CorporateDashboard() {
     return (
         <div className="min-h-screen">
             <CorporateHeader
-                title="Dashboard"
-                subtitle="Kurumsal bagis panelinize hos geldiniz"
+                title={t('corporate.dashboard')}
+                subtitle={t('corporate.welcomeMessage')}
             />
 
             <div className="p-6">
                 {/* Stats Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
                     <StatCard
-                        title="Toplam Bagis"
+                        title={t('corporate.totalDonations')}
                         value={formatCurrency(mockDashboardStats.totalDonations.allTime)}
-                        subtitle={`Bu ay: ${formatCurrency(mockDashboardStats.totalDonations.thisMonth)}`}
+                        subtitle={`${t('corporate.thisMonth')}: ${formatCurrency(mockDashboardStats.totalDonations.thisMonth)}`}
                         icon={DollarSign}
                         trend={{ value: 12, positive: true }}
                     />
                     <StatCard
-                        title="Desteklenen Ogrenci"
+                        title={t('corporate.supportedStudents')}
                         value={mockDashboardStats.studentsSupported}
-                        subtitle={`${mockDashboardStats.graduatedStudents} mezun`}
+                        subtitle={`${mockDashboardStats.graduatedStudents} ${t('corporate.graduated')}`}
                         icon={Users}
                         trend={{ value: 8, positive: true }}
                     />
                     <StatCard
-                        title="Ortalama Bagis"
+                        title={t('corporate.averageDonation')}
                         value={formatCurrency(mockDashboardStats.averageDonation)}
                         icon={TrendingUp}
                     />
                     <StatCard
-                        title="Aktif Kampanya"
+                        title={t('corporate.activeCampaigns')}
                         value={mockDashboardStats.activeCampaigns}
                         icon={Target}
                     />
@@ -87,7 +89,7 @@ export default function CorporateDashboard() {
                     {/* Donation Trend Chart */}
                     <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                         <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                            Bagis Egilimi (2025)
+                            {t('corporate.donationTrend')} (2025)
                         </h3>
                         <div className="h-80">
                             <ResponsiveContainer width="100%" height="100%">
@@ -118,7 +120,7 @@ export default function CorporateDashboard() {
                     {/* Faculty Distribution */}
                     <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                         <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                            Fakulte Dagilimi
+                            {t('corporate.facultyDistribution')}
                         </h3>
                         <div className="h-80 flex items-center">
                             <ResponsiveContainer width="50%" height="100%">
@@ -161,11 +163,11 @@ export default function CorporateDashboard() {
                     <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="text-lg font-semibold text-gray-900">
-                                Son Desteklenen Ogrenciler
+                                {t('corporate.recentStudents')}
                             </h3>
                             <Link href="/corporate/students">
                                 <Button variant="ghost" size="sm">
-                                    Tumunu Gor <ArrowRight className="ml-1 h-4 w-4" />
+                                    {t('corporate.viewAll')} <ArrowRight className="ml-1 h-4 w-4" />
                                 </Button>
                             </Link>
                         </div>
@@ -198,11 +200,11 @@ export default function CorporateDashboard() {
                     <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="text-lg font-semibold text-gray-900">
-                                Aktif Kampanyalar
+                                {t('corporate.activeCampaigns')}
                             </h3>
                             <Link href="/corporate/campaigns">
                                 <Button variant="ghost" size="sm">
-                                    Tumunu Gor <ArrowRight className="ml-1 h-4 w-4" />
+                                    {t('corporate.viewAll')} <ArrowRight className="ml-1 h-4 w-4" />
                                 </Button>
                             </Link>
                         </div>
@@ -215,7 +217,7 @@ export default function CorporateDashboard() {
                                         <div className="flex items-center justify-between">
                                             <p className="font-medium text-gray-900">{campaign.title}</p>
                                             <span className="text-sm text-gray-500">
-                                                {campaign.student_count} ogrenci
+                                                {campaign.student_count} {t('corporate.students')}
                                             </span>
                                         </div>
                                         <div className="w-full bg-gray-200 rounded-full h-2">

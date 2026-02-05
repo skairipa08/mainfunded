@@ -31,8 +31,10 @@ import {
     TableRow,
 } from '@/components/ui/table';
 import { mockStudents } from '@/lib/corporate/mock-data';
+import { useTranslation } from '@/lib/i18n/context';
 
 export default function ReportsPage() {
+    const { t } = useTranslation();
     const [dateFrom, setDateFrom] = useState('');
     const [dateTo, setDateTo] = useState('');
     const [countryFilter, setCountryFilter] = useState('all');
@@ -60,7 +62,7 @@ export default function ReportsPage() {
     const faculties = [...new Set(mockStudents.map(s => s.faculty))];
 
     const exportCSV = () => {
-        const headers = ['Ogrenci', 'Universite', 'Bolum', 'Ulke', 'Bagis', 'Hedef', 'Durum'];
+        const headers = [t('corporate.reports.student'), t('corporate.reports.university'), t('corporate.reports.department'), t('corporate.reports.country'), t('corporate.reports.donation'), t('corporate.reports.goal'), t('corporate.reports.status')];
         const rows = filteredData.map(s => [
             s.name,
             s.university,
@@ -76,26 +78,37 @@ export default function ReportsPage() {
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `bagis-raporu-${new Date().toISOString().split('T')[0]}.csv`;
+        a.download = `donation-report-${new Date().toISOString().split('T')[0]}.csv`;
         a.click();
     };
 
     const exportExcel = async () => {
-        // In production, use xlsx library
-        alert('Excel export (xlsx paketi ile) - Demo modunda CSV olarak indirilecek');
+        alert(t('corporate.reports.excelDemoAlert'));
         exportCSV();
     };
 
     const exportPDF = () => {
-        // In production, use jspdf library
-        alert('PDF export (jspdf paketi ile) - Demo modunda hazirlanacak');
+        alert(t('corporate.reports.pdfDemoAlert'));
+    };
+
+    const getStudentStatus = (status: string) => {
+        switch (status) {
+            case 'active':
+                return t('corporate.reports.active');
+            case 'graduated':
+                return t('corporate.reports.graduated');
+            case 'dropped':
+                return t('corporate.reports.dropped');
+            default:
+                return status;
+        }
     };
 
     return (
         <div className="min-h-screen">
             <CorporateHeader
-                title="Raporlar"
-                subtitle="Bagis raporlarinizi goruntuleyın ve indirin"
+                title={t('corporate.reports.title')}
+                subtitle={t('corporate.reports.subtitle')}
             />
 
             <div className="p-6">
@@ -103,11 +116,11 @@ export default function ReportsPage() {
                 <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 mb-6">
                     <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                         <Filter className="h-5 w-5" />
-                        Filtreler
+                        {t('corporate.reports.filters')}
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                         <div>
-                            <label className="text-sm text-gray-500 mb-1 block">Baslangic Tarihi</label>
+                            <label className="text-sm text-gray-500 mb-1 block">{t('corporate.reports.startDate')}</label>
                             <Input
                                 type="date"
                                 value={dateFrom}
@@ -115,7 +128,7 @@ export default function ReportsPage() {
                             />
                         </div>
                         <div>
-                            <label className="text-sm text-gray-500 mb-1 block">Bitis Tarihi</label>
+                            <label className="text-sm text-gray-500 mb-1 block">{t('corporate.reports.endDate')}</label>
                             <Input
                                 type="date"
                                 value={dateTo}
@@ -123,13 +136,13 @@ export default function ReportsPage() {
                             />
                         </div>
                         <div>
-                            <label className="text-sm text-gray-500 mb-1 block">Ulke</label>
+                            <label className="text-sm text-gray-500 mb-1 block">{t('corporate.reports.country')}</label>
                             <Select value={countryFilter} onValueChange={setCountryFilter}>
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Tumu" />
+                                    <SelectValue placeholder={t('corporate.reports.all')} />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">Tum Ulkeler</SelectItem>
+                                    <SelectItem value="all">{t('corporate.reports.allCountries')}</SelectItem>
                                     {countries.map(c => (
                                         <SelectItem key={c} value={c}>{c}</SelectItem>
                                     ))}
@@ -137,13 +150,13 @@ export default function ReportsPage() {
                             </Select>
                         </div>
                         <div>
-                            <label className="text-sm text-gray-500 mb-1 block">Fakulte</label>
+                            <label className="text-sm text-gray-500 mb-1 block">{t('corporate.reports.faculty')}</label>
                             <Select value={facultyFilter} onValueChange={setFacultyFilter}>
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Tumu" />
+                                    <SelectValue placeholder={t('corporate.reports.all')} />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">Tum Fakulteler</SelectItem>
+                                    <SelectItem value="all">{t('corporate.reports.allFaculties')}</SelectItem>
                                     {faculties.map(f => (
                                         <SelectItem key={f} value={f}>{f}</SelectItem>
                                     ))}
@@ -151,15 +164,15 @@ export default function ReportsPage() {
                             </Select>
                         </div>
                         <div>
-                            <label className="text-sm text-gray-500 mb-1 block">Durum</label>
+                            <label className="text-sm text-gray-500 mb-1 block">{t('corporate.reports.status')}</label>
                             <Select value={statusFilter} onValueChange={setStatusFilter}>
                                 <SelectTrigger>
-                                    <SelectValue placeholder="Tumu" />
+                                    <SelectValue placeholder={t('corporate.reports.all')} />
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="all">Tum Durumlar</SelectItem>
-                                    <SelectItem value="active">Devam Ediyor</SelectItem>
-                                    <SelectItem value="graduated">Mezun</SelectItem>
+                                    <SelectItem value="all">{t('corporate.reports.allStatuses')}</SelectItem>
+                                    <SelectItem value="active">{t('corporate.reports.activeStatus')}</SelectItem>
+                                    <SelectItem value="graduated">{t('corporate.reports.graduatedStatus')}</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
@@ -170,9 +183,9 @@ export default function ReportsPage() {
                 <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 mb-6">
                     <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                         <div>
-                            <h3 className="text-lg font-semibold text-gray-900">Rapor Indir</h3>
+                            <h3 className="text-lg font-semibold text-gray-900">{t('corporate.reports.downloadReport')}</h3>
                             <p className="text-sm text-gray-500">
-                                {filteredData.length} kayit • Toplam: {formatCurrency(totalDonations)}
+                                {filteredData.length} {t('corporate.reports.records')} • {t('corporate.reports.total')}: {formatCurrency(totalDonations)}
                             </p>
                         </div>
                         <div className="flex flex-wrap gap-3">
@@ -186,7 +199,7 @@ export default function ReportsPage() {
                             </Button>
                             <Button variant="outline" onClick={exportPDF} className="gap-2">
                                 <File className="h-4 w-4" />
-                                PDF (Vergi Makbuzu)
+                                {t('corporate.reports.pdfTaxReceipt')}
                             </Button>
                         </div>
                     </div>
@@ -200,8 +213,8 @@ export default function ReportsPage() {
                                 <Mail className="h-5 w-5 text-blue-600" />
                             </div>
                             <div>
-                                <h3 className="font-semibold text-gray-900">Otomatik Aylik Rapor</h3>
-                                <p className="text-sm text-gray-600">Her ayin 1inde e-posta ile rapor alin</p>
+                                <h3 className="font-semibold text-gray-900">{t('corporate.reports.autoMonthlyReport')}</h3>
+                                <p className="text-sm text-gray-600">{t('corporate.reports.autoMonthlyReportDesc')}</p>
                             </div>
                         </div>
                         <Button
@@ -210,7 +223,7 @@ export default function ReportsPage() {
                             className="gap-2"
                         >
                             {autoReportEnabled && <CheckCircle className="h-4 w-4" />}
-                            {autoReportEnabled ? 'Aktif' : 'Etkinlestir'}
+                            {autoReportEnabled ? t('corporate.reports.enabled') : t('corporate.reports.enable')}
                         </Button>
                     </div>
                 </div>
@@ -220,13 +233,13 @@ export default function ReportsPage() {
                     <Table>
                         <TableHeader>
                             <TableRow>
-                                <TableHead>Ogrenci</TableHead>
-                                <TableHead>Universite</TableHead>
-                                <TableHead>Bolum</TableHead>
-                                <TableHead>Ulke</TableHead>
-                                <TableHead className="text-right">Bagis</TableHead>
-                                <TableHead className="text-right">Hedef</TableHead>
-                                <TableHead>Durum</TableHead>
+                                <TableHead>{t('corporate.reports.student')}</TableHead>
+                                <TableHead>{t('corporate.reports.university')}</TableHead>
+                                <TableHead>{t('corporate.reports.department')}</TableHead>
+                                <TableHead>{t('corporate.reports.country')}</TableHead>
+                                <TableHead className="text-right">{t('corporate.reports.donation')}</TableHead>
+                                <TableHead className="text-right">{t('corporate.reports.goal')}</TableHead>
+                                <TableHead>{t('corporate.reports.status')}</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
@@ -248,7 +261,7 @@ export default function ReportsPage() {
                                                 student.status === 'graduated' ? 'bg-blue-100 text-blue-700' :
                                                     'bg-red-100 text-red-700'
                                         }>
-                                            {student.status === 'active' ? 'Devam' : student.status === 'graduated' ? 'Mezun' : 'Ayrildi'}
+                                            {getStudentStatus(student.status)}
                                         </Badge>
                                     </TableCell>
                                 </TableRow>

@@ -10,10 +10,12 @@ import {
     Send,
     MoreHorizontal,
     Share2,
+    EyeOff,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { censorSurname } from '@/lib/privacy';
 
 interface BlogPost {
     id: string;
@@ -95,7 +97,7 @@ function StudentBlogPost({ post }: { post: BlogPost }) {
                 <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
                         {post.studentAvatar ? (
-                            <img src={post.studentAvatar} alt={post.studentName} className="w-full h-full rounded-full object-cover" />
+                            <img src={post.studentAvatar} alt={censorSurname(post.studentName)} className="w-full h-full rounded-full object-cover" />
                         ) : (
                             <span className="text-blue-600 font-medium">
                                 {post.studentName.charAt(0)}
@@ -103,7 +105,7 @@ function StudentBlogPost({ post }: { post: BlogPost }) {
                         )}
                     </div>
                     <div>
-                        <p className="font-medium text-gray-900">{post.studentName}</p>
+                        <p className="font-medium text-gray-900">{censorSurname(post.studentName)}</p>
                         <p className="text-xs text-gray-500 flex items-center gap-1">
                             <Calendar className="h-3 w-3" />
                             {formatDate(post.date)}
@@ -230,7 +232,7 @@ function StudentBlogPost({ post }: { post: BlogPost }) {
 
 // Write Blog Post Form
 interface WriteBlogPostProps {
-    onSubmit?: (data: { title: string; content: string; tags: string[] }) => void;
+    onSubmit?: (data: { title: string; content: string; tags: string[]; censorSurname: boolean }) => void;
     className?: string;
 }
 
@@ -238,6 +240,7 @@ export function WriteBlogPost({ onSubmit, className }: WriteBlogPostProps) {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [tags, setTags] = useState('');
+    const [censorName, setCensorName] = useState(true);
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
@@ -246,6 +249,7 @@ export function WriteBlogPost({ onSubmit, className }: WriteBlogPostProps) {
                 title,
                 content,
                 tags: tags.split(',').map(t => t.trim()).filter(Boolean),
+                censorSurname: censorName,
             });
         }
         setTitle('');
@@ -284,6 +288,21 @@ export function WriteBlogPost({ onSubmit, className }: WriteBlogPostProps) {
                     placeholder="Etiketler (virgul ile ayirin)"
                     className="w-full px-3 py-2 border rounded-lg text-sm"
                 />
+            </div>
+
+            {/* Surname Censoring Option */}
+            <div className="flex items-center gap-2 mt-4 p-3 bg-gray-50 rounded-lg">
+                <input
+                    type="checkbox"
+                    id="censorName"
+                    checked={censorName}
+                    onChange={(e) => setCensorName(e.target.checked)}
+                    className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                />
+                <label htmlFor="censorName" className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
+                    <EyeOff className="h-4 w-4 text-gray-500" />
+                    Soyadimi sansurle (Ornek: Ayse Y***)
+                </label>
             </div>
 
             <div className="flex items-center justify-between mt-4">

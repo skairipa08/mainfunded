@@ -15,6 +15,7 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { StatusBadge } from '@/components/ui/status-badge';
 
 interface StudentApplication {
   id: string;
@@ -74,16 +75,6 @@ export default function OperationsApplicationsPage() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const getStatusBadge = (status: string) => {
-    const variants: Record<string, string> = {
-      Received: 'bg-blue-100 text-blue-800',
-      'Under Review': 'bg-yellow-100 text-yellow-800',
-      Approved: 'bg-green-100 text-green-800',
-      Rejected: 'bg-red-100 text-red-800',
-    };
-    return variants[status] || 'bg-gray-100 text-gray-800';
   };
 
   return (
@@ -147,7 +138,7 @@ export default function OperationsApplicationsPage() {
                       <TableCell>{app.country}</TableCell>
                       <TableCell>{app.educationLevel}</TableCell>
                       <TableCell>
-                        <Badge className={getStatusBadge(app.status)}>{app.status}</Badge>
+                        <StatusBadge status={app.status} />
                       </TableCell>
                       <TableCell>
                         {new Date(app.createdAt).toLocaleDateString('en-US', {

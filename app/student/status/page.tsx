@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
-import { CheckCircle, Clock, XCircle } from 'lucide-react';
+import { StatusBadge } from '@/components/ui/status-badge';
 import { useTranslation, useLocale } from '@/lib/i18n';
 
 interface StudentApplication {
@@ -69,36 +69,6 @@ function StudentStatusContent() {
     fetchApplication();
   }, [applicationId]);
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'Received':
-        return <Clock className="h-6 w-6 text-blue-600" />;
-      case 'Under Review':
-        return <Clock className="h-6 w-6 text-yellow-600" />;
-      case 'Approved':
-        return <CheckCircle className="h-6 w-6 text-green-600" />;
-      case 'Rejected':
-        return <XCircle className="h-6 w-6 text-red-600" />;
-      default:
-        return <Clock className="h-6 w-6 text-gray-600" />;
-    }
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'Received':
-        return 'bg-blue-100 text-blue-800';
-      case 'Under Review':
-        return 'bg-yellow-100 text-yellow-800';
-      case 'Approved':
-        return 'bg-green-100 text-green-800';
-      case 'Rejected':
-        return 'bg-red-100 text-red-800';
-      default:
-        return 'bg-gray-100 text-gray-800';
-    }
-  };
-
   const getTranslatedStatus = (status: string) => {
     switch (status) {
       case 'Received':
@@ -156,14 +126,9 @@ function StudentStatusContent() {
             {t('applicationStatus.status')}
           </h2>
           <div className="flex items-center space-x-3">
-            {getStatusIcon(application.status)}
-            <span
-              className={`px-4 py-2 rounded-full font-semibold ${getStatusColor(
-                application.status
-              )}`}
-            >
+            <StatusBadge status={application.status} showIcon>
               {getTranslatedStatus(application.status)}
-            </span>
+            </StatusBadge>
           </div>
         </div>
 

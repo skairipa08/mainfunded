@@ -6,6 +6,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { StatusBadge } from '@/components/ui/status-badge';
 import {
   Select,
   SelectContent,
@@ -106,31 +107,6 @@ export default function ApplicationDetailPage() {
     }
   };
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'Received':
-        return <Clock className="h-6 w-6 text-blue-600" />;
-      case 'Under Review':
-        return <Clock className="h-6 w-6 text-yellow-600" />;
-      case 'Approved':
-        return <CheckCircle className="h-6 w-6 text-green-600" />;
-      case 'Rejected':
-        return <XCircle className="h-6 w-6 text-red-600" />;
-      default:
-        return <Clock className="h-6 w-6 text-gray-600" />;
-    }
-  };
-
-  const getStatusBadge = (status: string) => {
-    const variants: Record<string, string> = {
-      Received: 'bg-blue-100 text-blue-800',
-      'Under Review': 'bg-yellow-100 text-yellow-800',
-      Approved: 'bg-green-100 text-green-800',
-      Rejected: 'bg-red-100 text-red-800',
-    };
-    return variants[status] || 'bg-gray-100 text-gray-800';
-  };
-
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col bg-white">
@@ -183,8 +159,7 @@ export default function ApplicationDetailPage() {
                 <p className="text-gray-600 font-mono text-sm">{application.id}</p>
               </div>
               <div className="flex items-center space-x-3">
-                {getStatusIcon(application.status)}
-                <Badge className={getStatusBadge(application.status)}>{application.status}</Badge>
+                <StatusBadge status={application.status} showIcon />
               </div>
             </div>
 

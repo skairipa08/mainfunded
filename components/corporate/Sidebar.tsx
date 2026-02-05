@@ -16,11 +16,10 @@ import {
     LogOut,
     Building2,
     X,
-    Menu,
-    ArrowLeft,
     Home,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useCorporateAuth } from '@/lib/corporate/auth';
 
 interface SidebarItem {
     name: string;
@@ -31,7 +30,7 @@ interface SidebarItem {
 
 const sidebarItems: SidebarItem[] = [
     { name: 'Dashboard', href: '/corporate', icon: LayoutDashboard },
-    { name: 'Ogrenciler', href: '/corporate/students', icon: Users },
+    { name: 'Öğrenciler', href: '/corporate/students', icon: Users },
     { name: 'Raporlar', href: '/corporate/reports', icon: FileText },
     { name: 'Kampanyalar', href: '/corporate/campaigns', icon: ShoppingCart },
     { name: 'ESG Raporu', href: '/corporate/esg', icon: Leaf },
@@ -48,13 +47,29 @@ export default function CorporateSidebar({ mobileOpen = false, onMobileClose }: 
     const pathname = usePathname();
     const router = useRouter();
     const [collapsed, setCollapsed] = useState(false);
+    const { user, logout } = useCorporateAuth();
 
     const handleLinkClick = () => {
-        // Close mobile menu when a link is clicked
         if (onMobileClose) {
             onMobileClose();
         }
     };
+
+    const handleLogout = () => {
+        logout();
+        router.push('/corporate/auth/login');
+    };
+
+    // Get user initials
+    const initials = user
+        ? `${user.firstName.charAt(0)}${user.lastName.charAt(0)}`.toUpperCase()
+        : 'KP';
+
+    const displayName = user
+        ? `${user.firstName} ${user.lastName}`
+        : 'Kurumsal Kullanıcı';
+
+    const companyName = user?.companyName || 'Şirket';
 
     return (
         <>
@@ -66,11 +81,10 @@ export default function CorporateSidebar({ mobileOpen = false, onMobileClose }: 
                 />
             )}
 
-            {/* Sidebar */}
+            {/* Sidebar - Desktop */}
             <aside
                 className={cn(
                     'fixed left-0 top-0 z-50 h-screen bg-gray-900 text-white transition-all duration-300 flex flex-col',
-                    // Desktop: always visible
                     'hidden md:flex',
                     collapsed ? 'md:w-20' : 'md:w-64',
                 )}
@@ -145,23 +159,23 @@ export default function CorporateSidebar({ mobileOpen = false, onMobileClose }: 
                 <div className="p-4 border-t border-gray-800">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-sm font-bold">
-                            AY
+                            {initials}
                         </div>
                         {!collapsed && (
                             <div className="flex-1 min-w-0">
-                                <p className="font-medium truncate">Ahmet Yilmaz</p>
-                                <p className="text-xs text-gray-400 truncate">TechVentures Inc.</p>
+                                <p className="font-medium truncate">{displayName}</p>
+                                <p className="text-xs text-gray-400 truncate">{companyName}</p>
                             </div>
                         )}
                     </div>
                     {!collapsed && (
-                        <Link
-                            href="/"
-                            className="flex items-center gap-2 mt-4 text-gray-400 hover:text-white transition-colors text-sm"
+                        <button
+                            onClick={handleLogout}
+                            className="flex items-center gap-2 mt-4 text-gray-400 hover:text-white transition-colors text-sm w-full"
                         >
                             <LogOut className="h-4 w-4" />
-                            <span>Cikis Yap</span>
-                        </Link>
+                            <span>Çıkış Yap</span>
+                        </button>
                     )}
                 </div>
             </aside>
@@ -200,7 +214,7 @@ export default function CorporateSidebar({ mobileOpen = false, onMobileClose }: 
                         className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition-colors"
                     >
                         <Home className="h-5 w-5" />
-                        <span>Ana Siteye Don</span>
+                        <span>Ana Siteye Dön</span>
                     </Link>
                 </div>
 
@@ -239,21 +253,20 @@ export default function CorporateSidebar({ mobileOpen = false, onMobileClose }: 
                 <div className="p-4 border-t border-gray-800">
                     <div className="flex items-center gap-3">
                         <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-sm font-bold">
-                            AY
+                            {initials}
                         </div>
                         <div className="flex-1 min-w-0">
-                            <p className="font-medium truncate">Ahmet Yilmaz</p>
-                            <p className="text-xs text-gray-400 truncate">TechVentures Inc.</p>
+                            <p className="font-medium truncate">{displayName}</p>
+                            <p className="text-xs text-gray-400 truncate">{companyName}</p>
                         </div>
                     </div>
-                    <Link
-                        href="/"
-                        onClick={handleLinkClick}
-                        className="flex items-center gap-2 mt-4 text-gray-400 hover:text-white transition-colors text-sm"
+                    <button
+                        onClick={handleLogout}
+                        className="flex items-center gap-2 mt-4 text-gray-400 hover:text-white transition-colors text-sm w-full"
                     >
                         <LogOut className="h-4 w-4" />
-                        <span>Cikis Yap</span>
-                    </Link>
+                        <span>Çıkış Yap</span>
+                    </button>
                 </div>
             </aside>
         </>

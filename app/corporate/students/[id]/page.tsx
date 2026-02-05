@@ -20,8 +20,10 @@ import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Textarea } from '@/components/ui/textarea';
 import { mockStudents } from '@/lib/corporate/mock-data';
+import { useTranslation } from '@/lib/i18n/context';
 
 export default function StudentDetailPage() {
+    const { t } = useTranslation();
     const params = useParams();
     const router = useRouter();
     const [message, setMessage] = useState('');
@@ -32,8 +34,8 @@ export default function StudentDetailPage() {
         return (
             <div className="min-h-screen flex items-center justify-center">
                 <div className="text-center">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-2">Ogrenci Bulunamadi</h2>
-                    <Button onClick={() => router.back()}>Geri Don</Button>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-2">{t('corporate.studentDetail.notFound')}</h2>
+                    <Button onClick={() => router.back()}>{t('common.back')}</Button>
                 </div>
             </div>
         );
@@ -68,12 +70,25 @@ export default function StudentDetailPage() {
         }
     };
 
+    const getStatusText = (status: string) => {
+        switch (status) {
+            case 'active':
+                return t('corporate.students.active');
+            case 'graduated':
+                return t('corporate.students.graduated');
+            case 'dropped':
+                return t('corporate.students.dropped');
+            default:
+                return status;
+        }
+    };
+
     const progressPercent = (student.total_donated / student.goal_amount) * 100;
 
     return (
         <div className="min-h-screen">
             <CorporateHeader
-                title="Ogrenci Detayi"
+                title={t('corporate.studentDetail.title')}
                 subtitle={student.name}
             />
 
@@ -85,7 +100,7 @@ export default function StudentDetailPage() {
                     className="mb-6"
                 >
                     <ArrowLeft className="h-4 w-4 mr-2" />
-                    Geri Don
+                    {t('common.back')}
                 </Button>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -104,7 +119,7 @@ export default function StudentDetailPage() {
                                             ? 'bg-blue-100 text-blue-700 mt-2'
                                             : 'bg-red-100 text-red-700 mt-2'
                                 }>
-                                    {student.status === 'active' ? 'Aktif' : student.status === 'graduated' ? 'Mezun' : 'Ayrildi'}
+                                    {getStatusText(student.status)}
                                 </Badge>
                             </div>
 
@@ -122,14 +137,14 @@ export default function StudentDetailPage() {
                                 </div>
                                 <div className="flex items-center gap-3 text-gray-600">
                                     <Calendar className="h-5 w-5 text-gray-400" />
-                                    <span>Hedef Mezuniyet: {student.target_year}</span>
+                                    <span>{t('corporate.studentDetail.targetGraduation')}: {student.target_year}</span>
                                 </div>
                             </div>
 
                             {/* Funding Progress */}
                             <div className="mt-6 pt-6 border-t border-gray-100">
                                 <div className="flex justify-between mb-2">
-                                    <span className="text-sm text-gray-500">Bagis Ilerlemesi</span>
+                                    <span className="text-sm text-gray-500">{t('corporate.studentDetail.donationProgress')}</span>
                                     <span className="text-sm font-medium text-gray-900">
                                         {Math.round(progressPercent)}%
                                     </span>
@@ -148,7 +163,7 @@ export default function StudentDetailPage() {
                             {/* Quick Donate */}
                             <Button className="w-full mt-6">
                                 <DollarSign className="h-4 w-4 mr-2" />
-                                Bagis Yap
+                                {t('corporate.studentDetail.donate')}
                             </Button>
                         </div>
 
@@ -156,17 +171,17 @@ export default function StudentDetailPage() {
                         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 mt-6">
                             <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                                 <MessageSquare className="h-5 w-5" />
-                                Mesaj Gonder
+                                {t('corporate.studentDetail.sendMessage')}
                             </h3>
                             <Textarea
-                                placeholder="Ogrenciye bir mesaj yazin..."
+                                placeholder={t('corporate.studentDetail.messagePlaceholder')}
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
                                 rows={4}
                             />
                             <Button className="w-full mt-3" disabled={!message.trim()}>
                                 <Send className="h-4 w-4 mr-2" />
-                                Gonder
+                                {t('corporate.studentDetail.send')}
                             </Button>
                         </div>
                     </div>
@@ -176,7 +191,7 @@ export default function StudentDetailPage() {
                         {/* Updates Timeline */}
                         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                             <h3 className="text-lg font-semibold text-gray-900 mb-6">
-                                Ogrenci Guncellemeleri
+                                {t('corporate.studentDetail.studentUpdates')}
                             </h3>
                             {student.updates.length > 0 ? (
                                 <div className="space-y-6">
@@ -204,7 +219,7 @@ export default function StudentDetailPage() {
                                 </div>
                             ) : (
                                 <div className="text-center py-8 text-gray-500">
-                                    Henuz guncelleme yok
+                                    {t('corporate.studentDetail.noUpdates')}
                                 </div>
                             )}
                         </div>
@@ -212,7 +227,7 @@ export default function StudentDetailPage() {
                         {/* Donation History */}
                         <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                             <h3 className="text-lg font-semibold text-gray-900 mb-6">
-                                Bagis Gecmisi
+                                {t('corporate.studentDetail.donationHistory')}
                             </h3>
                             <div className="space-y-4">
                                 {student.donation_history.map((donation) => (

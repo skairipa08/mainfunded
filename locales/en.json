@@ -26,7 +26,15 @@
         "no": "No",
         "close": "Close",
         "learnMore": "Learn More",
-        "getStarted": "Get Started"
+        "getStarted": "Get Started",
+        "demoBanner": "This platform is currently in demo mode. The data shown is for demonstration purposes only.",
+        "demoPageGeneral": "This page is for demo purposes. Real data will be updated when the platform is active.",
+        "demoStories": "This page is for demo purposes. Stories and amounts are shown as examples; real data will be updated when the platform is active.",
+        "demoAlumni": "This page is for demo purposes. Alumni information and amounts are shown as examples; real data will be updated when the platform is active.",
+        "demoReports": "This page is for demo purposes. Reports and amounts are shown as examples; real data will be updated when the platform is active.",
+        "demoBadges": "This page is for demo purposes. Badges and progress values will be updated when the platform is active.",
+        "demoLeaderboard": "This page is for demo purposes. Rankings and amounts will be updated with real data when the platform is active.",
+        "demoTransparency": "This page is for demo purposes. Real data will be updated when the platform is active."
     },
     "nav": {
         "home": "Home",

@@ -12,23 +12,23 @@ import { CheckCircle, X, Building2, User, Mail, Phone, MessageSquare } from 'luc
 
 const sponsors = [
     {
-        name: 'Nexus Technologies',
-        logo: '/sponsors/sponsor1.png',
+        name: 'X Teknoloji',
+        logo: '/sponsors/sponsor-x.png',
         description: 'Teknoloji cozumleri'
     },
     {
-        name: 'Apex Capital',
-        logo: '/sponsors/sponsor2.png',
+        name: 'Y Holding',
+        logo: '/sponsors/sponsor-y.png',
         description: 'Finansal danismanlik'
     },
     {
-        name: 'EduVantage',
-        logo: '/sponsors/sponsor3.png',
+        name: 'Z Egitim',
+        logo: '/sponsors/sponsor-z.png',
         description: 'Egitim platformu'
     },
     {
-        name: 'HealthCore',
-        logo: '/sponsors/sponsor4.png',
+        name: 'T Saglik',
+        logo: '/sponsors/sponsor-t.png',
         description: 'Saglik hizmetleri'
     },
 ];

@@ -106,6 +106,7 @@ export default function DonatePage() {
                     type="number"
                     step="0.01"
                     min="1"
+                    max="1000000"
                     required
                     value={formData.amount}
                     onChange={(e) => {

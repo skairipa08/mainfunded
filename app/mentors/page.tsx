@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import { Users, Search } from 'lucide-react';
 import { MentorCard, mockMentors } from '@/components/MentorConnect';
 import { Input } from '@/components/ui/input';
@@ -55,9 +56,11 @@ export default function MentorsPage() {
                     <p className="text-indigo-100 mb-4">
                         Deneyimlerinizi paylasarak ogrencilere ilham verin
                     </p>
-                    <button className="bg-white text-indigo-600 px-6 py-2 rounded-lg font-medium hover:bg-indigo-50 transition-colors">
-                        Mentor Olarak Katil
-                    </button>
+                    <Link href="/mentors/apply">
+                        <button className="bg-white text-indigo-600 px-6 py-2 rounded-lg font-medium hover:bg-indigo-50 transition-colors">
+                            Mentor Olarak Katil
+                        </button>
+                    </Link>
                 </div>
             </div>
         </div>

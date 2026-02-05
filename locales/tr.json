@@ -26,7 +26,15 @@
         "no": "Hayir",
         "close": "Kapat",
         "learnMore": "Daha Fazla Bilgi",
-        "getStarted": "Basla"
+        "getStarted": "Basla",
+        "demoBanner": "Bu platform su anda demo asamasindadir. Gosterilen veriler ornek amaclidir.",
+        "demoPageGeneral": "Bu sayfa demo amaclidir. Gercek veriler platform aktif oldugunda guncellenecektir.",
+        "demoStories": "Bu sayfa demo amaclidir. Hikayeler ve tutarlar ornek icin gosterilmektedir; gercek veriler platform aktif oldugunda guncellenecektir.",
+        "demoAlumni": "Bu sayfa demo amaclidir. Mezun bilgileri ve tutarlar ornek icin gosterilmektedir; gercek veriler platform aktif oldugunda guncellenecektir.",
+        "demoReports": "Bu sayfa demo amaclidir. Raporlar ve tutarlar ornek icin gosterilmektedir; gercek veriler platform aktif oldugunda guncellenecektir.",
+        "demoBadges": "Bu sayfa demo amaclidir. Rozetler ve ilerleme degerleri platform aktif oldugunda guncellenecektir.",
+        "demoLeaderboard": "Bu sayfa demo amaclidir. Siralamalar ve tutarlar platform aktif oldugunda gercek verilerle guncellenecektir.",
+        "demoTransparency": "Bu sayfa demo amaclidir. Gercek veriler platform aktif oldugunda guncellenecektir."
     },
     "nav": {
         "home": "Ana Sayfa",

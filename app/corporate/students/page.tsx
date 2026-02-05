@@ -16,8 +16,10 @@ import {
 } from '@/components/ui/select';
 import { mockStudents } from '@/lib/corporate/mock-data';
 import { Progress } from '@/components/ui/progress';
+import { useTranslation } from '@/lib/i18n/context';
 
 export default function StudentsPage() {
+    const { t } = useTranslation();
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState('all');
     const [facultyFilter, setFacultyFilter] = useState('all');
@@ -48,11 +50,11 @@ export default function StudentsPage() {
     const getStatusBadge = (status: string) => {
         switch (status) {
             case 'active':
-                return <Badge className="bg-green-100 text-green-700 hover:bg-green-100">Aktif</Badge>;
+                return <Badge className="bg-green-100 text-green-700 hover:bg-green-100">{t('corporate.students.active')}</Badge>;
             case 'graduated':
-                return <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100">Mezun</Badge>;
+                return <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100">{t('corporate.students.graduated')}</Badge>;
             case 'dropped':
-                return <Badge className="bg-red-100 text-red-700 hover:bg-red-100">Ayrildi</Badge>;
+                return <Badge className="bg-red-100 text-red-700 hover:bg-red-100">{t('corporate.students.dropped')}</Badge>;
             default:
                 return null;
         }
@@ -63,8 +65,8 @@ export default function StudentsPage() {
     return (
         <div className="min-h-screen">
             <CorporateHeader
-                title="Ogrenciler"
-                subtitle="Desteklediginiz ogrencileri takip edin"
+                title={t('corporate.students.title')}
+                subtitle={t('corporate.students.subtitle')}
             />
 
             <div className="p-6">
@@ -75,7 +77,7 @@ export default function StudentsPage() {
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                             <Input
                                 type="search"
-                                placeholder="Ogrenci, universite veya bolum ara..."
+                                placeholder={t('corporate.students.searchPlaceholder')}
                                 value={searchQuery}
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 className="pl-10"
@@ -83,21 +85,21 @@ export default function StudentsPage() {
                         </div>
                         <Select value={statusFilter} onValueChange={setStatusFilter}>
                             <SelectTrigger className="w-full md:w-40">
-                                <SelectValue placeholder="Durum" />
+                                <SelectValue placeholder={t('corporate.students.status')} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="all">Tum Durumlar</SelectItem>
-                                <SelectItem value="active">Aktif</SelectItem>
-                                <SelectItem value="graduated">Mezun</SelectItem>
-                                <SelectItem value="dropped">Ayrildi</SelectItem>
+                                <SelectItem value="all">{t('corporate.students.allStatuses')}</SelectItem>
+                                <SelectItem value="active">{t('corporate.students.active')}</SelectItem>
+                                <SelectItem value="graduated">{t('corporate.students.graduated')}</SelectItem>
+                                <SelectItem value="dropped">{t('corporate.students.dropped')}</SelectItem>
                             </SelectContent>
                         </Select>
                         <Select value={facultyFilter} onValueChange={setFacultyFilter}>
                             <SelectTrigger className="w-full md:w-48">
-                                <SelectValue placeholder="Fakulte" />
+                                <SelectValue placeholder={t('corporate.students.faculty')} />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="all">Tum Fakulteler</SelectItem>
+                                <SelectItem value="all">{t('corporate.students.allFaculties')}</SelectItem>
                                 {faculties.map((faculty) => (
                                     <SelectItem key={faculty} value={faculty}>
                                         {faculty}
@@ -139,7 +141,7 @@ export default function StudentsPage() {
 
                             <div className="mt-4">
                                 <div className="flex justify-between text-sm mb-2">
-                                    <span className="text-gray-500">Ilerleme</span>
+                                    <span className="text-gray-500">{t('corporate.students.progress')}</span>
                                     <span className="font-medium text-gray-900">
                                         {Math.round((student.total_donated / student.goal_amount) * 100)}%
                                     </span>
@@ -156,7 +158,7 @@ export default function StudentsPage() {
 
                             <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between">
                                 <div className="flex items-center gap-2 text-sm text-gray-500">
-                                    <span>Hedef: {student.target_year}</span>
+                                    <span>{t('corporate.students.target')}: {student.target_year}</span>
                                 </div>
                                 <div className="flex items-center gap-2 text-sm text-gray-500">
                                     <span>{student.country}</span>
@@ -170,10 +172,10 @@ export default function StudentsPage() {
                     <div className="bg-white rounded-xl p-12 text-center shadow-sm border border-gray-100">
                         <GraduationCap className="h-12 w-12 text-gray-300 mx-auto mb-4" />
                         <h3 className="text-lg font-medium text-gray-900 mb-2">
-                            Ogrenci Bulunamadi
+                            {t('corporate.students.notFound')}
                         </h3>
                         <p className="text-gray-500">
-                            Arama kriterlerinize uygun ogrenci bulunamadi.
+                            {t('corporate.students.notFoundDesc')}
                         </p>
                     </div>
                 )}

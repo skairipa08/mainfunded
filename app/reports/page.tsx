@@ -5,8 +5,11 @@ import { FileText, Download, Calendar, TrendingUp } from 'lucide-react';
 import { QuarterlyReport, ProgressReportsList, mockQuarterlyReport, exportReportToPDF } from '@/components/ProgressReport';
 import { Button } from '@/components/ui/button';
 import MobileHeader from '@/components/MobileHeader';
+import { useTranslation } from '@/lib/i18n/context';
 
 export default function ReportsPage() {
+    const { t } = useTranslation();
+
     const mockReports = [
         { id: '1', quarter: 'Q4 2025', date: '15 Ocak 2026', studentName: 'Elif Yilmaz' },
         { id: '2', quarter: 'Q3 2025', date: '15 Ekim 2025', studentName: 'Elif Yilmaz' },
@@ -158,7 +161,7 @@ export default function ReportsPage() {
                 {/* Demo Notice */}
                 <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8 flex items-center gap-3">
                     <span className="text-amber-600 font-bold text-lg">⚠️</span>
-                    <p className="text-amber-800 text-sm font-medium">Bu sayfa demo amaclidir. Raporlar ve tutarlar ornek icin gosterilmektedir; gercek veriler platform aktif oldugunda guncellenecektir.</p>
+                    <p className="text-amber-800 text-sm font-medium">{t('common.demoReports')}</p>
                 </div>
 
                 <div className="grid lg:grid-cols-2 gap-8">

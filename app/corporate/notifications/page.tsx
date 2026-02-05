@@ -9,7 +9,6 @@ import {
     Target,
     MessageSquare,
     Archive,
-    Trash2,
     Settings,
     Video,
     FileText,
@@ -20,10 +19,12 @@ import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { mockNotifications } from '@/lib/corporate/mock-data';
 import { cn } from '@/lib/utils';
+import { useTranslation } from '@/lib/i18n/context';
 
 type NotificationType = 'all' | 'update' | 'thank_you' | 'campaign' | 'milestone';
 
 export default function NotificationsPage() {
+    const { t } = useTranslation();
     const [notifications, setNotifications] = useState(mockNotifications);
     const [filter, setFilter] = useState<NotificationType>('all');
     const [selectedIds, setSelectedIds] = useState<string[]>([]);
@@ -41,9 +42,9 @@ export default function NotificationsPage() {
         const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
         const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
 
-        if (diffHours < 1) return 'Az once';
-        if (diffHours < 24) return `${diffHours} saat once`;
-        if (diffDays < 7) return `${diffDays} gun once`;
+        if (diffHours < 1) return t('corporate.notifications.justNow');
+        if (diffHours < 24) return `${diffHours} ${t('corporate.notifications.hoursAgo')}`;
+        if (diffDays < 7) return `${diffDays} ${t('corporate.notifications.daysAgo')}`;
         return date.toLocaleDateString('tr-TR');
     };
 
@@ -86,22 +87,21 @@ export default function NotificationsPage() {
     };
 
     const filterTabs = [
-        { key: 'all', label: 'Tumu', count: notifications.length },
-        { key: 'update', label: 'Guncellemeler', count: notifications.filter((n) => n.type === 'update').length },
-        { key: 'thank_you', label: 'Tesekkurler', count: notifications.filter((n) => n.type === 'thank_you').length },
-        { key: 'campaign', label: 'Kampanyalar', count: notifications.filter((n) => n.type === 'campaign').length },
-        { key: 'milestone', label: 'Basarilar', count: notifications.filter((n) => n.type === 'milestone').length },
+        { key: 'all', label: t('corporate.notifications.all'), count: notifications.length },
+        { key: 'update', label: t('corporate.notifications.updates'), count: notifications.filter((n) => n.type === 'update').length },
+        { key: 'thank_you', label: t('corporate.notifications.thankYous'), count: notifications.filter((n) => n.type === 'thank_you').length },
+        { key: 'campaign', label: t('corporate.notifications.campaignsTab'), count: notifications.filter((n) => n.type === 'campaign').length },
+        { key: 'milestone', label: t('corporate.notifications.milestones'), count: notifications.filter((n) => n.type === 'milestone').length },
     ];
 
     return (
         <div className="min-h-screen">
             <CorporateHeader
-                title="Bildirimler"
-                subtitle={`${unreadCount} okunmamis bildirim`}
+                title={t('corporate.notifications.title')}
+                subtitle={`${unreadCount} ${t('corporate.notifications.unreadNotifications')}`}
             />
 
             <div className="p-6">
-                {/* Filter Tabs */}
                 <div className="bg-white rounded-xl p-2 shadow-sm border border-gray-100 mb-6">
                     <div className="flex flex-wrap gap-2">
                         {filterTabs.map((tab) => (
@@ -113,25 +113,20 @@ export default function NotificationsPage() {
                                 className="gap-2"
                             >
                                 {tab.label}
-                                <Badge variant="outline" className="ml-1">
-                                    {tab.count}
-                                </Badge>
+                                <Badge variant="outline" className="ml-1">{tab.count}</Badge>
                             </Button>
                         ))}
                     </div>
                 </div>
 
-                {/* Actions Bar */}
                 <div className="flex items-center justify-between mb-4">
                     <div className="flex items-center gap-3">
                         {selectedIds.length > 0 && (
                             <>
-                                <span className="text-sm text-gray-500">
-                                    {selectedIds.length} secili
-                                </span>
+                                <span className="text-sm text-gray-500">{selectedIds.length} {t('corporate.notifications.selected')}</span>
                                 <Button variant="outline" size="sm" onClick={archiveSelected}>
                                     <Archive className="h-4 w-4 mr-1" />
-                                    Arsivle
+                                    {t('corporate.notifications.archive')}
                                 </Button>
                             </>
                         )}
@@ -139,66 +134,45 @@ export default function NotificationsPage() {
                     <div className="flex items-center gap-3">
                         <Button variant="outline" size="sm" onClick={markAllAsRead}>
                             <CheckCircle className="h-4 w-4 mr-1" />
-                            Tumunu Okundu Yap
+                            {t('corporate.notifications.markAllRead')}
                         </Button>
                         <Button variant="ghost" size="sm">
                             <Settings className="h-4 w-4 mr-1" />
-                            Tercihler
+                            {t('corporate.notifications.preferences')}
                         </Button>
                     </div>
                 </div>
 
-                {/* Notifications List */}
                 <div className="bg-white rounded-xl shadow-sm border border-gray-100 divide-y divide-gray-100">
                     {filteredNotifications.length > 0 ? (
                         filteredNotifications.map((notification) => (
                             <div
                                 key={notification.id}
-                                className={cn(
-                                    'p-4 hover:bg-gray-50 transition-colors cursor-pointer',
-                                    !notification.read && 'bg-blue-50/50'
-                                )}
+                                className={cn('p-4 hover:bg-gray-50 transition-colors cursor-pointer', !notification.read && 'bg-blue-50/50')}
                                 onClick={() => markAsRead(notification.id)}
                             >
                                 <div className="flex items-start gap-4">
-                                    <Checkbox
-                                        checked={selectedIds.includes(notification.id)}
-                                        onCheckedChange={() => toggleSelect(notification.id)}
-                                        onClick={(e) => e.stopPropagation()}
-                                    />
-                                    <div className="bg-gray-100 p-2 rounded-full">
-                                        {getNotificationIcon(notification.type)}
-                                    </div>
+                                    <Checkbox checked={selectedIds.includes(notification.id)} onCheckedChange={() => toggleSelect(notification.id)} onClick={(e) => e.stopPropagation()} />
+                                    <div className="bg-gray-100 p-2 rounded-full">{getNotificationIcon(notification.type)}</div>
                                     <div className="flex-1 min-w-0">
                                         <div className="flex items-center gap-2 mb-1">
-                                            <h4 className={cn(
-                                                'font-medium text-gray-900',
-                                                !notification.read && 'font-semibold'
-                                            )}>
-                                                {notification.title}
-                                            </h4>
-                                            {!notification.read && (
-                                                <span className="w-2 h-2 bg-blue-600 rounded-full" />
-                                            )}
+                                            <h4 className={cn('font-medium text-gray-900', !notification.read && 'font-semibold')}>{notification.title}</h4>
+                                            {!notification.read && <span className="w-2 h-2 bg-blue-600 rounded-full" />}
                                         </div>
-                                        <p className="text-gray-600 text-sm mb-2">
-                                            {notification.message}
-                                        </p>
+                                        <p className="text-gray-600 text-sm mb-2">{notification.message}</p>
                                         <div className="flex items-center gap-3">
-                                            <span className="text-xs text-gray-400">
-                                                {formatDate(notification.date)}
-                                            </span>
+                                            <span className="text-xs text-gray-400">{formatDate(notification.date)}</span>
                                             {notification.type === 'thank_you' && (
                                                 <Button variant="outline" size="sm" className="h-6 text-xs">
                                                     <Video className="h-3 w-3 mr-1" />
-                                                    Videoyu Izle
+                                                    {t('corporate.notifications.watchVideo')}
                                                 </Button>
                                             )}
                                             {notification.student_id && (
                                                 <Link href={`/corporate/students/${notification.student_id}`}>
                                                     <Button variant="outline" size="sm" className="h-6 text-xs">
                                                         <FileText className="h-3 w-3 mr-1" />
-                                                        Ogrenci Detayi
+                                                        {t('corporate.notifications.studentDetail')}
                                                     </Button>
                                                 </Link>
                                             )}
@@ -210,37 +184,30 @@ export default function NotificationsPage() {
                     ) : (
                         <div className="p-12 text-center">
                             <Bell className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                            <h3 className="text-lg font-medium text-gray-900 mb-2">
-                                Bildirim Yok
-                            </h3>
-                            <p className="text-gray-500">
-                                Bu kategoride bildirim bulunmuyor.
-                            </p>
+                            <h3 className="text-lg font-medium text-gray-900 mb-2">{t('corporate.notifications.noNotifications')}</h3>
+                            <p className="text-gray-500">{t('corporate.notifications.noNotificationsInCategory')}</p>
                         </div>
                     )}
                 </div>
 
-                {/* Email Preferences */}
                 <div className="bg-gradient-to-r from-blue-50 to-purple-50 rounded-xl p-6 mt-6 border border-blue-100">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                        E-posta Bildirimleri
-                    </h3>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('corporate.notifications.emailNotifications')}</h3>
                     <div className="space-y-3">
                         <label className="flex items-center gap-3 cursor-pointer">
                             <Checkbox defaultChecked />
-                            <span className="text-gray-700">Ogrenci guncellemeleri</span>
+                            <span className="text-gray-700">{t('corporate.notifications.studentUpdatesEmail')}</span>
                         </label>
                         <label className="flex items-center gap-3 cursor-pointer">
                             <Checkbox defaultChecked />
-                            <span className="text-gray-700">Tesekkur mesajlari</span>
+                            <span className="text-gray-700">{t('corporate.notifications.thankYouMessagesEmail')}</span>
                         </label>
                         <label className="flex items-center gap-3 cursor-pointer">
                             <Checkbox defaultChecked />
-                            <span className="text-gray-700">Yeni kampanya onerileri</span>
+                            <span className="text-gray-700">{t('corporate.notifications.newCampaignSuggestionsEmail')}</span>
                         </label>
                         <label className="flex items-center gap-3 cursor-pointer">
                             <Checkbox />
-                            <span className="text-gray-700">Haftalik ozet</span>
+                            <span className="text-gray-700">{t('corporate.notifications.weeklySummaryEmail')}</span>
                         </label>
                     </div>
                 </div>
