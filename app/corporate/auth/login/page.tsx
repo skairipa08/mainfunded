@@ -329,7 +329,7 @@ export default function CorporateGatewayPage() {
                     Kurumsal bağışlarınızı takip edin, ESG raporlarınızı oluşturun ve eğitim üzerindeki
                     etkinizi şeffaf verilerle görün.
                 </p>
-                    </div>
+            </div>
 
             {/* Tab Navigation */}
             <div className="relative z-10 max-w-md mx-auto px-4 mb-8">
@@ -342,18 +342,17 @@ export default function CorporateGatewayPage() {
                         <button
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id)}
-                            className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${
-                                activeTab === tab.id
-                                    ? 'bg-white text-slate-900 shadow-lg shadow-white/10'
-                                    : 'text-slate-400 hover:text-slate-200'
-                            }`}
+                            className={`flex-1 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium transition-all duration-300 ${activeTab === tab.id
+                                ? 'bg-white text-slate-900 shadow-lg shadow-white/10'
+                                : 'text-slate-400 hover:text-slate-200'
+                                }`}
                         >
                             <tab.icon className="h-4 w-4" />
                             <span className="hidden sm:inline">{tab.label}</span>
                         </button>
                     ))}
                 </div>
-                </div>
+            </div>
 
             {/* Content Area */}
             <div className="relative z-10 max-w-7xl mx-auto px-4 pb-20">
@@ -373,8 +372,8 @@ export default function CorporateGatewayPage() {
                                 {loginError && (
                                     <div className="bg-red-500/10 border border-red-500/20 text-red-300 px-4 py-3 rounded-xl text-sm">
                                         {loginError}
-                            </div>
-                        )}
+                                    </div>
+                                )}
 
                                 <div className="space-y-2">
                                     <Label htmlFor="login-email" className="text-slate-300 text-sm">
@@ -382,17 +381,17 @@ export default function CorporateGatewayPage() {
                                     </Label>
                                     <div className="relative">
                                         <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-500" />
-                                <Input
+                                        <Input
                                             id="login-email"
-                                    type="email"
-                                    placeholder="ornek@sirket.com"
+                                            type="email"
+                                            placeholder="ornek@sirket.com"
                                             value={loginEmail}
                                             onChange={(e) => setLoginEmail(e.target.value)}
                                             className="pl-11 h-12 bg-white/5 border-white/10 text-white placeholder:text-slate-500 rounded-xl focus:border-blue-500/50 focus:ring-blue-500/20"
-                                    required
-                                />
-                            </div>
-                        </div>
+                                            required
+                                        />
+                                    </div>
+                                </div>
 
                                 <div className="space-y-2">
                                     <Label htmlFor="login-password" className="text-slate-300 text-sm">
@@ -400,17 +399,17 @@ export default function CorporateGatewayPage() {
                                     </Label>
                                     <div className="relative">
                                         <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-500" />
-                                <Input
+                                        <Input
                                             id="login-password"
                                             type={showLoginPassword ? 'text' : 'password'}
-                                    placeholder="••••••••"
+                                            placeholder="••••••••"
                                             value={loginPassword}
                                             onChange={(e) => setLoginPassword(e.target.value)}
                                             className="pl-11 pr-11 h-12 bg-white/5 border-white/10 text-white placeholder:text-slate-500 rounded-xl focus:border-blue-500/50 focus:ring-blue-500/20"
-                                    required
-                                />
-                                <button
-                                    type="button"
+                                            required
+                                        />
+                                        <button
+                                            type="button"
                                             onClick={() => setShowLoginPassword(!showLoginPassword)}
                                             className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
                                         >
@@ -450,7 +449,7 @@ export default function CorporateGatewayPage() {
                                         className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
                                     >
                                         Paketleri İnceleyin
-                                </button>
+                                    </button>
                                 </p>
                             </div>
 
@@ -475,7 +474,7 @@ export default function CorporateGatewayPage() {
                                     </div>
                                     <h3 className="text-2xl font-bold text-white mb-2">Başvurunuz Alındı!</h3>
                                     <p className="text-slate-400 mb-4">
-                                        {selectedTier && selectedTier !== 'pending'
+                                        {selectedTier
                                             ? 'Hesabınız aktifleştirildi. Kurumsal panele yönlendiriliyorsunuz...'
                                             : 'Başvurunuz incelenerek size dönüş yapılacaktır. Yönlendiriliyorsunuz...'
                                         }
@@ -483,7 +482,7 @@ export default function CorporateGatewayPage() {
                                     <div className="h-1.5 bg-white/10 rounded-full overflow-hidden w-48 mx-auto">
                                         <div className="h-full bg-gradient-to-r from-emerald-400 to-blue-500 rounded-full animate-pulse w-full" />
                                     </div>
-                        </div>
+                                </div>
                             ) : (
                                 <>
                                     <div className="text-center mb-8">
@@ -491,18 +490,18 @@ export default function CorporateGatewayPage() {
                                             <Building2 className="h-7 w-7 text-white" />
                                         </div>
                                         <h3 className="text-xl font-semibold text-white mb-1">
-                                            {selectedTier && selectedTier !== 'pending'
+                                            {selectedTier
                                                 ? `${tiers.find(t => t.id === selectedTier)?.name} Paketi — Kayıt`
                                                 : 'Kurumsal Başvuru'
                                             }
                                         </h3>
                                         <p className="text-sm text-slate-400">
-                                            {selectedTier && selectedTier !== 'pending'
+                                            {selectedTier
                                                 ? 'Paket satın almak için bilgilerinizi girin'
                                                 : 'Başvuru yaparak kurumsal erişim talebinde bulunun'
                                             }
                                         </p>
-                                        {selectedTier && selectedTier !== 'pending' && (
+                                        {selectedTier && (
                                             <div className="mt-3 inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5">
                                                 <span className="text-xs text-slate-300 font-medium">
                                                     Seçili Paket: <span className="text-blue-400 font-semibold">{tiers.find(t => t.id === selectedTier)?.name}</span>
@@ -690,7 +689,7 @@ export default function CorporateGatewayPage() {
                                         )}
 
                                         {/* ── Discount Code Section ── */}
-                                        {selectedTier && selectedTier !== 'pending' && (
+                                        {selectedTier && (
                                             <div className="bg-white/[0.03] border border-white/10 rounded-xl p-5 space-y-3">
                                                 <div className="flex items-center gap-2 mb-1">
                                                     <Tag className="h-4 w-4 text-indigo-400" />
@@ -774,7 +773,7 @@ export default function CorporateGatewayPage() {
                                                 <div className="animate-spin rounded-full h-5 w-5 border-2 border-white/30 border-t-white" />
                                             ) : (
                                                 <>
-                                                    {selectedTier && selectedTier !== 'pending'
+                                                    {selectedTier
                                                         ? discountStatus === 'valid'
                                                             ? `$${getDiscountedPrice(tiers.find(t => t.id === selectedTier)?.price || 0)}/ay — Satın Al & Kayıt Ol`
                                                             : 'Satın Al & Kayıt Ol'
@@ -784,7 +783,7 @@ export default function CorporateGatewayPage() {
                                                 </>
                                             )}
                                         </Button>
-                    </form>
+                                    </form>
 
                                     <div className="mt-6 pt-6 border-t border-white/10">
                                         <p className="text-center text-sm text-slate-500">
@@ -819,11 +818,10 @@ export default function CorporateGatewayPage() {
                                 return (
                                     <div
                                         key={tier.id}
-                                        className={`relative bg-white/[0.03] backdrop-blur-xl border rounded-3xl p-7 transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl ${
-                                            tier.popular
-                                                ? 'border-blue-500/40 shadow-lg shadow-blue-500/10'
-                                                : 'border-white/10 hover:border-white/20'
-                                        }`}
+                                        className={`relative bg-white/[0.03] backdrop-blur-xl border rounded-3xl p-7 transition-all duration-300 hover:translate-y-[-4px] hover:shadow-2xl ${tier.popular
+                                            ? 'border-blue-500/40 shadow-lg shadow-blue-500/10'
+                                            : 'border-white/10 hover:border-white/20'
+                                            }`}
                                     >
                                         {/* Popular badge */}
                                         {tier.popular && (
@@ -881,11 +879,10 @@ export default function CorporateGatewayPage() {
                                         {/* CTA Button */}
                                         <Button
                                             onClick={() => handleSelectTier(tier.id)}
-                                            className={`w-full h-12 rounded-xl font-medium transition-all duration-300 ${
-                                                tier.popular
-                                                    ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-500/25'
-                                                    : 'bg-white/10 hover:bg-white/15 text-white border border-white/10'
-                                            }`}
+                                            className={`w-full h-12 rounded-xl font-medium transition-all duration-300 ${tier.popular
+                                                ? 'bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white shadow-lg shadow-blue-500/25'
+                                                : 'bg-white/10 hover:bg-white/15 text-white border border-white/10'
+                                                }`}
                                         >
                                             Satın Al
                                             <ArrowRight className="ml-2 h-4 w-4" />
@@ -916,7 +913,7 @@ export default function CorporateGatewayPage() {
                                     <ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>
                             </div>
-                    </div>
+                        </div>
 
                         {/* Feature Comparison - compact */}
                         <div className="mt-16 mb-8">
@@ -962,7 +959,7 @@ export default function CorporateGatewayPage() {
                         </div>
                     </div>
                 )}
-                </div>
+            </div>
 
             {/* Footer */}
             <footer className="relative z-10 border-t border-white/5 py-8 px-4">
@@ -974,9 +971,9 @@ export default function CorporateGatewayPage() {
                         </Link>
                         <Link href="/terms" className="text-xs text-slate-500 hover:text-slate-300 transition-colors">
                             Kullanım Koşulları
-                    </Link>
+                        </Link>
+                    </div>
                 </div>
-            </div>
             </footer>
         </div>
     );
