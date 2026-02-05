@@ -22,12 +22,8 @@ export default function ReportsPage() {
             const formatCurrency = (value: number) => `$${value.toLocaleString()}`;
 
             const reportsData = [
-                { name: 'Elif Yilmaz', quarter: 'Q4 2025', gpa: 3.65, credits: 18, received: 3500, spent: 2800 },
-                { name: 'Elif Yilmaz', quarter: 'Q3 2025', gpa: 3.55, credits: 15, received: 3000, spent: 2500 },
-                { name: 'Elif Yilmaz', quarter: 'Q2 2025', gpa: 3.45, credits: 12, received: 2800, spent: 2400 },
-                { name: 'Mehmet Kaya', quarter: 'Q4 2025', gpa: 3.40, credits: 16, received: 3200, spent: 2600 },
-                { name: 'Mehmet Kaya', quarter: 'Q3 2025', gpa: 3.35, credits: 14, received: 2900, spent: 2300 },
-                { name: 'Ayse Demir', quarter: 'Q4 2025', gpa: 3.80, credits: 20, received: 4000, spent: 3200 },
+                { name: 'Demo Ogrenci A', quarter: 'Q4 2025', gpa: 0, credits: 0, received: 0, spent: 0 },
+                { name: 'Demo Ogrenci B', quarter: 'Q4 2025', gpa: 0, credits: 0, received: 0, spent: 0 },
             ];
 
             reportWindow.document.write(`
@@ -143,15 +139,15 @@ export default function ReportsPage() {
                     {/* Stats */}
                     <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto">
                         <div className="bg-white/10 backdrop-blur rounded-xl p-4">
-                            <p className="text-3xl font-bold">156</p>
+                            <p className="text-3xl font-bold">0</p>
                             <p className="text-sm text-blue-100">Toplam Rapor</p>
                         </div>
                         <div className="bg-white/10 backdrop-blur rounded-xl p-4">
-                            <p className="text-3xl font-bold">48</p>
+                            <p className="text-3xl font-bold">0</p>
                             <p className="text-sm text-blue-100">Ogrenci</p>
                         </div>
                         <div className="bg-white/10 backdrop-blur rounded-xl p-4">
-                            <p className="text-3xl font-bold">3.52</p>
+                            <p className="text-3xl font-bold">0</p>
                             <p className="text-sm text-blue-100">Ort. GPA</p>
                         </div>
                     </div>
@@ -159,6 +155,12 @@ export default function ReportsPage() {
             </div>
 
             <div className="container mx-auto px-4 py-8">
+                {/* Demo Notice */}
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8 flex items-center gap-3">
+                    <span className="text-amber-600 font-bold text-lg">⚠️</span>
+                    <p className="text-amber-800 text-sm font-medium">Bu sayfa demo amaclidir. Raporlar ve tutarlar ornek icin gosterilmektedir; gercek veriler platform aktif oldugunda guncellenecektir.</p>
+                </div>
+
                 <div className="grid lg:grid-cols-2 gap-8">
                     {/* Sample Report */}
                     <div>

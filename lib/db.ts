@@ -6,24 +6,28 @@ let client: MongoClient;
 let clientPromise: Promise<MongoClient> | null = null;
 
 function getClientPromise(): Promise<MongoClient> {
-  if (!process.env.MONGO_URL) {
-    console.error('[DB] MONGO_URL is not set in environment variables');
-    return Promise.reject(new Error('Please add your Mongo URI to .env.local'));
+  // Read MONGO_URL at runtime (NOT inlined at build time)
+  const mongoUrl = process.env.MONGO_URL;
+
+  if (!mongoUrl) {
+    console.error('[DB] MONGO_URL is not set in environment variables.');
+    console.error('[DB] Make sure MONGO_URL is configured in your deployment environment (e.g., Vercel Environment Variables).');
+    return Promise.reject(new Error('MONGO_URL environment variable is not set. Please configure it in your deployment platform.'));
   }
 
   if (clientPromise) {
     return clientPromise;
   }
 
-  const uri = process.env.MONGO_URL;
+  const uri = mongoUrl;
 
   // Debug logging (safe - no secrets)
   try {
     const url = new URL(uri);
-    console.log(`[DB] Using MONGO_URL`);
+    console.log(`[DB] Connecting to MongoDB`);
     console.log(`[DB] host=${url.hostname} db=${dbName}`);
   } catch {
-    console.log(`[DB] Using MONGO_URL (could not parse for debug)`);
+    console.log(`[DB] Connecting to MongoDB (could not parse URL for debug)`);
   }
 
   if (process.env.NODE_ENV === 'development') {
@@ -110,6 +114,18 @@ export async function createIndexes() {
 
     await db.collection('stripe_events').createIndex('event_id', { unique: true });
     await db.collection('stripe_events').createIndex('processing_status');
+
+    // Campaign Updates indexes
+    await db.collection('campaign_updates').createIndex('campaign_id');
+    await db.collection('campaign_updates').createIndex('created_at');
+
+    // Donation Messages indexes
+    await db.collection('donation_messages').createIndex('message_id', { unique: true });
+    await db.collection('donation_messages').createIndex('campaign_id');
+    await db.collection('donation_messages').createIndex('donation_id');
+    await db.collection('donation_messages').createIndex('sender_id');
+    await db.collection('donation_messages').createIndex('recipient_id');
+    await db.collection('donation_messages').createIndex('created_at');
   } catch (error: any) {
     if (error.code !== 85 && error.codeName !== 'IndexOptionsConflict') {
       console.error('Error creating indexes:', error);

@@ -5,6 +5,7 @@ import { MessageSquare, Play, Quote } from 'lucide-react';
 import { ThankYouCard, mockThankYouMessages } from '@/components/ThankYouMessage';
 import MobileHeader from '@/components/MobileHeader';
 import { useTranslation } from '@/lib/i18n/context';
+import { censorSurname } from '@/lib/privacy';
 
 export default function StoriesPage() {
     const { t } = useTranslation();
@@ -17,7 +18,7 @@ export default function StoriesPage() {
             field: 'Bilgisayar Muhendisligi',
             quote: 'FundEd sayesinde hayallerime kavustum. Simdi Google\'da staj yapiyorum!',
             image: '/images/student-1.jpg',
-            funded: 12000,
+            funded: 0,
         },
         {
             id: '2',
@@ -26,7 +27,7 @@ export default function StoriesPage() {
             field: 'Elektrik Elektronik',
             quote: 'Ailem beni destekleyemiyordu. FundEd ailesi olmasa burada olamazdim.',
             image: '/images/student-2.jpg',
-            funded: 9500,
+            funded: 0,
         },
         {
             id: '3',
@@ -35,7 +36,7 @@ export default function StoriesPage() {
             field: 'Mimarlik',
             quote: 'Bagiscilarin destegi sadece maddi degil, moral olarak da cok degerli.',
             image: '/images/student-3.jpg',
-            funded: 11000,
+            funded: 0,
         },
     ];
 
@@ -58,6 +59,12 @@ export default function StoriesPage() {
             </div>
 
             <div className="container mx-auto px-4 py-8">
+                {/* Demo Notice */}
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8 flex items-center gap-3">
+                    <span className="text-amber-600 font-bold text-lg">⚠️</span>
+                    <p className="text-amber-800 text-sm font-medium">Bu sayfa demo amaclidir. Hikayeler ve tutarlar ornek icin gosterilmektedir; gercek veriler platform aktif oldugunda guncellenecektir.</p>
+                </div>
+
                 {/* Success Stories */}
                 <div className="grid md:grid-cols-3 gap-8 mb-12">
                     {successStories.map((story) => (
@@ -68,7 +75,7 @@ export default function StoriesPage() {
                                 </div>
                             </div>
                             <div className="p-6">
-                                <h3 className="font-bold text-xl text-gray-900">{story.name}</h3>
+                                <h3 className="font-bold text-xl text-gray-900">{censorSurname(story.name)}</h3>
                                 <p className="text-blue-600 text-sm mb-2">{story.university}</p>
                                 <p className="text-gray-500 text-sm mb-4">{story.field}</p>
 

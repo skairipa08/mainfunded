@@ -354,45 +354,43 @@ export function ProgressReportsList({ reports, className }: ProgressReportsListP
 
     // Generate mock report data based on quarter
     const getReportData = (report: ReportListItem): QuarterlyReportData => {
+        // Demo data - all financial values zero
         const quarterData: Record<string, QuarterlyReportData> = {
             'Q4 2025': {
                 studentName: report.studentName,
                 studentId: report.id,
                 quarter: 'Q4 2025',
                 period: { start: '2025-10-01', end: '2025-12-31' },
-                academicProgress: { gpa: 3.65, credits: 18, coursesCompleted: 6 },
-                financialSummary: { received: 3500, spent: 2800, remaining: 700 },
+                academicProgress: { gpa: 0, credits: 0, coursesCompleted: 0 },
+                financialSummary: { received: 0, spent: 0, remaining: 0 },
                 updates: [
-                    { id: '1', date: '2025-12-15', type: 'academic', title: 'Final Sinavlari Tamamlandi', description: 'Tum derslerden basariyla gecti' },
-                    { id: '2', date: '2025-11-20', type: 'milestone', title: 'Staj Basvurusu Onaylandi', description: 'Yaz donemi icin staj kabul edildi' },
+                    { id: '1', date: '2025-12-15', type: 'general', title: 'Demo Guncelleme', description: 'Bu bir demo guncellemesidir.' },
                 ],
-                nextMilestone: 'Bahar Donemi Kayit (Ocak 2026)',
+                nextMilestone: 'Platform aktif oldugunda guncellenecektir.',
             },
             'Q3 2025': {
                 studentName: report.studentName,
                 studentId: report.id,
                 quarter: 'Q3 2025',
                 period: { start: '2025-07-01', end: '2025-09-30' },
-                academicProgress: { gpa: 3.55, credits: 15, coursesCompleted: 5 },
-                financialSummary: { received: 3000, spent: 2500, remaining: 500 },
+                academicProgress: { gpa: 0, credits: 0, coursesCompleted: 0 },
+                financialSummary: { received: 0, spent: 0, remaining: 0 },
                 updates: [
-                    { id: '1', date: '2025-09-15', type: 'academic', title: 'Yaz Okulu Tamamlandi', description: '2 ders basariyla tamamlandi' },
-                    { id: '2', date: '2025-08-10', type: 'financial', title: 'Burs Odemesi Alindi', description: 'Donem bursu hesaba yattirildi' },
+                    { id: '1', date: '2025-09-15', type: 'general', title: 'Demo Guncelleme', description: 'Bu bir demo guncellemesidir.' },
                 ],
-                nextMilestone: 'Guz Donemi Final Sinavlari',
+                nextMilestone: 'Platform aktif oldugunda guncellenecektir.',
             },
             'Q2 2025': {
                 studentName: report.studentName,
                 studentId: report.id,
                 quarter: 'Q2 2025',
                 period: { start: '2025-04-01', end: '2025-06-30' },
-                academicProgress: { gpa: 3.45, credits: 12, coursesCompleted: 4 },
-                financialSummary: { received: 2800, spent: 2400, remaining: 400 },
+                academicProgress: { gpa: 0, credits: 0, coursesCompleted: 0 },
+                financialSummary: { received: 0, spent: 0, remaining: 0 },
                 updates: [
-                    { id: '1', date: '2025-06-15', type: 'academic', title: 'Bahar Donemi Bitti', description: 'Genel basarili bir donem' },
-                    { id: '2', date: '2025-05-20', type: 'general', title: 'Proje Sunumu', description: 'Donem projesi basariyla sunuldu' },
+                    { id: '1', date: '2025-06-15', type: 'general', title: 'Demo Guncelleme', description: 'Bu bir demo guncellemesidir.' },
                 ],
-                nextMilestone: 'Yaz Okulu Kaydi',
+                nextMilestone: 'Platform aktif oldugunda guncellenecektir.',
             },
         };
         return quarterData[report.quarter] || quarterData['Q4 2025'];
@@ -478,50 +476,32 @@ export function ProgressReportsList({ reports, className }: ProgressReportsListP
 }
 
 // Mock data
+// Demo data - all financial values zero
 export const mockQuarterlyReport: QuarterlyReportData = {
-    studentName: 'Elif Yilmaz',
-    studentId: 'std-1',
+    studentName: 'Demo Ogrenci',
+    studentId: 'demo-1',
     quarter: 'Q4 2025',
     period: { start: '2025-10-01', end: '2025-12-31' },
     academicProgress: {
-        gpa: 3.65,
-        credits: 18,
-        coursesCompleted: 6,
+        gpa: 0,
+        credits: 0,
+        coursesCompleted: 0,
     },
     financialSummary: {
-        received: 3500,
-        spent: 2800,
-        remaining: 700,
+        received: 0,
+        spent: 0,
+        remaining: 0,
     },
     updates: [
         {
             id: '1',
             date: '2025-12-15',
-            type: 'academic',
-            title: 'Final Sinavlari Tamamlandi',
-            description: 'Tum derslerden basariyla gecti',
-            metrics: [
-                { label: 'En Yuksek Not', value: 'A' },
-                { label: 'Ortalama', value: '3.65' },
-            ],
-        },
-        {
-            id: '2',
-            date: '2025-11-20',
-            type: 'milestone',
-            title: 'Staj Basvurusu Onaylandi',
-            description: 'Yaz donemi icin Google staji kabul edildi',
-        },
-        {
-            id: '3',
-            date: '2025-10-15',
-            type: 'financial',
-            title: 'Donem Harclaklari Odendi',
-            description: 'Universite harc ve yurt ucretleri tamamlandi',
-            metrics: [{ label: 'Odenen', value: '$2,100' }],
+            type: 'general',
+            title: 'Demo Guncelleme',
+            description: 'Bu bir demo guncellemesidir. Gercek veriler platform aktif oldugunda gorunecektir.',
         },
     ],
-    nextMilestone: 'Bahar Donemi Kayit (Ocak 2026)',
+    nextMilestone: 'Platform aktif oldugunda guncellenecektir.',
 };
 
 // Export the function for external use

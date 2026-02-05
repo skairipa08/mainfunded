@@ -4,7 +4,6 @@ import React from 'react';
 import {
     Shield,
     Check,
-    RefreshCcw,
     Heart,
     FileCheck,
     AlertCircle,
@@ -28,11 +27,6 @@ const guaranteePoints = [
         icon: FileCheck,
         title: 'Dogrulama Sureci',
         description: 'Tum ogrenciler kimlik ve ogrencilik belgesi ile dogrulanir.',
-    },
-    {
-        icon: RefreshCcw,
-        title: '30 Gun Iade Hakki',
-        description: 'Herhangi bir nedenle 30 gun icinde cayma hakkiniz vardir.',
     },
     {
         icon: Heart,

@@ -2,24 +2,15 @@
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  env: {
-    MONGO_URL: process.env.MONGO_URL || 'mongodb://localhost:27017/funded_db',
-    DB_NAME: process.env.DB_NAME || 'funded_db',
-    AUTH_SECRET: process.env.AUTH_SECRET,
-    AUTH_URL: process.env.AUTH_URL,
-    ADMIN_EMAILS: process.env.ADMIN_EMAILS,
-    GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID,
-    GOOGLE_CLIENT_SECRET: process.env.GOOGLE_CLIENT_SECRET,
-    STRIPE_API_KEY: process.env.STRIPE_API_KEY,
-    STRIPE_WEBHOOK_SECRET: process.env.STRIPE_WEBHOOK_SECRET,
-    CLOUDINARY_CLOUD_NAME: process.env.CLOUDINARY_CLOUD_NAME,
-    CLOUDINARY_API_KEY: process.env.CLOUDINARY_API_KEY,
-    CLOUDINARY_API_SECRET: process.env.CLOUDINARY_API_SECRET,
-    CORS_ORIGINS: process.env.CORS_ORIGINS,
-    RESEND_API_KEY: process.env.RESEND_API_KEY,
-    EMAIL_FROM: process.env.EMAIL_FROM,
-    SENTRY_DSN: process.env.SENTRY_DSN,
-  },
+
+  // ⚠️ DO NOT add server-only env vars here!
+  // The `env` property inlines values at BUILD TIME via webpack DefinePlugin,
+  // meaning runtime environment variables (e.g. on Vercel) are IGNORED.
+  // It also exposes secrets to the client bundle.
+  //
+  // Server-side code (API routes) already reads process.env at runtime.
+  // Client-side code that needs env vars should use NEXT_PUBLIC_* prefix in .env files.
+
   images: {
     remotePatterns: [
       {

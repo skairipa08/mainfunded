@@ -9,8 +9,8 @@ import { useTranslation } from '@/lib/i18n/context';
 
 export default function BadgesPage() {
     const { t } = useTranslation();
-    // Mock earned badges for demo
-    const earnedBadgeIds = ['first_step', 'bronze', 'mentor'];
+    // Demo mode - no badges earned yet
+    const earnedBadgeIds: string[] = [];
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-blue-50">
@@ -31,13 +31,19 @@ export default function BadgesPage() {
             </div>
 
             <div className="container mx-auto px-4 py-8">
+                {/* Demo Notice */}
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8 flex items-center gap-3">
+                    <span className="text-amber-600 font-bold text-lg">⚠️</span>
+                    <p className="text-amber-800 text-sm font-medium">Bu sayfa demo amaclidir. Rozetler ve ilerleme degerleri platform aktif oldugunda guncellenecektir.</p>
+                </div>
+
                 {/* Progress Section */}
                 <div className="mb-12">
                     <h2 className="text-2xl font-bold text-gray-900 mb-6">{t('pages.badges.progress')}</h2>
                     <div className="grid md:grid-cols-3 gap-6">
-                        <ProgressToBadge badgeId="regular" currentValue={3} />
-                        <ProgressToBadge badgeId="silver" currentValue={350} />
-                        <ProgressToBadge badgeId="champion" currentValue={2} />
+                        <ProgressToBadge badgeId="regular" currentValue={0} />
+                        <ProgressToBadge badgeId="silver" currentValue={0} />
+                        <ProgressToBadge badgeId="champion" currentValue={0} />
                     </div>
                 </div>
 

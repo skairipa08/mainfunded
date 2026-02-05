@@ -106,16 +106,10 @@ function AccountPageContent() {
 
     const tierBadge = getTierBadge();
 
-    // Mock data for demonstration
-    const mockDonations = [
-        { id: 1, campaignName: 'Medical School Fund', amount: 50, date: '2026-01-15', status: 'completed' },
-        { id: 2, campaignName: 'Engineering Scholarship', amount: 100, date: '2026-01-10', status: 'completed' },
-        { id: 3, campaignName: 'Art Student Support', amount: 25, date: '2026-01-05', status: 'completed' },
-    ];
+    // Demo data - values are zero until real data is available
+    const mockDonations: { id: number; campaignName: string; amount: number; date: string; status: string }[] = [];
 
-    const mockCampaigns = [
-        { id: 1, title: 'My Education Fund', goal: 5000, raised: 1250, status: 'active', donors: 12 },
-    ];
+    const mockCampaigns: { id: number; title: string; goal: number; raised: number; status: string; donors: number }[] = [];
 
     const stats = {
         totalDonated: mockDonations.reduce((sum, d) => sum + d.amount, 0),

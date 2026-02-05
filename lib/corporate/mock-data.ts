@@ -102,18 +102,11 @@ export const mockStudents: SupportedStudent[] = [
         department: 'Computer Science',
         country: 'Turkey',
         target_year: 2026,
-        total_donated: 2500,
-        goal_amount: 5000,
+        total_donated: 0,
+        goal_amount: 0,
         status: 'active',
-        updates: [
-            { id: 'upd_001', date: '2026-01-15', title: 'Donem Sonu Basarisi', content: 'Bu donem 3.8 GPA ile bitirdim. Destekleriniz icin tesekkurler!', type: 'progress' },
-            { id: 'upd_002', date: '2025-12-20', title: 'Staj Haberi', content: 'Google\'da yaz staji icin kabul aldim!', type: 'milestone' },
-        ],
-        donation_history: [
-            { id: 'don_001', date: '2026-01-10', amount: 500, donor_name: 'TechVentures Inc.' },
-            { id: 'don_002', date: '2025-11-15', amount: 1000, donor_name: 'TechVentures Inc.' },
-            { id: 'don_003', date: '2025-09-01', amount: 1000, donor_name: 'TechVentures Inc.' },
-        ],
+        updates: [],
+        donation_history: [],
     },
     {
         id: 'std_002',
@@ -124,16 +117,11 @@ export const mockStudents: SupportedStudent[] = [
         department: 'Physics',
         country: 'Turkey',
         target_year: 2025,
-        total_donated: 3000,
-        goal_amount: 4000,
+        total_donated: 0,
+        goal_amount: 0,
         status: 'active',
-        updates: [
-            { id: 'upd_003', date: '2026-01-20', title: 'Arastirma Projesi', content: 'CERN arastirma programina kabul edildim!', type: 'milestone' },
-        ],
-        donation_history: [
-            { id: 'don_004', date: '2026-01-05', amount: 1500, donor_name: 'TechVentures Inc.' },
-            { id: 'don_005', date: '2025-10-10', amount: 1500, donor_name: 'TechVentures Inc.' },
-        ],
+        updates: [],
+        donation_history: [],
     },
     {
         id: 'std_003',
@@ -144,14 +132,11 @@ export const mockStudents: SupportedStudent[] = [
         department: 'Medical School',
         country: 'Turkey',
         target_year: 2028,
-        total_donated: 4000,
-        goal_amount: 8000,
+        total_donated: 0,
+        goal_amount: 0,
         status: 'active',
         updates: [],
-        donation_history: [
-            { id: 'don_006', date: '2025-12-01', amount: 2000, donor_name: 'TechVentures Inc.' },
-            { id: 'don_007', date: '2025-08-15', amount: 2000, donor_name: 'TechVentures Inc.' },
-        ],
+        donation_history: [],
     },
     {
         id: 'std_004',
@@ -162,17 +147,11 @@ export const mockStudents: SupportedStudent[] = [
         department: 'Law School',
         country: 'Turkey',
         target_year: 2024,
-        total_donated: 6000,
-        goal_amount: 6000,
+        total_donated: 0,
+        goal_amount: 0,
         status: 'graduated',
-        updates: [
-            { id: 'upd_004', date: '2024-06-15', title: 'Mezuniyet!', content: 'Hukuk fakultesinden derece ile mezun oldum. Sizin sayenizde!', type: 'thank_you' },
-        ],
-        donation_history: [
-            { id: 'don_008', date: '2024-05-01', amount: 2000, donor_name: 'TechVentures Inc.' },
-            { id: 'don_009', date: '2024-01-15', amount: 2000, donor_name: 'TechVentures Inc.' },
-            { id: 'don_010', date: '2023-09-01', amount: 2000, donor_name: 'TechVentures Inc.' },
-        ],
+        updates: [],
+        donation_history: [],
     },
     {
         id: 'std_005',
@@ -183,26 +162,25 @@ export const mockStudents: SupportedStudent[] = [
         department: 'Architecture',
         country: 'Turkey',
         target_year: 2027,
-        total_donated: 1500,
-        goal_amount: 5000,
+        total_donated: 0,
+        goal_amount: 0,
         status: 'active',
         updates: [],
-        donation_history: [
-            { id: 'don_011', date: '2026-01-25', amount: 1500, donor_name: 'TechVentures Inc.' },
-        ],
+        donation_history: [],
     },
 ];
 
 // Demo Campaigns
+// Demo Campaigns (all values zero)
 export const mockCampaigns: Campaign[] = [
     {
         id: 'camp_001',
         title: 'STEM Egitimi Destegi',
         description: 'Muhendislik ve bilim ogrencilerine burs destegi',
         category: 'STEM',
-        goal_amount: 50000,
-        raised_amount: 32000,
-        student_count: 15,
+        goal_amount: 0,
+        raised_amount: 0,
+        student_count: 0,
         cover_image: '/api/placeholder/400/200',
         status: 'active',
     },
@@ -211,33 +189,11 @@ export const mockCampaigns: Campaign[] = [
         title: 'Tip Fakultesi Bursu',
         description: 'Gelecek doktorlara egitim destegi',
         category: 'Medicine',
-        goal_amount: 80000,
-        raised_amount: 45000,
-        student_count: 10,
+        goal_amount: 0,
+        raised_amount: 0,
+        student_count: 0,
         cover_image: '/api/placeholder/400/200',
         status: 'active',
-    },
-    {
-        id: 'camp_003',
-        title: 'Kadin Girisimciler',
-        description: 'Kadin ogrencilere ozel burs programi',
-        category: 'Women in Tech',
-        goal_amount: 30000,
-        raised_amount: 28000,
-        student_count: 12,
-        cover_image: '/api/placeholder/400/200',
-        status: 'active',
-    },
-    {
-        id: 'camp_004',
-        title: 'Kirsaldan Universitye',
-        description: 'Kirsal bolge ogrencilerine destek',
-        category: 'Rural Education',
-        goal_amount: 40000,
-        raised_amount: 40000,
-        student_count: 20,
-        cover_image: '/api/placeholder/400/200',
-        status: 'completed',
     },
 ];
 
@@ -281,33 +237,33 @@ export const mockNotifications: Notification[] = [
     },
 ];
 
-// Dashboard Statistics
+// Dashboard Statistics (Demo - all values zero)
 export const mockDashboardStats = {
     totalDonations: {
-        today: 2500,
-        thisMonth: 15000,
-        allTime: 125000,
+        today: 0,
+        thisMonth: 0,
+        allTime: 0,
     },
-    studentsSupported: 25,
-    averageDonation: 1250,
-    activeCampaigns: 3,
-    graduatedStudents: 8,
+    studentsSupported: 0,
+    averageDonation: 0,
+    activeCampaigns: 0,
+    graduatedStudents: 0,
 };
 
-// Monthly Donation Trend Data
+// Monthly Donation Trend Data (Demo)
 export const mockDonationTrend = [
-    { month: 'Oca', amount: 8000 },
-    { month: 'Sub', amount: 12000 },
-    { month: 'Mar', amount: 9500 },
-    { month: 'Nis', amount: 15000 },
-    { month: 'May', amount: 11000 },
-    { month: 'Haz', amount: 18000 },
-    { month: 'Tem', amount: 14000 },
-    { month: 'Agu', amount: 16500 },
-    { month: 'Eyl', amount: 20000 },
-    { month: 'Eki', amount: 17500 },
-    { month: 'Kas', amount: 22000 },
-    { month: 'Ara', amount: 25000 },
+    { month: 'Oca', amount: 0 },
+    { month: 'Sub', amount: 0 },
+    { month: 'Mar', amount: 0 },
+    { month: 'Nis', amount: 0 },
+    { month: 'May', amount: 0 },
+    { month: 'Haz', amount: 0 },
+    { month: 'Tem', amount: 0 },
+    { month: 'Agu', amount: 0 },
+    { month: 'Eyl', amount: 0 },
+    { month: 'Eki', amount: 0 },
+    { month: 'Kas', amount: 0 },
+    { month: 'Ara', amount: 0 },
 ];
 
 // Faculty Distribution
@@ -328,24 +284,24 @@ export const mockCountryDistribution = [
     { name: 'Diger', value: 7 },
 ];
 
-// ESG Metrics
+// ESG Metrics (Demo)
 export const mockESGMetrics = {
     regionalImpact: {
-        developingCountries: 65,
-        ruralAreas: 40,
+        developingCountries: 0,
+        ruralAreas: 0,
     },
     genderDistribution: {
-        female: 55,
-        male: 45,
+        female: 0,
+        male: 0,
     },
     ethnicDiversity: {
-        underrepresented: 35,
-        majority: 65,
+        underrepresented: 0,
+        majority: 0,
     },
-    universityDiversity: 12, // Number of different universities
+    universityDiversity: 0,
     totalImpact: {
-        studentsHelped: 125,
-        graduations: 42,
-        employmentRate: 94,
+        studentsHelped: 0,
+        graduations: 0,
+        employmentRate: 0,
     },
 };

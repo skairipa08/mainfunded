@@ -4,340 +4,269 @@ import React from 'react';
 import {
     Leaf,
     Users,
-    Globe,
-    GraduationCap,
+    Building2,
     TrendingUp,
-    Download,
-    FileText,
-    CheckCircle,
+    Award,
+    Globe,
+    Heart,
+    Target,
+    BarChart3,
 } from 'lucide-react';
+import CorporateHeader from '@/components/corporate/Header';
+import { Badge } from '@/components/ui/badge';
+import { Progress } from '@/components/ui/progress';
 import {
-    PieChart,
-    Pie,
-    Cell,
-    BarChart,
-    Bar,
+    AreaChart,
+    Area,
     XAxis,
     YAxis,
     CartesianGrid,
     Tooltip,
     ResponsiveContainer,
+    PieChart,
+    Pie,
+    Cell,
 } from 'recharts';
-import CorporateHeader from '@/components/corporate/Header';
-import StatCard from '@/components/corporate/StatCard';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { mockESGMetrics, mockCountryDistribution } from '@/lib/corporate/mock-data';
-
-const GENDER_COLORS = ['#EC4899', '#3B82F6'];
-const REGION_COLORS = ['#10B981', '#3B82F6', '#F59E0B', '#EF4444', '#8B5CF6'];
+import { useTranslation } from '@/lib/i18n/context';
 
 export default function ESGPage() {
-    const genderData = [
-        { name: 'Kadin', value: mockESGMetrics.genderDistribution.female },
-        { name: 'Erkek', value: mockESGMetrics.genderDistribution.male },
+    const { t } = useTranslation();
+
+    const impactData = [
+        { month: 'Oca', impact: 45 },
+        { month: 'Sub', impact: 52 },
+        { month: 'Mar', impact: 61 },
+        { month: 'Nis', impact: 58 },
+        { month: 'May', impact: 72 },
+        { month: 'Haz', impact: 85 },
     ];
 
-    const ethnicData = [
-        { name: 'Az Temsil Edilen', value: mockESGMetrics.ethnicDiversity.underrepresented },
-        { name: 'Cogunluk', value: mockESGMetrics.ethnicDiversity.majority },
+    const sdgData = [
+        { name: 'SDG 4', value: 40, color: '#ef4444' },
+        { name: 'SDG 10', value: 25, color: '#f97316' },
+        { name: 'SDG 5', value: 20, color: '#eab308' },
+        { name: 'SDG 1', value: 15, color: '#22c55e' },
     ];
 
-    const exportPDF = () => {
-        // Create a simple HTML-based printable report
-        const reportWindow = window.open('', '_blank');
-        if (reportWindow) {
-            reportWindow.document.write(`
-                <!DOCTYPE html>
-                <html>
-                <head>
-                    <title>ESG Raporu - FundEd</title>
-                    <style>
-                        body { font-family: Arial, sans-serif; padding: 40px; max-width: 800px; margin: 0 auto; }
-                        h1 { color: #059669; border-bottom: 2px solid #059669; padding-bottom: 10px; }
-                        h2 { color: #374151; margin-top: 30px; }
-                        .stat { display: inline-block; margin: 10px 20px 10px 0; padding: 20px; background: #F0FDF4; border-radius: 8px; }
-                        .stat-value { font-size: 24px; font-weight: bold; color: #059669; }
-                        .stat-label { font-size: 12px; color: #6B7280; }
-                        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
-                        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #E5E7EB; }
-                        th { background: #F3F4F6; font-weight: 600; }
-                        .footer { margin-top: 40px; padding-top: 20px; border-top: 1px solid #E5E7EB; text-align: center; color: #9CA3AF; font-size: 12px; }
-                        @media print { body { padding: 20px; } }
-                    </style>
-                </head>
-                <body>
-                    <h1>🌱 ESG Performans Raporu</h1>
-                    <p>Rapor Donemi: Ocak 2026 - Subat 2026</p>
-                    
-                    <h2>Etki Ozeti</h2>
-                    <div class="stat"><div class="stat-value">${mockESGMetrics.totalImpact.studentsHelped}</div><div class="stat-label">Desteklenen Ogrenci</div></div>
-                    <div class="stat"><div class="stat-value">${mockESGMetrics.totalImpact.graduations}</div><div class="stat-label">Mezun Sayisi</div></div>
-                    <div class="stat"><div class="stat-value">%${mockESGMetrics.totalImpact.employmentRate}</div><div class="stat-label">Istihdam Orani</div></div>
-                    <div class="stat"><div class="stat-value">${mockESGMetrics.universityDiversity}</div><div class="stat-label">Universite Cesitliligi</div></div>
-                    
-                    <h2>Cinsiyet Dagilimi</h2>
-                    <table>
-                        <tr><th>Cinsiyet</th><th>Oran</th></tr>
-                        <tr><td>Kadin</td><td>%${mockESGMetrics.genderDistribution.female}</td></tr>
-                        <tr><td>Erkek</td><td>%${mockESGMetrics.genderDistribution.male}</td></tr>
-                    </table>
-                    
-                    <h2>Bolgesel Etki</h2>
-                    <table>
-                        <tr><th>Metrik</th><th>Oran</th></tr>
-                        <tr><td>Gelismekte Olan Ulkelerdeki Ogrenciler</td><td>%${mockESGMetrics.regionalImpact.developingCountries}</td></tr>
-                        <tr><td>Kirsal Bolge Ogrencileri</td><td>%${mockESGMetrics.regionalImpact.ruralAreas}</td></tr>
-                    </table>
-                    
-                    <h2>BM SDG Uyumu</h2>
-                    <table>
-                        <tr><th>Hedef</th><th>Etki Seviyesi</th></tr>
-                        <tr><td>SDG 1 - Yoksulluga Son</td><td>🟢 Yuksek</td></tr>
-                        <tr><td>SDG 4 - Nitelikli Egitim</td><td>🟢 Yuksek</td></tr>
-                        <tr><td>SDG 5 - Cinsiyet Esitligi</td><td>🔵 Orta</td></tr>
-                        <tr><td>SDG 10 - Esitsizliklerin Azaltilmasi</td><td>🟢 Yuksek</td></tr>
-                    </table>
-                    
-                    <div class="footer">
-                        <p>Bu rapor FundEd platformu tarafindan otomatik olusturulmustur.</p>
-                        <p>Olusturma Tarihi: ${new Date().toLocaleDateString('tr-TR')}</p>
-                    </div>
-                </body>
-                </html>
-            `);
-            reportWindow.document.close();
-            reportWindow.print();
-        }
-    };
+    const esgScore = 87;
 
     return (
         <div className="min-h-screen">
             <CorporateHeader
-                title="ESG Raporu"
-                subtitle="Kurumsal Sosyal Sorumluluk ve ESG metrikleri"
+                title={t('corporate.esg.title')}
+                subtitle={t('corporate.esg.subtitle')}
             />
 
             <div className="p-6">
-                {/* Header with Export */}
-                <div className="bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl p-6 mb-6 border border-green-100">
-                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-                        <div className="flex items-center gap-4">
-                            <div className="bg-green-100 p-3 rounded-lg">
-                                <Leaf className="h-8 w-8 text-green-600" />
+                {/* ESG Score Overview */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+                    <div className="bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl p-6 border border-green-200">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="bg-green-100 p-3 rounded-xl">
+                                <Leaf className="h-6 w-6 text-green-600" />
                             </div>
                             <div>
-                                <h2 className="text-xl font-bold text-gray-900">ESG Performans Raporu</h2>
-                                <p className="text-gray-600">Ocak 2026 - Subat 2026</p>
+                                <h3 className="font-semibold text-gray-900">{t('corporate.esg.environmental')}</h3>
+                                <p className="text-sm text-gray-500">Environmental</p>
                             </div>
                         </div>
-                        <Button onClick={exportPDF} className="gap-2 bg-green-600 hover:bg-green-700">
-                            <Download className="h-4 w-4" />
-                            PDF Indir
-                        </Button>
+                        <div className="flex items-end gap-2 mb-2">
+                            <span className="text-4xl font-bold text-green-600">92</span>
+                            <span className="text-gray-500 mb-1">/100</span>
+                        </div>
+                        <Progress value={92} className="h-2 bg-green-100" />
+                    </div>
+
+                    <div className="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl p-6 border border-blue-200">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="bg-blue-100 p-3 rounded-xl">
+                                <Users className="h-6 w-6 text-blue-600" />
+                            </div>
+                            <div>
+                                <h3 className="font-semibold text-gray-900">{t('corporate.esg.social')}</h3>
+                                <p className="text-sm text-gray-500">Social</p>
+                            </div>
+                        </div>
+                        <div className="flex items-end gap-2 mb-2">
+                            <span className="text-4xl font-bold text-blue-600">88</span>
+                            <span className="text-gray-500 mb-1">/100</span>
+                        </div>
+                        <Progress value={88} className="h-2 bg-blue-100" />
+                    </div>
+
+                    <div className="bg-gradient-to-br from-purple-50 to-violet-100 rounded-xl p-6 border border-purple-200">
+                        <div className="flex items-center gap-3 mb-4">
+                            <div className="bg-purple-100 p-3 rounded-xl">
+                                <Building2 className="h-6 w-6 text-purple-600" />
+                            </div>
+                            <div>
+                                <h3 className="font-semibold text-gray-900">{t('corporate.esg.governance')}</h3>
+                                <p className="text-sm text-gray-500">Governance</p>
+                            </div>
+                        </div>
+                        <div className="flex items-end gap-2 mb-2">
+                            <span className="text-4xl font-bold text-purple-600">81</span>
+                            <span className="text-gray-500 mb-1">/100</span>
+                        </div>
+                        <Progress value={81} className="h-2 bg-purple-100" />
                     </div>
                 </div>
 
-                {/* Impact Stats */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <StatCard
-                        title="Desteklenen Ogrenci"
-                        value={mockESGMetrics.totalImpact.studentsHelped}
-                        icon={Users}
-                    />
-                    <StatCard
-                        title="Mezun Sayisi"
-                        value={mockESGMetrics.totalImpact.graduations}
-                        icon={GraduationCap}
-                    />
-                    <StatCard
-                        title="Istihdam Orani"
-                        value={`%${mockESGMetrics.totalImpact.employmentRate}`}
-                        icon={TrendingUp}
-                    />
-                    <StatCard
-                        title="Universite Cesitliligi"
-                        value={mockESGMetrics.universityDiversity}
-                        subtitle="farkli universite"
-                        icon={Globe}
-                    />
+                {/* Overall ESG Score */}
+                <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100 mb-8">
+                    <div className="flex items-center justify-between mb-6">
+                        <div>
+                            <h3 className="text-xl font-semibold text-gray-900">{t('corporate.esg.overallScore')}</h3>
+                            <p className="text-gray-500">{t('corporate.esg.basedOnActivities')}</p>
+                        </div>
+                        <Badge className="bg-green-100 text-green-700 text-lg px-4 py-2">
+                            {t('corporate.esg.aPlus')}
+                        </Badge>
+                    </div>
+                    <div className="flex items-center gap-8">
+                        <div className="relative w-40 h-40">
+                            <svg className="w-full h-full" viewBox="0 0 100 100">
+                                <circle
+                                    cx="50"
+                                    cy="50"
+                                    r="45"
+                                    fill="none"
+                                    stroke="#e5e7eb"
+                                    strokeWidth="10"
+                                />
+                                <circle
+                                    cx="50"
+                                    cy="50"
+                                    r="45"
+                                    fill="none"
+                                    stroke="url(#gradient)"
+                                    strokeWidth="10"
+                                    strokeDasharray={`${esgScore * 2.83} 283`}
+                                    strokeLinecap="round"
+                                    transform="rotate(-90 50 50)"
+                                />
+                                <defs>
+                                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stopColor="#22c55e" />
+                                        <stop offset="100%" stopColor="#3b82f6" />
+                                    </linearGradient>
+                                </defs>
+                            </svg>
+                            <div className="absolute inset-0 flex items-center justify-center">
+                                <span className="text-4xl font-bold text-gray-900">{esgScore}</span>
+                            </div>
+                        </div>
+                        <div className="flex-1">
+                            <div className="grid grid-cols-2 gap-4">
+                                <div className="flex items-center gap-3">
+                                    <Award className="h-5 w-5 text-yellow-500" />
+                                    <span className="text-gray-600">{t('corporate.esg.top10')}</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <TrendingUp className="h-5 w-5 text-green-500" />
+                                    <span className="text-gray-600">{t('corporate.esg.percentIncrease')}</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <Globe className="h-5 w-5 text-blue-500" />
+                                    <span className="text-gray-600">{t('corporate.esg.globalImpact')}</span>
+                                </div>
+                                <div className="flex items-center gap-3">
+                                    <Heart className="h-5 w-5 text-red-500" />
+                                    <span className="text-gray-600">{t('corporate.esg.socialContribution')}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
-                {/* Charts Row */}
+                {/* Impact Chart & SDG Distribution */}
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                    {/* Gender Distribution */}
                     <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                            Cinsiyet Dagilimi
+                        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                            <BarChart3 className="h-5 w-5" />
+                            {t('corporate.esg.impactTrend')}
                         </h3>
-                        <div className="h-64 flex items-center">
-                            <ResponsiveContainer width="50%" height="100%">
+                        <ResponsiveContainer width="100%" height={250}>
+                            <AreaChart data={impactData}>
+                                <CartesianGrid strokeDasharray="3 3" />
+                                <XAxis dataKey="month" />
+                                <YAxis />
+                                <Tooltip />
+                                <Area
+                                    type="monotone"
+                                    dataKey="impact"
+                                    stroke="#3b82f6"
+                                    fill="url(#impactGradient)"
+                                />
+                                <defs>
+                                    <linearGradient id="impactGradient" x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
+                                        <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                                    </linearGradient>
+                                </defs>
+                            </AreaChart>
+                        </ResponsiveContainer>
+                    </div>
+
+                    <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
+                        <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
+                            <Target className="h-5 w-5" />
+                            {t('corporate.esg.sdgContribution')}
+                        </h3>
+                        <div className="flex items-center gap-8">
+                            <ResponsiveContainer width="50%" height={200}>
                                 <PieChart>
                                     <Pie
-                                        data={genderData}
-                                        cx="50%"
-                                        cy="50%"
-                                        innerRadius={50}
-                                        outerRadius={80}
-                                        paddingAngle={2}
-                                        dataKey="value"
-                                    >
-                                        {genderData.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={GENDER_COLORS[index]} />
-                                        ))}
-                                    </Pie>
-                                    <Tooltip formatter={(value) => [`%${value}`, '']} />
-                                </PieChart>
-                            </ResponsiveContainer>
-                            <div className="flex-1 space-y-4">
-                                {genderData.map((item, index) => (
-                                    <div key={item.name} className="flex items-center gap-3">
-                                        <div
-                                            className="w-4 h-4 rounded-full"
-                                            style={{ backgroundColor: GENDER_COLORS[index] }}
-                                        />
-                                        <span className="text-gray-600 flex-1">{item.name}</span>
-                                        <span className="font-bold text-gray-900">%{item.value}</span>
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="mt-4 p-4 bg-pink-50 rounded-lg">
-                            <div className="flex items-center gap-2 text-pink-700">
-                                <CheckCircle className="h-5 w-5" />
-                                <span className="font-medium">Cinsiyet esitligi hedefinde</span>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Regional Impact */}
-                    <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                            Bolgesel Etki
-                        </h3>
-                        <div className="h-64">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <BarChart data={mockCountryDistribution} layout="vertical">
-                                    <CartesianGrid strokeDasharray="3 3" stroke="#E5E7EB" />
-                                    <XAxis type="number" stroke="#9CA3AF" />
-                                    <YAxis type="category" dataKey="name" stroke="#9CA3AF" width={80} />
-                                    <Tooltip formatter={(value) => [`%${value}`, 'Oran']} />
-                                    <Bar dataKey="value" radius={[0, 4, 4, 0]}>
-                                        {mockCountryDistribution.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={REGION_COLORS[index]} />
-                                        ))}
-                                    </Bar>
-                                </BarChart>
-                            </ResponsiveContainer>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Key Metrics */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-                    {/* Regional Inequality */}
-                    <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-6">
-                            Bolgesel Esitsizlik Azaltimi
-                        </h3>
-                        <div className="space-y-6">
-                            <div>
-                                <div className="flex justify-between mb-2">
-                                    <span className="text-gray-600">Gelismekte Olan Ulkelerdeki Ogrenciler</span>
-                                    <span className="font-bold text-gray-900">
-                                        %{mockESGMetrics.regionalImpact.developingCountries}
-                                    </span>
-                                </div>
-                                <Progress value={mockESGMetrics.regionalImpact.developingCountries} className="h-3" />
-                            </div>
-                            <div>
-                                <div className="flex justify-between mb-2">
-                                    <span className="text-gray-600">Kirsal Bolge Ogrencileri</span>
-                                    <span className="font-bold text-gray-900">
-                                        %{mockESGMetrics.regionalImpact.ruralAreas}
-                                    </span>
-                                </div>
-                                <Progress value={mockESGMetrics.regionalImpact.ruralAreas} className="h-3" />
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Ethnic Diversity */}
-                    <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                        <h3 className="text-lg font-semibold text-gray-900 mb-6">
-                            Etnik Cesitlilik
-                        </h3>
-                        <div className="h-48">
-                            <ResponsiveContainer width="100%" height="100%">
-                                <PieChart>
-                                    <Pie
-                                        data={ethnicData}
+                                        data={sdgData}
                                         cx="50%"
                                         cy="50%"
                                         innerRadius={40}
-                                        outerRadius={70}
-                                        paddingAngle={2}
+                                        outerRadius={80}
                                         dataKey="value"
-                                        label={({ name, value }) => `${name}: %${value}`}
                                     >
-                                        <Cell fill="#8B5CF6" />
-                                        <Cell fill="#E5E7EB" />
+                                        {sdgData.map((entry, index) => (
+                                            <Cell key={`cell-${index}`} fill={entry.color} />
+                                        ))}
                                     </Pie>
                                     <Tooltip />
                                 </PieChart>
                             </ResponsiveContainer>
-                        </div>
-                        <div className="mt-4 p-4 bg-purple-50 rounded-lg">
-                            <div className="flex items-center gap-2 text-purple-700">
-                                <CheckCircle className="h-5 w-5" />
-                                <span className="font-medium">Az temsil edilen gruplara %{mockESGMetrics.ethnicDiversity.underrepresented} destek</span>
+                            <div className="space-y-3">
+                                {sdgData.map((sdg) => (
+                                    <div key={sdg.name} className="flex items-center gap-2">
+                                        <div
+                                            className="w-3 h-3 rounded-full"
+                                            style={{ backgroundColor: sdg.color }}
+                                        />
+                                        <span className="text-sm text-gray-600">
+                                            {sdg.name}: {sdg.value}%
+                                        </span>
+                                    </div>
+                                ))}
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {/* SDG Alignment */}
+                {/* Impact Metrics */}
                 <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
-                    <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                        BM Surdurulebilir Kalkinma Hedefleri (SDG) Uyumu
-                    </h3>
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div className="bg-green-50 p-4 rounded-lg text-center border border-green-200">
-                            <div className="text-3xl mb-2">1️⃣</div>
-                            <p className="font-medium text-green-800">Yoksulluga Son</p>
-                            <Badge className="mt-2 bg-green-100 text-green-700 border border-green-300">Etki: Yuksek</Badge>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-6">{t('corporate.esg.impactMetrics')}</h3>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                        <div className="text-center">
+                            <div className="text-3xl font-bold text-blue-600">0</div>
+                            <p className="text-gray-500 text-sm">{t('corporate.esg.studentsSupported')}</p>
                         </div>
-                        <div className="bg-green-50 p-4 rounded-lg text-center border border-green-200">
-                            <div className="text-3xl mb-2">4️⃣</div>
-                            <p className="font-medium text-green-800">Nitelikli Egitim</p>
-                            <Badge className="mt-2 bg-green-100 text-green-700 border border-green-300">Etki: Yuksek</Badge>
+                        <div className="text-center">
+                            <div className="text-3xl font-bold text-green-600">0</div>
+                            <p className="text-gray-500 text-sm">{t('corporate.esg.countriesReached')}</p>
                         </div>
-                        <div className="bg-blue-50 p-4 rounded-lg text-center border border-blue-200">
-                            <div className="text-3xl mb-2">5️⃣</div>
-                            <p className="font-medium text-blue-800">Cinsiyet Esitligi</p>
-                            <Badge className="mt-2 bg-blue-100 text-blue-700 border border-blue-300">Etki: Orta</Badge>
+                        <div className="text-center">
+                            <div className="text-3xl font-bold text-purple-600">$0</div>
+                            <p className="text-gray-500 text-sm">{t('corporate.esg.totalDonations')}</p>
                         </div>
-                        <div className="bg-green-50 p-4 rounded-lg text-center border border-green-200">
-                            <div className="text-3xl mb-2">🔟</div>
-                            <p className="font-medium text-green-800">Esitsizliklerin Azaltilmasi</p>
-                            <Badge className="mt-2 bg-green-100 text-green-700 border border-green-300">Etki: Yuksek</Badge>
-                        </div>
-                    </div>
-
-                    {/* Color Legend */}
-                    <div className="flex items-center justify-center gap-6 mt-4 pt-4 border-t">
-                        <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                            <span className="text-sm text-gray-600">Yuksek Etki</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-full bg-blue-500"></div>
-                            <span className="text-sm text-gray-600">Orta Etki</span>
-                        </div>
-                        <div className="flex items-center gap-2">
-                            <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                            <span className="text-sm text-gray-600">Dusuk Etki</span>
+                        <div className="text-center">
+                            <div className="text-3xl font-bold text-orange-600">0</div>
+                            <p className="text-gray-500 text-sm">{t('corporate.esg.livesChanged')}</p>
                         </div>
                     </div>
                 </div>

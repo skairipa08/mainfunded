@@ -19,8 +19,8 @@ Merhaba, ben Baran. Duzce Universitesi Elektrik Elektronik Muhendisligi ogrencis
 - $150 shipping & contingency`,
         category: 'education', // Lowercase to match value="education" usually, verifying against typical category IDs
         goal_amount: 1250,
-        raised_amount: 120, // Some progress
-        donor_count: 5,
+        raised_amount: 0,
+        donor_count: 0,
         status: 'published',
         country: 'Turkey',
         field_of_study: 'Engineering',
@@ -55,8 +55,8 @@ Merhaba, ben Ozge. Sakarya Universitesi Malzeme Metalurji Muhendisligi ogrencisi
 = $180 total`,
         category: 'scholarship', // or education
         goal_amount: 180, // Monthly target
-        raised_amount: 45,
-        donor_count: 3,
+        raised_amount: 0,
+        donor_count: 0,
         status: 'published',
         country: 'Turkey',
         field_of_study: 'Engineering',

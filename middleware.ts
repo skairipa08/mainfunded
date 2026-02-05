@@ -1,10 +1,13 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { auth } from './auth';
+
+// ⚠️ DO NOT import from './auth' here!
+// Middleware runs on Vercel Edge Runtime which cannot import NextAuth/MongoDB.
+// See VERCEL_MIDDLEWARE_FIX.md for details.
 
 // Routes that require authentication
-const protectedRoutes = ['/account', '/admin', '/dashboard', '/create-campaign'];
+const protectedRoutes = ['/account', '/admin', '/dashboard', '/create-campaign', '/my-donations'];
 
-// Routes that are only for admins
+// Routes that are only for admins (protected at API/page level, not middleware)
 const adminRoutes = ['/admin'];
 
 // Simple in-memory rate limiter for middleware
@@ -42,6 +45,23 @@ function checkRateLimit(key: string): { allowed: boolean; remaining: number } {
   return { allowed: true, remaining: RATE_LIMIT_MAX - entry.count };
 }
 
+/**
+ * Check if user has a valid session cookie (Edge-compatible, no auth import).
+ * next-auth v5 (authjs) uses these cookie names:
+ *   - Development (HTTP):  "authjs.session-token"
+ *   - Production  (HTTPS): "__Secure-authjs.session-token"
+ * Older versions / configurations may use "next-auth.session-token".
+ */
+function hasSessionCookie(request: NextRequest): boolean {
+  const cookies = request.cookies;
+  return (
+    cookies.has('authjs.session-token') ||
+    cookies.has('__Secure-authjs.session-token') ||
+    cookies.has('next-auth.session-token') ||
+    cookies.has('__Secure-next-auth.session-token')
+  );
+}
+
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
@@ -77,28 +97,17 @@ export default async function middleware(request: NextRequest) {
   const isProtectedRoute = protectedRoutes.some((route) =>
     pathname.startsWith(route)
   );
-  const isAdminRoute = adminRoutes.some((route) => pathname.startsWith(route));
-
-  // Get session for protected routes
-  let session = null;
-  if (isProtectedRoute || isAdminRoute) {
-    session = await auth();
-  }
 
   // Redirect to login if not authenticated on protected routes
-  if (isProtectedRoute && !session) {
+  // Uses Edge-compatible cookie check instead of auth() call
+  if (isProtectedRoute && !hasSessionCookie(request)) {
     const loginUrl = new URL('/login', request.url);
     loginUrl.searchParams.set('callbackUrl', pathname);
     return NextResponse.redirect(loginUrl);
   }
 
-  // Check admin access
-  if (isAdminRoute && session) {
-    const userRole = (session.user as any)?.role;
-    if (userRole !== 'admin') {
-      return NextResponse.redirect(new URL('/', request.url));
-    }
-  }
+  // Note: Admin role checks are handled at the API/page level via requireAdmin()
+  // We cannot decode JWT on Edge without importing auth, so skip admin check here.
 
   // Create response with security headers
   const response = NextResponse.next();

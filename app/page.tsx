@@ -60,10 +60,10 @@ export default function Home() {
   }, []);
 
   const stats = [
-    { labelKey: 'home.stats.studentsHelped', value: '2,500+', icon: Users },
-    { labelKey: 'home.stats.totalRaised', value: '$12M+', icon: TrendingUp },
-    { labelKey: 'home.stats.campaigns', value: '45+', icon: Globe },
-    { labelKey: 'home.stats.donors', value: '94%', icon: CheckCircle }
+    { labelKey: 'home.stats.studentsHelped', value: '0', icon: Users },
+    { labelKey: 'home.stats.totalRaised', value: '$0', icon: TrendingUp },
+    { labelKey: 'home.stats.campaigns', value: '0', icon: Globe },
+    { labelKey: 'home.stats.donors', value: '0', icon: CheckCircle }
   ];
 
   const handleSearch = (e: React.FormEvent) => {
@@ -75,6 +75,14 @@ export default function Home() {
     <div className="min-h-screen flex flex-col">
       <Navbar />
       <main className="flex-grow">
+        {/* Demo Banner */}
+        <div className="bg-amber-50 border-b border-amber-200 px-4 py-3">
+          <div className="max-w-7xl mx-auto flex items-center justify-center gap-2">
+            <span className="text-amber-600 font-bold">⚠️</span>
+            <p className="text-amber-800 text-sm font-medium text-center">Bu platform su anda demo asamasindadir. Gosterilen veriler ornek amaclidir.</p>
+          </div>
+        </div>
+
         {/* Hero Section */}
         <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white py-20 px-4">
           <div className="max-w-7xl mx-auto text-center">

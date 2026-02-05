@@ -317,6 +317,14 @@ export default function Navbar() {
                       {t('dashboard.title')}
                     </Link>
                     <Link
+                      href="/my-donations"
+                      className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      <Heart className="h-4 w-4 mr-2" />
+                      {t('dashboard.myDonations')}
+                    </Link>
+                    <Link
                       href="/leaderboard"
                       className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
                       onClick={() => setDropdownOpen(false)}
@@ -324,6 +332,7 @@ export default function Navbar() {
                       <Trophy className="h-4 w-4 mr-2" />
                       {t('nav.menu.leaderboard')}
                     </Link>
+                    <div className="border-t border-gray-100 my-1" />
                     <button
                       onClick={handleLogout}
                       className="flex items-center w-full px-4 py-2 text-red-600 hover:bg-red-50 transition-colors"
@@ -433,6 +442,31 @@ export default function Navbar() {
                 ))}
               </div>
             </div>
+
+            {/* User Links (logged in) */}
+            {user && (
+              <div className="border-t border-gray-100 pt-4">
+                <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Hesabim</p>
+                <div className="space-y-1">
+                  <Link
+                    href="/account"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+                  >
+                    <User className="h-5 w-5 text-blue-600" />
+                    <span>{t('dashboard.title')}</span>
+                  </Link>
+                  <Link
+                    href="/my-donations"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+                  >
+                    <Heart className="h-5 w-5 text-red-500" />
+                    <span>{t('dashboard.myDonations')}</span>
+                  </Link>
+                </div>
+              </div>
+            )}
 
             {/* Admin Links */}
             {isAdmin && (

@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
   const limit = Math.min(50, parseInt(searchParams.get('limit') || '12'));
 
   // Helper to standardise the response for campaigns
-  const returnCampaigns = (data: any[], total: number, headers: HeadersInit = {}) => {
+  const returnCampaigns = (data: any[], total: number, extraHeaders: HeadersInit = {}) => {
     return NextResponse.json({
       success: true,
       data: data,
@@ -31,7 +31,13 @@ export async function GET(request: NextRequest) {
         total,
         total_pages: Math.ceil(total / limit) || 0,
       },
-    }, { headers });
+    }, {
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        'Pragma': 'no-cache',
+        ...extraHeaders,
+      },
+    });
   };
 
   try {
@@ -199,7 +205,13 @@ export async function GET(request: NextRequest) {
         hint: hint,
         errorName: error.name,
       }),
-    }, { status: 500 });
+    }, {
+      status: 500,
+      headers: {
+        'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+        'Pragma': 'no-cache',
+      },
+    });
   }
 }
 

@@ -26,25 +26,31 @@ export default function TransparencyPage() {
 
             <div className="container mx-auto px-4 py-8">
                 {/* Stats */}
+                {/* Demo Notice */}
+                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8 flex items-center gap-3">
+                    <span className="text-amber-600 font-bold text-lg">⚠️</span>
+                    <p className="text-amber-800 text-sm font-medium">Bu sayfa demo amaclidir. Gercek veriler platform aktif oldugunda guncellenecektir.</p>
+                </div>
+
                 <div className="grid md:grid-cols-4 gap-6 mb-12">
                     <div className="bg-white rounded-xl p-6 shadow-sm border text-center">
                         <DollarSign className="h-8 w-8 text-green-600 mx-auto mb-2" />
-                        <p className="text-3xl font-bold text-gray-900">$245,000</p>
+                        <p className="text-3xl font-bold text-gray-900">$0</p>
                         <p className="text-gray-600">Toplam Bagis</p>
                     </div>
                     <div className="bg-white rounded-xl p-6 shadow-sm border text-center">
                         <Users className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-                        <p className="text-3xl font-bold text-gray-900">156</p>
+                        <p className="text-3xl font-bold text-gray-900">0</p>
                         <p className="text-gray-600">Desteklenen Ogrenci</p>
                     </div>
                     <div className="bg-white rounded-xl p-6 shadow-sm border text-center">
                         <FileCheck className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-                        <p className="text-3xl font-bold text-gray-900">100%</p>
+                        <p className="text-3xl font-bold text-gray-900">0%</p>
                         <p className="text-gray-600">Dogrulama Orani</p>
                     </div>
                     <div className="bg-white rounded-xl p-6 shadow-sm border text-center">
                         <PieChart className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-                        <p className="text-3xl font-bold text-gray-900">95%</p>
+                        <p className="text-3xl font-bold text-gray-900">0%</p>
                         <p className="text-gray-600">Ogrenciye Ulasan</p>
                     </div>
                 </div>
@@ -85,8 +91,8 @@ export default function TransparencyPage() {
                     <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Ornek Harcama Dokumu</h2>
                     <TransparencyCard
                         studentName="Ornek Ogrenci"
-                        totalRaised={8500}
-                        goalAmount={12500}
+                        totalRaised={0}
+                        goalAmount={0}
                         lastUpdated="2026-01-15"
                         verificationStatus="verified"
                         documents={[

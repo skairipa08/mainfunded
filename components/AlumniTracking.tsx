@@ -16,6 +16,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { censorSurname } from '@/lib/privacy';
 
 interface AlumniProfile {
     id: string;
@@ -56,14 +57,14 @@ function AlumniCard({ profile }: { profile: AlumniProfile }) {
                 <div className="flex items-start gap-4">
                     <div className="w-16 h-16 bg-indigo-100 rounded-full flex items-center justify-center text-indigo-600 font-bold text-xl">
                         {profile.avatar ? (
-                            <img src={profile.avatar} alt={profile.name} className="w-full h-full rounded-full object-cover" />
+                            <img src={profile.avatar} alt={censorSurname(profile.name)} className="w-full h-full rounded-full object-cover" />
                         ) : (
                             profile.name.split(' ').map(n => n[0]).join('')
                         )}
                     </div>
                     <div className="flex-1">
                         <div className="flex items-center gap-2">
-                            <h3 className="font-semibold text-gray-900">{profile.name}</h3>
+                            <h3 className="font-semibold text-gray-900">{censorSurname(profile.name)}</h3>
                             <Badge className="bg-green-100 text-green-700">Mezun</Badge>
                         </div>
                         <p className="text-sm text-gray-600">{profile.currentRole}</p>
@@ -129,10 +130,10 @@ function AlumniCard({ profile }: { profile: AlumniProfile }) {
 // Alumni Stats Component
 export function AlumniStats({ className }: { className?: string }) {
     const stats = [
-        { icon: GraduationCap, label: 'Mezun Ogrenci', value: '156', color: 'text-indigo-600' },
-        { icon: Briefcase, label: 'Istihdam Orani', value: '%94', color: 'text-green-600' },
-        { icon: TrendingUp, label: 'Ortalama Maas', value: '$65K', color: 'text-blue-600' },
-        { icon: Users, label: 'Geri Veren', value: '42', color: 'text-purple-600' },
+        { icon: GraduationCap, label: 'Mezun Ogrenci', value: '0', color: 'text-indigo-600' },
+        { icon: Briefcase, label: 'Istihdam Orani', value: '%0', color: 'text-green-600' },
+        { icon: TrendingUp, label: 'Ortalama Maas', value: '$0', color: 'text-blue-600' },
+        { icon: Users, label: 'Geri Veren', value: '0', color: 'text-purple-600' },
     ];
 
     return (
@@ -161,8 +162,8 @@ export const mockAlumni: AlumniProfile[] = [
         location: 'Dublin, Irlanda',
         linkedIn: 'https://linkedin.com/in/ayseyilmaz',
         story: 'FundEd olmasaydi universiteyi bitiremezdim. Simdi hayallerimi yasiyorum ve sira bende. Her ay bir ogrenciye destek oluyorum.',
-        totalReceived: 12000,
-        givingBack: 2400,
+        totalReceived: 0,
+        givingBack: 0,
     },
     {
         id: '2',
@@ -174,8 +175,8 @@ export const mockAlumni: AlumniProfile[] = [
         company: 'Apple',
         location: 'Cupertino, ABD',
         story: 'Ailem beni destekleyemiyordu. FundEd ailesi olmasa burada olamazdim.',
-        totalReceived: 15000,
-        givingBack: 3000,
+        totalReceived: 0,
+        givingBack: 0,
     },
     {
         id: '3',
@@ -186,6 +187,6 @@ export const mockAlumni: AlumniProfile[] = [
         currentRole: 'Junior Architect',
         company: 'Foster + Partners',
         location: 'Londra, Ingiltere',
-        totalReceived: 11000,
+        totalReceived: 0,
     },
 ];
