@@ -24,6 +24,10 @@ import {
     Star,
     Globe,
     ArrowLeft,
+    Tag,
+    Loader2,
+    CheckCircle,
+    XCircle,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -134,6 +138,56 @@ export default function CorporateGatewayPage() {
     const [regLoading, setRegLoading] = useState(false);
     const [regError, setRegError] = useState('');
     const [regSuccess, setRegSuccess] = useState(false);
+
+    // Discount code state
+    const [discountCode, setDiscountCode] = useState('');
+    const [discountStatus, setDiscountStatus] = useState<'idle' | 'checking' | 'valid' | 'invalid'>('idle');
+    const [discountPercent, setDiscountPercent] = useState(0);
+    const [discountMessage, setDiscountMessage] = useState('');
+
+    // Mock discount codes
+    const DISCOUNT_CODES: Record<string, { percent: number; message: string }> = {
+        'FUNDED10': { percent: 10, message: '%10 indirim uygulandı!' },
+        'EGITIM20': { percent: 20, message: '%20 indirim uygulandı!' },
+        'WELCOME25': { percent: 25, message: '%25 hoş geldin indirimi!' },
+        'STARTUP30': { percent: 30, message: '%30 startup indirimi!' },
+        'ENTERPRISE50': { percent: 50, message: '%50 özel kurumsal indirim!' },
+    };
+
+    const handleApplyDiscount = async () => {
+        if (!discountCode.trim()) return;
+
+        setDiscountStatus('checking');
+        // Simulate API check
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+
+        const code = discountCode.trim().toUpperCase();
+        const found = DISCOUNT_CODES[code];
+
+        if (found) {
+            setDiscountStatus('valid');
+            setDiscountPercent(found.percent);
+            setDiscountMessage(found.message);
+        } else {
+            setDiscountStatus('invalid');
+            setDiscountPercent(0);
+            setDiscountMessage('Geçersiz indirim kodu.');
+        }
+    };
+
+    const handleClearDiscount = () => {
+        setDiscountCode('');
+        setDiscountStatus('idle');
+        setDiscountPercent(0);
+        setDiscountMessage('');
+    };
+
+    const getDiscountedPrice = (price: number) => {
+        if (discountStatus === 'valid' && discountPercent > 0) {
+            return Math.round(price * (1 - discountPercent / 100));
+        }
+        return price;
+    };
 
     // Redirect if already authenticated
     useEffect(() => {
@@ -453,10 +507,18 @@ export default function CorporateGatewayPage() {
                                                 <span className="text-xs text-slate-300 font-medium">
                                                     Seçili Paket: <span className="text-blue-400 font-semibold">{tiers.find(t => t.id === selectedTier)?.name}</span>
                                                     {' — '}
-                                                    <span className="text-white font-bold">${tiers.find(t => t.id === selectedTier)?.price}/ay</span>
+                                                    {discountStatus === 'valid' && discountPercent > 0 ? (
+                                                        <>
+                                                            <span className="text-slate-500 line-through">${tiers.find(t => t.id === selectedTier)?.price}</span>
+                                                            {' '}
+                                                            <span className="text-emerald-400 font-bold">${getDiscountedPrice(tiers.find(t => t.id === selectedTier)?.price || 0)}/ay</span>
+                                                        </>
+                                                    ) : (
+                                                        <span className="text-white font-bold">${tiers.find(t => t.id === selectedTier)?.price}/ay</span>
+                                                    )}
                                                 </span>
                                                 <button
-                                                    onClick={() => setSelectedTier(null)}
+                                                    onClick={() => { setSelectedTier(null); handleClearDiscount(); }}
                                                     className="text-slate-500 hover:text-slate-300 transition-colors"
                                                 >
                                                     ×
@@ -627,6 +689,82 @@ export default function CorporateGatewayPage() {
                                             </div>
                                         )}
 
+                                        {/* ── Discount Code Section ── */}
+                                        {selectedTier && selectedTier !== 'pending' && (
+                                            <div className="bg-white/[0.03] border border-white/10 rounded-xl p-5 space-y-3">
+                                                <div className="flex items-center gap-2 mb-1">
+                                                    <Tag className="h-4 w-4 text-indigo-400" />
+                                                    <Label className="text-sm font-medium text-slate-300">İndirim Kodu</Label>
+                                                    <span className="text-[10px] text-slate-600 font-normal">(opsiyonel)</span>
+                                                </div>
+
+                                                <div className="flex gap-2">
+                                                    <div className="relative flex-1">
+                                                        <Input
+                                                            type="text"
+                                                            placeholder="Kodu girin..."
+                                                            value={discountCode}
+                                                            onChange={(e) => {
+                                                                setDiscountCode(e.target.value.toUpperCase());
+                                                                if (discountStatus !== 'idle') {
+                                                                    setDiscountStatus('idle');
+                                                                    setDiscountPercent(0);
+                                                                    setDiscountMessage('');
+                                                                }
+                                                            }}
+                                                            disabled={discountStatus === 'valid'}
+                                                            className="h-11 bg-white/5 border-white/10 text-white placeholder:text-slate-500 rounded-xl focus:border-indigo-500/50 focus:ring-indigo-500/20 uppercase tracking-wider text-sm font-mono disabled:opacity-60"
+                                                        />
+                                                        {discountStatus === 'valid' && (
+                                                            <button
+                                                                type="button"
+                                                                onClick={handleClearDiscount}
+                                                                className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300 transition-colors"
+                                                            >
+                                                                <XCircle className="h-4 w-4" />
+                                                            </button>
+                                                        )}
+                                                    </div>
+                                                    <Button
+                                                        type="button"
+                                                        onClick={handleApplyDiscount}
+                                                        disabled={discountStatus === 'checking' || discountStatus === 'valid' || !discountCode.trim()}
+                                                        className="h-11 px-5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-medium disabled:opacity-40 transition-all"
+                                                    >
+                                                        {discountStatus === 'checking' ? (
+                                                            <Loader2 className="h-4 w-4 animate-spin" />
+                                                        ) : (
+                                                            'Uygula'
+                                                        )}
+                                                    </Button>
+                                                </div>
+
+                                                {/* Discount feedback */}
+                                                {discountStatus === 'valid' && (
+                                                    <div className="flex items-center gap-2 bg-emerald-500/10 border border-emerald-500/20 rounded-lg px-3.5 py-2.5">
+                                                        <CheckCircle className="h-4 w-4 text-emerald-400 flex-shrink-0" />
+                                                        <div className="flex-1">
+                                                            <p className="text-sm text-emerald-300 font-medium">{discountMessage}</p>
+                                                            <p className="text-xs text-emerald-400/70 mt-0.5">
+                                                                <span className="line-through text-slate-500">${tiers.find(t => t.id === selectedTier)?.price}/ay</span>
+                                                                {' → '}
+                                                                <span className="text-emerald-300 font-bold">
+                                                                    ${getDiscountedPrice(tiers.find(t => t.id === selectedTier)?.price || 0)}/ay
+                                                                </span>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                )}
+
+                                                {discountStatus === 'invalid' && (
+                                                    <div className="flex items-center gap-2 bg-red-500/10 border border-red-500/20 rounded-lg px-3.5 py-2.5">
+                                                        <XCircle className="h-4 w-4 text-red-400 flex-shrink-0" />
+                                                        <p className="text-sm text-red-300">{discountMessage}</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        )}
+
                                         <Button
                                             type="submit"
                                             className="w-full h-12 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white rounded-xl font-medium shadow-lg shadow-emerald-500/25 transition-all duration-300"
@@ -636,11 +774,16 @@ export default function CorporateGatewayPage() {
                                                 <div className="animate-spin rounded-full h-5 w-5 border-2 border-white/30 border-t-white" />
                                             ) : (
                                                 <>
-                                                    {selectedTier && selectedTier !== 'pending' ? 'Satın Al & Kayıt Ol' : 'Başvuru Gönder'}
+                                                    {selectedTier && selectedTier !== 'pending'
+                                                        ? discountStatus === 'valid'
+                                                            ? `$${getDiscountedPrice(tiers.find(t => t.id === selectedTier)?.price || 0)}/ay — Satın Al & Kayıt Ol`
+                                                            : 'Satın Al & Kayıt Ol'
+                                                        : 'Başvuru Gönder'
+                                                    }
                                                     <ArrowRight className="ml-2 h-4.5 w-4.5" />
-                                </>
-                            )}
-                        </Button>
+                                                </>
+                                            )}
+                                        </Button>
                     </form>
 
                                     <div className="mt-6 pt-6 border-t border-white/10">
@@ -702,10 +845,25 @@ export default function CorporateGatewayPage() {
 
                                         {/* Price */}
                                         <div className="mb-6 pb-6 border-b border-white/10">
-                                            <div className="flex items-baseline gap-1">
-                                                <span className="text-4xl font-bold text-white">${tier.price}</span>
-                                                <span className="text-slate-400 text-sm">/ay</span>
-                                            </div>
+                                            {discountStatus === 'valid' && discountPercent > 0 ? (
+                                                <div>
+                                                    <div className="flex items-baseline gap-2 mb-1">
+                                                        <span className="text-4xl font-bold text-white">${getDiscountedPrice(tier.price)}</span>
+                                                        <span className="text-slate-400 text-sm">/ay</span>
+                                                    </div>
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="text-sm text-slate-500 line-through">${tier.price}/ay</span>
+                                                        <span className="text-xs font-semibold bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full">
+                                                            -%{discountPercent}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            ) : (
+                                                <div className="flex items-baseline gap-1">
+                                                    <span className="text-4xl font-bold text-white">${tier.price}</span>
+                                                    <span className="text-slate-400 text-sm">/ay</span>
+                                                </div>
+                                            )}
                                         </div>
 
                                         {/* Features */}

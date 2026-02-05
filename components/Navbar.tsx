@@ -21,6 +21,7 @@ import {
   Sparkles,
   Menu,
   X,
+  Globe,
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { useTranslation } from '@/lib/i18n';
@@ -155,6 +156,12 @@ export default function Navbar() {
       href: '/donate',
       icon: Heart,
       description: t('nav.menu.donateDesc'),
+    },
+    {
+      label: 'Eğitimde Eşitlik Bağışları',
+      href: '/education-equality',
+      icon: Globe,
+      description: 'Dünyada eğitim eşitliği için kampanyamız',
     },
     {
       label: t('nav.menu.matchingGift'),

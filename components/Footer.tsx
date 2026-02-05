@@ -70,6 +70,7 @@ export default function Footer() {
               <h3 className="font-semibold mb-4">{t('nav.browse')}</h3>
               <ul className="space-y-2">
                 <li><Link href="/browse" className="text-gray-400 hover:text-white transition-colors">{t('nav.browse')}</Link></li>
+                <li><Link href="/education-equality" className="text-gray-400 hover:text-white transition-colors">Eğitimde Eşitlik Bağışları</Link></li>
                 <li><Link href="/campaigns/new" className="text-gray-400 hover:text-white transition-colors">{t('campaign.createCampaign')}</Link></li>
                 <li><Link href="/login" className="text-gray-400 hover:text-white transition-colors">{t('common.login')}</Link></li>
               </ul>

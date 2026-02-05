@@ -1,61 +1,561 @@
 'use client';
 
+import React from 'react';
+import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { useTranslation } from '@/lib/i18n';
+import { Button } from '@/components/ui/button';
+import {
+  Heart,
+  Target,
+  Eye,
+  Compass,
+  Rocket,
+  Shield,
+  Users,
+  GraduationCap,
+  Globe,
+  Lightbulb,
+  ArrowRight,
+  CheckCircle,
+  Sparkles,
+  TrendingUp,
+  Handshake,
+  Scale,
+  BookOpen,
+  Zap,
+  Star,
+  Award,
+  BarChart3,
+} from 'lucide-react';
+
+/* ──────────────────────────────────────── */
+
+const principles = [
+  {
+    icon: Shield,
+    title: 'Şeffaflık',
+    desc: 'Her bağışın nereye gittiğini, her kuruşun nasıl harcandığını açıkça paylaşırız. Gizli maliyet, gizli gündem yoktur.',
+    gradient: 'from-blue-500 to-indigo-600',
+    bg: 'bg-blue-50',
+    color: 'text-blue-600',
+  },
+  {
+    icon: Scale,
+    title: 'Eşitlik',
+    desc: 'Her öğrencinin eğitime eşit erişim hakkı olduğuna inanırız. Coğrafi, ekonomik veya sosyal engeller fark etmez.',
+    gradient: 'from-emerald-500 to-teal-600',
+    bg: 'bg-emerald-50',
+    color: 'text-emerald-600',
+  },
+  {
+    icon: CheckCircle,
+    title: 'Doğrulama',
+    desc: 'Her öğrenci profili titizlikle doğrulanır. Bağışçılarımız gerçek ihtiyaç sahiplerine ulaştıklarından emin olabilir.',
+    gradient: 'from-purple-500 to-pink-600',
+    bg: 'bg-purple-50',
+    color: 'text-purple-600',
+  },
+  {
+    icon: Handshake,
+    title: 'Topluluk',
+    desc: 'Bağışçı ve öğrenci arasında anlamlı bağlar kurarız. Tek seferlik yardım değil, sürdürülebilir bir topluluk inşa ederiz.',
+    gradient: 'from-amber-500 to-orange-600',
+    bg: 'bg-amber-50',
+    color: 'text-amber-600',
+  },
+  {
+    icon: Lightbulb,
+    title: 'İnovasyon',
+    desc: 'Teknolojiyi kullanarak bağış sürecini daha verimli, izlenebilir ve etkili hale getiririz.',
+    gradient: 'from-cyan-500 to-blue-600',
+    bg: 'bg-cyan-50',
+    color: 'text-cyan-600',
+  },
+  {
+    icon: Heart,
+    title: 'Etki Odaklılık',
+    desc: 'Her kararımızı "öğrenciye etkisi ne olur?" sorusuyla alırız. Bürokrasi değil, sonuç üretiriz.',
+    gradient: 'from-rose-500 to-red-600',
+    bg: 'bg-rose-50',
+    color: 'text-rose-600',
+  },
+];
+
+const goals = [
+  {
+    year: '2026',
+    title: '10.000 Öğrenci',
+    desc: 'Türkiye ve çevre ülkelerde 10.000 öğrenciye doğrudan eğitim desteği sağlamak.',
+    icon: GraduationCap,
+    color: 'bg-blue-500',
+  },
+  {
+    year: '2027',
+    title: 'Global Erişim',
+    desc: '25+ ülkede aktif olarak eğitim fonlama ağını genişletmek.',
+    icon: Globe,
+    color: 'bg-emerald-500',
+  },
+  {
+    year: '2028',
+    title: 'Kurumsal Köprü',
+    desc: '500+ kurumsal ortakla şirketleri sürdürülebilir eğitim fonlamasına dahil etmek.',
+    icon: Handshake,
+    color: 'bg-purple-500',
+  },
+  {
+    year: '2030',
+    title: 'Eşit Eğitim',
+    desc: 'Eğitime erişimde coğrafi eşitsizliği ölçülebilir biçimde azaltmak.',
+    icon: Scale,
+    color: 'bg-amber-500',
+  },
+];
+
+const impactNumbers = [
+  { value: '2.4K+', label: 'Desteklenen Öğrenci', icon: GraduationCap },
+  { value: '12', label: 'Aktif Ülke', icon: Globe },
+  { value: '$850K+', label: 'Toplam Fonlama', icon: TrendingUp },
+  { value: '98%', label: 'Bağışçı Memnuniyeti', icon: Star },
+];
+
+/* ──────────────────────────────────────── */
 
 export default function MissionVisionPage() {
-  const { t } = useTranslation();
+  const router = useRouter();
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
       <main className="flex-grow">
-        <div className="max-w-4xl mx-auto px-4 py-16">
-          <h1 className="text-4xl font-bold text-gray-900 mb-12">Mission & Vision</h1>
 
-          <section className="mb-16">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-6">Mission</h2>
-            <p className="text-lg text-gray-700 leading-relaxed">
-              {t('home.hero.subtitle')}
-            </p>
+        {/* ═══════════════════════════
+            HERO
+           ═══════════════════════════ */}
+        <section className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-indigo-950 to-purple-950">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute -top-32 -right-32 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[100px]" />
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[100px]" />
+            <div
+              className="absolute inset-0 opacity-[0.03]"
+              style={{
+                backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
+                backgroundSize: '40px 40px',
+              }}
+            />
+          </div>
+
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
+            <div className="max-w-3xl mx-auto text-center">
+              <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/15 rounded-full px-5 py-2 mb-8">
+                <Compass className="h-4 w-4 text-indigo-300" />
+                <span className="text-sm text-white/80 font-medium">Misyon & Vizyon</span>
+              </div>
+
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+                Eğitimde Eşitlik,
+                <br />
+                <span className="bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 bg-clip-text text-transparent">
+                  Gelecekte Umut
+                </span>
+              </h1>
+
+              <p className="text-lg sm:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto">
+                Her çocuğun eğitime eşit erişim hakkı olduğuna inanıyoruz.
+                Teknolojiyi ve topluluğun gücünü kullanarak bu inancı gerçeğe dönüştürüyoruz.
+              </p>
+            </div>
+          </div>
+
+          <div className="absolute bottom-0 left-0 right-0">
+            <svg viewBox="0 0 1440 80" fill="none" className="w-full">
+              <path d="M0 80L60 69.3C120 59 240 37 360 32C480 27 600 37 720 42.7C840 48 960 48 1080 42.7C1200 37 1320 27 1380 21.3L1440 16V80H0Z" fill="white" />
+            </svg>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════
+            MISSION & VISION CARDS
+           ═══════════════════════════ */}
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+
+              {/* Mission Card */}
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-blue-500 to-indigo-600 rounded-[28px] opacity-0 group-hover:opacity-10 transition-opacity duration-500 blur-lg" />
+                <div className="relative bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden">
+                  {/* Top accent */}
+                  <div className="h-1.5 bg-gradient-to-r from-blue-500 to-indigo-600" />
+
+                  <div className="p-8 sm:p-10">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg shadow-blue-500/25">
+                        <Target className="h-7 w-7 text-white" />
+                      </div>
+                      <div>
+                        <span className="text-xs font-bold text-blue-500 uppercase tracking-widest">Misyonumuz</span>
+                        <h2 className="text-2xl font-bold text-slate-900">Neden Varız?</h2>
+                      </div>
+                    </div>
+
+                    <p className="text-lg text-slate-600 leading-relaxed mb-6">
+                      Eğitime erişimde yaşanan eşitsizliği ortadan kaldırmak için, doğrulanmış öğrencileri
+                      güvenilir bağışçılarla buluşturan şeffaf bir platform oluşturmak.
+                    </p>
+
+                    <div className="space-y-3">
+                      {[
+                        'Ekonomik engelleri ortadan kaldırarak eğitime erişimi kolaylaştırmak',
+                        'Her bağışın izlenebilir ve hesap verebilir olmasını sağlamak',
+                        'Öğrencilerin potansiyellerini gerçekleştirmelerine yardımcı olmak',
+                      ].map((item, i) => (
+                        <div key={i} className="flex items-start gap-3">
+                          <CheckCircle className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
+                          <span className="text-sm text-slate-600">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Vision Card */}
+              <div className="relative group">
+                <div className="absolute -inset-1 bg-gradient-to-r from-purple-500 to-pink-600 rounded-[28px] opacity-0 group-hover:opacity-10 transition-opacity duration-500 blur-lg" />
+                <div className="relative bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden">
+                  {/* Top accent */}
+                  <div className="h-1.5 bg-gradient-to-r from-purple-500 to-pink-600" />
+
+                  <div className="p-8 sm:p-10">
+                    <div className="flex items-center gap-4 mb-6">
+                      <div className="w-14 h-14 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center shadow-lg shadow-purple-500/25">
+                        <Eye className="h-7 w-7 text-white" />
+                      </div>
+                      <div>
+                        <span className="text-xs font-bold text-purple-500 uppercase tracking-widest">Vizyonumuz</span>
+                        <h2 className="text-2xl font-bold text-slate-900">Nereye Gidiyoruz?</h2>
+                      </div>
+                    </div>
+
+                    <p className="text-lg text-slate-600 leading-relaxed mb-6">
+                      Dünyada hiçbir öğrencinin maddi imkansızlık nedeniyle eğitimden mahrum kalmadığı,
+                      eğitimin evrensel bir hak olarak yaşandığı bir gelecek.
+                    </p>
+
+                    <div className="space-y-3">
+                      {[
+                        'Global ölçekte eğitim fonlama ağı oluşturmak',
+                        'Yapay zeka ile ihtiyaç analizi ve eşleştirme yapmak',
+                        'Eğitimde sürdürülebilir değişimin öncüsü olmak',
+                      ].map((item, i) => (
+                        <div key={i} className="flex items-start gap-3">
+                          <Sparkles className="h-5 w-5 text-purple-500 flex-shrink-0 mt-0.5" />
+                          <span className="text-sm text-slate-600">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════
+            IMPACT NUMBERS
+           ═══════════════════════════ */}
+        <section className="py-16 bg-gradient-to-r from-slate-900 via-indigo-950 to-purple-950 relative overflow-hidden">
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute top-0 left-1/4 w-80 h-80 bg-indigo-500/10 rounded-full blur-[80px]" />
+            <div className="absolute bottom-0 right-1/4 w-80 h-80 bg-purple-500/10 rounded-full blur-[80px]" />
+          </div>
+
+          <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
+              {impactNumbers.map((item, i) => {
+                const Icon = item.icon;
+                return (
+                  <div key={i} className="text-center group">
+                    <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-white/10 backdrop-blur-sm flex items-center justify-center group-hover:bg-white/15 transition-colors">
+                      <Icon className="h-6 w-6 text-indigo-300" />
+                    </div>
+                    <p className="text-3xl sm:text-4xl font-bold text-white mb-1">{item.value}</p>
+                    <p className="text-sm text-slate-400">{item.label}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
           </section>
 
-          <section className="mb-16">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-6">Vision</h2>
-            <p className="text-lg text-gray-700 leading-relaxed">
-              {t('home.cta.description')}
-            </p>
+        {/* ═══════════════════════════
+            CORE PRINCIPLES
+           ═══════════════════════════ */}
+        <section className="py-20 bg-slate-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <span className="inline-block text-xs font-semibold tracking-widest uppercase text-indigo-600 bg-indigo-50 px-4 py-1.5 rounded-full mb-4">
+                Temel İlkelerimiz
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+                Bizi Yönlendiren Değerler
+              </h2>
+              <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+                Her kararımızın arkasında bu ilkeler var. Bunlar sadece kelime değil, yaşam biçimimiz.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {principles.map((item, i) => {
+                const Icon = item.icon;
+                return (
+                  <div
+                    key={i}
+                    className="bg-white rounded-2xl p-7 border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 group"
+                  >
+                    <div className={`w-14 h-14 bg-gradient-to-br ${item.gradient} rounded-2xl flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                      <Icon className="h-7 w-7 text-white" />
+                    </div>
+                    <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
+                    <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
           </section>
 
-          <section className="mb-16">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-6">{t('home.howItWorks.title')}</h2>
-            <div className="grid md:grid-cols-3 gap-8">
-              <div className="text-center p-6 bg-blue-50 rounded-lg">
-                <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">1</div>
-                <h3 className="font-semibold mb-2">{t('home.howItWorks.step1Title')}</h3>
-                <p className="text-gray-600 text-sm">{t('home.howItWorks.step1Desc')}</p>
+        {/* ═══════════════════════════
+            APPROACH — How we're different
+           ═══════════════════════════ */}
+        <section className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
+
+              {/* Left — Visual */}
+              <div className="lg:w-5/12">
+                <div className="relative">
+                  {/* Stacked cards visual */}
+                  <div className="bg-gradient-to-br from-indigo-500 to-purple-600 rounded-3xl p-8 sm:p-10 text-white relative overflow-hidden">
+                    <div className="absolute -top-10 -right-10 w-40 h-40 bg-white/10 rounded-full blur-[40px]" />
+                    <div className="absolute bottom-0 left-0 w-32 h-32 bg-white/5 rounded-full blur-[40px]" />
+
+                    <div className="relative z-10">
+                      <Rocket className="h-10 w-10 mb-6 text-indigo-200" />
+                      <h3 className="text-2xl font-bold mb-3">Fark Yaratan Yaklaşım</h3>
+                      <p className="text-indigo-200 leading-relaxed mb-6">
+                        Geleneksel bağış platformlarından farklı olarak, her öğrenciyi doğruluyoruz,
+                        her kuruşu izliyoruz ve her etkiyi ölçüyoruz.
+                      </p>
+
+                      <div className="grid grid-cols-2 gap-3">
+                        {[
+                          { val: '%100', label: 'Doğrulama' },
+                          { val: '%100', label: 'İzlenebilirlik' },
+                          { val: '0', label: 'Gizli Maliyet' },
+                          { val: '48s', label: 'İnceleme Süresi' },
+                        ].map((s, j) => (
+                          <div key={j} className="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center">
+                            <p className="text-xl font-bold">{s.val}</p>
+                            <p className="text-[11px] text-indigo-200">{s.label}</p>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Floating badge */}
+                  <div className="absolute -bottom-4 -right-4 bg-white rounded-2xl shadow-xl border border-slate-100 p-4 flex items-center gap-3">
+                    <div className="w-10 h-10 bg-emerald-100 rounded-xl flex items-center justify-center">
+                      <Award className="h-5 w-5 text-emerald-600" />
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-500">Güven Skoru</p>
+                      <p className="text-sm font-bold text-slate-900">4.9 / 5.0</p>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="text-center p-6 bg-green-50 rounded-lg">
-                <div className="w-12 h-12 bg-green-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">2</div>
-                <h3 className="font-semibold mb-2">{t('home.howItWorks.step2Title')}</h3>
-                <p className="text-gray-600 text-sm">{t('home.howItWorks.step2Desc')}</p>
+
+              {/* Right — Content */}
+              <div className="lg:w-7/12">
+                <span className="inline-block text-xs font-semibold tracking-widest uppercase text-purple-600 bg-purple-50 px-4 py-1.5 rounded-full mb-4">
+                  Yaklaşımımız
+                </span>
+                <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6">
+                  Bağış Değil, Yatırım.
+                  <br />
+                  <span className="text-purple-500">Geleceğe Yatırım.</span>
+                </h2>
+                <p className="text-lg text-slate-500 leading-relaxed mb-8">
+                  FundEd&apos;de her bağışı bir yatırım olarak görüyoruz — bir öğrencinin geleceğine,
+                  bir toplumun kalkınmasına, daha adil bir dünyaya yapılan yatırım.
+                </p>
+
+                <div className="space-y-5">
+                  {[
+                    {
+                      icon: Shield,
+                      title: 'Doğrulanmış Profiller',
+                      desc: 'Her öğrenci kimlik, öğrenim belgesi ve ihtiyaç analizi ile doğrulanır.',
+                    },
+                    {
+                      icon: BarChart3,
+                      title: 'Etki Ölçümü',
+                      desc: 'Bağışın yarattığı fark somut metriklerle ölçülür ve raporlanır.',
+                    },
+                    {
+                      icon: Zap,
+                      title: 'Hızlı Aktarım',
+                      desc: 'Bürokratik engeller minimize edilerek fonlar hızlıca aktarılır.',
+                    },
+                    {
+                      icon: Users,
+                      title: 'Topluluk Gücü',
+                      desc: 'Bağışçılar, öğrenciler ve kurumlar bir araya gelerek sürdürülebilir etki yaratır.',
+                    },
+                  ].map((item, i) => {
+                    const Icon = item.icon;
+                    return (
+                      <div key={i} className="flex items-start gap-4 group">
+                        <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center flex-shrink-0 group-hover:bg-purple-100 transition-colors">
+                          <Icon className="h-5 w-5 text-purple-500" />
+                        </div>
+                        <div>
+                          <h4 className="text-base font-bold text-slate-900 mb-1">{item.title}</h4>
+                          <p className="text-sm text-slate-500">{item.desc}</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
               </div>
-              <div className="text-center p-6 bg-purple-50 rounded-lg">
-                <div className="w-12 h-12 bg-purple-600 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-xl font-bold">3</div>
-                <h3 className="font-semibold mb-2">{t('home.howItWorks.step3Title')}</h3>
-                <p className="text-gray-600 text-sm">{t('home.howItWorks.step3Desc')}</p>
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════
+            ROADMAP / GOALS
+           ═══════════════════════════ */}
+        <section className="py-20 bg-slate-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <span className="inline-block text-xs font-semibold tracking-widest uppercase text-emerald-600 bg-emerald-50 px-4 py-1.5 rounded-full mb-4">
+                Yol Haritası
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+                Hedeflerimiz
+              </h2>
+              <p className="text-lg text-slate-500 max-w-2xl mx-auto">
+                Büyük düşünüyoruz, adım adım ilerliyoruz. İşte nereye doğru gittiğimiz.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
+              {/* Connection line (desktop) */}
+              <div className="hidden lg:block absolute top-[48px] left-[12.5%] right-[12.5%] h-[2px] bg-gradient-to-r from-blue-200 via-emerald-200 via-purple-200 to-amber-200 z-0" />
+
+              {goals.map((item, i) => {
+                const Icon = item.icon;
+                return (
+                  <div key={i} className="relative z-10 text-center group">
+                    <div className={`w-[60px] h-[60px] mx-auto mb-5 ${item.color} rounded-2xl flex items-center justify-center shadow-lg group-hover:scale-110 group-hover:shadow-xl transition-all duration-300`}>
+                      <Icon className="h-7 w-7 text-white" />
+                    </div>
+                    <div className="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-lg transition-shadow duration-300">
+                      <span className="inline-block text-xs font-bold text-slate-400 tracking-widest mb-2 bg-slate-50 px-3 py-1 rounded-full">{item.year}</span>
+                      <h3 className="text-lg font-bold text-slate-900 mb-2">{item.title}</h3>
+                      <p className="text-sm text-slate-500 leading-relaxed">{item.desc}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        {/* ═══════════════════════════
+            QUOTE / BELIEF
+           ═══════════════════════════ */}
+        <section className="py-20 bg-white">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="relative">
+              <div className="absolute -top-4 left-1/2 -translate-x-1/2 text-[120px] font-serif text-indigo-100 leading-none select-none pointer-events-none">&ldquo;</div>
+              <div className="relative z-10 pt-8">
+                <p className="text-2xl sm:text-3xl font-medium text-slate-800 leading-relaxed mb-8 italic">
+                  Bir çocuğa eğitim vermek, bir yaşamı değiştirmek değildir.
+                  Bir nesli dönüştürmektir.
+                </p>
+                <div className="flex items-center justify-center gap-3">
+                  <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
+                    FE
+                  </div>
+                  <div className="text-left">
+                    <p className="text-sm font-bold text-slate-900">FundEd Ekibi</p>
+                    <p className="text-xs text-slate-400">Kuruluş Manifestosu, 2024</p>
+                  </div>
+                </div>
+              </div>
               </div>
             </div>
           </section>
 
-          <section>
-            <h2 className="text-2xl font-semibold text-gray-900 mb-6">{t('home.cta.title')}</h2>
-            <p className="text-lg text-gray-700 leading-relaxed">
-              {t('home.hero.subtitle')}
-            </p>
+        {/* ═══════════════════════════
+            CTA
+           ═══════════════════════════ */}
+        <section className="py-20 bg-slate-50">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 rounded-3xl p-10 sm:p-16 text-center relative overflow-hidden">
+              <div className="absolute inset-0 pointer-events-none">
+                <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full blur-[80px]" />
+                <div className="absolute bottom-0 left-0 w-80 h-80 bg-white/5 rounded-full blur-[80px]" />
+                <div
+                  className="absolute inset-0 opacity-[0.04]"
+                  style={{
+                    backgroundImage: 'radial-gradient(circle at 1px 1px, white 1px, transparent 0)',
+                    backgroundSize: '28px 28px',
+                  }}
+                />
+              </div>
+
+              <div className="relative z-10">
+                <Sparkles className="h-10 w-10 text-yellow-300 mx-auto mb-6" />
+                <h2 className="text-3xl sm:text-4xl font-bold text-white mb-5">
+                  Bu Misyona Siz de Katılın
+                </h2>
+                <p className="text-indigo-200 max-w-xl mx-auto mb-10 text-lg leading-relaxed">
+                  Bir bağışla bir öğrencinin hayatını değiştirebilir,
+                  başvuruyla bir öğrencinin umudunu yeşertebilirsiniz.
+                </p>
+
+                <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                  <Button
+                    type="button"
+                    onClick={() => router.push('/donate')}
+                    size="lg"
+                    className="bg-white text-indigo-700 hover:bg-indigo-50 h-14 px-10 rounded-2xl text-lg font-semibold shadow-xl"
+                  >
+                    <Heart className="mr-2 h-5 w-5" />
+                    Bağış Yap
+                  </Button>
+                  <Button
+                    type="button"
+                    onClick={() => router.push('/apply')}
+                    size="lg"
+                    variant="outline"
+                    className="border-white/25 text-white hover:bg-white/10 h-14 px-10 rounded-2xl text-lg backdrop-blur-sm"
+                  >
+                    Öğrenci Olarak Başvur
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
           </section>
-        </div>
+
       </main>
       <Footer />
     </div>
