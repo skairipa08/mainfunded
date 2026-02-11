@@ -42,7 +42,7 @@
         "howItWorks": "如何运作",
         "aboutUs": "关于我们",
         "dashboard": "控制面板",
-        "apply": "申请成为学生",
+        "apply": "申请",
         "admin": "管理面板",
         "campaigns": "活动",
         "students": "学生",
@@ -2160,5 +2160,174 @@
     },
     "navExtra": {
         "missionVision": "Mission & Vision"
+    },
+    "personalInfo": {
+        "title": "个人信息",
+        "contactInfo": "联系方式",
+        "phone": "手机号码",
+        "backupEmail": "备用邮箱",
+        "backupEmailPlaceholder": "请输入备用邮箱地址",
+        "personalDetails": "个人详情",
+        "gender": "性别",
+        "selectGender": "选择性别",
+        "male": "男",
+        "female": "女",
+        "other": "其他",
+        "preferNotToSay": "不愿透露",
+        "dateOfBirth": "出生日期",
+        "country": "国家",
+        "selectCountry": "选择国家",
+        "language": "首选语言",
+        "security": "安全",
+        "twoFactor": "双重身份验证",
+        "twoFactorDesc": "为您的账户添加额外的安全层",
+        "twoFactorComingSoon": "双重身份验证即将推出。我们正在开发此功能。",
+        "save": "保存更改",
+        "saving": "保存中...",
+        "saved": "更改已成功保存",
+        "countries": {
+            "turkey": "土耳其",
+            "usa": "美国",
+            "uk": "英国",
+            "germany": "德国",
+            "france": "法国",
+            "saudiArabia": "沙特阿拉伯",
+            "uae": "阿联酋",
+            "china": "中国",
+            "russia": "俄罗斯",
+            "spain": "西班牙",
+            "other": "其他"
+        }
+    },
+    "applyLanding": {
+        "badge": "活动申请",
+        "heroTitle": "申请活动",
+        "heroTitleHighlight": "让我们一起实现",
+        "heroDescription": "无论您是需要支持的学生还是为班级倡导的教师，我们都在这里将您与数千名捐助者联系起来。",
+        "selectRole": "您想如何申请？",
+        "selectRoleDesc": "选择最能描述您情况的选项。",
+        "studentTitle": "发起活动",
+        "studentDescription": "如果您需要教育、书籍、设备或其他需求的经济支持。",
+        "studentFeature1": "个人奖学金活动",
+        "studentFeature2": "支持书籍、学费、设备",
+        "studentFeature3": "与捐助者直接联系",
+        "studentCta": "发起活动",
+        "teacherTitle": "以教师身份申请",
+        "teacherDescription": "如果您的班级有集体需求——设备、材料、实地考察或学习资源——代表他们申请。",
+        "teacherFeature1": "班级层面的活动",
+        "teacherFeature2": "设备和材料支持",
+        "teacherFeature3": "使整个班级受益",
+        "teacherCta": "以教师身份申请",
+        "howItWorks": "如何运作？",
+        "step1Title": "填写表格",
+        "step1Desc": "提供您的详细信息并描述您的教育需求。",
+        "step2Title": "验证",
+        "step2Desc": "我们的团队审核并验证您的申请。",
+        "step3Title": "获得支持",
+        "step3Desc": "与想要帮助的捐助者匹配。",
+        "trustTitle": "安全透明的流程",
+        "trustDesc": "所有申请均由我们的团队审核。您的个人信息安全保密。"
+    },
+    "applyTeacher": {
+        "badge": "教师申请表",
+        "heroTitle": "为您的班级申请",
+        "heroHighlight": "我们倾听您的学生",
+        "heroDesc": "填写表格，描述您班级的需求，与数千名捐助者联系。",
+        "step1": {
+            "title": "教师信息",
+            "subtitle": "输入您的个人和联系信息"
+        },
+        "step2": {
+            "title": "学校和班级信息",
+            "subtitle": "关于您学校和教室的详细信息"
+        },
+        "step3": {
+            "title": "需求详情",
+            "subtitle": "详细描述您班级的需求"
+        },
+        "step4": {
+            "title": "文件",
+            "subtitle": "上传支持文件（可选）"
+        },
+        "labels": {
+            "fullName": "全名",
+            "email": "邮箱地址",
+            "phone": "电话（可选）",
+            "country": "国家",
+            "schoolName": "学校名称",
+            "schoolCity": "学校城市/区",
+            "classGrade": "班级/年级",
+            "studentCount": "学生人数",
+            "subject": "科目/学科",
+            "targetAmount": "目标金额",
+            "needSummary": "需求描述（至少100个字符）"
+        },
+        "placeholders": {
+            "fullName": "例：李明",
+            "email": "例：teacher@school.edu",
+            "country": "例：中国",
+            "schoolName": "例：北京第一小学",
+            "schoolCity": "例：北京 / 海淀区",
+            "classGrade": "例：五年级",
+            "studentCount": "例：30",
+            "subject": "例：数学",
+            "targetAmount": "例：5000",
+            "needSummary": "描述您班级的需求、资金用途及对学生的影响..."
+        },
+        "tips": {
+            "title": "提示：",
+            "tip1": "详细说明您的班级情况和材料需求",
+            "tip2": "描述将有多少学生受益",
+            "tip3": "具体说明您需要什么（书籍、实验设备、材料等）"
+        },
+        "docTips": {
+            "title": "推荐文件：",
+            "tip1": "教师证或学校工作证明",
+            "tip2": "教室或学校照片",
+            "tip3": "学校官方信函"
+        },
+        "docUploadText": "拖放文件到此处，或",
+        "docSelectFile": "选择文件",
+        "prev": "上一步",
+        "next": "下一步",
+        "back": "返回",
+        "submit": "提交申请",
+        "submitting": "提交中...",
+        "submitSuccess": "您的申请已提交！我们将尽快审核。",
+        "submitError": "提交失败。请重试。",
+        "successTitle": "申请已提交！",
+        "successDesc": "谢谢。我们的团队将审核您的申请并通过邮件与您联系。",
+        "backToHome": "返回首页",
+        "sidebar": {
+            "title": "为什么以教师身份申请？",
+            "point1": "为整个班级的需求代言",
+            "point2": "经验证的教师申请获得更多捐助者信任",
+            "point3": "接触平台上数千名捐助者",
+            "point4": "所有申请在48小时内审核",
+            "bannerTitle": "班级活动",
+            "bannerDesc": "教师主导的活动帮助整个班级获得所需资源！"
+        },
+        "validation": {
+            "fullName": "全名为必填项",
+            "invalidName": "姓名至少需要2个字符",
+            "email": "邮箱为必填项",
+            "invalidEmail": "请输入有效的邮箱",
+            "country": "国家为必填项",
+            "schoolName": "学校名称为必填项",
+            "schoolCity": "学校城市为必填项",
+            "classGrade": "班级/年级为必填项",
+            "studentCount": "学生人数为必填项",
+            "subject": "科目为必填项",
+            "targetAmount": "目标金额为必填项",
+            "needSummary": "需求描述为必填项",
+            "needSummaryMin": "描述至少需要{{min}}个字符"
+        },
+        "photos": {
+            "label": "照片（可选）",
+            "hint": "上传您的教室、学校或材料的照片，帮助捐助者了解需求。",
+            "dropText": "将照片拖放到此处，或",
+            "selectBtn": "选择照片",
+            "maxCount": "最多5张照片"
+        }
     }
 }

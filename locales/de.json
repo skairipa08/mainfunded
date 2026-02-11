@@ -42,7 +42,7 @@
         "howItWorks": "So funktioniert es",
         "aboutUs": "Über uns",
         "dashboard": "Dashboard",
-        "apply": "Als Student bewerben",
+        "apply": "Bewerben",
         "admin": "Admin-Bereich",
         "campaigns": "Kampagnen",
         "students": "Studenten",
@@ -2160,5 +2160,174 @@
     },
     "navExtra": {
         "missionVision": "Mission & Vision"
+    },
+    "personalInfo": {
+        "title": "Persönliche Informationen",
+        "contactInfo": "Kontaktinformationen",
+        "phone": "Telefonnummer",
+        "backupEmail": "Ersatz-E-Mail",
+        "backupEmailPlaceholder": "Geben Sie Ihre Ersatz-E-Mail ein",
+        "personalDetails": "Persönliche Details",
+        "gender": "Geschlecht",
+        "selectGender": "Geschlecht auswählen",
+        "male": "Männlich",
+        "female": "Weiblich",
+        "other": "Andere",
+        "preferNotToSay": "Keine Angabe",
+        "dateOfBirth": "Geburtsdatum",
+        "country": "Land",
+        "selectCountry": "Land auswählen",
+        "language": "Bevorzugte Sprache",
+        "security": "Sicherheit",
+        "twoFactor": "Zwei-Faktor-Authentifizierung",
+        "twoFactorDesc": "Fügen Sie Ihrem Konto eine zusätzliche Sicherheitsebene hinzu",
+        "twoFactorComingSoon": "Die Zwei-Faktor-Authentifizierung wird bald verfügbar sein. Wir arbeiten an dieser Funktion.",
+        "save": "Änderungen speichern",
+        "saving": "Wird gespeichert...",
+        "saved": "Änderungen erfolgreich gespeichert",
+        "countries": {
+            "turkey": "Türkei",
+            "usa": "Vereinigte Staaten",
+            "uk": "Vereinigtes Königreich",
+            "germany": "Deutschland",
+            "france": "Frankreich",
+            "saudiArabia": "Saudi-Arabien",
+            "uae": "Vereinigte Arabische Emirate",
+            "china": "China",
+            "russia": "Russland",
+            "spain": "Spanien",
+            "other": "Andere"
+        }
+    },
+    "applyLanding": {
+        "badge": "Kampagnenbewerbung",
+        "heroTitle": "Für eine Kampagne bewerben",
+        "heroTitleHighlight": "Gemeinsam erreichen",
+        "heroDescription": "Ob Sie ein Student sind, der Unterstützung benötigt, oder ein Lehrer, der sich für seine Klasse einsetzt — wir verbinden Sie mit Tausenden von Spendern.",
+        "selectRole": "Wie möchten Sie sich bewerben?",
+        "selectRoleDesc": "Wählen Sie die Option, die Ihre Situation am besten beschreibt.",
+        "studentTitle": "Kampagne starten",
+        "studentDescription": "Wenn Sie finanzielle Unterstützung für Ihre Ausbildung, Bücher, Ausrüstung oder andere Bedürfnisse benötigen.",
+        "studentFeature1": "Persönliche Stipendienkampagnen",
+        "studentFeature2": "Unterstützung für Bücher, Studiengebühren, Ausrüstung",
+        "studentFeature3": "Direkte Verbindung mit Spendern",
+        "studentCta": "Kampagne starten",
+        "teacherTitle": "Als Lehrer bewerben",
+        "teacherDescription": "Wenn Ihre Klasse einen kollektiven Bedarf hat — Ausrüstung, Materialien, Ausflüge oder Lernressourcen — bewerben Sie sich in ihrem Namen.",
+        "teacherFeature1": "Kampagnen auf Klassenebene",
+        "teacherFeature2": "Unterstützung für Ausrüstung & Materialien",
+        "teacherFeature3": "Profitieren Sie Ihre gesamte Klasse",
+        "teacherCta": "Als Lehrer bewerben",
+        "howItWorks": "Wie funktioniert es?",
+        "step1Title": "Formular ausfüllen",
+        "step1Desc": "Geben Sie Ihre Daten ein und beschreiben Sie Ihre Bildungsbedürfnisse.",
+        "step2Title": "Verifizierung",
+        "step2Desc": "Unser Team prüft und verifiziert Ihre Bewerbung.",
+        "step3Title": "Unterstützung erhalten",
+        "step3Desc": "Werden Sie mit Spendern zusammengebracht, die helfen möchten.",
+        "trustTitle": "Sicherer & transparenter Prozess",
+        "trustDesc": "Alle Bewerbungen werden von unserem Team überprüft. Ihre persönlichen Daten werden sicher aufbewahrt."
+    },
+    "applyTeacher": {
+        "badge": "Lehrerbewerbungsformular",
+        "heroTitle": "Bewerben Sie sich für Ihre Klasse",
+        "heroHighlight": "Wir hören Ihre Schüler",
+        "heroDesc": "Füllen Sie das Formular aus, beschreiben Sie die Bedürfnisse Ihrer Klasse und verbinden Sie sich mit Tausenden von Spendern.",
+        "step1": {
+            "title": "Lehrerinformationen",
+            "subtitle": "Geben Sie Ihre persönlichen und Kontaktdaten ein"
+        },
+        "step2": {
+            "title": "Schul- & Klasseninformationen",
+            "subtitle": "Details zu Ihrer Schule und Ihrem Klassenzimmer"
+        },
+        "step3": {
+            "title": "Bedarfsdetails",
+            "subtitle": "Beschreiben Sie die Bedürfnisse Ihrer Klasse im Detail"
+        },
+        "step4": {
+            "title": "Dokumente",
+            "subtitle": "Belege hochladen (optional)"
+        },
+        "labels": {
+            "fullName": "Vollständiger Name",
+            "email": "E-Mail-Adresse",
+            "phone": "Telefon (Optional)",
+            "country": "Land",
+            "schoolName": "Schulname",
+            "schoolCity": "Schulstadt / Bezirk",
+            "classGrade": "Klasse / Stufe",
+            "studentCount": "Anzahl der Schüler",
+            "subject": "Fach / Bereich",
+            "targetAmount": "Zielbetrag",
+            "needSummary": "Bedarfsbeschreibung (min. 100 Zeichen)"
+        },
+        "placeholders": {
+            "fullName": "z.B. Max Mustermann",
+            "email": "z.B. lehrer@schule.de",
+            "country": "z.B. Deutschland",
+            "schoolName": "z.B. Friedrich-Schiller-Gymnasium",
+            "schoolCity": "z.B. Berlin / Mitte",
+            "classGrade": "z.B. 5. Klasse",
+            "studentCount": "z.B. 30",
+            "subject": "z.B. Mathematik",
+            "targetAmount": "z.B. 5000",
+            "needSummary": "Beschreiben Sie die Bedürfnisse Ihrer Klasse..."
+        },
+        "tips": {
+            "title": "Tipps:",
+            "tip1": "Erklären Sie die Situation Ihrer Klasse detailliert",
+            "tip2": "Beschreiben Sie, wie viele Schüler profitieren werden",
+            "tip3": "Geben Sie an, was Sie benötigen (Bücher, Laborausrüstung, usw.)"
+        },
+        "docTips": {
+            "title": "Empfohlene Dokumente:",
+            "tip1": "Lehrerausweis oder Schulbescheinigung",
+            "tip2": "Fotos des Klassenzimmers oder der Schule",
+            "tip3": "Offizielles Schulschreiben"
+        },
+        "docUploadText": "Datei hierher ziehen oder",
+        "docSelectFile": "Datei auswählen",
+        "prev": "Zurück",
+        "next": "Weiter",
+        "back": "Zurück",
+        "submit": "Bewerbung einreichen",
+        "submitting": "Wird gesendet...",
+        "submitSuccess": "Ihre Bewerbung wurde eingereicht! Wir werden sie in Kürze prüfen.",
+        "submitError": "Bewerbung konnte nicht gesendet werden. Bitte versuchen Sie es erneut.",
+        "successTitle": "Bewerbung eingereicht!",
+        "successDesc": "Vielen Dank. Unser Team wird Ihre Bewerbung prüfen und sich per E-Mail bei Ihnen melden.",
+        "backToHome": "Zurück zur Startseite",
+        "sidebar": {
+            "title": "Warum als Lehrer bewerben?",
+            "point1": "Setzen Sie sich für die Bedürfnisse Ihrer gesamten Klasse ein",
+            "point2": "Verifizierte Lehrerbewerbungen gewinnen mehr Spendervertrauen",
+            "point3": "Erreichen Sie Tausende von Spendern auf der Plattform",
+            "point4": "Alle Bewerbungen werden innerhalb von 48 Stunden geprüft",
+            "bannerTitle": "Klassenkampagnen",
+            "bannerDesc": "Lehrergeführte Kampagnen helfen ganzen Klassen, die benötigten Ressourcen zu erhalten!"
+        },
+        "validation": {
+            "fullName": "Vollständiger Name ist erforderlich",
+            "invalidName": "Name muss mindestens 2 Zeichen haben",
+            "email": "E-Mail ist erforderlich",
+            "invalidEmail": "Bitte geben Sie eine gültige E-Mail ein",
+            "country": "Land ist erforderlich",
+            "schoolName": "Schulname ist erforderlich",
+            "schoolCity": "Schulstadt ist erforderlich",
+            "classGrade": "Klasse / Stufe ist erforderlich",
+            "studentCount": "Anzahl der Schüler ist erforderlich",
+            "subject": "Fach ist erforderlich",
+            "targetAmount": "Zielbetrag ist erforderlich",
+            "needSummary": "Bedarfsbeschreibung ist erforderlich",
+            "needSummaryMin": "Beschreibung muss mindestens {{min}} Zeichen haben"
+        },
+        "photos": {
+            "label": "Fotos (Optional)",
+            "hint": "Laden Sie Fotos Ihres Klassenzimmers, Ihrer Schule oder Materialien hoch, damit Spender den Bedarf visualisieren können.",
+            "dropText": "Fotos hierher ziehen oder",
+            "selectBtn": "Fotos auswählen",
+            "maxCount": "Bis zu 5 Fotos"
+        }
     }
 }

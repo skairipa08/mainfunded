@@ -7,8 +7,9 @@ import { useEffect, useState, Suspense } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useTranslation } from '@/lib/i18n';
-import { User, Heart, Target, Calendar, Mail, Shield, TrendingUp, BadgeCheck, ArrowRight } from 'lucide-react';
+import { User, Heart, Target, Calendar, Mail, Shield, TrendingUp, BadgeCheck, ArrowRight, Phone, Globe, Lock, Save, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 interface VerificationStatus {
     verification_id: string;
@@ -22,9 +23,34 @@ function AccountPageContent() {
     const router = useRouter();
     const searchParams = useSearchParams();
     const { t } = useTranslation();
-    const [activeTab, setActiveTab] = useState<'overview' | 'donations' | 'campaigns'>('overview');
+    const [activeTab, setActiveTab] = useState<'overview' | 'donations' | 'campaigns' | 'personalInfo'>('overview');
     const [verification, setVerification] = useState<VerificationStatus | null>(null);
     const [verificationLoading, setVerificationLoading] = useState(true);
+    const [personalInfo, setPersonalInfo] = useState({
+        phone: '',
+        backupEmail: '',
+        country: '',
+        gender: '',
+        dateOfBirth: '',
+        language: 'tr',
+        twoFactorEnabled: false,
+    });
+    const [saving, setSaving] = useState(false);
+    const [saved, setSaved] = useState(false);
+
+    const handlePersonalInfoChange = (field: string, value: string | boolean) => {
+        setPersonalInfo(prev => ({ ...prev, [field]: value }));
+        setSaved(false);
+    };
+
+    const handleSavePersonalInfo = async () => {
+        setSaving(true);
+        // Simulate save (backend integration to be added)
+        await new Promise(resolve => setTimeout(resolve, 800));
+        setSaving(false);
+        setSaved(true);
+        setTimeout(() => setSaved(false), 3000);
+    };
 
     // Preview mode for demo
     const isPreviewMode = searchParams.get('preview') === 'true';
@@ -263,6 +289,15 @@ function AccountPageContent() {
                             >
                                 {t('dashboard.myCampaigns')}
                             </button>
+                            <button
+                                onClick={() => setActiveTab('personalInfo')}
+                                className={`flex-1 px-6 py-4 text-center font-medium transition-colors ${activeTab === 'personalInfo'
+                                    ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
+                                    : 'text-gray-500 hover:text-gray-700'
+                                    }`}
+                            >
+                                {t('personalInfo.title')}
+                            </button>
                         </div>
 
                         {/* Tab Content */}
@@ -370,6 +405,175 @@ function AccountPageContent() {
                                             ))}
                                         </div>
                                     )}
+                                </div>
+                            )}
+
+                            {activeTab === 'personalInfo' && (
+                                <div>
+                                    <div className="flex items-center justify-between mb-6">
+                                        <h3 className="text-xl font-semibold text-gray-900">{t('personalInfo.title')}</h3>
+                                        {saved && (
+                                            <span className="flex items-center text-green-600 text-sm font-medium">
+                                                <CheckCircle2 className="h-4 w-4 mr-1" />
+                                                {t('personalInfo.saved')}
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    <div className="space-y-8">
+                                        {/* Contact Information */}
+                                        <div>
+                                            <h4 className="text-md font-semibold text-gray-700 mb-4 flex items-center">
+                                                <Phone className="h-5 w-5 mr-2 text-blue-500" />
+                                                {t('personalInfo.contactInfo')}
+                                            </h4>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <div>
+                                                    <label className="block text-sm font-medium text-gray-600 mb-1">{t('personalInfo.phone')}</label>
+                                                    <Input
+                                                        type="tel"
+                                                        placeholder="+90 5XX XXX XX XX"
+                                                        value={personalInfo.phone}
+                                                        onChange={(e) => handlePersonalInfoChange('phone', e.target.value)}
+                                                        className="w-full"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-sm font-medium text-gray-600 mb-1">{t('personalInfo.backupEmail')}</label>
+                                                    <Input
+                                                        type="email"
+                                                        placeholder={t('personalInfo.backupEmailPlaceholder')}
+                                                        value={personalInfo.backupEmail}
+                                                        onChange={(e) => handlePersonalInfoChange('backupEmail', e.target.value)}
+                                                        className="w-full"
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Personal Details */}
+                                        <div>
+                                            <h4 className="text-md font-semibold text-gray-700 mb-4 flex items-center">
+                                                <User className="h-5 w-5 mr-2 text-blue-500" />
+                                                {t('personalInfo.personalDetails')}
+                                            </h4>
+                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                                <div>
+                                                    <label className="block text-sm font-medium text-gray-600 mb-1">{t('personalInfo.gender')}</label>
+                                                    <select
+                                                        value={personalInfo.gender}
+                                                        onChange={(e) => handlePersonalInfoChange('gender', e.target.value)}
+                                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
+                                                    >
+                                                        <option value="">{t('personalInfo.selectGender')}</option>
+                                                        <option value="male">{t('personalInfo.male')}</option>
+                                                        <option value="female">{t('personalInfo.female')}</option>
+                                                        <option value="other">{t('personalInfo.other')}</option>
+                                                        <option value="preferNotToSay">{t('personalInfo.preferNotToSay')}</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label className="block text-sm font-medium text-gray-600 mb-1">{t('personalInfo.dateOfBirth')}</label>
+                                                    <Input
+                                                        type="date"
+                                                        value={personalInfo.dateOfBirth}
+                                                        onChange={(e) => handlePersonalInfoChange('dateOfBirth', e.target.value)}
+                                                        className="w-full"
+                                                    />
+                                                </div>
+                                                <div>
+                                                    <label className="block text-sm font-medium text-gray-600 mb-1">{t('personalInfo.country')}</label>
+                                                    <select
+                                                        value={personalInfo.country}
+                                                        onChange={(e) => handlePersonalInfoChange('country', e.target.value)}
+                                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
+                                                    >
+                                                        <option value="">{t('personalInfo.selectCountry')}</option>
+                                                        <option value="TR">{t('personalInfo.countries.turkey')}</option>
+                                                        <option value="US">{t('personalInfo.countries.usa')}</option>
+                                                        <option value="GB">{t('personalInfo.countries.uk')}</option>
+                                                        <option value="DE">{t('personalInfo.countries.germany')}</option>
+                                                        <option value="FR">{t('personalInfo.countries.france')}</option>
+                                                        <option value="SA">{t('personalInfo.countries.saudiArabia')}</option>
+                                                        <option value="AE">{t('personalInfo.countries.uae')}</option>
+                                                        <option value="CN">{t('personalInfo.countries.china')}</option>
+                                                        <option value="RU">{t('personalInfo.countries.russia')}</option>
+                                                        <option value="ES">{t('personalInfo.countries.spain')}</option>
+                                                        <option value="OTHER">{t('personalInfo.countries.other')}</option>
+                                                    </select>
+                                                </div>
+                                                <div>
+                                                    <label className="block text-sm font-medium text-gray-600 mb-1">{t('personalInfo.language')}</label>
+                                                    <select
+                                                        value={personalInfo.language}
+                                                        onChange={(e) => handlePersonalInfoChange('language', e.target.value)}
+                                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
+                                                    >
+                                                        <option value="tr">Türkçe</option>
+                                                        <option value="en">English</option>
+                                                        <option value="de">Deutsch</option>
+                                                        <option value="fr">Français</option>
+                                                        <option value="es">Español</option>
+                                                        <option value="ar">العربية</option>
+                                                        <option value="zh">中文</option>
+                                                        <option value="ru">Русский</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {/* Security */}
+                                        <div>
+                                            <h4 className="text-md font-semibold text-gray-700 mb-4 flex items-center">
+                                                <Lock className="h-5 w-5 mr-2 text-blue-500" />
+                                                {t('personalInfo.security')}
+                                            </h4>
+                                            <div className="bg-gray-50 rounded-lg p-4">
+                                                <div className="flex items-center justify-between">
+                                                    <div>
+                                                        <p className="font-medium text-gray-900">{t('personalInfo.twoFactor')}</p>
+                                                        <p className="text-sm text-gray-500 mt-1">{t('personalInfo.twoFactorDesc')}</p>
+                                                    </div>
+                                                    <button
+                                                        onClick={() => handlePersonalInfoChange('twoFactorEnabled', !personalInfo.twoFactorEnabled)}
+                                                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${personalInfo.twoFactorEnabled ? 'bg-blue-600' : 'bg-gray-300'
+                                                            }`}
+                                                    >
+                                                        <span
+                                                            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${personalInfo.twoFactorEnabled ? 'translate-x-6' : 'translate-x-1'
+                                                                }`}
+                                                        />
+                                                    </button>
+                                                </div>
+                                                {personalInfo.twoFactorEnabled && (
+                                                    <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-md">
+                                                        <p className="text-sm text-blue-700">{t('personalInfo.twoFactorComingSoon')}</p>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </div>
+
+                                        {/* Save Button */}
+                                        <div className="flex justify-end pt-4 border-t border-gray-200">
+                                            <Button
+                                                onClick={handleSavePersonalInfo}
+                                                disabled={saving}
+                                                className="bg-blue-600 hover:bg-blue-700 text-white px-8"
+                                            >
+                                                {saving ? (
+                                                    <div className="flex items-center">
+                                                        <div className="h-4 w-4 animate-spin border-2 border-white border-t-transparent rounded-full mr-2" />
+                                                        {t('personalInfo.saving')}
+                                                    </div>
+                                                ) : (
+                                                    <div className="flex items-center">
+                                                        <Save className="h-4 w-4 mr-2" />
+                                                        {t('personalInfo.save')}
+                                                    </div>
+                                                )}
+                                            </Button>
+                                        </div>
+                                    </div>
                                 </div>
                             )}
                         </div>

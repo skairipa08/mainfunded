@@ -42,7 +42,7 @@
         "howItWorks": "Nasil Calisir",
         "aboutUs": "Hakkimizda",
         "dashboard": "Panel",
-        "apply": "Ogrenci Olarak Basvur",
+        "apply": "Başvur",
         "admin": "Yonetici Paneli",
         "campaigns": "Kampanyalar",
         "students": "Ogrenciler",
@@ -2160,5 +2160,174 @@
     },
     "navExtra": {
         "missionVision": "Misyon & Vizyon"
+    },
+    "personalInfo": {
+        "title": "Kişisel Bilgilerim",
+        "contactInfo": "İletişim Bilgileri",
+        "phone": "Cep Telefonu",
+        "backupEmail": "Yedek E-posta",
+        "backupEmailPlaceholder": "Yedek e-posta adresinizi girin",
+        "personalDetails": "Kişisel Detaylar",
+        "gender": "Cinsiyet",
+        "selectGender": "Cinsiyet seçin",
+        "male": "Erkek",
+        "female": "Kadın",
+        "other": "Diğer",
+        "preferNotToSay": "Belirtmek istemiyorum",
+        "dateOfBirth": "Doğum Tarihi",
+        "country": "Ülke",
+        "selectCountry": "Ülke seçin",
+        "language": "Tercih Edilen Dil",
+        "security": "Güvenlik",
+        "twoFactor": "İki Faktörlü Doğrulama",
+        "twoFactorDesc": "Hesabınıza ekstra bir güvenlik katmanı ekleyin",
+        "twoFactorComingSoon": "İki faktörlü doğrulama yakında kullanılabilir olacaktır. Bu özellik üzerinde çalışıyoruz.",
+        "save": "Değişiklikleri Kaydet",
+        "saving": "Kaydediliyor...",
+        "saved": "Değişiklikler başarıyla kaydedildi",
+        "countries": {
+            "turkey": "Türkiye",
+            "usa": "Amerika Birleşik Devletleri",
+            "uk": "Birleşik Krallık",
+            "germany": "Almanya",
+            "france": "Fransa",
+            "saudiArabia": "Suudi Arabistan",
+            "uae": "Birleşik Arap Emirlikleri",
+            "china": "Çin",
+            "russia": "Rusya",
+            "spain": "İspanya",
+            "other": "Diğer"
+        }
+    },
+    "applyLanding": {
+        "badge": "Kampanya Başvurusu",
+        "heroTitle": "Kampanya İçin Başvurun",
+        "heroTitleHighlight": "Birlikte Ulaşalım",
+        "heroDescription": "İster desteğe ihtiyaç duyan bir öğrenci olun, ister sınıfınız adına başvuran bir öğretmen — binlerce bağışçıyla buluşmanız için buradayız.",
+        "selectRole": "Nasıl başvurmak istersiniz?",
+        "selectRoleDesc": "Durumunuzu en iyi tanımlayan seçeneği belirleyin.",
+        "studentTitle": "Kampanya Başlat",
+        "studentDescription": "Eğitiminiz, kitaplarınız, ekipmanınız veya diğer ihtiyaçlarınız için maddi desteğe ihtiyacınız varsa.",
+        "studentFeature1": "Kişisel burs kampanyaları",
+        "studentFeature2": "Kitap, harç, ekipman desteği",
+        "studentFeature3": "Bağışçılarla doğrudan bağlantı",
+        "studentCta": "Kampanya Başlat",
+        "teacherTitle": "Öğretmen Olarak Başvur",
+        "teacherDescription": "Sınıfınızın toplu bir ihtiyacı varsa — ekipman, malzeme, gezi veya öğrenme kaynakları — onların adına başvurun.",
+        "teacherFeature1": "Sınıf bazlı kampanyalar",
+        "teacherFeature2": "Ekipman ve malzeme desteği",
+        "teacherFeature3": "Tüm sınıfınıza fayda sağlayın",
+        "teacherCta": "Öğretmen Olarak Başvur",
+        "howItWorks": "Nasıl Çalışır?",
+        "step1Title": "Formu Doldurun",
+        "step1Desc": "Bilgilerinizi girin ve eğitim ihtiyaçlarınızı açıklayın.",
+        "step2Title": "Doğrulama",
+        "step2Desc": "Ekibimiz başvurunuzu inceler ve doğrular.",
+        "step3Title": "Destek Alın",
+        "step3Desc": "Size yardımcı olmak isteyen bağışçılarla eşleşin.",
+        "trustTitle": "Güvenli & Şeffaf Süreç",
+        "trustDesc": "Tüm başvurular ekibimiz tarafından incelenir. Kişisel bilgileriniz güvende tutulur ve yalnızca doğrulanmış bağışçılarla paylaşılır."
+    },
+    "applyTeacher": {
+        "badge": "Öğretmen Başvuru Formu",
+        "heroTitle": "Sınıfınız İçin Başvurun",
+        "heroHighlight": "Öğrencilerinizi Duyuyoruz",
+        "heroDesc": "Formu doldurun, sınıfınızın ihtiyaçlarını anlatın ve binlerce bağışçıyla buluşun.",
+        "step1": {
+            "title": "Öğretmen Bilgileri",
+            "subtitle": "Kişisel ve iletişim bilgilerinizi girin"
+        },
+        "step2": {
+            "title": "Okul & Sınıf Bilgileri",
+            "subtitle": "Okulunuz ve sınıfınız hakkında detaylar"
+        },
+        "step3": {
+            "title": "İhtiyaç Detayı",
+            "subtitle": "Sınıfınızın ihtiyaçlarını detaylıca açıklayın"
+        },
+        "step4": {
+            "title": "Belgeler",
+            "subtitle": "Destekleyici belgeler yükleyin (isteğe bağlı)"
+        },
+        "labels": {
+            "fullName": "Ad Soyad",
+            "email": "E-posta Adresi",
+            "phone": "Telefon (İsteğe Bağlı)",
+            "country": "Ülke",
+            "schoolName": "Okul Adı",
+            "schoolCity": "Okul Şehri / İlçesi",
+            "classGrade": "Sınıf / Seviye",
+            "studentCount": "Öğrenci Sayısı",
+            "subject": "Branş / Ders",
+            "targetAmount": "Hedef Tutar",
+            "needSummary": "İhtiyaç Açıklaması (min. 100 karakter)"
+        },
+        "placeholders": {
+            "fullName": "Örn: Ahmet Yılmaz",
+            "email": "Örn: ogretmen@okul.edu.tr",
+            "country": "Örn: Türkiye",
+            "schoolName": "Örn: Atatürk İlkokulu",
+            "schoolCity": "Örn: İstanbul / Kadıköy",
+            "classGrade": "Örn: 5. Sınıf",
+            "studentCount": "Örn: 30",
+            "subject": "Örn: Matematik",
+            "targetAmount": "Örn: 5000",
+            "needSummary": "Sınıfınızın ihtiyaçlarını, fonların nasıl kullanılacağını ve öğrencilerinize etkisini anlatın..."
+        },
+        "tips": {
+            "title": "İpuçları:",
+            "tip1": "Sınıf durumunuzu ve malzeme ihtiyaçlarınızı detaylıca anlatın",
+            "tip2": "Kaç öğrencinin faydalanacağını belirtin",
+            "tip3": "Neye ihtiyacınız olduğunu belirtin (kitap, laboratuvar malzemesi, vb.)"
+        },
+        "docTips": {
+            "title": "Önerilen Belgeler:",
+            "tip1": "Öğretmen kimliği veya okul görev belgesi",
+            "tip2": "Sınıf veya okul fotoğrafları",
+            "tip3": "Resmi okul antetli kağıdı veya destek mektubu"
+        },
+        "docUploadText": "Dosyanızı sürükleyip bırakın veya",
+        "docSelectFile": "Dosya Seç",
+        "prev": "Önceki",
+        "next": "Sonraki",
+        "back": "Geri",
+        "submit": "Başvuruyu Gönder",
+        "submitting": "Gönderiliyor...",
+        "submitSuccess": "Başvurunuz gönderildi! En kısa sürede inceleyeceğiz.",
+        "submitError": "Başvuru gönderilemedi. Lütfen tekrar deneyin.",
+        "successTitle": "Başvuru Gönderildi!",
+        "successDesc": "Teşekkürler. Ekibimiz başvurunuzu inceleyecek ve e-posta ile size dönüş yapacak.",
+        "backToHome": "Ana Sayfaya Dön",
+        "sidebar": {
+            "title": "Neden Öğretmen Olarak Başvurmalısınız?",
+            "point1": "Tüm sınıfınızın ihtiyaçları için savunuculuk yapın",
+            "point2": "Doğrulanmış öğretmen başvuruları daha fazla bağışçı güveni kazanır",
+            "point3": "Platformdaki binlerce bağışçıya ulaşın",
+            "point4": "Tüm başvurular 48 saat içinde incelenir",
+            "bannerTitle": "Sınıf Kampanyaları",
+            "bannerDesc": "Öğretmen liderliğindeki kampanyalar, tüm sınıfların ihtiyaç duydukları kaynakları almasına yardımcı olur!"
+        },
+        "validation": {
+            "fullName": "Ad soyad gereklidir",
+            "invalidName": "İsim en az 2 karakter olmalıdır",
+            "email": "E-posta gereklidir",
+            "invalidEmail": "Geçerli bir e-posta girin",
+            "country": "Ülke gereklidir",
+            "schoolName": "Okul adı gereklidir",
+            "schoolCity": "Okul şehri gereklidir",
+            "classGrade": "Sınıf / seviye gereklidir",
+            "studentCount": "Öğrenci sayısı gereklidir",
+            "subject": "Branş gereklidir",
+            "targetAmount": "Hedef tutar gereklidir",
+            "needSummary": "İhtiyaç açıklaması gereklidir",
+            "needSummaryMin": "Açıklama en az {{min}} karakter olmalıdır"
+        },
+        "photos": {
+            "label": "Fotoğraflar (İsteğe Bağlı)",
+            "hint": "Bağışçıların ihtiyacı görselleştirmesine yardımcı olmak için sınıf, okul veya malzeme fotoğrafları yükleyin.",
+            "dropText": "Fotoğraflarınızı buraya sürükleyip bırakın veya",
+            "selectBtn": "Fotoğraf Seç",
+            "maxCount": "En fazla 5 fotoğraf"
+        }
     }
 }

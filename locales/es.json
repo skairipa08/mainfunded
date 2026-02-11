@@ -42,7 +42,7 @@
         "howItWorks": "Cómo funciona",
         "aboutUs": "Sobre nosotros",
         "dashboard": "Panel de control",
-        "apply": "Aplicar como estudiante",
+        "apply": "Postular",
         "admin": "Panel de administración",
         "campaigns": "Campañas",
         "students": "Estudiantes",
@@ -2160,5 +2160,174 @@
     },
     "navExtra": {
         "missionVision": "Mission & Vision"
+    },
+    "personalInfo": {
+        "title": "Información personal",
+        "contactInfo": "Información de contacto",
+        "phone": "Número de teléfono",
+        "backupEmail": "Correo electrónico de respaldo",
+        "backupEmailPlaceholder": "Ingrese su correo de respaldo",
+        "personalDetails": "Detalles personales",
+        "gender": "Género",
+        "selectGender": "Seleccione género",
+        "male": "Masculino",
+        "female": "Femenino",
+        "other": "Otro",
+        "preferNotToSay": "Prefiero no decir",
+        "dateOfBirth": "Fecha de nacimiento",
+        "country": "País",
+        "selectCountry": "Seleccione país",
+        "language": "Idioma preferido",
+        "security": "Seguridad",
+        "twoFactor": "Autenticación de dos factores",
+        "twoFactorDesc": "Agregue una capa adicional de seguridad a su cuenta",
+        "twoFactorComingSoon": "La autenticación de dos factores estará disponible pronto. Estamos trabajando en esta función.",
+        "save": "Guardar cambios",
+        "saving": "Guardando...",
+        "saved": "Cambios guardados con éxito",
+        "countries": {
+            "turkey": "Turquía",
+            "usa": "Estados Unidos",
+            "uk": "Reino Unido",
+            "germany": "Alemania",
+            "france": "Francia",
+            "saudiArabia": "Arabia Saudita",
+            "uae": "Emiratos Árabes Unidos",
+            "china": "China",
+            "russia": "Rusia",
+            "spain": "España",
+            "other": "Otro"
+        }
+    },
+    "applyLanding": {
+        "badge": "Solicitud de campaña",
+        "heroTitle": "Solicitar una campaña",
+        "heroTitleHighlight": "Alcancemos juntos",
+        "heroDescription": "Ya seas un estudiante que necesita apoyo o un profesor que aboga por su clase, estamos aquí para conectarte con miles de donantes.",
+        "selectRole": "¿Cómo deseas solicitar?",
+        "selectRoleDesc": "Elige la opción que mejor describe tu situación.",
+        "studentTitle": "Iniciar campaña",
+        "studentDescription": "Si necesitas apoyo financiero para tu educación, libros, equipos u otras necesidades.",
+        "studentFeature1": "Campañas de becas personales",
+        "studentFeature2": "Apoyo para libros, matrícula, equipos",
+        "studentFeature3": "Conexión directa con donantes",
+        "studentCta": "Iniciar campaña",
+        "teacherTitle": "Solicitar como profesor",
+        "teacherDescription": "Si tu clase tiene una necesidad colectiva — equipos, materiales, excursiones o recursos — solicita en su nombre.",
+        "teacherFeature1": "Campañas a nivel de clase",
+        "teacherFeature2": "Apoyo para equipos y materiales",
+        "teacherFeature3": "Beneficia a toda tu clase",
+        "teacherCta": "Solicitar como profesor",
+        "howItWorks": "¿Cómo funciona?",
+        "step1Title": "Completa el formulario",
+        "step1Desc": "Proporciona tus datos y describe tus necesidades educativas.",
+        "step2Title": "Verificación",
+        "step2Desc": "Nuestro equipo revisa y verifica tu solicitud.",
+        "step3Title": "Recibe apoyo",
+        "step3Desc": "Conecta con donantes que quieren ayudar.",
+        "trustTitle": "Proceso seguro y transparente",
+        "trustDesc": "Todas las solicitudes son revisadas por nuestro equipo. Tu información personal se mantiene segura."
+    },
+    "applyTeacher": {
+        "badge": "Formulario de solicitud para profesores",
+        "heroTitle": "Solicita para tu clase",
+        "heroHighlight": "Escuchamos a tus estudiantes",
+        "heroDesc": "Completa el formulario, describe las necesidades de tu clase y conecta con miles de donantes.",
+        "step1": {
+            "title": "Información del profesor",
+            "subtitle": "Ingresa tus datos personales y de contacto"
+        },
+        "step2": {
+            "title": "Información de escuela y clase",
+            "subtitle": "Detalles sobre tu escuela y aula"
+        },
+        "step3": {
+            "title": "Detalle de necesidades",
+            "subtitle": "Describe las necesidades de tu clase en detalle"
+        },
+        "step4": {
+            "title": "Documentos",
+            "subtitle": "Sube documentos de respaldo (opcional)"
+        },
+        "labels": {
+            "fullName": "Nombre completo",
+            "email": "Correo electrónico",
+            "phone": "Teléfono (Opcional)",
+            "country": "País",
+            "schoolName": "Nombre de la escuela",
+            "schoolCity": "Ciudad / Distrito de la escuela",
+            "classGrade": "Clase / Grado",
+            "studentCount": "Número de estudiantes",
+            "subject": "Materia / Rama",
+            "targetAmount": "Monto objetivo",
+            "needSummary": "Descripción de necesidad (mín. 100 caracteres)"
+        },
+        "placeholders": {
+            "fullName": "Ej: Juan García",
+            "email": "Ej: profesor@escuela.edu",
+            "country": "Ej: España",
+            "schoolName": "Ej: Escuela Primaria San Martín",
+            "schoolCity": "Ej: Madrid / Centro",
+            "classGrade": "Ej: 5° grado",
+            "studentCount": "Ej: 30",
+            "subject": "Ej: Matemáticas",
+            "targetAmount": "Ej: 5000",
+            "needSummary": "Describe las necesidades de tu clase..."
+        },
+        "tips": {
+            "title": "Consejos:",
+            "tip1": "Explica la situación de tu clase en detalle",
+            "tip2": "Describe cuántos estudiantes se beneficiarán",
+            "tip3": "Especifica lo que necesitas (libros, equipo de lab, etc.)"
+        },
+        "docTips": {
+            "title": "Documentos recomendados:",
+            "tip1": "Credencial de profesor o certificado de empleo escolar",
+            "tip2": "Fotos del aula o la escuela",
+            "tip3": "Carta oficial de la escuela"
+        },
+        "docUploadText": "Arrastra y suelta tu archivo aquí, o",
+        "docSelectFile": "Seleccionar archivo",
+        "prev": "Anterior",
+        "next": "Siguiente",
+        "back": "Volver",
+        "submit": "Enviar solicitud",
+        "submitting": "Enviando...",
+        "submitSuccess": "¡Tu solicitud ha sido enviada! La revisaremos pronto.",
+        "submitError": "Error al enviar la solicitud. Inténtalo de nuevo.",
+        "successTitle": "¡Solicitud enviada!",
+        "successDesc": "Gracias. Nuestro equipo revisará tu solicitud y te contactará por correo.",
+        "backToHome": "Volver al inicio",
+        "sidebar": {
+            "title": "¿Por qué solicitar como profesor?",
+            "point1": "Aboga por las necesidades de toda tu clase",
+            "point2": "Las solicitudes de profesores verificados generan más confianza",
+            "point3": "Alcanza miles de donantes en la plataforma",
+            "point4": "Todas las solicitudes se revisan en 48 horas",
+            "bannerTitle": "Campañas de clase",
+            "bannerDesc": "Las campañas lideradas por profesores ayudan a clases enteras a recibir los recursos que necesitan."
+        },
+        "validation": {
+            "fullName": "El nombre completo es obligatorio",
+            "invalidName": "El nombre debe tener al menos 2 caracteres",
+            "email": "El correo es obligatorio",
+            "invalidEmail": "Ingresa un correo válido",
+            "country": "El país es obligatorio",
+            "schoolName": "El nombre de la escuela es obligatorio",
+            "schoolCity": "La ciudad de la escuela es obligatoria",
+            "classGrade": "La clase / grado es obligatorio",
+            "studentCount": "El número de estudiantes es obligatorio",
+            "subject": "La materia es obligatoria",
+            "targetAmount": "El monto objetivo es obligatorio",
+            "needSummary": "La descripción de necesidad es obligatoria",
+            "needSummaryMin": "La descripción debe tener al menos {{min}} caracteres"
+        },
+        "photos": {
+            "label": "Fotos (Opcional)",
+            "hint": "Sube fotos de tu aula, escuela o materiales para ayudar a los donantes a visualizar la necesidad.",
+            "dropText": "Arrastra y suelta tus fotos aquí, o",
+            "selectBtn": "Seleccionar fotos",
+            "maxCount": "Hasta 5 fotos"
+        }
     }
 }

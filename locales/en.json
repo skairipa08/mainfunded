@@ -42,7 +42,7 @@
         "howItWorks": "How It Works",
         "aboutUs": "About Us",
         "dashboard": "Dashboard",
-        "apply": "Apply as Student",
+        "apply": "Apply",
         "admin": "Admin Panel",
         "campaigns": "Campaigns",
         "students": "Students",
@@ -2160,5 +2160,174 @@
     },
     "navExtra": {
         "missionVision": "Mission & Vision"
+    },
+    "personalInfo": {
+        "title": "Personal Information",
+        "contactInfo": "Contact Information",
+        "phone": "Phone Number",
+        "backupEmail": "Backup Email",
+        "backupEmailPlaceholder": "Enter your backup email",
+        "personalDetails": "Personal Details",
+        "gender": "Gender",
+        "selectGender": "Select gender",
+        "male": "Male",
+        "female": "Female",
+        "other": "Other",
+        "preferNotToSay": "Prefer not to say",
+        "dateOfBirth": "Date of Birth",
+        "country": "Country",
+        "selectCountry": "Select country",
+        "language": "Preferred Language",
+        "security": "Security",
+        "twoFactor": "Two-Factor Authentication",
+        "twoFactorDesc": "Add an extra layer of security to your account",
+        "twoFactorComingSoon": "Two-factor authentication will be available soon. We are working on this feature.",
+        "save": "Save Changes",
+        "saving": "Saving...",
+        "saved": "Changes saved successfully",
+        "countries": {
+            "turkey": "Turkey",
+            "usa": "United States",
+            "uk": "United Kingdom",
+            "germany": "Germany",
+            "france": "France",
+            "saudiArabia": "Saudi Arabia",
+            "uae": "United Arab Emirates",
+            "china": "China",
+            "russia": "Russia",
+            "spain": "Spain",
+            "other": "Other"
+        }
+    },
+    "applyLanding": {
+        "badge": "Campaign Application",
+        "heroTitle": "Apply for a Campaign",
+        "heroTitleHighlight": "Let's Reach Together",
+        "heroDescription": "Whether you're a student in need or a teacher advocating for your class, we're here to connect you with thousands of donors.",
+        "selectRole": "How would you like to apply?",
+        "selectRoleDesc": "Choose the option that best describes your situation.",
+        "studentTitle": "Start Campaign",
+        "studentDescription": "If you're a student in need of financial support for your education, books, equipment, or other necessities.",
+        "studentFeature1": "Personal scholarship campaigns",
+        "studentFeature2": "Support for books, tuition, equipment",
+        "studentFeature3": "Connect directly with donors",
+        "studentCta": "Start Campaign",
+        "teacherTitle": "Apply as Teacher",
+        "teacherDescription": "If your class has a collective need — equipment, materials, field trips, or learning resources — apply on their behalf.",
+        "teacherFeature1": "Classroom-level campaigns",
+        "teacherFeature2": "Support for equipment & materials",
+        "teacherFeature3": "Benefit your entire class",
+        "teacherCta": "Apply as Teacher",
+        "howItWorks": "How Does It Work?",
+        "step1Title": "Fill Out the Form",
+        "step1Desc": "Provide your details and describe your educational needs.",
+        "step2Title": "Verification",
+        "step2Desc": "Our team reviews and verifies your application.",
+        "step3Title": "Receive Support",
+        "step3Desc": "Get matched with donors who want to help.",
+        "trustTitle": "Safe & Transparent Process",
+        "trustDesc": "All applications are reviewed by our team. Your personal information is kept secure and only shared with verified donors."
+    },
+    "applyTeacher": {
+        "badge": "Teacher Application Form",
+        "heroTitle": "Apply for Your Class",
+        "heroHighlight": "We Hear Your Students",
+        "heroDesc": "Fill out the form, describe your class's needs, and connect with thousands of donors.",
+        "step1": {
+            "title": "Teacher Information",
+            "subtitle": "Enter your personal and contact details"
+        },
+        "step2": {
+            "title": "School & Class Information",
+            "subtitle": "Details about your school and classroom"
+        },
+        "step3": {
+            "title": "Need Details",
+            "subtitle": "Describe your class's needs in detail"
+        },
+        "step4": {
+            "title": "Documents",
+            "subtitle": "Upload supporting documents (optional)"
+        },
+        "labels": {
+            "fullName": "Full Name",
+            "email": "Email Address",
+            "phone": "Phone (Optional)",
+            "country": "Country",
+            "schoolName": "School Name",
+            "schoolCity": "School City / District",
+            "classGrade": "Class / Grade Level",
+            "studentCount": "Number of Students",
+            "subject": "Subject / Branch",
+            "targetAmount": "Target Amount",
+            "needSummary": "Need Description (min. 100 characters)"
+        },
+        "placeholders": {
+            "fullName": "e.g. John Smith",
+            "email": "e.g. teacher@school.edu",
+            "country": "e.g. Turkey",
+            "schoolName": "e.g. Atatürk Primary School",
+            "schoolCity": "e.g. Istanbul / Kadıköy",
+            "classGrade": "e.g. 5th Grade",
+            "studentCount": "e.g. 30",
+            "subject": "e.g. Mathematics",
+            "targetAmount": "e.g. 5000",
+            "needSummary": "Describe your class's needs, how the funds will be used, and the impact it will have on your students..."
+        },
+        "tips": {
+            "title": "Tips:",
+            "tip1": "Explain your class situation and material needs in detail",
+            "tip2": "Describe how many students will benefit",
+            "tip3": "Specify what you need (books, lab equipment, materials, etc.)"
+        },
+        "docTips": {
+            "title": "Recommended Documents:",
+            "tip1": "Teacher ID or school employment certificate",
+            "tip2": "Photos of the classroom or school",
+            "tip3": "Official school letterhead or support letter"
+        },
+        "docUploadText": "Drag & drop your file here, or",
+        "docSelectFile": "Select File",
+        "prev": "Previous",
+        "next": "Next",
+        "back": "Back",
+        "submit": "Submit Application",
+        "submitting": "Submitting...",
+        "submitSuccess": "Your application has been submitted! We will review it shortly.",
+        "submitError": "Failed to submit application. Please try again.",
+        "successTitle": "Application Submitted!",
+        "successDesc": "Thank you. Our team will review your application and get back to you via email.",
+        "backToHome": "Back to Home",
+        "sidebar": {
+            "title": "Why Apply as a Teacher?",
+            "point1": "Advocate for your entire classroom's needs",
+            "point2": "Verified teacher applications gain more donor trust",
+            "point3": "Reach thousands of donors on the platform",
+            "point4": "All applications are reviewed within 48 hours",
+            "bannerTitle": "Class Campaigns",
+            "bannerDesc": "Teacher-led campaigns help entire classrooms receive the resources they need. Your advocacy makes a difference!"
+        },
+        "validation": {
+            "fullName": "Full name is required",
+            "invalidName": "Name must be at least 2 characters",
+            "email": "Email is required",
+            "invalidEmail": "Please enter a valid email",
+            "country": "Country is required",
+            "schoolName": "School name is required",
+            "schoolCity": "School city is required",
+            "classGrade": "Class / grade is required",
+            "studentCount": "Number of students is required",
+            "subject": "Subject is required",
+            "targetAmount": "Target amount is required",
+            "needSummary": "Need description is required",
+            "needSummaryMin": "Description must be at least {{min}} characters"
+        },
+        "photos": {
+            "label": "Photos (Optional)",
+            "hint": "Upload photos of your classroom, school, or materials to help donors visualize the need.",
+            "dropText": "Drag & drop your photos here, or",
+            "selectBtn": "Select Photos",
+            "maxCount": "Up to 5 photos"
+        }
     }
 }
