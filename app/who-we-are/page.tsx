@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
+import { useTranslation } from '@/lib/i18n/context';
 import {
   Heart,
   Shield,
@@ -27,98 +28,99 @@ import {
   Star,
 } from 'lucide-react';
 
-const teamMembers = [
-  {
-    name: 'Baran Deniz',
-    role: 'Kurucu & CEO',
-    bio: 'Eğitim teknolojileri ve sosyal etki alanında tutkulu bir girişimci.',
-    initials: 'BD',
-    gradient: 'from-blue-500 to-indigo-600',
-  },
-  {
-    name: 'Elif Korkmaz',
-    role: 'CTO',
-    bio: 'Blockchain ve şeffaflık altyapısı konusunda uzman yazılım mühendisi.',
-    initials: 'EK',
-    gradient: 'from-emerald-500 to-teal-600',
-  },
-  {
-    name: 'Ahmet Yıldırım',
-    role: 'COO',
-    bio: 'STK deneyimi ile operasyonel mükemmelliği birleştiren yönetici.',
-    initials: 'AY',
-    gradient: 'from-amber-500 to-orange-600',
-  },
-  {
-    name: 'Zeynep Acar',
-    role: 'Etki & İletişim Direktörü',
-    bio: 'Sosyal medya ve topluluk yönetimi ile bağışçı ilişkilerini güçlendiren uzman.',
-    initials: 'ZA',
-    gradient: 'from-rose-500 to-pink-600',
-  },
-];
-
-const values = [
-  {
-    icon: Shield,
-    title: 'Şeffaflık',
-    desc: 'Her bağışın nereye gittiğini açıkça gösteririz. Hiçbir şey gizli değil.',
-    color: 'text-blue-600',
-    bg: 'bg-blue-50',
-    border: 'border-blue-100',
-  },
-  {
-    icon: Heart,
-    title: 'Empati',
-    desc: 'Her öğrencinin hikayesini anlar, ihtiyacına özel çözümler sunarız.',
-    color: 'text-rose-600',
-    bg: 'bg-rose-50',
-    border: 'border-rose-100',
-  },
-  {
-    icon: Globe,
-    title: 'Eşitlik',
-    desc: 'Coğrafya, cinsiyet ya da gelir düzeyi fark etmeksizin eğitime erişim hakkı.',
-    color: 'text-emerald-600',
-    bg: 'bg-emerald-50',
-    border: 'border-emerald-100',
-  },
-  {
-    icon: Lightbulb,
-    title: 'İnovasyon',
-    desc: 'Teknolojiyi kullanarak bağış sürecini daha verimli ve etkili hale getiriyoruz.',
-    color: 'text-amber-600',
-    bg: 'bg-amber-50',
-    border: 'border-amber-100',
-  },
-  {
-    icon: Users,
-    title: 'Topluluk',
-    desc: 'Bağışçılar, öğrenciler ve gönüllülerden oluşan güçlü bir ekosistem.',
-    color: 'text-purple-600',
-    bg: 'bg-purple-50',
-    border: 'border-purple-100',
-  },
-  {
-    icon: Target,
-    title: 'Etki Odaklılık',
-    desc: 'Her kararımızı ölçülebilir sosyal etki yaratmak üzerine kuruyoruz.',
-    color: 'text-indigo-600',
-    bg: 'bg-indigo-50',
-    border: 'border-indigo-100',
-  },
-];
-
-const milestones = [
-  { year: '2024', event: 'FundEd fikri doğdu', desc: 'Eğitimde eşitsizliği çözmek için ilk adım atıldı.' },
-  { year: '2025 Q1', event: 'Platform geliştirme', desc: 'Teknik altyapı ve doğrulama sistemi kuruldu.' },
-  { year: '2025 Q2', event: 'Beta lansmanı', desc: 'İlk öğrenciler ve bağışçılar platforma dahil oldu.' },
-  { year: '2025 Q3', event: 'Kurumsal modül', desc: 'Şirketler için ESG uyumlu bağış paneli açıldı.' },
-  { year: '2026', event: 'Global genişleme', desc: '12 ülkeye erişim, binlerce öğrenciye destek.' },
-];
-
 export default function WhoWeArePage() {
   const router = useRouter();
+  const { t } = useTranslation();
+
+  const teamMembers = [
+    {
+      name: 'Baran Deniz',
+      role: t('pages.whoWeAre.team.items.te1.role'),
+      bio: t('pages.whoWeAre.team.items.te1.bio'),
+      initials: 'BD',
+      gradient: 'from-blue-500 to-indigo-600',
+    },
+    {
+      name: 'Elif Korkmaz',
+      role: t('pages.whoWeAre.team.items.te2.role'),
+      bio: t('pages.whoWeAre.team.items.te2.bio'),
+      initials: 'EK',
+      gradient: 'from-emerald-500 to-teal-600',
+    },
+    {
+      name: 'Ahmet Yıldırım',
+      role: t('pages.whoWeAre.team.items.te3.role'),
+      bio: t('pages.whoWeAre.team.items.te3.bio'),
+      initials: 'AY',
+      gradient: 'from-amber-500 to-orange-600',
+    },
+    {
+      name: 'Zeynep Acar',
+      role: t('pages.whoWeAre.team.items.te4.role'),
+      bio: t('pages.whoWeAre.team.items.te4.bio'),
+      initials: 'ZA',
+      gradient: 'from-rose-500 to-pink-600',
+    },
+  ];
+
+  const values = [
+    {
+      icon: Shield,
+      title: t('pages.whoWeAre.values.items.transparency.title'),
+      desc: t('pages.whoWeAre.values.items.transparency.desc'),
+      color: 'text-blue-600',
+      bg: 'bg-blue-50',
+      border: 'border-blue-100',
+    },
+    {
+      icon: Heart,
+      title: t('pages.whoWeAre.values.items.empathy.title'),
+      desc: t('pages.whoWeAre.values.items.empathy.desc'),
+      color: 'text-rose-600',
+      bg: 'bg-rose-50',
+      border: 'border-rose-100',
+    },
+    {
+      icon: Globe,
+      title: t('pages.whoWeAre.values.items.equality.title'),
+      desc: t('pages.whoWeAre.values.items.equality.desc'),
+      color: 'text-emerald-600',
+      bg: 'bg-emerald-50',
+      border: 'border-emerald-100',
+    },
+    {
+      icon: Lightbulb,
+      title: t('pages.whoWeAre.values.items.innovation.title'),
+      desc: t('pages.whoWeAre.values.items.innovation.desc'),
+      color: 'text-amber-600',
+      bg: 'bg-amber-50',
+      border: 'border-amber-100',
+    },
+    {
+      icon: Users,
+      title: t('pages.whoWeAre.values.items.community.title'),
+      desc: t('pages.whoWeAre.values.items.community.desc'),
+      color: 'text-purple-600',
+      bg: 'bg-purple-50',
+      border: 'border-purple-100',
+    },
+    {
+      icon: Target,
+      title: t('pages.whoWeAre.values.items.impact.title'),
+      desc: t('pages.whoWeAre.values.items.impact.desc'),
+      color: 'text-indigo-600',
+      bg: 'bg-indigo-50',
+      border: 'border-indigo-100',
+    },
+  ];
+
+  const milestones = [
+    { year: '2024', event: t('pages.whoWeAre.timeline.items.e1.event'), desc: t('pages.whoWeAre.timeline.items.e1.desc') },
+    { year: '2025 Q1', event: t('pages.whoWeAre.timeline.items.e2.event'), desc: t('pages.whoWeAre.timeline.items.e2.desc') },
+    { year: '2025 Q2', event: t('pages.whoWeAre.timeline.items.e3.event'), desc: t('pages.whoWeAre.timeline.items.e3.desc') },
+    { year: '2025 Q3', event: t('pages.whoWeAre.timeline.items.e4.event'), desc: t('pages.whoWeAre.timeline.items.e4.desc') },
+    { year: '2026', event: t('pages.whoWeAre.timeline.items.e5.event'), desc: t('pages.whoWeAre.timeline.items.e5.desc') },
+  ];
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
@@ -143,39 +145,39 @@ export default function WhoWeArePage() {
             <div className="max-w-3xl mx-auto text-center">
               <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/15 rounded-full px-5 py-2 mb-8">
                 <Sparkles className="h-4 w-4 text-amber-400" />
-                <span className="text-sm text-white/80 font-medium">Biz Kimiz?</span>
+                <span className="text-sm text-white/80 font-medium">{t('pages.whoWeAre.hero.badge')}</span>
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-                Eğitimin Gücüne
+                {t('pages.whoWeAre.hero.title')}
                 <br />
                 <span className="bg-gradient-to-r from-blue-400 via-cyan-300 to-emerald-400 bg-clip-text text-transparent">
-                  İnanan Bir Ekip
+                  {t('pages.whoWeAre.hero.titleHighlight')}
                 </span>
               </h1>
 
               <p className="text-lg sm:text-xl text-slate-300/80 leading-relaxed max-w-2xl mx-auto mb-10">
-                FundEd, dünyanın dört bir yanındaki öğrencilerin eğitim hayallerini
-                gerçeğe dönüştürmek için kuruldu. Şeffaflık, teknoloji ve empatiyi
-                bir araya getiriyoruz.
+                {t('pages.whoWeAre.hero.desc')}
               </p>
 
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Button
+                  type="button"
                   onClick={() => router.push('/donate')}
                   size="lg"
                   className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white h-13 px-8 rounded-2xl text-base font-semibold shadow-xl shadow-blue-500/25"
                 >
                   <Heart className="mr-2 h-5 w-5" />
-                  Bağış Yap
+                  {t('pages.whoWeAre.hero.donate')}
                 </Button>
                 <Button
+                  type="button"
                   onClick={() => router.push('/education-equality')}
                   size="lg"
                   variant="outline"
                   className="border-white/20 text-white hover:bg-white/10 h-13 px-8 rounded-2xl text-base backdrop-blur-sm"
                 >
-                  Kampanyamızı Gör
+                  {t('pages.whoWeAre.hero.campaign')}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </div>
@@ -199,31 +201,25 @@ export default function WhoWeArePage() {
               {/* Left - Text */}
               <div>
                 <span className="inline-block text-xs font-semibold tracking-widest uppercase text-blue-600 bg-blue-50 px-4 py-1.5 rounded-full mb-6">
-                  Hikayemiz
+                  {t('pages.whoWeAre.story.badge')}
                 </span>
                 <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6 leading-tight">
-                  Bir Soruyla
+                  {t('pages.whoWeAre.story.title')}
                   <br />
-                  Başladık
+                  {t('pages.whoWeAre.story.titleHighlight')}
                 </h2>
                 <div className="space-y-5">
                   <p className="text-lg text-slate-600 leading-relaxed">
-                    &ldquo;Neden yetenekli bir öğrenci, sadece maddi imkânsızlık yüzünden
-                    eğitimini yarıda bırakmak zorunda kalsın?&rdquo;
+                    &ldquo;{t('pages.whoWeAre.story.quote')}&rdquo;
                   </p>
                   <p className="text-slate-500 leading-relaxed">
-                    Bu soruyla yola çıktık. Dünyada 244 milyondan fazla çocuğun okula
-                    gidemediğini, yüz binlerce üniversite öğrencisinin maddi sorunlar
-                    yüzünden hayallerinden vazgeçtiğini gördük.
+                    {t('pages.whoWeAre.story.p1')}
                   </p>
                   <p className="text-slate-500 leading-relaxed">
-                    FundEd, bağışçılarla öğrencileri doğrudan buluşturan, her kuruşun
-                    izlenebilir olduğu ve etkinin somut verilerle ölçülebildiği bir
-                    platform olarak doğdu.
+                    {t('pages.whoWeAre.story.p2')}
                   </p>
                   <p className="text-slate-500 leading-relaxed">
-                    Amacımız basit: <strong className="text-slate-800">Eğitime erişimi demokratikleştirmek.</strong> Bunu
-                    yaparken şeffaflığı, teknolojiyi ve insan hikayelerini merkeze koyuyoruz.
+                    {t('pages.whoWeAre.story.p3')} <strong className="text-slate-800">{t('pages.whoWeAre.story.p3Highlight')}</strong> {t('pages.whoWeAre.story.p3End')}
                   </p>
                 </div>
               </div>
@@ -231,10 +227,10 @@ export default function WhoWeArePage() {
               {/* Right - Visual stats */}
               <div className="grid grid-cols-2 gap-5">
                 {[
-                  { icon: GraduationCap, value: '1,200+', label: 'Desteklenen Öğrenci', gradient: 'from-blue-500 to-indigo-600', bg: 'bg-blue-50' },
-                  { icon: Globe, value: '12', label: 'Ülke', gradient: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-50' },
-                  { icon: HandHeart, value: '2,800+', label: 'Bağışçı', gradient: 'from-rose-500 to-pink-600', bg: 'bg-rose-50' },
-                  { icon: TrendingUp, value: '%96', label: 'Fonlama Başarı Oranı', gradient: 'from-amber-500 to-orange-600', bg: 'bg-amber-50' },
+                  { icon: GraduationCap, value: '1,200+', label: t('pages.whoWeAre.story.stats.students'), gradient: 'from-blue-500 to-indigo-600', bg: 'bg-blue-50' },
+                  { icon: Globe, value: '12', label: t('pages.whoWeAre.story.stats.countries'), gradient: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-50' },
+                  { icon: HandHeart, value: '2,800+', label: t('pages.whoWeAre.story.stats.donors'), gradient: 'from-rose-500 to-pink-600', bg: 'bg-rose-50' },
+                  { icon: TrendingUp, value: '%96', label: t('pages.whoWeAre.story.stats.successRate'), gradient: 'from-amber-500 to-orange-600', bg: 'bg-amber-50' },
                 ].map((stat, i) => {
                   const Icon = stat.icon;
                   return (
@@ -262,13 +258,13 @@ export default function WhoWeArePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <span className="inline-block text-xs font-semibold tracking-widest uppercase text-indigo-600 bg-indigo-50 px-4 py-1.5 rounded-full mb-4">
-                Değerlerimiz
+                {t('pages.whoWeAre.values.badge')}
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-                Bizi Biz Yapan İlkeler
+                {t('pages.whoWeAre.values.title')}
               </h2>
               <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-                Her kararımız bu değerler çerçevesinde şekillenir.
+                {t('pages.whoWeAre.values.desc')}
               </p>
             </div>
 
@@ -299,10 +295,10 @@ export default function WhoWeArePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <span className="inline-block text-xs font-semibold tracking-widest uppercase text-emerald-600 bg-emerald-50 px-4 py-1.5 rounded-full mb-4">
-                Nasıl Çalışıyoruz?
+                {t('pages.whoWeAre.howItWorks.badge')}
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-                Bağıştan Etkiye 4 Adım
+                {t('pages.whoWeAre.howItWorks.title')}
               </h2>
             </div>
 
@@ -314,29 +310,29 @@ export default function WhoWeArePage() {
                 {
                   step: '01',
                   icon: BookOpen,
-                  title: 'Başvuru & Doğrulama',
-                  desc: 'Öğrenciler başvurur, ekibimiz kimlik ve ihtiyaç doğrulaması yapar.',
+                  title: t('pages.whoWeAre.howItWorks.items.step1.title'),
+                  desc: t('pages.whoWeAre.howItWorks.items.step1.desc'),
                   gradient: 'from-blue-500 to-indigo-600',
                 },
                 {
                   step: '02',
                   icon: Heart,
-                  title: 'Bağış & Eşleşme',
-                  desc: 'Bağışçılar uygun öğrenciyi seçer, güvenli altyapıyla bağış yapar.',
+                  title: t('pages.whoWeAre.howItWorks.items.step2.title'),
+                  desc: t('pages.whoWeAre.howItWorks.items.step2.desc'),
                   gradient: 'from-emerald-500 to-teal-600',
                 },
                 {
                   step: '03',
                   icon: Zap,
-                  title: 'Fonlama & Dağıtım',
-                  desc: 'Fonlar doğrudan öğrencinin ihtiyacına yönelik olarak aktarılır.',
+                  title: t('pages.whoWeAre.howItWorks.items.step3.title'),
+                  desc: t('pages.whoWeAre.howItWorks.items.step3.desc'),
                   gradient: 'from-amber-500 to-orange-600',
                 },
                 {
                   step: '04',
                   icon: Eye,
-                  title: 'Etki Raporlama',
-                  desc: 'Bağışçılar, bağışlarının yarattığı etkiyi fotoğraf ve verilerle görür.',
+                  title: t('pages.whoWeAre.howItWorks.items.step4.title'),
+                  desc: t('pages.whoWeAre.howItWorks.items.step4.desc'),
                   gradient: 'from-purple-500 to-pink-600',
                 },
               ].map((item, i) => {
@@ -363,10 +359,10 @@ export default function WhoWeArePage() {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <span className="inline-block text-xs font-semibold tracking-widest uppercase text-amber-600 bg-amber-50 px-4 py-1.5 rounded-full mb-4">
-                Yolculuğumuz
+                {t('pages.whoWeAre.timeline.badge')}
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-                Kilometre Taşlarımız
+                {t('pages.whoWeAre.timeline.title')}
               </h2>
             </div>
 
@@ -405,13 +401,13 @@ export default function WhoWeArePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <span className="inline-block text-xs font-semibold tracking-widest uppercase text-rose-600 bg-rose-50 px-4 py-1.5 rounded-full mb-4">
-                Ekibimiz
+                {t('pages.whoWeAre.team.badge')}
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-                Değişimi Yaratan İnsanlar
+                {t('pages.whoWeAre.team.title')}
               </h2>
               <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-                Her biri alanında uzman, eğitim eşitliğine inanmış profesyoneller.
+                {t('pages.whoWeAre.team.desc')}
               </p>
             </div>
 
@@ -448,18 +444,17 @@ export default function WhoWeArePage() {
               <div className="relative z-10 text-center max-w-3xl mx-auto">
                 <Shield className="h-12 w-12 text-blue-400 mx-auto mb-6" />
                 <h2 className="text-3xl sm:text-4xl font-bold text-white mb-5">
-                  Şeffaflık Taahhüdümüz
+                  {t('pages.whoWeAre.transparency.title')}
                 </h2>
                 <p className="text-slate-400 text-lg leading-relaxed mb-10">
-                  FundEd olarak her bağışın izlenebilir olmasını, her kuruşun hesabının
-                  verilmesini ve her etki raporunun somut verilerle desteklenmesini garanti ediyoruz.
+                  {t('pages.whoWeAre.transparency.desc')}
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-10">
                   {[
-                    { icon: CheckCircle, title: '%100 Şeffaflık', desc: 'Her bağış kaydı açık erişimde' },
-                    { icon: Shield, title: 'Doğrulanmış Öğrenciler', desc: 'Kimlik ve ihtiyaç kontrolü' },
-                    { icon: Award, title: 'Etki Raporlama', desc: 'Fotoğraflı sonuç takibi' },
+                    { icon: CheckCircle, title: t('pages.whoWeAre.transparency.items.t1.title'), desc: t('pages.whoWeAre.transparency.items.t1.desc') },
+                    { icon: Shield, title: t('pages.whoWeAre.transparency.items.t2.title'), desc: t('pages.whoWeAre.transparency.items.t2.desc') },
+                    { icon: Award, title: t('pages.whoWeAre.transparency.items.t3.title'), desc: t('pages.whoWeAre.transparency.items.t3.desc') },
                   ].map((item, i) => {
                     const Icon = item.icon;
                     return (
@@ -474,20 +469,22 @@ export default function WhoWeArePage() {
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                   <Button
+                    type="button"
                     onClick={() => router.push('/transparency')}
                     size="lg"
                     className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white h-12 px-8 rounded-2xl font-semibold shadow-xl shadow-blue-500/20"
                   >
-                    Şeffaflık Sayfası
+                    {t('pages.whoWeAre.transparency.btn1')}
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                   <Button
+                    type="button"
                     onClick={() => router.push('/reports')}
                     size="lg"
                     variant="outline"
                     className="border-white/20 text-white hover:bg-white/10 h-12 px-8 rounded-2xl backdrop-blur-sm"
                   >
-                    Raporları Görüntüle
+                    {t('pages.whoWeAre.transparency.btn2')}
                   </Button>
                 </div>
               </div>
@@ -502,40 +499,42 @@ export default function WhoWeArePage() {
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="inline-flex items-center gap-2 bg-emerald-50 border border-emerald-100 rounded-full px-5 py-2 mb-6">
               <Star className="h-4 w-4 text-emerald-600" />
-              <span className="text-sm text-emerald-700 font-medium">Topluluğumuza Katılın</span>
+              <span className="text-sm text-emerald-700 font-medium">{t('pages.whoWeAre.cta.badge')}</span>
             </div>
             <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-5 leading-tight">
-              Birlikte Daha Güçlüyüz
+              {t('pages.whoWeAre.cta.title')}
             </h2>
             <p className="text-lg text-slate-500 mb-10 max-w-2xl mx-auto leading-relaxed">
-              İster bağışçı olun, ister öğrenci, ister gönüllü — eğitim eşitliği
-              için birlikte çalışabiliriz. İlk adımı bugün atın.
+              {t('pages.whoWeAre.cta.desc')}
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Button
+                type="button"
                 onClick={() => router.push('/donate')}
                 size="lg"
                 className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white h-14 px-10 rounded-2xl text-lg font-semibold shadow-xl shadow-blue-500/25"
               >
                 <Heart className="mr-2 h-5 w-5" />
-                Bağış Yap
+                {t('pages.whoWeAre.cta.donate')}
               </Button>
               <Button
+                type="button"
                 onClick={() => router.push('/apply')}
                 size="lg"
                 variant="outline"
                 className="border-slate-200 text-slate-700 hover:bg-slate-50 h-14 px-10 rounded-2xl text-lg"
               >
                 <GraduationCap className="mr-2 h-5 w-5" />
-                Öğrenci Başvurusu
+                {t('pages.whoWeAre.cta.apply')}
               </Button>
               <Button
+                type="button"
                 onClick={() => router.push('/corporate/auth/login')}
                 size="lg"
                 variant="outline"
                 className="border-slate-200 text-slate-700 hover:bg-slate-50 h-14 px-10 rounded-2xl text-lg"
               >
-                Kurumsal Çözümler
+                {t('pages.whoWeAre.cta.corporate')}
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>

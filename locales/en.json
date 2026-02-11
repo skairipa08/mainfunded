@@ -27,14 +27,14 @@
         "close": "Close",
         "learnMore": "Learn More",
         "getStarted": "Get Started",
-        "demoBanner": "This platform is currently in demo mode. The data shown is for demonstration purposes only.",
-        "demoPageGeneral": "This page is for demo purposes. Real data will be updated when the platform is active.",
-        "demoStories": "This page is for demo purposes. Stories and amounts are shown as examples; real data will be updated when the platform is active.",
-        "demoAlumni": "This page is for demo purposes. Alumni information and amounts are shown as examples; real data will be updated when the platform is active.",
-        "demoReports": "This page is for demo purposes. Reports and amounts are shown as examples; real data will be updated when the platform is active.",
-        "demoBadges": "This page is for demo purposes. Badges and progress values will be updated when the platform is active.",
-        "demoLeaderboard": "This page is for demo purposes. Rankings and amounts will be updated with real data when the platform is active.",
-        "demoTransparency": "This page is for demo purposes. Real data will be updated when the platform is active."
+        "demoBanner": "The platform is in preview stage. Ready for the first corporate pilots.",
+        "demoPageGeneral": "The platform is in preview stage. Ready for the first corporate pilots.",
+        "demoStories": "The platform is in preview stage. Ready for the first corporate pilots.",
+        "demoAlumni": "The platform is in preview stage. Ready for the first corporate pilots.",
+        "demoReports": "The platform is in preview stage. Ready for the first corporate pilots.",
+        "demoBadges": "The platform is in preview stage. Ready for the first corporate pilots.",
+        "demoLeaderboard": "The platform is in preview stage. Ready for the first corporate pilots.",
+        "demoTransparency": "The platform is in preview stage. Ready for the first corporate pilots."
     },
     "nav": {
         "home": "Home",
@@ -94,7 +94,59 @@
             "perfectDonor": "Perfect Donor",
             "legend": "Legend",
             "donation": "donation",
-            "donations": "donations"
+            "donations": "donations",
+            "items": {
+                "first_step": {
+                    "name": "First Step",
+                    "desc": "You made your first donation"
+                },
+                "supporter": {
+                    "name": "Supporter",
+                    "desc": "You made 5 donations"
+                },
+                "champion": {
+                    "name": "Champion",
+                    "desc": "You made 25 donations"
+                },
+                "legend": {
+                    "name": "Legend",
+                    "desc": "You made 100 donations"
+                },
+                "generous": {
+                    "name": "Generous",
+                    "desc": "$1,000 total donations"
+                },
+                "philanthropist": {
+                    "name": "Philanthropist",
+                    "desc": "$10,000 total donations"
+                },
+                "patron": {
+                    "name": "Patron",
+                    "desc": "$50,000 total donations"
+                },
+                "student_champion": {
+                    "name": "Student Champion",
+                    "desc": "Supported 10 different students"
+                },
+                "streak_master": {
+                    "name": "Streak Master",
+                    "desc": "Donated 12 months in a row"
+                },
+                "early_bird": {
+                    "name": "Early Bird",
+                    "desc": "Member since platform launch"
+                },
+                "matching_hero": {
+                    "name": "Matching Hero",
+                    "desc": "Participated in matching gift program"
+                },
+                "mentor": {
+                    "name": "Mentor",
+                    "desc": "Became a mentor to a student"
+                }
+            },
+            "moreBadges": "more badges",
+            "progressLabel": "Progress"
         },
         "leaderboard": {
             "title": "Leaderboard",
@@ -114,7 +166,337 @@
             "subtitle": "Success stories of students who achieved their dreams with FundEd",
             "giveBackProgram": "Give Back Program",
             "giveBackDesc": "27% of our alumni actively support new students",
-            "joinProgram": "Join the Program"
+            "joinProgram": "Join the Program",
+            "stats": {
+                "graduatedStudent": "Graduated Student",
+                "employmentRate": "Employment Rate",
+                "averageSalary": "Average Salary",
+                "givingBack": "Giving Back"
+            },
+            "card": {
+                "alumniBadge": "Alumni",
+                "totalReceived": "Total Received",
+                "totalGivenBack": "Total Given Back",
+                "readStory": "Read Story"
+            },
+            "mock": {
+                "story1": "Without FundEd, I couldn't have finished university. Now I'm living my dreams and it's my turn. I support a student every month.",
+                "story2": "My family couldn't support me. I wouldn't be here without the FundEd family."
+            }
+        },
+        "whoWeAre": {
+            "hero": {
+                "badge": "Who We Are?",
+                "title": "A Team Believing in",
+                "titleHighlight": "The Power of Education",
+                "desc": "FundEd was founded to turn the educational dreams of students around the world into reality. We combine transparency, technology, and empathy.",
+                "donate": "Donate",
+                "campaign": "View Our Campaign"
+            },
+            "story": {
+                "badge": "Our Story",
+                "title": "We Started With",
+                "titleHighlight": "A Question",
+                "quote": "Why should a talented student have to quit education just because of financial impossibility?",
+                "p1": "We set out with this question. We saw that more than 244 million children in the world cannot go to school, and hundreds of thousands of university students give up their dreams due to financial problems.",
+                "p2": "FundEd was born as a platform that directly connects donors with students, where every penny is traceable and impact can be measured with concrete data.",
+                "p3": "Our goal is simple:",
+                "p3Highlight": "To democratize access to education.",
+                "p3End": "While doing this, we put transparency, technology, and human stories at the center.",
+                "stats": {
+                    "students": "Supported Students",
+                    "countries": "Countries",
+                    "donors": "Donors",
+                    "successRate": "Funding Success Rate"
+                }
+            },
+            "values": {
+                "badge": "Our Values",
+                "title": "Principles That Make Us Us",
+                "desc": "Every decision we make is shaped around these values.",
+                "items": {
+                    "transparency": {
+                        "title": "Transparency",
+                        "desc": "We clearly show where every donation goes. Nothing is hidden."
+                    },
+                    "empathy": {
+                        "title": "Empathy",
+                        "desc": "We understand every student's story and offer solutions specific to their needs."
+                    },
+                    "equality": {
+                        "title": "Equality",
+                        "desc": "Right to access education regardless of geography, gender, or income level."
+                    },
+                    "innovation": {
+                        "title": "Innovation",
+                        "desc": "We make the donation process more efficient and effective using technology."
+                    },
+                    "community": {
+                        "title": "Community",
+                        "desc": "A strong ecosystem of donors, students, and volunteers."
+                    },
+                    "impact": {
+                        "title": "Impact Oriented",
+                        "desc": "We base every decision on creating measurable social impact."
+                    }
+                }
+            },
+            "howItWorks": {
+                "badge": "How We Work?",
+                "title": "4 Steps from Donation to Impact",
+                "items": {
+                    "step1": {
+                        "title": "Application & Verification",
+                        "desc": "Students apply, our team verifies identity and need."
+                    },
+                    "step2": {
+                        "title": "Donation & Matching",
+                        "desc": "Donors choose suitable students and donate through secure infrastructure."
+                    },
+                    "step3": {
+                        "title": "Funding & Distribution",
+                        "desc": "Funds are transferred directly to meet the student's needs."
+                    },
+                    "step4": {
+                        "title": "Impact Reporting",
+                        "desc": "Donors see the impact of their donations with photos and data."
+                    }
+                }
+            },
+            "timeline": {
+                "badge": "Our Journey",
+                "title": "Our Milestones",
+                "items": {
+                    "e1": {
+                        "event": "FundEd idea was born",
+                        "desc": "First step taken to solve inequality in education."
+                    },
+                    "e2": {
+                        "event": "Platform development",
+                        "desc": "Technical infrastructure and verification system established."
+                    },
+                    "e3": {
+                        "event": "Beta launch",
+                        "desc": "First students and donors joined the platform."
+                    },
+                    "e4": {
+                        "event": "Corporate module",
+                        "desc": "ESG compliant donation panel opened for companies."
+                    },
+                    "e5": {
+                        "event": "Global expansion",
+                        "desc": "Access to 12 countries, support for thousands of students."
+                    }
+                }
+            },
+            "team": {
+                "badge": "Our Team",
+                "title": "People Creating Change",
+                "desc": "Professionals who are experts in their fields and believe in educational equality.",
+                "items": {
+                    "te1": {
+                        "role": "Founder & CEO",
+                        "bio": "An entrepreneur passionate about educational technologies and social impact."
+                    },
+                    "te2": {
+                        "role": "CTO",
+                        "bio": "Software engineer expert in Blockchain and transparency infrastructure."
+                    },
+                    "te3": {
+                        "role": "COO",
+                        "bio": "Manager combining NGO experience with operational excellence."
+                    },
+                    "te4": {
+                        "role": "Impact & Comms Director",
+                        "bio": "Expert strengthening donor relations with social media and community management."
+                    }
+                }
+            },
+            "transparency": {
+                "title": "Our Transparency Commitment",
+                "desc": "At FundEd, we guarantee that every donation is traceable, every penny is accounted for, and every impact report is supported by concrete data.",
+                "items": {
+                    "t1": {
+                        "title": "100% Transparency",
+                        "desc": "Every donation record is open access"
+                    },
+                    "t2": {
+                        "title": "Verified Students",
+                        "desc": "Identity and need check"
+                    },
+                    "t3": {
+                        "title": "Impact Reporting",
+                        "desc": "Photo result tracking"
+                    }
+                },
+                "btn1": "Transparency Page",
+                "btn2": "View Reports"
+            },
+            "cta": {
+                "badge": "Join Our Community",
+                "title": "We Are Stronger Together",
+                "desc": "Whether you are a donor, a student, or a volunteer — we can work together for educational equality. Take the first step today.",
+                "donate": "Donate",
+                "apply": "Apply as Student",
+                "corporate": "Corporate Solutions"
+            }
+        },
+        "missionVision": {
+            "demoWarning": {
+                "title": "Preview",
+                "message": "The platform is in preview stage. Ready for the first corporate pilots."
+            },
+            "hero": {
+                "badge": "Mission & Vision",
+                "title": "Equality in Education,",
+                "titleHighlight": "Hope for the Future",
+                "desc": "We believe every child has the right to equal access to education. We turn this belief into reality using technology and the power of community."
+            },
+            "cards": {
+                "mission": {
+                    "badge": "Our Mission",
+                    "title": "Why Do We Exist?",
+                    "desc": "To create a transparent platform that connects verified students with trusted donors to eliminate inequality in access to education.",
+                    "items": {
+                        "i1": "Facilitate access to education by removing economic barriers",
+                        "i2": "Ensure every donation is traceable and accountable",
+                        "i3": "Help students realize their potential"
+                    }
+                },
+                "vision": {
+                    "badge": "Our Vision",
+                    "title": "Where Are We Going?",
+                    "desc": "A future where no student in the world is deprived of education due to financial impossibility, and education is lived as a universal right.",
+                    "items": {
+                        "i1": "Create a global education funding network",
+                        "i2": "Use AI for needs analysis and matching",
+                        "i3": "Lead sustainable change in education"
+                    }
+                }
+            },
+            "impactNumbers": {
+                "students": "Supported Students",
+                "countries": "Active Countries",
+                "funding": "Total Funding",
+                "satisfaction": "Donor Satisfaction"
+            },
+            "principles": {
+                "badge": "Our Core Principles",
+                "title": "Values That Guide Us",
+                "desc": "These principles are behind every decision we make. They are not just words, but our way of life.",
+                "items": {
+                    "transparency": {
+                        "title": "Transparency",
+                        "desc": "We clearly share where every donation goes and how every penny is spent. No hidden costs, no hidden agendas."
+                    },
+                    "equality": {
+                        "title": "Equality",
+                        "desc": "We believe every student has the right to equal access to education. Geographical, economic, or social barriers do not matter."
+                    },
+                    "verification": {
+                        "title": "Verification",
+                        "desc": "Every student profile is meticulously verified. Our donors can be sure they are reaching those in real need."
+                    },
+                    "community": {
+                        "title": "Community",
+                        "desc": "We build meaningful bonds between donors and students. We build a sustainable community, not one-time aid."
+                    },
+                    "innovation": {
+                        "title": "Innovation",
+                        "desc": "We use technology to make the donation process more efficient, traceable, and effective."
+                    },
+                    "impact": {
+                        "title": "Impact Oriented",
+                        "desc": "We take every decision asking 'what is the impact on the student?'. We produce results, not bureaucracy."
+                    }
+                }
+            },
+            "approach": {
+                "visual": {
+                    "title": "The Approach That Makes a Difference",
+                    "desc": "Unlike traditional donation platforms, we verify every student, track every penny, and measure every impact.",
+                    "stats": {
+                        "verification": {
+                            "val": "100%",
+                            "label": "Verification"
+                        },
+                        "traceability": {
+                            "val": "100%",
+                            "label": "Traceability"
+                        },
+                        "hiddenCost": {
+                            "val": "0",
+                            "label": "Hidden Cost"
+                        },
+                        "reviewTime": {
+                            "val": "48h",
+                            "label": "Review Time"
+                        }
+                    },
+                    "trustScore": {
+                        "label": "Trust Score",
+                        "val": "4.9 / 5.0"
+                    }
+                },
+                "content": {
+                    "badge": "Our Approach",
+                    "title": "Not Donation, Investment.",
+                    "titleHighlight": "Investment in Future.",
+                    "desc": "At FundEd, we see every donation as an investment — an investment in a student's future, a society's development, a fairer world.",
+                    "items": {
+                        "verified": {
+                            "title": "Verified Profiles",
+                            "desc": "Every student is verified with ID, student certificate, and needs analysis."
+                        },
+                        "impact": {
+                            "title": "Impact Measurement",
+                            "desc": "The difference created by the donation is measured and reported with concrete metrics."
+                        },
+                        "speed": {
+                            "title": "Fast Transfer",
+                            "desc": "Funds are transferred quickly by minimizing bureaucratic obstacles."
+                        },
+                        "community": {
+                            "title": "Community Power",
+                            "desc": "Donors, students, and institutions come together to create sustainable impact."
+                        }
+                    }
+                }
+            },
+            "roadmap": {
+                "badge": "Roadmap",
+                "title": "Our Goals",
+                "desc": "We think big, step by step. Here is where we are going.",
+                "items": {
+                    "g1": {
+                        "title": "10,000 Students",
+                        "desc": "Provide direct educational support to 10,000 students in Turkey and surrounding countries."
+                    },
+                    "g2": {
+                        "title": "Global Access",
+                        "desc": "Expand education funding network actively in 25+ countries."
+                    },
+                    "g3": {
+                        "title": "Corporate Bridge",
+                        "desc": "Include companies in sustainable education funding with 500+ corporate partners."
+                    },
+                    "g4": {
+                        "title": "Equal Education",
+                        "desc": "Measurably reduce geographical inequality in access to education."
+                    }
+                }
+            },
+            "quote": {
+                "text": "Giving education to a child is not changing a life. It is transforming a generation.",
+                "author": "FundEd Team",
+                "role": "Founding Manifesto, 2024"
+            },
+            "cta": {
+                "title": "Join This Mission",
+                "desc": "You can change a student's life with a donation, cultivate a student's hope with an application.",
+                "donate": "Donate",
+                "apply": "Apply as Student"
+            }
         },
         "updates": {
             "title": "Student Journals",
@@ -404,7 +786,50 @@
         "message": "Leave a Message (Optional)",
         "processing": "Processing...",
         "success": "Thank you for your donation!",
-        "error": "Donation failed. Please try again."
+        "error": "Donation failed. Please try again.",
+        "heroBadge": "Every Donation Changes a Life",
+        "heroSubtitle": "Support verified students on their education journey. Track your donation every step of the way with our transparent infrastructure.",
+        "amountSubtitle": "Select an amount or enter a custom value",
+        "customPlaceholder": "Enter custom amount...",
+        "category": "Donation Category",
+        "categoryPlaceholder": "Select category",
+        "verifiedStudent": "Verified Student Support",
+        "generalFund": "General Education Fund",
+        "optionalInfo": "Optional Information",
+        "yourName": "Your Name",
+        "anonymousNote": "You can remain anonymous",
+        "namePlaceholder": "Your Full Name",
+        "email": "Email",
+        "receiptNote": "For receipt",
+        "emailPlaceholder": "example@email.com",
+        "invalidEmail": "Please enter a valid email address.",
+        "secureTitle": "Secure & Transparent",
+        "secureDesc": "Your donation is processed through our secure infrastructure and every step is recorded for tracking.",
+        "submitDonate": "Donate",
+        "submitDonateWithAmount": "Donate",
+        "completed": "Donation Completed!",
+        "securePayment": "Secure payment encrypted with 256-bit SSL",
+        "loading": "Loading...",
+        "impactTitle": "Your Donation's Impact",
+        "impactWith": "with",
+        "impact10": "1 month of notebooks & pens for a student",
+        "impact25": "School bag supplies for a student",
+        "impact50": "1 year of school supplies for a child",
+        "impact100": "Digital education materials for a classroom",
+        "impact250": "1 semester scholarship for a student",
+        "impact500": "Classroom renovation & furnishing",
+        "trustTitle": "Security & Transparency",
+        "trustVerified": "Verified Students",
+        "trustVerifiedDesc": "All students go through identity verification",
+        "trustTracking": "Impact Tracking",
+        "trustTrackingDesc": "See where your donation goes",
+        "trustSecure": "Secure Payment",
+        "trustSecureDesc": "256-bit SSL encrypted infrastructure",
+        "trustTransparent": "Full Transparency",
+        "trustTransparentDesc": "Every transaction is on record",
+        "equalityCampaign": "Education Equality Campaign",
+        "equalityDesc": "Explore our campaign to support children worldwide who cannot access education.",
+        "viewCampaign": "View Campaign"
     },
     "dashboard": {
         "title": "Dashboard",
@@ -1069,5 +1494,671 @@
         "experienceYears": "Years of Experience",
         "selectExperience": "Select experience",
         "years": "years"
+    },
+    "corporateGateway": {
+        "loading": "Loading...",
+        "nav": {
+            "subtitle": "Corporate Platform",
+            "backToHome": "Back to Home"
+        },
+        "hero": {
+            "badge": "Corporate Education Support Platform",
+            "title1": "Invest in Education,",
+            "title2": "Impact the Future.",
+            "subtitle": "Track your corporate donations, generate ESG reports and see your impact on education with transparent data."
+        },
+        "tabs": {
+            "login": "Login",
+            "register": "Apply",
+            "pricing": "Plans"
+        },
+        "login": {
+            "title": "Corporate Login",
+            "subtitle": "Log in with your corporate account",
+            "email": "Corporate Email",
+            "emailPlaceholder": "example@company.com",
+            "password": "Password",
+            "submit": "Login",
+            "noAccount": "Don't have an account?",
+            "apply": "Apply Now",
+            "or": "or",
+            "viewPlans": "View Plans",
+            "demoTitle": "Demo Credentials",
+            "demoEmail": "Email:",
+            "demoPassword": "Password:",
+            "failed": "Login failed."
+        },
+        "register": {
+            "title": "Corporate Application",
+            "subtitle": "Apply for corporate access",
+            "registration": "Registration",
+            "subtitleWithTier": "Enter your details to purchase the package",
+            "selectedPackage": "Selected Package:",
+            "companyName": "Company Name",
+            "companyPlaceholder": "Company Inc.",
+            "firstName": "First Name",
+            "firstNamePlaceholder": "Your first name",
+            "lastName": "Last Name",
+            "lastNamePlaceholder": "Your last name",
+            "email": "Corporate Email",
+            "phone": "Phone",
+            "optional": "(optional)",
+            "phonePlaceholder": "+1 XXX XXX XXXX",
+            "password": "Password",
+            "minChars": "At least 6 characters",
+            "confirmPassword": "Confirm Password",
+            "confirmPlaceholder": "Re-enter your password",
+            "noPackage": "You haven't selected a package.",
+            "noPackageDesc": "You can select a package for direct purchase or continue as an application.",
+            "viewPlans": "View Plans",
+            "purchaseRegister": "Purchase & Register",
+            "submitApplication": "Submit Application",
+            "hasAccount": "Already have an account?",
+            "loginLink": "Login",
+            "passwordsMismatch": "Passwords do not match.",
+            "passwordTooShort": "Password must be at least 6 characters.",
+            "failed": "Registration failed.",
+            "successTitle": "Application Received!",
+            "successWithTier": "Your account has been activated. Redirecting to corporate panel...",
+            "successWithout": "Your application will be reviewed and you will be contacted. Redirecting..."
+        },
+        "discount": {
+            "title": "Discount Code",
+            "placeholder": "Enter code...",
+            "apply": "Apply",
+            "invalid": "Invalid discount code.",
+            "applied10": "10% discount applied!",
+            "applied20": "20% discount applied!",
+            "welcome25": "25% welcome discount!",
+            "startup30": "30% startup discount!",
+            "enterprise50": "50% special corporate discount!"
+        },
+        "pricing": {
+            "title": "Corporate Plans",
+            "subtitle": "Choose the plan that fits your needs. You can always upgrade.",
+            "popular": "Most Popular",
+            "purchase": "Purchase",
+            "perMonth": "/mo",
+            "undecidedTitle": "Haven't decided yet?",
+            "undecidedDesc": "You can apply without selecting a package. Our team will contact you to determine the best solution together.",
+            "freeApply": "Apply for Free",
+            "comparisonTitle": "Detailed Comparison",
+            "feature": "Feature"
+        },
+        "tiers": {
+            "starter": {
+                "name": "Starter",
+                "tagline": "Ideal start for small/medium companies",
+                "f1": "Corporate Impact Dashboard",
+                "f2": "Donation Trace View (basic)",
+                "f3": "KPI Snapshot (basic metrics)",
+                "f4": "Quarterly Impact Summary (PDF)",
+                "f5": "Basic CSV Export",
+                "f6": "1 User",
+                "f7": "Standard email support",
+                "f8": "10 simultaneous campaigns"
+            },
+            "growth": {
+                "name": "Growth / Pro",
+                "tagline": "For ESG/CSR focused teams",
+                "f1": "Everything in Starter +",
+                "f2": "Monthly Impact Report (PDF)",
+                "f3": "Before/After trend charts",
+                "f4": "Evidence Vault (advanced)",
+                "f5": "Custom Report Template",
+                "f6": "Campaign deviation & delay alerts",
+                "f7": "Advanced CSV + Audit Log Export",
+                "f8": "5 Users",
+                "f9": "Priority support (SLA-lite)",
+                "f10": "50 simultaneous campaigns"
+            },
+            "enterprise": {
+                "name": "Enterprise",
+                "tagline": "For large corporations & audit needs",
+                "f1": "Everything in Pro +",
+                "f2": "Audit-Ready Pack",
+                "f3": "SSO / SAML integration",
+                "f4": "Role-based permissions (finance/ESG/admin)",
+                "f5": "API & Webhooks access",
+                "f6": "Custom Verification Workflow",
+                "f7": "Advanced data retention & compliance",
+                "f8": "20 Users",
+                "f9": "Dedicated success manager",
+                "f10": "Monthly review call",
+                "f11": "Unlimited campaigns"
+            }
+        },
+        "comparison": {
+            "impactDashboard": "Impact Dashboard",
+            "donationTrace": "Donation Trace",
+            "reporting": "Reporting",
+            "evidenceVault": "Evidence Vault",
+            "alertSystem": "Alert System",
+            "auditPack": "Audit Pack",
+            "ssoSaml": "SSO / SAML",
+            "apiWebhooks": "API & Webhooks",
+            "roleBased": "Role-Based Permissions",
+            "users": "Users",
+            "campaignLimit": "Campaign Limit",
+            "export": "Export",
+            "support": "Support",
+            "basic": "Basic",
+            "advanced": "Advanced",
+            "advancedPlus": "Advanced+",
+            "quarterly": "Quarterly",
+            "monthly": "Monthly",
+            "customTemplate": "Custom template",
+            "unlimited": "Unlimited",
+            "basicCsv": "Basic CSV",
+            "csvAuditLog": "CSV + Audit Log",
+            "fullAccess": "Full Access",
+            "emailSupport": "Email",
+            "priority": "Priority",
+            "dedicatedManager": "Dedicated Manager"
+        },
+        "footer": {
+            "copyright": "© 2026 FundEd. All rights reserved.",
+            "privacy": "Privacy Policy",
+            "terms": "Terms of Service"
+        }
+    },
+    "educationEquality": {
+        "badge": "FundEd Official Campaign",
+        "heroTitle1": "Education",
+        "heroTitle2": "Equality Donations",
+        "heroSubtitle": "244 million children worldwide cannot go to school. In classrooms with stoves, without shoes, unable to find even a notebook — together we can provide the <strong>right to equal education</strong> for millions of children.",
+        "heroSubtitlePlain": "244 million children worldwide cannot go to school. Together we can provide the right to equal education for millions of children.",
+        "donateNow": "Donate Now",
+        "exploreCampaign": "Explore Campaign",
+        "raised": "Raised",
+        "goal": "Goal",
+        "completed": "completed",
+        "donors": "donors",
+        "stats": {
+            "studentsSupported": "Students Supported",
+            "countries": "Countries",
+            "donorCount": "Donors",
+            "fundingRate": "Funding Rate"
+        },
+        "problem": {
+            "badge": "Facts",
+            "title": "Education Inequality in the World",
+            "subtitle": "Every child has the right to education. But geography, poverty and lack of infrastructure steal this right from millions of children.",
+            "fact1": "244 million children and youth worldwide cannot go to school.",
+            "fact2": "60% of children in Sub-Saharan Africa cannot complete primary school.",
+            "fact3": "617 million children lack basic reading, writing and math skills.",
+            "fact4": "Over 4 million refugee children have no access to any education.",
+            "fact5": "Just $50 can cover a child's school supplies for a year."
+        },
+        "impact": {
+            "badge": "Our Impact Areas",
+            "title": "Where Do Your Donations Go?",
+            "subtitle": "We keep transparent records of every penny. Here are the areas where your donations change lives.",
+            "schoolSupplies": "School Supplies",
+            "schoolSuppliesDesc": "Notebooks, pens, bags — we provide access to basic educational tools.",
+            "sportsEquipment": "Sports Equipment",
+            "sportsEquipmentDesc": "Soccer balls, uniforms, shoes — basic equipment for children to play sports.",
+            "schoolConstruction": "School Construction & Repair",
+            "schoolConstructionDesc": "Renovation of schools on the verge of collapse, safe learning spaces.",
+            "digitalAccess": "Digital Education Access",
+            "digitalAccessDesc": "Tablets, internet infrastructure and distance learning support.",
+            "nutrition": "Nutrition & Health",
+            "nutritionDesc": "Hot lunch at school and basic health screenings.",
+            "joinCard": "Join Us",
+            "joinCardDesc": "Every donation, big or small, changes a child's life. Contribute to education equality.",
+            "donate": "Donate"
+        },
+        "stories": {
+            "badge": "Real Stories",
+            "title": "Children Whose Lives Changed",
+            "subtitle": "Real stories of children who gained access to education thanks to your donations.",
+            "yearsOld": "years old",
+            "quote1": "Now I have a notebook and a pen. I want to be a doctor someday.",
+            "quote2": "In our new school, we don't get wet in the rain anymore. Studying is wonderful.",
+            "quote3": "I study math on my tablet. The internet opened a whole new world."
+        },
+        "transparency": {
+            "badge": "Transparency",
+            "title": "Your Donation's Journey",
+            "step1": "Donate",
+            "step1Desc": "Donate any amount through our secure payment infrastructure.",
+            "step2": "Verification",
+            "step2Desc": "Your donation is recorded in a blockchain-based transparent system.",
+            "step3": "Reaching the Goal",
+            "step3Desc": "Funds are transferred directly to schools and students.",
+            "step4": "Impact Report",
+            "step4Desc": "Track the impact of your donation with photos and data."
+        },
+        "ctaTitle": "Change a Child's Future",
+        "ctaSubtitle": "Every donation is a hope. Select one of the amounts below or set your own.",
+        "otherAmount": "Other amount",
+        "allSecure": "All donations are processed through secure infrastructure.",
+        "transparencyPolicy": "Our transparency policy →",
+        "share": {
+            "title": "You Can Share Even if You Don't Donate",
+            "subtitle": "You can contribute to education by sharing this campaign with your network. Even one share makes a difference.",
+            "copyLink": "Copy Link"
+        }
+    },
+    "howItWorks": {
+        "badge": "Simple, Transparent, Effective",
+        "heroTitle1": "How FundEd",
+        "heroTitle2": "Works?",
+        "heroSubtitle": "We connect donors and students in 4 simple steps. Every step is transparent, every penny is traceable.",
+        "step": "Step",
+        "steps": {
+            "s1Title": "Discover Students",
+            "s1Desc": "Browse verified students on the platform. Filter by country, department, and need type. Each profile shows the student's story, need details, and verification status.",
+            "s1h1": "Detailed profile pages",
+            "s1h2": "Need categories",
+            "s1h3": "Verification badges",
+            "s2Title": "Make a Secure Donation",
+            "s2Desc": "Donate to any student or the general education fund. Complete in seconds with quick amount buttons or custom amount entry. Secure infrastructure encrypted with 256-bit SSL.",
+            "s2h1": "Fast payment",
+            "s2h2": "Anonymous donation option",
+            "s2h3": "SSL encrypted security",
+            "s3Title": "Funding & Transfer",
+            "s3Desc": "Collected donations are transferred directly to the student's needs. School supplies, scholarships, or digital tools — every penny reaches its target.",
+            "s3h1": "Direct transfer",
+            "s3h2": "Need-specific spending",
+            "s3h3": "No intermediary system",
+            "s4Title": "Impact Tracking",
+            "s4Desc": "Track the impact of your donation with concrete data and photos. Thank you messages from students, progress reports, and impact analyses on your dashboard.",
+            "s4h1": "Photo-documented reports",
+            "s4h2": "Impact metrics",
+            "s4h3": "Personal dashboard"
+        },
+        "verification": {
+            "badge": "Verification Process",
+            "title": "How Are Students Verified?",
+            "subtitle": "Every student on the platform goes through a rigorous verification process.",
+            "v1Title": "Application",
+            "v1Desc": "Student submits application with ID, enrollment documents and need details.",
+            "v2Title": "Identity Verification",
+            "v2Desc": "Our team verifies identity through official documents and institutional sources.",
+            "v3Title": "Need Analysis",
+            "v3Desc": "Student's financial situation and education needs are thoroughly evaluated.",
+            "v4Title": "Approval & Publishing",
+            "v4Desc": "Verified student profiles receive a 'Verified' badge and are added to the platform."
+        },
+        "trust": {
+            "badge": "Security & Assurance",
+            "title": "Why FundEd?",
+            "t1Title": "100% Transparent",
+            "t1Desc": "Every donation record and spending detail is publicly accessible. No hidden costs.",
+            "t2Title": "Secure Infrastructure",
+            "t2Desc": "256-bit SSL encryption, PCI-compliant payment system.",
+            "t3Title": "Impact Visibility",
+            "t3Desc": "Track the difference your donation makes with photos and data.",
+            "t4Title": "Direct Impact",
+            "t4Desc": "Minimal intermediary commission — most of your donation reaches the student directly."
+        },
+        "whoFor": {
+            "badge": "Who Is It For?",
+            "title": "FundEd Is for Everyone",
+            "donors": "Donors",
+            "donorsDesc": "Change students' lives with individual or regular donations. Track impact from your dashboard.",
+            "donorsF1": "Fast & easy donation",
+            "donorsF2": "Impact reports",
+            "donorsF3": "Anonymous option",
+            "donorsF4": "Tax receipt",
+            "students": "Students",
+            "studentsDesc": "Apply for your education needs. After verification, your profile is added to the platform and matched with donors.",
+            "studentsF1": "Easy application process",
+            "studentsF2": "Privacy guarantee",
+            "studentsF3": "Direct support",
+            "studentsF4": "Mentor access",
+            "institutions": "Institutions",
+            "institutionsDesc": "Make ESG-compliant donations on behalf of your company. Manage impact with your team through the corporate panel.",
+            "institutionsF1": "Corporate dashboard",
+            "institutionsF2": "ESG reporting",
+            "institutionsF3": "Multi-user",
+            "institutionsF4": "API access"
+        },
+        "faq": {
+            "badge": "FAQ",
+            "title": "Frequently Asked Questions",
+            "q1": "Where does my donation go?",
+            "a1": "Your donation is directed to the student you selected. Donations to the general fund are distributed to students with the most urgent needs. Every transaction is recorded and traceable.",
+            "q2": "Can I donate anonymously?",
+            "a2": "Yes! You can donate completely anonymously by leaving the name and email fields blank on the donation form.",
+            "q3": "How are students verified?",
+            "a3": "Every student application is made with ID, enrollment documents, and a needs statement. Our team verifies all documents and publishes the profile after confirming eligibility.",
+            "q4": "How can I see the impact of my donation?",
+            "a4": "After donating, you can track student progress, photos, and impact reports from your personal dashboard.",
+            "q5": "Can we make corporate donations?",
+            "a5": "Yes! With our FundEd Corporate panel, you can donate on behalf of your company, automatically generate ESG reports, and track impact together with your team.",
+            "q6": "What is the minimum donation amount?",
+            "a6": "The minimum donation is $1. Every amount makes a difference — even $10 can provide a student with notebooks and pens for a month."
+        },
+        "cta": {
+            "title": "Start Your Contribution to Education Today",
+            "subtitle": "Every donation, big or small, brightens a child's future. Take the first step now.",
+            "donate": "Donate",
+            "discoverStudents": "Discover Students"
+        }
+    },
+    "whoWeAre": {
+        "hero": {
+            "badge": "Who Are We?",
+            "title": "A Team That Believes",
+            "titleHighlight": "in the Power of Education",
+            "desc": "FundEd was founded to turn the education dreams of students from around the world into reality. We bring together transparency, technology and empathy.",
+            "donate": "Donate",
+            "campaign": "View Our Campaign"
+        },
+        "story": {
+            "badge": "Our Story",
+            "title": "It Started",
+            "titleHighlight": "with a Question",
+            "quote": "“Why should a talented student have to drop out of education just because of financial impossibility?”",
+            "p1": "We set out with this question. We saw that over 244 million children worldwide cannot go to school, and hundreds of thousands of university students give up their dreams due to financial problems.",
+            "p2": "FundEd was born as a platform that directly connects donors with students, where every penny is traceable and impact can be measured with concrete data.",
+            "p3": "Our goal is simple:",
+            "p3Highlight": "Democratize access to education.",
+            "p3End": "In doing so, we put transparency, technology and human stories at the center.",
+            "stats": {
+                "students": "Students Supported",
+                "countries": "Countries",
+                "donors": "Donors",
+                "successRate": "Funding Success Rate"
+            }
+        },
+        "values": {
+            "badge": "Our Values",
+            "title": "The Principles That Make Us Who We Are",
+            "desc": "Every decision we make is shaped within the framework of these values.",
+            "items": {
+                "transparency": {
+                    "title": "Transparency",
+                    "desc": "We clearly show where every donation goes. Nothing is hidden."
+                },
+                "empathy": {
+                    "title": "Empathy",
+                    "desc": "We understand every student's story and offer solutions tailored to their needs."
+                },
+                "equality": {
+                    "title": "Equality",
+                    "desc": "The right to access education regardless of geography, gender or income level."
+                },
+                "innovation": {
+                    "title": "Innovation",
+                    "desc": "We use technology to make the donation process more efficient and effective."
+                },
+                "community": {
+                    "title": "Community",
+                    "desc": "A strong ecosystem of donors, students and volunteers."
+                },
+                "impact": {
+                    "title": "Impact Focus",
+                    "desc": "We build every decision on creating measurable social impact."
+                }
+            }
+        },
+        "howItWorks": {
+            "badge": "How Do We Work?",
+            "title": "4 Steps from Donation to Impact",
+            "items": {
+                "step1": {
+                    "title": "Application & Verification",
+                    "desc": "Students apply, our team performs identity and need verification."
+                },
+                "step2": {
+                    "title": "Donation & Matching",
+                    "desc": "Donors choose a suitable student and donate through secure infrastructure."
+                },
+                "step3": {
+                    "title": "Funding & Distribution",
+                    "desc": "Funds are transferred directly to the student's specific needs."
+                },
+                "step4": {
+                    "title": "Impact Reporting",
+                    "desc": "Donors see the impact of their donations through photos and data."
+                }
+            }
+        },
+        "timeline": {
+            "badge": "Our Journey",
+            "title": "Our Milestones",
+            "items": {
+                "e1": {
+                    "event": "FundEd idea was born",
+                    "desc": "The first step was taken to solve inequality in education."
+                },
+                "e2": {
+                    "event": "Platform development",
+                    "desc": "Technical infrastructure and verification system was built."
+                },
+                "e3": {
+                    "event": "Beta launch",
+                    "desc": "First students and donors joined the platform."
+                },
+                "e4": {
+                    "event": "Corporate module",
+                    "desc": "ESG-compliant donation panel for companies was launched."
+                },
+                "e5": {
+                    "event": "Global expansion",
+                    "desc": "Access to 12 countries, support for thousands of students."
+                }
+            }
+        },
+        "team": {
+            "badge": "Our Team",
+            "title": "The People Creating Change",
+            "desc": "Professionals who are experts in their fields and believe in education equality.",
+            "items": {
+                "te1": {
+                    "role": "Founder & CEO",
+                    "bio": "A passionate entrepreneur in education technologies and social impact."
+                },
+                "te2": {
+                    "role": "CTO",
+                    "bio": "Expert software engineer in blockchain and transparency infrastructure."
+                },
+                "te3": {
+                    "role": "COO",
+                    "bio": "Executive combining NGO experience with operational excellence."
+                },
+                "te4": {
+                    "role": "Impact & Communications Director",
+                    "bio": "Expert strengthening donor relations through social media and community management."
+                }
+            }
+        },
+        "transparency": {
+            "title": "Our Transparency Commitment",
+            "desc": "At FundEd, we guarantee that every donation is traceable, every penny is accounted for, and every impact report is supported by concrete data.",
+            "items": {
+                "t1": {
+                    "title": "100% Transparency",
+                    "desc": "Every donation record is publicly accessible"
+                },
+                "t2": {
+                    "title": "Verified Students",
+                    "desc": "Identity and need verification"
+                },
+                "t3": {
+                    "title": "Impact Reporting",
+                    "desc": "Photo-documented result tracking"
+                }
+            },
+            "btn1": "Transparency Page",
+            "btn2": "View Reports"
+        },
+        "cta": {
+            "badge": "Join Our Community",
+            "title": "We Are Stronger Together",
+            "desc": "Whether you are a donor, student, or volunteer — we can work together for education equality. Take the first step today.",
+            "donate": "Donate",
+            "apply": "Student Application",
+            "corporate": "Corporate Solutions"
+        }
+    },
+    "missionVision": {
+        "demoWarning": {
+            "title": "Preview",
+            "message": "The platform is in preview stage. Ready for the first corporate pilots."
+        },
+        "hero": {
+            "badge": "Mission & Vision",
+            "title": "Equality in Education,",
+            "titleHighlight": "Hope for the Future",
+            "desc": "We believe every child has the right to equal access to education. We are turning this belief into reality using technology and the power of community."
+        },
+        "cards": {
+            "mission": {
+                "badge": "Our Mission",
+                "title": "Why Do We Exist?",
+                "desc": "To create a transparent platform that connects verified students with trusted donors to eliminate inequality in access to education.",
+                "items": {
+                    "i1": "Facilitate access to education by removing economic barriers",
+                    "i2": "Ensure every donation is traceable and accountable",
+                    "i3": "Help students realize their potential"
+                }
+            },
+            "vision": {
+                "badge": "Our Vision",
+                "title": "Where Are We Going?",
+                "desc": "A future where no student is deprived of education due to financial impossibility, where education is lived as a universal right.",
+                "items": {
+                    "i1": "Create a global education funding network",
+                    "i2": "Perform need analysis and matching with AI",
+                    "i3": "Be the pioneer of sustainable change in education"
+                }
+            }
+        },
+        "impactNumbers": {
+            "students": "Students Supported",
+            "countries": "Active Countries",
+            "funding": "Total Funding",
+            "satisfaction": "Donor Satisfaction"
+        },
+        "principles": {
+            "badge": "Our Core Principles",
+            "title": "Values That Guide Us",
+            "desc": "These principles are behind every decision we make. They are not just words, they are our way of life.",
+            "items": {
+                "transparency": {
+                    "title": "Transparency",
+                    "desc": "We openly share where every donation goes and how every penny is spent. No hidden costs, no hidden agendas."
+                },
+                "equality": {
+                    "title": "Equality",
+                    "desc": "We believe every student has the right to equal access to education. Regardless of geographic, economic or social barriers."
+                },
+                "verification": {
+                    "title": "Verification",
+                    "desc": "Every student profile is carefully verified. Our donors can be sure they are reaching real people in need."
+                },
+                "community": {
+                    "title": "Community",
+                    "desc": "We build meaningful connections between donors and students. Not one-time help, but a sustainable community."
+                },
+                "innovation": {
+                    "title": "Innovation",
+                    "desc": "We use technology to make the donation process more efficient, traceable and effective."
+                },
+                "impact": {
+                    "title": "Impact Focus",
+                    "desc": "We make every decision with the question 'What will be its impact on the student?' We produce results, not bureaucracy."
+                }
+            }
+        },
+        "approach": {
+            "visual": {
+                "title": "A Differentiating Approach",
+                "desc": "Unlike traditional donation platforms, we verify every student, track every penny, and measure every impact.",
+                "stats": {
+                    "verification": {
+                        "val": "100%",
+                        "label": "Verification"
+                    },
+                    "traceability": {
+                        "val": "100%",
+                        "label": "Traceability"
+                    },
+                    "hiddenCost": {
+                        "val": "0",
+                        "label": "Hidden Cost"
+                    },
+                    "reviewTime": {
+                        "val": "48h",
+                        "label": "Review Time"
+                    }
+                },
+                "trustScore": {
+                    "label": "Trust Score",
+                    "val": "4.9 / 5.0"
+                }
+            },
+            "content": {
+                "badge": "Our Approach",
+                "title": "Not Charity, Investment.",
+                "titleHighlight": "Investment in the Future.",
+                "desc": "At FundEd, we view every donation as an investment — an investment in a student's future, a community's development, and a more just world.",
+                "items": {
+                    "verified": {
+                        "title": "Verified Profiles",
+                        "desc": "Every student is verified with ID, enrollment documents and need analysis."
+                    },
+                    "impact": {
+                        "title": "Impact Measurement",
+                        "desc": "The difference made by donations is measured and reported with concrete metrics."
+                    },
+                    "speed": {
+                        "title": "Fast Transfer",
+                        "desc": "Funds are transferred quickly by minimizing bureaucratic obstacles."
+                    },
+                    "community": {
+                        "title": "Community Power",
+                        "desc": "Donors, students and institutions come together to create sustainable impact."
+                    }
+                }
+            },
+            "roadmap": {
+                "badge": "Roadmap",
+                "title": "Our Goals",
+                "desc": "We think big, we progress step by step. Here's where we're heading.",
+                "items": {
+                    "g1": {
+                        "title": "10,000 Students",
+                        "desc": "Provide direct education support to 10,000 students in Turkey and neighboring countries."
+                    },
+                    "g2": {
+                        "title": "Global Reach",
+                        "desc": "Expand the education funding network actively in 25+ countries."
+                    },
+                    "g3": {
+                        "title": "Corporate Bridge",
+                        "desc": "Include 500+ corporate partners in sustainable education funding."
+                    },
+                    "g4": {
+                        "title": "Equal Education",
+                        "desc": "Measurably reduce geographic inequality in access to education."
+                    }
+                }
+            },
+            "quote": {
+                "text": "Educating a child is not changing a life. It is transforming a generation.",
+                "author": "FundEd Team",
+                "role": "Founding Manifesto, 2024"
+            },
+            "cta": {
+                "title": "Join This Mission",
+                "desc": "You can change a student's life with a donation, or nurture a student's hope with an application.",
+                "donate": "Donate",
+                "apply": "Apply as Student"
+            }
+        }
+    },
+    "applySteps": {
+        "step1": "Personal Information",
+        "step2": "Education Information",
+        "step3": "Need Details",
+        "step4": "Documents"
+    },
+    "navExtra": {
+        "missionVision": "Mission & Vision"
     }
 }

@@ -27,14 +27,14 @@
         "close": "Cerrar",
         "learnMore": "Más información",
         "getStarted": "Comenzar",
-        "demoBanner": "Esta plataforma se encuentra actualmente en modo de demostración. Los datos mostrados son solo con fines demostrativos.",
-        "demoPageGeneral": "Esta página es con fines de demostración. Los datos reales se actualizarán cuando la plataforma esté activa.",
-        "demoStories": "Esta página es con fines de demostración. Las historias y los montos se muestran como ejemplos; los datos reales se actualizarán cuando la plataforma esté activa.",
-        "demoAlumni": "Esta página es con fines de demostración. La información de los egresados y los montos se muestran como ejemplos; los datos reales se actualizarán cuando la plataforma esté activa.",
-        "demoReports": "Esta página es con fines de demostración. Los informes y los montos se muestran como ejemplos; los datos reales se actualizarán cuando la plataforma esté activa.",
-        "demoBadges": "Esta página es con fines de demostración. Las insignias y los valores de progreso se actualizarán cuando la plataforma esté activa.",
-        "demoLeaderboard": "Esta página es con fines de demostración. Las clasificaciones y los montos se actualizarán con datos reales cuando la plataforma esté activa.",
-        "demoTransparency": "Esta página es con fines de demostración. Los datos reales se actualizarán cuando la plataforma esté activa."
+        "demoBanner": "La plataforma está en fase de vista previa. Lista para los primeros pilotos corporativos.",
+        "demoPageGeneral": "La plataforma está en fase de vista previa. Lista para los primeros pilotos corporativos.",
+        "demoStories": "La plataforma está en fase de vista previa. Lista para los primeros pilotos corporativos.",
+        "demoAlumni": "La plataforma está en fase de vista previa. Lista para los primeros pilotos corporativos.",
+        "demoReports": "La plataforma está en fase de vista previa. Lista para los primeros pilotos corporativos.",
+        "demoBadges": "La plataforma está en fase de vista previa. Lista para los primeros pilotos corporativos.",
+        "demoLeaderboard": "La plataforma está en fase de vista previa. Lista para los primeros pilotos corporativos.",
+        "demoTransparency": "La plataforma está en fase de vista previa. Lista para los primeros pilotos corporativos."
     },
     "nav": {
         "home": "Inicio",
@@ -94,7 +94,59 @@
             "perfectDonor": "Donante perfecto",
             "legend": "Leyenda",
             "donation": "donación",
-            "donations": "donaciones"
+            "donations": "donaciones",
+            "items": {
+                "first_step": {
+                    "name": "Primer Paso",
+                    "desc": "Hiciste tu primera donación"
+                },
+                "supporter": {
+                    "name": "Partidario",
+                    "desc": "Hiciste 5 donaciones"
+                },
+                "champion": {
+                    "name": "Campeón",
+                    "desc": "Hiciste 25 donaciones"
+                },
+                "legend": {
+                    "name": "Leyenda",
+                    "desc": "Hiciste 100 donaciones"
+                },
+                "generous": {
+                    "name": "Generoso",
+                    "desc": "$1,000 en donaciones totales"
+                },
+                "philanthropist": {
+                    "name": "Filántropo",
+                    "desc": "$10,000 en donaciones totales"
+                },
+                "patron": {
+                    "name": "Mecenas",
+                    "desc": "$50,000 en donaciones totales"
+                },
+                "student_champion": {
+                    "name": "Campeón Estudiantil",
+                    "desc": "Apoyó a 10 estudiantes diferentes"
+                },
+                "streak_master": {
+                    "name": "Maestro de Racha",
+                    "desc": "Donó 12 meses seguidos"
+                },
+                "early_bird": {
+                    "name": "Madrugador",
+                    "desc": "Miembro desde el lanzamiento"
+                },
+                "matching_hero": {
+                    "name": "Héroe de Emparejamiento",
+                    "desc": "Participó en programa de donación igualada"
+                },
+                "mentor": {
+                    "name": "Mentor",
+                    "desc": "Se convirtió en mentor de un estudiante"
+                }
+            },
+            "moreBadges": "más insignias",
+            "progressLabel": "Progreso"
         },
         "leaderboard": {
             "title": "Clasificación",
@@ -114,7 +166,23 @@
             "subtitle": "Historias de éxito de estudiantes que lograron sus sueños con FundEd",
             "giveBackProgram": "Programa de retribución",
             "giveBackDesc": "El 27% de nuestros exalumnos apoyan activamente a nuevos estudiantes",
-            "joinProgram": "Unirse al programa"
+            "joinProgram": "Unirse al programa",
+            "stats": {
+                "graduatedStudent": "Estudiantes Graduados",
+                "employmentRate": "Tasa de Empleo",
+                "averageSalary": "Salario Promedio",
+                "givingBack": "Retribuyendo"
+            },
+            "card": {
+                "alumniBadge": "Exalumno",
+                "totalReceived": "Total Recibido",
+                "totalGivenBack": "Total Retribuido",
+                "readStory": "Leer Historia"
+            },
+            "mock": {
+                "story1": "Sin FundEd, no podría haber terminado la universidad. Ahora vivo mis sueños y es mi turno. Apoyo a un estudiante cada mes.",
+                "story2": "Mi familia no podía apoyarme. No estaría aquí sin la familia FundEd."
+            }
         },
         "updates": {
             "title": "Diarios de estudiantes",
@@ -183,6 +251,320 @@
             "silver": "Plata",
             "gold": "Oro",
             "platinum": "Platino"
+        },
+        "whoWeAre": {
+            "hero": {
+                "badge": "Who We Are?",
+                "title": "A Team Believing in",
+                "titleHighlight": "The Power of Education",
+                "desc": "FundEd was founded to turn the educational dreams of students around the world into reality. We combine transparency, technology, and empathy.",
+                "donate": "Donate",
+                "campaign": "View Our Campaign"
+            },
+            "story": {
+                "badge": "Our Story",
+                "title": "We Started With",
+                "titleHighlight": "A Question",
+                "quote": "Why should a talented student have to quit education just because of financial impossibility?",
+                "p1": "We set out with this question. We saw that more than 244 million children in the world cannot go to school, and hundreds of thousands of university students give up their dreams due to financial problems.",
+                "p2": "FundEd was born as a platform that directly connects donors with students, where every penny is traceable and impact can be measured with concrete data.",
+                "p3": "Our goal is simple:",
+                "p3Highlight": "To democratize access to education.",
+                "p3End": "While doing this, we put transparency, technology, and human stories at the center.",
+                "stats": {
+                    "students": "Supported Students",
+                    "countries": "Countries",
+                    "donors": "Donors",
+                    "successRate": "Funding Success Rate"
+                }
+            },
+            "values": {
+                "badge": "Our Values",
+                "title": "Principles That Make Us Us",
+                "desc": "Every decision we make is shaped around these values.",
+                "items": {
+                    "transparency": {
+                        "title": "Transparency",
+                        "desc": "We clearly show where every donation goes. Nothing is hidden."
+                    },
+                    "empathy": {
+                        "title": "Empathy",
+                        "desc": "We understand every student's story and offer solutions specific to their needs."
+                    },
+                    "equality": {
+                        "title": "Equality",
+                        "desc": "Right to access education regardless of geography, gender, or income level."
+                    },
+                    "innovation": {
+                        "title": "Innovation",
+                        "desc": "We make the donation process more efficient and effective using technology."
+                    },
+                    "community": {
+                        "title": "Community",
+                        "desc": "A strong ecosystem of donors, students, and volunteers."
+                    },
+                    "impact": {
+                        "title": "Impact Oriented",
+                        "desc": "We base every decision on creating measurable social impact."
+                    }
+                }
+            },
+            "howItWorks": {
+                "badge": "How We Work?",
+                "title": "4 Steps from Donation to Impact",
+                "items": {
+                    "step1": {
+                        "title": "Application & Verification",
+                        "desc": "Students apply, our team verifies identity and need."
+                    },
+                    "step2": {
+                        "title": "Donation & Matching",
+                        "desc": "Donors choose suitable students and donate through secure infrastructure."
+                    },
+                    "step3": {
+                        "title": "Funding & Distribution",
+                        "desc": "Funds are transferred directly to meet the student's needs."
+                    },
+                    "step4": {
+                        "title": "Impact Reporting",
+                        "desc": "Donors see the impact of their donations with photos and data."
+                    }
+                }
+            },
+            "timeline": {
+                "badge": "Our Journey",
+                "title": "Our Milestones",
+                "items": {
+                    "e1": {
+                        "event": "FundEd idea was born",
+                        "desc": "First step taken to solve inequality in education."
+                    },
+                    "e2": {
+                        "event": "Platform development",
+                        "desc": "Technical infrastructure and verification system established."
+                    },
+                    "e3": {
+                        "event": "Beta launch",
+                        "desc": "First students and donors joined the platform."
+                    },
+                    "e4": {
+                        "event": "Corporate module",
+                        "desc": "ESG compliant donation panel opened for companies."
+                    },
+                    "e5": {
+                        "event": "Global expansion",
+                        "desc": "Access to 12 countries, support for thousands of students."
+                    }
+                }
+            },
+            "team": {
+                "badge": "Our Team",
+                "title": "People Creating Change",
+                "desc": "Professionals who are experts in their fields and believe in educational equality.",
+                "items": {
+                    "te1": {
+                        "role": "Founder & CEO",
+                        "bio": "An entrepreneur passionate about educational technologies and social impact."
+                    },
+                    "te2": {
+                        "role": "CTO",
+                        "bio": "Software engineer expert in Blockchain and transparency infrastructure."
+                    },
+                    "te3": {
+                        "role": "COO",
+                        "bio": "Manager combining NGO experience with operational excellence."
+                    },
+                    "te4": {
+                        "role": "Impact & Comms Director",
+                        "bio": "Expert strengthening donor relations with social media and community management."
+                    }
+                }
+            },
+            "transparency": {
+                "title": "Our Transparency Commitment",
+                "desc": "At FundEd, we guarantee that every donation is traceable, every penny is accounted for, and every impact report is supported by concrete data.",
+                "items": {
+                    "t1": {
+                        "title": "100% Transparency",
+                        "desc": "Every donation record is open access"
+                    },
+                    "t2": {
+                        "title": "Verified Students",
+                        "desc": "Identity and need check"
+                    },
+                    "t3": {
+                        "title": "Impact Reporting",
+                        "desc": "Photo result tracking"
+                    }
+                },
+                "btn1": "Transparency Page",
+                "btn2": "View Reports"
+            },
+            "cta": {
+                "badge": "Join Our Community",
+                "title": "We Are Stronger Together",
+                "desc": "Whether you are a donor, a student, or a volunteer — we can work together for educational equality. Take the first step today.",
+                "donate": "Donate",
+                "apply": "Apply as Student",
+                "corporate": "Corporate Solutions"
+            }
+        },
+        "missionVision": {
+            "demoWarning": {
+                "title": "Vista previa",
+                "message": "La plataforma está en fase de vista previa. Lista para los primeros pilotos corporativos."
+            },
+            "hero": {
+                "badge": "Mission & Vision",
+                "title": "Equality in Education,",
+                "titleHighlight": "Hope for the Future",
+                "desc": "We believe every child has the right to equal access to education. We turn this belief into reality using technology and the power of community."
+            },
+            "cards": {
+                "mission": {
+                    "badge": "Our Mission",
+                    "title": "Why Do We Exist?",
+                    "desc": "To create a transparent platform that connects verified students with trusted donors to eliminate inequality in access to education.",
+                    "items": {
+                        "i1": "Facilitate access to education by removing economic barriers",
+                        "i2": "Ensure every donation is traceable and accountable",
+                        "i3": "Help students realize their potential"
+                    }
+                },
+                "vision": {
+                    "badge": "Our Vision",
+                    "title": "Where Are We Going?",
+                    "desc": "A future where no student in the world is deprived of education due to financial impossibility, and education is lived as a universal right.",
+                    "items": {
+                        "i1": "Create a global education funding network",
+                        "i2": "Use AI for needs analysis and matching",
+                        "i3": "Lead sustainable change in education"
+                    }
+                }
+            },
+            "impactNumbers": {
+                "students": "Supported Students",
+                "countries": "Active Countries",
+                "funding": "Total Funding",
+                "satisfaction": "Donor Satisfaction"
+            },
+            "principles": {
+                "badge": "Our Core Principles",
+                "title": "Values That Guide Us",
+                "desc": "These principles are behind every decision we make. They are not just words, but our way of life.",
+                "items": {
+                    "transparency": {
+                        "title": "Transparency",
+                        "desc": "We clearly share where every donation goes and how every penny is spent. No hidden costs, no hidden agendas."
+                    },
+                    "equality": {
+                        "title": "Equality",
+                        "desc": "We believe every student has the right to equal access to education. Geographical, economic, or social barriers do not matter."
+                    },
+                    "verification": {
+                        "title": "Verification",
+                        "desc": "Every student profile is meticulously verified. Our donors can be sure they are reaching those in real need."
+                    },
+                    "community": {
+                        "title": "Community",
+                        "desc": "We build meaningful bonds between donors and students. We build a sustainable community, not one-time aid."
+                    },
+                    "innovation": {
+                        "title": "Innovation",
+                        "desc": "We use technology to make the donation process more efficient, traceable, and effective."
+                    },
+                    "impact": {
+                        "title": "Impact Oriented",
+                        "desc": "We take every decision asking 'what is the impact on the student?'. We produce results, not bureaucracy."
+                    }
+                }
+            },
+            "approach": {
+                "visual": {
+                    "title": "The Approach That Makes a Difference",
+                    "desc": "Unlike traditional donation platforms, we verify every student, track every penny, and measure every impact.",
+                    "stats": {
+                        "verification": {
+                            "val": "100%",
+                            "label": "Verification"
+                        },
+                        "traceability": {
+                            "val": "100%",
+                            "label": "Traceability"
+                        },
+                        "hiddenCost": {
+                            "val": "0",
+                            "label": "Hidden Cost"
+                        },
+                        "reviewTime": {
+                            "val": "48h",
+                            "label": "Review Time"
+                        }
+                    },
+                    "trustScore": {
+                        "label": "Trust Score",
+                        "val": "4.9 / 5.0"
+                    }
+                },
+                "content": {
+                    "badge": "Our Approach",
+                    "title": "Not Donation, Investment.",
+                    "titleHighlight": "Investment in Future.",
+                    "desc": "At FundEd, we see every donation as an investment — an investment in a student's future, a society's development, a fairer world.",
+                    "items": {
+                        "verified": {
+                            "title": "Verified Profiles",
+                            "desc": "Every student is verified with ID, student certificate, and needs analysis."
+                        },
+                        "impact": {
+                            "title": "Impact Measurement",
+                            "desc": "The difference created by the donation is measured and reported with concrete metrics."
+                        },
+                        "speed": {
+                            "title": "Fast Transfer",
+                            "desc": "Funds are transferred quickly by minimizing bureaucratic obstacles."
+                        },
+                        "community": {
+                            "title": "Community Power",
+                            "desc": "Donors, students, and institutions come together to create sustainable impact."
+                        }
+                    }
+                }
+            },
+            "roadmap": {
+                "badge": "Roadmap",
+                "title": "Our Goals",
+                "desc": "We think big, step by step. Here is where we are going.",
+                "items": {
+                    "g1": {
+                        "title": "10,000 Students",
+                        "desc": "Provide direct educational support to 10,000 students in Turkey and surrounding countries."
+                    },
+                    "g2": {
+                        "title": "Global Access",
+                        "desc": "Expand education funding network actively in 25+ countries."
+                    },
+                    "g3": {
+                        "title": "Corporate Bridge",
+                        "desc": "Include companies in sustainable education funding with 500+ corporate partners."
+                    },
+                    "g4": {
+                        "title": "Equal Education",
+                        "desc": "Measurably reduce geographical inequality in access to education."
+                    }
+                }
+            },
+            "quote": {
+                "text": "Giving education to a child is not changing a life. It is transforming a generation.",
+                "author": "FundEd Team",
+                "role": "Founding Manifesto, 2024"
+            },
+            "cta": {
+                "title": "Join This Mission",
+                "desc": "You can change a student's life with a donation, cultivate a student's hope with an application.",
+                "donate": "Donate",
+                "apply": "Apply as Student"
+            }
         }
     },
     "home": {
@@ -245,139 +627,139 @@
         }
     },
     "verification": {
-        "title": "Choose Verification Level",
-        "subtitle": "Select a verification level to increase donor trust. Higher levels require more evidence.",
-        "tierSelectDescription": "Select a verification level to increase donor trust. Higher levels require more evidence.",
-        "tier0Option": "Verify with School Email",
-        "tier0Description": "Receive a verification link via your school email (e.g., student@university.edu).",
-        "required": "Required",
+        "title": "Elegir nivel de verificación",
+        "subtitle": "Selecciona un nivel de verificación para aumentar la confianza de los donantes. Los niveles más altos requieren más evidencia.",
+        "tierSelectDescription": "Selecciona un nivel de verificación para aumentar la confianza de los donantes. Los niveles más altos requieren más evidencia.",
+        "tier0Option": "Verificar con correo institucional",
+        "tier0Description": "Recibe un enlace de verificación en tu correo institucional (ej., estudiante@universidad.edu).",
+        "required": "Obligatorio",
         "status": {
-            "draft": "Draft",
-            "pendingReview": "Pending Review",
-            "approved": "Approved",
-            "rejected": "Rejected",
-            "needsMoreInfo": "Needs More Info",
-            "underInvestigation": "Under Investigation",
-            "suspended": "Suspended",
-            "expired": "Expired",
-            "revoked": "Revoked",
-            "banned": "Permanently Banned",
-            "abandoned": "Abandoned"
+            "draft": "Borrador",
+            "pendingReview": "Pendiente de revisión",
+            "approved": "Aprobado",
+            "rejected": "Rechazado",
+            "needsMoreInfo": "Se necesita más información",
+            "underInvestigation": "En investigación",
+            "suspended": "Suspendido",
+            "expired": "Expirado",
+            "revoked": "Revocado",
+            "banned": "Bloqueado permanentemente",
+            "abandoned": "Abandonado"
         },
         "documents": {
-            "studentId": "Student ID",
-            "enrollmentLetter": "Enrollment Letter",
-            "governmentId": "Government ID",
-            "selfieWithId": "Selfie with ID",
-            "transcript": "Transcript",
-            "proofOfAddress": "Proof of Address",
-            "other": "Other Document"
+            "studentId": "Carné de estudiante",
+            "enrollmentLetter": "Carta de matrícula",
+            "governmentId": "Documento de identidad",
+            "selfieWithId": "Selfie con documento",
+            "transcript": "Expediente académico",
+            "proofOfAddress": "Comprobante de domicilio",
+            "other": "Otro documento"
         },
         "form": {
-            "personalInfo": "Personal Information",
-            "firstName": "First Name",
-            "lastName": "Last Name",
-            "dateOfBirth": "Date of Birth",
-            "phone": "Phone Number",
-            "country": "Country",
-            "city": "City",
-            "educationInfo": "Education Information",
-            "institution": "Institution Name",
-            "institutionCountry": "Country",
-            "institutionType": "Institution Type",
-            "program": "Program",
-            "degreeLevel": "Degree Level",
-            "studentId": "Student ID (Optional)",
-            "enrollmentYear": "Enrollment Year",
-            "graduationYear": "Expected Graduation",
-            "fullTime": "Full-time student",
+            "personalInfo": "Información personal",
+            "firstName": "Nombre",
+            "lastName": "Apellido",
+            "dateOfBirth": "Fecha de nacimiento",
+            "phone": "Número de teléfono",
+            "country": "País",
+            "city": "Ciudad",
+            "educationInfo": "Información educativa",
+            "institution": "Nombre de la institución",
+            "institutionCountry": "País",
+            "institutionType": "Tipo de institución",
+            "program": "Programa",
+            "degreeLevel": "Nivel de grado",
+            "studentId": "ID de estudiante (Opcional)",
+            "enrollmentYear": "Año de ingreso",
+            "graduationYear": "Graduación esperada",
+            "fullTime": "Estudiante a tiempo completo",
             "institutionTypes": {
-                "university": "University",
-                "college": "College",
-                "vocational": "Vocational School",
-                "high_school": "High School"
+                "university": "Universidad",
+                "college": "Colegio universitario",
+                "vocational": "Escuela vocacional",
+                "high_school": "Escuela secundaria"
             },
             "degreeLevels": {
-                "associate": "Associate",
-                "bachelor": "Bachelor's",
-                "master": "Master's",
-                "phd": "PhD",
-                "certificate": "Certificate"
+                "associate": "Técnico",
+                "bachelor": "Licenciatura",
+                "master": "Maestría",
+                "phd": "Doctorado",
+                "certificate": "Certificado"
             },
-            "uploadDocuments": "Upload Documents",
-            "submit": "Submit for Review",
-            "addDocument": "Add Document",
-            "removeDocument": "Remove Document",
-            "documentName": "Document Name",
-            "documentHelp": "Add documents such as student ID, enrollment letter, or transcript"
+            "uploadDocuments": "Subir documentos",
+            "submit": "Enviar para revisión",
+            "addDocument": "Agregar documento",
+            "removeDocument": "Eliminar documento",
+            "documentName": "Nombre del documento",
+            "documentHelp": "Agrega documentos como carné de estudiante, carta de matrícula o expediente académico"
         },
         "tiers": {
             "tier0": {
-                "name": "Verify with School Email",
-                "description": "Receive a verification link via your school email (e.g., student@university.edu)."
+                "name": "Verificar con correo institucional",
+                "description": "Recibe un enlace de verificación en tu correo institucional (ej., estudiante@universidad.edu)."
             },
             "tier1": {
-                "name": "Document Verified",
-                "description": "Verify by uploading an enrollment letter or student status document.",
-                "subtext": "Required: Enrollment letter"
+                "name": "Verificación documental",
+                "description": "Verifica subiendo una carta de matrícula o documento de estado estudiantil.",
+                "subtext": "Obligatorio: Carta de matrícula"
             },
             "tier2": {
-                "name": "High Trust",
-                "description": "Verify with documents plus a school portal screenshot or QR/barcode proof.",
-                "subtext": "Required: Enrollment letter, Portal screenshot"
+                "name": "Alta confianza",
+                "description": "Verifica con documentos más una captura del portal escolar o prueba QR/código de barras.",
+                "subtext": "Obligatorio: Carta de matrícula, Captura del portal"
             },
             "tier3": {
-                "name": "Partner Verified",
-                "description": "Verified through official university/partner attestation"
+                "name": "Verificado por socio",
+                "description": "Verificado a través de certificación oficial de la universidad/socio"
             }
         },
         "badges": {
-            "tier0": "Email Verified",
-            "tier1": "Verified Student",
-            "tier2": "Verified Student: High Trust",
-            "tier3": "Partner Verified"
+            "tier0": "Correo verificado",
+            "tier1": "Estudiante verificado",
+            "tier2": "Estudiante verificado: Alta confianza",
+            "tier3": "Verificado por socio"
         },
         "checks": {
-            "email": "Institutional Email",
-            "enrollment": "Enrollment Document",
-            "portal": "School Portal",
-            "partner": "University Attestation"
+            "email": "Correo institucional",
+            "enrollment": "Documento de matrícula",
+            "portal": "Portal escolar",
+            "partner": "Certificación universitaria"
         },
         "steps": {
-            "tierSelect": "Choose Level",
-            "personalInfo": "Personal Info",
-            "educationInfo": "Education",
-            "documents": "Upload Documents",
-            "review": "Review & Submit"
+            "tierSelect": "Elegir nivel",
+            "personalInfo": "Datos personales",
+            "educationInfo": "Educación",
+            "documents": "Subir documentos",
+            "review": "Revisar y enviar"
         },
         "statusLabels": {
-            "draft": "Draft",
-            "pending_review": "Under Review",
-            "approved": "Approved",
-            "rejected": "Rejected",
-            "needs_more_info": "More Info Needed"
+            "draft": "Borrador",
+            "pending_review": "En revisión",
+            "approved": "Aprobado",
+            "rejected": "Rechazado",
+            "needs_more_info": "Se necesita más información"
         },
-        "documentGuidance": "Please upload clear and up-to-date documents.",
-        "documentMaskingHint": "You may mask non-required sensitive details (ID number, address, etc.).",
+        "documentGuidance": "Por favor sube documentos claros y actualizados.",
+        "documentMaskingHint": "Puedes ocultar datos sensibles no requeridos (número de identificación, dirección, etc.).",
         "acceptedDocs": {
-            "enrollment": "Enrollment letter / student status document",
-            "studentId": "Student ID card",
-            "transcript": "Transcript",
-            "portalScreenshot": "School portal screenshot"
+            "enrollment": "Carta de matrícula / documento de estado estudiantil",
+            "studentId": "Carné de estudiante",
+            "transcript": "Expediente académico",
+            "portalScreenshot": "Captura del portal escolar"
         },
-        "dragDrop": "Drag & drop or browse",
-        "fileTypes": "PDF, JPG, PNG (max 10MB)",
-        "documentsNote": "Documents are used only for verification and stored securely.",
+        "dragDrop": "Arrastra y suelta o busca",
+        "fileTypes": "PDF, JPG, PNG (máx. 10MB)",
+        "documentsNote": "Los documentos se usan solo para verificación y se almacenan de forma segura.",
         "review": {
-            "tier": "Selected Level",
-            "personal": "Personal Info",
-            "education": "Education",
-            "note": "Note (Optional)",
-            "notePlaceholder": "Add any extra context."
+            "tier": "Nivel seleccionado",
+            "personal": "Datos personales",
+            "education": "Educación",
+            "note": "Nota (Opcional)",
+            "notePlaceholder": "Agrega cualquier contexto adicional."
         },
-        "reviewNote": "By submitting, you confirm that all information provided is accurate. Our team will review your application within 1-3 business days.",
-        "submitError": "Failed to submit verification. Please try again.",
-        "selectedFiles": "Selected Files"
+        "reviewNote": "Al enviar, confirmas que toda la información proporcionada es precisa. Nuestro equipo revisará tu solicitud en 1-3 días hábiles.",
+        "submitError": "Error al enviar la verificación. Por favor intenta de nuevo.",
+        "selectedFiles": "Archivos seleccionados"
     },
     "campaign": {
         "createCampaign": "Crear campaña",
@@ -404,7 +786,50 @@
         "message": "Dejar un mensaje (opcional)",
         "processing": "Procesando...",
         "success": "¡Gracias por tu donación!",
-        "error": "La donación falló. Por favor intenta de nuevo."
+        "error": "La donación falló. Por favor intenta de nuevo.",
+        "heroBadge": "Cada donación cambia una vida",
+        "heroSubtitle": "Apoya a estudiantes verificados en su camino educativo. Rastrea tu donación en cada paso con nuestra infraestructura transparente.",
+        "amountSubtitle": "Selecciona un monto o ingresa un valor personalizado",
+        "customPlaceholder": "Ingresa un monto personalizado...",
+        "category": "Categoría de donación",
+        "categoryPlaceholder": "Selecciona una categoría",
+        "verifiedStudent": "Apoyo a estudiantes verificados",
+        "generalFund": "Fondo general de educación",
+        "optionalInfo": "Información opcional",
+        "yourName": "Tu nombre",
+        "anonymousNote": "Puedes permanecer anónimo",
+        "namePlaceholder": "Tu nombre completo",
+        "email": "Correo electrónico",
+        "receiptNote": "Para el recibo",
+        "emailPlaceholder": "ejemplo@email.com",
+        "invalidEmail": "Por favor ingresa una dirección de correo válida.",
+        "secureTitle": "Seguro y Transparente",
+        "secureDesc": "Tu donación se procesa a través de nuestra infraestructura segura y cada paso queda registrado para su seguimiento.",
+        "submitDonate": "Donar",
+        "submitDonateWithAmount": "Donar",
+        "completed": "¡Donación completada!",
+        "securePayment": "Pago seguro cifrado con SSL de 256 bits",
+        "loading": "Cargando...",
+        "impactTitle": "El impacto de tu donación",
+        "impactWith": "con",
+        "impact10": "1 mes de cuadernos y lápices para un estudiante",
+        "impact25": "Suministros de mochila para un estudiante",
+        "impact50": "1 año de útiles escolares para un niño",
+        "impact100": "Material educativo digital para un aula",
+        "impact250": "1 semestre de beca para un estudiante",
+        "impact500": "Renovación y equipamiento de un aula",
+        "trustTitle": "Seguridad y Transparencia",
+        "trustVerified": "Estudiantes verificados",
+        "trustVerifiedDesc": "Todos los estudiantes pasan verificación de identidad",
+        "trustTracking": "Seguimiento de impacto",
+        "trustTrackingDesc": "Ve a dónde va tu donación",
+        "trustSecure": "Pago seguro",
+        "trustSecureDesc": "Infraestructura cifrada con SSL de 256 bits",
+        "trustTransparent": "Transparencia total",
+        "trustTransparentDesc": "Cada transacción queda registrada",
+        "equalityCampaign": "Campaña por la igualdad educativa",
+        "equalityDesc": "Explora nuestra campaña para apoyar a niños de todo el mundo que no pueden acceder a la educación.",
+        "viewCampaign": "Ver campaña"
     },
     "dashboard": {
         "title": "Panel de control",
@@ -453,288 +878,288 @@
         }
     },
     "terms": {
-        "title": "Terms of Service",
-        "lastUpdated": "Last updated: {date}",
+        "title": "Términos de servicio",
+        "lastUpdated": "Última actualización: {date}",
         "sections": {
             "acceptance": {
-                "title": "1. Acceptance of Terms",
-                "content": "By accessing and using FundEd, you accept and agree to be bound by these Terms of Service. If you do not agree, you may not use our platform."
+                "title": "1. Aceptación de términos",
+                "content": "Al acceder y utilizar FundEd, aceptas y te comprometes a cumplir estos Términos de servicio. Si no estás de acuerdo, no puedes usar nuestra plataforma."
             },
             "platform": {
-                "title": "2. Platform Description",
-                "content": "FundEd is a crowdfunding platform that connects verified students with donors to support educational needs. We facilitate the connection but are not a party to the funding relationship."
+                "title": "2. Descripción de la plataforma",
+                "content": "FundEd es una plataforma de crowdfunding que conecta a estudiantes verificados con donantes para apoyar necesidades educativas. Facilitamos la conexión pero no somos parte de la relación de financiamiento."
             },
             "studentResp": {
-                "title": "3. Student Responsibilities",
+                "title": "3. Responsabilidades del estudiante",
                 "items": [
-                    "Provide accurate and truthful information in your student profile",
-                    "Submit legitimate verification documents",
-                    "Use funds for the stated educational purposes",
-                    "Comply with all applicable laws and regulations",
-                    "Maintain the accuracy of campaign information"
+                    "Proporcionar información precisa y veraz en tu perfil de estudiante",
+                    "Enviar documentos de verificación legítimos",
+                    "Usar los fondos para los fines educativos declarados",
+                    "Cumplir con todas las leyes y regulaciones aplicables",
+                    "Mantener la precisión de la información de la campaña"
                 ]
             },
             "donorResp": {
-                "title": "4. Donor Responsibilities",
+                "title": "4. Responsabilidades del donante",
                 "items": [
-                    "Donations are voluntary and non-refundable unless required by law",
-                    "Donors understand that FundEd is a platform facilitator, not a guarantor",
-                    "Donors are responsible for their own tax implications"
+                    "Las donaciones son voluntarias y no reembolsables a menos que la ley lo requiera",
+                    "Los donantes entienden que FundEd es un facilitador, no un garante",
+                    "Los donantes son responsables de sus propias implicaciones fiscales"
                 ]
             },
             "verification": {
-                "title": "5. Verification Process",
-                "content": "Student verification is conducted by our admin team. We reserve the right to:",
+                "title": "5. Proceso de verificación",
+                "content": "La verificación de estudiantes la realiza nuestro equipo de administración. Nos reservamos el derecho de:",
                 "items": [
-                    "Request additional verification documents",
-                    "Reject verification applications at our discretion",
-                    "Revoke verification status if information is found to be inaccurate"
+                    "Solicitar documentos de verificación adicionales",
+                    "Rechazar solicitudes de verificación a nuestra discreción",
+                    "Revocar el estado de verificación si se encuentra información inexacta"
                 ]
             },
             "payment": {
-                "title": "6. Payment Processing",
-                "content": "Payments are processed through Stripe. FundEd does not store credit card information. All payment disputes should be directed to Stripe or your financial institution."
+                "title": "6. Procesamiento de pagos",
+                "content": "Los pagos se procesan a través de Stripe. FundEd no almacena información de tarjetas de crédito. Todas las disputas de pago deben dirigirse a Stripe o a tu institución financiera."
             },
             "prohibited": {
-                "title": "7. Prohibited Activities",
-                "content": "You agree not to:",
+                "title": "7. Actividades prohibidas",
+                "content": "Te comprometes a no:",
                 "items": [
-                    "Provide false or misleading information",
-                    "Use the platform for illegal purposes",
-                    "Impersonate others or misrepresent your identity",
-                    "Interfere with the platform's operation",
-                    "Attempt to gain unauthorized access to any part of the platform"
+                    "Proporcionar información falsa o engañosa",
+                    "Usar la plataforma para fines ilegales",
+                    "Suplantar la identidad de otros o tergiversar tu identidad",
+                    "Interferir con el funcionamiento de la plataforma",
+                    "Intentar obtener acceso no autorizado a cualquier parte de la plataforma"
                 ]
             },
             "liability": {
-                "title": "8. Limitation of Liability",
-                "content": "FundEd acts as a platform facilitator. We are not responsible for the accuracy of campaign information, the use of funds by students, or disputes between students and donors."
+                "title": "8. Limitación de responsabilidad",
+                "content": "FundEd actúa como facilitador de la plataforma. No somos responsables de la precisión de la información de las campañas, el uso de fondos por parte de los estudiantes o disputas entre estudiantes y donantes."
             },
             "termination": {
-                "title": "9. Termination",
-                "content": "We reserve the right to suspend or terminate accounts that violate these terms or engage in fraudulent activity."
+                "title": "9. Terminación",
+                "content": "Nos reservamos el derecho de suspender o cancelar cuentas que violen estos términos o participen en actividades fraudulentas."
             },
             "changes": {
-                "title": "10. Changes to Terms",
-                "content": "We may update these terms from time to time. Continued use of the platform constitutes acceptance of updated terms."
+                "title": "10. Cambios en los términos",
+                "content": "Podemos actualizar estos términos de vez en cuando. El uso continuado de la plataforma constituye la aceptación de los términos actualizados."
             }
         }
     },
     "privacy": {
-        "title": "Privacy Policy",
-        "lastUpdated": "Last updated: {date}",
+        "title": "Política de privacidad",
+        "lastUpdated": "Última actualización: {date}",
         "sections": {
             "collection": {
-                "title": "1. Information We Collect",
-                "content": "We collect information that you provide directly to us, including:",
+                "title": "1. Información que recopilamos",
+                "content": "Recopilamos información que nos proporcionas directamente, incluyendo:",
                 "items": [
-                    "Account information (name, email address) when you sign up",
-                    "Student profile information (university, field of study, country) for verification",
-                    "Campaign information (title, description, funding goals)",
-                    "Payment information processed securely through Stripe",
-                    "Verification documents submitted for student verification"
+                    "Información de la cuenta (nombre, correo electrónico) al registrarte",
+                    "Información del perfil estudiantil (universidad, campo de estudio, país) para verificación",
+                    "Información de la campaña (título, descripción, metas de financiamiento)",
+                    "Información de pago procesada de forma segura a través de Stripe",
+                    "Documentos de verificación enviados para la verificación estudiantil"
                 ]
             },
             "usage": {
-                "title": "2. How We Use Your Information",
-                "content": "We use the information we collect to:",
+                "title": "2. Cómo usamos tu información",
+                "content": "Usamos la información que recopilamos para:",
                 "items": [
-                    "Provide, maintain, and improve our services",
-                    "Process and verify student applications",
-                    "Process donations and payment transactions",
-                    "Send you transactional emails (verification status, donation confirmations)",
-                    "Respond to your inquiries and provide customer support",
-                    "Comply with legal obligations"
+                    "Proporcionar, mantener y mejorar nuestros servicios",
+                    "Procesar y verificar solicitudes de estudiantes",
+                    "Procesar donaciones y transacciones de pago",
+                    "Enviarte correos transaccionales (estado de verificación, confirmaciones de donaciones)",
+                    "Responder a tus consultas y proporcionar soporte",
+                    "Cumplir con obligaciones legales"
                 ]
             },
             "sharing": {
-                "title": "3. Information Sharing",
-                "content": "We do not sell your personal information. We may share your information only in the following circumstances:",
+                "title": "3. Compartir información",
+                "content": "No vendemos tu información personal. Solo compartimos tu información en las siguientes circunstancias:",
                 "items": [
-                    "With payment processors (Stripe) to process donations",
-                    "With service providers who assist in operating our platform",
-                    "When required by law or to protect our rights",
-                    "Public campaign information (name, campaign details) as displayed on campaign pages"
+                    "Con procesadores de pago (Stripe) para procesar donaciones",
+                    "Con proveedores de servicios que ayudan a operar nuestra plataforma",
+                    "Cuando lo requiera la ley o para proteger nuestros derechos",
+                    "Información pública de la campaña (nombre, detalles de la campaña) como se muestra en las páginas de campaña"
                 ]
             },
             "security": {
-                "title": "4. Data Security",
-                "content": "We implement appropriate technical and organizational measures to protect your personal information. However, no method of transmission over the Internet is 100% secure."
+                "title": "4. Seguridad de datos",
+                "content": "Implementamos medidas técnicas y organizativas apropiadas para proteger tu información personal. Sin embargo, ningún método de transmisión por Internet es 100% seguro."
             },
             "rights": {
-                "title": "5. Your Rights",
-                "content": "You have the right to:",
+                "title": "5. Tus derechos",
+                "content": "Tienes derecho a:",
                 "items": [
-                    "Access your personal information",
-                    "Correct inaccurate information",
-                    "Request deletion of your account and data",
-                    "Opt out of non-transactional communications"
+                    "Acceder a tu información personal",
+                    "Corregir información inexacta",
+                    "Solicitar la eliminación de tu cuenta y datos",
+                    "Rechazar comunicaciones no transaccionales"
                 ]
             },
             "contact": {
-                "title": "6. Contact Us",
-                "content": "If you have questions about this Privacy Policy, please contact us through the support channels provided on the platform."
+                "title": "6. Contáctanos",
+                "content": "Si tienes preguntas sobre esta Política de privacidad, contáctanos a través de los canales de soporte proporcionados en la plataforma."
             }
         }
     },
     "disclaimer": {
-        "title": "Disclaimer",
-        "lastUpdated": "Last updated: {date}",
+        "title": "Descargo de responsabilidad",
+        "lastUpdated": "Última actualización: {date}",
         "sections": {
             "nature": {
-                "title": "Platform Nature",
-                "content": "FundEd is a crowdfunding platform that facilitates connections between verified students and donors. We are a technology platform, not a financial institution, charity, or educational institution."
+                "title": "Naturaleza de la plataforma",
+                "content": "FundEd es una plataforma de crowdfunding que facilita conexiones entre estudiantes verificados y donantes. Somos una plataforma tecnológica, no una institución financiera, organización benéfica o institución educativa."
             },
             "guarantees": {
-                "title": "No Guarantees",
-                "content": "FundEd does not guarantee:",
+                "title": "Sin garantías",
+                "content": "FundEd no garantiza:",
                 "items": [
-                    "That campaigns will reach their funding goals",
-                    "That students will use funds as stated in their campaigns",
-                    "The accuracy of information provided by students",
-                    "The success of any educational endeavor"
+                    "Que las campañas alcancen sus metas de financiamiento",
+                    "Que los estudiantes usen los fondos como se indica en sus campañas",
+                    "La precisión de la información proporcionada por los estudiantes",
+                    "El éxito de cualquier esfuerzo educativo"
                 ]
             },
             "verification": {
-                "title": "Verification Disclaimer",
-                "content": "While we verify student status through document review, verification does not constitute:",
+                "title": "Descargo de verificación",
+                "content": "Aunque verificamos el estado estudiantil mediante revisión de documentos, la verificación no constituye:",
                 "items": [
-                    "Endorsement of the student's campaign",
-                    "Guarantee of campaign success",
-                    "Verification of the student's financial need",
-                    "Assurance of fund usage compliance"
+                    "Respaldo de la campaña del estudiante",
+                    "Garantía de éxito de la campaña",
+                    "Verificación de la necesidad financiera del estudiante",
+                    "Garantía de cumplimiento en el uso de fondos"
                 ]
             },
             "risks": {
-                "title": "Donation Risks",
-                "content": "Donors should be aware that:",
+                "title": "Riesgos de donación",
+                "content": "Los donantes deben saber que:",
                 "items": [
-                    "Donations are voluntary contributions, not purchases",
-                    "FundEd does not provide refunds except as required by law",
-                    "Donors are responsible for their own tax reporting",
-                    "There is no guarantee that campaign goals will be met"
+                    "Las donaciones son contribuciones voluntarias, no compras",
+                    "FundEd no ofrece reembolsos excepto cuando la ley lo requiera",
+                    "Los donantes son responsables de su propia declaración fiscal",
+                    "No hay garantía de que se alcancen las metas de la campaña"
                 ]
             },
             "thirdParty": {
-                "title": "Third-Party Services",
-                "content": "FundEd uses third-party services including:",
+                "title": "Servicios de terceros",
+                "content": "FundEd utiliza servicios de terceros que incluyen:",
                 "items": [
-                    "Stripe for payment processing",
-                    "Cloudinary for file storage",
-                    "Google OAuth for authentication"
+                    "Stripe para el procesamiento de pagos",
+                    "Cloudinary para almacenamiento de archivos",
+                    "Google OAuth para autenticación"
                 ],
-                "disclaimer": "We are not responsible for the actions, policies, or services of these third parties."
+                "disclaimer": "No somos responsables de las acciones, políticas o servicios de estos terceros."
             },
             "liability": {
-                "title": "Limitation of Liability",
-                "content": "To the maximum extent permitted by law, FundEd shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the platform."
+                "title": "Limitación de responsabilidad",
+                "content": "En la máxima medida permitida por la ley, FundEd no será responsable de ningún daño indirecto, incidental, especial, consecuente o punitivo que surja de tu uso de la plataforma."
             }
         }
     },
     "applicationStatus": {
-        "title": "Application Status",
-        "applicationId": "Application ID",
-        "status": "Status",
-        "details": "Application Details",
-        "fullName": "Full Name",
-        "email": "Email",
-        "country": "Country",
-        "educationLevel": "Education Level",
-        "needSummary": "Need Summary",
-        "submitted": "Submitted",
-        "notFound": "Application Not Found",
-        "notFoundDesc": "The application ID you provided is invalid or not found.",
-        "applyNow": "Apply Now",
-        "returnHome": "Return to Home",
+        "title": "Estado de la solicitud",
+        "applicationId": "ID de solicitud",
+        "status": "Estado",
+        "details": "Detalles de la solicitud",
+        "fullName": "Nombre completo",
+        "email": "Correo electrónico",
+        "country": "País",
+        "educationLevel": "Nivel educativo",
+        "needSummary": "Resumen de necesidad",
+        "submitted": "Enviado",
+        "notFound": "Solicitud no encontrada",
+        "notFoundDesc": "El ID de solicitud proporcionado es inválido o no fue encontrado.",
+        "applyNow": "Aplicar ahora",
+        "returnHome": "Volver al inicio",
         "statuses": {
-            "received": "Received",
-            "underReview": "Under Review",
-            "approved": "Approved",
-            "rejected": "Rejected"
+            "received": "Recibida",
+            "underReview": "En revisión",
+            "approved": "Aprobada",
+            "rejected": "Rechazada"
         }
     },
     "apply": {
-        "title": "Apply as Student",
-        "subtitle": "You can apply for educational support by filling out the form below.",
+        "title": "Aplicar como estudiante",
+        "subtitle": "Puedes solicitar apoyo educativo completando el formulario a continuación.",
         "labels": {
-            "fullName": "Full Name",
-            "email": "Email",
-            "country": "Country",
-            "targetAmount": "Target Amount (USD)",
-            "educationLevel": "Education Level",
-            "classYear": "Class Year",
-            "faculty": "Faculty",
-            "department": "Department",
-            "needSummary": "Campaign Description (min. {min} chars)",
-            "documents": "Documents (Optional)",
-            "documentName": "Document Name"
+            "fullName": "Nombre completo",
+            "email": "Correo electrónico",
+            "country": "País",
+            "targetAmount": "Monto objetivo (USD)",
+            "educationLevel": "Nivel educativo",
+            "classYear": "Año escolar",
+            "faculty": "Facultad",
+            "department": "Departamento",
+            "needSummary": "Descripción de la campaña (mín. {min} caracteres)",
+            "documents": "Documentos (Opcional)",
+            "documentName": "Nombre del documento"
         },
         "placeholders": {
-            "fullName": "Your full name",
-            "email": "example@email.com",
-            "country": "Turkey",
+            "fullName": "Tu nombre completo",
+            "email": "ejemplo@email.com",
+            "country": "España",
             "targetAmount": "500",
-            "select": "Select",
-            "faculty": "Faculty of Engineering",
-            "department": "Computer Science",
-            "needSummary": "Describe your educational goal, why you need support, and how you will use the funds in detail...",
-            "documentName": "Document name (optional)"
+            "select": "Seleccionar",
+            "faculty": "Facultad de Ingeniería",
+            "department": "Informática",
+            "needSummary": "Describe tu objetivo educativo, por qué necesitas apoyo y cómo usarás los fondos en detalle...",
+            "documentName": "Nombre del documento (opcional)"
         },
         "validation": {
-            "fullName": "Full name required",
-            "invalidName": "Invalid name",
-            "email": "Email required",
-            "invalidEmail": "Invalid email",
-            "country": "Country required",
-            "educationLevel": "Education level required",
-            "targetAmount": "Target amount must be at least $1",
-            "classYear": "Class year required",
-            "faculty": "Faculty required",
-            "department": "Department required",
-            "needSummary": "Description required",
-            "needSummaryMin": "Minimum {min} characters required ({remaining} more needed)",
-            "fileType": "Invalid file type. Upload PDF, JPG, or PNG.",
-            "fileSize": "File size exceeds 10MB limit.",
-            "fixErrors": "Please fill all fields correctly",
-            "waitUpload": "Please wait for files to finish uploading.",
-            "removeFailed": "Remove failed uploads or try again.",
-            "success": "Application submitted successfully!",
-            "error": "An error occurred"
+            "fullName": "Nombre completo requerido",
+            "invalidName": "Nombre inválido",
+            "email": "Correo requerido",
+            "invalidEmail": "Correo inválido",
+            "country": "País requerido",
+            "educationLevel": "Nivel educativo requerido",
+            "targetAmount": "El monto objetivo debe ser al menos $1",
+            "classYear": "Año escolar requerido",
+            "faculty": "Facultad requerida",
+            "department": "Departamento requerido",
+            "needSummary": "Descripción requerida",
+            "needSummaryMin": "Mínimo {min} caracteres requeridos (faltan {remaining} más)",
+            "fileType": "Tipo de archivo inválido. Sube PDF, JPG o PNG.",
+            "fileSize": "El archivo excede el límite de 10MB.",
+            "fixErrors": "Por favor completa todos los campos correctamente",
+            "waitUpload": "Por favor espera a que los archivos terminen de subirse.",
+            "removeFailed": "Elimina las cargas fallidas o intenta de nuevo.",
+            "success": "¡Solicitud enviada exitosamente!",
+            "error": "Ocurrió un error"
         },
         "documents": {
-            "help": "You can upload student ID, transcript, etc. (PDF, JPG, PNG - max 10MB)",
-            "add": "Add Document",
-            "remove": "Remove",
+            "help": "Puedes subir carné de estudiante, expediente, etc. (PDF, JPG, PNG – máx. 10MB)",
+            "add": "Agregar documento",
+            "remove": "Eliminar",
             "status": {
-                "uploaded": "Uploaded",
-                "uploading": "Uploading...",
-                "failed": "Failed",
-                "ready": "Ready"
+                "uploaded": "Subido",
+                "uploading": "Subiendo...",
+                "failed": "Fallido",
+                "ready": "Listo"
             }
         },
         "submit": {
-            "default": "Submit Application",
-            "submitting": "Submitting..."
+            "default": "Enviar solicitud",
+            "submitting": "Enviando..."
         },
         "options": {
             "classYear": {
-                "1": "1st Year",
-                "2": "2nd Year",
-                "3": "3rd Year",
-                "4": "4th Year",
-                "5": "5th Year",
-                "6": "6th Year",
-                "prep": "Prep",
-                "grad": "Graduated",
-                "master": "Master's",
-                "phd": "PhD"
+                "1": "1er Año",
+                "2": "2do Año",
+                "3": "3er Año",
+                "4": "4to Año",
+                "5": "5to Año",
+                "6": "6to Año",
+                "prep": "Preparatorio",
+                "grad": "Graduado",
+                "master": "Maestría",
+                "phd": "Doctorado"
             },
             "educationLevel": {
-                "highSchool": "High School",
-                "undergrad": "Undergraduate",
-                "master": "Master's",
-                "phd": "PhD",
-                "vocational": "Vocational School"
+                "highSchool": "Escuela secundaria",
+                "undergrad": "Licenciatura",
+                "master": "Maestría",
+                "phd": "Doctorado",
+                "vocational": "Escuela vocacional"
             }
         },
         "photos": {
@@ -1000,74 +1425,740 @@
         "years": "años"
     },
     "myDonationsPage": {
-        "title": "My Donations",
-        "subtitle": "Track all your donations and see your impact",
-        "totalDonation": "Total Donated",
-        "donationCount": "Donation Count",
-        "supportedStudents": "Supported Students",
-        "lastDonation": "Last Donation",
-        "searchPlaceholder": "Search by campaign or student name...",
-        "filter": "Filter",
-        "startDate": "Start Date",
-        "endDate": "End Date",
-        "minAmount": "Min Amount ($)",
-        "maxAmount": "Max Amount ($)",
-        "apply": "Apply",
-        "clear": "Clear",
-        "campaign": "Campaign",
-        "student": "Student",
-        "date": "Date",
-        "amount": "Amount",
-        "status": "Status",
-        "actions": "Actions",
-        "completed": "Completed",
-        "pending": "Pending",
-        "noDonations": "No donations yet",
-        "noDonationsDesc": "Browse campaigns to start supporting students.",
-        "exploreCampaigns": "Explore Campaigns",
-        "showing": "showing",
-        "of": "of donations",
-        "downloadCSV": "Download CSV",
-        "downloadExcel": "Download Excel",
-        "downloadPDF": "Download PDF",
+        "title": "Mis donaciones",
+        "subtitle": "Sigue todas tus donaciones y mira tu impacto",
+        "totalDonation": "Total donado",
+        "donationCount": "Número de donaciones",
+        "supportedStudents": "Estudiantes apoyados",
+        "lastDonation": "Última donación",
+        "searchPlaceholder": "Buscar por campaña o nombre de estudiante...",
+        "filter": "Filtrar",
+        "startDate": "Fecha de inicio",
+        "endDate": "Fecha de fin",
+        "minAmount": "Monto mín. ($)",
+        "maxAmount": "Monto máx. ($)",
+        "apply": "Aplicar",
+        "clear": "Limpiar",
+        "campaign": "Campaña",
+        "student": "Estudiante",
+        "date": "Fecha",
+        "amount": "Monto",
+        "status": "Estado",
+        "actions": "Acciones",
+        "completed": "Completada",
+        "pending": "Pendiente",
+        "noDonations": "Aún no hay donaciones",
+        "noDonationsDesc": "Explora campañas para comenzar a apoyar estudiantes.",
+        "exploreCampaigns": "Explorar campañas",
+        "showing": "mostrando",
+        "of": "de donaciones",
+        "downloadCSV": "Descargar CSV",
+        "downloadExcel": "Descargar Excel",
+        "downloadPDF": "Descargar PDF",
         "detail": {
-            "title": "Donation Detail",
-            "backToList": "Back to My Donations",
-            "donationAmount": "Donation Amount",
-            "donationDate": "Date",
-            "downloadReceipt": "Download Receipt",
-            "campaignProgress": "Campaign Progress",
-            "completedPercent": "completed",
-            "overview": "Overview",
-            "studentUpdates": "Student Updates",
-            "messages": "Messages",
-            "allocationTitle": "Donation Allocation",
-            "noAllocation": "Student has not shared expense report yet",
-            "noAllocationDesc": "The donation allocation will appear here once the student shares their expense reports.",
-            "campaignStory": "Campaign Story",
-            "readMore": "Read More",
-            "donationDetails": "Donation Details",
-            "donationId": "Donation ID",
-            "campaignStatus": "Campaign Status",
-            "ongoing": "Ongoing",
-            "quickActions": "Quick Actions",
-            "receiptPdf": "Download Receipt (PDF)",
-            "goToCampaign": "Go to Campaign Page",
-            "sendMessage": "Send Message to Student",
-            "studentInfo": "Student Information",
-            "noUpdates": "No updates yet",
-            "noUpdatesDesc": "Updates will appear here when the student shares progress.",
-            "noMessages": "No messages yet. You can leave a support note for the student.",
-            "messageSent": "Your message was sent successfully!",
-            "messagePlaceholder": "Write a support note or appreciation message...",
-            "messageHint": "Your messages are sent only to the student you supported. Max 1000 characters.",
-            "receiptTitle": "DONATION RECEIPT",
-            "receiptNo": "Receipt No",
-            "donor": "Donor",
-            "receiptFooter": "This document was automatically generated by the FundEd platform.",
-            "receiptTax": "Can be used as an official receipt for tax deduction.",
-            "watchVideo": "Watch Video",
-            "downloadDocument": "Download Document"
+            "title": "Detalle de donación",
+            "backToList": "Volver a mis donaciones",
+            "donationAmount": "Monto de donación",
+            "donationDate": "Fecha",
+            "downloadReceipt": "Descargar recibo",
+            "campaignProgress": "Progreso de la campaña",
+            "completedPercent": "completado",
+            "overview": "Resumen",
+            "studentUpdates": "Actualizaciones del estudiante",
+            "messages": "Mensajes",
+            "allocationTitle": "Asignación de donación",
+            "noAllocation": "El estudiante aún no ha compartido el informe de gastos",
+            "noAllocationDesc": "La asignación de la donación aparecerá aquí cuando el estudiante comparta sus informes de gastos.",
+            "campaignStory": "Historia de la campaña",
+            "readMore": "Leer más",
+            "donationDetails": "Detalles de la donación",
+            "donationId": "ID de donación",
+            "campaignStatus": "Estado de la campaña",
+            "ongoing": "En curso",
+            "quickActions": "Acciones rápidas",
+            "receiptPdf": "Descargar recibo (PDF)",
+            "goToCampaign": "Ir a la campaña",
+            "sendMessage": "Enviar mensaje al estudiante",
+            "studentInfo": "Información del estudiante",
+            "noUpdates": "Sin actualizaciones aún",
+            "noUpdatesDesc": "Las actualizaciones aparecerán aquí cuando el estudiante comparta su progreso.",
+            "noMessages": "Sin mensajes aún. Puedes dejar una nota de apoyo al estudiante.",
+            "messageSent": "¡Tu mensaje fue enviado exitosamente!",
+            "messagePlaceholder": "Escribe una nota de apoyo o mensaje de agradecimiento...",
+            "messageHint": "Tus mensajes se envían solo al estudiante que apoyaste. Máximo 1000 caracteres.",
+            "receiptTitle": "RECIBO DE DONACIÓN",
+            "receiptNo": "Nº de recibo",
+            "donor": "Donante",
+            "receiptFooter": "Este documento fue generado automáticamente por la plataforma FundEd.",
+            "receiptTax": "Puede utilizarse como recibo oficial para deducción fiscal.",
+            "watchVideo": "Ver video",
+            "downloadDocument": "Descargar documento"
         }
+    },
+    "corporateGateway": {
+        "loading": "Loading...",
+        "nav": {
+            "subtitle": "Corporate Platform",
+            "backToHome": "Back to Home"
+        },
+        "hero": {
+            "badge": "Corporate Education Support Platform",
+            "title1": "Invest in Education,",
+            "title2": "Impact the Future.",
+            "subtitle": "Track your corporate donations, generate ESG reports and see your impact on education with transparent data."
+        },
+        "tabs": {
+            "login": "Login",
+            "register": "Apply",
+            "pricing": "Plans"
+        },
+        "login": {
+            "title": "Corporate Login",
+            "subtitle": "Log in with your corporate account",
+            "email": "Corporate Email",
+            "emailPlaceholder": "example@company.com",
+            "password": "Password",
+            "submit": "Login",
+            "noAccount": "Don't have an account?",
+            "apply": "Apply Now",
+            "or": "or",
+            "viewPlans": "View Plans",
+            "demoTitle": "Demo Credentials",
+            "demoEmail": "Email:",
+            "demoPassword": "Password:",
+            "failed": "Login failed."
+        },
+        "register": {
+            "title": "Corporate Application",
+            "subtitle": "Apply for corporate access",
+            "registration": "Registration",
+            "subtitleWithTier": "Enter your details to purchase the package",
+            "selectedPackage": "Selected Package:",
+            "companyName": "Company Name",
+            "companyPlaceholder": "Company Inc.",
+            "firstName": "First Name",
+            "firstNamePlaceholder": "Your first name",
+            "lastName": "Last Name",
+            "lastNamePlaceholder": "Your last name",
+            "email": "Corporate Email",
+            "phone": "Phone",
+            "optional": "(optional)",
+            "phonePlaceholder": "+1 XXX XXX XXXX",
+            "password": "Password",
+            "minChars": "At least 6 characters",
+            "confirmPassword": "Confirm Password",
+            "confirmPlaceholder": "Re-enter your password",
+            "noPackage": "You haven't selected a package.",
+            "noPackageDesc": "You can select a package for direct purchase or continue as an application.",
+            "viewPlans": "View Plans",
+            "purchaseRegister": "Purchase & Register",
+            "submitApplication": "Submit Application",
+            "hasAccount": "Already have an account?",
+            "loginLink": "Login",
+            "passwordsMismatch": "Passwords do not match.",
+            "passwordTooShort": "Password must be at least 6 characters.",
+            "failed": "Registration failed.",
+            "successTitle": "Application Received!",
+            "successWithTier": "Your account has been activated. Redirecting to corporate panel...",
+            "successWithout": "Your application will be reviewed and you will be contacted. Redirecting..."
+        },
+        "discount": {
+            "title": "Discount Code",
+            "placeholder": "Enter code...",
+            "apply": "Apply",
+            "invalid": "Invalid discount code.",
+            "applied10": "10% discount applied!",
+            "applied20": "20% discount applied!",
+            "welcome25": "25% welcome discount!",
+            "startup30": "30% startup discount!",
+            "enterprise50": "50% special corporate discount!"
+        },
+        "pricing": {
+            "title": "Corporate Plans",
+            "subtitle": "Choose the plan that fits your needs. You can always upgrade.",
+            "popular": "Most Popular",
+            "purchase": "Purchase",
+            "perMonth": "/mo",
+            "undecidedTitle": "Haven't decided yet?",
+            "undecidedDesc": "You can apply without selecting a package. Our team will contact you to determine the best solution together.",
+            "freeApply": "Apply for Free",
+            "comparisonTitle": "Detailed Comparison",
+            "feature": "Feature"
+        },
+        "tiers": {
+            "starter": {
+                "name": "Starter",
+                "tagline": "Ideal start for small/medium companies",
+                "f1": "Corporate Impact Dashboard",
+                "f2": "Donation Trace View (basic)",
+                "f3": "KPI Snapshot (basic metrics)",
+                "f4": "Quarterly Impact Summary (PDF)",
+                "f5": "Basic CSV Export",
+                "f6": "1 User",
+                "f7": "Standard email support",
+                "f8": "10 simultaneous campaigns"
+            },
+            "growth": {
+                "name": "Growth / Pro",
+                "tagline": "For ESG/CSR focused teams",
+                "f1": "Everything in Starter +",
+                "f2": "Monthly Impact Report (PDF)",
+                "f3": "Before/After trend charts",
+                "f4": "Evidence Vault (advanced)",
+                "f5": "Custom Report Template",
+                "f6": "Campaign deviation & delay alerts",
+                "f7": "Advanced CSV + Audit Log Export",
+                "f8": "5 Users",
+                "f9": "Priority support (SLA-lite)",
+                "f10": "50 simultaneous campaigns"
+            },
+            "enterprise": {
+                "name": "Enterprise",
+                "tagline": "For large corporations & audit needs",
+                "f1": "Everything in Pro +",
+                "f2": "Audit-Ready Pack",
+                "f3": "SSO / SAML integration",
+                "f4": "Role-based permissions (finance/ESG/admin)",
+                "f5": "API & Webhooks access",
+                "f6": "Custom Verification Workflow",
+                "f7": "Advanced data retention & compliance",
+                "f8": "20 Users",
+                "f9": "Dedicated success manager",
+                "f10": "Monthly review call",
+                "f11": "Unlimited campaigns"
+            }
+        },
+        "comparison": {
+            "impactDashboard": "Impact Dashboard",
+            "donationTrace": "Donation Trace",
+            "reporting": "Reporting",
+            "evidenceVault": "Evidence Vault",
+            "alertSystem": "Alert System",
+            "auditPack": "Audit Pack",
+            "ssoSaml": "SSO / SAML",
+            "apiWebhooks": "API & Webhooks",
+            "roleBased": "Role-Based Permissions",
+            "users": "Users",
+            "campaignLimit": "Campaign Limit",
+            "export": "Export",
+            "support": "Support",
+            "basic": "Basic",
+            "advanced": "Advanced",
+            "advancedPlus": "Advanced+",
+            "quarterly": "Quarterly",
+            "monthly": "Monthly",
+            "customTemplate": "Custom template",
+            "unlimited": "Unlimited",
+            "basicCsv": "Basic CSV",
+            "csvAuditLog": "CSV + Audit Log",
+            "fullAccess": "Full Access",
+            "emailSupport": "Email",
+            "priority": "Priority",
+            "dedicatedManager": "Dedicated Manager"
+        },
+        "footer": {
+            "copyright": "© 2026 FundEd. All rights reserved.",
+            "privacy": "Privacy Policy",
+            "terms": "Terms of Service"
+        }
+    },
+    "educationEquality": {
+        "badge": "Campaña Oficial FundEd",
+        "heroTitle1": "Educación",
+        "heroTitle2": "Donaciones de Igualdad",
+        "heroSubtitle": "244 millones de niños en todo el mundo no pueden ir a la escuela. En aulas con estufas, sin zapatos, incapaces de encontrar siquiera un cuaderno — juntos podemos proporcionar el <strong>derecho a una educación igualitaria</strong> para millones de niños.",
+        "heroSubtitlePlain": "244 millones de niños en todo el mundo no pueden ir a la escuela. Juntos podemos proporcionar el derecho a una educación igualitaria para millones de niños.",
+        "donateNow": "Donar Ahora",
+        "exploreCampaign": "Explorar Campaña",
+        "raised": "Recaudado",
+        "goal": "Meta",
+        "completed": "completado",
+        "donors": "donantes",
+        "stats": {
+            "studentsSupported": "Estudiantes Apoyados",
+            "countries": "Países",
+            "donorCount": "Donantes",
+            "fundingRate": "Tasa de Financiación"
+        },
+        "problem": {
+            "badge": "Hechos",
+            "title": "Desigualdad Educativa en el Mundo",
+            "subtitle": "Todo niño tiene derecho a la educación. Pero la geografía, la pobreza y la falta de infraestructura roban este derecho a millones de niños.",
+            "fact1": "244 millones de niños y jóvenes en todo el mundo no pueden ir a la escuela.",
+            "fact2": "El 60% de los niños en África Subsahariana no pueden completar la escuela primaria.",
+            "fact3": "617 millones de niños carecen de habilidades básicas de lectura, escritura y matemáticas.",
+            "fact4": "Más de 4 millones de niños refugiados no tienen acceso a ninguna educación.",
+            "fact5": "Solo $50 pueden cubrir los útiles escolares de un niño por un año."
+        },
+        "impact": {
+            "badge": "Nuestras Áreas de Impacto",
+            "title": "¿A Dónde Van Sus Donaciones?",
+            "subtitle": "Mantenemos registros transparentes de cada centavo. Aquí están las áreas donde sus donaciones cambian vidas.",
+            "schoolSupplies": "Útiles Escolares",
+            "schoolSuppliesDesc": "Cuadernos, bolígrafos, mochilas — proporcionamos acceso a herramientas educativas básicas.",
+            "sportsEquipment": "Equipo Deportivo",
+            "sportsEquipmentDesc": "Balones de fútbol, uniformes, zapatos — equipo básico para que los niños practiquen deportes.",
+            "schoolConstruction": "Construcción y Reparación de Escuelas",
+            "schoolConstructionDesc": "Renovación de escuelas a punto de colapsar, espacios de aprendizaje seguros.",
+            "digitalAccess": "Acceso a Educación Digital",
+            "digitalAccessDesc": "Tabletas, infraestructura de internet y apoyo al aprendizaje a distancia.",
+            "nutrition": "Nutrición y Salud",
+            "nutritionDesc": "Almuerzo caliente en la escuela y exámenes de salud básicos.",
+            "joinCard": "Únase a Nosotros",
+            "joinCardDesc": "Cada donación, grande o pequeña, cambia la vida de un niño. Contribuya a la igualdad educativa.",
+            "donate": "Donar"
+        },
+        "stories": {
+            "badge": "Historias Reales",
+            "title": "Niños Cuyas Vidas Cambiaron",
+            "subtitle": "Historias reales de niños que obtuvieron acceso a la educación gracias a sus donaciones.",
+            "yearsOld": "años",
+            "quote1": "Ahora tengo un cuaderno y un bolígrafo. Quiero ser médico algún día.",
+            "quote2": "En nuestra nueva escuela, ya no nos mojamos con la lluvia. Estudiar es maravilloso.",
+            "quote3": "Estudio matemáticas en mi tableta. Internet abrió un mundo completamente nuevo."
+        },
+        "transparency": {
+            "badge": "Transparencia",
+            "title": "El Viaje de Su Donación",
+            "step1": "Donar",
+            "step1Desc": "Done cualquier cantidad a través de nuestra infraestructura de pago segura.",
+            "step2": "Verificación",
+            "step2Desc": "Su donación se registra en un sistema transparente basado en blockchain.",
+            "step3": "Alcanzando la Meta",
+            "step3Desc": "Los fondos se transfieren directamente a escuelas y estudiantes.",
+            "step4": "Informe de Impacto",
+            "step4Desc": "Rastree el impacto de su donación con fotos y datos."
+        },
+        "ctaTitle": "Cambie el Futuro de un Niño",
+        "ctaSubtitle": "Cada donación es una esperanza. Seleccione uno de los montos a continuación o establezca el suyo.",
+        "otherAmount": "Otro monto",
+        "allSecure": "Todas las donaciones se procesan a través de una infraestructura segura.",
+        "transparencyPolicy": "Nuestra política de transparencia →",
+        "share": {
+            "title": "Puede Compartir Incluso Si No Dona",
+            "subtitle": "Puede contribuir a la educación compartiendo esta campaña con su red. Incluso un compartido hace la diferencia.",
+            "copyLink": "Copiar Enlace"
+        }
+    },
+    "howItWorks": {
+        "badge": "Simple, Transparent, Effective",
+        "heroTitle1": "How FundEd",
+        "heroTitle2": "Works?",
+        "heroSubtitle": "We connect donors and students in 4 simple steps. Every step is transparent, every penny is traceable.",
+        "step": "Step",
+        "steps": {
+            "s1Title": "Discover Students",
+            "s1Desc": "Browse verified students on the platform. Filter by country, department, and need type. Each profile shows the student's story, need details, and verification status.",
+            "s1h1": "Detailed profile pages",
+            "s1h2": "Need categories",
+            "s1h3": "Verification badges",
+            "s2Title": "Make a Secure Donation",
+            "s2Desc": "Donate to any student or the general education fund. Complete in seconds with quick amount buttons or custom amount entry. Secure infrastructure encrypted with 256-bit SSL.",
+            "s2h1": "Fast payment",
+            "s2h2": "Anonymous donation option",
+            "s2h3": "SSL encrypted security",
+            "s3Title": "Funding & Transfer",
+            "s3Desc": "Collected donations are transferred directly to the student's needs. School supplies, scholarships, or digital tools — every penny reaches its target.",
+            "s3h1": "Direct transfer",
+            "s3h2": "Need-specific spending",
+            "s3h3": "No intermediary system",
+            "s4Title": "Impact Tracking",
+            "s4Desc": "Track the impact of your donation with concrete data and photos. Thank you messages from students, progress reports, and impact analyses on your dashboard.",
+            "s4h1": "Photo-documented reports",
+            "s4h2": "Impact metrics",
+            "s4h3": "Personal dashboard"
+        },
+        "verification": {
+            "badge": "Verification Process",
+            "title": "How Are Students Verified?",
+            "subtitle": "Every student on the platform goes through a rigorous verification process.",
+            "v1Title": "Application",
+            "v1Desc": "Student submits application with ID, enrollment documents and need details.",
+            "v2Title": "Identity Verification",
+            "v2Desc": "Our team verifies identity through official documents and institutional sources.",
+            "v3Title": "Need Analysis",
+            "v3Desc": "Student's financial situation and education needs are thoroughly evaluated.",
+            "v4Title": "Approval & Publishing",
+            "v4Desc": "Verified student profiles receive a 'Verified' badge and are added to the platform."
+        },
+        "trust": {
+            "badge": "Security & Assurance",
+            "title": "Why FundEd?",
+            "t1Title": "100% Transparent",
+            "t1Desc": "Every donation record and spending detail is publicly accessible. No hidden costs.",
+            "t2Title": "Secure Infrastructure",
+            "t2Desc": "256-bit SSL encryption, PCI-compliant payment system.",
+            "t3Title": "Impact Visibility",
+            "t3Desc": "Track the difference your donation makes with photos and data.",
+            "t4Title": "Direct Impact",
+            "t4Desc": "Minimal intermediary commission — most of your donation reaches the student directly."
+        },
+        "whoFor": {
+            "badge": "Who Is It For?",
+            "title": "FundEd Is for Everyone",
+            "donors": "Donors",
+            "donorsDesc": "Change students' lives with individual or regular donations. Track impact from your dashboard.",
+            "donorsF1": "Fast & easy donation",
+            "donorsF2": "Impact reports",
+            "donorsF3": "Anonymous option",
+            "donorsF4": "Tax receipt",
+            "students": "Students",
+            "studentsDesc": "Apply for your education needs. After verification, your profile is added to the platform and matched with donors.",
+            "studentsF1": "Easy application process",
+            "studentsF2": "Privacy guarantee",
+            "studentsF3": "Direct support",
+            "studentsF4": "Mentor access",
+            "institutions": "Institutions",
+            "institutionsDesc": "Make ESG-compliant donations on behalf of your company. Manage impact with your team through the corporate panel.",
+            "institutionsF1": "Corporate dashboard",
+            "institutionsF2": "ESG reporting",
+            "institutionsF3": "Multi-user",
+            "institutionsF4": "API access"
+        },
+        "faq": {
+            "badge": "FAQ",
+            "title": "Frequently Asked Questions",
+            "q1": "Where does my donation go?",
+            "a1": "Your donation is directed to the student you selected. Donations to the general fund are distributed to students with the most urgent needs. Every transaction is recorded and traceable.",
+            "q2": "Can I donate anonymously?",
+            "a2": "Yes! You can donate completely anonymously by leaving the name and email fields blank on the donation form.",
+            "q3": "How are students verified?",
+            "a3": "Every student application is made with ID, enrollment documents, and a needs statement. Our team verifies all documents and publishes the profile after confirming eligibility.",
+            "q4": "How can I see the impact of my donation?",
+            "a4": "After donating, you can track student progress, photos, and impact reports from your personal dashboard.",
+            "q5": "Can we make corporate donations?",
+            "a5": "Yes! With our FundEd Corporate panel, you can donate on behalf of your company, automatically generate ESG reports, and track impact together with your team.",
+            "q6": "What is the minimum donation amount?",
+            "a6": "The minimum donation is $1. Every amount makes a difference — even $10 can provide a student with notebooks and pens for a month."
+        },
+        "cta": {
+            "title": "Start Your Contribution to Education Today",
+            "subtitle": "Every donation, big or small, brightens a child's future. Take the first step now.",
+            "donate": "Donate",
+            "discoverStudents": "Discover Students"
+        }
+    },
+    "whoWeAre": {
+        "hero": {
+            "badge": "¿Quiénes Somos?",
+            "title": "Un Equipo Que Cree En",
+            "titleHighlight": "El Poder de la Educación",
+            "desc": "FundEd fue fundada para hacer realidad los sueños educativos de estudiantes de todo el mundo. Combinamos transparencia, tecnología y empatía.",
+            "donate": "Donar",
+            "campaign": "Ver Nuestra Campaña"
+        },
+        "story": {
+            "badge": "Nuestra Historia",
+            "title": "Empezamos Con",
+            "titleHighlight": "Una Pregunta",
+            "quote": "¿Por qué un estudiante talentoso debería abandonar su educación solo por imposibilidad financiera?",
+            "p1": "Nos pusimos en marcha con esta pregunta. Vimos que más de 244 millones de niños en el mundo no pueden ir a la escuela, y cientos de miles de estudiantes universitarios renuncian a sus sueños debido a problemas financieros.",
+            "p2": "FundEd nació como una plataforma que conecta directamente a donantes con estudiantes, donde cada centavo es rastreable y el impacto se puede medir con datos concretos.",
+            "p3": "Nuestro objetivo es simple:",
+            "p3Highlight": "Democratizar el acceso a la educación.",
+            "p3End": "Al hacerlo, ponemos la transparencia, la tecnología y las historias humanas en el centro.",
+            "stats": {
+                "students": "Estudiantes Apoyados",
+                "countries": "Países",
+                "donors": "Donantes",
+                "successRate": "Tasa de Éxito de Financiación"
+            }
+        },
+        "values": {
+            "badge": "Nuestros Valores",
+            "title": "Principios Que Nos Definen",
+            "desc": "Cada decisión que tomamos se forma en torno a estos valores.",
+            "items": {
+                "transparency": {
+                    "title": "Transparencia",
+                    "desc": "Mostramos claramente a dónde va cada donación. Nada está oculto."
+                },
+                "empathy": {
+                    "title": "Empatía",
+                    "desc": "Entendemos la historia de cada estudiante y ofrecemos soluciones específicas a sus necesidades."
+                },
+                "equality": {
+                    "title": "Igualdad",
+                    "desc": "Derecho a acceder a la educación independientemente de la geografía, género o nivel de ingresos."
+                },
+                "innovation": {
+                    "title": "Innovación",
+                    "desc": "Hacemos el proceso de donación más eficiente y efectivo utilizando tecnología."
+                },
+                "community": {
+                    "title": "Comunidad",
+                    "desc": "Un fuerte ecosistema de donantes, estudiantes y voluntarios."
+                },
+                "impact": {
+                    "title": "Orientado al Impacto",
+                    "desc": "Basamos cada decisión en crear un impacto social medible."
+                }
+            }
+        },
+        "howItWorks": {
+            "badge": "¿Cómo Trabajamos?",
+            "title": "4 Pasos de la Donación al Impacto",
+            "items": {
+                "step1": {
+                    "title": "Solicitud y Verificación",
+                    "desc": "Los estudiantes solicitan, nuestro equipo verifica identidad y necesidad."
+                },
+                "step2": {
+                    "title": "Donación y Coincidencia",
+                    "desc": "Los donantes eligen estudiantes adecuados y donan a través de infraestructura segura."
+                },
+                "step3": {
+                    "title": "Financiación y Distribución",
+                    "desc": "Los fondos se transfieren directamente para cubrir las necesidades del estudiante."
+                },
+                "step4": {
+                    "title": "Informe de Impacto",
+                    "desc": "Los donantes ven el impacto de sus donaciones con fotos y datos."
+                }
+            }
+        },
+        "timeline": {
+            "badge": "Nuestro Viaje",
+            "title": "Nuestros Hitos",
+            "items": {
+                "e1": {
+                    "event": "Nació la idea de FundEd",
+                    "desc": "Se dio el primer paso para resolver la desigualdad en la educación."
+                },
+                "e2": {
+                    "event": "Desarrollo de plataforma",
+                    "desc": "Se estableció la infraestructura técnica y el sistema de verificación."
+                },
+                "e3": {
+                    "event": "Lanzamiento Beta",
+                    "desc": "Los primeros estudiantes y donantes se unieron a la plataforma."
+                },
+                "e4": {
+                    "event": "Módulo Corporativo",
+                    "desc": "Se abrió el panel de donaciones compatible con ESG para empresas."
+                },
+                "e5": {
+                    "event": "Expansión Global",
+                    "desc": "Acceso a 12 países, apoyo a miles de estudiantes."
+                }
+            }
+        },
+        "team": {
+            "badge": "Nuestro Equipo",
+            "title": "Personas Creando Cambio",
+            "desc": "Profesionales expertos en sus campos y que creen en la igualdad educativa.",
+            "items": {
+                "te1": {
+                    "role": "Fundador y CEO",
+                    "bio": "Un emprendedor apasionado por las tecnologías educativas y el impacto social."
+                },
+                "te2": {
+                    "role": "CTO",
+                    "bio": "Ingeniero de software experto en Blockchain e infraestructura de transparencia."
+                },
+                "te3": {
+                    "role": "COO",
+                    "bio": "Gerente que combina experiencia en ONG con excelencia operativa."
+                },
+                "te4": {
+                    "role": "Director de Impacto y Comms",
+                    "bio": "Experto fortaleciendo relaciones con donantes mediante redes sociales y gestión comunitaria."
+                }
+            }
+        },
+        "transparency": {
+            "title": "Nuestro Compromiso de Transparencia",
+            "desc": "En FundEd, garantizamos que cada donación es rastreable, cada centavo se contabiliza y cada informe de impacto está respaldado por datos concretos.",
+            "items": {
+                "t1": {
+                    "title": "100% Transparencia",
+                    "desc": "Cada registro de donación es de acceso abierto"
+                },
+                "t2": {
+                    "title": "Estudiantes Verificados",
+                    "desc": "Verificación de identidad y necesidad"
+                },
+                "t3": {
+                    "title": "Informe de Impacto",
+                    "desc": "Seguimiento de resultados con fotos"
+                }
+            },
+            "btn1": "Página de Transparencia",
+            "btn2": "Ver Informes"
+        },
+        "cta": {
+            "badge": "Únete a Nuestra Comunidad",
+            "title": "Somos Más Fuertes Juntos",
+            "desc": "Ya seas donante, estudiante o voluntario — podemos trabajar juntos por la igualdad educativa. Da el primer paso hoy.",
+            "donate": "Donar",
+            "apply": "Aplicar como Estudiante",
+            "corporate": "Soluciones Corporativas"
+        }
+    },
+    "missionVision": {
+        "demoWarning": {
+            "title": "Vista previa",
+            "message": "La plataforma está en fase de vista previa. Lista para los primeros pilotos corporativos."
+        },
+        "hero": {
+            "badge": "Misión y Visión",
+            "title": "Igualdad en la Educación, ",
+            "titleHighlight": "Esperanza para el Futuro",
+            "desc": "Creemos que cada niño tiene derecho a un acceso igualitario a la educación. Convertimos esta creencia en realidad utilizando tecnología y el poder de la comunidad."
+        },
+        "cards": {
+            "mission": {
+                "badge": "Nuestra Misión",
+                "title": "¿Por Qué Existimos?",
+                "desc": "Crear una plataforma transparente que conecte a estudiantes verificados con donantes de confianza para eliminar la desigualdad en el acceso a la educación.",
+                "items": {
+                    "i1": "Facilitar el acceso a la educación eliminando barreras económicas",
+                    "i2": "Asegurar que cada donación sea rastreable y responsable",
+                    "i3": "Ayudar a los estudiantes a realizar su potencial"
+                }
+            },
+            "vision": {
+                "badge": "Nuestra Visión",
+                "title": "¿Hacia Dónde Vamos?",
+                "desc": "Un futuro donde ningún estudiante en el mundo se vea privado de educación por imposibilidad financiera, y la educación se viva como un derecho universal.",
+                "items": {
+                    "i1": "Crear una red global de financiación educativa",
+                    "i2": "Usar IA para análisis de necesidades y emparejamiento",
+                    "i3": "Liderar el cambio sostenible en la educación"
+                }
+            }
+        },
+        "impactNumbers": {
+            "students": "Estudiantes Apoyados",
+            "countries": "Países Activos",
+            "funding": "Financiación Total",
+            "satisfaction": "Satisfacción del Donante"
+        },
+        "principles": {
+            "badge": "Nuestros Principios Fundamentales",
+            "title": "Valores Que Nos Guían",
+            "desc": "Estos principios están detrás de cada decisión que tomamos. No son solo palabras, sino nuestra forma de vida.",
+            "items": {
+                "transparency": {
+                    "title": "Transparencia",
+                    "desc": "Compartimos claramente adónde va cada donación y cómo se gasta cada centavo. Sin costos ocultos, sin agendas ocultas."
+                },
+                "equality": {
+                    "title": "Igualdad",
+                    "desc": "Creemos que cada estudiante tiene derecho a un acceso igualitario a la educación. Las barreras geográficas, económicas o sociales no importan."
+                },
+                "verification": {
+                    "title": "Verificación",
+                    "desc": "Cada perfil de estudiante se verifica meticulosamente. Nuestros donantes pueden estar seguros de que están llegando a quienes realmente necesitan ayuda."
+                },
+                "community": {
+                    "title": "Comunidad",
+                    "desc": "Construimos vínculos significativos entre donantes y estudiantes. Construimos una comunidad sostenible, no una ayuda única."
+                },
+                "innovation": {
+                    "title": "Innovación",
+                    "desc": "Usamos tecnología para hacer el proceso de donación más eficiente, rastreable y efectivo."
+                },
+                "impact": {
+                    "title": "Orientado al Impacto",
+                    "desc": "Tomamos cada decisión preguntando 'cuál es el impacto en el estudiante?'. Producimos resultados, no burocracia."
+                }
+            }
+        },
+        "approach": {
+            "visual": {
+                "title": "El Enfoque Que Marca la Diferencia",
+                "desc": "A diferencia de las plataformas de donación tradicionales, verificamos a cada estudiante, rastreamos cada centavo y medimos cada impacto.",
+                "stats": {
+                    "verification": {
+                        "val": "100%",
+                        "label": "Verificación"
+                    },
+                    "traceability": {
+                        "val": "100%",
+                        "label": "Trazabilidad"
+                    },
+                    "hiddenCost": {
+                        "val": "0",
+                        "label": "Costo Oculto"
+                    },
+                    "reviewTime": {
+                        "val": "48h",
+                        "label": "Tiempo de Revisión"
+                    }
+                },
+                "trustScore": {
+                    "label": "Puntuación de Confianza",
+                    "val": "4.9 / 5.0"
+                }
+            },
+            "content": {
+                "badge": "Nuestro Enfoque",
+                "title": "No Donación, Inversión.",
+                "titleHighlight": "Inversión en el Futuro.",
+                "desc": "En FundEd, vemos cada donación como una inversión — una inversión en el futuro de un estudiante, el desarrollo de una sociedad, un mundo más justo.",
+                "items": {
+                    "verified": {
+                        "title": "Perfiles Verificados",
+                        "desc": "Cada estudiante es verificado con identificación, certificado de estudios y análisis de necesidades."
+                    },
+                    "impact": {
+                        "title": "Medición de Impacto",
+                        "desc": "La diferencia creada por la donación se mide y se reporta con métricas concretas."
+                    },
+                    "speed": {
+                        "title": "Transferencia Rápida",
+                        "desc": "Los fondos se transfieren rápidamente minimizando los obstáculos burocráticos."
+                    },
+                    "community": {
+                        "title": "Poder de la Comunidad",
+                        "desc": "Donantes, estudiantes e instituciones se unen para crear un impacto sostenible."
+                    }
+                }
+            },
+            "roadmap": {
+                "badge": "Roadmap",
+                "title": "Nuestros Objetivos",
+                "desc": "Pensamos en grande, paso a paso. Aquí es hacia donde vamos.",
+                "items": {
+                    "g1": {
+                        "title": "10,000 Estudiantes",
+                        "desc": "Proporcionar apoyo educativo directo a 10,000 estudiantes en Turquía y países vecinos."
+                    },
+                    "g2": {
+                        "title": "Acceso Global",
+                        "desc": "Expandir la red de financiación educativa activamente en 25+ países."
+                    },
+                    "g3": {
+                        "title": "Puente Corporativo",
+                        "desc": "Incluir empresas en la financiación educativa sostenible con 500+ socios corporativos."
+                    },
+                    "g4": {
+                        "title": "Educación Igualitaria",
+                        "desc": "Reducir mensurablemente la desigualdad geográfica en el acceso a la educación."
+                    }
+                }
+            },
+            "quote": {
+                "text": "Dar educación a un niño no es cambiar una vida. Es transformar una generación.",
+                "author": "Equipo FundEd",
+                "role": "Manifiesto Fundacional, 2024"
+            },
+            "cta": {
+                "title": "Únete a Esta Misión",
+                "desc": "Puedes cambiar la vida de un estudiante con una donación, cultivar la esperanza de un estudiante con una solicitud.",
+                "donate": "Donar",
+                "apply": "Aplicar como Estudiante"
+            }
+        }
+    },
+    "applySteps": {
+        "step1": "Personal Information",
+        "step2": "Education Information",
+        "step3": "Need Details",
+        "step4": "Documents"
+    },
+    "navExtra": {
+        "missionVision": "Mission & Vision"
     }
 }

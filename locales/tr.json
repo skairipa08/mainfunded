@@ -27,14 +27,14 @@
         "close": "Kapat",
         "learnMore": "Daha Fazla Bilgi",
         "getStarted": "Basla",
-        "demoBanner": "Bu platform su anda demo asamasindadir. Gosterilen veriler ornek amaclidir.",
-        "demoPageGeneral": "Bu sayfa demo amaclidir. Gercek veriler platform aktif oldugunda guncellenecektir.",
-        "demoStories": "Bu sayfa demo amaclidir. Hikayeler ve tutarlar ornek icin gosterilmektedir; gercek veriler platform aktif oldugunda guncellenecektir.",
-        "demoAlumni": "Bu sayfa demo amaclidir. Mezun bilgileri ve tutarlar ornek icin gosterilmektedir; gercek veriler platform aktif oldugunda guncellenecektir.",
-        "demoReports": "Bu sayfa demo amaclidir. Raporlar ve tutarlar ornek icin gosterilmektedir; gercek veriler platform aktif oldugunda guncellenecektir.",
-        "demoBadges": "Bu sayfa demo amaclidir. Rozetler ve ilerleme degerleri platform aktif oldugunda guncellenecektir.",
-        "demoLeaderboard": "Bu sayfa demo amaclidir. Siralamalar ve tutarlar platform aktif oldugunda gercek verilerle guncellenecektir.",
-        "demoTransparency": "Bu sayfa demo amaclidir. Gercek veriler platform aktif oldugunda guncellenecektir."
+        "demoBanner": "Platform ön izleme aşamasında. İlk kurumsal pilotlar için hazır.",
+        "demoPageGeneral": "Platform ön izleme aşamasında. İlk kurumsal pilotlar için hazır.",
+        "demoStories": "Platform ön izleme aşamasında. İlk kurumsal pilotlar için hazır.",
+        "demoAlumni": "Platform ön izleme aşamasında. İlk kurumsal pilotlar için hazır.",
+        "demoReports": "Platform ön izleme aşamasında. İlk kurumsal pilotlar için hazır.",
+        "demoBadges": "Platform ön izleme aşamasında. İlk kurumsal pilotlar için hazır.",
+        "demoLeaderboard": "Platform ön izleme aşamasında. İlk kurumsal pilotlar için hazır.",
+        "demoTransparency": "Platform ön izleme aşamasında. İlk kurumsal pilotlar için hazır."
     },
     "nav": {
         "home": "Ana Sayfa",
@@ -94,7 +94,59 @@
             "perfectDonor": "Mükemmel Bağışçı",
             "legend": "Efsane",
             "donation": "bağış",
-            "donations": "bağış"
+            "donations": "bağış",
+            "items": {
+                "first_step": {
+                    "name": "İlk Adım",
+                    "desc": "İlk bağışınızı yaptınız"
+                },
+                "supporter": {
+                    "name": "Destekçi",
+                    "desc": "5 bağış yaptınız"
+                },
+                "champion": {
+                    "name": "Şampiyon",
+                    "desc": "25 bağış yaptınız"
+                },
+                "legend": {
+                    "name": "Efsane",
+                    "desc": "100 bağış yaptınız"
+                },
+                "generous": {
+                    "name": "Cömert",
+                    "desc": "Toplam $1,000 bağış"
+                },
+                "philanthropist": {
+                    "name": "Hayırsever",
+                    "desc": "Toplam $10,000 bağış"
+                },
+                "patron": {
+                    "name": "Hamiler",
+                    "desc": "Toplam $50,000 bağış"
+                },
+                "student_champion": {
+                    "name": "Öğrenci Şampiyonu",
+                    "desc": "10 farklı öğrenciyi desteklediniz"
+                },
+                "streak_master": {
+                    "name": "Seri Ustası",
+                    "desc": "12 ay üst üste bağış yaptınız"
+                },
+                "early_bird": {
+                    "name": "Erken Kuş",
+                    "desc": "Platform lansmanından bu yana üye"
+                },
+                "matching_hero": {
+                    "name": "Eşleştirme Kahramanı",
+                    "desc": "Matching gift programına katıldınız"
+                },
+                "mentor": {
+                    "name": "Mentor",
+                    "desc": "Bir öğrenciye mentor oldunuz"
+                }
+            },
+            "moreBadges": "daha fazla rozet",
+            "progressLabel": "İlerleme"
         },
         "leaderboard": {
             "title": "Lider Tablosu",
@@ -114,7 +166,337 @@
             "subtitle": "FundEd ile hayallerine kavuşan öğrencilerimizin başarı hikayeleri",
             "giveBackProgram": "Geri Ver Programı",
             "giveBackDesc": "Mezunlarımızın %27'si aktif olarak yeni öğrencilere destek oluyor",
-            "joinProgram": "Programa Katıl"
+            "joinProgram": "Programa Katıl",
+            "stats": {
+                "graduatedStudent": "Mezun Öğrenci",
+                "employmentRate": "İstihdam Oranı",
+                "averageSalary": "Ortalama Maaş",
+                "givingBack": "Geri Veren"
+            },
+            "card": {
+                "alumniBadge": "Mezun",
+                "totalReceived": "Alınan Destek",
+                "totalGivenBack": "Geri Verilen",
+                "readStory": "Hikayesini Oku"
+            },
+            "mock": {
+                "story1": "FundEd olmasaydı üniversiteyi bitiremezdim. Şimdi hayallerimi yaşıyorum ve sıra bende. Her ay bir öğrenciye destek oluyorum.",
+                "story2": "Ailem beni destekleyemiyordu. FundEd ailesi olmasa burada olamazdım."
+            }
+        },
+        "whoWeAre": {
+            "hero": {
+                "badge": "Biz Kimiz?",
+                "title": "Eğitimin Gücüne",
+                "titleHighlight": "İnanan Bir Ekip",
+                "desc": "FundEd, dünyanın dört bir yanındaki öğrencilerin eğitim hayallerini gerçeğe dönüştürmek için kuruldu. Şeffaflık, teknoloji ve empatiyi bir araya getiriyoruz.",
+                "donate": "Bağış Yap",
+                "campaign": "Kampanyamızı Gör"
+            },
+            "story": {
+                "badge": "Hikayemiz",
+                "title": "Bir Soruyla",
+                "titleHighlight": "Başladık",
+                "quote": "Neden yetenekli bir öğrenci, sadece maddi imkânsızlık yüzünden eğitimini yarıda bırakmak zorunda kalsın?",
+                "p1": "Bu soruyla yola çıktık. Dünyada 244 milyondan fazla çocuğun okula gidemediğini, yüz binlerce üniversite öğrencisinin maddi sorunlar yüzünden hayallerinden vazgeçtiğini gördük.",
+                "p2": "FundEd, bağışçılarla öğrencileri doğrudan buluşturan, her kuruşun izlenebilir olduğu ve etkinin somut verilerle ölçülebildiği bir platform olarak doğdu.",
+                "p3": "Amacımız basit:",
+                "p3Highlight": "Eğitime erişimi demokratikleştirmek.",
+                "p3End": "Bunu yaparken şeffaflığı, teknolojiyi ve insan hikayelerini merkeze koyuyoruz.",
+                "stats": {
+                    "students": "Desteklenen Öğrenci",
+                    "countries": "Ülke",
+                    "donors": "Bağışçı",
+                    "successRate": "Fonlama Başarı Oranı"
+                }
+            },
+            "values": {
+                "badge": "Değerlerimiz",
+                "title": "Bizi Biz Yapan İlkeler",
+                "desc": "Her kararımız bu değerler çerçevesinde şekillenir.",
+                "items": {
+                    "transparency": {
+                        "title": "Şeffaflık",
+                        "desc": "Her bağışın nereye gittiğini açıkça gösteririz. Hiçbir şey gizli değil."
+                    },
+                    "empathy": {
+                        "title": "Empati",
+                        "desc": "Her öğrencinin hikayesini anlar, ihtiyacına özel çözümler sunarız."
+                    },
+                    "equality": {
+                        "title": "Eşitlik",
+                        "desc": "Coğrafya, cinsiyet ya da gelir düzeyi fark etmeksizin eğitime erişim hakkı."
+                    },
+                    "innovation": {
+                        "title": "İnovasyon",
+                        "desc": "Teknolojiyi kullanarak bağış sürecini daha verimli ve etkili hale getiriyoruz."
+                    },
+                    "community": {
+                        "title": "Topluluk",
+                        "desc": "Bağışçılar, öğrenciler ve gönüllülerden oluşan güçlü bir ekosistem."
+                    },
+                    "impact": {
+                        "title": "Etki Odaklılık",
+                        "desc": "Her kararımızı ölçülebilir sosyal etki yaratmak üzerine kuruyoruz."
+                    }
+                }
+            },
+            "howItWorks": {
+                "badge": "Nasıl Çalışıyoruz?",
+                "title": "Bağıştan Etkiye 4 Adım",
+                "items": {
+                    "step1": {
+                        "title": "Başvuru & Doğrulama",
+                        "desc": "Öğrenciler başvurur, ekibimiz kimlik ve ihtiyaç doğrulaması yapar."
+                    },
+                    "step2": {
+                        "title": "Bağış & Eşleşme",
+                        "desc": "Bağışçılar uygun öğrenciyi seçer, güvenli altyapıyla bağış yapar."
+                    },
+                    "step3": {
+                        "title": "Fonlama & Dağıtım",
+                        "desc": "Fonlar doğrudan öğrencinin ihtiyacına yönelik olarak aktarılır."
+                    },
+                    "step4": {
+                        "title": "Etki Raporlama",
+                        "desc": "Bağışçılar, bağışlarının yarattığı etkiyi fotoğraf ve verilerle görür."
+                    }
+                }
+            },
+            "timeline": {
+                "badge": "Yolculuğumuz",
+                "title": "Kilometre Taşlarımız",
+                "items": {
+                    "e1": {
+                        "event": "FundEd fikri doğdu",
+                        "desc": "Eğitimde eşitsizliği çözmek için ilk adım atıldı."
+                    },
+                    "e2": {
+                        "event": "Platform geliştirme",
+                        "desc": "Teknik altyapı ve doğrulama sistemi kuruldu."
+                    },
+                    "e3": {
+                        "event": "Beta lansmanı",
+                        "desc": "İlk öğrenciler ve bağışçılar platforma dahil oldu."
+                    },
+                    "e4": {
+                        "event": "Kurumsal modül",
+                        "desc": "Şirketler için ESG uyumlu bağış paneli açıldı."
+                    },
+                    "e5": {
+                        "event": "Global genişleme",
+                        "desc": "12 ülkeye erişim, binlerce öğrenciye destek."
+                    }
+                }
+            },
+            "team": {
+                "badge": "Ekibimiz",
+                "title": "Değişimi Yaratan İnsanlar",
+                "desc": "Her biri alanında uzman, eğitim eşitliğine inanmış profesyoneller.",
+                "items": {
+                    "te1": {
+                        "role": "Kurucu & CEO",
+                        "bio": "Eğitim teknolojileri ve sosyal etki alanında tutkulu bir girişimci."
+                    },
+                    "te2": {
+                        "role": "CTO",
+                        "bio": "Blockchain ve şeffaflık altyapısı konusunda uzman yazılım mühendisi."
+                    },
+                    "te3": {
+                        "role": "COO",
+                        "bio": "STK deneyimi ile operasyonel mükemmelliği birleştiren yönetici."
+                    },
+                    "te4": {
+                        "role": "Etki & İletişim Direktörü",
+                        "bio": "Sosyal medya ve topluluk yönetimi ile bağışçı ilişkilerini güçlendiren uzman."
+                    }
+                }
+            },
+            "transparency": {
+                "title": "Şeffaflık Taahhüdümüz",
+                "desc": "FundEd olarak her bağışın izlenebilir olmasını, her kuruşun hesabının verilmesini ve her etki raporunun somut verilerle desteklenmesini garanti ediyoruz.",
+                "items": {
+                    "t1": {
+                        "title": "%100 Şeffaflık",
+                        "desc": "Her bağış kaydı açık erişimde"
+                    },
+                    "t2": {
+                        "title": "Doğrulanmış Öğrenciler",
+                        "desc": "Kimlik ve ihtiyaç kontrolü"
+                    },
+                    "t3": {
+                        "title": "Etki Raporlama",
+                        "desc": "Fotoğraflı sonuç takibi"
+                    }
+                },
+                "btn1": "Şeffaflık Sayfası",
+                "btn2": "Raporları Görüntüle"
+            },
+            "cta": {
+                "badge": "Topluluğumuza Katılın",
+                "title": "Birlikte Daha Güçlüyüz",
+                "desc": "İster bağışçı olun, ister öğrenci, ister gönüllü — eğitim eşitliği için birlikte çalışabiliriz. İlk adımı bugün atın.",
+                "donate": "Bağış Yap",
+                "apply": "Öğrenci Başvurusu",
+                "corporate": "Kurumsal Çözümler"
+            }
+        },
+        "missionVision": {
+            "demoWarning": {
+                "title": "Ön İzleme",
+                "message": "Platform ön izleme aşamasında. İlk kurumsal pilotlar için hazır."
+            },
+            "hero": {
+                "badge": "Misyon & Vizyon",
+                "title": "Eğitimde Eşitlik,",
+                "titleHighlight": "Gelecekte Umut",
+                "desc": "Her çocuğun eğitime eşit erişim hakkı olduğuna inanıyoruz. Teknolojiyi ve topluluğun gücünü kullanarak bu inancı gerçeğe dönüştürüyoruz."
+            },
+            "cards": {
+                "mission": {
+                    "badge": "Misyonumuz",
+                    "title": "Neden Varız?",
+                    "desc": "Eğitime erişimde yaşanan eşitsizliği ortadan kaldırmak için, doğrulanmış öğrencileri güvenilir bağışçılarla buluşturan şeffaf bir platform oluşturmak.",
+                    "items": {
+                        "i1": "Ekonomik engelleri ortadan kaldırarak eğitime erişimi kolaylaştırmak",
+                        "i2": "Her bağışın izlenebilir ve hesap verebilir olmasını sağlamak",
+                        "i3": "Öğrencilerin potansiyellerini gerçekleştirmelerine yardımcı olmak"
+                    }
+                },
+                "vision": {
+                    "badge": "Vizyonumuz",
+                    "title": "Nereye Gidiyoruz?",
+                    "desc": "Dünyada hiçbir öğrencinin maddi imkansızlık nedeniyle eğitimden mahrum kalmadığı, eğitimin evrensel bir hak olarak yaşandığı bir gelecek.",
+                    "items": {
+                        "i1": "Global ölçekte eğitim fonlama ağı oluşturmak",
+                        "i2": "Yapay zeka ile ihtiyaç analizi ve eşleştirme yapmak",
+                        "i3": "Eğitimde sürdürülebilir değişimin öncüsü olmak"
+                    }
+                }
+            },
+            "impactNumbers": {
+                "students": "Desteklenen Öğrenci",
+                "countries": "Aktif Ülke",
+                "funding": "Toplam Fonlama",
+                "satisfaction": "Bağışçı Memnuniyeti"
+            },
+            "principles": {
+                "badge": "Temel İlkelerimiz",
+                "title": "Bizi Yönlendiren Değerler",
+                "desc": "Her kararımızın arkasında bu ilkeler var. Bunlar sadece kelime değil, yaşam biçimimiz.",
+                "items": {
+                    "transparency": {
+                        "title": "Şeffaflık",
+                        "desc": "Her bağışın nereye gittiğini, her kuruşun nasıl harcandığını açıkça paylaşırız. Gizli maliyet, gizli gündem yoktur."
+                    },
+                    "equality": {
+                        "title": "Eşitlik",
+                        "desc": "Her öğrencinin eğitime eşit erişim hakkı olduğuna inanırız. Coğrafi, ekonomik veya sosyal engeller fark etmez."
+                    },
+                    "verification": {
+                        "title": "Doğrulama",
+                        "desc": "Her öğrenci profili titizlikle doğrulanır. Bağışçılarımız gerçek ihtiyaç sahiplerine ulaştıklarından emin olabilir."
+                    },
+                    "community": {
+                        "title": "Topluluk",
+                        "desc": "Bağışçı ve öğrenci arasında anlamlı bağlar kurarız. Tek seferlik yardım değil, sürdürülebilir bir topluluk inşa ederiz."
+                    },
+                    "innovation": {
+                        "title": "İnovasyon",
+                        "desc": "Teknolojiyi kullanarak bağış sürecini daha verimli, izlenebilir ve etkili hale getiririz."
+                    },
+                    "impact": {
+                        "title": "Etki Odaklılık",
+                        "desc": "Her kararımızı 'öğrenciye etkisi ne olur?' sorusuyla alırız. Bürokrasi değil, sonuç üretiriz."
+                    }
+                }
+            },
+            "approach": {
+                "visual": {
+                    "title": "Fark Yaratan Yaklaşım",
+                    "desc": "Geleneksel bağış platformlarından farklı olarak, her öğrenciyi doğruluyoruz, her kuruşu izliyoruz ve her etkiyi ölçüyoruz.",
+                    "stats": {
+                        "verification": {
+                            "val": "%100",
+                            "label": "Doğrulama"
+                        },
+                        "traceability": {
+                            "val": "%100",
+                            "label": "İzlenebilirlik"
+                        },
+                        "hiddenCost": {
+                            "val": "0",
+                            "label": "Gizli Maliyet"
+                        },
+                        "reviewTime": {
+                            "val": "48s",
+                            "label": "İnceleme Süresi"
+                        }
+                    },
+                    "trustScore": {
+                        "label": "Güven Skoru",
+                        "val": "4.9 / 5.0"
+                    }
+                },
+                "content": {
+                    "badge": "Yaklaşımımız",
+                    "title": "Bağış Değil, Yatırım.",
+                    "titleHighlight": "Geleceğe Yatırım.",
+                    "desc": "FundEd'de her bağışı bir yatırım olarak görüyoruz — bir öğrencinin geleceğine, bir toplumun kalkınmasına, daha adil bir dünyaya yapılan yatırım.",
+                    "items": {
+                        "verified": {
+                            "title": "Doğrulanmış Profiller",
+                            "desc": "Her öğrenci kimlik, öğrenim belgesi ve ihtiyaç analizi ile doğrulanır."
+                        },
+                        "impact": {
+                            "title": "Etki Ölçümü",
+                            "desc": "Bağışın yarattığı fark somut metriklerle ölçülür ve raporlanır."
+                        },
+                        "speed": {
+                            "title": "Hızlı Aktarım",
+                            "desc": "Bürokratik engeller minimize edilerek fonlar hızlıca aktarılır."
+                        },
+                        "community": {
+                            "title": "Topluluk Gücü",
+                            "desc": "Bağışçılar, öğrenciler ve kurumlar bir araya gelerek sürdürülebilir etki yaratır."
+                        }
+                    }
+                }
+            },
+            "roadmap": {
+                "badge": "Yol Haritası",
+                "title": "Hedeflerimiz",
+                "desc": "Büyük düşünüyoruz, adım adım ilerliyoruz. İşte nereye doğru gittiğimiz.",
+                "items": {
+                    "g1": {
+                        "title": "10.000 Öğrenci",
+                        "desc": "Türkiye ve çevre ülkelerde 10.000 öğrenciye doğrudan eğitim desteği sağlamak."
+                    },
+                    "g2": {
+                        "title": "Global Erişim",
+                        "desc": "25+ ülkede aktif olarak eğitim fonlama ağını genişletmek."
+                    },
+                    "g3": {
+                        "title": "Kurumsal Köprü",
+                        "desc": "500+ kurumsal ortakla şirketleri sürdürülebilir eğitim fonlamasına dahil etmek."
+                    },
+                    "g4": {
+                        "title": "Eşit Eğitim",
+                        "desc": "Eğitime erişimde coğrafi eşitsizliği ölçülebilir biçimde azaltmak."
+                    }
+                }
+            },
+            "quote": {
+                "text": "Bir çocuğa eğitim vermek, bir yaşamı değiştirmek değildir. Bir nesli dönüştürmektir.",
+                "author": "FundEd Ekibi",
+                "role": "Kuruluş Manifestosu, 2024"
+            },
+            "cta": {
+                "title": "Bu Misyona Siz de Katılın",
+                "desc": "Bir bağışla bir öğrencinin hayatını değiştirebilir, başvuruyla bir öğrencinin umudunu yeşertebilirsiniz.",
+                "donate": "Bağış Yap",
+                "apply": "Öğrenci Olarak Başvur"
+            }
         },
         "updates": {
             "title": "Öğrenci Günlükleri",
@@ -397,14 +779,57 @@
         "endDate": "Bitis Tarihi"
     },
     "donation": {
-        "title": "Bagis Yap",
-        "amount": "Bagis Miktari",
-        "customAmount": "Ozel Miktar",
-        "anonymous": "Anonim Bagis Yap",
-        "message": "Mesaj Birakin (Istege Bagli)",
-        "processing": "Isleniyor...",
-        "success": "Bagisiniz icin tesekkur ederiz!",
-        "error": "Bagis basarisiz oldu. Lutfen tekrar deneyin."
+        "title": "Bağış Yap",
+        "amount": "Bağış Miktarı",
+        "customAmount": "Özel Miktar",
+        "anonymous": "Anonim Bağış Yap",
+        "message": "Mesaj Bırakın (İsteğe Bağlı)",
+        "processing": "İşleniyor...",
+        "success": "Bağışınız için teşekkür ederiz!",
+        "error": "Bağış başarısız oldu. Lütfen tekrar deneyin.",
+        "heroBadge": "Her Bağış Bir Hayat Değiştirir",
+        "heroSubtitle": "Doğrulanmış öğrencilerin eğitim yolculuğunda onlara destek olun. Şeffaf altyapımızla bağışınızın izini takip edin.",
+        "amountSubtitle": "Bir miktar seçin veya özel tutar girin",
+        "customPlaceholder": "Özel miktar girin...",
+        "category": "Bağış Kategorisi",
+        "categoryPlaceholder": "Kategori seçin",
+        "verifiedStudent": "Doğrulanmış Öğrenci Desteği",
+        "generalFund": "Genel Eğitim Fonu",
+        "optionalInfo": "Opsiyonel Bilgiler",
+        "yourName": "Adınız",
+        "anonymousNote": "Anonim bırakabilirsiniz",
+        "namePlaceholder": "Adınız Soyadınız",
+        "email": "E-posta",
+        "receiptNote": "Makbuz için",
+        "emailPlaceholder": "ornek@email.com",
+        "invalidEmail": "Geçerli bir e-posta adresi girin.",
+        "secureTitle": "Güvenli & Şeffaf",
+        "secureDesc": "Bağışınız güvenli altyapımız üzerinden işlenir ve her aşaması takip edilebilir şekilde kaydedilir.",
+        "submitDonate": "Bağış Yap",
+        "submitDonateWithAmount": "Bağış Yap",
+        "completed": "Bağış Tamamlandı!",
+        "securePayment": "256-bit SSL ile şifrelenmiş güvenli ödeme",
+        "loading": "Yükleniyor...",
+        "impactTitle": "Bağışınızın Etkisi",
+        "impactWith": "ile",
+        "impact10": "Bir öğrenciye 1 aylık defter & kalem",
+        "impact25": "Bir öğrencinin okul çantası ihtiyacı",
+        "impact50": "Bir çocuğun 1 yıllık okul malzemesi",
+        "impact100": "Bir sınıfa dijital eğitim materyali",
+        "impact250": "Bir öğrencinin 1 dönemlik bursu",
+        "impact500": "Bir sınıfın yenilenmesi & donatılması",
+        "trustTitle": "Güvenlik & Şeffaflık",
+        "trustVerified": "Doğrulanmış Öğrenciler",
+        "trustVerifiedDesc": "Tüm öğrenciler kimlik doğrulamasından geçer",
+        "trustTracking": "Etki Takibi",
+        "trustTrackingDesc": "Bağışınızın nereye gittiğini görün",
+        "trustSecure": "Güvenli Ödeme",
+        "trustSecureDesc": "256-bit SSL şifreli altyapı",
+        "trustTransparent": "Tam Şeffaflık",
+        "trustTransparentDesc": "Her işlem kayıt altında",
+        "equalityCampaign": "Eğitimde Eşitlik Kampanyası",
+        "equalityDesc": "Dünya genelinde eğitime erişemeyen çocuklara destek olmak için kampanyamızı inceleyin.",
+        "viewCampaign": "Kampanyayı Gör"
     },
     "dashboard": {
         "title": "Panel",
@@ -789,13 +1214,13 @@
         },
         "options": {
             "classYear": {
-                "prep": "Hazirlik",
                 "1": "1. Sinif",
                 "2": "2. Sinif",
                 "3": "3. Sinif",
                 "4": "4. Sinif",
                 "5": "5. Sinif",
                 "6": "6. Sinif",
+                "prep": "Hazirlik",
                 "grad": "Mezun",
                 "master": "Yuksek Lisans",
                 "phd": "Doktora"
@@ -1069,5 +1494,671 @@
         "experienceYears": "Deneyim Yili",
         "selectExperience": "Deneyim secin",
         "years": "yil"
+    },
+    "corporateGateway": {
+        "loading": "Yükleniyor...",
+        "nav": {
+            "subtitle": "Kurumsal Platform",
+            "backToHome": "Ana Sayfaya Dön"
+        },
+        "hero": {
+            "badge": "Kurumsal Eğitim Destek Platformu",
+            "title1": "Eğitime Yatırım,",
+            "title2": "Geleceğe Etki.",
+            "subtitle": "Kurumsal bağışlarınızı takip edin, ESG raporlarınızı oluşturun ve eğitim üzerindeki etkinizi şeffaf verilerle görün."
+        },
+        "tabs": {
+            "login": "Giriş Yap",
+            "register": "Başvuru Yap",
+            "pricing": "Paketler"
+        },
+        "login": {
+            "title": "Kurumsal Giriş",
+            "subtitle": "Kurumsal hesabınızla giriş yapın",
+            "email": "Kurumsal E-posta",
+            "emailPlaceholder": "ornek@sirket.com",
+            "password": "Şifre",
+            "submit": "Giriş Yap",
+            "noAccount": "Hesabınız yok mu?",
+            "apply": "Başvuru Yapın",
+            "or": "veya",
+            "viewPlans": "Paketleri İnceleyin",
+            "demoTitle": "Demo Bilgileri",
+            "demoEmail": "E-posta:",
+            "demoPassword": "Şifre:",
+            "failed": "Giriş başarısız."
+        },
+        "register": {
+            "title": "Kurumsal Başvuru",
+            "subtitle": "Başvuru yaparak kurumsal erişim talebinde bulunun",
+            "registration": "Kayıt",
+            "subtitleWithTier": "Paket satın almak için bilgilerinizi girin",
+            "selectedPackage": "Seçili Paket:",
+            "companyName": "Şirket Adı",
+            "companyPlaceholder": "Şirket A.Ş.",
+            "firstName": "Ad",
+            "firstNamePlaceholder": "Adınız",
+            "lastName": "Soyad",
+            "lastNamePlaceholder": "Soyadınız",
+            "email": "Kurumsal E-posta",
+            "phone": "Telefon",
+            "optional": "(opsiyonel)",
+            "phonePlaceholder": "+90 5XX XXX XX XX",
+            "password": "Şifre",
+            "minChars": "En az 6 karakter",
+            "confirmPassword": "Şifre Tekrar",
+            "confirmPlaceholder": "Şifrenizi tekrar girin",
+            "noPackage": "Paket seçimi yapmadınız.",
+            "noPackageDesc": "Direkt satın almak için bir paket seçebilir veya başvuru olarak devam edebilirsiniz.",
+            "viewPlans": "Paketleri İncele",
+            "purchaseRegister": "Satın Al & Kayıt Ol",
+            "submitApplication": "Başvuru Gönder",
+            "hasAccount": "Zaten hesabınız var mı?",
+            "loginLink": "Giriş Yapın",
+            "passwordsMismatch": "Şifreler eşleşmiyor.",
+            "passwordTooShort": "Şifre en az 6 karakter olmalıdır.",
+            "failed": "Kayıt başarısız.",
+            "successTitle": "Başvurunuz Alındı!",
+            "successWithTier": "Hesabınız aktifleştirildi. Kurumsal panele yönlendiriliyorsunuz...",
+            "successWithout": "Başvurunuz incelenerek size dönüş yapılacaktır. Yönlendiriliyorsunuz..."
+        },
+        "discount": {
+            "title": "İndirim Kodu",
+            "placeholder": "Kodu girin...",
+            "apply": "Uygula",
+            "invalid": "Geçersiz indirim kodu.",
+            "applied10": "%10 indirim uygulandı!",
+            "applied20": "%20 indirim uygulandı!",
+            "welcome25": "%25 hoş geldin indirimi!",
+            "startup30": "%30 startup indirimi!",
+            "enterprise50": "%50 özel kurumsal indirim!"
+        },
+        "pricing": {
+            "title": "Kurumsal Paketler",
+            "subtitle": "İhtiyacınıza uygun paketi seçin. Her zaman yükseltme yapabilirsiniz.",
+            "popular": "En Popüler",
+            "purchase": "Satın Al",
+            "perMonth": "/ay",
+            "undecidedTitle": "Henüz karar veremediniz mi?",
+            "undecidedDesc": "Paket seçmeden de başvuru yapabilirsiniz. Ekibimiz sizinle iletişime geçerek en uygun çözümü birlikte belirleyecektir.",
+            "freeApply": "Ücretsiz Başvuru Yap",
+            "comparisonTitle": "Detaylı Karşılaştırma",
+            "feature": "Özellik"
+        },
+        "tiers": {
+            "starter": {
+                "name": "Starter",
+                "tagline": "Küçük/orta firma için ideal başlangıç",
+                "f1": "Kurumsal Impact Dashboard",
+                "f2": "Donation Trace View (temel)",
+                "f3": "KPI Snapshot (temel metriks)",
+                "f4": "3 ayda 1 Impact Summary (PDF)",
+                "f5": "Temel CSV Export",
+                "f6": "1 Kullanıcı",
+                "f7": "Standart e-posta destek",
+                "f8": "Aynı anda 10 kampanya"
+            },
+            "growth": {
+                "name": "Growth / Pro",
+                "tagline": "ESG/CSR odaklı ekipler için",
+                "f1": "Starter paketindeki her şey +",
+                "f2": "Aylık Impact Report (PDF)",
+                "f3": "Before/After trend grafikleri",
+                "f4": "Evidence Vault (gelişmiş)",
+                "f5": "Custom Report Template",
+                "f6": "Kampanya sapma & gecikme alertleri",
+                "f7": "Gelişmiş CSV + Audit Log Export",
+                "f8": "5 Kullanıcı",
+                "f9": "Öncelikli destek (SLA-lite)",
+                "f10": "Aynı anda 50 kampanya"
+            },
+            "enterprise": {
+                "name": "Enterprise",
+                "tagline": "Büyük kurumlar & denetim ihtiyacı",
+                "f1": "Pro paketindeki her şey +",
+                "f2": "Audit-Ready Pack (denetim paketi)",
+                "f3": "SSO / SAML entegrasyonu",
+                "f4": "Rol bazlı yetki (finance/ESG/admin)",
+                "f5": "API & Webhooks erişimi",
+                "f6": "Custom Verification Workflow",
+                "f7": "Gelişmiş data retention & compliance",
+                "f8": "20 Kullanıcı",
+                "f9": "Dedicated success manager",
+                "f10": "Aylık review call",
+                "f11": "Sınırsız kampanya"
+            }
+        },
+        "comparison": {
+            "impactDashboard": "Impact Dashboard",
+            "donationTrace": "Donation Trace",
+            "reporting": "Raporlama",
+            "evidenceVault": "Evidence Vault",
+            "alertSystem": "Alert Sistemi",
+            "auditPack": "Audit Pack",
+            "ssoSaml": "SSO / SAML",
+            "apiWebhooks": "API & Webhooks",
+            "roleBased": "Rol Bazlı Yetki",
+            "users": "Kullanıcı",
+            "campaignLimit": "Kampanya Limiti",
+            "export": "Export",
+            "support": "Destek",
+            "basic": "Temel",
+            "advanced": "Gelişmiş",
+            "advancedPlus": "Gelişmiş+",
+            "quarterly": "3 ayda 1",
+            "monthly": "Aylık",
+            "customTemplate": "Özel şablon",
+            "unlimited": "Sınırsız",
+            "basicCsv": "Temel CSV",
+            "csvAuditLog": "CSV + Audit Log",
+            "fullAccess": "Tam Erişim",
+            "emailSupport": "E-posta",
+            "priority": "Öncelikli",
+            "dedicatedManager": "Dedicated Manager"
+        },
+        "footer": {
+            "copyright": "© 2026 FundEd. Tüm hakları saklıdır.",
+            "privacy": "Gizlilik Politikası",
+            "terms": "Kullanım Koşulları"
+        }
+    },
+    "educationEquality": {
+        "badge": "FundEd Resmi Kampanyası",
+        "heroTitle1": "Eğitimde",
+        "heroTitle2": "Eşitlik Bağışları",
+        "heroSubtitle": "Dünya genelinde 244 milyon çocuk okula gidemiyor. Sobalı sınıflarda, ayakkabısız, bir defter bile bulamayan çocuklar — birlikte milyonlarca çocuk için <strong>eşit eğitim hakkını</strong> sağlayabiliriz.",
+        "heroSubtitlePlain": "Dünya üzerinde 244 milyon çocuk okula gidemiyor. Milyonlarca çocuk için eşit eğitim hakkını birlikte sağlayabiliriz.",
+        "donateNow": "Şimdi Bağış Yap",
+        "exploreCampaign": "Kampanyayı İncele",
+        "raised": "Toplanan",
+        "goal": "Hedef",
+        "completed": "tamamlandı",
+        "donors": "bağışçı",
+        "stats": {
+            "studentsSupported": "Desteklenen Öğrenci",
+            "countries": "Ülke",
+            "donorCount": "Bağışçı",
+            "fundingRate": "Fonlama Oranı"
+        },
+        "problem": {
+            "badge": "Gerçekler",
+            "title": "Dünyada Eğitim Eşitsizliği",
+            "subtitle": "Her çocuğun eğitim hakkı var. Ama coğrafya, yoksulluk ve altyapı eksikliği bu hakkı milyonlarca çocuktan çalıyor.",
+            "fact1": "Dünya genelinde 244 milyon çocuk ve genç okula gidemiyor.",
+            "fact2": "Sub-Saharan Afrika'daki çocukların %60'ı ilkokulu tamamlayamıyor.",
+            "fact3": "617 milyon çocuk temel okuma-yazma ve matematik becerilerinden yoksun.",
+            "fact4": "4 milyondan fazla mülteci çocuk hiçbir eğitime erişemiyor.",
+            "fact5": "Sadece 50 dolar, bir çocuğun 1 yıllık okul malzemesini karşılayabilir."
+        },
+        "impact": {
+            "badge": "Etki Alanlarımız",
+            "title": "Bağışlarınız Nereye Gidiyor?",
+            "subtitle": "Her kuruşun hesabını şeffaf şekilde tutuyoruz. İşte bağışlarınızın hayat değiştirdiği alanlar.",
+            "schoolSupplies": "Okul Malzemeleri",
+            "schoolSuppliesDesc": "Defter, kalem, çanta — temel eğitim araçlarına erişim sağlıyoruz.",
+            "sportsEquipment": "Spor Malzemeleri",
+            "sportsEquipmentDesc": "Futbol topu, forma, ayakkabı — çocukların spor yapabilmesi için temel malzemeler.",
+            "schoolConstruction": "Okul İnşaatı & Onarımı",
+            "schoolConstructionDesc": "Yıkılmak üzere olan okulların yenilenmesi, güvenli öğrenme alanları.",
+            "digitalAccess": "Dijital Eğitim Erişimi",
+            "digitalAccessDesc": "Tablet, internet altyapısı ve uzaktan eğitim desteği.",
+            "nutrition": "Beslenme & Sağlık",
+            "nutritionDesc": "Okulda sıcak öğle yemeği ve temel sağlık taramaları.",
+            "joinCard": "Siz de Katılın",
+            "joinCardDesc": "Küçük büyük her bağış bir çocuğun hayatını değiştirir. Eğitimde eşitliğe katkıda bulunun.",
+            "donate": "Bağış Yap"
+        },
+        "stories": {
+            "badge": "Gerçek Hikayeler",
+            "title": "Hayatı Değişen Çocuklar",
+            "subtitle": "Bağışlarınız sayesinde eğitime kavuşan çocukların gerçek hikayeleri.",
+            "yearsOld": "yaşında",
+            "quote1": "Artık bir defterim ve kalemim var. Bir gün doktor olmak istiyorum.",
+            "quote2": "Yeni okulumuzda artık yağmurda ıslanmıyoruz. Ders çalışmak çok güzel.",
+            "quote3": "Tabletimde matematik çalışıyorum. İnternet bambaşka bir dünya açtı."
+        },
+        "transparency": {
+            "badge": "Şeffaflık",
+            "title": "Bağışınızın Yolculuğu",
+            "step1": "Bağış Yapın",
+            "step1Desc": "Güvenli ödeme altyapısıyla istediğiniz miktarda bağışta bulunun.",
+            "step2": "Doğrulama",
+            "step2Desc": "Bağışınız blockchain tabanlı şeffaf sisteme kaydedilir.",
+            "step3": "Hedefe Ulaşma",
+            "step3Desc": "Fonlar doğrudan okullara ve öğrencilere aktarılır.",
+            "step4": "Etki Raporu",
+            "step4Desc": "Fotoğraf ve verilerle bağışınızın etkisini takip edin."
+        },
+        "ctaTitle": "Bir Çocuğun Geleceğini Değiştirin",
+        "ctaSubtitle": "Her bağış bir umut. Aşağıdaki miktarlardan birini seçin veya kendi miktarınızı belirleyin.",
+        "otherAmount": "Diğer miktar",
+        "allSecure": "Tüm bağışlar güvenli altyapı üzerinden işlenir.",
+        "transparencyPolicy": "Şeffaflık politikamız →",
+        "share": {
+            "title": "Bağışlamasanız Bile Paylaşabilirsiniz",
+            "subtitle": "Bu kampanyayı çevrenizle paylaşarak eğitime katkıda bulunabilirsiniz. Bir paylaşım bile fark yaratır.",
+            "copyLink": "Linki Kopyala"
+        }
+    },
+    "howItWorks": {
+        "badge": "Basit, Şeffaf, Etkili",
+        "heroTitle1": "FundEd Nasıl",
+        "heroTitle2": "Çalışır?",
+        "heroSubtitle": "Bağışçıları ve öğrencileri 4 basit adımda buluşturuyoruz. Her adım şeffaf, her kuruş izlenebilir.",
+        "step": "Adım",
+        "steps": {
+            "s1Title": "Öğrenci Keşfet",
+            "s1Desc": "Platform üzerindeki doğrulanmış öğrencileri inceleyin. Ülke, bölüm, ihtiyaç türüne göre filtreleyin. Her profilde öğrencinin hikayesini, ihtiyaç detayını ve doğrulama durumunu görebilirsiniz.",
+            "s1h1": "Detaylı profil sayfaları",
+            "s1h2": "İhtiyaç kategorileri",
+            "s1h3": "Doğrulama rozetleri",
+            "s2Title": "Güvenli Bağış Yap",
+            "s2Desc": "Dilediğiniz öğrenciye veya genel eğitim fonuna bağış yapın. Hızlı miktar butonları veya özel tutar girişiyle saniyeler içinde tamamlayın. 256-bit SSL ile şifrelenmiş güvenli altyapı.",
+            "s2h1": "Hızlı ödeme",
+            "s2h2": "Anonim bağış seçeneği",
+            "s2h3": "SSL şifreli güvenlik",
+            "s3Title": "Fonlama & Aktarım",
+            "s3Desc": "Toplanan bağışlar doğrudan öğrencinin ihtiyacına yönelik aktarılır. Okul malzemeleri, burs ödemeleri veya dijital araçlar — her kuruş hedefe ulaşır.",
+            "s3h1": "Doğrudan aktarım",
+            "s3h2": "İhtiyaca özel harcama",
+            "s3h3": "Aracısız sistem",
+            "s4Title": "Etki Takibi",
+            "s4Desc": "Bağışınızın yarattığı etkiyi somut veriler ve fotoğraflarla takip edin. Öğrenciden teşekkür mesajları, ilerleme raporları ve etki analizleri dashboard'ınızda.",
+            "s4h1": "Fotoğraflı raporlar",
+            "s4h2": "Etki metrikleri",
+            "s4h3": "Kişisel dashboard"
+        },
+        "verification": {
+            "badge": "Doğrulama Süreci",
+            "title": "Öğrenci Nasıl Doğrulanır?",
+            "subtitle": "Platform üzerindeki her öğrenci titiz bir doğrulama sürecinden geçer.",
+            "v1Title": "Başvuru",
+            "v1Desc": "Öğrenci, kimlik, öğrenim belgesi ve ihtiyaç detayıyla başvurusunu gönderir.",
+            "v2Title": "Kimlik Doğrulama",
+            "v2Desc": "Ekibimiz resmi belgeler ve kurumsal kaynaklarla kimliği doğrular.",
+            "v3Title": "İhtiyaç Analizi",
+            "v3Desc": "Öğrencinin maddi durumu ve eğitim ihtiyacı detaylı olarak değerlendirilir.",
+            "v4Title": "Onay & Yayın",
+            "v4Desc": "Doğrulanan öğrenci profillerine 'Doğrulanmış' rozeti verilir ve platforma eklenir."
+        },
+        "trust": {
+            "badge": "Güvenlik & Güvence",
+            "title": "Neden FundEd?",
+            "t1Title": "%100 Şeffaf",
+            "t1Desc": "Her bağış kaydı ve harcama detayı açık erişimde. Gizli maliyet yok.",
+            "t2Title": "Güvenli Altyapı",
+            "t2Desc": "256-bit SSL şifreleme, PCI uyumlu ödeme sistemi.",
+            "t3Title": "Etki Görünürlüğü",
+            "t3Desc": "Bağışınızın yarattığı farkı fotoğraf ve verilerle takip edin.",
+            "t4Title": "Doğrudan Etki",
+            "t4Desc": "Aracı komisyonu minimum — bağışınızın çoğu doğrudan öğrenciye ulaşır."
+        },
+        "whoFor": {
+            "badge": "Kimin İçin?",
+            "title": "FundEd Herkes İçin",
+            "donors": "Bağışçılar",
+            "donorsDesc": "Bireysel veya düzenli bağış yaparak öğrencilerin hayatını değiştirin. Dashboard'ınızdan etkiyi takip edin.",
+            "donorsF1": "Hızlı & kolay bağış",
+            "donorsF2": "Etki raporları",
+            "donorsF3": "Anonim seçenek",
+            "donorsF4": "Vergi makbuzu",
+            "students": "Öğrenciler",
+            "studentsDesc": "Eğitim ihtiyaçlarınız için başvurun. Doğrulama sonrası profiliniz platforma eklenir ve bağışçılarla buluşursunuz.",
+            "studentsF1": "Kolay başvuru süreci",
+            "studentsF2": "Gizlilik garantisi",
+            "studentsF3": "Doğrudan destek",
+            "studentsF4": "Mentör erişimi",
+            "institutions": "Kurumlar",
+            "institutionsDesc": "Şirketiniz adına ESG uyumlu bağış yapın. Kurumsal panel ile ekibinizle birlikte etkiyi yönetin.",
+            "institutionsF1": "Kurumsal dashboard",
+            "institutionsF2": "ESG raporlama",
+            "institutionsF3": "Çoklu kullanıcı",
+            "institutionsF4": "API erişimi"
+        },
+        "faq": {
+            "badge": "SSS",
+            "title": "Sıkça Sorulan Sorular",
+            "q1": "Bağışım nereye gidiyor?",
+            "a1": "Bağışınız doğrudan seçtiğiniz öğrencinin ihtiyacına yönlendirilir. Genel fona yapılan bağışlar ise en acil ihtiyacı olan öğrencilere dağıtılır. Her işlem kaydedilir ve takip edilebilir.",
+            "q2": "Anonim bağış yapabilir miyim?",
+            "a2": "Evet! Bağış formunda adınızı ve e-postanızı boş bırakarak tamamen anonim bağış yapabilirsiniz.",
+            "q3": "Öğrenciler nasıl doğrulanıyor?",
+            "a3": "Her öğrenci başvurusu kimlik belgesi, öğrenim belgesi ve ihtiyaç beyanıyla yapılır. Ekibimiz tüm belgeleri doğrular ve uygunluğu onayladıktan sonra profil yayınlanır.",
+            "q4": "Bağışımın etkisini nasıl görebilirim?",
+            "a4": "Bağış sonrası kişisel dashboard'ınızdan öğrencinin ilerlemesini, fotoğrafları ve etki raporlarını takip edebilirsiniz.",
+            "q5": "Kurumsal bağış yapabilir miyiz?",
+            "a5": "Evet! FundEd Kurumsal panelimiz ile şirketiniz adına bağış yapabilir, ESG raporlarınızı otomatik oluşturabilir ve ekibinizle birlikte etkiyi takip edebilirsiniz.",
+            "q6": "Minimum bağış tutarı nedir?",
+            "a6": "Minimum bağış tutarı $1'dır. Her miktar bir fark yaratır — $10 bile bir öğrenciye 1 aylık defter ve kalem sağlayabilir."
+        },
+        "cta": {
+            "title": "Eğitime Katkınızı Bugün Başlatın",
+            "subtitle": "Küçük büyük her bağış bir çocuğun geleceğini aydınlatır. İlk adımı şimdi atın.",
+            "donate": "Bağış Yap",
+            "discoverStudents": "Öğrencileri Keşfet"
+        }
+    },
+    "whoWeAre": {
+        "hero": {
+            "badge": "Biz Kimiz?",
+            "title": "Eğitimin Gücüne",
+            "titleHighlight": "İnanan Bir Ekip",
+            "desc": "FundEd, dünyanın dört bir yanındaki öğrencilerin eğitim hayallerini gerçeğe dönüştürmek için kuruldu. Şeffaflık, teknoloji ve empatiyi bir araya getiriyoruz.",
+            "donate": "Bağış Yap",
+            "campaign": "Kampanyamızı Gör"
+        },
+        "story": {
+            "badge": "Hikayemiz",
+            "title": "Bir Soruyla",
+            "titleHighlight": "Başladık",
+            "quote": "“Neden yetenekli bir öğrenci, sadece maddi imkânsızlık yüzünden eğitimini yarıda bırakmak zorunda kalsın?”",
+            "p1": "Bu soruyla yola çıktık. Dünyada 244 milyondan fazla çocuğun okula gidemediğini, yüz binlerce üniversite öğrencisinin maddi sorunlar yüzünden hayallerinden vazgeçtiğini gördük.",
+            "p2": "FundEd, bağışçılarla öğrencileri doğrudan buluşturan, her kuruşun izlenebilir olduğu ve etkinin somut verilerle ölçülebildiği bir platform olarak doğdu.",
+            "p3": "Amacımız basit:",
+            "p3Highlight": "Eğitime erişimi demokratikleştirmek.",
+            "p3End": "Bunu yaparken şeffaflığı, teknolojiyi ve insan hikayelerini merkeze koyuyoruz.",
+            "stats": {
+                "students": "Desteklenen Öğrenci",
+                "countries": "Ülke",
+                "donors": "Bağışçı",
+                "successRate": "Fonlama Başarı Oranı"
+            }
+        },
+        "values": {
+            "badge": "Değerlerimiz",
+            "title": "Bizi Biz Yapan İlkeler",
+            "desc": "Her kararımız bu değerler çerçevesinde şekillenir.",
+            "items": {
+                "transparency": {
+                    "title": "Şeffaflık",
+                    "desc": "Her bağışın nereye gittiğini açıkça gösteririz. Hiçbir şey gizli değil."
+                },
+                "empathy": {
+                    "title": "Empati",
+                    "desc": "Her öğrencinin hikayesini anlar, ihtiyacına özel çözümler sunarız."
+                },
+                "equality": {
+                    "title": "Eşitlik",
+                    "desc": "Coğrafya, cinsiyet ya da gelir düzeyi fark etmeksizin eğitime erişim hakkı."
+                },
+                "innovation": {
+                    "title": "İnovasyon",
+                    "desc": "Teknolojiyi kullanarak bağış sürecini daha verimli ve etkili hale getiriyoruz."
+                },
+                "community": {
+                    "title": "Topluluk",
+                    "desc": "Bağışçılar, öğrenciler ve gönüllülerden oluşan güçlü bir ekosistem."
+                },
+                "impact": {
+                    "title": "Etki Odaklılık",
+                    "desc": "Her kararımızı ölçülebilir sosyal etki yaratmak üzerine kuruyoruz."
+                }
+            }
+        },
+        "howItWorks": {
+            "badge": "Nasıl Çalışıyoruz?",
+            "title": "Bağıştan Etkiye 4 Adım",
+            "items": {
+                "step1": {
+                    "title": "Başvuru & Doğrulama",
+                    "desc": "Öğrenciler başvurur, ekibimiz kimlik ve ihtiyaç doğrulaması yapar."
+                },
+                "step2": {
+                    "title": "Bağış & Eşleşme",
+                    "desc": "Bağışçılar uygun öğrenciyi seçer, güvenli altyapıyla bağış yapar."
+                },
+                "step3": {
+                    "title": "Fonlama & Dağıtım",
+                    "desc": "Fonlar doğrudan öğrencinin ihtiyacına yönelik olarak aktarılır."
+                },
+                "step4": {
+                    "title": "Etki Raporlama",
+                    "desc": "Bağışçılar, bağışlarının yarattığı etkiyi fotoğraf ve verilerle görür."
+                }
+            }
+        },
+        "timeline": {
+            "badge": "Yolculuğumuz",
+            "title": "Kilometre Taşlarımız",
+            "items": {
+                "e1": {
+                    "event": "FundEd fikri doğdu",
+                    "desc": "Eğitimde eşitsizliği çözmek için ilk adım atıldı."
+                },
+                "e2": {
+                    "event": "Platform geliştirme",
+                    "desc": "Teknik altyapı ve doğrulama sistemi kuruldu."
+                },
+                "e3": {
+                    "event": "Beta lansmanı",
+                    "desc": "İlk öğrenciler ve bağışçılar platforma dahil oldu."
+                },
+                "e4": {
+                    "event": "Kurumsal modül",
+                    "desc": "Şirketler için ESG uyumlu bağış paneli açıldı."
+                },
+                "e5": {
+                    "event": "Global genişleme",
+                    "desc": "12 ülkeye erişim, binlerce öğrenciye destek."
+                }
+            }
+        },
+        "team": {
+            "badge": "Ekibimiz",
+            "title": "Değişimi Yaratan İnsanlar",
+            "desc": "Her biri alanında uzman, eğitim eşitliğine inanmış profesyoneller.",
+            "items": {
+                "te1": {
+                    "role": "Kurucu & CEO",
+                    "bio": "Eğitim teknolojileri ve sosyal etki alanında tutkulu bir girişimci."
+                },
+                "te2": {
+                    "role": "CTO",
+                    "bio": "Blockchain ve şeffaflık altyapısı konusunda uzman yazılım mühendisi."
+                },
+                "te3": {
+                    "role": "COO",
+                    "bio": "STK deneyimi ile operasyonel mükemmelliği birleştiren yönetici."
+                },
+                "te4": {
+                    "role": "Etki & İletişim Direktörü",
+                    "bio": "Sosyal medya ve topluluk yönetimi ile bağışçı ilişkilerini güçlendiren uzman."
+                }
+            }
+        },
+        "transparency": {
+            "title": "Şeffaflık Taahhüdümüz",
+            "desc": "FundEd olarak her bağışın izlenebilir olmasını, her kuruşun hesabının verilmesini ve her etki raporunun somut verilerle desteklenmesini garanti ediyoruz.",
+            "items": {
+                "t1": {
+                    "title": "%100 Şeffaflık",
+                    "desc": "Her bağış kaydı açık erişimde"
+                },
+                "t2": {
+                    "title": "Doğrulanmış Öğrenciler",
+                    "desc": "Kimlik ve ihtiyaç kontrolü"
+                },
+                "t3": {
+                    "title": "Etki Raporlama",
+                    "desc": "Fotoğraflı sonuç takibi"
+                }
+            },
+            "btn1": "Şeffaflık Sayfası",
+            "btn2": "Raporları Görüntüle"
+        },
+        "cta": {
+            "badge": "Topluluğumuza Katılın",
+            "title": "Birlikte Daha Güçlüyüz",
+            "desc": "İster bağışçı olun, ister öğrenci, ister gönüllü — eğitim eşitliği için birlikte çalışabiliriz. İlk adımı bugün atın.",
+            "donate": "Bağış Yap",
+            "apply": "Öğrenci Olarak Başvur",
+            "corporate": "Kurumsal Çözümler"
+        }
+    },
+    "missionVision": {
+        "demoWarning": {
+            "title": "Ön İzleme",
+            "message": "Platform ön izleme aşamasında. İlk kurumsal pilotlar için hazır."
+        },
+        "hero": {
+            "badge": "Misyon & Vizyon",
+            "title": "Eğitimde Eşitlik,",
+            "titleHighlight": "Gelecekte Umut",
+            "desc": "Her çocuğun eğitime eşit erişim hakkı olduğuna inanıyoruz. Teknolojiyi ve topluluğun gücünü kullanarak bu inancı gerçeğe dönüştürüyoruz."
+        },
+        "cards": {
+            "mission": {
+                "badge": "Misyonumuz",
+                "title": "Neden Varız?",
+                "desc": "Eğitime erişimde yaşanan eşitsizliği ortadan kaldırmak için, doğrulanmış öğrencileri güvenilir bağışçılarla buluşturan şeffaf bir platform oluşturmak.",
+                "items": {
+                    "i1": "Ekonomik engelleri ortadan kaldırarak eğitime erişimi kolaylaştırmak",
+                    "i2": "Her bağışın izlenebilir ve hesap verebilir olmasını sağlamak",
+                    "i3": "Öğrencilerin potansiyellerini gerçekleştirmelerine yardımcı olmak"
+                }
+            },
+            "vision": {
+                "badge": "Vizyonumuz",
+                "title": "Nereye Gidiyoruz?",
+                "desc": "Dünyada hiçbir öğrencinin maddi imkansızlık nedeniyle eğitimden mahrum kalmadığı, eğitimin evrensel bir hak olarak yaşandığı bir gelecek.",
+                "items": {
+                    "i1": "Global ölçekte eğitim fonlama ağı oluşturmak",
+                    "i2": "Yapay zeka ile ihtiyaç analizi ve eşleştirme yapmak",
+                    "i3": "Eğitimde sürdürülebilir değişimin öncüsü olmak"
+                }
+            }
+        },
+        "impactNumbers": {
+            "students": "Desteklenen Öğrenci",
+            "countries": "Aktif Ülke",
+            "funding": "Toplam Fonlama",
+            "satisfaction": "Bağışçı Memnuniyeti"
+        },
+        "principles": {
+            "badge": "Temel İlkelerimiz",
+            "title": "Bizi Yönlendiren Değerler",
+            "desc": "Her kararımızın arkasında bu ilkeler var. Bunlar sadece kelime değil, yaşam biçimimiz.",
+            "items": {
+                "transparency": {
+                    "title": "Şeffaflık",
+                    "desc": "Her bağışın nereye gittiğini, her kuruşun nasıl harcandığını açıkça paylaşırız. Gizli maliyet, gizli gündem yoktur."
+                },
+                "equality": {
+                    "title": "Eşitlik",
+                    "desc": "Her öğrencinin eğitime eşit erişim hakkı olduğuna inanırız. Coğrafi, ekonomik veya sosyal engeller fark etmez."
+                },
+                "verification": {
+                    "title": "Doğrulama",
+                    "desc": "Her öğrenci profili titizlikle doğrulanır. Bağışçılarımız gerçek ihtiyaç sahiplerine ulaştıklarından emin olabilir."
+                },
+                "community": {
+                    "title": "Topluluk",
+                    "desc": "Bağışçı ve öğrenci arasında anlamlı bağlar kurarız. Tek seferlik yardım değil, sürdürülebilir bir topluluk inşa ederiz."
+                },
+                "innovation": {
+                    "title": "İnovasyon",
+                    "desc": "Teknolojiyi kullanarak bağış sürecini daha verimli, izlenebilir ve etkili hale getiririz."
+                },
+                "impact": {
+                    "title": "Etki Odaklılık",
+                    "desc": "Her kararımızı 'öğrenciye etkisi ne olur?' sorusuyla alırız. Bürokrasi değil, sonuç üretiriz."
+                }
+            }
+        },
+        "approach": {
+            "visual": {
+                "title": "Fark Yaratan Yaklaşım",
+                "desc": "Geleneksel bağış platformlarından farklı olarak, her öğrenciyi doğruluyoruz, her kuruşu izliyoruz ve her etkiyi ölçüyoruz.",
+                "stats": {
+                    "verification": {
+                        "val": "%100",
+                        "label": "Doğrulama"
+                    },
+                    "traceability": {
+                        "val": "%100",
+                        "label": "İzlenebilirlik"
+                    },
+                    "hiddenCost": {
+                        "val": "0",
+                        "label": "Gizli Maliyet"
+                    },
+                    "reviewTime": {
+                        "val": "48s",
+                        "label": "İnceleme Süresi"
+                    }
+                },
+                "trustScore": {
+                    "label": "Güven Skoru",
+                    "val": "4.9 / 5.0"
+                }
+            },
+            "content": {
+                "badge": "Yaklaşımımız",
+                "title": "Bağış Değil, Yatırım.",
+                "titleHighlight": "Geleceğe Yatırım.",
+                "desc": "FundEd'de her bağışı bir yatırım olarak görüyoruz — bir öğrencinin geleceğine, bir toplumun kalkınmasına, daha adil bir dünyaya yapılan yatırım.",
+                "items": {
+                    "verified": {
+                        "title": "Doğrulanmış Profiller",
+                        "desc": "Her öğrenci kimlik, öğrenim belgesi ve ihtiyaç analizi ile doğrulanır."
+                    },
+                    "impact": {
+                        "title": "Etki Ölçümü",
+                        "desc": "Bağışın yarattığı fark somut metriklerle ölçülür ve raporlanır."
+                    },
+                    "speed": {
+                        "title": "Hızlı Aktarım",
+                        "desc": "Bürokratik engeller minimize edilerek fonlar hızlıca aktarılır."
+                    },
+                    "community": {
+                        "title": "Topluluk Gücü",
+                        "desc": "Bağışçılar, öğrenciler ve kurumlar bir araya gelerek sürdürülebilir etki yaratır."
+                    }
+                }
+            },
+            "roadmap": {
+                "badge": "Yol Haritası",
+                "title": "Hedeflerimiz",
+                "desc": "Büyük düşünüyoruz, adım adım ilerliyoruz. İşte nereye doğru gittiğimiz.",
+                "items": {
+                    "g1": {
+                        "title": "10.000 Öğrenci",
+                        "desc": "Türkiye ve çevre ülkelerde 10.000 öğrenciye doğrudan eğitim desteği sağlamak."
+                    },
+                    "g2": {
+                        "title": "Global Erişim",
+                        "desc": "25+ ülkede aktif olarak eğitim fonlama ağını genişletmek."
+                    },
+                    "g3": {
+                        "title": "Kurumsal Köprü",
+                        "desc": "500+ kurumsal ortakla şirketleri sürdürülebilir eğitim fonlamasına dahil etmek."
+                    },
+                    "g4": {
+                        "title": "Eşit Eğitim",
+                        "desc": "Eğitime erişimde coğrafi eşitsizliği ölçülebilir biçimde azaltmak."
+                    }
+                }
+            },
+            "quote": {
+                "text": "Bir çocuğa eğitim vermek, bir yaşamı değiştirmek değildir. Bir nesli dönüştürmektir.",
+                "author": "FundEd Ekibi",
+                "role": "Kuruluş Manifestosu, 2024"
+            },
+            "cta": {
+                "title": "Bu Misyona Siz de Katılın",
+                "desc": "Bir bağışla bir öğrencinin hayatını değiştirebilir, başvuruyla bir öğrencinin umudunu yeşertebilirsiniz.",
+                "donate": "Bağış Yap",
+                "apply": "Öğrenci Olarak Başvur"
+            }
+        }
+    },
+    "applySteps": {
+        "step1": "Kişisel Bilgiler",
+        "step2": "Eğitim Bilgileri",
+        "step3": "İhtiyaç Detayı",
+        "step4": "Belgeler"
+    },
+    "navExtra": {
+        "missionVision": "Misyon & Vizyon"
     }
 }

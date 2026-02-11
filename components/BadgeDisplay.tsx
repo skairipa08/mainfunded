@@ -4,6 +4,8 @@ import React from 'react';
 import { cn } from '@/lib/utils';
 import { BADGES, type Badge as BadgeType } from '@/lib/gamification';
 
+import { useTranslation } from '@/lib/i18n/context';
+
 interface BadgeDisplayProps {
     badgeIds: string[];
     maxDisplay?: number;
@@ -17,6 +19,7 @@ export function BadgeDisplay({
     size = 'md',
     className,
 }: BadgeDisplayProps) {
+    const { t } = useTranslation();
     const earnedBadges = badgeIds
         .map((id) => BADGES.find((b) => b.id === id))
         .filter((b): b is BadgeType => b !== undefined);
@@ -46,10 +49,10 @@ export function BadgeDisplay({
                         badge.color,
                         sizeClasses[size]
                     )}
-                    title={badge.description}
+                    title={t(badge.description)}
                 >
                     <span className={iconSizes[size]}>{badge.icon}</span>
-                    <span>{badge.name}</span>
+                    <span>{t(badge.name)}</span>
                 </span>
             ))}
             {remainingCount > 0 && (
@@ -58,7 +61,7 @@ export function BadgeDisplay({
                         'rounded-full bg-gray-100 text-gray-600 cursor-help',
                         sizeClasses[size]
                     )}
-                    title={`${remainingCount} daha fazla rozet`}
+                    title={`${remainingCount} ${t('pages.badges.moreBadges') || 'daha fazla rozet'}`}
                 >
                     +{remainingCount}
                 </span>
@@ -78,6 +81,7 @@ export function BadgeGrid({
     showAll = false,
     className,
 }: BadgeGridProps) {
+    const { t } = useTranslation();
     const badgesToShow = showAll ? BADGES : BADGES.filter((b) => earnedBadgeIds.includes(b.id));
 
     return (
@@ -104,9 +108,9 @@ export function BadgeGrid({
                             'font-semibold',
                             isEarned ? 'text-gray-900' : 'text-gray-500'
                         )}>
-                            {badge.name}
+                            {t(badge.name)}
                         </h4>
-                        <p className="text-xs text-gray-500 mt-1">{badge.description}</p>
+                        <p className="text-xs text-gray-500 mt-1">{t(badge.description)}</p>
                     </div>
                 );
             })}
@@ -125,6 +129,7 @@ export function ProgressToBadge({
     currentValue,
     className,
 }: ProgressToBadgeProps) {
+    const { t } = useTranslation();
     const badge = BADGES.find((b) => b.id === badgeId);
     if (!badge) return null;
 
@@ -142,13 +147,13 @@ export function ProgressToBadge({
                     {isComplete ? badge.icon : '🎯'}
                 </div>
                 <div>
-                    <h4 className="font-semibold text-gray-900">{badge.name}</h4>
-                    <p className="text-xs text-gray-500">{badge.description}</p>
+                    <h4 className="font-semibold text-gray-900">{t(badge.name)}</h4>
+                    <p className="text-xs text-gray-500">{t(badge.description)}</p>
                 </div>
             </div>
             <div className="space-y-2">
                 <div className="flex justify-between text-sm">
-                    <span className="text-gray-500">Ilerleme</span>
+                    <span className="text-gray-500">{t('pages.badges.progressLabel') || 'İlerleme'}</span>
                     <span className="font-medium text-gray-900">
                         {currentValue} / {targetValue}
                     </span>

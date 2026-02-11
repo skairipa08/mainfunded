@@ -60,10 +60,10 @@ export default function Home() {
   }, []);
 
   const stats = [
-    { labelKey: 'home.stats.studentsHelped', value: '0', icon: Users },
-    { labelKey: 'home.stats.totalRaised', value: '$0', icon: TrendingUp },
-    { labelKey: 'home.stats.campaigns', value: '0', icon: Globe },
-    { labelKey: 'home.stats.donors', value: '0', icon: CheckCircle }
+    { labelKey: 'home.stats.studentsHelped', value: '-', icon: Users },
+    { labelKey: 'home.stats.totalRaised', value: '-', icon: TrendingUp },
+    { labelKey: 'home.stats.campaigns', value: '-', icon: Globe },
+    { labelKey: 'home.stats.donors', value: '-', icon: CheckCircle }
   ];
 
   const handleSearch = (e: React.FormEvent) => {

@@ -1,4 +1,5 @@
 'use client';
+import { useTranslation } from '@/lib/i18n/context';
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
@@ -49,83 +50,7 @@ const CAMPAIGN_DONORS = 0;
 const CAMPAIGN_STUDENTS = 0;
 const CAMPAIGN_COUNTRIES = 12;
 
-/* ────────────────────────────────────────────
-   Impact areas
-   ──────────────────────────────────────────── */
-const impactAreas = [
-    {
-        icon: BookOpen,
-        title: 'Okul Malzemeleri',
-        description: 'Defter, kalem, çanta — temel eğitim araçlarına erişim sağlıyoruz.',
-        raised: 0,
-        goal: 80000,
-        color: 'text-blue-600',
-        bg: 'bg-blue-50',
-    },
-    {
-        icon: Target,
-        title: 'Spor Malzemeleri',
-        description: 'Futbol topu, forma, ayakkabı — çocukların spor yapabilmesi için temel malzemeler.',
-        raised: 0,
-        goal: 70000,
-        color: 'text-emerald-600',
-        bg: 'bg-emerald-50',
-    },
-    {
-        icon: Target,
-        title: 'Okul İnşaatı & Onarımı',
-        description: 'Yıkılmak üzere olan okulların yenilenmesi, güvenli öğrenme alanları.',
-        raised: 0,
-        goal: 150000,
-        color: 'text-amber-600',
-        bg: 'bg-amber-50',
-    },
-    {
-        icon: Lightbulb,
-        title: 'Dijital Eğitim Erişimi',
-        description: 'Tablet, internet altyapısı ve uzaktan eğitim desteği.',
-        raised: 0,
-        goal: 100000,
-        color: 'text-purple-600',
-        bg: 'bg-purple-50',
-    },
-    {
-        icon: Heart,
-        title: 'Beslenme & Sağlık',
-        description: 'Okulda sıcak öğle yemeği ve temel sağlık taramaları.',
-        raised: 0,
-        goal: 100000,
-        color: 'text-rose-600',
-        bg: 'bg-rose-50',
-    },
-];
 
-/* ────────────────────────────────────────────
-   Stories / testimonials
-   ──────────────────────────────────────────── */
-const stories = [
-    {
-        name: 'Amara',
-        age: 11,
-        country: 'Sierra Leone',
-        image: IMG_HOPE,
-        quote: 'Artık bir defterim ve kalemim var. Bir gün doktor olmak istiyorum.',
-    },
-    {
-        name: 'Kofi',
-        age: 9,
-        country: 'Ghana',
-        image: IMG_KIDS_PLAYING,
-        quote: 'Yeni okulumuzda artık yağmurda ıslanmıyoruz. Ders çalışmak çok güzel.',
-    },
-    {
-        name: 'Fatoumata',
-        age: 13,
-        country: 'Mali',
-        image: IMG_CLASSROOM,
-        quote: 'Tabletimde matematik çalışıyorum. İnternet bambaşka bir dünya açtı.',
-    },
-];
 
 /* ────────────────────────────────────────────
    Animated counter
@@ -161,6 +86,7 @@ function AnimatedNumber({ target, prefix = '', suffix = '' }: { target: number; 
    MAIN COMPONENT
    ════════════════════════════════════════════ */
 export default function EducationEqualityPage() {
+    const { t } = useTranslation();
     const router = useRouter();
     const [donationAmount, setDonationAmount] = useState('');
     const [showAllStories, setShowAllStories] = useState(false);
@@ -174,6 +100,78 @@ export default function EducationEqualityPage() {
             router.push('/donate?campaign=education-equality');
         }
     };
+
+    const impactAreas = [
+        {
+            icon: BookOpen,
+            title: t('educationEquality.impact.schoolSupplies'),
+            description: t('educationEquality.impact.schoolSuppliesDesc'),
+            raised: 0,
+            goal: 80000,
+            color: 'text-blue-600',
+            bg: 'bg-blue-50',
+        },
+        {
+            icon: Target,
+            title: t('educationEquality.impact.sportsEquipment'),
+            description: t('educationEquality.impact.sportsEquipmentDesc'),
+            raised: 0,
+            goal: 70000,
+            color: 'text-emerald-600',
+            bg: 'bg-emerald-50',
+        },
+        {
+            icon: Target,
+            title: t('educationEquality.impact.schoolConstruction'),
+            description: t('educationEquality.impact.schoolConstructionDesc'),
+            raised: 0,
+            goal: 150000,
+            color: 'text-amber-600',
+            bg: 'bg-amber-50',
+        },
+        {
+            icon: Lightbulb,
+            title: t('educationEquality.impact.digitalAccess'),
+            description: t('educationEquality.impact.digitalAccessDesc'),
+            raised: 0,
+            goal: 100000,
+            color: 'text-purple-600',
+            bg: 'bg-purple-50',
+        },
+        {
+            icon: Heart,
+            title: t('educationEquality.impact.nutrition'),
+            description: t('educationEquality.impact.nutritionDesc'),
+            raised: 0,
+            goal: 100000,
+            color: 'text-rose-600',
+            bg: 'bg-rose-50',
+        },
+    ];
+
+    const stories = [
+        {
+            name: 'Amara',
+            age: 11,
+            country: 'Sierra Leone',
+            image: IMG_HOPE,
+            quote: t('educationEquality.stories.quote1'),
+        },
+        {
+            name: 'Kofi',
+            age: 9,
+            country: 'Ghana',
+            image: IMG_KIDS_PLAYING,
+            quote: t('educationEquality.stories.quote2'),
+        },
+        {
+            name: 'Fatoumata',
+            age: 13,
+            country: 'Mali',
+            image: IMG_CLASSROOM,
+            quote: t('educationEquality.stories.quote3'),
+        },
+    ];
 
     return (
         <div className="min-h-screen flex flex-col bg-white">
@@ -203,22 +201,18 @@ export default function EducationEqualityPage() {
                             {/* Badge */}
                             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 py-2 mb-8">
                                 <Globe className="h-4 w-4 text-amber-400" />
-                                <span className="text-sm text-white/90 font-medium">FundEd Resmi Kampanyası</span>
+                                <span className="text-sm text-white/90 font-medium">{t('educationEquality.badge')}</span>
                             </div>
 
                             <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white leading-tight mb-6">
-                                Eğitimde
+                                {t('educationEquality.heroTitle1')}
                                 <br />
                                 <span className="bg-gradient-to-r from-amber-300 via-orange-300 to-rose-300 bg-clip-text text-transparent">
-                                    Eşitlik Bağışları
+                                    {t('educationEquality.heroTitle2')}
                                 </span>
                             </h1>
 
-                            <p className="text-lg sm:text-xl text-white/80 leading-relaxed mb-10 max-w-2xl">
-                                Dünya üzerinde 244 milyon çocuk okula gidemiyor. Sobalı sınıflarda,
-                                ayakkabısız, defter bile bulamadan hayata tutunmaya çalışan milyonlarca
-                                çocuk için <strong className="text-white">eşit eğitim hakkı</strong>nı birlikte sağlayabiliriz.
-                            </p>
+                            <p className="text-lg sm:text-xl text-white/80 leading-relaxed mb-10 max-w-2xl" dangerouslySetInnerHTML={{ __html: t('educationEquality.heroSubtitle') }} />
 
                             {/* Quick donation */}
                             <div className="flex flex-col sm:flex-row gap-4 mb-10">
@@ -228,7 +222,7 @@ export default function EducationEqualityPage() {
                                     className="bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white h-14 px-10 rounded-2xl text-lg font-semibold shadow-xl shadow-orange-500/30 transition-all duration-300"
                                 >
                                     <Heart className="mr-2 h-5 w-5" />
-                                    Şimdi Bağış Yap
+                                    {t('educationEquality.donateNow')}
                                 </Button>
                                 <Button
                                     size="lg"
@@ -236,7 +230,7 @@ export default function EducationEqualityPage() {
                                     onClick={() => document.getElementById('impact')?.scrollIntoView({ behavior: 'smooth' })}
                                     className="border-white/30 text-white hover:bg-white/10 h-14 px-8 rounded-2xl text-lg backdrop-blur-sm"
                                 >
-                                    Kampanyayı İncele
+                                    {t('educationEquality.exploreCampaign')}
                                     <ChevronDown className="ml-2 h-5 w-5" />
                                 </Button>
                             </div>
@@ -244,8 +238,8 @@ export default function EducationEqualityPage() {
                             {/* Progress bar */}
                             <div className="bg-white/10 backdrop-blur-md border border-white/10 rounded-2xl p-6 max-w-xl">
                                 <div className="flex items-center justify-between mb-3">
-                                    <span className="text-white/70 text-sm font-medium">Toplanan</span>
-                                    <span className="text-white/70 text-sm font-medium">Hedef</span>
+                                    <span className="text-white/70 text-sm font-medium">{t('educationEquality.raised')}</span>
+                                    <span className="text-white/70 text-sm font-medium">{t('educationEquality.goal')}</span>
                                 </div>
                                 <div className="flex items-center justify-between mb-2">
                                     <span className="text-2xl font-bold text-white">${CAMPAIGN_RAISED.toLocaleString()}</span>
@@ -258,8 +252,8 @@ export default function EducationEqualityPage() {
                                     />
                                 </div>
                                 <div className="flex items-center justify-between mt-3">
-                                    <span className="text-amber-300 font-semibold text-sm">%{progressPercent} tamamlandı</span>
-                                    <span className="text-white/50 text-sm">{CAMPAIGN_DONORS.toLocaleString()} bağışçı</span>
+                                    <span className="text-amber-300 font-semibold text-sm">%{progressPercent} {t('educationEquality.completed')}</span>
+                                    <span className="text-white/50 text-sm">{CAMPAIGN_DONORS.toLocaleString()} {t('educationEquality.donors')}</span>
                                 </div>
                             </div>
                         </div>
@@ -279,10 +273,10 @@ export default function EducationEqualityPage() {
                     <div className="relative z-10 max-w-7xl mx-auto px-4">
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12">
                             {[
-                                { value: CAMPAIGN_STUDENTS, label: 'Desteklenen Öğrenci', icon: Users, suffix: '+', color: 'text-blue-400' },
-                                { value: CAMPAIGN_COUNTRIES, label: 'Ülke', icon: Globe, suffix: '', color: 'text-emerald-400' },
-                                { value: CAMPAIGN_DONORS, label: 'Bağışçı', icon: Heart, suffix: '+', color: 'text-rose-400' },
-                                { value: 96, label: 'Fonlama Oranı', icon: TrendingUp, suffix: '%', color: 'text-amber-400' },
+                                { value: CAMPAIGN_STUDENTS, label: t('educationEquality.stats.studentsSupported'), icon: Users, suffix: '+', color: 'text-blue-400' },
+                                { value: CAMPAIGN_COUNTRIES, label: t('educationEquality.stats.countries'), icon: Globe, suffix: '', color: 'text-emerald-400' },
+                                { value: CAMPAIGN_DONORS, label: t('educationEquality.stats.donorCount'), icon: Heart, suffix: '+', color: 'text-rose-400' },
+                                { value: 96, label: t('educationEquality.stats.fundingRate'), icon: TrendingUp, suffix: '%', color: 'text-amber-400' },
                             ].map((stat, i) => {
                                 const Icon = stat.icon;
                                 return (
@@ -306,14 +300,13 @@ export default function EducationEqualityPage() {
                     <div className="max-w-7xl mx-auto px-4">
                         <div className="text-center mb-16">
                             <span className="inline-block text-xs font-semibold tracking-widest uppercase text-rose-600 bg-rose-50 px-4 py-1.5 rounded-full mb-4">
-                                Gerçekler
+                                {t('educationEquality.problem.badge')}
                             </span>
                             <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-slate-900 mb-6">
-                                Dünyada Eğitim Eşitsizliği
+                                {t('educationEquality.problem.title')}
                             </h2>
                             <p className="text-lg text-slate-500 max-w-3xl mx-auto leading-relaxed">
-                                Her çocuğun eğitim hakkı var. Ama coğrafya, yoksulluk ve altyapı eksikliği
-                                bu hakkı milyonlarca çocuktan çalıyor.
+                                {t('educationEquality.problem.subtitle')}
                             </p>
                         </div>
 
@@ -363,27 +356,27 @@ export default function EducationEqualityPage() {
                                 {[
                                     {
                                         stat: '244M',
-                                        text: 'Dünya genelinde 244 milyon çocuk ve genç okula gidemiyor.',
+                                        text: t('educationEquality.problem.fact1'),
                                         color: 'bg-rose-500',
                                     },
                                     {
                                         stat: '%60',
-                                        text: 'Sub-Saharan Afrika\'daki çocukların %60\'ı ilkokulu tamamlayamıyor.',
+                                        text: t('educationEquality.problem.fact2'),
                                         color: 'bg-amber-500',
                                     },
                                     {
                                         stat: '617M',
-                                        text: '617 milyon çocuk temel okuma-yazma ve matematik becerilerinden yoksun.',
+                                        text: t('educationEquality.problem.fact3'),
                                         color: 'bg-blue-500',
                                     },
                                     {
                                         stat: '4M',
-                                        text: '4 milyondan fazla mülteci çocuk hiçbir eğitime erişemiyor.',
+                                        text: t('educationEquality.problem.fact4'),
                                         color: 'bg-purple-500',
                                     },
                                     {
                                         stat: '$50',
-                                        text: 'Sadece 50 dolar, bir çocuğun 1 yıllık okul malzemesini karşılayabilir.',
+                                        text: t('educationEquality.problem.fact5'),
                                         color: 'bg-emerald-500',
                                     },
                                 ].map((item, i) => (
@@ -406,14 +399,13 @@ export default function EducationEqualityPage() {
                     <div className="max-w-7xl mx-auto px-4">
                         <div className="text-center mb-16">
                             <span className="inline-block text-xs font-semibold tracking-widest uppercase text-blue-600 bg-blue-50 px-4 py-1.5 rounded-full mb-4">
-                                Etki Alanlarımız
+                                {t('educationEquality.impact.badge')}
                             </span>
                             <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-                                Bağışlarınız Nereye Gidiyor?
+                                {t('educationEquality.impact.title')}
                             </h2>
                             <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-                                Her kuruşun hesabını şeffaf şekilde tutuyoruz. İşte bağışlarınızın
-                                hayat değiştirdiği alanlar.
+                                {t('educationEquality.impact.subtitle')}
                             </p>
                         </div>
 
@@ -438,17 +430,16 @@ export default function EducationEqualityPage() {
                                             </div>
                                             <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
                                                 <div
-                                                    className={`h-2.5 rounded-full transition-all duration-700 ${
-                                                        area.color.includes('blue') ? 'bg-blue-500' :
-                                                        area.color.includes('emerald') ? 'bg-emerald-500' :
-                                                        area.color.includes('amber') ? 'bg-amber-500' :
-                                                        area.color.includes('purple') ? 'bg-purple-500' :
-                                                        'bg-rose-500'
-                                                    }`}
+                                                    className={`h-2.5 rounded-full transition-all duration-700 ${area.color.includes('blue') ? 'bg-blue-500' :
+                                                            area.color.includes('emerald') ? 'bg-emerald-500' :
+                                                                area.color.includes('amber') ? 'bg-amber-500' :
+                                                                    area.color.includes('purple') ? 'bg-purple-500' :
+                                                                        'bg-rose-500'
+                                                        }`}
                                                     style={{ width: `${percent}%` }}
                                                 />
                                             </div>
-                                            <p className="text-xs text-slate-400 text-right">%{percent} tamamlandı</p>
+                                            <p className="text-xs text-slate-400 text-right">%{percent} {t('educationEquality.completed')}</p>
                                         </div>
                                     </div>
                                 );
@@ -458,10 +449,9 @@ export default function EducationEqualityPage() {
                             <div className="bg-gradient-to-br from-amber-500 to-orange-600 rounded-2xl p-7 text-white flex flex-col justify-between shadow-lg shadow-orange-500/20">
                                 <div>
                                     <Sparkles className="h-10 w-10 mb-4 text-white/80" />
-                                    <h3 className="text-2xl font-bold mb-3">Siz de Katılın</h3>
+                                    <h3 className="text-2xl font-bold mb-3">{t('educationEquality.impact.joinCard')}</h3>
                                     <p className="text-white/80 leading-relaxed mb-6">
-                                        Küçük büyük her bağış bir çocuğun hayatını değiştirir.
-                                        Eğitimde eşitliğe katkıda bulunun.
+                                        {t('educationEquality.impact.joinCardDesc')}
                                     </p>
                                 </div>
                                 <Button
@@ -469,7 +459,7 @@ export default function EducationEqualityPage() {
                                     size="lg"
                                     className="w-full bg-white text-orange-600 hover:bg-white/90 font-semibold rounded-xl h-12"
                                 >
-                                    Bağış Yap
+                                    {t('educationEquality.impact.donate')}
                                     <ArrowRight className="ml-2 h-5 w-5" />
                                 </Button>
                             </div>
@@ -484,13 +474,13 @@ export default function EducationEqualityPage() {
                     <div className="max-w-7xl mx-auto px-4">
                         <div className="text-center mb-16">
                             <span className="inline-block text-xs font-semibold tracking-widest uppercase text-emerald-600 bg-emerald-50 px-4 py-1.5 rounded-full mb-4">
-                                Gerçek Hikayeler
+                                {t('educationEquality.stories.badge')}
                             </span>
                             <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-                                Hayatı Değişen Çocuklar
+                                {t('educationEquality.stories.title')}
                             </h2>
                             <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-                                Bağışlarınız sayesinde eğitime kavuşan çocukların gerçek hikayeleri.
+                                {t('educationEquality.stories.subtitle')}
                             </p>
                         </div>
 
@@ -520,7 +510,7 @@ export default function EducationEqualityPage() {
                                             </div>
                                             <div>
                                                 <p className="font-semibold text-slate-900">{story.name}</p>
-                                                <p className="text-xs text-slate-400">{story.age} yaşında</p>
+                                                <p className="text-xs text-slate-400">{story.age} {t('educationEquality.stories.yearsOld')}</p>
                                             </div>
                                         </div>
                                         <blockquote className="text-slate-600 italic leading-relaxed">
@@ -540,10 +530,10 @@ export default function EducationEqualityPage() {
                     <div className="max-w-7xl mx-auto px-4">
                         <div className="text-center mb-16">
                             <span className="inline-block text-xs font-semibold tracking-widest uppercase text-indigo-600 bg-indigo-50 px-4 py-1.5 rounded-full mb-4">
-                                Şeffaflık
+                                {t('educationEquality.transparency.badge')}
                             </span>
                             <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-                                Bağışınızın Yolculuğu
+                                {t('educationEquality.transparency.title')}
                             </h2>
                         </div>
 
@@ -552,29 +542,29 @@ export default function EducationEqualityPage() {
                                 {
                                     step: '01',
                                     icon: Heart,
-                                    title: 'Bağış Yapın',
-                                    desc: 'Güvenli ödeme altyapısıyla istediğiniz miktarda bağışta bulunun.',
+                                    title: t('educationEquality.transparency.step1'),
+                                    desc: t('educationEquality.transparency.step1Desc'),
                                     color: 'from-rose-500 to-pink-600',
                                 },
                                 {
                                     step: '02',
                                     icon: Shield,
-                                    title: 'Doğrulama',
-                                    desc: 'Bağışınız blockchain tabanlı şeffaf sisteme kaydedilir.',
+                                    title: t('educationEquality.transparency.step2'),
+                                    desc: t('educationEquality.transparency.step2Desc'),
                                     color: 'from-blue-500 to-indigo-600',
                                 },
                                 {
                                     step: '03',
                                     icon: Target,
-                                    title: 'Hedefe Ulaşma',
-                                    desc: 'Fonlar doğrudan okullara ve öğrencilere aktarılır.',
+                                    title: t('educationEquality.transparency.step3'),
+                                    desc: t('educationEquality.transparency.step3Desc'),
                                     color: 'from-amber-500 to-orange-600',
                                 },
                                 {
                                     step: '04',
                                     icon: CheckCircle,
-                                    title: 'Etki Raporu',
-                                    desc: 'Fotoğraf ve verilerle bağışınızın etkisini takip edin.',
+                                    title: t('educationEquality.transparency.step4'),
+                                    desc: t('educationEquality.transparency.step4Desc'),
                                     color: 'from-emerald-500 to-teal-600',
                                 },
                             ].map((item, i) => {
@@ -609,11 +599,10 @@ export default function EducationEqualityPage() {
                             <div className="relative z-10">
                                 <Hand className="h-12 w-12 text-amber-400 mx-auto mb-6" />
                                 <h2 className="text-3xl sm:text-4xl font-bold text-white mb-4">
-                                    Bir Çocuğun Geleceğini Değiştirin
+                                    {t('educationEquality.ctaTitle')}
                                 </h2>
                                 <p className="text-slate-400 max-w-xl mx-auto mb-10 leading-relaxed">
-                                    Her bağış bir umut. Aşağıdaki miktarlardan birini seçin veya
-                                    kendi miktarınızı belirleyin.
+                                    {t('educationEquality.ctaSubtitle')}
                                 </p>
 
                                 {/* Quick amount buttons */}
@@ -622,11 +611,10 @@ export default function EducationEqualityPage() {
                                         <button
                                             key={amount}
                                             onClick={() => setDonationAmount(amount.toString())}
-                                            className={`py-4 rounded-xl font-bold text-lg transition-all duration-200 ${
-                                                donationAmount === amount.toString()
+                                            className={`py-4 rounded-xl font-bold text-lg transition-all duration-200 ${donationAmount === amount.toString()
                                                     ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-500/30 scale-105'
                                                     : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
-                                            }`}
+                                                }`}
                                         >
                                             ${amount}
                                         </button>
@@ -639,7 +627,7 @@ export default function EducationEqualityPage() {
                                         <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 font-bold">$</span>
                                         <Input
                                             type="number"
-                                            placeholder="Diğer miktar"
+                                            placeholder={t('educationEquality.otherAmount')}
                                             value={donationAmount}
                                             onChange={(e) => setDonationAmount(e.target.value)}
                                             className="pl-8 h-14 bg-white/10 border-white/10 text-white placeholder:text-white/30 rounded-xl text-lg font-medium focus:border-amber-500/50"
@@ -651,14 +639,14 @@ export default function EducationEqualityPage() {
                                         size="lg"
                                         className="h-14 px-10 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white rounded-xl font-bold text-lg shadow-xl shadow-orange-500/25"
                                     >
-                                        Bağış Yap
+                                        {t('educationEquality.donateNow')}
                                         <Heart className="ml-2 h-5 w-5" />
                                     </Button>
                                 </div>
                                 <p className="text-xs text-slate-500">
-                                    Tüm bağışlar güvenli altyapı üzerinden işlenir.
+                                    {t('educationEquality.allSecure')}
                                     <Link href="/transparency" className="text-amber-400 hover:underline ml-1">
-                                        Şeffaflık politikamız →
+                                        {t('educationEquality.transparencyPolicy')}
                                     </Link>
                                 </p>
                             </div>
@@ -673,24 +661,23 @@ export default function EducationEqualityPage() {
                     <div className="max-w-3xl mx-auto px-4 text-center">
                         <Share2 className="h-8 w-8 text-slate-400 mx-auto mb-4" />
                         <h3 className="text-2xl font-bold text-slate-900 mb-3">
-                            Bağışlamasanız Bile Paylaşabilirsiniz
+                            {t('educationEquality.share.title')}
                         </h3>
                         <p className="text-slate-500 mb-8">
-                            Bu kampanyayı çevrenizle paylaşarak eğitime katkıda bulunabilirsiniz.
-                            Bir paylaşım bile fark yaratır.
+                            {t('educationEquality.share.subtitle')}
                         </p>
                         <div className="flex flex-wrap justify-center gap-3">
                             {[
                                 { label: 'Twitter / X', bg: 'bg-black hover:bg-gray-800' },
                                 { label: 'LinkedIn', bg: 'bg-blue-700 hover:bg-blue-600' },
                                 { label: 'WhatsApp', bg: 'bg-green-600 hover:bg-green-500' },
-                                { label: 'Linki Kopyala', bg: 'bg-slate-700 hover:bg-slate-600' },
+                                { label: t('educationEquality.share.copyLink'), bg: 'bg-slate-700 hover:bg-slate-600' },
                             ].map((btn, i) => (
                                 <Button
                                     key={i}
                                     className={`${btn.bg} text-white rounded-xl px-6`}
                                     onClick={() => {
-                                        if (btn.label === 'Linki Kopyala') {
+                                        if (btn.label === t('educationEquality.share.copyLink')) {
                                             navigator.clipboard.writeText(window.location.href);
                                         }
                                     }}

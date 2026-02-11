@@ -27,14 +27,14 @@
         "close": "إغلاق",
         "learnMore": "اعرف المزيد",
         "getStarted": "ابدأ الآن",
-        "demoBanner": "هذه المنصة حاليًا في وضع العرض التوضيحي. البيانات المعروضة هي لأغراض العرض فقط.",
-        "demoPageGeneral": "هذه الصفحة لأغراض العرض التوضيحي. سيتم تحديث البيانات الحقيقية عند تفعيل المنصة.",
-        "demoStories": "هذه الصفحة لأغراض العرض التوضيحي. القصص والمبالغ معروضة كأمثلة؛ سيتم تحديث البيانات الحقيقية عند تفعيل المنصة.",
-        "demoAlumni": "هذه الصفحة لأغراض العرض التوضيحي. معلومات الخريجين والمبالغ معروضة كأمثلة؛ سيتم تحديث البيانات الحقيقية عند تفعيل المنصة.",
-        "demoReports": "هذه الصفحة لأغراض العرض التوضيحي. التقارير والمبالغ معروضة كأمثلة؛ سيتم تحديث البيانات الحقيقية عند تفعيل المنصة.",
-        "demoBadges": "هذه الصفحة لأغراض العرض التوضيحي. سيتم تحديث الشارات وقيم التقدم عند تفعيل المنصة.",
-        "demoLeaderboard": "هذه الصفحة لأغراض العرض التوضيحي. سيتم تحديث التصنيفات والمبالغ ببيانات حقيقية عند تفعيل المنصة.",
-        "demoTransparency": "هذه الصفحة لأغراض العرض التوضيحي. سيتم تحديث البيانات الحقيقية عند تفعيل المنصة."
+        "demoBanner": "المنصة في مرحلة المعاينة. جاهزة للتجارب المؤسسية الأولى.",
+        "demoPageGeneral": "المنصة في مرحلة المعاينة. جاهزة للتجارب المؤسسية الأولى.",
+        "demoStories": "المنصة في مرحلة المعاينة. جاهزة للتجارب المؤسسية الأولى.",
+        "demoAlumni": "المنصة في مرحلة المعاينة. جاهزة للتجارب المؤسسية الأولى.",
+        "demoReports": "المنصة في مرحلة المعاينة. جاهزة للتجارب المؤسسية الأولى.",
+        "demoBadges": "المنصة في مرحلة المعاينة. جاهزة للتجارب المؤسسية الأولى.",
+        "demoLeaderboard": "المنصة في مرحلة المعاينة. جاهزة للتجارب المؤسسية الأولى.",
+        "demoTransparency": "المنصة في مرحلة المعاينة. جاهزة للتجارب المؤسسية الأولى."
     },
     "nav": {
         "home": "الرئيسية",
@@ -94,7 +94,59 @@
             "perfectDonor": "متبرع مثالي",
             "legend": "أسطورة",
             "donation": "تبرع",
-            "donations": "تبرعات"
+            "donations": "تبرعات",
+            "items": {
+                "first_step": {
+                    "name": "الخطوة الأولى",
+                    "desc": "لقد قمت بتبرعك الأول"
+                },
+                "supporter": {
+                    "name": "داعم",
+                    "desc": "لقد قمت بـ 5 تبرعات"
+                },
+                "champion": {
+                    "name": "بطل",
+                    "desc": "لقد قمت بـ 25 تبرعًا"
+                },
+                "legend": {
+                    "name": "أسطورة",
+                    "desc": "لقد قمت بـ 100 تبرع"
+                },
+                "generous": {
+                    "name": "كريم",
+                    "desc": "1,000 دولار إجمالي التبرعات"
+                },
+                "philanthropist": {
+                    "name": "فاعل خير",
+                    "desc": "10,000 دولار إجمالي التبرعات"
+                },
+                "patron": {
+                    "name": "راعي",
+                    "desc": "50,000 دولار إجمالي التبرعات"
+                },
+                "student_champion": {
+                    "name": "بطل الطلاب",
+                    "desc": "دعمت 10 طلاب مختلفين"
+                },
+                "streak_master": {
+                    "name": "سيد التتابع",
+                    "desc": "تبرعت لمدة 12 شهرًا متتاليًا"
+                },
+                "early_bird": {
+                    "name": "المبادر",
+                    "desc": "عضو منذ إطلاق المنصة"
+                },
+                "matching_hero": {
+                    "name": "بطل المطابقة",
+                    "desc": "شارك في برنامج مطابقة الهدايا"
+                },
+                "mentor": {
+                    "name": "موجه",
+                    "desc": "أصبح موجهًا لطالب"
+                }
+            },
+            "moreBadges": "مزيد من الشارات",
+            "progressLabel": "التقدم"
         },
         "leaderboard": {
             "title": "لوحة المتصدرين",
@@ -114,7 +166,23 @@
             "subtitle": "قصص نجاح الطلاب الذين حققوا أحلامهم مع FundEd",
             "giveBackProgram": "برنامج رد الجميل",
             "giveBackDesc": "27% من خريجينا يدعمون الطلاب الجدد بنشاط",
-            "joinProgram": "انضم للبرنامج"
+            "joinProgram": "انضم للبرنامج",
+            "stats": {
+                "graduatedStudent": "طلاب متخرجون",
+                "employmentRate": "معدل التوظيف",
+                "averageSalary": "متوسط الراتب",
+                "givingBack": "رد الجميل"
+            },
+            "card": {
+                "alumniBadge": "خريج",
+                "totalReceived": "إجمالي المستلم",
+                "totalGivenBack": "إجمالي المردود",
+                "readStory": "اقرأ القصة"
+            },
+            "mock": {
+                "story1": "بدون FundEd، لم أكن لأستطيع إنهاء الجامعة. الآن أعيش أحلامي وحان دوري. أنا أدعم طالبًا كل شهر.",
+                "story2": "عائلتي لم تستطع دعمي. لم أكن لأكون هنا بدون عائلة FundEd."
+            }
         },
         "updates": {
             "title": "مذكرات الطلاب",
@@ -183,6 +251,320 @@
             "silver": "فضة",
             "gold": "ذهب",
             "platinum": "بلاتين"
+        },
+        "whoWeAre": {
+            "hero": {
+                "badge": "Who We Are?",
+                "title": "A Team Believing in",
+                "titleHighlight": "The Power of Education",
+                "desc": "FundEd was founded to turn the educational dreams of students around the world into reality. We combine transparency, technology, and empathy.",
+                "donate": "Donate",
+                "campaign": "View Our Campaign"
+            },
+            "story": {
+                "badge": "Our Story",
+                "title": "We Started With",
+                "titleHighlight": "A Question",
+                "quote": "Why should a talented student have to quit education just because of financial impossibility?",
+                "p1": "We set out with this question. We saw that more than 244 million children in the world cannot go to school, and hundreds of thousands of university students give up their dreams due to financial problems.",
+                "p2": "FundEd was born as a platform that directly connects donors with students, where every penny is traceable and impact can be measured with concrete data.",
+                "p3": "Our goal is simple:",
+                "p3Highlight": "To democratize access to education.",
+                "p3End": "While doing this, we put transparency, technology, and human stories at the center.",
+                "stats": {
+                    "students": "Supported Students",
+                    "countries": "Countries",
+                    "donors": "Donors",
+                    "successRate": "Funding Success Rate"
+                }
+            },
+            "values": {
+                "badge": "Our Values",
+                "title": "Principles That Make Us Us",
+                "desc": "Every decision we make is shaped around these values.",
+                "items": {
+                    "transparency": {
+                        "title": "Transparency",
+                        "desc": "We clearly show where every donation goes. Nothing is hidden."
+                    },
+                    "empathy": {
+                        "title": "Empathy",
+                        "desc": "We understand every student's story and offer solutions specific to their needs."
+                    },
+                    "equality": {
+                        "title": "Equality",
+                        "desc": "Right to access education regardless of geography, gender, or income level."
+                    },
+                    "innovation": {
+                        "title": "Innovation",
+                        "desc": "We make the donation process more efficient and effective using technology."
+                    },
+                    "community": {
+                        "title": "Community",
+                        "desc": "A strong ecosystem of donors, students, and volunteers."
+                    },
+                    "impact": {
+                        "title": "Impact Oriented",
+                        "desc": "We base every decision on creating measurable social impact."
+                    }
+                }
+            },
+            "howItWorks": {
+                "badge": "How We Work?",
+                "title": "4 Steps from Donation to Impact",
+                "items": {
+                    "step1": {
+                        "title": "Application & Verification",
+                        "desc": "Students apply, our team verifies identity and need."
+                    },
+                    "step2": {
+                        "title": "Donation & Matching",
+                        "desc": "Donors choose suitable students and donate through secure infrastructure."
+                    },
+                    "step3": {
+                        "title": "Funding & Distribution",
+                        "desc": "Funds are transferred directly to meet the student's needs."
+                    },
+                    "step4": {
+                        "title": "Impact Reporting",
+                        "desc": "Donors see the impact of their donations with photos and data."
+                    }
+                }
+            },
+            "timeline": {
+                "badge": "Our Journey",
+                "title": "Our Milestones",
+                "items": {
+                    "e1": {
+                        "event": "FundEd idea was born",
+                        "desc": "First step taken to solve inequality in education."
+                    },
+                    "e2": {
+                        "event": "Platform development",
+                        "desc": "Technical infrastructure and verification system established."
+                    },
+                    "e3": {
+                        "event": "Beta launch",
+                        "desc": "First students and donors joined the platform."
+                    },
+                    "e4": {
+                        "event": "Corporate module",
+                        "desc": "ESG compliant donation panel opened for companies."
+                    },
+                    "e5": {
+                        "event": "Global expansion",
+                        "desc": "Access to 12 countries, support for thousands of students."
+                    }
+                }
+            },
+            "team": {
+                "badge": "Our Team",
+                "title": "People Creating Change",
+                "desc": "Professionals who are experts in their fields and believe in educational equality.",
+                "items": {
+                    "te1": {
+                        "role": "Founder & CEO",
+                        "bio": "An entrepreneur passionate about educational technologies and social impact."
+                    },
+                    "te2": {
+                        "role": "CTO",
+                        "bio": "Software engineer expert in Blockchain and transparency infrastructure."
+                    },
+                    "te3": {
+                        "role": "COO",
+                        "bio": "Manager combining NGO experience with operational excellence."
+                    },
+                    "te4": {
+                        "role": "Impact & Comms Director",
+                        "bio": "Expert strengthening donor relations with social media and community management."
+                    }
+                }
+            },
+            "transparency": {
+                "title": "Our Transparency Commitment",
+                "desc": "At FundEd, we guarantee that every donation is traceable, every penny is accounted for, and every impact report is supported by concrete data.",
+                "items": {
+                    "t1": {
+                        "title": "100% Transparency",
+                        "desc": "Every donation record is open access"
+                    },
+                    "t2": {
+                        "title": "Verified Students",
+                        "desc": "Identity and need check"
+                    },
+                    "t3": {
+                        "title": "Impact Reporting",
+                        "desc": "Photo result tracking"
+                    }
+                },
+                "btn1": "Transparency Page",
+                "btn2": "View Reports"
+            },
+            "cta": {
+                "badge": "Join Our Community",
+                "title": "We Are Stronger Together",
+                "desc": "Whether you are a donor, a student, or a volunteer — we can work together for educational equality. Take the first step today.",
+                "donate": "Donate",
+                "apply": "Apply as Student",
+                "corporate": "Corporate Solutions"
+            }
+        },
+        "missionVision": {
+            "demoWarning": {
+                "title": "معاينة",
+                "message": "المنصة في مرحلة المعاينة. جاهزة للتجارب المؤسسية الأولى."
+            },
+            "hero": {
+                "badge": "Mission & Vision",
+                "title": "Equality in Education,",
+                "titleHighlight": "Hope for the Future",
+                "desc": "We believe every child has the right to equal access to education. We turn this belief into reality using technology and the power of community."
+            },
+            "cards": {
+                "mission": {
+                    "badge": "Our Mission",
+                    "title": "Why Do We Exist?",
+                    "desc": "To create a transparent platform that connects verified students with trusted donors to eliminate inequality in access to education.",
+                    "items": {
+                        "i1": "Facilitate access to education by removing economic barriers",
+                        "i2": "Ensure every donation is traceable and accountable",
+                        "i3": "Help students realize their potential"
+                    }
+                },
+                "vision": {
+                    "badge": "Our Vision",
+                    "title": "Where Are We Going?",
+                    "desc": "A future where no student in the world is deprived of education due to financial impossibility, and education is lived as a universal right.",
+                    "items": {
+                        "i1": "Create a global education funding network",
+                        "i2": "Use AI for needs analysis and matching",
+                        "i3": "Lead sustainable change in education"
+                    }
+                }
+            },
+            "impactNumbers": {
+                "students": "Supported Students",
+                "countries": "Active Countries",
+                "funding": "Total Funding",
+                "satisfaction": "Donor Satisfaction"
+            },
+            "principles": {
+                "badge": "Our Core Principles",
+                "title": "Values That Guide Us",
+                "desc": "These principles are behind every decision we make. They are not just words, but our way of life.",
+                "items": {
+                    "transparency": {
+                        "title": "Transparency",
+                        "desc": "We clearly share where every donation goes and how every penny is spent. No hidden costs, no hidden agendas."
+                    },
+                    "equality": {
+                        "title": "Equality",
+                        "desc": "We believe every student has the right to equal access to education. Geographical, economic, or social barriers do not matter."
+                    },
+                    "verification": {
+                        "title": "Verification",
+                        "desc": "Every student profile is meticulously verified. Our donors can be sure they are reaching those in real need."
+                    },
+                    "community": {
+                        "title": "Community",
+                        "desc": "We build meaningful bonds between donors and students. We build a sustainable community, not one-time aid."
+                    },
+                    "innovation": {
+                        "title": "Innovation",
+                        "desc": "We use technology to make the donation process more efficient, traceable, and effective."
+                    },
+                    "impact": {
+                        "title": "Impact Oriented",
+                        "desc": "We take every decision asking 'what is the impact on the student?'. We produce results, not bureaucracy."
+                    }
+                }
+            },
+            "approach": {
+                "visual": {
+                    "title": "The Approach That Makes a Difference",
+                    "desc": "Unlike traditional donation platforms, we verify every student, track every penny, and measure every impact.",
+                    "stats": {
+                        "verification": {
+                            "val": "100%",
+                            "label": "Verification"
+                        },
+                        "traceability": {
+                            "val": "100%",
+                            "label": "Traceability"
+                        },
+                        "hiddenCost": {
+                            "val": "0",
+                            "label": "Hidden Cost"
+                        },
+                        "reviewTime": {
+                            "val": "48h",
+                            "label": "Review Time"
+                        }
+                    },
+                    "trustScore": {
+                        "label": "Trust Score",
+                        "val": "4.9 / 5.0"
+                    }
+                },
+                "content": {
+                    "badge": "Our Approach",
+                    "title": "Not Donation, Investment.",
+                    "titleHighlight": "Investment in Future.",
+                    "desc": "At FundEd, we see every donation as an investment — an investment in a student's future, a society's development, a fairer world.",
+                    "items": {
+                        "verified": {
+                            "title": "Verified Profiles",
+                            "desc": "Every student is verified with ID, student certificate, and needs analysis."
+                        },
+                        "impact": {
+                            "title": "Impact Measurement",
+                            "desc": "The difference created by the donation is measured and reported with concrete metrics."
+                        },
+                        "speed": {
+                            "title": "Fast Transfer",
+                            "desc": "Funds are transferred quickly by minimizing bureaucratic obstacles."
+                        },
+                        "community": {
+                            "title": "Community Power",
+                            "desc": "Donors, students, and institutions come together to create sustainable impact."
+                        }
+                    }
+                }
+            },
+            "roadmap": {
+                "badge": "Roadmap",
+                "title": "Our Goals",
+                "desc": "We think big, step by step. Here is where we are going.",
+                "items": {
+                    "g1": {
+                        "title": "10,000 Students",
+                        "desc": "Provide direct educational support to 10,000 students in Turkey and surrounding countries."
+                    },
+                    "g2": {
+                        "title": "Global Access",
+                        "desc": "Expand education funding network actively in 25+ countries."
+                    },
+                    "g3": {
+                        "title": "Corporate Bridge",
+                        "desc": "Include companies in sustainable education funding with 500+ corporate partners."
+                    },
+                    "g4": {
+                        "title": "Equal Education",
+                        "desc": "Measurably reduce geographical inequality in access to education."
+                    }
+                }
+            },
+            "quote": {
+                "text": "Giving education to a child is not changing a life. It is transforming a generation.",
+                "author": "FundEd Team",
+                "role": "Founding Manifesto, 2024"
+            },
+            "cta": {
+                "title": "Join This Mission",
+                "desc": "You can change a student's life with a donation, cultivate a student's hope with an application.",
+                "donate": "Donate",
+                "apply": "Apply as Student"
+            }
         }
     },
     "home": {
@@ -245,139 +627,139 @@
         }
     },
     "verification": {
-        "title": "Choose Verification Level",
-        "subtitle": "Select a verification level to increase donor trust. Higher levels require more evidence.",
-        "tierSelectDescription": "Select a verification level to increase donor trust. Higher levels require more evidence.",
-        "tier0Option": "Verify with School Email",
-        "tier0Description": "Receive a verification link via your school email (e.g., student@university.edu).",
-        "required": "Required",
+        "title": "اختر مستوى التحقق",
+        "subtitle": "اختر مستوى تحقق لزيادة ثقة المتبرعين. المستويات الأعلى تتطلب أدلة أكثر.",
+        "tierSelectDescription": "اختر مستوى تحقق لزيادة ثقة المتبرعين. المستويات الأعلى تتطلب أدلة أكثر.",
+        "tier0Option": "التحقق بالبريد الإلكتروني المدرسي",
+        "tier0Description": "احصل على رابط تحقق عبر بريدك الإلكتروني المدرسي (مثال: student@university.edu).",
+        "required": "مطلوب",
         "status": {
-            "draft": "Draft",
-            "pendingReview": "Pending Review",
-            "approved": "Approved",
-            "rejected": "Rejected",
-            "needsMoreInfo": "Needs More Info",
-            "underInvestigation": "Under Investigation",
-            "suspended": "Suspended",
-            "expired": "Expired",
-            "revoked": "Revoked",
-            "banned": "Permanently Banned",
-            "abandoned": "Abandoned"
+            "draft": "مسودة",
+            "pendingReview": "قيد المراجعة",
+            "approved": "معتمد",
+            "rejected": "مرفوض",
+            "needsMoreInfo": "يحتاج مزيد من المعلومات",
+            "underInvestigation": "قيد التحقيق",
+            "suspended": "معلق",
+            "expired": "منتهي الصلاحية",
+            "revoked": "ملغى",
+            "banned": "محظور نهائياً",
+            "abandoned": "متروك"
         },
         "documents": {
-            "studentId": "Student ID",
-            "enrollmentLetter": "Enrollment Letter",
-            "governmentId": "Government ID",
-            "selfieWithId": "Selfie with ID",
-            "transcript": "Transcript",
-            "proofOfAddress": "Proof of Address",
-            "other": "Other Document"
+            "studentId": "بطاقة الطالب",
+            "enrollmentLetter": "خطاب القيد",
+            "governmentId": "الهوية الحكومية",
+            "selfieWithId": "صورة سيلفي مع الهوية",
+            "transcript": "كشف الدرجات",
+            "proofOfAddress": "إثبات العنوان",
+            "other": "مستند آخر"
         },
         "form": {
-            "personalInfo": "Personal Information",
-            "firstName": "First Name",
-            "lastName": "Last Name",
-            "dateOfBirth": "Date of Birth",
-            "phone": "Phone Number",
-            "country": "Country",
-            "city": "City",
-            "educationInfo": "Education Information",
-            "institution": "Institution Name",
-            "institutionCountry": "Country",
-            "institutionType": "Institution Type",
-            "program": "Program",
-            "degreeLevel": "Degree Level",
-            "studentId": "Student ID (Optional)",
-            "enrollmentYear": "Enrollment Year",
-            "graduationYear": "Expected Graduation",
-            "fullTime": "Full-time student",
+            "personalInfo": "المعلومات الشخصية",
+            "firstName": "الاسم الأول",
+            "lastName": "اسم العائلة",
+            "dateOfBirth": "تاريخ الميلاد",
+            "phone": "رقم الهاتف",
+            "country": "الدولة",
+            "city": "المدينة",
+            "educationInfo": "المعلومات التعليمية",
+            "institution": "اسم المؤسسة",
+            "institutionCountry": "الدولة",
+            "institutionType": "نوع المؤسسة",
+            "program": "البرنامج",
+            "degreeLevel": "مستوى الشهادة",
+            "studentId": "رقم الطالب (اختياري)",
+            "enrollmentYear": "سنة القيد",
+            "graduationYear": "التخرج المتوقع",
+            "fullTime": "طالب بدوام كامل",
             "institutionTypes": {
-                "university": "University",
-                "college": "College",
-                "vocational": "Vocational School",
-                "high_school": "High School"
+                "university": "جامعة",
+                "college": "كلية",
+                "vocational": "مدرسة مهنية",
+                "high_school": "مدرسة ثانوية"
             },
             "degreeLevels": {
-                "associate": "Associate",
-                "bachelor": "Bachelor's",
-                "master": "Master's",
-                "phd": "PhD",
-                "certificate": "Certificate"
+                "associate": "دبلوم",
+                "bachelor": "بكالوريوس",
+                "master": "ماجستير",
+                "phd": "دكتوراه",
+                "certificate": "شهادة"
             },
-            "uploadDocuments": "Upload Documents",
-            "submit": "Submit for Review",
-            "addDocument": "Add Document",
-            "removeDocument": "Remove Document",
-            "documentName": "Document Name",
-            "documentHelp": "Add documents such as student ID, enrollment letter, or transcript"
+            "uploadDocuments": "رفع المستندات",
+            "submit": "تقديم للمراجعة",
+            "addDocument": "إضافة مستند",
+            "removeDocument": "حذف المستند",
+            "documentName": "اسم المستند",
+            "documentHelp": "أضف مستندات مثل بطاقة الطالب أو خطاب القيد أو كشف الدرجات"
         },
         "tiers": {
             "tier0": {
-                "name": "Verify with School Email",
-                "description": "Receive a verification link via your school email (e.g., student@university.edu)."
+                "name": "التحقق بالبريد الإلكتروني المدرسي",
+                "description": "احصل على رابط تحقق عبر بريدك الإلكتروني المدرسي (مثال: student@university.edu)."
             },
             "tier1": {
-                "name": "Document Verified",
-                "description": "Verify by uploading an enrollment letter or student status document.",
-                "subtext": "Required: Enrollment letter"
+                "name": "تحقق بالمستندات",
+                "description": "تحقق عن طريق رفع خطاب قيد أو وثيقة حالة الطالب.",
+                "subtext": "مطلوب: خطاب القيد"
             },
             "tier2": {
-                "name": "High Trust",
-                "description": "Verify with documents plus a school portal screenshot or QR/barcode proof.",
-                "subtext": "Required: Enrollment letter, Portal screenshot"
+                "name": "ثقة عالية",
+                "description": "تحقق بالمستندات بالإضافة إلى لقطة شاشة من بوابة الجامعة أو إثبات QR/باركود.",
+                "subtext": "مطلوب: خطاب القيد، لقطة شاشة البوابة"
             },
             "tier3": {
-                "name": "Partner Verified",
-                "description": "Verified through official university/partner attestation"
+                "name": "تحقق من شريك",
+                "description": "تم التحقق من خلال شهادة رسمية من الجامعة/الشريك"
             }
         },
         "badges": {
-            "tier0": "Email Verified",
-            "tier1": "Verified Student",
-            "tier2": "Verified Student: High Trust",
-            "tier3": "Partner Verified"
+            "tier0": "البريد الإلكتروني محقق",
+            "tier1": "طالب محقق",
+            "tier2": "طالب محقق: ثقة عالية",
+            "tier3": "محقق من شريك"
         },
         "checks": {
-            "email": "Institutional Email",
-            "enrollment": "Enrollment Document",
-            "portal": "School Portal",
-            "partner": "University Attestation"
+            "email": "البريد الإلكتروني المؤسسي",
+            "enrollment": "وثيقة القيد",
+            "portal": "بوابة الجامعة",
+            "partner": "شهادة الجامعة"
         },
         "steps": {
-            "tierSelect": "Choose Level",
-            "personalInfo": "Personal Info",
-            "educationInfo": "Education",
-            "documents": "Upload Documents",
-            "review": "Review & Submit"
+            "tierSelect": "اختر المستوى",
+            "personalInfo": "المعلومات الشخصية",
+            "educationInfo": "التعليم",
+            "documents": "رفع المستندات",
+            "review": "مراجعة وتقديم"
         },
         "statusLabels": {
-            "draft": "Draft",
-            "pending_review": "Under Review",
-            "approved": "Approved",
-            "rejected": "Rejected",
-            "needs_more_info": "More Info Needed"
+            "draft": "مسودة",
+            "pending_review": "قيد المراجعة",
+            "approved": "معتمد",
+            "rejected": "مرفوض",
+            "needs_more_info": "يحتاج مزيد من المعلومات"
         },
-        "documentGuidance": "Please upload clear and up-to-date documents.",
-        "documentMaskingHint": "You may mask non-required sensitive details (ID number, address, etc.).",
+        "documentGuidance": "يرجى رفع مستندات واضحة ومحدّثة.",
+        "documentMaskingHint": "يمكنك إخفاء التفاصيل الحساسة غير المطلوبة (رقم الهوية، العنوان، إلخ).",
         "acceptedDocs": {
-            "enrollment": "Enrollment letter / student status document",
-            "studentId": "Student ID card",
-            "transcript": "Transcript",
-            "portalScreenshot": "School portal screenshot"
+            "enrollment": "خطاب القيد / وثيقة حالة الطالب",
+            "studentId": "بطاقة الطالب",
+            "transcript": "كشف الدرجات",
+            "portalScreenshot": "لقطة شاشة من بوابة الجامعة"
         },
-        "dragDrop": "Drag & drop or browse",
-        "fileTypes": "PDF, JPG, PNG (max 10MB)",
-        "documentsNote": "Documents are used only for verification and stored securely.",
+        "dragDrop": "اسحب وأفلت أو تصفح",
+        "fileTypes": "PDF, JPG, PNG (الحد الأقصى 10 ميجابايت)",
+        "documentsNote": "تُستخدم المستندات فقط للتحقق ويتم تخزينها بشكل آمن.",
         "review": {
-            "tier": "Selected Level",
-            "personal": "Personal Info",
-            "education": "Education",
-            "note": "Note (Optional)",
-            "notePlaceholder": "Add any extra context."
+            "tier": "المستوى المحدد",
+            "personal": "المعلومات الشخصية",
+            "education": "التعليم",
+            "note": "ملاحظة (اختياري)",
+            "notePlaceholder": "أضف أي سياق إضافي."
         },
-        "reviewNote": "By submitting, you confirm that all information provided is accurate. Our team will review your application within 1-3 business days.",
-        "submitError": "Failed to submit verification. Please try again.",
-        "selectedFiles": "Selected Files"
+        "reviewNote": "بتقديم هذا النموذج، تؤكد أن جميع المعلومات المقدمة دقيقة. سيقوم فريقنا بمراجعة طلبك خلال 1-3 أيام عمل.",
+        "submitError": "فشل في تقديم التحقق. يرجى المحاولة مرة أخرى.",
+        "selectedFiles": "الملفات المحددة"
     },
     "campaign": {
         "createCampaign": "إنشاء حملة",
@@ -404,7 +786,50 @@
         "message": "اترك رسالة (اختياري)",
         "processing": "جاري المعالجة...",
         "success": "شكراً لتبرعك!",
-        "error": "فشل التبرع. يرجى المحاولة مرة أخرى."
+        "error": "فشل التبرع. يرجى المحاولة مرة أخرى.",
+        "heroBadge": "كل تبرع يغير حياة",
+        "heroSubtitle": "ادعم الطلاب المعتمدين في رحلتهم التعليمية. تتبع تبرعك في كل خطوة عبر بنيتنا التحتية الشفافة.",
+        "amountSubtitle": "اختر مبلغاً أو أدخل قيمة مخصصة",
+        "customPlaceholder": "أدخل مبلغاً مخصصاً...",
+        "category": "فئة التبرع",
+        "categoryPlaceholder": "اختر فئة",
+        "verifiedStudent": "دعم الطلاب المعتمدين",
+        "generalFund": "صندوق التعليم العام",
+        "optionalInfo": "معلومات اختيارية",
+        "yourName": "اسمك",
+        "anonymousNote": "يمكنك البقاء مجهول الهوية",
+        "namePlaceholder": "اسمك الكامل",
+        "email": "البريد الإلكتروني",
+        "receiptNote": "للإيصال",
+        "emailPlaceholder": "example@email.com",
+        "invalidEmail": "يرجى إدخال عنوان بريد إلكتروني صالح.",
+        "secureTitle": "آمن وشفاف",
+        "secureDesc": "يتم معالجة تبرعك عبر بنيتنا التحتية الآمنة ويتم تسجيل كل خطوة للتتبع.",
+        "submitDonate": "تبرع",
+        "submitDonateWithAmount": "تبرع",
+        "completed": "تم التبرع بنجاح!",
+        "securePayment": "دفع آمن مشفر بـ SSL 256 بت",
+        "loading": "جاري التحميل...",
+        "impactTitle": "أثر تبرعك",
+        "impactWith": "مع",
+        "impact10": "شهر واحد من الدفاتر والأقلام لطالب",
+        "impact25": "مستلزمات حقيبة مدرسية لطالب",
+        "impact50": "سنة واحدة من اللوازم المدرسية لطفل",
+        "impact100": "مواد تعليمية رقمية لفصل دراسي",
+        "impact250": "فصل دراسي واحد من المنحة لطالب",
+        "impact500": "تجديد وتجهيز فصل دراسي",
+        "trustTitle": "الأمان والشفافية",
+        "trustVerified": "طلاب معتمدون",
+        "trustVerifiedDesc": "جميع الطلاب يخضعون للتحقق من الهوية",
+        "trustTracking": "تتبع الأثر",
+        "trustTrackingDesc": "شاهد أين يذهب تبرعك",
+        "trustSecure": "دفع آمن",
+        "trustSecureDesc": "بنية تحتية مشفرة بـ SSL 256 بت",
+        "trustTransparent": "شفافية كاملة",
+        "trustTransparentDesc": "كل معاملة مسجلة",
+        "equalityCampaign": "حملة المساواة في التعليم",
+        "equalityDesc": "استكشف حملتنا لدعم الأطفال حول العالم الذين لا يستطيعون الوصول إلى التعليم.",
+        "viewCampaign": "عرض الحملة"
     },
     "dashboard": {
         "title": "لوحة التحكم",
@@ -453,288 +878,288 @@
         }
     },
     "terms": {
-        "title": "Terms of Service",
-        "lastUpdated": "Last updated: {date}",
+        "title": "شروط الخدمة",
+        "lastUpdated": "آخر تحديث: {date}",
         "sections": {
             "acceptance": {
-                "title": "1. Acceptance of Terms",
-                "content": "By accessing and using FundEd, you accept and agree to be bound by these Terms of Service. If you do not agree, you may not use our platform."
+                "title": "1. قبول الشروط",
+                "content": "من خلال الوصول إلى FundEd واستخدامه، فإنك تقبل وتوافق على الالتزام بشروط الخدمة هذه. إذا لم توافق، لا يمكنك استخدام منصتنا."
             },
             "platform": {
-                "title": "2. Platform Description",
-                "content": "FundEd is a crowdfunding platform that connects verified students with donors to support educational needs. We facilitate the connection but are not a party to the funding relationship."
+                "title": "2. وصف المنصة",
+                "content": "FundEd هي منصة تمويل جماعي تربط الطلاب المحققين مع المتبرعين لدعم الاحتياجات التعليمية. نحن نسهّل الربط لكننا لسنا طرفًا في علاقة التمويل."
             },
             "studentResp": {
-                "title": "3. Student Responsibilities",
+                "title": "3. مسؤوليات الطلاب",
                 "items": [
-                    "Provide accurate and truthful information in your student profile",
-                    "Submit legitimate verification documents",
-                    "Use funds for the stated educational purposes",
-                    "Comply with all applicable laws and regulations",
-                    "Maintain the accuracy of campaign information"
+                    "تقديم معلومات دقيقة وصادقة في ملفك الشخصي كطالب",
+                    "تقديم وثائق تحقق مشروعة",
+                    "استخدام الأموال للأغراض التعليمية المذكورة",
+                    "الامتثال لجميع القوانين واللوائح المعمول بها",
+                    "الحفاظ على دقة معلومات الحملة"
                 ]
             },
             "donorResp": {
-                "title": "4. Donor Responsibilities",
+                "title": "4. مسؤوليات المتبرعين",
                 "items": [
-                    "Donations are voluntary and non-refundable unless required by law",
-                    "Donors understand that FundEd is a platform facilitator, not a guarantor",
-                    "Donors are responsible for their own tax implications"
+                    "التبرعات طوعية وغير قابلة للاسترداد ما لم يقتضِ القانون ذلك",
+                    "يدرك المتبرعون أن FundEd هي وسيط منصة وليست ضامنة",
+                    "المتبرعون مسؤولون عن آثارهم الضريبية الخاصة"
                 ]
             },
             "verification": {
-                "title": "5. Verification Process",
-                "content": "Student verification is conducted by our admin team. We reserve the right to:",
+                "title": "5. عملية التحقق",
+                "content": "يتم التحقق من الطلاب بواسطة فريقنا الإداري. نحتفظ بالحق في:",
                 "items": [
-                    "Request additional verification documents",
-                    "Reject verification applications at our discretion",
-                    "Revoke verification status if information is found to be inaccurate"
+                    "طلب وثائق تحقق إضافية",
+                    "رفض طلبات التحقق حسب تقديرنا",
+                    "إلغاء حالة التحقق إذا تبين أن المعلومات غير دقيقة"
                 ]
             },
             "payment": {
-                "title": "6. Payment Processing",
-                "content": "Payments are processed through Stripe. FundEd does not store credit card information. All payment disputes should be directed to Stripe or your financial institution."
+                "title": "6. معالجة المدفوعات",
+                "content": "تتم معالجة المدفوعات عبر Stripe. لا يخزّن FundEd معلومات بطاقات الائتمان. يجب توجيه جميع نزاعات الدفع إلى Stripe أو مؤسستك المالية."
             },
             "prohibited": {
-                "title": "7. Prohibited Activities",
-                "content": "You agree not to:",
+                "title": "7. الأنشطة المحظورة",
+                "content": "توافق على عدم:",
                 "items": [
-                    "Provide false or misleading information",
-                    "Use the platform for illegal purposes",
-                    "Impersonate others or misrepresent your identity",
-                    "Interfere with the platform's operation",
-                    "Attempt to gain unauthorized access to any part of the platform"
+                    "تقديم معلومات كاذبة أو مضللة",
+                    "استخدام المنصة لأغراض غير قانونية",
+                    "انتحال شخصية الآخرين أو تحريف هويتك",
+                    "التدخل في عمل المنصة",
+                    "محاولة الوصول غير المصرح به إلى أي جزء من المنصة"
                 ]
             },
             "liability": {
-                "title": "8. Limitation of Liability",
-                "content": "FundEd acts as a platform facilitator. We are not responsible for the accuracy of campaign information, the use of funds by students, or disputes between students and donors."
+                "title": "8. تحديد المسؤولية",
+                "content": "يعمل FundEd كوسيط منصة. نحن غير مسؤولين عن دقة معلومات الحملة أو استخدام الأموال من قبل الطلاب أو النزاعات بين الطلاب والمتبرعين."
             },
             "termination": {
-                "title": "9. Termination",
-                "content": "We reserve the right to suspend or terminate accounts that violate these terms or engage in fraudulent activity."
+                "title": "9. الإنهاء",
+                "content": "نحتفظ بالحق في تعليق أو إنهاء الحسابات التي تنتهك هذه الشروط أو تشارك في أنشطة احتيالية."
             },
             "changes": {
-                "title": "10. Changes to Terms",
-                "content": "We may update these terms from time to time. Continued use of the platform constitutes acceptance of updated terms."
+                "title": "10. التغييرات على الشروط",
+                "content": "قد نقوم بتحديث هذه الشروط من وقت لآخر. يعتبر الاستمرار في استخدام المنصة قبولاً للشروط المحدّثة."
             }
         }
     },
     "privacy": {
-        "title": "Privacy Policy",
-        "lastUpdated": "Last updated: {date}",
+        "title": "سياسة الخصوصية",
+        "lastUpdated": "آخر تحديث: {date}",
         "sections": {
             "collection": {
-                "title": "1. Information We Collect",
-                "content": "We collect information that you provide directly to us, including:",
+                "title": "1. المعلومات التي نجمعها",
+                "content": "نجمع المعلومات التي تقدمها لنا مباشرة، بما في ذلك:",
                 "items": [
-                    "Account information (name, email address) when you sign up",
-                    "Student profile information (university, field of study, country) for verification",
-                    "Campaign information (title, description, funding goals)",
-                    "Payment information processed securely through Stripe",
-                    "Verification documents submitted for student verification"
+                    "معلومات الحساب (الاسم، عنوان البريد الإلكتروني) عند التسجيل",
+                    "معلومات الملف الشخصي للطالب (الجامعة، مجال الدراسة، البلد) للتحقق",
+                    "معلومات الحملة (العنوان، الوصف، أهداف التمويل)",
+                    "معلومات الدفع المعالجة بشكل آمن عبر Stripe",
+                    "وثائق التحقق المقدمة للتحقق من الطالب"
                 ]
             },
             "usage": {
-                "title": "2. How We Use Your Information",
-                "content": "We use the information we collect to:",
+                "title": "2. كيف نستخدم معلوماتك",
+                "content": "نستخدم المعلومات التي نجمعها من أجل:",
                 "items": [
-                    "Provide, maintain, and improve our services",
-                    "Process and verify student applications",
-                    "Process donations and payment transactions",
-                    "Send you transactional emails (verification status, donation confirmations)",
-                    "Respond to your inquiries and provide customer support",
-                    "Comply with legal obligations"
+                    "تقديم خدماتنا وصيانتها وتحسينها",
+                    "معالجة طلبات الطلاب والتحقق منها",
+                    "معالجة التبرعات ومعاملات الدفع",
+                    "إرسال رسائل بريد إلكتروني تتعلق بالمعاملات (حالة التحقق، تأكيدات التبرع)",
+                    "الرد على استفساراتك وتقديم دعم العملاء",
+                    "الامتثال للالتزامات القانونية"
                 ]
             },
             "sharing": {
-                "title": "3. Information Sharing",
-                "content": "We do not sell your personal information. We may share your information only in the following circumstances:",
+                "title": "3. مشاركة المعلومات",
+                "content": "نحن لا نبيع معلوماتك الشخصية. قد نشارك معلوماتك فقط في الحالات التالية:",
                 "items": [
-                    "With payment processors (Stripe) to process donations",
-                    "With service providers who assist in operating our platform",
-                    "When required by law or to protect our rights",
-                    "Public campaign information (name, campaign details) as displayed on campaign pages"
+                    "مع معالجي الدفع (Stripe) لمعالجة التبرعات",
+                    "مع مقدمي الخدمات الذين يساعدون في تشغيل منصتنا",
+                    "عندما يتطلب القانون ذلك أو لحماية حقوقنا",
+                    "معلومات الحملة العامة (الاسم، تفاصيل الحملة) كما هي معروضة في صفحات الحملة"
                 ]
             },
             "security": {
-                "title": "4. Data Security",
-                "content": "We implement appropriate technical and organizational measures to protect your personal information. However, no method of transmission over the Internet is 100% secure."
+                "title": "4. أمان البيانات",
+                "content": "ننفذ تدابير تقنية وتنظيمية مناسبة لحماية معلوماتك الشخصية. ومع ذلك، لا توجد طريقة نقل عبر الإنترنت آمنة بنسبة 100%."
             },
             "rights": {
-                "title": "5. Your Rights",
-                "content": "You have the right to:",
+                "title": "5. حقوقك",
+                "content": "لديك الحق في:",
                 "items": [
-                    "Access your personal information",
-                    "Correct inaccurate information",
-                    "Request deletion of your account and data",
-                    "Opt out of non-transactional communications"
+                    "الوصول إلى معلوماتك الشخصية",
+                    "تصحيح المعلومات غير الدقيقة",
+                    "طلب حذف حسابك وبياناتك",
+                    "إلغاء الاشتراك في الاتصالات غير المتعلقة بالمعاملات"
                 ]
             },
             "contact": {
-                "title": "6. Contact Us",
-                "content": "If you have questions about this Privacy Policy, please contact us through the support channels provided on the platform."
+                "title": "6. اتصل بنا",
+                "content": "إذا كانت لديك أسئلة حول سياسة الخصوصية هذه، يرجى التواصل معنا عبر قنوات الدعم المتوفرة على المنصة."
             }
         }
     },
     "disclaimer": {
-        "title": "Disclaimer",
-        "lastUpdated": "Last updated: {date}",
+        "title": "إخلاء المسؤولية",
+        "lastUpdated": "آخر تحديث: {date}",
         "sections": {
             "nature": {
-                "title": "Platform Nature",
-                "content": "FundEd is a crowdfunding platform that facilitates connections between verified students and donors. We are a technology platform, not a financial institution, charity, or educational institution."
+                "title": "طبيعة المنصة",
+                "content": "FundEd هي منصة تمويل جماعي تسهّل الروابط بين الطلاب المحققين والمتبرعين. نحن منصة تقنية وليست مؤسسة مالية أو جمعية خيرية أو مؤسسة تعليمية."
             },
             "guarantees": {
-                "title": "No Guarantees",
-                "content": "FundEd does not guarantee:",
+                "title": "لا ضمانات",
+                "content": "لا يضمن FundEd:",
                 "items": [
-                    "That campaigns will reach their funding goals",
-                    "That students will use funds as stated in their campaigns",
-                    "The accuracy of information provided by students",
-                    "The success of any educational endeavor"
+                    "أن الحملات ستصل إلى أهدافها التمويلية",
+                    "أن الطلاب سيستخدمون الأموال كما هو مذكور في حملاتهم",
+                    "دقة المعلومات المقدمة من الطلاب",
+                    "نجاح أي مسعى تعليمي"
                 ]
             },
             "verification": {
-                "title": "Verification Disclaimer",
-                "content": "While we verify student status through document review, verification does not constitute:",
+                "title": "إخلاء مسؤولية التحقق",
+                "content": "بينما نتحقق من حالة الطالب من خلال مراجعة المستندات، فإن التحقق لا يشكل:",
                 "items": [
-                    "Endorsement of the student's campaign",
-                    "Guarantee of campaign success",
-                    "Verification of the student's financial need",
-                    "Assurance of fund usage compliance"
+                    "تأييداً لحملة الطالب",
+                    "ضماناً لنجاح الحملة",
+                    "تحققاً من الحاجة المالية للطالب",
+                    "ضماناً لامتثال استخدام الأموال"
                 ]
             },
             "risks": {
-                "title": "Donation Risks",
-                "content": "Donors should be aware that:",
+                "title": "مخاطر التبرع",
+                "content": "يجب أن يكون المتبرعون على علم بأن:",
                 "items": [
-                    "Donations are voluntary contributions, not purchases",
-                    "FundEd does not provide refunds except as required by law",
-                    "Donors are responsible for their own tax reporting",
-                    "There is no guarantee that campaign goals will be met"
+                    "التبرعات مساهمات طوعية وليست مشتريات",
+                    "لا يقدم FundEd استردادات إلا إذا اقتضى القانون ذلك",
+                    "المتبرعون مسؤولون عن إقراراتهم الضريبية الخاصة",
+                    "لا يوجد ضمان بأن أهداف الحملة سيتم تحقيقها"
                 ]
             },
             "thirdParty": {
-                "title": "Third-Party Services",
-                "content": "FundEd uses third-party services including:",
+                "title": "خدمات الطرف الثالث",
+                "content": "يستخدم FundEd خدمات طرف ثالث تشمل:",
                 "items": [
-                    "Stripe for payment processing",
-                    "Cloudinary for file storage",
-                    "Google OAuth for authentication"
+                    "Stripe لمعالجة المدفوعات",
+                    "Cloudinary لتخزين الملفات",
+                    "Google OAuth للمصادقة"
                 ],
-                "disclaimer": "We are not responsible for the actions, policies, or services of these third parties."
+                "disclaimer": "نحن غير مسؤولين عن إجراءات أو سياسات أو خدمات هذه الأطراف الثالثة."
             },
             "liability": {
-                "title": "Limitation of Liability",
-                "content": "To the maximum extent permitted by law, FundEd shall not be liable for any indirect, incidental, special, consequential, or punitive damages arising from your use of the platform."
+                "title": "تحديد المسؤولية",
+                "content": "إلى أقصى حد يسمح به القانون، لن يكون FundEd مسؤولاً عن أي أضرار غير مباشرة أو عرضية أو خاصة أو تبعية أو عقابية ناتجة عن استخدامك للمنصة."
             }
         }
     },
     "applicationStatus": {
-        "title": "Application Status",
-        "applicationId": "Application ID",
-        "status": "Status",
-        "details": "Application Details",
-        "fullName": "Full Name",
-        "email": "Email",
-        "country": "Country",
-        "educationLevel": "Education Level",
-        "needSummary": "Need Summary",
-        "submitted": "Submitted",
-        "notFound": "Application Not Found",
-        "notFoundDesc": "The application ID you provided is invalid or not found.",
-        "applyNow": "Apply Now",
-        "returnHome": "Return to Home",
+        "title": "حالة الطلب",
+        "applicationId": "رقم الطلب",
+        "status": "الحالة",
+        "details": "تفاصيل الطلب",
+        "fullName": "الاسم الكامل",
+        "email": "البريد الإلكتروني",
+        "country": "الدولة",
+        "educationLevel": "المستوى التعليمي",
+        "needSummary": "ملخص الحاجة",
+        "submitted": "تم التقديم",
+        "notFound": "الطلب غير موجود",
+        "notFoundDesc": "رقم الطلب الذي أدخلته غير صالح أو غير موجود.",
+        "applyNow": "تقدم الآن",
+        "returnHome": "العودة للرئيسية",
         "statuses": {
-            "received": "Received",
-            "underReview": "Under Review",
-            "approved": "Approved",
-            "rejected": "Rejected"
+            "received": "تم الاستلام",
+            "underReview": "قيد المراجعة",
+            "approved": "معتمد",
+            "rejected": "مرفوض"
         }
     },
     "apply": {
-        "title": "Apply as Student",
-        "subtitle": "You can apply for educational support by filling out the form below.",
+        "title": "التقديم كطالب",
+        "subtitle": "يمكنك التقدم للحصول على دعم تعليمي عن طريق ملء النموذج أدناه.",
         "labels": {
-            "fullName": "Full Name",
-            "email": "Email",
-            "country": "Country",
-            "targetAmount": "Target Amount (USD)",
-            "educationLevel": "Education Level",
-            "classYear": "Class Year",
-            "faculty": "Faculty",
-            "department": "Department",
-            "needSummary": "Campaign Description (min. {min} chars)",
-            "documents": "Documents (Optional)",
-            "documentName": "Document Name"
+            "fullName": "الاسم الكامل",
+            "email": "البريد الإلكتروني",
+            "country": "الدولة",
+            "targetAmount": "المبلغ المستهدف (دولار)",
+            "educationLevel": "المستوى التعليمي",
+            "classYear": "السنة الدراسية",
+            "faculty": "الكلية",
+            "department": "القسم",
+            "needSummary": "وصف الحملة (حد أدنى {min} حرف)",
+            "documents": "المستندات (اختياري)",
+            "documentName": "اسم المستند"
         },
         "placeholders": {
-            "fullName": "Your full name",
+            "fullName": "اسمك الكامل",
             "email": "example@email.com",
-            "country": "Turkey",
+            "country": "مصر",
             "targetAmount": "500",
-            "select": "Select",
-            "faculty": "Faculty of Engineering",
-            "department": "Computer Science",
-            "needSummary": "Describe your educational goal, why you need support, and how you will use the funds in detail...",
-            "documentName": "Document name (optional)"
+            "select": "اختر",
+            "faculty": "كلية الهندسة",
+            "department": "علوم الحاسوب",
+            "needSummary": "صف هدفك التعليمي ولماذا تحتاج الدعم وكيف ستستخدم الأموال بالتفصيل...",
+            "documentName": "اسم المستند (اختياري)"
         },
         "validation": {
-            "fullName": "Full name required",
-            "invalidName": "Invalid name",
-            "email": "Email required",
-            "invalidEmail": "Invalid email",
-            "country": "Country required",
-            "educationLevel": "Education level required",
-            "targetAmount": "Target amount must be at least $1",
-            "classYear": "Class year required",
-            "faculty": "Faculty required",
-            "department": "Department required",
-            "needSummary": "Description required",
-            "needSummaryMin": "Minimum {min} characters required ({remaining} more needed)",
-            "fileType": "Invalid file type. Upload PDF, JPG, or PNG.",
-            "fileSize": "File size exceeds 10MB limit.",
-            "fixErrors": "Please fill all fields correctly",
-            "waitUpload": "Please wait for files to finish uploading.",
-            "removeFailed": "Remove failed uploads or try again.",
-            "success": "Application submitted successfully!",
-            "error": "An error occurred"
+            "fullName": "الاسم الكامل مطلوب",
+            "invalidName": "اسم غير صالح",
+            "email": "البريد الإلكتروني مطلوب",
+            "invalidEmail": "بريد إلكتروني غير صالح",
+            "country": "الدولة مطلوبة",
+            "educationLevel": "المستوى التعليمي مطلوب",
+            "targetAmount": "يجب أن يكون المبلغ المستهدف 1$ على الأقل",
+            "classYear": "السنة الدراسية مطلوبة",
+            "faculty": "الكلية مطلوبة",
+            "department": "القسم مطلوب",
+            "needSummary": "الوصف مطلوب",
+            "needSummaryMin": "مطلوب {min} حرف كحد أدنى ({remaining} أحرف أخرى مطلوبة)",
+            "fileType": "نوع ملف غير صالح. ارفع PDF أو JPG أو PNG.",
+            "fileSize": "حجم الملف يتجاوز الحد الأقصى 10 ميجابايت.",
+            "fixErrors": "يرجى ملء جميع الحقول بشكل صحيح",
+            "waitUpload": "يرجى الانتظار حتى انتهاء رفع الملفات.",
+            "removeFailed": "احذف الملفات الفاشلة أو حاول مرة أخرى.",
+            "success": "تم تقديم الطلب بنجاح!",
+            "error": "حدث خطأ"
         },
         "documents": {
-            "help": "You can upload student ID, transcript, etc. (PDF, JPG, PNG - max 10MB)",
-            "add": "Add Document",
-            "remove": "Remove",
+            "help": "يمكنك رفع بطاقة الطالب، كشف الدرجات، إلخ. (PDF, JPG, PNG – الحد الأقصى 10 ميجابايت)",
+            "add": "إضافة مستند",
+            "remove": "حذف",
             "status": {
-                "uploaded": "Uploaded",
-                "uploading": "Uploading...",
-                "failed": "Failed",
-                "ready": "Ready"
+                "uploaded": "تم الرفع",
+                "uploading": "جاري الرفع...",
+                "failed": "فشل",
+                "ready": "جاهز"
             }
         },
         "submit": {
-            "default": "Submit Application",
-            "submitting": "Submitting..."
+            "default": "تقديم الطلب",
+            "submitting": "جاري التقديم..."
         },
         "options": {
             "classYear": {
-                "1": "1st Year",
-                "2": "2nd Year",
-                "3": "3rd Year",
-                "4": "4th Year",
-                "5": "5th Year",
-                "6": "6th Year",
-                "prep": "Prep",
-                "grad": "Graduated",
-                "master": "Master's",
-                "phd": "PhD"
+                "1": "السنة الأولى",
+                "2": "السنة الثانية",
+                "3": "السنة الثالثة",
+                "4": "السنة الرابعة",
+                "5": "السنة الخامسة",
+                "6": "السنة السادسة",
+                "prep": "تحضيري",
+                "grad": "متخرج",
+                "master": "ماجستير",
+                "phd": "دكتوراه"
             },
             "educationLevel": {
-                "highSchool": "High School",
-                "undergrad": "Undergraduate",
-                "master": "Master's",
-                "phd": "PhD",
-                "vocational": "Vocational School"
+                "highSchool": "ثانوية",
+                "undergrad": "بكالوريوس",
+                "master": "ماجستير",
+                "phd": "دكتوراه",
+                "vocational": "مدرسة مهنية"
             }
         },
         "photos": {
@@ -1000,74 +1425,740 @@
         "years": "سنوات"
     },
     "myDonationsPage": {
-        "title": "My Donations",
-        "subtitle": "Track all your donations and see your impact",
-        "totalDonation": "Total Donated",
-        "donationCount": "Donation Count",
-        "supportedStudents": "Supported Students",
-        "lastDonation": "Last Donation",
-        "searchPlaceholder": "Search by campaign or student name...",
-        "filter": "Filter",
-        "startDate": "Start Date",
-        "endDate": "End Date",
-        "minAmount": "Min Amount ($)",
-        "maxAmount": "Max Amount ($)",
-        "apply": "Apply",
-        "clear": "Clear",
-        "campaign": "Campaign",
-        "student": "Student",
-        "date": "Date",
-        "amount": "Amount",
-        "status": "Status",
-        "actions": "Actions",
-        "completed": "Completed",
-        "pending": "Pending",
-        "noDonations": "No donations yet",
-        "noDonationsDesc": "Browse campaigns to start supporting students.",
-        "exploreCampaigns": "Explore Campaigns",
-        "showing": "showing",
-        "of": "of donations",
-        "downloadCSV": "Download CSV",
-        "downloadExcel": "Download Excel",
-        "downloadPDF": "Download PDF",
+        "title": "تبرعاتي",
+        "subtitle": "تتبع جميع تبرعاتك وشاهد تأثيرك",
+        "totalDonation": "إجمالي التبرعات",
+        "donationCount": "عدد التبرعات",
+        "supportedStudents": "الطلاب المدعومون",
+        "lastDonation": "آخر تبرع",
+        "searchPlaceholder": "ابحث بالحملة أو اسم الطالب...",
+        "filter": "تصفية",
+        "startDate": "تاريخ البداية",
+        "endDate": "تاريخ النهاية",
+        "minAmount": "الحد الأدنى ($)",
+        "maxAmount": "الحد الأقصى ($)",
+        "apply": "تطبيق",
+        "clear": "مسح",
+        "campaign": "الحملة",
+        "student": "الطالب",
+        "date": "التاريخ",
+        "amount": "المبلغ",
+        "status": "الحالة",
+        "actions": "الإجراءات",
+        "completed": "مكتمل",
+        "pending": "قيد الانتظار",
+        "noDonations": "لا توجد تبرعات بعد",
+        "noDonationsDesc": "تصفح الحملات لبدء دعم الطلاب.",
+        "exploreCampaigns": "استكشاف الحملات",
+        "showing": "عرض",
+        "of": "من التبرعات",
+        "downloadCSV": "تحميل CSV",
+        "downloadExcel": "تحميل Excel",
+        "downloadPDF": "تحميل PDF",
         "detail": {
-            "title": "Donation Detail",
-            "backToList": "Back to My Donations",
-            "donationAmount": "Donation Amount",
-            "donationDate": "Date",
-            "downloadReceipt": "Download Receipt",
-            "campaignProgress": "Campaign Progress",
-            "completedPercent": "completed",
-            "overview": "Overview",
-            "studentUpdates": "Student Updates",
-            "messages": "Messages",
-            "allocationTitle": "Donation Allocation",
-            "noAllocation": "Student has not shared expense report yet",
-            "noAllocationDesc": "The donation allocation will appear here once the student shares their expense reports.",
-            "campaignStory": "Campaign Story",
-            "readMore": "Read More",
-            "donationDetails": "Donation Details",
-            "donationId": "Donation ID",
-            "campaignStatus": "Campaign Status",
-            "ongoing": "Ongoing",
-            "quickActions": "Quick Actions",
-            "receiptPdf": "Download Receipt (PDF)",
-            "goToCampaign": "Go to Campaign Page",
-            "sendMessage": "Send Message to Student",
-            "studentInfo": "Student Information",
-            "noUpdates": "No updates yet",
-            "noUpdatesDesc": "Updates will appear here when the student shares progress.",
-            "noMessages": "No messages yet. You can leave a support note for the student.",
-            "messageSent": "Your message was sent successfully!",
-            "messagePlaceholder": "Write a support note or appreciation message...",
-            "messageHint": "Your messages are sent only to the student you supported. Max 1000 characters.",
-            "receiptTitle": "DONATION RECEIPT",
-            "receiptNo": "Receipt No",
-            "donor": "Donor",
-            "receiptFooter": "This document was automatically generated by the FundEd platform.",
-            "receiptTax": "Can be used as an official receipt for tax deduction.",
-            "watchVideo": "Watch Video",
-            "downloadDocument": "Download Document"
+            "title": "تفاصيل التبرع",
+            "backToList": "العودة إلى تبرعاتي",
+            "donationAmount": "مبلغ التبرع",
+            "donationDate": "التاريخ",
+            "downloadReceipt": "تحميل الإيصال",
+            "campaignProgress": "تقدم الحملة",
+            "completedPercent": "مكتمل",
+            "overview": "نظرة عامة",
+            "studentUpdates": "تحديثات الطالب",
+            "messages": "الرسائل",
+            "allocationTitle": "توزيع التبرع",
+            "noAllocation": "لم يشارك الطالب تقرير المصروفات بعد",
+            "noAllocationDesc": "سيظهر توزيع التبرع هنا بمجرد مشاركة الطالب لتقارير مصروفاته.",
+            "campaignStory": "قصة الحملة",
+            "readMore": "اقرأ المزيد",
+            "donationDetails": "تفاصيل التبرع",
+            "donationId": "رقم التبرع",
+            "campaignStatus": "حالة الحملة",
+            "ongoing": "جارية",
+            "quickActions": "إجراءات سريعة",
+            "receiptPdf": "تحميل الإيصال (PDF)",
+            "goToCampaign": "الذهاب لصفحة الحملة",
+            "sendMessage": "إرسال رسالة للطالب",
+            "studentInfo": "معلومات الطالب",
+            "noUpdates": "لا توجد تحديثات بعد",
+            "noUpdatesDesc": "ستظهر التحديثات هنا عندما يشارك الطالب تقدمه.",
+            "noMessages": "لا توجد رسائل بعد. يمكنك ترك رسالة دعم للطالب.",
+            "messageSent": "تم إرسال رسالتك بنجاح!",
+            "messagePlaceholder": "اكتب رسالة دعم أو تقدير...",
+            "messageHint": "رسائلك تُرسل فقط إلى الطالب الذي دعمته. الحد الأقصى 1000 حرف.",
+            "receiptTitle": "إيصال التبرع",
+            "receiptNo": "رقم الإيصال",
+            "donor": "المتبرع",
+            "receiptFooter": "تم إنشاء هذا المستند تلقائياً بواسطة منصة FundEd.",
+            "receiptTax": "يمكن استخدامه كإيصال رسمي للخصم الضريبي.",
+            "watchVideo": "مشاهدة الفيديو",
+            "downloadDocument": "تحميل المستند"
         }
+    },
+    "corporateGateway": {
+        "loading": "Loading...",
+        "nav": {
+            "subtitle": "Corporate Platform",
+            "backToHome": "Back to Home"
+        },
+        "hero": {
+            "badge": "Corporate Education Support Platform",
+            "title1": "Invest in Education,",
+            "title2": "Impact the Future.",
+            "subtitle": "Track your corporate donations, generate ESG reports and see your impact on education with transparent data."
+        },
+        "tabs": {
+            "login": "Login",
+            "register": "Apply",
+            "pricing": "Plans"
+        },
+        "login": {
+            "title": "Corporate Login",
+            "subtitle": "Log in with your corporate account",
+            "email": "Corporate Email",
+            "emailPlaceholder": "example@company.com",
+            "password": "Password",
+            "submit": "Login",
+            "noAccount": "Don't have an account?",
+            "apply": "Apply Now",
+            "or": "or",
+            "viewPlans": "View Plans",
+            "demoTitle": "Demo Credentials",
+            "demoEmail": "Email:",
+            "demoPassword": "Password:",
+            "failed": "Login failed."
+        },
+        "register": {
+            "title": "Corporate Application",
+            "subtitle": "Apply for corporate access",
+            "registration": "Registration",
+            "subtitleWithTier": "Enter your details to purchase the package",
+            "selectedPackage": "Selected Package:",
+            "companyName": "Company Name",
+            "companyPlaceholder": "Company Inc.",
+            "firstName": "First Name",
+            "firstNamePlaceholder": "Your first name",
+            "lastName": "Last Name",
+            "lastNamePlaceholder": "Your last name",
+            "email": "Corporate Email",
+            "phone": "Phone",
+            "optional": "(optional)",
+            "phonePlaceholder": "+1 XXX XXX XXXX",
+            "password": "Password",
+            "minChars": "At least 6 characters",
+            "confirmPassword": "Confirm Password",
+            "confirmPlaceholder": "Re-enter your password",
+            "noPackage": "You haven't selected a package.",
+            "noPackageDesc": "You can select a package for direct purchase or continue as an application.",
+            "viewPlans": "View Plans",
+            "purchaseRegister": "Purchase & Register",
+            "submitApplication": "Submit Application",
+            "hasAccount": "Already have an account?",
+            "loginLink": "Login",
+            "passwordsMismatch": "Passwords do not match.",
+            "passwordTooShort": "Password must be at least 6 characters.",
+            "failed": "Registration failed.",
+            "successTitle": "Application Received!",
+            "successWithTier": "Your account has been activated. Redirecting to corporate panel...",
+            "successWithout": "Your application will be reviewed and you will be contacted. Redirecting..."
+        },
+        "discount": {
+            "title": "Discount Code",
+            "placeholder": "Enter code...",
+            "apply": "Apply",
+            "invalid": "Invalid discount code.",
+            "applied10": "10% discount applied!",
+            "applied20": "20% discount applied!",
+            "welcome25": "25% welcome discount!",
+            "startup30": "30% startup discount!",
+            "enterprise50": "50% special corporate discount!"
+        },
+        "pricing": {
+            "title": "Corporate Plans",
+            "subtitle": "Choose the plan that fits your needs. You can always upgrade.",
+            "popular": "Most Popular",
+            "purchase": "Purchase",
+            "perMonth": "/mo",
+            "undecidedTitle": "Haven't decided yet?",
+            "undecidedDesc": "You can apply without selecting a package. Our team will contact you to determine the best solution together.",
+            "freeApply": "Apply for Free",
+            "comparisonTitle": "Detailed Comparison",
+            "feature": "Feature"
+        },
+        "tiers": {
+            "starter": {
+                "name": "Starter",
+                "tagline": "Ideal start for small/medium companies",
+                "f1": "Corporate Impact Dashboard",
+                "f2": "Donation Trace View (basic)",
+                "f3": "KPI Snapshot (basic metrics)",
+                "f4": "Quarterly Impact Summary (PDF)",
+                "f5": "Basic CSV Export",
+                "f6": "1 User",
+                "f7": "Standard email support",
+                "f8": "10 simultaneous campaigns"
+            },
+            "growth": {
+                "name": "Growth / Pro",
+                "tagline": "For ESG/CSR focused teams",
+                "f1": "Everything in Starter +",
+                "f2": "Monthly Impact Report (PDF)",
+                "f3": "Before/After trend charts",
+                "f4": "Evidence Vault (advanced)",
+                "f5": "Custom Report Template",
+                "f6": "Campaign deviation & delay alerts",
+                "f7": "Advanced CSV + Audit Log Export",
+                "f8": "5 Users",
+                "f9": "Priority support (SLA-lite)",
+                "f10": "50 simultaneous campaigns"
+            },
+            "enterprise": {
+                "name": "Enterprise",
+                "tagline": "For large corporations & audit needs",
+                "f1": "Everything in Pro +",
+                "f2": "Audit-Ready Pack",
+                "f3": "SSO / SAML integration",
+                "f4": "Role-based permissions (finance/ESG/admin)",
+                "f5": "API & Webhooks access",
+                "f6": "Custom Verification Workflow",
+                "f7": "Advanced data retention & compliance",
+                "f8": "20 Users",
+                "f9": "Dedicated success manager",
+                "f10": "Monthly review call",
+                "f11": "Unlimited campaigns"
+            }
+        },
+        "comparison": {
+            "impactDashboard": "Impact Dashboard",
+            "donationTrace": "Donation Trace",
+            "reporting": "Reporting",
+            "evidenceVault": "Evidence Vault",
+            "alertSystem": "Alert System",
+            "auditPack": "Audit Pack",
+            "ssoSaml": "SSO / SAML",
+            "apiWebhooks": "API & Webhooks",
+            "roleBased": "Role-Based Permissions",
+            "users": "Users",
+            "campaignLimit": "Campaign Limit",
+            "export": "Export",
+            "support": "Support",
+            "basic": "Basic",
+            "advanced": "Advanced",
+            "advancedPlus": "Advanced+",
+            "quarterly": "Quarterly",
+            "monthly": "Monthly",
+            "customTemplate": "Custom template",
+            "unlimited": "Unlimited",
+            "basicCsv": "Basic CSV",
+            "csvAuditLog": "CSV + Audit Log",
+            "fullAccess": "Full Access",
+            "emailSupport": "Email",
+            "priority": "Priority",
+            "dedicatedManager": "Dedicated Manager"
+        },
+        "footer": {
+            "copyright": "© 2026 FundEd. All rights reserved.",
+            "privacy": "Privacy Policy",
+            "terms": "Terms of Service"
+        }
+    },
+    "educationEquality": {
+        "badge": "حملة FundEd الرسمية",
+        "heroTitle1": "التعليم",
+        "heroTitle2": "تبرعات المساواة",
+        "heroSubtitle": "244 مليون طفل حول العالم لا يستطيعون الذهاب إلى المدرسة. في فصول دراسية بمواقد، بدون أحذية، غير قادرين حتى على العثور على دفتر — معًا يمكننا توفير <strong>الحق في التعليم المتساوي</strong> لملايين الأطفال.",
+        "heroSubtitlePlain": "244 مليون طفل حول العالم لا يستطيعون الذهاب إلى المدرسة. معًا يمكننا توفير الحق في التعليم المتساوي لملايين الأطفال.",
+        "donateNow": "تبرع الآن",
+        "exploreCampaign": "استكشف الحملة",
+        "raised": "تم جمعه",
+        "goal": "الهدف",
+        "completed": "مكتمل",
+        "donors": "متبرعون",
+        "stats": {
+            "studentsSupported": "طلاب مدعومون",
+            "countries": "دول",
+            "donorCount": "متبرعون",
+            "fundingRate": "معدل التمويل"
+        },
+        "problem": {
+            "badge": "حقائق",
+            "title": "عدم المساواة في التعليم في العالم",
+            "subtitle": "لكل طفل الحق في التعليم. لكن الجغرافيا والفقر ونقص البنية التحتية تسرق هذا الحق من ملايين الأطفال.",
+            "fact1": "244 مليون طفل وشاب حول العالم لا يستطيعون الذهاب إلى المدرسة.",
+            "fact2": "60% من الأطفال في أفريقيا جنوب الصحراء لا يستطيعون إكمال المدرسة الابتدائية.",
+            "fact3": "617 مليون طفل يفتقرون إلى مهارات القراءة والكتابة والحساب الأساسية.",
+            "fact4": "أكثر من 4 ملايين طفل لاجئ ليس لديهم إمكانية الوصول إلى أي تعليم.",
+            "fact5": "فقط 50 دولارًا يمكن أن تغطي المستلزمات المدرسية لطفل لمدة عام."
+        },
+        "impact": {
+            "badge": "مجالات تأثيرنا",
+            "title": "إلى أين تذهب تبرعاتكم؟",
+            "subtitle": "نحتفظ بسجلات شفافة لكل قرش. إليك المجالات التي تغير فيها تبرعاتكم الحياة.",
+            "schoolSupplies": "مستلزمات مدرسية",
+            "schoolSuppliesDesc": "دفاتر، أقلام، حقائب — نوفر الوصول إلى أدوات التعليم الأساسية.",
+            "sportsEquipment": "معدات رياضية",
+            "sportsEquipmentDesc": "كرات قدم، زي رسمي، أحذية — معدات أساسية للأطفال لممارسة الرياضة.",
+            "schoolConstruction": "بناء وإصلاح المدارس",
+            "schoolConstructionDesc": "ترميم المدارس الآيلة للسقوط، مساحات تعليمية آمنة.",
+            "digitalAccess": "الوصول للتعليم الرقمي",
+            "digitalAccessDesc": "أجهزة لوحية، بنية تحتية للإنترنت ودعم التعلم عن بعد.",
+            "nutrition": "التغذية والصحة",
+            "nutritionDesc": "وجبة غداء ساخنة في المدرسة وفحوصات صحية أساسية.",
+            "joinCard": "انضم إلينا",
+            "joinCardDesc": "كل تبرع، كبيرًا كان أم صغيرًا، يغير حياة طفل. ساهم في المساواة التعليمية.",
+            "donate": "تبرع"
+        },
+        "stories": {
+            "badge": "قصص حقيقية",
+            "title": "أطفال تغيرت حياتهم",
+            "subtitle": "قصص حقيقية لأطفال حصلوا على التعليم بفضل تبرعاتكم.",
+            "yearsOld": "سنوات",
+            "quote1": "الآن لدي دفتر وقلم. أريد أن أصبح طبيبًا يومًا ما.",
+            "quote2": "في مدرستنا الجديدة، لم نعد نتبلل من المطر. الدراسة رائعة.",
+            "quote3": "أدرس الرياضيات على جهازي اللوحي. لقد فتح الإنترنت عالمًا جديدًا بالكامل."
+        },
+        "transparency": {
+            "badge": "الشفافية",
+            "title": "رحلة تبرعك",
+            "step1": "تبرع",
+            "step1Desc": "تبرع بأي مبلغ من خلال بنيتنا التحتية للدفع الآمن.",
+            "step2": "التحقق",
+            "step2Desc": "يتم تسجيل تبرعك في نظام شفاف قائم على البلوكشين.",
+            "step3": "الوصول للهدف",
+            "step3Desc": "يتم تحويل الأموال مباشرة إلى المدارس والطلاب.",
+            "step4": "تقرير الأثر",
+            "step4Desc": "تتبع تأثير تبرعك بالصور والبيانات."
+        },
+        "ctaTitle": "غير مستقبل طفل",
+        "ctaSubtitle": "كل تبرع هو أمل. اختر أحد المبالغ أدناه أو حدد المبلغ الخاص بك.",
+        "otherAmount": "مبلغ آخر",
+        "allSecure": "تتم معالجة جميع التبرعات من خلال بنية تحتية آمنة.",
+        "transparencyPolicy": "سياسة الشفافية الخاصة بنا →",
+        "share": {
+            "title": "يمكنك المشاركة حتى لو لم تتبرع",
+            "subtitle": "يمكنك المساهمة في التعليم من خلال مشاركة هذه الحملة مع شبكتك. حتى مشاركة واحدة تحدث فرقًا.",
+            "copyLink": "نسخ الرابط"
+        }
+    },
+    "howItWorks": {
+        "badge": "Simple, Transparent, Effective",
+        "heroTitle1": "How FundEd",
+        "heroTitle2": "Works?",
+        "heroSubtitle": "We connect donors and students in 4 simple steps. Every step is transparent, every penny is traceable.",
+        "step": "Step",
+        "steps": {
+            "s1Title": "Discover Students",
+            "s1Desc": "Browse verified students on the platform. Filter by country, department, and need type. Each profile shows the student's story, need details, and verification status.",
+            "s1h1": "Detailed profile pages",
+            "s1h2": "Need categories",
+            "s1h3": "Verification badges",
+            "s2Title": "Make a Secure Donation",
+            "s2Desc": "Donate to any student or the general education fund. Complete in seconds with quick amount buttons or custom amount entry. Secure infrastructure encrypted with 256-bit SSL.",
+            "s2h1": "Fast payment",
+            "s2h2": "Anonymous donation option",
+            "s2h3": "SSL encrypted security",
+            "s3Title": "Funding & Transfer",
+            "s3Desc": "Collected donations are transferred directly to the student's needs. School supplies, scholarships, or digital tools — every penny reaches its target.",
+            "s3h1": "Direct transfer",
+            "s3h2": "Need-specific spending",
+            "s3h3": "No intermediary system",
+            "s4Title": "Impact Tracking",
+            "s4Desc": "Track the impact of your donation with concrete data and photos. Thank you messages from students, progress reports, and impact analyses on your dashboard.",
+            "s4h1": "Photo-documented reports",
+            "s4h2": "Impact metrics",
+            "s4h3": "Personal dashboard"
+        },
+        "verification": {
+            "badge": "Verification Process",
+            "title": "How Are Students Verified?",
+            "subtitle": "Every student on the platform goes through a rigorous verification process.",
+            "v1Title": "Application",
+            "v1Desc": "Student submits application with ID, enrollment documents and need details.",
+            "v2Title": "Identity Verification",
+            "v2Desc": "Our team verifies identity through official documents and institutional sources.",
+            "v3Title": "Need Analysis",
+            "v3Desc": "Student's financial situation and education needs are thoroughly evaluated.",
+            "v4Title": "Approval & Publishing",
+            "v4Desc": "Verified student profiles receive a 'Verified' badge and are added to the platform."
+        },
+        "trust": {
+            "badge": "Security & Assurance",
+            "title": "Why FundEd?",
+            "t1Title": "100% Transparent",
+            "t1Desc": "Every donation record and spending detail is publicly accessible. No hidden costs.",
+            "t2Title": "Secure Infrastructure",
+            "t2Desc": "256-bit SSL encryption, PCI-compliant payment system.",
+            "t3Title": "Impact Visibility",
+            "t3Desc": "Track the difference your donation makes with photos and data.",
+            "t4Title": "Direct Impact",
+            "t4Desc": "Minimal intermediary commission — most of your donation reaches the student directly."
+        },
+        "whoFor": {
+            "badge": "Who Is It For?",
+            "title": "FundEd Is for Everyone",
+            "donors": "Donors",
+            "donorsDesc": "Change students' lives with individual or regular donations. Track impact from your dashboard.",
+            "donorsF1": "Fast & easy donation",
+            "donorsF2": "Impact reports",
+            "donorsF3": "Anonymous option",
+            "donorsF4": "Tax receipt",
+            "students": "Students",
+            "studentsDesc": "Apply for your education needs. After verification, your profile is added to the platform and matched with donors.",
+            "studentsF1": "Easy application process",
+            "studentsF2": "Privacy guarantee",
+            "studentsF3": "Direct support",
+            "studentsF4": "Mentor access",
+            "institutions": "Institutions",
+            "institutionsDesc": "Make ESG-compliant donations on behalf of your company. Manage impact with your team through the corporate panel.",
+            "institutionsF1": "Corporate dashboard",
+            "institutionsF2": "ESG reporting",
+            "institutionsF3": "Multi-user",
+            "institutionsF4": "API access"
+        },
+        "faq": {
+            "badge": "FAQ",
+            "title": "Frequently Asked Questions",
+            "q1": "Where does my donation go?",
+            "a1": "Your donation is directed to the student you selected. Donations to the general fund are distributed to students with the most urgent needs. Every transaction is recorded and traceable.",
+            "q2": "Can I donate anonymously?",
+            "a2": "Yes! You can donate completely anonymously by leaving the name and email fields blank on the donation form.",
+            "q3": "How are students verified?",
+            "a3": "Every student application is made with ID, enrollment documents, and a needs statement. Our team verifies all documents and publishes the profile after confirming eligibility.",
+            "q4": "How can I see the impact of my donation?",
+            "a4": "After donating, you can track student progress, photos, and impact reports from your personal dashboard.",
+            "q5": "Can we make corporate donations?",
+            "a5": "Yes! With our FundEd Corporate panel, you can donate on behalf of your company, automatically generate ESG reports, and track impact together with your team.",
+            "q6": "What is the minimum donation amount?",
+            "a6": "The minimum donation is $1. Every amount makes a difference — even $10 can provide a student with notebooks and pens for a month."
+        },
+        "cta": {
+            "title": "Start Your Contribution to Education Today",
+            "subtitle": "Every donation, big or small, brightens a child's future. Take the first step now.",
+            "donate": "Donate",
+            "discoverStudents": "Discover Students"
+        }
+    },
+    "whoWeAre": {
+        "hero": {
+            "badge": "من نحن؟",
+            "title": "فريق يؤمن بـ",
+            "titleHighlight": "قوة التعليم",
+            "desc": "تأسست فاند-إد لتحويل الأحلام التعليمية للطلاب من جميع أنحاء العالم إلى واقع. نحن نجمع بين الشفافية، التكنولوجيا والتعاطف.",
+            "donate": "تبرع",
+            "campaign": "شاهد حملتنا"
+        },
+        "story": {
+            "badge": "قصتنا",
+            "title": "بدأنا بـ",
+            "titleHighlight": "سؤال",
+            "quote": "لماذا يجب على طالب موهوب أن يترك تعليمه لمجرد العجز المالي؟",
+            "p1": "انطلقنا بهذا السؤال. رأينا أن أكثر من 244 مليون طفل حول العالم لا يستطيعون الذهاب إلى المدرسة، ومئات الآلاف من طلاب الجامعات يتخلون عن أحلامهم بسبب مشاكل مالية.",
+            "p2": "ولدت فاند-إد كمنصة تربط المانحين مباشرة بالطلاب، حيث يمكن تتبع كل قرش وقياس التأثير ببيانات ملموسة.",
+            "p3": "هدفنا بسيط:",
+            "p3Highlight": "تسهيل الوصول إلى التعليم.",
+            "p3End": "أثناء القيام بذلك، نضع الشفافية، التكنولوجيا والقصص الإنسانية في المركز.",
+            "stats": {
+                "students": "الطلاب المدعومون",
+                "countries": "الدول",
+                "donors": "المانحون",
+                "successRate": "معدل نجاح التمويل"
+            }
+        },
+        "values": {
+            "badge": "قيمنا",
+            "title": "المبادئ التي تعرفنا",
+            "desc": "كل قرار نتخذه يتشكل حول هذه القيم.",
+            "items": {
+                "transparency": {
+                    "title": "الشفافية",
+                    "desc": "نظهر بوضوح أين يذهب كل تبرع. لا شيء مخفي."
+                },
+                "empathy": {
+                    "title": "التعاطف",
+                    "desc": "نفهم قصة كل طالب ونقدم حلولاً تناسب احتياجاته."
+                },
+                "equality": {
+                    "title": "المساواة",
+                    "desc": "الحق في الوصول إلى التعليم بغض النظر عن الجغرافيا، الجنس أو مستوى الدخل."
+                },
+                "innovation": {
+                    "title": "الابتكار",
+                    "desc": "نستخدم التكنولوجيا لجعل عملية التبرع أكثر كفاءة وفعالية."
+                },
+                "community": {
+                    "title": "المجتمع",
+                    "desc": "نظام بيئي قوي من المانحين، الطلاب والمتطوعين."
+                },
+                "impact": {
+                    "title": "التركيز على التأثير",
+                    "desc": "نبني كل قرار على خلق تأثير اجتماعي قابل للقياس."
+                }
+            }
+        },
+        "howItWorks": {
+            "badge": "كيف نعمل؟",
+            "title": "4 خطوات من التبرع إلى التأثير",
+            "items": {
+                "step1": {
+                    "title": "التقديم والتحقق",
+                    "desc": "يتقدم الطلاب، ويقوم فريقنا بالتحقق من الهوية والحاجة."
+                },
+                "step2": {
+                    "title": "التبرع والمطابقة",
+                    "desc": "يختار المانحون الطلاب المناسبين ويتبرعون عبر بنية تحتية آمنة."
+                },
+                "step3": {
+                    "title": "التمويل والتوزيع",
+                    "desc": "يتم تحويل الأموال مباشرة لاحتياجات الطالب المحددة."
+                },
+                "step4": {
+                    "title": "تقرير التأثير",
+                    "desc": "يرى المانحون تأثير تبرعاتهم من خلال الصور والبيانات."
+                }
+            }
+        },
+        "timeline": {
+            "badge": "رحلتنا",
+            "title": "مراحلنا الهامة",
+            "items": {
+                "e1": {
+                    "event": "ولدت فكرة فاند-إد",
+                    "desc": "تم اتخاذ الخطوة الأولى لحل عدم المساواة في التعليم."
+                },
+                "e2": {
+                    "event": "تطوير المنصة",
+                    "desc": "تم بناء البنية التحتية التقنية ونظام التحقق."
+                },
+                "e3": {
+                    "event": "الإطلاق التجريبي",
+                    "desc": "انضم أول الطلاب والمانحين إلى المنصة."
+                },
+                "e4": {
+                    "event": "وحدة الشركات",
+                    "desc": "تم إطلاق لوحة التبرع المتوافقة مع ESG للشركات."
+                },
+                "e5": {
+                    "event": "التوسع العالمي",
+                    "desc": "الوصول إلى 12 دولة، ودعم آلاف الطلاب."
+                }
+            }
+        },
+        "team": {
+            "badge": "فريقنا",
+            "title": "الأشخاص الذين يصنعون التغيير",
+            "desc": "محترفون خبراء في مجالاتهم ويؤمنون بالمساواة في التعليم.",
+            "items": {
+                "te1": {
+                    "role": "المؤسس والرئيس التنفيذي",
+                    "bio": "رائد أعمال شغوف بتقنيات التعليم والتأثير الاجتماعي."
+                },
+                "te2": {
+                    "role": "المدير التقني",
+                    "bio": "مهندس برمجيات خبير في البلوكشين والبنية التحتية للشفافية."
+                },
+                "te3": {
+                    "role": "مدير العمليات",
+                    "bio": "مسؤول يجمع بين خبرة المنظمات غير الحكومية والتميز التشغيلي."
+                },
+                "te4": {
+                    "role": "مدير التأثير والاتصالات",
+                    "bio": "خبير يعزز علاقات المانحين من خلال وسائل التواصل الاجتماعي وإدارة المجتمع."
+                }
+            }
+        },
+        "transparency": {
+            "title": "التزامنا بالشفافية",
+            "desc": "في فاند-إد، نضمن أن كل تبرع قابل للتتبع، وكل قرش محسوب، وكل تقرير تأثير مدعوم ببيانات ملموسة.",
+            "items": {
+                "t1": {
+                    "title": "100% شفافية",
+                    "desc": "كل سجل تبرع متاح للجمهور"
+                },
+                "t2": {
+                    "title": "طلاب تم التحقق منهم",
+                    "desc": "التحقق من الهوية والحاجة"
+                },
+                "t3": {
+                    "title": "تقرير التأثير",
+                    "desc": "تتبع النتائج الموثق بالصور"
+                }
+            },
+            "btn1": "صفحة الشفافية",
+            "btn2": "شاهد التقارير"
+        },
+        "cta": {
+            "badge": "انضم إلى مجتمعنا",
+            "title": "نحن أقوى معاً",
+            "desc": "سواء كنت مانحاً، طالباً أو متطوعاً — يمكننا العمل معاً من أجل المساواة في التعليم. اتخذ الخطوة الأولى اليوم.",
+            "donate": "تبرع",
+            "apply": "تقدم كطالب",
+            "corporate": "حلول الشركات"
+        }
+    },
+    "missionVision": {
+        "demoWarning": {
+            "title": "معاينة",
+            "message": "المنصة في مرحلة المعاينة. جاهزة للتجارب المؤسسية الأولى."
+        },
+        "hero": {
+            "badge": "الرسالة والرؤية",
+            "title": "المساواة في التعليم، ",
+            "titleHighlight": "أمل للمستقبل",
+            "desc": "نؤمن بأن لكل طفل الحق في الوصول المتساوي للتعليم. نحول هذا الإيمان إلى واقع باستخدام التكنولوجيا وقوة المجتمع."
+        },
+        "cards": {
+            "mission": {
+                "badge": "رسالتنا",
+                "title": "لماذا نحن موجودون؟",
+                "desc": "لإنشاء منصة شفافة تربط الطلاب الذين تم التحقق منهم بالمانحين الموثوقين للقضاء على عدم المساواة في الوصول إلى التعليم.",
+                "items": {
+                    "i1": "تسهيل الوصول إلى التعليم بإزالة الحواجز الاقتصادية",
+                    "i2": "ضمان أن كل تبرع قابل للتتبع ومسؤول",
+                    "i3": "مساعدة الطلاب على تحقيق إمكاناتهم"
+                }
+            },
+            "vision": {
+                "badge": "رؤيتنا",
+                "title": "إلى أين نتجه؟",
+                "desc": "مستقبل لا يُحرم فيه أي طالب من التعليم بسبب العجز المالي، وحيث يُعاش التعليم كحق عالمي.",
+                "items": {
+                    "i1": "إنشاء شبكة تمويل تعليم عالمية",
+                    "i2": "إجراء تحليل الاحتياجات والمطابقة باستخدام الذكاء الاصطناعي",
+                    "i3": "أن نكون رواد التغيير المستدام في التعليم"
+                }
+            }
+        },
+        "impactNumbers": {
+            "students": "الطلاب المدعومون",
+            "countries": "الدول النشطة",
+            "funding": "إجمالي التمويل",
+            "satisfaction": "رضا المانحين"
+        },
+        "principles": {
+            "badge": "مبادئنا الأساسية",
+            "title": "القيم التي توجهنا",
+            "desc": "هذه المبادئ تقف وراء كل قرار نتخذه. إنها ليست مجرد كلمات، بل هي أسلوب حياتنا.",
+            "items": {
+                "transparency": {
+                    "title": "الشفافية",
+                    "desc": "نشارك علانية أين يذهب كل تبرع وكيف يتم إنفاق كل قرش. لا تكاليف خفية، لا أجندات خفية."
+                },
+                "equality": {
+                    "title": "المساواة",
+                    "desc": "نؤمن بأن لكل طالب الحق في الوصول المتساوي للتعليم. بغض النظر عن الحواجز الجغرافية، الاقتصادية أو الاجتماعية."
+                },
+                "verification": {
+                    "title": "التحقق",
+                    "desc": "يتم التحقق من كل ملف طالب بعناية. يمكن لمانحينا التأكد من أنهم يصلون إلى أشخاص حقيقيين في حاجة."
+                },
+                "community": {
+                    "title": "المجتمع",
+                    "desc": "نبني روابط ذات مغزى بين المانحين والطلاب. ليست مساعدة لمرة واحدة، بل مجتمع مستدام."
+                },
+                "innovation": {
+                    "title": "الابتكار",
+                    "desc": "نستخدم التكنولوجيا لجعل عملية التبرع أكثر كفاءة، قابلية للتتبع وفعالية."
+                },
+                "impact": {
+                    "title": "التركيز على التأثير",
+                    "desc": "نتخذ كل قرار بسؤال 'ماذا سيكون تأثيره على الطالب؟'. ننتج نتائج، لا بيروقراطية."
+                }
+            }
+        },
+        "approach": {
+            "visual": {
+                "title": "النهج الذي يحدث الفرق",
+                "desc": "على عكس منصات التبرع التقليدية، نتحقق من كل طالب، نتتبع كل قرش ونقيس كل تأثير.",
+                "stats": {
+                    "verification": {
+                        "val": "100%",
+                        "label": "التحقق"
+                    },
+                    "traceability": {
+                        "val": "100%",
+                        "label": "التتبع"
+                    },
+                    "hiddenCost": {
+                        "val": "0",
+                        "label": "تكلفة خفية"
+                    },
+                    "reviewTime": {
+                        "val": "48س",
+                        "label": "وقت المراجعة"
+                    }
+                },
+                "trustScore": {
+                    "label": "درجة الثقة",
+                    "val": "4.9 / 5.0"
+                }
+            },
+            "content": {
+                "badge": "نهجنا",
+                "title": "ليس تبرعاً، استثمار.",
+                "titleHighlight": "استثمار في المستقبل.",
+                "desc": "في فاند-إد، نرى كل تبرع كاستثمار — استثمار في مستقبل طالب، تنمية مجتمع، وعالم أكثر عدلاً.",
+                "items": {
+                    "verified": {
+                        "title": "ملفات تم التحقق منها",
+                        "desc": "يتم التحقق من كل طالب بالهوية، وثائق التسجيل وتحليل الحاجة."
+                    },
+                    "impact": {
+                        "title": "قياس التأثير",
+                        "desc": "يتم قياس الفرق الذي يحدثه التبرع والإبلاغ عنه بمقاييس ملموسة."
+                    },
+                    "speed": {
+                        "title": "تحويل سريع",
+                        "desc": "يتم تحويل الأموال بسرعة بتقليل العقبات البيروقراطية."
+                    },
+                    "community": {
+                        "title": "قوة المجتمع",
+                        "desc": "يجتمع المانحين، الطلاب والمؤسسات لخلق تأثير مستدام."
+                    }
+                }
+            },
+            "roadmap": {
+                "badge": "خارطة الطريق",
+                "title": "أهدافنا",
+                "desc": "نفكر بشكل كبير، نتقدم خطوة بخطوة. إليك إلى أين نتجه.",
+                "items": {
+                    "g1": {
+                        "title": "10,000 طالب",
+                        "desc": "توفير دعم تعليمي مباشر لـ 10,000 طالب في تركيا والدول المجاورة."
+                    },
+                    "g2": {
+                        "title": "وصول عالمي",
+                        "desc": "توسيع شبكة تمويل التعليم بنشاط في 25+ دولة."
+                    },
+                    "g3": {
+                        "title": "جسر الشركات",
+                        "desc": "إشراك الشركات في تمويل التعليم المستدام مع 500+ شريك مؤسسي."
+                    },
+                    "g4": {
+                        "title": "تعليم متساوٍ",
+                        "desc": "تقليل عدم المساواة الجغرافي في الوصول إلى التعليم بشكل يمكن قياسه."
+                    }
+                }
+            },
+            "quote": {
+                "text": "تعليم طفل ليس تغيير حياة. إنه تحويل جيل.",
+                "author": "فريق فاند-إد",
+                "role": "البيان التأسيسي، 2024"
+            },
+            "cta": {
+                "title": "انضم لهذه المهمة",
+                "desc": "يمكنك تغيير حياة طالب بتبرع، أو رعاية أمل طالب بطلب تقديم.",
+                "donate": "تبرع",
+                "apply": "تقدم كطالب"
+            }
+        }
+    },
+    "applySteps": {
+        "step1": "Personal Information",
+        "step2": "Education Information",
+        "step3": "Need Details",
+        "step4": "Documents"
+    },
+    "navExtra": {
+        "missionVision": "Mission & Vision"
     }
 }

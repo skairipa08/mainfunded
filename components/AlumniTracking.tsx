@@ -4,21 +4,20 @@ import React from 'react';
 import {
     GraduationCap,
     Briefcase,
-    Building2,
-    MapPin,
-    Calendar,
     TrendingUp,
-    Award,
     Users,
-    ExternalLink,
     Linkedin,
+    Award,
+    Calendar,
+    MapPin,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { censorSurname } from '@/lib/privacy';
+import { useTranslation } from '@/lib/i18n/context';
 
-interface AlumniProfile {
+export interface AlumniProfile {
     id: string;
     name: string;
     avatar?: string;
@@ -50,6 +49,7 @@ export function AlumniTracking({ alumni, className }: AlumniTrackingProps) {
 }
 
 function AlumniCard({ profile }: { profile: AlumniProfile }) {
+    const { t } = useTranslation();
     return (
         <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
             {/* Header */}
@@ -65,7 +65,7 @@ function AlumniCard({ profile }: { profile: AlumniProfile }) {
                     <div className="flex-1">
                         <div className="flex items-center gap-2">
                             <h3 className="font-semibold text-gray-900">{censorSurname(profile.name)}</h3>
-                            <Badge className="bg-green-100 text-green-700">Mezun</Badge>
+                            <Badge className="bg-green-100 text-green-700">{t('pages.alumni.card.alumniBadge')}</Badge>
                         </div>
                         <p className="text-sm text-gray-600">{profile.currentRole}</p>
                         <p className="text-sm text-gray-500">{profile.company}</p>
@@ -92,7 +92,7 @@ function AlumniCard({ profile }: { profile: AlumniProfile }) {
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                     <Calendar className="h-4 w-4 text-indigo-500" />
-                    <span>Mezun: {profile.graduationYear}</span>
+                    <span>{t('pages.alumni.stats.graduatedStudent')}: {profile.graduationYear}</span>
                 </div>
                 <div className="flex items-center gap-2 text-sm text-gray-600">
                     <MapPin className="h-4 w-4 text-indigo-500" />
@@ -110,17 +110,17 @@ function AlumniCard({ profile }: { profile: AlumniProfile }) {
             {/* Impact */}
             <div className="p-4 bg-gray-50 flex items-center justify-between">
                 <div className="text-center">
-                    <p className="text-sm text-gray-500">Alinan Destek</p>
+                    <p className="text-sm text-gray-500">{t('pages.alumni.card.totalReceived')}</p>
                     <p className="font-bold text-indigo-600">${profile.totalReceived.toLocaleString()}</p>
                 </div>
                 {profile.givingBack && profile.givingBack > 0 && (
                     <div className="text-center">
-                        <p className="text-sm text-gray-500">Geri Verilen</p>
+                        <p className="text-sm text-gray-500">{t('pages.alumni.card.totalGivenBack')}</p>
                         <p className="font-bold text-green-600">${profile.givingBack.toLocaleString()}</p>
                     </div>
                 )}
                 <Button variant="outline" size="sm">
-                    Hikayesini Oku
+                    {t('pages.alumni.card.readStory')}
                 </Button>
             </div>
         </div>
@@ -129,11 +129,12 @@ function AlumniCard({ profile }: { profile: AlumniProfile }) {
 
 // Alumni Stats Component
 export function AlumniStats({ className }: { className?: string }) {
+    const { t } = useTranslation();
     const stats = [
-        { icon: GraduationCap, label: 'Mezun Ogrenci', value: '0', color: 'text-indigo-600' },
-        { icon: Briefcase, label: 'Istihdam Orani', value: '%0', color: 'text-green-600' },
-        { icon: TrendingUp, label: 'Ortalama Maas', value: '$0', color: 'text-blue-600' },
-        { icon: Users, label: 'Geri Veren', value: '0', color: 'text-purple-600' },
+        { icon: GraduationCap, label: t('pages.alumni.stats.graduatedStudent'), value: '0', color: 'text-indigo-600' },
+        { icon: Briefcase, label: t('pages.alumni.stats.employmentRate'), value: '%0', color: 'text-green-600' },
+        { icon: TrendingUp, label: t('pages.alumni.stats.averageSalary'), value: '$0', color: 'text-blue-600' },
+        { icon: Users, label: t('pages.alumni.stats.givingBack'), value: '0', color: 'text-purple-600' },
     ];
 
     return (
@@ -148,45 +149,3 @@ export function AlumniStats({ className }: { className?: string }) {
         </div>
     );
 }
-
-// Mock data
-export const mockAlumni: AlumniProfile[] = [
-    {
-        id: '1',
-        name: 'Ayse Yilmaz',
-        graduationYear: 2024,
-        university: 'Bogazici Universitesi',
-        degree: 'Bilgisayar Muhendisligi',
-        currentRole: 'Software Engineer',
-        company: 'Google',
-        location: 'Dublin, Irlanda',
-        linkedIn: 'https://linkedin.com/in/ayseyilmaz',
-        story: 'FundEd olmasaydi universiteyi bitiremezdim. Simdi hayallerimi yasiyorum ve sira bende. Her ay bir ogrenciye destek oluyorum.',
-        totalReceived: 0,
-        givingBack: 0,
-    },
-    {
-        id: '2',
-        name: 'Mehmet Kaya',
-        graduationYear: 2023,
-        university: 'ODTU',
-        degree: 'Elektrik Elektronik',
-        currentRole: 'Hardware Engineer',
-        company: 'Apple',
-        location: 'Cupertino, ABD',
-        story: 'Ailem beni destekleyemiyordu. FundEd ailesi olmasa burada olamazdim.',
-        totalReceived: 0,
-        givingBack: 0,
-    },
-    {
-        id: '3',
-        name: 'Zeynep Demir',
-        graduationYear: 2024,
-        university: 'ITU',
-        degree: 'Mimarlik',
-        currentRole: 'Junior Architect',
-        company: 'Foster + Partners',
-        location: 'Londra, Ingiltere',
-        totalReceived: 0,
-    },
-];

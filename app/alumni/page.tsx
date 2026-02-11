@@ -3,12 +3,53 @@
 import React from 'react';
 import Link from 'next/link';
 import { GraduationCap } from 'lucide-react';
-import { AlumniTracking, AlumniStats, mockAlumni } from '@/components/AlumniTracking';
+import { AlumniTracking, AlumniStats, type AlumniProfile } from '@/components/AlumniTracking';
 import MobileHeader from '@/components/MobileHeader';
 import { useTranslation } from '@/lib/i18n/context';
 
 export default function AlumniPage() {
     const { t } = useTranslation();
+
+    const mockAlumni: AlumniProfile[] = [
+        {
+            id: '1',
+            name: 'Ayse Yilmaz',
+            graduationYear: 2024,
+            university: 'Bogazici Universitesi',
+            degree: 'Bilgisayar Muhendisligi',
+            currentRole: 'Software Engineer',
+            company: 'Google',
+            location: 'Dublin, Irlanda',
+            linkedIn: 'https://linkedin.com/in/ayseyilmaz',
+            story: t('pages.alumni.mock.story1'),
+            totalReceived: 0,
+            givingBack: 0,
+        },
+        {
+            id: '2',
+            name: 'Mehmet Kaya',
+            graduationYear: 2023,
+            university: 'ODTU',
+            degree: 'Elektrik Elektronik',
+            currentRole: 'Hardware Engineer',
+            company: 'Apple',
+            location: 'Cupertino, ABD',
+            story: t('pages.alumni.mock.story2'),
+            totalReceived: 0,
+            givingBack: 0,
+        },
+        {
+            id: '3',
+            name: 'Zeynep Demir',
+            graduationYear: 2024,
+            university: 'ITU',
+            degree: 'Mimarlik',
+            currentRole: 'Junior Architect',
+            company: 'Foster + Partners',
+            location: 'Londra, Ingiltere',
+            totalReceived: 0,
+        },
+    ];
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-indigo-50">

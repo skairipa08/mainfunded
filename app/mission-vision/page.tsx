@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
+import { useTranslation } from '@/lib/i18n/context';
 import {
   Heart,
   Target,
@@ -27,107 +28,123 @@ import {
   Star,
   Award,
   BarChart3,
+  AlertTriangle,
 } from 'lucide-react';
 
 /* ──────────────────────────────────────── */
 
-const principles = [
-  {
-    icon: Shield,
-    title: 'Şeffaflık',
-    desc: 'Her bağışın nereye gittiğini, her kuruşun nasıl harcandığını açıkça paylaşırız. Gizli maliyet, gizli gündem yoktur.',
-    gradient: 'from-blue-500 to-indigo-600',
-    bg: 'bg-blue-50',
-    color: 'text-blue-600',
-  },
-  {
-    icon: Scale,
-    title: 'Eşitlik',
-    desc: 'Her öğrencinin eğitime eşit erişim hakkı olduğuna inanırız. Coğrafi, ekonomik veya sosyal engeller fark etmez.',
-    gradient: 'from-emerald-500 to-teal-600',
-    bg: 'bg-emerald-50',
-    color: 'text-emerald-600',
-  },
-  {
-    icon: CheckCircle,
-    title: 'Doğrulama',
-    desc: 'Her öğrenci profili titizlikle doğrulanır. Bağışçılarımız gerçek ihtiyaç sahiplerine ulaştıklarından emin olabilir.',
-    gradient: 'from-purple-500 to-pink-600',
-    bg: 'bg-purple-50',
-    color: 'text-purple-600',
-  },
-  {
-    icon: Handshake,
-    title: 'Topluluk',
-    desc: 'Bağışçı ve öğrenci arasında anlamlı bağlar kurarız. Tek seferlik yardım değil, sürdürülebilir bir topluluk inşa ederiz.',
-    gradient: 'from-amber-500 to-orange-600',
-    bg: 'bg-amber-50',
-    color: 'text-amber-600',
-  },
-  {
-    icon: Lightbulb,
-    title: 'İnovasyon',
-    desc: 'Teknolojiyi kullanarak bağış sürecini daha verimli, izlenebilir ve etkili hale getiririz.',
-    gradient: 'from-cyan-500 to-blue-600',
-    bg: 'bg-cyan-50',
-    color: 'text-cyan-600',
-  },
-  {
-    icon: Heart,
-    title: 'Etki Odaklılık',
-    desc: 'Her kararımızı "öğrenciye etkisi ne olur?" sorusuyla alırız. Bürokrasi değil, sonuç üretiriz.',
-    gradient: 'from-rose-500 to-red-600',
-    bg: 'bg-rose-50',
-    color: 'text-rose-600',
-  },
-];
-
-const goals = [
-  {
-    year: '2026',
-    title: '10.000 Öğrenci',
-    desc: 'Türkiye ve çevre ülkelerde 10.000 öğrenciye doğrudan eğitim desteği sağlamak.',
-    icon: GraduationCap,
-    color: 'bg-blue-500',
-  },
-  {
-    year: '2027',
-    title: 'Global Erişim',
-    desc: '25+ ülkede aktif olarak eğitim fonlama ağını genişletmek.',
-    icon: Globe,
-    color: 'bg-emerald-500',
-  },
-  {
-    year: '2028',
-    title: 'Kurumsal Köprü',
-    desc: '500+ kurumsal ortakla şirketleri sürdürülebilir eğitim fonlamasına dahil etmek.',
-    icon: Handshake,
-    color: 'bg-purple-500',
-  },
-  {
-    year: '2030',
-    title: 'Eşit Eğitim',
-    desc: 'Eğitime erişimde coğrafi eşitsizliği ölçülebilir biçimde azaltmak.',
-    icon: Scale,
-    color: 'bg-amber-500',
-  },
-];
-
-const impactNumbers = [
-  { value: '2.4K+', label: 'Desteklenen Öğrenci', icon: GraduationCap },
-  { value: '12', label: 'Aktif Ülke', icon: Globe },
-  { value: '$850K+', label: 'Toplam Fonlama', icon: TrendingUp },
-  { value: '98%', label: 'Bağışçı Memnuniyeti', icon: Star },
-];
-
-/* ──────────────────────────────────────── */
+const DemoWarning = () => {
+  const { t } = useTranslation();
+  return (
+    <div className="bg-amber-50 border-b border-amber-100 px-4 py-3 text-center">
+      <div className="flex items-center justify-center gap-2 text-amber-700 text-sm font-medium">
+        <AlertTriangle className="h-4 w-4" />
+        <span>
+          <span className="font-bold">{t('pages.missionVision.demoWarning.title')}:</span>{' '}
+          {t('pages.missionVision.demoWarning.message')}
+        </span>
+      </div>
+    </div>
+  );
+};
 
 export default function MissionVisionPage() {
   const router = useRouter();
+  const { t } = useTranslation();
+
+  const principles = [
+    {
+      icon: Shield,
+      title: t('pages.missionVision.principles.items.transparency.title'),
+      desc: t('pages.missionVision.principles.items.transparency.desc'),
+      gradient: 'from-blue-500 to-indigo-600',
+      bg: 'bg-blue-50',
+      color: 'text-blue-600',
+    },
+    {
+      icon: Scale,
+      title: t('pages.missionVision.principles.items.equality.title'),
+      desc: t('pages.missionVision.principles.items.equality.desc'),
+      gradient: 'from-emerald-500 to-teal-600',
+      bg: 'bg-emerald-50',
+      color: 'text-emerald-600',
+    },
+    {
+      icon: CheckCircle,
+      title: t('pages.missionVision.principles.items.verification.title'),
+      desc: t('pages.missionVision.principles.items.verification.desc'),
+      gradient: 'from-purple-500 to-pink-600',
+      bg: 'bg-purple-50',
+      color: 'text-purple-600',
+    },
+    {
+      icon: Handshake,
+      title: t('pages.missionVision.principles.items.community.title'),
+      desc: t('pages.missionVision.principles.items.community.desc'),
+      gradient: 'from-amber-500 to-orange-600',
+      bg: 'bg-amber-50',
+      color: 'text-amber-600',
+    },
+    {
+      icon: Lightbulb,
+      title: t('pages.missionVision.principles.items.innovation.title'),
+      desc: t('pages.missionVision.principles.items.innovation.desc'),
+      gradient: 'from-cyan-500 to-blue-600',
+      bg: 'bg-cyan-50',
+      color: 'text-cyan-600',
+    },
+    {
+      icon: Heart,
+      title: t('pages.missionVision.principles.items.impact.title'),
+      desc: t('pages.missionVision.principles.items.impact.desc'),
+      gradient: 'from-rose-500 to-red-600',
+      bg: 'bg-rose-50',
+      color: 'text-rose-600',
+    },
+  ];
+
+  const goals = [
+    {
+      year: '2026',
+      title: t('pages.missionVision.roadmap.items.g1.title'),
+      desc: t('pages.missionVision.roadmap.items.g1.desc'),
+      icon: GraduationCap,
+      color: 'bg-blue-500',
+    },
+    {
+      year: '2027',
+      title: t('pages.missionVision.roadmap.items.g2.title'),
+      desc: t('pages.missionVision.roadmap.items.g2.desc'),
+      icon: Globe,
+      color: 'bg-emerald-500',
+    },
+    {
+      year: '2028',
+      title: t('pages.missionVision.roadmap.items.g3.title'),
+      desc: t('pages.missionVision.roadmap.items.g3.desc'),
+      icon: Handshake,
+      color: 'bg-purple-500',
+    },
+    {
+      year: '2030',
+      title: t('pages.missionVision.roadmap.items.g4.title'),
+      desc: t('pages.missionVision.roadmap.items.g4.desc'),
+      icon: Scale,
+      color: 'bg-amber-500',
+    },
+  ];
+
+  const impactNumbers = [
+    { value: '2.4K+', label: t('pages.missionVision.impactNumbers.students'), icon: GraduationCap },
+    { value: '12', label: t('pages.missionVision.impactNumbers.countries'), icon: Globe },
+    { value: '$850K+', label: t('pages.missionVision.impactNumbers.funding'), icon: TrendingUp },
+    { value: '98%', label: t('pages.missionVision.impactNumbers.satisfaction'), icon: Star },
+  ];
 
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
+      <DemoWarning />
       <main className="flex-grow">
 
         {/* ═══════════════════════════
@@ -150,20 +167,19 @@ export default function MissionVisionPage() {
             <div className="max-w-3xl mx-auto text-center">
               <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/15 rounded-full px-5 py-2 mb-8">
                 <Compass className="h-4 w-4 text-indigo-300" />
-                <span className="text-sm text-white/80 font-medium">Misyon & Vizyon</span>
+                <span className="text-sm text-white/80 font-medium">{t('pages.missionVision.hero.badge')}</span>
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-                Eğitimde Eşitlik,
+                {t('pages.missionVision.hero.title')}
                 <br />
                 <span className="bg-gradient-to-r from-indigo-300 via-purple-300 to-pink-300 bg-clip-text text-transparent">
-                  Gelecekte Umut
+                  {t('pages.missionVision.hero.titleHighlight')}
                 </span>
               </h1>
 
               <p className="text-lg sm:text-xl text-slate-400 leading-relaxed max-w-2xl mx-auto">
-                Her çocuğun eğitime eşit erişim hakkı olduğuna inanıyoruz.
-                Teknolojiyi ve topluluğun gücünü kullanarak bu inancı gerçeğe dönüştürüyoruz.
+                {t('pages.missionVision.hero.desc')}
               </p>
             </div>
           </div>
@@ -195,21 +211,20 @@ export default function MissionVisionPage() {
                         <Target className="h-7 w-7 text-white" />
                       </div>
                       <div>
-                        <span className="text-xs font-bold text-blue-500 uppercase tracking-widest">Misyonumuz</span>
-                        <h2 className="text-2xl font-bold text-slate-900">Neden Varız?</h2>
+                        <span className="text-xs font-bold text-blue-500 uppercase tracking-widest">{t('pages.missionVision.cards.mission.badge')}</span>
+                        <h2 className="text-2xl font-bold text-slate-900">{t('pages.missionVision.cards.mission.title')}</h2>
                       </div>
                     </div>
 
                     <p className="text-lg text-slate-600 leading-relaxed mb-6">
-                      Eğitime erişimde yaşanan eşitsizliği ortadan kaldırmak için, doğrulanmış öğrencileri
-                      güvenilir bağışçılarla buluşturan şeffaf bir platform oluşturmak.
+                      {t('pages.missionVision.cards.mission.desc')}
                     </p>
 
                     <div className="space-y-3">
                       {[
-                        'Ekonomik engelleri ortadan kaldırarak eğitime erişimi kolaylaştırmak',
-                        'Her bağışın izlenebilir ve hesap verebilir olmasını sağlamak',
-                        'Öğrencilerin potansiyellerini gerçekleştirmelerine yardımcı olmak',
+                        t('pages.missionVision.cards.mission.items.i1'),
+                        t('pages.missionVision.cards.mission.items.i2'),
+                        t('pages.missionVision.cards.mission.items.i3'),
                       ].map((item, i) => (
                         <div key={i} className="flex items-start gap-3">
                           <CheckCircle className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
@@ -234,21 +249,20 @@ export default function MissionVisionPage() {
                         <Eye className="h-7 w-7 text-white" />
                       </div>
                       <div>
-                        <span className="text-xs font-bold text-purple-500 uppercase tracking-widest">Vizyonumuz</span>
-                        <h2 className="text-2xl font-bold text-slate-900">Nereye Gidiyoruz?</h2>
+                        <span className="text-xs font-bold text-purple-500 uppercase tracking-widest">{t('pages.missionVision.cards.vision.badge')}</span>
+                        <h2 className="text-2xl font-bold text-slate-900">{t('pages.missionVision.cards.vision.title')}</h2>
                       </div>
                     </div>
 
                     <p className="text-lg text-slate-600 leading-relaxed mb-6">
-                      Dünyada hiçbir öğrencinin maddi imkansızlık nedeniyle eğitimden mahrum kalmadığı,
-                      eğitimin evrensel bir hak olarak yaşandığı bir gelecek.
+                      {t('pages.missionVision.cards.vision.desc')}
                     </p>
 
                     <div className="space-y-3">
                       {[
-                        'Global ölçekte eğitim fonlama ağı oluşturmak',
-                        'Yapay zeka ile ihtiyaç analizi ve eşleştirme yapmak',
-                        'Eğitimde sürdürülebilir değişimin öncüsü olmak',
+                        t('pages.missionVision.cards.vision.items.i1'),
+                        t('pages.missionVision.cards.vision.items.i2'),
+                        t('pages.missionVision.cards.vision.items.i3'),
                       ].map((item, i) => (
                         <div key={i} className="flex items-start gap-3">
                           <Sparkles className="h-5 w-5 text-purple-500 flex-shrink-0 mt-0.5" />
@@ -288,7 +302,7 @@ export default function MissionVisionPage() {
               })}
             </div>
           </div>
-          </section>
+        </section>
 
         {/* ═══════════════════════════
             CORE PRINCIPLES
@@ -297,13 +311,13 @@ export default function MissionVisionPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <span className="inline-block text-xs font-semibold tracking-widest uppercase text-indigo-600 bg-indigo-50 px-4 py-1.5 rounded-full mb-4">
-                Temel İlkelerimiz
+                {t('pages.missionVision.principles.badge')}
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-                Bizi Yönlendiren Değerler
+                {t('pages.missionVision.principles.title')}
               </h2>
               <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-                Her kararımızın arkasında bu ilkeler var. Bunlar sadece kelime değil, yaşam biçimimiz.
+                {t('pages.missionVision.principles.desc')}
               </p>
             </div>
 
@@ -325,7 +339,7 @@ export default function MissionVisionPage() {
               })}
             </div>
           </div>
-          </section>
+        </section>
 
         {/* ═══════════════════════════
             APPROACH — How we're different
@@ -344,18 +358,17 @@ export default function MissionVisionPage() {
 
                     <div className="relative z-10">
                       <Rocket className="h-10 w-10 mb-6 text-indigo-200" />
-                      <h3 className="text-2xl font-bold mb-3">Fark Yaratan Yaklaşım</h3>
+                      <h3 className="text-2xl font-bold mb-3">{t('pages.missionVision.approach.visual.title')}</h3>
                       <p className="text-indigo-200 leading-relaxed mb-6">
-                        Geleneksel bağış platformlarından farklı olarak, her öğrenciyi doğruluyoruz,
-                        her kuruşu izliyoruz ve her etkiyi ölçüyoruz.
+                        {t('pages.missionVision.approach.visual.desc')}
                       </p>
 
                       <div className="grid grid-cols-2 gap-3">
                         {[
-                          { val: '%100', label: 'Doğrulama' },
-                          { val: '%100', label: 'İzlenebilirlik' },
-                          { val: '0', label: 'Gizli Maliyet' },
-                          { val: '48s', label: 'İnceleme Süresi' },
+                          { val: t('pages.missionVision.approach.visual.stats.verification.val'), label: t('pages.missionVision.approach.visual.stats.verification.label') },
+                          { val: t('pages.missionVision.approach.visual.stats.traceability.val'), label: t('pages.missionVision.approach.visual.stats.traceability.label') },
+                          { val: t('pages.missionVision.approach.visual.stats.hiddenCost.val'), label: t('pages.missionVision.approach.visual.stats.hiddenCost.label') },
+                          { val: t('pages.missionVision.approach.visual.stats.reviewTime.val'), label: t('pages.missionVision.approach.visual.stats.reviewTime.label') },
                         ].map((s, j) => (
                           <div key={j} className="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center">
                             <p className="text-xl font-bold">{s.val}</p>
@@ -372,8 +385,8 @@ export default function MissionVisionPage() {
                       <Award className="h-5 w-5 text-emerald-600" />
                     </div>
                     <div>
-                      <p className="text-xs text-slate-500">Güven Skoru</p>
-                      <p className="text-sm font-bold text-slate-900">4.9 / 5.0</p>
+                      <p className="text-xs text-slate-500">{t('pages.missionVision.approach.visual.trustScore.label')}</p>
+                      <p className="text-sm font-bold text-slate-900">{t('pages.missionVision.approach.visual.trustScore.val')}</p>
                     </div>
                   </div>
                 </div>
@@ -382,39 +395,38 @@ export default function MissionVisionPage() {
               {/* Right — Content */}
               <div className="lg:w-7/12">
                 <span className="inline-block text-xs font-semibold tracking-widest uppercase text-purple-600 bg-purple-50 px-4 py-1.5 rounded-full mb-4">
-                  Yaklaşımımız
+                  {t('pages.missionVision.approach.content.badge')}
                 </span>
                 <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6">
-                  Bağış Değil, Yatırım.
+                  {t('pages.missionVision.approach.content.title')}
                   <br />
-                  <span className="text-purple-500">Geleceğe Yatırım.</span>
+                  <span className="text-purple-500">{t('pages.missionVision.approach.content.titleHighlight')}</span>
                 </h2>
                 <p className="text-lg text-slate-500 leading-relaxed mb-8">
-                  FundEd&apos;de her bağışı bir yatırım olarak görüyoruz — bir öğrencinin geleceğine,
-                  bir toplumun kalkınmasına, daha adil bir dünyaya yapılan yatırım.
+                  {t('pages.missionVision.approach.content.desc')}
                 </p>
 
                 <div className="space-y-5">
                   {[
                     {
                       icon: Shield,
-                      title: 'Doğrulanmış Profiller',
-                      desc: 'Her öğrenci kimlik, öğrenim belgesi ve ihtiyaç analizi ile doğrulanır.',
+                      title: t('pages.missionVision.approach.content.items.verified.title'),
+                      desc: t('pages.missionVision.approach.content.items.verified.desc'),
                     },
                     {
                       icon: BarChart3,
-                      title: 'Etki Ölçümü',
-                      desc: 'Bağışın yarattığı fark somut metriklerle ölçülür ve raporlanır.',
+                      title: t('pages.missionVision.approach.content.items.impact.title'),
+                      desc: t('pages.missionVision.approach.content.items.impact.desc'),
                     },
                     {
                       icon: Zap,
-                      title: 'Hızlı Aktarım',
-                      desc: 'Bürokratik engeller minimize edilerek fonlar hızlıca aktarılır.',
+                      title: t('pages.missionVision.approach.content.items.speed.title'),
+                      desc: t('pages.missionVision.approach.content.items.speed.desc'),
                     },
                     {
                       icon: Users,
-                      title: 'Topluluk Gücü',
-                      desc: 'Bağışçılar, öğrenciler ve kurumlar bir araya gelerek sürdürülebilir etki yaratır.',
+                      title: t('pages.missionVision.approach.content.items.community.title'),
+                      desc: t('pages.missionVision.approach.content.items.community.desc'),
                     },
                   ].map((item, i) => {
                     const Icon = item.icon;
@@ -443,13 +455,13 @@ export default function MissionVisionPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <span className="inline-block text-xs font-semibold tracking-widest uppercase text-emerald-600 bg-emerald-50 px-4 py-1.5 rounded-full mb-4">
-                Yol Haritası
+                {t('pages.missionVision.roadmap.badge')}
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-                Hedeflerimiz
+                {t('pages.missionVision.roadmap.title')}
               </h2>
               <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-                Büyük düşünüyoruz, adım adım ilerliyoruz. İşte nereye doğru gittiğimiz.
+                {t('pages.missionVision.roadmap.desc')}
               </p>
             </div>
 
@@ -485,22 +497,21 @@ export default function MissionVisionPage() {
               <div className="absolute -top-4 left-1/2 -translate-x-1/2 text-[120px] font-serif text-indigo-100 leading-none select-none pointer-events-none">&ldquo;</div>
               <div className="relative z-10 pt-8">
                 <p className="text-2xl sm:text-3xl font-medium text-slate-800 leading-relaxed mb-8 italic">
-                  Bir çocuğa eğitim vermek, bir yaşamı değiştirmek değildir.
-                  Bir nesli dönüştürmektir.
+                  {t('pages.missionVision.quote.text')}
                 </p>
                 <div className="flex items-center justify-center gap-3">
                   <div className="w-12 h-12 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-full flex items-center justify-center text-white font-bold text-sm">
                     FE
                   </div>
                   <div className="text-left">
-                    <p className="text-sm font-bold text-slate-900">FundEd Ekibi</p>
-                    <p className="text-xs text-slate-400">Kuruluş Manifestosu, 2024</p>
+                    <p className="text-sm font-bold text-slate-900">{t('pages.missionVision.quote.author')}</p>
+                    <p className="text-xs text-slate-400">{t('pages.missionVision.quote.role')}</p>
                   </div>
                 </div>
               </div>
-              </div>
             </div>
-          </section>
+          </div>
+        </section>
 
         {/* ═══════════════════════════
             CTA
@@ -523,11 +534,10 @@ export default function MissionVisionPage() {
               <div className="relative z-10">
                 <Sparkles className="h-10 w-10 text-yellow-300 mx-auto mb-6" />
                 <h2 className="text-3xl sm:text-4xl font-bold text-white mb-5">
-                  Bu Misyona Siz de Katılın
+                  {t('pages.missionVision.cta.title')}
                 </h2>
                 <p className="text-indigo-200 max-w-xl mx-auto mb-10 text-lg leading-relaxed">
-                  Bir bağışla bir öğrencinin hayatını değiştirebilir,
-                  başvuruyla bir öğrencinin umudunu yeşertebilirsiniz.
+                  {t('pages.missionVision.cta.desc')}
                 </p>
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -538,7 +548,7 @@ export default function MissionVisionPage() {
                     className="bg-white text-indigo-700 hover:bg-indigo-50 h-14 px-10 rounded-2xl text-lg font-semibold shadow-xl"
                   >
                     <Heart className="mr-2 h-5 w-5" />
-                    Bağış Yap
+                    {t('pages.missionVision.cta.donate')}
                   </Button>
                   <Button
                     type="button"
@@ -547,14 +557,14 @@ export default function MissionVisionPage() {
                     variant="outline"
                     className="border-white/25 text-white hover:bg-white/10 h-14 px-10 rounded-2xl text-lg backdrop-blur-sm"
                   >
-                    Öğrenci Olarak Başvur
+                    {t('pages.missionVision.cta.apply')}
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </div>
               </div>
             </div>
           </div>
-          </section>
+        </section>
 
       </main>
       <Footer />

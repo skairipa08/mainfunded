@@ -88,7 +88,7 @@ function DonatePageContent() {
     }
 
     if (formData.donorEmail && !validateEmail(formData.donorEmail)) {
-      newErrors.donorEmail = 'Geçerli bir e-posta adresi girin.';
+      newErrors.donorEmail = t('donation.invalidEmail');
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -145,14 +145,13 @@ function DonatePageContent() {
             <div className="text-center max-w-3xl mx-auto">
               <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 py-2 mb-6">
                 <Heart className="h-4 w-4 text-pink-300" />
-                <span className="text-sm text-white/90 font-medium">Her Bağış Bir Hayat Değiştirir</span>
+                <span className="text-sm text-white/90 font-medium">{t('donation.heroBadge')}</span>
               </div>
               <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4 leading-tight">
                 {t('donation.title')}
               </h1>
               <p className="text-lg text-blue-100/80 leading-relaxed max-w-xl mx-auto">
-                Doğrulanmış öğrencilerin eğitim yolculuğunda onlara destek olun.
-                Şeffaf altyapımızla bağışınızın izini takip edin.
+                {t('donation.heroSubtitle')}
               </p>
             </div>
           </div>
@@ -180,8 +179,8 @@ function DonatePageContent() {
                       <DollarSign className="h-5 w-5 text-white" />
                     </div>
                     <div>
-                      <h2 className="text-lg font-bold text-slate-900">Bağış Miktarı</h2>
-                      <p className="text-sm text-slate-400">Bir miktar seçin veya özel tutar girin</p>
+                      <h2 className="text-lg font-bold text-slate-900">{t('donation.amount')}</h2>
+                      <p className="text-sm text-slate-400">{t('donation.amountSubtitle')}</p>
                     </div>
                   </div>
 
@@ -217,7 +216,7 @@ function DonatePageContent() {
                         setSelectedQuickAmount(null);
                         if (errors.amount) setErrors({ ...errors, amount: '' });
                       }}
-                      placeholder="Özel miktar girin..."
+                      placeholder={t('donation.customPlaceholder')}
                       className={`pl-9 h-14 text-lg font-medium rounded-xl border-2 bg-slate-50 focus:bg-white transition-colors ${
                         errors.amount ? 'border-red-400 focus:border-red-500' : 'border-slate-100 focus:border-blue-500'
                       }`}
@@ -239,7 +238,7 @@ function DonatePageContent() {
                     <div className="space-y-2">
                       <Label htmlFor="target" className="text-sm font-semibold text-slate-700 flex items-center gap-2">
                         <Gift className="h-4 w-4 text-slate-400" />
-                        Bağış Kategorisi
+                        {t('donation.category')}
                       </Label>
                       <Select
                         required
@@ -249,19 +248,19 @@ function DonatePageContent() {
                         }
                       >
                         <SelectTrigger id="target" className="h-12 rounded-xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-blue-500 transition-colors">
-                          <SelectValue placeholder="Kategori seçin" />
+                          <SelectValue placeholder={t('donation.categoryPlaceholder')} />
                         </SelectTrigger>
                         <SelectContent>
                           <SelectItem value="Support a verified student">
                             <div className="flex items-center gap-2">
                               <GraduationCap className="h-4 w-4 text-blue-500" />
-                              <span>Doğrulanmış Öğrenci Desteği</span>
+                              <span>{t('donation.verifiedStudent')}</span>
                             </div>
                           </SelectItem>
                           <SelectItem value="General education fund">
                             <div className="flex items-center gap-2">
                               <Globe className="h-4 w-4 text-emerald-500" />
-                              <span>Genel Eğitim Fonu</span>
+                              <span>{t('donation.generalFund')}</span>
                             </div>
                           </SelectItem>
                         </SelectContent>
@@ -274,7 +273,7 @@ function DonatePageContent() {
                         <div className="w-full border-t border-slate-100" />
                       </div>
                       <div className="relative flex justify-center">
-                        <span className="bg-white px-3 text-xs text-slate-400 uppercase tracking-wider font-medium">Opsiyonel Bilgiler</span>
+                        <span className="bg-white px-3 text-xs text-slate-400 uppercase tracking-wider font-medium">{t('donation.optionalInfo')}</span>
                       </div>
                     </div>
 
@@ -282,15 +281,15 @@ function DonatePageContent() {
                     <div className="space-y-2">
                       <Label htmlFor="donorName" className="text-sm font-semibold text-slate-700 flex items-center gap-2">
                         <User className="h-4 w-4 text-slate-400" />
-                        Adınız
-                        <span className="text-xs font-normal text-slate-400 bg-slate-50 px-2 py-0.5 rounded-full">Anonim bırakabilirsiniz</span>
+                        {t('donation.yourName')}
+                        <span className="text-xs font-normal text-slate-400 bg-slate-50 px-2 py-0.5 rounded-full">{t('donation.anonymousNote')}</span>
                       </Label>
                       <Input
                         id="donorName"
                         type="text"
                         value={formData.donorName}
                         onChange={(e) => setFormData({ ...formData, donorName: e.target.value })}
-                        placeholder="Adınız Soyadınız"
+                        placeholder={t('donation.namePlaceholder')}
                         className="h-12 rounded-xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-blue-500 transition-colors"
                       />
                     </div>
@@ -299,8 +298,8 @@ function DonatePageContent() {
                     <div className="space-y-2">
                       <Label htmlFor="donorEmail" className="text-sm font-semibold text-slate-700 flex items-center gap-2">
                         <Mail className="h-4 w-4 text-slate-400" />
-                        E-posta
-                        <span className="text-xs font-normal text-slate-400 bg-slate-50 px-2 py-0.5 rounded-full">Makbuz için</span>
+                        {t('donation.email')}
+                        <span className="text-xs font-normal text-slate-400 bg-slate-50 px-2 py-0.5 rounded-full">{t('donation.receiptNote')}</span>
                       </Label>
                       <Input
                         id="donorEmail"
@@ -310,7 +309,7 @@ function DonatePageContent() {
                           setFormData({ ...formData, donorEmail: e.target.value });
                           if (errors.donorEmail) setErrors({ ...errors, donorEmail: '' });
                         }}
-                        placeholder="ornek@email.com"
+                        placeholder={t('donation.emailPlaceholder')}
                         className={`h-12 rounded-xl border-2 bg-slate-50 focus:bg-white transition-colors ${
                           errors.donorEmail ? 'border-red-400 focus:border-red-500' : 'border-slate-100 focus:border-blue-500'
                         }`}
@@ -330,10 +329,9 @@ function DonatePageContent() {
                           <Shield className="h-4 w-4 text-blue-600" />
                         </div>
                         <div>
-                          <p className="text-sm font-semibold text-blue-900 mb-1">Güvenli & Şeffaf</p>
+                          <p className="text-sm font-semibold text-blue-900 mb-1">{t('donation.secureTitle')}</p>
                           <p className="text-sm text-blue-700/70 leading-relaxed">
-                            Bağışınız güvenli altyapımız üzerinden işlenir ve her aşaması
-                            takip edilebilir şekilde kaydedilir.
+                            {t('donation.secureDesc')}
                           </p>
                         </div>
                       </div>
@@ -350,24 +348,24 @@ function DonatePageContent() {
                       {loading ? (
                         <div className="flex items-center gap-3">
                           <div className="animate-spin rounded-full h-5 w-5 border-2 border-white/30 border-t-white" />
-                          İşleniyor...
+                          {t('donation.processing')}
                         </div>
                       ) : submitted ? (
                         <div className="flex items-center gap-2">
                           <CheckCircle className="h-5 w-5" />
-                          Bağış Tamamlandı!
+                          {t('donation.completed')}
                         </div>
                       ) : (
                         <div className="flex items-center gap-2">
                           <Heart className="h-5 w-5" />
-                          {formData.amount ? `$${parseFloat(formData.amount).toLocaleString()} Bağış Yap` : 'Bağış Yap'}
+                          {formData.amount ? `$${parseFloat(formData.amount).toLocaleString()} ${t('donation.submitDonateWithAmount')}` : t('donation.submitDonate')}
                           <ArrowRight className="h-5 w-5" />
                         </div>
                       )}
                     </Button>
                     <div className="flex items-center justify-center gap-2 mt-4">
                       <Lock className="h-3.5 w-3.5 text-slate-400" />
-                      <p className="text-xs text-slate-400">256-bit SSL ile şifrelenmiş güvenli ödeme</p>
+                      <p className="text-xs text-slate-400">{t('donation.securePayment')}</p>
                     </div>
                   </div>
                 </form>
@@ -383,17 +381,17 @@ function DonatePageContent() {
                   <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-xl flex items-center justify-center shadow-lg shadow-emerald-500/20">
                     <Sparkles className="h-5 w-5 text-white" />
                   </div>
-                  <h3 className="text-lg font-bold text-slate-900">Bağışınızın Etkisi</h3>
+                  <h3 className="text-lg font-bold text-slate-900">{t('donation.impactTitle')}</h3>
                 </div>
 
                 <div className="space-y-4">
                   {[
-                    { amount: '$10', desc: 'Bir öğrenciye 1 aylık defter & kalem', icon: '📝' },
-                    { amount: '$25', desc: 'Bir öğrencinin okul çantası ihtiyacı', icon: '🎒' },
-                    { amount: '$50', desc: 'Bir çocuğun 1 yıllık okul malzemesi', icon: '📚' },
-                    { amount: '$100', desc: 'Bir sınıfa dijital eğitim materyali', icon: '💻' },
-                    { amount: '$250', desc: 'Bir öğrencinin 1 dönemlik bursu', icon: '🎓' },
-                    { amount: '$500', desc: 'Bir sınıfın yenilenmesi & donatılması', icon: '🏫' },
+                    { amount: '$10', desc: t('donation.impact10'), icon: '📝' },
+                    { amount: '$25', desc: t('donation.impact25'), icon: '🎒' },
+                    { amount: '$50', desc: t('donation.impact50'), icon: '📚' },
+                    { amount: '$100', desc: t('donation.impact100'), icon: '💻' },
+                    { amount: '$250', desc: t('donation.impact250'), icon: '🎓' },
+                    { amount: '$500', desc: t('donation.impact500'), icon: '🏫' },
                   ].map((item, i) => (
                     <div
                       key={i}
@@ -403,7 +401,7 @@ function DonatePageContent() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-baseline gap-2">
                           <span className="font-bold text-slate-900">{item.amount}</span>
-                          <span className="text-xs text-slate-400">ile</span>
+                          <span className="text-xs text-slate-400">{t('donation.impactWith')}</span>
                         </div>
                         <p className="text-sm text-slate-500 leading-snug">{item.desc}</p>
                       </div>
@@ -414,13 +412,13 @@ function DonatePageContent() {
 
               {/* Trust Badges */}
               <div className="bg-white rounded-3xl shadow-lg shadow-slate-200/50 border border-slate-100 p-6 sm:p-7">
-                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-5">Güvenlik & Şeffaflık</h3>
+                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-5">{t('donation.trustTitle')}</h3>
                 <div className="space-y-4">
                   {[
-                    { icon: Shield, label: 'Doğrulanmış Öğrenciler', desc: 'Tüm öğrenciler kimlik doğrulamasından geçer' },
-                    { icon: TrendingUp, label: 'Etki Takibi', desc: 'Bağışınızın nereye gittiğini görün' },
-                    { icon: Lock, label: 'Güvenli Ödeme', desc: '256-bit SSL şifreli altyapı' },
-                    { icon: CheckCircle, label: 'Tam Şeffaflık', desc: 'Her işlem kayıt altında' },
+                    { icon: Shield, label: t('donation.trustVerified'), desc: t('donation.trustVerifiedDesc') },
+                    { icon: TrendingUp, label: t('donation.trustTracking'), desc: t('donation.trustTrackingDesc') },
+                    { icon: Lock, label: t('donation.trustSecure'), desc: t('donation.trustSecureDesc') },
+                    { icon: CheckCircle, label: t('donation.trustTransparent'), desc: t('donation.trustTransparentDesc') },
                   ].map((item, i) => {
                     const Icon = item.icon;
                     return (
@@ -441,15 +439,15 @@ function DonatePageContent() {
               {/* Education Equality CTA */}
               <div className="bg-gradient-to-br from-amber-500 to-orange-600 rounded-3xl p-6 sm:p-7 text-white shadow-lg shadow-orange-500/20">
                 <Globe className="h-8 w-8 text-white/80 mb-3" />
-                <h3 className="text-lg font-bold mb-2">Eğitimde Eşitlik Kampanyası</h3>
+                <h3 className="text-lg font-bold mb-2">{t('donation.equalityCampaign')}</h3>
                 <p className="text-sm text-white/70 leading-relaxed mb-5">
-                  Dünya genelinde eğitime erişemeyen çocuklara destek olmak için kampanyamızı inceleyin.
+                  {t('donation.equalityDesc')}
                 </p>
                 <Button
                   onClick={() => router.push('/education-equality')}
                   className="w-full bg-white text-orange-600 hover:bg-white/90 font-semibold rounded-xl h-11"
                 >
-                  Kampanyayı Gör
+                  {t('donation.viewCampaign')}
                   <ArrowRight className="ml-2 h-4 w-4" />
                 </Button>
               </div>
@@ -468,7 +466,7 @@ export default function DonatePage() {
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="text-center">
           <div className="h-10 w-10 animate-spin mx-auto border-4 border-slate-200 border-t-blue-600 rounded-full mb-4" />
-          <p className="text-slate-400 text-sm">Yükleniyor...</p>
+          <p className="text-slate-400 text-sm">Loading...</p>
         </div>
       </div>
     }>
