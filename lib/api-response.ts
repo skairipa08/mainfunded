@@ -47,11 +47,11 @@ export function handleRouteError(error: unknown): NextResponse {
     return errorResponse({ code: 'AUTH_ERROR', message }, statusCode);
   }
 
-  console.error('Route error:', error);
+  console.error('Route error:', error instanceof Error ? error.message : '[non-Error object]');
   return errorResponse(
     {
       code: 'INTERNAL_ERROR',
-      message: error instanceof Error ? error.message : 'Internal server error',
+      message: 'Internal server error',
     },
     500
   );

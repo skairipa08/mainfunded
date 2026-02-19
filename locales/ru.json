@@ -761,6 +761,13 @@
         "submitError": "Не удалось отправить верификацию. Пожалуйста, попробуйте снова.",
         "selectedFiles": "Выбранные файлы"
     },
+    "campaignCard": {
+        "approved": "Одобрено",
+        "raised": "Собрано {amount}",
+        "goal": "Цель {amount}",
+        "donorCount": "{count} доноров",
+        "funded": "{percent}% профинансировано"
+    },
     "campaign": {
         "createCampaign": "Создать кампанию",
         "editCampaign": "Редактировать кампанию",
@@ -776,7 +783,45 @@
         "verified": "Проверенный студент",
         "category": "Категория",
         "createdAt": "Создано",
-        "endDate": "Дата окончания"
+        "endDate": "Дата окончания",
+        "notFound": "Campaign not found",
+        "browseCampaigns": "Browse Campaigns",
+        "loading": "Loading campaign...",
+        "raisedOf": "{raised} raised of {goal}",
+        "donationCount": "{count} donations",
+        "justDonated": "{count} people just donated",
+        "seeAll": "See all",
+        "topDonors": "Top donors",
+        "beTopDonor": "Be a top donor for {name} with {amount} or more.",
+        "topDonation": "Top donation",
+        "supportCtaTitle": "Do you want to support?",
+        "supportCtaDesc": "You can support securely from the donation page.",
+        "back": "Back",
+        "donationProtected": "Donation protected",
+        "campaignStudent": "Campaign Student",
+        "createdOn": "Created {date}",
+        "education": "Education",
+        "supportTitle": "Support {name}'s education",
+        "shareSuccess": "Link copied to clipboard!",
+        "shareError": "Could not copy link",
+        "copyLink": "Copy Link",
+        "verifyingPayment": "Verifying your payment...",
+        "pleaseWait": "Please wait",
+        "paymentError": "Payment could not be processed. Please try again.",
+        "enterValidAmount": "Please enter a valid donation amount",
+        "eachGift": "Each gift brings hope — together, we create change.",
+        "donations": "Donations",
+        "noDonationsYet": "No donations yet. Be the first to support!",
+        "studentVerification": "Student Verification",
+        "videos": "Videos",
+        "verificationLabels": {
+            "id": "Identity Verification",
+            "school_email": "School Email Verification",
+            "transcript": "Transcript Verification",
+            "approved": "Approved",
+            "rejected": "Rejected",
+            "pending": "Pending"
+        }
     },
     "donation": {
         "title": "Сделать пожертвование",
@@ -830,6 +875,38 @@
         "equalityCampaign": "Кампания за равенство в образовании",
         "equalityDesc": "Ознакомьтесь с нашей кампанией в поддержку детей по всему миру, не имеющих доступа к образованию.",
         "viewCampaign": "Посмотреть кампанию"
+    },
+    "donationForm": {
+        "oneTime": "One-Time",
+        "oneTimeDesc": "A single donation",
+        "recurring": "Recurring",
+        "recurringDesc": "Regular support",
+        "recommended": "Recommended",
+        "frequency": "Donation Frequency",
+        "monthly": "Monthly",
+        "quarterly": "Quarterly",
+        "yearly": "Yearly",
+        "amount": "Donation Amount",
+        "customAmount": "Custom amount",
+        "matchingGift": "Matching Gift",
+        "matchingDesc": "{partner} will multiply your donation {multiplier}x!",
+        "joinMatching": "Join matching program",
+        "totalImpact": "Total Impact",
+        "donateAnonymously": "Donate anonymously",
+        "yourName": "Your name (optional)",
+        "namePlaceholder": "Your Full Name",
+        "email": "Email *",
+        "emailPlaceholder": "example@email.com",
+        "message": "Message (optional)",
+        "messagePlaceholder": "Leave a message for the student...",
+        "summaryAmount": "Donation Amount",
+        "matchingBonus": "Matching Bonus",
+        "frequencySummary": "Frequency",
+        "everyMonth": "Every Month",
+        "every3Months": "Every 3 Months",
+        "submitRecurring": "Start Monthly Donation",
+        "submitOneTime": "Donate Now",
+        "securePayment": "Your payment will be processed securely via Stripe."
     },
     "dashboard": {
         "title": "Панель управления",
@@ -2226,7 +2303,13 @@
         "step3Title": "Получите поддержку",
         "step3Desc": "Свяжитесь с донорами, которые хотят помочь.",
         "trustTitle": "Безопасный и прозрачный процесс",
-        "trustDesc": "Все заявки проверяются нашей командой. Ваша личная информация хранится в безопасности."
+        "trustDesc": "Все заявки проверяются нашей командой. Ваша личная информация хранится в безопасности.",
+        "parentTitle": "Подать заявку как родитель",
+        "parentDescription": "Если вашему ребёнку (до 18 лет) нужна образовательная поддержка, подайте заявку от его имени.",
+        "parentFeature1": "Для детей до 18 лет",
+        "parentFeature2": "Верификация родителя и ребёнка",
+        "parentFeature3": "Верификация табеля и школы",
+        "parentCta": "Подать заявку как родитель"
     },
     "applyTeacher": {
         "badge": "Форма заявки учителя",
@@ -2328,6 +2411,160 @@
             "dropText": "Перетащите фотографии сюда или",
             "selectBtn": "Выбрать фотографии",
             "maxCount": "До 5 фотографий"
+        }
+    },
+    "applyParent": {
+        "badge": "Заявка родителя",
+        "heroTitle": "Подайте заявку от имени ребёнка",
+        "heroHighlight": "Для лучшего будущего",
+        "heroDesc": "Как родитель или опекун, вы можете подать заявку на образовательную поддержку для ребёнка до 18 лет.",
+        "steps": {
+            "step1": "Данные родителя",
+            "step2": "Данные ребёнка",
+            "step3": "Верификация",
+            "step4": "История и медиа",
+            "step5": "Проверка"
+        },
+        "step1": {
+            "title": "Информация о родителе",
+            "subtitle": "Введите ваши личные данные"
+        },
+        "step2": {
+            "title": "Информация о ребёнке",
+            "subtitle": "Введите данные вашего ребёнка"
+        },
+        "step3": {
+            "title": "Документы для верификации",
+            "subtitle": "Загрузите документы для проверки"
+        },
+        "step4": {
+            "title": "История и медиа",
+            "subtitle": "Расскажите историю вашего ребёнка"
+        },
+        "step5": {
+            "title": "Проверить и отправить",
+            "subtitle": "Проверьте вашу заявку"
+        },
+        "labels": {
+            "parentFullName": "Полное имя",
+            "email": "Электронная почта",
+            "phone": "Телефон (необязательно)",
+            "country": "Страна",
+            "relation": "Отношение к ребёнку",
+            "childName": "Имя ребёнка",
+            "childDob": "Дата рождения",
+            "age": "Возраст",
+            "gender": "Пол",
+            "studentId": "ID ученика (необязательно)",
+            "schoolName": "Название школы",
+            "schoolCity": "Город школы",
+            "grade": "Класс / Уровень",
+            "parentId": "Удостоверение родителя",
+            "childId": "Удостоверение ребёнка",
+            "reportCard": "Табель / Аттестат",
+            "enrollment": "Справка о зачислении (необязательно)",
+            "story": "История вашего ребёнка",
+            "targetAmount": "Целевая сумма",
+            "photos": "Фото (необязательно)",
+            "video": "Видео (необязательно)"
+        },
+        "placeholders": {
+            "parentFullName": "напр. Мария Иванова",
+            "email": "напр. parent@email.com",
+            "country": "напр. Россия",
+            "selectRelation": "Выберите...",
+            "childName": "напр. Иван Иванов",
+            "selectGender": "Выберите...",
+            "studentId": "напр. 123456",
+            "schoolName": "напр. Школа №1",
+            "schoolCity": "напр. Москва",
+            "grade": "напр. 5 класс",
+            "story": "Опишите образовательные потребности ребёнка...",
+            "targetAmount": "напр. 5000"
+        },
+        "options": {
+            "mother": "Мать",
+            "father": "Отец",
+            "guardian": "Опекун",
+            "male": "Мужской",
+            "female": "Женский",
+            "other": "Другой"
+        },
+        "hints": {
+            "parentId": "Загрузите скан удостоверения личности.",
+            "childId": "Загрузите удостоверение или свидетельство о рождении.",
+            "reportCard": "Загрузите последний табель.",
+            "enrollment": "Загрузите справку о зачислении.",
+            "childAgeNote": "Эта заявка для детей до 18 лет."
+        },
+        "uploadClick": "Нажмите или перетащите файл",
+        "validation": {
+            "parentFullName": "Имя обязательно",
+            "email": "Почта обязательна",
+            "invalidEmail": "Введите корректный адрес",
+            "country": "Страна обязательна",
+            "relation": "Укажите отношение",
+            "parentId": "Удостоверение родителя обязательно",
+            "childName": "Имя ребёнка обязательно",
+            "childDob": "Дата рождения обязательна",
+            "childAge": "Ребёнку должно быть менее 18",
+            "schoolName": "Название школы обязательно",
+            "schoolCity": "Город обязателен",
+            "grade": "Класс обязателен",
+            "childId": "Удостоверение ребёнка обязательно",
+            "reportCard": "Табель обязателен",
+            "story": "История обязательна",
+            "storyMin": "Минимум {{min}} символов",
+            "targetAmount": "Сумма обязательна"
+        },
+        "tips": {
+            "title": "Советы:",
+            "tip1": "Подробно опишите потребности",
+            "tip2": "Объясните использование средств",
+            "tip3": "Поделитесь особенностями ситуации"
+        },
+        "docTips": {
+            "title": "Важно:",
+            "tip1": "Документы должны быть читаемыми",
+            "tip2": "Данные зашифрованы",
+            "tip3": "Документы только для верификации"
+        },
+        "photos": {
+            "dropText": "Перетащите фото сюда или",
+            "selectBtn": "Выбрать фото",
+            "maxCount": "До 5 фото"
+        },
+        "video": {
+            "selectBtn": "Загрузить видео"
+        },
+        "review": {
+            "parentInfo": "Данные родителя",
+            "childInfo": "Данные ребёнка",
+            "documents": "Документы",
+            "storyMedia": "История и медиа",
+            "files": "файл(ов)",
+            "photos": "фото",
+            "videos": "видео",
+            "yearsOld": "лет"
+        },
+        "prev": "Назад",
+        "next": "Далее",
+        "back": "Назад",
+        "submit": "Отправить заявку",
+        "submitting": "Отправка...",
+        "submitSuccess": "Заявка отправлена!",
+        "submitError": "Ошибка отправки.",
+        "successTitle": "Заявка отправлена!",
+        "successDesc": "Спасибо! Наша команда рассмотрит вашу заявку в течение 48 часов.",
+        "backToHome": "На главную",
+        "sidebar": {
+            "title": "Процесс верификации",
+            "point1": "Личности родителя и ребёнка верифицируются",
+            "point2": "Зачисление в школу подтверждается",
+            "point3": "Все данные зашифрованы",
+            "point4": "Рассмотрение в течение 48 часов",
+            "bannerTitle": "Детские кампании",
+            "bannerDesc": "Родительские кампании помогают детям до 18 лет получить образование!"
         }
     }
 }

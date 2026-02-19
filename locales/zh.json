@@ -761,6 +761,13 @@
         "submitError": "提交验证失败，请重试。",
         "selectedFiles": "已选文件"
     },
+    "campaignCard": {
+        "approved": "已批准",
+        "raised": "已筹 {amount}",
+        "goal": "目标 {amount}",
+        "donorCount": "{count} 位捐助者",
+        "funded": "已筹 {percent}%"
+    },
     "campaign": {
         "createCampaign": "创建活动",
         "editCampaign": "编辑活动",
@@ -776,7 +783,45 @@
         "verified": "已验证学生",
         "category": "类别",
         "createdAt": "创建于",
-        "endDate": "结束日期"
+        "endDate": "结束日期",
+        "notFound": "Campaign not found",
+        "browseCampaigns": "Browse Campaigns",
+        "loading": "Loading campaign...",
+        "raisedOf": "{raised} raised of {goal}",
+        "donationCount": "{count} donations",
+        "justDonated": "{count} people just donated",
+        "seeAll": "See all",
+        "topDonors": "Top donors",
+        "beTopDonor": "Be a top donor for {name} with {amount} or more.",
+        "topDonation": "Top donation",
+        "supportCtaTitle": "Do you want to support?",
+        "supportCtaDesc": "You can support securely from the donation page.",
+        "back": "Back",
+        "donationProtected": "Donation protected",
+        "campaignStudent": "Campaign Student",
+        "createdOn": "Created {date}",
+        "education": "Education",
+        "supportTitle": "Support {name}'s education",
+        "shareSuccess": "Link copied to clipboard!",
+        "shareError": "Could not copy link",
+        "copyLink": "Copy Link",
+        "verifyingPayment": "Verifying your payment...",
+        "pleaseWait": "Please wait",
+        "paymentError": "Payment could not be processed. Please try again.",
+        "enterValidAmount": "Please enter a valid donation amount",
+        "eachGift": "Each gift brings hope — together, we create change.",
+        "donations": "Donations",
+        "noDonationsYet": "No donations yet. Be the first to support!",
+        "studentVerification": "Student Verification",
+        "videos": "Videos",
+        "verificationLabels": {
+            "id": "Identity Verification",
+            "school_email": "School Email Verification",
+            "transcript": "Transcript Verification",
+            "approved": "Approved",
+            "rejected": "Rejected",
+            "pending": "Pending"
+        }
     },
     "donation": {
         "title": "捐款",
@@ -830,6 +875,38 @@
         "equalityCampaign": "教育平等运动",
         "equalityDesc": "探索我们的运动，支持全世界无法接受教育的儿童。",
         "viewCampaign": "查看活动"
+    },
+    "donationForm": {
+        "oneTime": "One-Time",
+        "oneTimeDesc": "A single donation",
+        "recurring": "Recurring",
+        "recurringDesc": "Regular support",
+        "recommended": "Recommended",
+        "frequency": "Donation Frequency",
+        "monthly": "Monthly",
+        "quarterly": "Quarterly",
+        "yearly": "Yearly",
+        "amount": "Donation Amount",
+        "customAmount": "Custom amount",
+        "matchingGift": "Matching Gift",
+        "matchingDesc": "{partner} will multiply your donation {multiplier}x!",
+        "joinMatching": "Join matching program",
+        "totalImpact": "Total Impact",
+        "donateAnonymously": "Donate anonymously",
+        "yourName": "Your name (optional)",
+        "namePlaceholder": "Your Full Name",
+        "email": "Email *",
+        "emailPlaceholder": "example@email.com",
+        "message": "Message (optional)",
+        "messagePlaceholder": "Leave a message for the student...",
+        "summaryAmount": "Donation Amount",
+        "matchingBonus": "Matching Bonus",
+        "frequencySummary": "Frequency",
+        "everyMonth": "Every Month",
+        "every3Months": "Every 3 Months",
+        "submitRecurring": "Start Monthly Donation",
+        "submitOneTime": "Donate Now",
+        "securePayment": "Your payment will be processed securely via Stripe."
     },
     "dashboard": {
         "title": "控制面板",
@@ -2226,7 +2303,13 @@
         "step3Title": "获得支持",
         "step3Desc": "与想要帮助的捐助者匹配。",
         "trustTitle": "安全透明的流程",
-        "trustDesc": "所有申请均由我们的团队审核。您的个人信息安全保密。"
+        "trustDesc": "所有申请均由我们的团队审核。您的个人信息安全保密。",
+        "parentTitle": "以家长身份申请",
+        "parentDescription": "如果您的孩子（18岁以下）需要教育支持，请代为申请并进行家长和孩子身份验证。",
+        "parentFeature1": "适用于18岁以下儿童",
+        "parentFeature2": "家长和孩子身份验证",
+        "parentFeature3": "成绩单和学校验证",
+        "parentCta": "以家长身份申请"
     },
     "applyTeacher": {
         "badge": "教师申请表",
@@ -2328,6 +2411,160 @@
             "dropText": "将照片拖放到此处，或",
             "selectBtn": "选择照片",
             "maxCount": "最多5张照片"
+        }
+    },
+    "applyParent": {
+        "badge": "家长申请",
+        "heroTitle": "为您的孩子申请",
+        "heroHighlight": "为了更美好的未来",
+        "heroDesc": "作为家长或监护人，您可以为18岁以下的孩子申请教育支持。",
+        "steps": {
+            "step1": "家长信息",
+            "step2": "孩子信息",
+            "step3": "验证",
+            "step4": "故事和媒体",
+            "step5": "审查"
+        },
+        "step1": {
+            "title": "家长信息",
+            "subtitle": "输入您的个人信息"
+        },
+        "step2": {
+            "title": "孩子信息",
+            "subtitle": "输入您孩子的信息"
+        },
+        "step3": {
+            "title": "验证文件",
+            "subtitle": "上传验证文件"
+        },
+        "step4": {
+            "title": "故事和媒体",
+            "subtitle": "讲述您孩子的故事"
+        },
+        "step5": {
+            "title": "审查并提交",
+            "subtitle": "审查您的申请"
+        },
+        "labels": {
+            "parentFullName": "全名",
+            "email": "电子邮箱",
+            "phone": "电话（可选）",
+            "country": "国家",
+            "relation": "与孩子的关系",
+            "childName": "孩子全名",
+            "childDob": "出生日期",
+            "age": "年龄",
+            "gender": "性别",
+            "studentId": "学生编号（可选）",
+            "schoolName": "学校名称",
+            "schoolCity": "学校城市",
+            "grade": "年级 / 班级",
+            "parentId": "家长身份证件",
+            "childId": "孩子身份证件",
+            "reportCard": "成绩单",
+            "enrollment": "入学证明（可选）",
+            "story": "孩子的故事",
+            "targetAmount": "目标金额",
+            "photos": "照片（可选）",
+            "video": "视频（可选）"
+        },
+        "placeholders": {
+            "parentFullName": "例如：张丽",
+            "email": "例如：parent@email.com",
+            "country": "例如：中国",
+            "selectRelation": "选择关系...",
+            "childName": "例如：张明",
+            "selectGender": "选择性别...",
+            "studentId": "例如：123456",
+            "schoolName": "例如：北京小学",
+            "schoolCity": "例如：北京",
+            "grade": "例如：五年级",
+            "story": "描述您孩子的教育需求...",
+            "targetAmount": "例如：5000"
+        },
+        "options": {
+            "mother": "母亲",
+            "father": "父亲",
+            "guardian": "法定监护人",
+            "male": "男",
+            "female": "女",
+            "other": "其他"
+        },
+        "hints": {
+            "parentId": "上传您的身份证扫描件。",
+            "childId": "上传孩子的身份证或出生证明。",
+            "reportCard": "上传最新成绩单。",
+            "enrollment": "上传入学证明。",
+            "childAgeNote": "此申请适用于18岁以下儿童。"
+        },
+        "uploadClick": "点击上传或拖放",
+        "validation": {
+            "parentFullName": "姓名必填",
+            "email": "邮箱必填",
+            "invalidEmail": "请输入有效邮箱",
+            "country": "国家必填",
+            "relation": "关系必填",
+            "parentId": "家长身份证必填",
+            "childName": "孩子姓名必填",
+            "childDob": "出生日期必填",
+            "childAge": "孩子须未满18岁",
+            "schoolName": "学校名称必填",
+            "schoolCity": "城市必填",
+            "grade": "年级必填",
+            "childId": "孩子身份证必填",
+            "reportCard": "成绩单必填",
+            "story": "故事必填",
+            "storyMin": "至少{{min}}个字符",
+            "targetAmount": "金额必填"
+        },
+        "tips": {
+            "title": "建议：",
+            "tip1": "详细描述需求",
+            "tip2": "说明资金用途",
+            "tip3": "分享独特情况"
+        },
+        "docTips": {
+            "title": "重要：",
+            "tip1": "文件须清晰可读",
+            "tip2": "信息加密存储",
+            "tip3": "文件仅用于验证"
+        },
+        "photos": {
+            "dropText": "拖放照片到这里，或",
+            "selectBtn": "选择照片",
+            "maxCount": "最多5张照片"
+        },
+        "video": {
+            "selectBtn": "上传视频"
+        },
+        "review": {
+            "parentInfo": "家长信息",
+            "childInfo": "孩子信息",
+            "documents": "验证文件",
+            "storyMedia": "故事和媒体",
+            "files": "个文件",
+            "photos": "张照片",
+            "videos": "个视频",
+            "yearsOld": "岁"
+        },
+        "prev": "上一步",
+        "next": "下一步",
+        "back": "返回",
+        "submit": "提交申请",
+        "submitting": "提交中...",
+        "submitSuccess": "申请已提交！",
+        "submitError": "提交失败。",
+        "successTitle": "申请已提交！",
+        "successDesc": "谢谢！我们的团队将在48小时内审核您的申请。",
+        "backToHome": "返回首页",
+        "sidebar": {
+            "title": "家长验证流程",
+            "point1": "验证家长和孩子身份",
+            "point2": "确认学校注册",
+            "point3": "所有数据加密存储",
+            "point4": "48小时内审核",
+            "bannerTitle": "儿童活动",
+            "bannerDesc": "家长发起的活动帮助18岁以下儿童获得教育！"
         }
     }
 }

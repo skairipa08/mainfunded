@@ -1,9 +1,14 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
+import { toast } from 'sonner';
+import { CheckCircle, XCircle, Eye, RefreshCw } from 'lucide-react';
 
 interface StudentProfile {
   user_id: string;
@@ -28,143 +33,132 @@ export default function AdminStudentsPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<string>('pending');
+  const [processingId, setProcessingId] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchStudents = async () => {
-      try {
-        const url = statusFilter
-          ? `/api/admin/students?status=${statusFilter}`
-          : '/api/admin/students';
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error('Failed to fetch students');
-        }
-        const data = await response.json();
-        if (data.success) {
-          setStudents(data.data || []);
-        } else {
-          throw new Error(data.error?.message || 'Failed to fetch students');
-        }
-      } catch (err: any) {
-        setError(err.message || 'Error loading students');
-      } finally {
-        setLoading(false);
+  const fetchStudents = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const url = statusFilter
+        ? `/api/admin/students?status=${statusFilter}`
+        : '/api/admin/students';
+      const response = await fetch(url);
+      if (!response.ok) throw new Error('Öğrenciler yüklenemedi');
+      const data = await response.json();
+      if (data.success) {
+        setStudents(data.data || []);
+      } else {
+        throw new Error(data.error?.message || 'Öğrenciler yüklenemedi');
       }
-    };
-
-    fetchStudents();
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Hata oluştu';
+      setError(msg);
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
   }, [statusFilter]);
 
-  const getStatusBadge = (status: string) => {
-    const statusMap: Record<string, { bg: string; text: string; label: string }> = {
-      pending: { bg: 'bg-yellow-100', text: 'text-yellow-800', label: 'Pending' },
-      verified: { bg: 'bg-green-100', text: 'text-green-800', label: 'Verified' },
-      rejected: { bg: 'bg-red-100', text: 'text-red-800', label: 'Rejected' },
-    };
-    const statusStyle = statusMap[status] || statusMap.pending;
-    return (
-      <span
-        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusStyle.bg} ${statusStyle.text}`}
-      >
-        {statusStyle.label}
-      </span>
-    );
+  useEffect(() => {
+    fetchStudents();
+  }, [fetchStudents]);
+
+  const handleVerify = async (userId: string, action: 'verified' | 'rejected', reason?: string) => {
+    setProcessingId(userId);
+    try {
+      const res = await fetch(`/api/admin/students/${userId}/verify`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          status: action,
+          reason: reason || (action === 'verified' ? 'Admin onayı' : 'Yetersiz belgeler'),
+        }),
+      });
+      if (!res.ok) {
+        const errData = await res.json();
+        throw new Error(errData.error?.message ?? 'İşlem başarısız');
+      }
+      toast.success(action === 'verified' ? 'Öğrenci doğrulandı' : 'Başvuru reddedildi');
+      // Optimistic update: remove from the list if viewing pending
+      setStudents((prev) => prev.filter((s) => s.user_id !== userId));
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : 'Hata oluştu');
+    } finally {
+      setProcessingId(null);
+    }
   };
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
+  const statusBadge: Record<string, string> = {
+    pending: 'bg-yellow-100 text-yellow-800',
+    verified: 'bg-green-100 text-green-800',
+    rejected: 'bg-red-100 text-red-800',
+  };
+
+  const filterBtns = [
+    { key: 'pending', label: 'Bekleyen' },
+    { key: 'verified', label: 'Doğrulanmış' },
+    { key: 'rejected', label: 'Reddedilen' },
+    { key: '', label: 'Tümü' },
+  ];
 
   if (error) {
     return (
-      <div className="bg-red-50 border border-red-200 rounded-md p-4">
-        <p className="text-red-800">{error}</p>
+      <div className="flex flex-col items-center justify-center py-16">
+        <p className="text-red-600 font-medium mb-4">{error}</p>
+        <Button onClick={fetchStudents}><RefreshCw className="h-4 w-4 mr-2" /> Yeniden Dene</Button>
       </div>
     );
   }
 
   return (
     <div>
-      <div className="flex justify-between items-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900">Students</h2>
-        <div className="flex gap-2">
-          <button
-            onClick={() => setStatusFilter('pending')}
-            className={`px-4 py-2 text-sm font-medium rounded-md ${
-              statusFilter === 'pending'
-                ? 'bg-blue-600 text-white'
-                : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-            }`}
-          >
-            Pending
-          </button>
-          <button
-            onClick={() => setStatusFilter('verified')}
-            className={`px-4 py-2 text-sm font-medium rounded-md ${
-              statusFilter === 'verified'
-                ? 'bg-blue-600 text-white'
-                : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-            }`}
-          >
-            Verified
-          </button>
-          <button
-            onClick={() => setStatusFilter('rejected')}
-            className={`px-4 py-2 text-sm font-medium rounded-md ${
-              statusFilter === 'rejected'
-                ? 'bg-blue-600 text-white'
-                : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-            }`}
-          >
-            Rejected
-          </button>
-          <button
-            onClick={() => setStatusFilter('')}
-            className={`px-4 py-2 text-sm font-medium rounded-md ${
-              statusFilter === ''
-                ? 'bg-blue-600 text-white'
-                : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-50'
-            }`}
-          >
-            All
-          </button>
+      <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8 gap-4">
+        <h2 className="text-3xl font-bold text-gray-900">Öğrenciler</h2>
+        <div className="flex gap-2 flex-wrap">
+          {filterBtns.map((f) => (
+            <Button
+              key={f.key}
+              variant={statusFilter === f.key ? 'default' : 'outline'}
+              size="sm"
+              onClick={() => setStatusFilter(f.key)}
+            >
+              {f.label}
+            </Button>
+          ))}
         </div>
       </div>
 
-      {students.length === 0 ? (
+      {loading ? (
+        <div className="bg-white rounded-lg shadow overflow-hidden">
+          <div className="p-4 space-y-4">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <div key={i} className="flex items-center gap-4">
+                <Skeleton className="h-5 w-32" />
+                <Skeleton className="h-5 w-44" />
+                <Skeleton className="h-5 w-28" />
+                <Skeleton className="h-5 w-20" />
+                <Skeleton className="h-5 w-16" />
+                <Skeleton className="h-8 w-24 ml-auto" />
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : students.length === 0 ? (
         <div className="bg-white rounded-lg shadow p-12 text-center">
-          <p className="text-gray-500">No students found</p>
+          <p className="text-gray-500">Bu filtrede öğrenci bulunamadı</p>
         </div>
       ) : (
-        <div className="bg-white rounded-lg shadow overflow-hidden">
+        <div className="bg-white rounded-lg shadow overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Name
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Email
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  University
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Country
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Field of Study
-                </th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
-                </th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ad</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">E-posta</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Üniversite</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ülke</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Alan</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Durum</th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">İşlemler</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
@@ -172,7 +166,7 @@ export default function AdminStudentsPage() {
                 <tr key={student.user_id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm font-medium text-gray-900">
-                      {student.user?.name || 'Unknown'}
+                      {student.user?.name || 'Bilinmiyor'}
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
@@ -190,15 +184,39 @@ export default function AdminStudentsPage() {
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
-                    {getStatusBadge(student.verificationStatus || 'pending')}
+                    <Badge className={statusBadge[student.verificationStatus] ?? statusBadge.pending}>
+                      {student.verificationStatus === 'verified' ? 'Doğrulanmış' :
+                       student.verificationStatus === 'rejected' ? 'Reddedildi' : 'Bekliyor'}
+                    </Badge>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <Link
-                      href={`/admin/students/${student.user_id}`}
-                      className="text-blue-600 hover:text-blue-900"
-                    >
-                      View
-                    </Link>
+                  <td className="px-6 py-4 whitespace-nowrap text-right">
+                    <div className="flex items-center justify-end gap-2">
+                      <Link href={`/admin/students/${student.user_id}`}>
+                        <Button variant="ghost" size="sm"><Eye className="h-4 w-4" /></Button>
+                      </Link>
+                      {student.verificationStatus === 'pending' && (
+                        <>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-green-600 hover:text-green-700 hover:bg-green-50"
+                            onClick={() => handleVerify(student.user_id, 'verified')}
+                            disabled={processingId === student.user_id}
+                          >
+                            <CheckCircle className="h-4 w-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="text-red-600 hover:text-red-700 hover:bg-red-50"
+                            onClick={() => handleVerify(student.user_id, 'rejected')}
+                            disabled={processingId === student.user_id}
+                          >
+                            <XCircle className="h-4 w-4" />
+                          </Button>
+                        </>
+                      )}
+                    </div>
                   </td>
                 </tr>
               ))}

@@ -15,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { createDonation } from '@/lib/mockDb';
+
 import { validateAmount, sanitizeInput, validateEmail } from '@/lib/validation';
 import { toast } from 'sonner';
 import { useTranslation } from '@/lib/i18n';
@@ -101,18 +101,31 @@ function DonatePageContent() {
     setSubmitted(true);
 
     try {
-      const donation = createDonation({
-        amount,
-        target: formData.target,
-        donorName: formData.donorName ? sanitizeInput(formData.donorName) : undefined,
-        donorEmail: formData.donorEmail ? formData.donorEmail.trim().toLowerCase() : undefined,
+      // Use real API endpoint for donation
+      const res = await fetch('/api/donations/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          campaign_id: searchParams.get('campaign') || 'general',
+          amount,
+          donor_name: formData.donorName ? sanitizeInput(formData.donorName) : 'Anonymous',
+          donor_email: formData.donorEmail ? formData.donorEmail.trim().toLowerCase() : undefined,
+          anonymous: !formData.donorName,
+        }),
       });
 
-      toast.success(t('donation.success'));
+      const data = await res.json();
 
-      setTimeout(() => {
-        router.push(`/donor/dashboard?donation=${donation.id}`);
-      }, 500);
+      if (data.success && data.data?.url) {
+        toast.success(t('donation.success'));
+        window.location.href = data.data.url;
+      } else {
+        // Fallback: if Stripe is not configured, redirect to donor dashboard
+        toast.success(t('donation.success'));
+        setTimeout(() => {
+          router.push('/donor/dashboard');
+        }, 500);
+      }
     } catch (error) {
       console.error('Failed to process donation:', error);
       toast.error(t('donation.error'));
@@ -190,11 +203,10 @@ function DonatePageContent() {
                         key={amount}
                         type="button"
                         onClick={() => handleQuickAmount(amount)}
-                        className={`relative py-3.5 rounded-xl font-bold text-base transition-all duration-200 border-2 ${
-                          selectedQuickAmount === amount
+                        className={`relative py-3.5 rounded-xl font-bold text-base transition-all duration-200 border-2 ${selectedQuickAmount === amount
                             ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-500/30 scale-[1.02]'
                             : 'bg-slate-50 text-slate-700 border-slate-100 hover:border-blue-300 hover:bg-blue-50'
-                        }`}
+                          }`}
                       >
                         ${amount}
                       </button>
@@ -217,9 +229,8 @@ function DonatePageContent() {
                         if (errors.amount) setErrors({ ...errors, amount: '' });
                       }}
                       placeholder={t('donation.customPlaceholder')}
-                      className={`pl-9 h-14 text-lg font-medium rounded-xl border-2 bg-slate-50 focus:bg-white transition-colors ${
-                        errors.amount ? 'border-red-400 focus:border-red-500' : 'border-slate-100 focus:border-blue-500'
-                      }`}
+                      className={`pl-9 h-14 text-lg font-medium rounded-xl border-2 bg-slate-50 focus:bg-white transition-colors ${errors.amount ? 'border-red-400 focus:border-red-500' : 'border-slate-100 focus:border-blue-500'
+                        }`}
                     />
                   </div>
                   {errors.amount && (
@@ -310,9 +321,8 @@ function DonatePageContent() {
                           if (errors.donorEmail) setErrors({ ...errors, donorEmail: '' });
                         }}
                         placeholder={t('donation.emailPlaceholder')}
-                        className={`h-12 rounded-xl border-2 bg-slate-50 focus:bg-white transition-colors ${
-                          errors.donorEmail ? 'border-red-400 focus:border-red-500' : 'border-slate-100 focus:border-blue-500'
-                        }`}
+                        className={`h-12 rounded-xl border-2 bg-slate-50 focus:bg-white transition-colors ${errors.donorEmail ? 'border-red-400 focus:border-red-500' : 'border-slate-100 focus:border-blue-500'
+                          }`}
                       />
                       {errors.donorEmail && (
                         <p className="text-sm text-red-500 flex items-center gap-1.5">

@@ -5,6 +5,7 @@ import { errorResponse, getStatusCode } from '@/lib/api-error';
 import { campaignCreateSchema } from '@/lib/validators/campaign';
 import crypto from 'crypto';
 import { ObjectId } from 'mongodb';
+import { logger } from '@/lib/logger';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -58,10 +59,9 @@ export async function GET(request: NextRequest) {
     }
 
     if (search) {
-      query.$or = [
-        { title: { $regex: search, $options: 'i' } },
-        { story: { $regex: search, $options: 'i' } },
-      ];
+      // Use MongoDB $text search (leverages existing text index on title+story)
+      // This is both safer (no regex injection/ReDoS) and more performant
+      query.$text = { $search: search };
     }
 
     // Get campaigns with pagination
@@ -79,7 +79,7 @@ export async function GET(request: NextRequest) {
     total = await db.collection('campaigns').countDocuments(query);
 
     // Debug: log how many campaigns were found
-    console.log(`[Campaigns GET] Found ${campaigns.length} campaigns, total=${total}`);
+    logger.info(`[Campaigns GET] Found ${campaigns.length} campaigns, total=${total}`);
 
     // Collect unique owner IDs (canonical NextAuth user.id)
     const ownerIds = [...new Set(campaigns.map((c: any) => c.owner_id).filter(Boolean))];
@@ -118,7 +118,7 @@ export async function GET(request: NextRequest) {
       ]);
     }
 
-    console.log(`[Campaigns GET] Found ${users.length} users, ${studentProfiles.length} profiles for ${ownerIds.length} owner IDs`);
+    logger.info(`[Campaigns GET] Found ${users.length} users, ${studentProfiles.length} profiles for ${ownerIds.length} owner IDs`);
 
     // Build maps for O(1) lookup
     // Handle both ObjectId and string ID matching

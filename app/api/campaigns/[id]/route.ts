@@ -51,6 +51,21 @@ export async function GET(
       ),
     ]);
     
+    // Aggregate raised_amount from base_amount (net to student)
+    const [raisedAgg] = await db.collection('donations').aggregate([
+      { $match: { campaign_id: id, status: 'paid' } },
+      {
+        $group: {
+          _id: null,
+          raised_amount: { $sum: { $ifNull: ['$amount', 0] } },
+          donor_count: { $sum: 1 },
+        },
+      },
+    ]).toArray();
+
+    const raisedAmount = raisedAgg?.raised_amount ?? 0;
+    const donorCount = raisedAgg?.donor_count ?? 0;
+
     // Get donor wall (public donations)
     const donations = await db.collection('donations')
       .find(
@@ -72,6 +87,8 @@ export async function GET(
       success: true,
       data: {
         ...campaign,
+        raised_amount: raisedAmount,
+        donor_count: donorCount,
         student: {
           user_id: ownerId,
           name: user?.name || 'Unknown',

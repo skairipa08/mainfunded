@@ -761,6 +761,13 @@
         "submitError": "Error al enviar la verificación. Por favor intenta de nuevo.",
         "selectedFiles": "Archivos seleccionados"
     },
+    "campaignCard": {
+        "approved": "Aprobado",
+        "raised": "{amount} recaudados",
+        "goal": "Meta {amount}",
+        "donorCount": "{count} donantes",
+        "funded": "{percent}% financiado"
+    },
     "campaign": {
         "createCampaign": "Crear campaña",
         "editCampaign": "Editar campaña",
@@ -776,7 +783,45 @@
         "verified": "Estudiante verificado",
         "category": "Categoría",
         "createdAt": "Creado el",
-        "endDate": "Fecha de fin"
+        "endDate": "Fecha de fin",
+        "notFound": "Campaign not found",
+        "browseCampaigns": "Browse Campaigns",
+        "loading": "Loading campaign...",
+        "raisedOf": "{raised} raised of {goal}",
+        "donationCount": "{count} donations",
+        "justDonated": "{count} people just donated",
+        "seeAll": "See all",
+        "topDonors": "Top donors",
+        "beTopDonor": "Be a top donor for {name} with {amount} or more.",
+        "topDonation": "Top donation",
+        "supportCtaTitle": "Do you want to support?",
+        "supportCtaDesc": "You can support securely from the donation page.",
+        "back": "Back",
+        "donationProtected": "Donation protected",
+        "campaignStudent": "Campaign Student",
+        "createdOn": "Created {date}",
+        "education": "Education",
+        "supportTitle": "Support {name}'s education",
+        "shareSuccess": "Link copied to clipboard!",
+        "shareError": "Could not copy link",
+        "copyLink": "Copy Link",
+        "verifyingPayment": "Verifying your payment...",
+        "pleaseWait": "Please wait",
+        "paymentError": "Payment could not be processed. Please try again.",
+        "enterValidAmount": "Please enter a valid donation amount",
+        "eachGift": "Each gift brings hope — together, we create change.",
+        "donations": "Donations",
+        "noDonationsYet": "No donations yet. Be the first to support!",
+        "studentVerification": "Student Verification",
+        "videos": "Videos",
+        "verificationLabels": {
+            "id": "Identity Verification",
+            "school_email": "School Email Verification",
+            "transcript": "Transcript Verification",
+            "approved": "Approved",
+            "rejected": "Rejected",
+            "pending": "Pending"
+        }
     },
     "donation": {
         "title": "Hacer una donación",
@@ -830,6 +875,38 @@
         "equalityCampaign": "Campaña por la igualdad educativa",
         "equalityDesc": "Explora nuestra campaña para apoyar a niños de todo el mundo que no pueden acceder a la educación.",
         "viewCampaign": "Ver campaña"
+    },
+    "donationForm": {
+        "oneTime": "One-Time",
+        "oneTimeDesc": "A single donation",
+        "recurring": "Recurring",
+        "recurringDesc": "Regular support",
+        "recommended": "Recommended",
+        "frequency": "Donation Frequency",
+        "monthly": "Monthly",
+        "quarterly": "Quarterly",
+        "yearly": "Yearly",
+        "amount": "Donation Amount",
+        "customAmount": "Custom amount",
+        "matchingGift": "Matching Gift",
+        "matchingDesc": "{partner} will multiply your donation {multiplier}x!",
+        "joinMatching": "Join matching program",
+        "totalImpact": "Total Impact",
+        "donateAnonymously": "Donate anonymously",
+        "yourName": "Your name (optional)",
+        "namePlaceholder": "Your Full Name",
+        "email": "Email *",
+        "emailPlaceholder": "example@email.com",
+        "message": "Message (optional)",
+        "messagePlaceholder": "Leave a message for the student...",
+        "summaryAmount": "Donation Amount",
+        "matchingBonus": "Matching Bonus",
+        "frequencySummary": "Frequency",
+        "everyMonth": "Every Month",
+        "every3Months": "Every 3 Months",
+        "submitRecurring": "Start Monthly Donation",
+        "submitOneTime": "Donate Now",
+        "securePayment": "Your payment will be processed securely via Stripe."
     },
     "dashboard": {
         "title": "Panel de control",
@@ -2226,7 +2303,13 @@
         "step3Title": "Recibe apoyo",
         "step3Desc": "Conecta con donantes que quieren ayudar.",
         "trustTitle": "Proceso seguro y transparente",
-        "trustDesc": "Todas las solicitudes son revisadas por nuestro equipo. Tu información personal se mantiene segura."
+        "trustDesc": "Todas las solicitudes son revisadas por nuestro equipo. Tu información personal se mantiene segura.",
+        "parentTitle": "Aplicar como padre",
+        "parentDescription": "Si su hijo (menor de 18) necesita apoyo educativo, aplique en su nombre.",
+        "parentFeature1": "Para niños menores de 18",
+        "parentFeature2": "Verificación de padre e hijo",
+        "parentFeature3": "Verificación de boletín y escuela",
+        "parentCta": "Aplicar como padre"
     },
     "applyTeacher": {
         "badge": "Formulario de solicitud para profesores",
@@ -2328,6 +2411,160 @@
             "dropText": "Arrastra y suelta tus fotos aquí, o",
             "selectBtn": "Seleccionar fotos",
             "maxCount": "Hasta 5 fotos"
+        }
+    },
+    "applyParent": {
+        "badge": "Solicitud de padre",
+        "heroTitle": "Aplique en nombre de su hijo",
+        "heroHighlight": "Para un futuro mejor",
+        "heroDesc": "Como padre o tutor, puede solicitar apoyo educativo para su hijo menor de 18 años.",
+        "steps": {
+            "step1": "Info padre",
+            "step2": "Info hijo",
+            "step3": "Verificación",
+            "step4": "Historia y medios",
+            "step5": "Revisión"
+        },
+        "step1": {
+            "title": "Información del padre",
+            "subtitle": "Ingrese sus datos"
+        },
+        "step2": {
+            "title": "Información del hijo",
+            "subtitle": "Ingrese los datos de su hijo"
+        },
+        "step3": {
+            "title": "Documentos de verificación",
+            "subtitle": "Suba documentos para verificar"
+        },
+        "step4": {
+            "title": "Historia y medios",
+            "subtitle": "Cuente la historia de su hijo"
+        },
+        "step5": {
+            "title": "Revisar y enviar",
+            "subtitle": "Revise su solicitud"
+        },
+        "labels": {
+            "parentFullName": "Nombre completo",
+            "email": "Correo electrónico",
+            "phone": "Teléfono (Opcional)",
+            "country": "País",
+            "relation": "Relación con el hijo",
+            "childName": "Nombre del hijo",
+            "childDob": "Fecha de nacimiento",
+            "age": "Edad",
+            "gender": "Género",
+            "studentId": "ID estudiante (Opcional)",
+            "schoolName": "Nombre de la escuela",
+            "schoolCity": "Ciudad",
+            "grade": "Grado / Nivel",
+            "parentId": "ID del padre",
+            "childId": "ID del hijo",
+            "reportCard": "Boletín",
+            "enrollment": "Inscripción (Opcional)",
+            "story": "Historia de su hijo",
+            "targetAmount": "Monto objetivo",
+            "photos": "Fotos (Opcional)",
+            "video": "Video (Opcional)"
+        },
+        "placeholders": {
+            "parentFullName": "ej. María García",
+            "email": "ej. padre@email.com",
+            "country": "ej. España",
+            "selectRelation": "Seleccionar...",
+            "childName": "ej. Carlos García",
+            "selectGender": "Seleccionar...",
+            "studentId": "ej. 123456",
+            "schoolName": "ej. Escuela Primaria",
+            "schoolCity": "ej. Madrid",
+            "grade": "ej. 5° Grado",
+            "story": "Describa las necesidades educativas de su hijo...",
+            "targetAmount": "ej. 5000"
+        },
+        "options": {
+            "mother": "Madre",
+            "father": "Padre",
+            "guardian": "Tutor legal",
+            "male": "Masculino",
+            "female": "Femenino",
+            "other": "Otro"
+        },
+        "hints": {
+            "parentId": "Suba un escaneo de su documento.",
+            "childId": "Suba el documento o acta de nacimiento.",
+            "reportCard": "Suba el último boletín.",
+            "enrollment": "Suba la prueba de inscripción.",
+            "childAgeNote": "Para niños menores de 18 años."
+        },
+        "uploadClick": "Haga clic o arrastre y suelte",
+        "validation": {
+            "parentFullName": "Nombre obligatorio",
+            "email": "Correo obligatorio",
+            "invalidEmail": "Correo inválido",
+            "country": "País obligatorio",
+            "relation": "Relación obligatoria",
+            "parentId": "ID del padre obligatorio",
+            "childName": "Nombre del hijo obligatorio",
+            "childDob": "Fecha obligatoria",
+            "childAge": "Menor de 18",
+            "schoolName": "Escuela obligatoria",
+            "schoolCity": "Ciudad obligatoria",
+            "grade": "Grado obligatorio",
+            "childId": "ID del hijo obligatorio",
+            "reportCard": "Boletín obligatorio",
+            "story": "Historia obligatoria",
+            "storyMin": "Mínimo {{min}} caracteres",
+            "targetAmount": "Monto obligatorio"
+        },
+        "tips": {
+            "title": "Consejos:",
+            "tip1": "Describa las necesidades",
+            "tip2": "Explique el uso de los fondos",
+            "tip3": "Comparta lo que hace única la situación"
+        },
+        "docTips": {
+            "title": "Importante:",
+            "tip1": "Documentos legibles",
+            "tip2": "Información cifrada",
+            "tip3": "Solo para verificación"
+        },
+        "photos": {
+            "dropText": "Arrastre fotos aquí, o",
+            "selectBtn": "Seleccionar fotos",
+            "maxCount": "Hasta 5 fotos"
+        },
+        "video": {
+            "selectBtn": "Subir un video"
+        },
+        "review": {
+            "parentInfo": "Info padre",
+            "childInfo": "Info hijo",
+            "documents": "Documentos",
+            "storyMedia": "Historia y medios",
+            "files": "archivo(s)",
+            "photos": "foto(s)",
+            "videos": "video(s)",
+            "yearsOld": "años"
+        },
+        "prev": "Anterior",
+        "next": "Siguiente",
+        "back": "Atrás",
+        "submit": "Enviar solicitud",
+        "submitting": "Enviando...",
+        "submitSuccess": "¡Solicitud enviada!",
+        "submitError": "Error al enviar.",
+        "successTitle": "¡Solicitud enviada!",
+        "successDesc": "¡Gracias! Revisaremos su solicitud en 48 horas.",
+        "backToHome": "Volver al inicio",
+        "sidebar": {
+            "title": "Proceso de verificación",
+            "point1": "Identidades verificadas",
+            "point2": "Inscripción confirmada",
+            "point3": "Datos cifrados",
+            "point4": "Revisión en 48 horas",
+            "bannerTitle": "Campañas infantiles",
+            "bannerDesc": "¡Las campañas de padres ayudan a niños menores de 18!"
         }
     }
 }

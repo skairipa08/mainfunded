@@ -61,21 +61,26 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
     // Load saved locale on mount
     useEffect(() => {
+        let detected: Locale = 'en';
         const savedLocale = localStorage.getItem(LOCALE_STORAGE_KEY) as Locale;
         const validLocales: Locale[] = ['en', 'tr', 'de', 'ar', 'zh', 'ru', 'fr', 'es'];
         if (savedLocale && validLocales.includes(savedLocale)) {
-            setLocaleState(savedLocale);
+            detected = savedLocale;
         } else {
             // Detect browser language
             const browserLang = navigator.language.toLowerCase();
-            if (browserLang.startsWith('tr')) setLocaleState('tr');
-            else if (browserLang.startsWith('de')) setLocaleState('de');
-            else if (browserLang.startsWith('ar')) setLocaleState('ar');
-            else if (browserLang.startsWith('zh')) setLocaleState('zh');
-            else if (browserLang.startsWith('ru')) setLocaleState('ru');
-            else if (browserLang.startsWith('fr')) setLocaleState('fr');
-            else if (browserLang.startsWith('es')) setLocaleState('es');
+            if (browserLang.startsWith('tr')) detected = 'tr';
+            else if (browserLang.startsWith('de')) detected = 'de';
+            else if (browserLang.startsWith('ar')) detected = 'ar';
+            else if (browserLang.startsWith('zh')) detected = 'zh';
+            else if (browserLang.startsWith('ru')) detected = 'ru';
+            else if (browserLang.startsWith('fr')) detected = 'fr';
+            else if (browserLang.startsWith('es')) detected = 'es';
         }
+        setLocaleState(detected);
+        // Sync HTML attributes so lang="en" from the server is corrected
+        document.documentElement.lang = detected;
+        document.documentElement.dir = detected === 'ar' ? 'rtl' : 'ltr';
         setMounted(true);
     }, []);
 

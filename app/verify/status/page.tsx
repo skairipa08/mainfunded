@@ -73,7 +73,7 @@ function VerifyStatusPageContent() {
 
     useEffect(() => {
         if (authStatus === 'unauthenticated') {
-            router.push('/login?callbackUrl=/verify/status');
+            router.replace('/login?callbackUrl=/verify/status');
             return;
         }
 

@@ -18,6 +18,7 @@ import {
     updateStripeEventStatus
 } from '@/lib/verification/db';
 import { sendEmail } from '@/lib/email';
+import { logger } from '@/lib/logger';
 
 const stripe = new Stripe(process.env.STRIPE_API_KEY || '', {
     apiVersion: '2023-10-16',
@@ -62,7 +63,7 @@ async function handleCheckoutSessionCompleted(
 
     // Create donation record
     const donation = {
-        donation_id: `donation_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        donation_id: `donation_${require('crypto').randomBytes(12).toString('hex')}`,
         campaign_id: transaction.campaign_id,
         donor_id: transaction.donor_id || null,
         donor_name: transaction.donor_name,
@@ -127,7 +128,7 @@ async function handleChargeDisputeCreated(
 ): Promise<void> {
     // Get the charge to find the payment intent
     const chargeId = dispute.charge as string;
-    
+
     // Find the donation associated with this charge
     const donation = await db.collection('donations').findOne({
         stripe_payment_intent_id: dispute.payment_intent as string
@@ -163,7 +164,7 @@ async function handleChargeDisputeCreated(
         }
     );
 
-    console.log(`[Webhook] Dispute ${dispute.id}: ${result.modifiedCount} payouts paused for user ${userId}`);
+    logger.info(`[Webhook] Dispute ${dispute.id}: ${result.modifiedCount} payouts paused for user ${userId}`);
 
     // Alert admins
     await alertAdmins({
@@ -229,52 +230,23 @@ async function handlePayoutFailed(
 
 /**
  * Process payment_intent.succeeded event
+ * 
+ * NOTE: checkout.session.completed is the PRIMARY handler that creates
+ * donation records and updates campaign counters. This handler only
+ * updates the payment_transactions status as a safety net.
+ * This prevents double-counting if both events fire for the same payment.
  */
 async function handlePaymentIntentSucceeded(
     db: any,
     paymentIntent: Stripe.PaymentIntent
 ): Promise<void> {
-    // Check if already processed
-    const existingDonation = await db.collection('donations').findOne({
-        stripe_payment_intent_id: paymentIntent.id
-    });
-
-    if (existingDonation) {
-        return; // Already processed
-    }
-
-    // Find transaction by payment intent
-    const transaction = await db.collection('payment_transactions').findOne({
-        stripe_payment_intent_id: paymentIntent.id
-    });
-
-    if (!transaction) {
-        // Payment intent might be from a different flow, log but don't error
-        console.log(`[Webhook] Payment intent ${paymentIntent.id} succeeded but no transaction found`);
-        return;
-    }
-
-    // Create donation if not exists
-    const donation = {
-        donation_id: `donation_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
-        campaign_id: transaction.campaign_id,
-        donor_id: transaction.donor_id || null,
-        donor_name: transaction.donor_name,
-        donor_email: transaction.donor_email || null,
-        anonymous: transaction.anonymous || false,
-        amount: transaction.amount,
-        currency: transaction.currency || 'usd',
-        stripe_session_id: transaction.session_id || null,
-        stripe_payment_intent_id: paymentIntent.id,
-        status: 'paid',
-        created_at: new Date().toISOString(),
-    };
-
-    await db.collection('donations').insertOne(donation);
-
-    // Update transaction
-    await db.collection('payment_transactions').updateOne(
-        { stripe_payment_intent_id: paymentIntent.id },
+    // Only update the transaction record — do NOT create donations here.
+    // The checkout.session.completed handler is responsible for that.
+    const result = await db.collection('payment_transactions').updateOne(
+        {
+            stripe_payment_intent_id: paymentIntent.id,
+            payment_status: { $ne: 'paid' }, // Only if not already marked paid
+        },
         {
             $set: {
                 payment_status: 'paid',
@@ -283,19 +255,10 @@ async function handlePaymentIntentSucceeded(
         }
     );
 
-    // Update campaign
-    await db.collection('campaigns').updateOne(
-        { campaign_id: transaction.campaign_id },
-        {
-            $inc: {
-                raised_amount: transaction.amount,
-                donor_count: 1,
-            },
-            $set: {
-                updated_at: new Date().toISOString(),
-            },
-        }
-    );
+    if (result.matchedCount === 0) {
+        // Either already paid (by checkout.session.completed) or not found
+        logger.info(`[Webhook] payment_intent.succeeded ${paymentIntent.id}: no pending transaction found (likely already processed)`);
+    }
 }
 
 /**
@@ -365,7 +328,7 @@ async function processEvent(event: Stripe.Event): Promise<void> {
 
             default:
                 // Unknown event type - log but don't error
-                console.log(`[Webhook] Unhandled event type: ${event.type}`);
+                logger.info(`[Webhook] Unhandled event type: ${event.type}`);
         }
 
         // Mark as processed
@@ -429,7 +392,7 @@ export async function POST(request: NextRequest) {
         // 4. Check idempotency
         const alreadyProcessed = await isStripeEventProcessed(event.id);
         if (alreadyProcessed) {
-            console.log(`[Webhook] Event ${event.id} already processed, skipping`);
+            logger.info(`[Webhook] Event ${event.id} already processed, skipping`);
             return NextResponse.json({ received: true }, { status: 200 });
         }
 
@@ -440,12 +403,16 @@ export async function POST(request: NextRequest) {
             event.data.object as Record<string, any>
         );
 
-        // 6. Return 200 immediately, process async
-        // Process in background (don't await)
-        processEvent(event).catch(error => {
-            console.error(`[Webhook] Async processing failed for ${event.id}:`, error);
-            // Event status already updated in processEvent
-        });
+        // 6. Process event synchronously before returning
+        // In serverless (Vercel), the container is killed after response,
+        // so fire-and-forget would lose the processing.
+        try {
+            await processEvent(event);
+        } catch (error) {
+            // Event status already updated to FAILED inside processEvent.
+            // We still return 200 so Stripe doesn't retry endlessly.
+            console.error(`[Webhook] Processing failed for ${event.id}:`, error);
+        }
 
         return NextResponse.json({ received: true }, { status: 200 });
     } catch (error: any) {

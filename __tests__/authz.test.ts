@@ -23,7 +23,7 @@ describe('Authz Helpers', () => {
 
   describe('getSessionUser', () => {
     it('returns null when no session', async () => {
-      vi.mocked(auth).mockResolvedValue(null);
+      vi.mocked(auth).mockResolvedValue(null as any);
       const user = await getSessionUser();
       expect(user).toBeNull();
     });
@@ -37,7 +37,7 @@ describe('Authz Helpers', () => {
           role: 'user',
         },
       } as any);
-      
+
       const user = await getSessionUser();
       expect(user).toEqual({
         id: '507f1f77bcf86cd799439011',
@@ -50,7 +50,7 @@ describe('Authz Helpers', () => {
 
   describe('requireUser', () => {
     it('throws error when no session', async () => {
-      vi.mocked(auth).mockResolvedValue(null);
+      vi.mocked(auth).mockResolvedValue(null as any);
       await expect(requireUser()).rejects.toThrow('Unauthorized');
     });
 
@@ -63,7 +63,7 @@ describe('Authz Helpers', () => {
           role: 'user',
         },
       } as any);
-      
+
       const user = await requireUser();
       expect(user).toBeDefined();
       expect(user.id).toBe('507f1f77bcf86cd799439011');
@@ -80,7 +80,7 @@ describe('Authz Helpers', () => {
           role: 'user',
         },
       } as any);
-      
+
       await expect(requireRole(['admin'])).rejects.toMatchObject({
         statusCode: 403,
         message: 'Insufficient permissions',
@@ -96,7 +96,7 @@ describe('Authz Helpers', () => {
           role: 'admin',
         },
       } as any);
-      
+
       const user = await requireRole(['admin']);
       expect(user.role).toBe('admin');
     });
@@ -112,7 +112,7 @@ describe('Authz Helpers', () => {
           role: 'user',
         },
       } as any);
-      
+
       await expect(requireAdmin()).rejects.toMatchObject({
         statusCode: 403,
         message: 'Insufficient permissions',
@@ -128,7 +128,7 @@ describe('Authz Helpers', () => {
           role: 'admin',
         },
       } as any);
-      
+
       const user = await requireAdmin();
       expect(user.role).toBe('admin');
     });
@@ -144,7 +144,7 @@ describe('Authz Helpers', () => {
           role: 'admin',
         },
       } as any);
-      
+
       const result = await requireVerifiedStudent();
       expect(result.role).toBe('admin');
       expect(result.studentProfile).toBeNull();
@@ -159,13 +159,13 @@ describe('Authz Helpers', () => {
           role: 'user',
         },
       } as any);
-      
+
       const { getDb } = await import('../lib/db');
       const db = await getDb();
       vi.mocked(db.collection).mockReturnValue({
         findOne: vi.fn().mockResolvedValue(null),
       } as any);
-      
+
       await expect(requireVerifiedStudent()).rejects.toThrow('STUDENT_PROFILE_NOT_FOUND');
     });
 
@@ -178,7 +178,7 @@ describe('Authz Helpers', () => {
           role: 'user',
         },
       } as any);
-      
+
       const { getDb } = await import('../lib/db');
       const db = await getDb();
       vi.mocked(db.collection).mockReturnValue({
@@ -187,7 +187,7 @@ describe('Authz Helpers', () => {
           verificationStatus: 'pending',
         }),
       } as any);
-      
+
       await expect(requireVerifiedStudent()).rejects.toThrow('STUDENT_NOT_VERIFIED');
     });
 
@@ -200,7 +200,7 @@ describe('Authz Helpers', () => {
           role: 'user',
         },
       } as any);
-      
+
       const { getDb } = await import('../lib/db');
       const db = await getDb();
       vi.mocked(db.collection).mockReturnValue({
@@ -214,7 +214,7 @@ describe('Authz Helpers', () => {
           updatedAt: new Date().toISOString(),
         }),
       } as any);
-      
+
       const result = await requireVerifiedStudent();
       expect(result.studentProfile.verificationStatus).toBe('verified');
       expect(result.studentProfile.user_id).toBe('507f1f77bcf86cd799439011');

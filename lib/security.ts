@@ -3,85 +3,8 @@
  * Provides security features including rate limiting, input sanitization, and CSRF protection
  */
 
-// Simple in-memory rate limiter
-interface RateLimitEntry {
-    count: number;
-    resetTime: number;
-}
-
-const rateLimitStore = new Map<string, RateLimitEntry>();
-
-/**
- * Rate limiter configuration
- */
-interface RateLimitConfig {
-    windowMs: number;      // Time window in milliseconds
-    maxRequests: number;   // Maximum requests per window
-}
-
-/**
- * Check if a request should be rate limited
- * @param identifier - Unique identifier (e.g., IP address, user ID)
- * @param config - Rate limit configuration
- * @returns Object with allowed status and remaining requests
- */
-export function checkRateLimit(
-    identifier: string,
-    config: RateLimitConfig = { windowMs: 60000, maxRequests: 100 }
-): { allowed: boolean; remaining: number; resetIn: number } {
-    const now = Date.now();
-    const entry = rateLimitStore.get(identifier);
-
-    // Clean up expired entries periodically
-    if (Math.random() < 0.01) {
-        cleanupExpiredEntries();
-    }
-
-    if (!entry || now > entry.resetTime) {
-        // New window
-        rateLimitStore.set(identifier, {
-            count: 1,
-            resetTime: now + config.windowMs,
-        });
-        return { allowed: true, remaining: config.maxRequests - 1, resetIn: config.windowMs };
-    }
-
-    if (entry.count >= config.maxRequests) {
-        return { allowed: false, remaining: 0, resetIn: entry.resetTime - now };
-    }
-
-    entry.count++;
-    return { allowed: true, remaining: config.maxRequests - entry.count, resetIn: entry.resetTime - now };
-}
-
-function cleanupExpiredEntries() {
-    const now = Date.now();
-    for (const [key, entry] of rateLimitStore.entries()) {
-        if (now > entry.resetTime) {
-            rateLimitStore.delete(key);
-        }
-    }
-}
-
-/**
- * Predefined rate limit configurations
- */
-export const RateLimits = {
-    // Authentication endpoints - stricter limits
-    auth: { windowMs: 15 * 60 * 1000, maxRequests: 5 }, // 5 per 15 min
-
-    // API endpoints - moderate limits
-    api: { windowMs: 60 * 1000, maxRequests: 60 }, // 60 per minute
-
-    // Form submissions - moderate limits
-    form: { windowMs: 60 * 1000, maxRequests: 10 }, // 10 per minute
-
-    // Search/browse - generous limits
-    search: { windowMs: 60 * 1000, maxRequests: 100 }, // 100 per minute
-
-    // File uploads - strict limits
-    upload: { windowMs: 60 * 60 * 1000, maxRequests: 20 }, // 20 per hour
-};
+// Rate limiting has been consolidated into ./rate-limit.ts
+// Import { checkRateLimit, withRateLimit, RATE_LIMITS } from '@/lib/rate-limit'
 
 /**
  * Sanitize user input to prevent XSS
@@ -280,12 +203,19 @@ export function maskSensitiveData(data: Record<string, any>): Record<string, any
 export function secureCompare(a: string, b: string): boolean {
     if (a.length !== b.length) return false;
 
-    let result = 0;
-    for (let i = 0; i < a.length; i++) {
-        result |= a.charCodeAt(i) ^ b.charCodeAt(i);
+    try {
+        const bufA = Buffer.from(a, 'utf-8');
+        const bufB = Buffer.from(b, 'utf-8');
+        const { timingSafeEqual } = require('crypto');
+        return timingSafeEqual(bufA, bufB);
+    } catch {
+        // Fallback for environments without crypto (should not happen on Node)
+        let result = 0;
+        for (let i = 0; i < a.length; i++) {
+            result |= a.charCodeAt(i) ^ b.charCodeAt(i);
+        }
+        return result === 0;
     }
-
-    return result === 0;
 }
 
 /**

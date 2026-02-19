@@ -116,7 +116,7 @@ function DonationDetailContent() {
 
   useEffect(() => {
     if (status === 'unauthenticated') {
-      router.push('/login?callbackUrl=/my-donations');
+      router.replace('/login?callbackUrl=/my-donations');
     }
   }, [status, router]);
 
@@ -124,7 +124,7 @@ function DonationDetailContent() {
     if (status === 'authenticated' && donationId) {
       fetchDonationDetail();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status, donationId]);
 
   async function fetchDonationDetail() {
@@ -433,22 +433,20 @@ function DonationDetailContent() {
           <div className="flex border-b border-gray-200 bg-white rounded-t-xl overflow-hidden">
             <button
               onClick={() => setActiveTab('overview')}
-              className={`flex-1 px-6 py-3.5 text-center text-sm font-medium transition-colors ${
-                activeTab === 'overview'
+              className={`flex-1 px-6 py-3.5 text-center text-sm font-medium transition-colors ${activeTab === 'overview'
                   ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/50'
                   : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
-              }`}
+                }`}
             >
               <DollarSign className="h-4 w-4 inline mr-2" />
               {t('myDonationsPage.detail.overview')}
             </button>
             <button
               onClick={() => setActiveTab('updates')}
-              className={`flex-1 px-6 py-3.5 text-center text-sm font-medium transition-colors ${
-                activeTab === 'updates'
+              className={`flex-1 px-6 py-3.5 text-center text-sm font-medium transition-colors ${activeTab === 'updates'
                   ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/50'
                   : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
-              }`}
+                }`}
             >
               <FileText className="h-4 w-4 inline mr-2" />
               {t('myDonationsPage.detail.studentUpdates')}
@@ -460,11 +458,10 @@ function DonationDetailContent() {
             </button>
             <button
               onClick={() => setActiveTab('messages')}
-              className={`flex-1 px-6 py-3.5 text-center text-sm font-medium transition-colors ${
-                activeTab === 'messages'
+              className={`flex-1 px-6 py-3.5 text-center text-sm font-medium transition-colors ${activeTab === 'messages'
                   ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/50'
                   : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
-              }`}
+                }`}
             >
               <MessageSquare className="h-4 w-4 inline mr-2" />
               {t('myDonationsPage.detail.messages')}
@@ -724,11 +721,10 @@ function DonationDetailContent() {
                     <div key={index} className="p-6 hover:bg-gray-50/50 transition-colors">
                       <div className="flex items-start gap-4">
                         <div className="flex-shrink-0 mt-1">
-                          <div className={`p-2 rounded-full ${
-                            update.type === 'grade' ? 'bg-green-100' :
-                            update.type === 'thank_you' ? 'bg-pink-100' :
-                            'bg-blue-100'
-                          }`}>
+                          <div className={`p-2 rounded-full ${update.type === 'grade' ? 'bg-green-100' :
+                              update.type === 'thank_you' ? 'bg-pink-100' :
+                                'bg-blue-100'
+                            }`}>
                             {update.type === 'grade' ? (
                               <Award className="h-4 w-4 text-green-600" />
                             ) : update.type === 'thank_you' ? (
@@ -799,11 +795,10 @@ function DonationDetailContent() {
                         className={`flex ${isOwn ? 'justify-end' : 'justify-start'}`}
                       >
                         <div
-                          className={`max-w-[75%] rounded-2xl px-4 py-3 ${
-                            isOwn
+                          className={`max-w-[75%] rounded-2xl px-4 py-3 ${isOwn
                               ? 'bg-blue-600 text-white rounded-br-md'
                               : 'bg-gray-100 text-gray-900 rounded-bl-md'
-                          }`}
+                            }`}
                         >
                           <p className="text-sm">{msg.content}</p>
                           <p className={`text-xs mt-1 ${isOwn ? 'text-blue-200' : 'text-gray-400'}`}>

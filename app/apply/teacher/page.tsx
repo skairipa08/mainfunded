@@ -285,11 +285,33 @@ export default function TeacherApplyPage() {
         setSubmitted(true);
 
         try {
-            // For now, simulate submission (same API can be extended)
-            await new Promise((resolve) => setTimeout(resolve, 2000));
+            const documentNames = documents.map((d) => d.name);
+            const response = await fetch('/api/ops/applications', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    type: 'teacher',
+                    fullName: sanitizeInput(formData.fullName),
+                    email: formData.email.trim().toLowerCase(),
+                    country: sanitizeInput(formData.country),
+                    needSummary: sanitizeInput(formData.needSummary),
+                    documents: documentNames,
+                    targetAmount: parseInt(formData.targetAmount) || 0,
+                    schoolName: sanitizeInput(formData.schoolName),
+                    schoolCity: sanitizeInput(formData.schoolCity),
+                    classGrade: formData.classGrade,
+                    subject: sanitizeInput(formData.subject),
+                    studentCount: parseInt(formData.studentCount) || 0,
+                    phone: formData.phone || null,
+                    photoCount: photos.length,
+                }),
+            });
+            const result = await response.json();
+            if (!response.ok || !result.success) throw new Error(result.error || t('applyTeacher.submitError'));
             toast.success(t('applyTeacher.submitSuccess'));
             setTimeout(() => router.push('/'), 1500);
         } catch (error: any) {
+            console.error('Failed to submit teacher application:', error);
             toast.error(error.message || t('applyTeacher.submitError'));
             setSubmitted(false);
         } finally {

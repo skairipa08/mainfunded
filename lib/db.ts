@@ -85,6 +85,9 @@ export async function createIndexes() {
     await db.collection('audit_logs').createIndex('actor_user_id');
     await db.collection('audit_logs').createIndex('target_type');
     await db.collection('audit_logs').createIndex('target_id');
+    await db.collection('audit_logs').createIndex('action');
+    await db.collection('audit_logs').createIndex('timestamp');
+    await db.collection('audit_logs').createIndex('severity');
 
     // Verification System Indexes
     await db.collection('verifications').createIndex('verification_id', { unique: true });

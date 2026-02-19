@@ -23,7 +23,7 @@ export default function LoginPageContent() {
   // Redirect if already signed in
   useEffect(() => {
     if (status === 'authenticated' && session) {
-      router.push(callbackUrl);
+      router.replace(callbackUrl);
     }
   }, [session, status, router, callbackUrl]);
 

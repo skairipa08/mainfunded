@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
+import { useTranslation } from '@/lib/i18n/context';
 
 interface DonationFormProps {
     studentName?: string;
@@ -52,6 +53,7 @@ export function DonationForm({
     className,
     onSubmit,
 }: DonationFormProps) {
+    const { t } = useTranslation();
     const [donationType, setDonationType] = useState<'one-time' | 'recurring'>('one-time');
     const [amount, setAmount] = useState<number>(100);
     const [customAmount, setCustomAmount] = useState('');
@@ -96,8 +98,8 @@ export function DonationForm({
                     )}
                 >
                     <CreditCard className="h-6 w-6 mx-auto mb-2" />
-                    <p className="font-medium">Tek Seferlik</p>
-                    <p className="text-xs text-gray-500">Bir defalik bagis</p>
+                    <p className="font-medium">{t('donationForm.oneTime')}</p>
+                    <p className="text-xs text-gray-500">{t('donationForm.oneTimeDesc')}</p>
                 </button>
                 <button
                     type="button"
@@ -110,18 +112,18 @@ export function DonationForm({
                     )}
                 >
                     <span className="absolute top-2 right-2 bg-purple-500 text-white text-xs px-2 py-0.5 rounded-full">
-                        Onerilen
+                        {t('donationForm.recommended')}
                     </span>
                     <RefreshCcw className="h-6 w-6 mx-auto mb-2" />
-                    <p className="font-medium">Aylik Bagis</p>
-                    <p className="text-xs text-gray-500">Duzenli destek</p>
+                    <p className="font-medium">{t('donationForm.recurring')}</p>
+                    <p className="text-xs text-gray-500">{t('donationForm.recurringDesc')}</p>
                 </button>
             </div>
 
             {/* Recurring Frequency */}
             {donationType === 'recurring' && (
                 <div className="bg-purple-50 rounded-xl p-4 border border-purple-100">
-                    <Label className="text-purple-700 mb-3 block">Bagis Sikligi</Label>
+                    <Label className="text-purple-700 mb-3 block">{t('donationForm.frequency')}</Label>
                     <div className="flex gap-4">
                         <label className="flex items-center gap-2 cursor-pointer">
                             <input
@@ -132,7 +134,7 @@ export function DonationForm({
                                 onChange={() => setFrequency('monthly')}
                                 className="accent-purple-600"
                             />
-                            <span>Aylik</span>
+                            <span>{t('donationForm.monthly')}</span>
                         </label>
                         <label className="flex items-center gap-2 cursor-pointer">
                             <input
@@ -143,7 +145,7 @@ export function DonationForm({
                                 onChange={() => setFrequency('quarterly')}
                                 className="accent-purple-600"
                             />
-                            <span>3 Ayda Bir</span>
+                            <span>{t('donationForm.quarterly')}</span>
                         </label>
                         <label className="flex items-center gap-2 cursor-pointer">
                             <input
@@ -154,7 +156,7 @@ export function DonationForm({
                                 onChange={() => setFrequency('yearly')}
                                 className="accent-purple-600"
                             />
-                            <span>Yillik</span>
+                            <span>{t('donationForm.yearly')}</span>
                         </label>
                     </div>
                 </div>
@@ -162,7 +164,7 @@ export function DonationForm({
 
             {/* Preset Amounts */}
             <div>
-                <Label className="mb-3 block">Bagis Tutari</Label>
+                <Label className="mb-3 block">{t('donationForm.amount')}</Label>
                 <div className="grid grid-cols-3 gap-2 mb-3">
                     {PRESET_AMOUNTS.map((preset) => (
                         <button
@@ -187,7 +189,7 @@ export function DonationForm({
                     <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
                     <Input
                         type="number"
-                        placeholder="Ozel tutar"
+                        placeholder={t('donationForm.customAmount')}
                         value={customAmount}
                         onChange={(e) => setCustomAmount(e.target.value)}
                         className="pl-7"
@@ -204,26 +206,29 @@ export function DonationForm({
                         </div>
                         <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
-                                <h4 className="font-semibold text-green-800">Matching Gift</h4>
+                                <h4 className="font-semibold text-green-800">{t('donationForm.matchingGift')}</h4>
                                 <span className="bg-green-600 text-white text-xs px-2 py-0.5 rounded-full">
                                     {matchingMultiplier}x
                                 </span>
                             </div>
                             <p className="text-sm text-green-700 mb-3">
-                                {matchingPartner || 'Kurumsal sponsor'} bagisinizi {matchingMultiplier} katina cikariyor!
+                                {t('donationForm.matchingDesc', {
+                                    partner: matchingPartner || 'Corporate sponsor',
+                                    multiplier: String(matchingMultiplier),
+                                })}
                             </p>
                             <label className="flex items-center gap-2 cursor-pointer">
                                 <Checkbox
                                     checked={useMatching}
                                     onCheckedChange={(checked) => setUseMatching(!!checked)}
                                 />
-                                <span className="text-green-700">Matching programina katil</span>
+                                <span className="text-green-700">{t('donationForm.joinMatching')}</span>
                             </label>
                         </div>
                     </div>
                     {useMatching && (
                         <div className="mt-3 pt-3 border-t border-green-200 text-center">
-                            <p className="text-sm text-green-600">Toplam etki:</p>
+                            <p className="text-sm text-green-600">{t('donationForm.totalImpact')}:</p>
                             <p className="text-2xl font-bold text-green-800">
                                 ${matchedAmount.toLocaleString()}
                             </p>
@@ -239,42 +244,42 @@ export function DonationForm({
                         checked={isAnonymous}
                         onCheckedChange={(checked) => setIsAnonymous(!!checked)}
                     />
-                    <span>Anonim olarak bagis yap</span>
+                    <span>{t('donationForm.donateAnonymously')}</span>
                 </div>
 
                 {!isAnonymous && (
                     <div>
-                        <Label htmlFor="donorName">Adiniz (opsiyonel)</Label>
+                        <Label htmlFor="donorName">{t('donationForm.yourName')}</Label>
                         <Input
                             id="donorName"
                             value={donorName}
                             onChange={(e) => setDonorName(e.target.value)}
-                            placeholder="Adiniz Soyadiniz"
+                            placeholder={t('donationForm.namePlaceholder')}
                             className="mt-1"
                         />
                     </div>
                 )}
 
                 <div>
-                    <Label htmlFor="donorEmail">E-posta *</Label>
+                    <Label htmlFor="donorEmail">{t('donationForm.email')}</Label>
                     <Input
                         id="donorEmail"
                         type="email"
                         required
                         value={donorEmail}
                         onChange={(e) => setDonorEmail(e.target.value)}
-                        placeholder="ornek@email.com"
+                        placeholder={t('donationForm.emailPlaceholder')}
                         className="mt-1"
                     />
                 </div>
 
                 <div>
-                    <Label htmlFor="message">Mesaj (opsiyonel)</Label>
+                    <Label htmlFor="message">{t('donationForm.message')}</Label>
                     <textarea
                         id="message"
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
-                        placeholder="Ogrenciye bir mesaj birakin..."
+                        placeholder={t('donationForm.messagePlaceholder')}
                         rows={3}
                         className="mt-1 w-full px-3 py-2 border rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
@@ -284,25 +289,25 @@ export function DonationForm({
             {/* Summary */}
             <div className="bg-gray-50 rounded-xl p-4 space-y-2">
                 <div className="flex justify-between">
-                    <span className="text-gray-600">Bagis Tutari</span>
+                    <span className="text-gray-600">{t('donationForm.summaryAmount')}</span>
                     <span className="font-medium">${effectiveAmount.toLocaleString()}</span>
                 </div>
                 {useMatching && (
                     <div className="flex justify-between text-green-600">
-                        <span>Matching Bonus</span>
+                        <span>{t('donationForm.matchingBonus')}</span>
                         <span>+${((matchingMultiplier - 1) * effectiveAmount).toLocaleString()}</span>
                     </div>
                 )}
                 {donationType === 'recurring' && (
                     <div className="flex justify-between text-purple-600">
-                        <span>Siklik</span>
+                        <span>{t('donationForm.frequencySummary')}</span>
                         <span>
-                            {frequency === 'monthly' ? 'Her Ay' : frequency === 'quarterly' ? '3 Ayda Bir' : 'Yillik'}
+                            {frequency === 'monthly' ? t('donationForm.everyMonth') : frequency === 'quarterly' ? t('donationForm.every3Months') : t('donationForm.yearly')}
                         </span>
                     </div>
                 )}
                 <div className="pt-2 border-t flex justify-between text-lg font-bold">
-                    <span>Toplam Etki</span>
+                    <span>{t('donationForm.totalImpact')}</span>
                     <span className="text-blue-600">${matchedAmount.toLocaleString()}</span>
                 </div>
             </div>
@@ -310,11 +315,11 @@ export function DonationForm({
             {/* Submit */}
             <Button type="submit" size="lg" className="w-full gap-2">
                 <Heart className="h-5 w-5" />
-                {donationType === 'recurring' ? 'Aylik Bagis Baslat' : 'Bagis Yap'}
+                {donationType === 'recurring' ? t('donationForm.submitRecurring') : t('donationForm.submitOneTime')}
             </Button>
 
             <p className="text-xs text-gray-500 text-center">
-                Odemeniz guvenli bir sekilde Stripe uzerinden islenecektir.
+                {t('donationForm.securePayment')}
             </p>
         </form>
     );

@@ -79,7 +79,7 @@ export default function ApplyLandingPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
               {/* STUDENT CARD */}
               <button
                 onClick={() => router.push('/apply/student')}
@@ -159,6 +159,48 @@ export default function ApplyLandingPage() {
 
                   <div className="flex items-center text-blue-600 font-semibold group-hover:gap-3 gap-2 transition-all duration-300">
                     <span>{t('applyLanding.teacherCta')}</span>
+                    <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </button>
+
+              {/* PARENT CARD */}
+              <button
+                onClick={() => router.push('/apply/parent')}
+                className="group relative bg-white rounded-3xl border-2 border-slate-100 hover:border-purple-300 shadow-sm hover:shadow-xl transition-all duration-500 p-8 text-left overflow-hidden"
+              >
+                {/* Gradient glow */}
+                <div className="absolute -top-8 -right-8 w-40 h-40 bg-gradient-to-br from-purple-400/20 to-violet-400/10 rounded-full blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                <div className="relative z-10">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-purple-500 to-violet-600 flex items-center justify-center mb-6 shadow-lg shadow-purple-500/25 group-hover:scale-110 transition-transform duration-300">
+                    <Users className="h-8 w-8 text-white" />
+                  </div>
+
+                  <h3 className="text-2xl font-bold text-slate-900 mb-3 group-hover:text-purple-700 transition-colors">
+                    {t('applyLanding.parentTitle')}
+                  </h3>
+                  <p className="text-slate-500 mb-6 leading-relaxed">
+                    {t('applyLanding.parentDescription')}
+                  </p>
+
+                  <div className="space-y-3 mb-8">
+                    <div className="flex items-center gap-3 text-sm text-slate-600">
+                      <CheckCircle className="h-4 w-4 text-purple-500 flex-shrink-0" />
+                      <span>{t('applyLanding.parentFeature1')}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm text-slate-600">
+                      <CheckCircle className="h-4 w-4 text-purple-500 flex-shrink-0" />
+                      <span>{t('applyLanding.parentFeature2')}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm text-slate-600">
+                      <CheckCircle className="h-4 w-4 text-purple-500 flex-shrink-0" />
+                      <span>{t('applyLanding.parentFeature3')}</span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center text-purple-600 font-semibold group-hover:gap-3 gap-2 transition-all duration-300">
+                    <span>{t('applyLanding.parentCta')}</span>
                     <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>

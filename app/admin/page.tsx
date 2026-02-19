@@ -1,8 +1,12 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
+import { StatCard } from '@/components/ui/StatCard';
+import { Button } from '@/components/ui/button';
+import { toast } from 'sonner';
+import { Users, ShieldAlert, Megaphone, DollarSign, Wallet, FileText } from 'lucide-react';
 
 interface Stats {
   users: { total: number; admins: number };
@@ -17,47 +21,40 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const response = await fetch('/api/admin/stats');
-        if (!response.ok) {
-          throw new Error('Failed to fetch stats');
-        }
-        const data = await response.json();
-        if (data.success) {
-          setStats(data.data);
-        } else {
-          throw new Error(data.error?.message || 'Failed to fetch stats');
-        }
-      } catch (err: any) {
-        setError(err.message || 'Error loading statistics');
-      } finally {
-        setLoading(false);
+  const fetchStats = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const response = await fetch('/api/admin/stats');
+      if (!response.ok) {
+        throw new Error('İstatistikler yüklenemedi');
       }
-    };
-
-    fetchStats();
+      const data = await response.json();
+      if (data.success) {
+        setStats(data.data);
+      } else {
+        throw new Error(data.error?.message || 'İstatistikler yüklenemedi');
+      }
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Hata oluştu';
+      setError(msg);
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
-  if (loading) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-      </div>
-    );
-  }
+  useEffect(() => {
+    fetchStats();
+  }, [fetchStats]);
 
   if (error) {
     return (
-      <div className="bg-red-50 border border-red-200 rounded-md p-4">
-        <p className="text-red-800">{error}</p>
+      <div className="flex flex-col items-center justify-center py-16">
+        <p className="text-red-600 font-medium mb-4">{error}</p>
+        <Button onClick={fetchStats}>Yeniden Dene</Button>
       </div>
     );
-  }
-
-  if (!stats) {
-    return null;
   }
 
   return (
@@ -65,56 +62,53 @@ export default function AdminDashboard() {
       <h2 className="text-3xl font-bold text-gray-900 mb-8">Dashboard</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        {/* Users Card */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-2">Total Users</h3>
-          <p className="text-3xl font-bold text-gray-900">{stats.users.total}</p>
-          <p className="text-sm text-gray-500 mt-1">{stats.users.admins} admins</p>
-        </div>
-
-        {/* Verifications Card */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-2">Pending Verifications</h3>
-          <p className="text-3xl font-bold text-yellow-600">{stats.verifications.pending}</p>
-          <p className="text-sm text-gray-500 mt-1">
-            {stats.verifications.verified} verified, {stats.verifications.rejected} rejected
-          </p>
-        </div>
-
-        {/* Campaigns Card */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-2">Campaigns</h3>
-          <p className="text-3xl font-bold text-gray-900">{stats.campaigns.total}</p>
-          <p className="text-sm text-gray-500 mt-1">
-            {stats.campaigns.published} published, {stats.campaigns.completed} completed
-          </p>
-        </div>
-
-        {/* Donations Card */}
-        <div className="bg-white rounded-lg shadow p-6">
-          <h3 className="text-sm font-medium text-gray-500 mb-2">Total Donations</h3>
-          <p className="text-3xl font-bold text-green-600">
-            ${stats.donations.total_amount.toLocaleString()}
-          </p>
-          <p className="text-sm text-gray-500 mt-1">{stats.donations.total_count} donations</p>
-        </div>
+        <StatCard
+          title="Toplam Kullanıcı"
+          value={stats?.users.total ?? 0}
+          subtitle={`${stats?.users.admins ?? 0} admin`}
+          icon={<Users className="h-5 w-5" />}
+          loading={loading}
+        />
+        <StatCard
+          title="Bekleyen Doğrulamalar"
+          value={stats?.verifications.pending ?? 0}
+          subtitle={`${stats?.verifications.verified ?? 0} doğrulandı, ${stats?.verifications.rejected ?? 0} reddedildi`}
+          icon={<ShieldAlert className="h-5 w-5" />}
+          loading={loading}
+          valueClassName="text-yellow-600"
+        />
+        <StatCard
+          title="Kampanyalar"
+          value={stats?.campaigns.total ?? 0}
+          subtitle={`${stats?.campaigns.published ?? 0} yayında, ${stats?.campaigns.completed ?? 0} tamamlandı`}
+          icon={<Megaphone className="h-5 w-5" />}
+          loading={loading}
+        />
+        <StatCard
+          title="Toplam Bağış"
+          value={`$${(stats?.donations.total_amount ?? 0).toLocaleString()}`}
+          subtitle={`${stats?.donations.total_count ?? 0} bağış`}
+          icon={<DollarSign className="h-5 w-5" />}
+          loading={loading}
+          valueClassName="text-green-600"
+        />
       </div>
 
       {/* Quick Actions */}
       <div className="bg-white rounded-lg shadow p-6">
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
-        <div className="flex gap-4">
-          <Link
-            href="/admin/students"
-            className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
-          >
-            Review Pending Students
+        <h3 className="text-lg font-semibold text-gray-900 mb-4">Hızlı İşlemler</h3>
+        <div className="flex flex-wrap gap-3">
+          <Link href="/admin/students">
+            <Button><Users className="h-4 w-4 mr-2" /> Öğrenci İncele</Button>
           </Link>
-          <Link
-            href="/admin/campaigns"
-            className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-          >
-            View All Campaigns
+          <Link href="/admin/campaigns">
+            <Button variant="outline"><Megaphone className="h-4 w-4 mr-2" /> Kampanyalar</Button>
+          </Link>
+          <Link href="/admin/payouts">
+            <Button variant="outline"><Wallet className="h-4 w-4 mr-2" /> Ödemeler</Button>
+          </Link>
+          <Link href="/admin/audit">
+            <Button variant="outline"><FileText className="h-4 w-4 mr-2" /> Denetim Kayıtları</Button>
           </Link>
         </div>
       </div>

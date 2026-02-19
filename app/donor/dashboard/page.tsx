@@ -1,12 +1,9 @@
-// @ts-nocheck
 'use client';
 
 import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { listDonations, getDonation } from '@/lib/mockDb';
-import type { Donation } from '@/lib/mockDb';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   Table,
@@ -16,38 +13,49 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-
-// Type fix for Table component from JSX file
-const TableComponent = Table as React.ComponentType<any>;
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle } from 'lucide-react';
+import { DashboardSkeleton } from '@/components/ui/PageSkeleton';
+
+interface DonationItem {
+  donation_id?: string;
+  amount: number;
+  campaign?: { title: string; category: string } | null;
+  payment_status: string;
+  created_at: string;
+  anonymous?: boolean;
+}
 
 function DonorDashboardContent() {
   const searchParams = useSearchParams();
-  const [donations, setDonations] = useState<Donation[]>([]);
+  const [donations, setDonations] = useState<DonationItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [summary, setSummary] = useState<{
+    totalAmount: number;
+    totalDonations: number;
+    supportedStudents: number;
+  } | null>(null);
   const donationId = searchParams.get('donation');
 
   useEffect(() => {
     loadDonations();
-
-    // Listen for updates
-    const handleUpdate = () => {
-      loadDonations();
-    };
-
-    window.addEventListener('donationCreated', handleUpdate);
-    return () => {
-      window.removeEventListener('donationCreated', handleUpdate);
-    };
   }, []);
 
-  const loadDonations = () => {
-    const don = listDonations();
-    // Sort by created date, newest first
-    don.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-    setDonations(don);
-    setLoading(false);
+  const loadDonations = async () => {
+    try {
+      const res = await fetch('/api/donations/my');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          setDonations(data.data?.donations || []);
+          setSummary(data.data?.summary || null);
+        }
+      }
+    } catch (err) {
+      console.error('Failed to load donations:', err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -72,10 +80,7 @@ function DonorDashboardContent() {
       )}
 
       {loading ? (
-        <div className="text-center py-12">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading donations...</p>
-        </div>
+        <DashboardSkeleton />
       ) : donations.length === 0 ? (
         <Card>
           <CardContent className="py-12 text-center">
@@ -96,45 +101,50 @@ function DonorDashboardContent() {
           <div className="mb-6">
             <h2 className="text-2xl font-semibold text-gray-900 mb-2">Your Donations</h2>
             <p className="text-gray-600">
-              Total donations: {donations.length} | Total amount: $
-              {donations.reduce((sum, don) => sum + don.amount, 0).toLocaleString('en-US', {
+              Total donations: {summary?.totalDonations || donations.length} | Total amount: $
+              {(summary?.totalAmount || donations.reduce((sum, d) => sum + d.amount, 0)).toLocaleString('en-US', {
                 minimumFractionDigits: 2,
                 maximumFractionDigits: 2,
               })}
+              {summary?.supportedStudents ? ` | Students supported: ${summary.supportedStudents}` : ''}
             </p>
           </div>
 
           <Card>
             <CardContent className="p-0">
               <div className="overflow-x-auto">
-                <TableComponent className="w-full">
+                <Table className="w-full">
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Donation ID</TableHead>
+                      <TableHead>Campaign</TableHead>
                       <TableHead>Amount</TableHead>
-                      <TableHead>Target</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead>Date</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {donations.map((donation) => (
-                      <TableRow key={donation.id}>
-                        <TableCell className="font-mono text-sm">{donation.id}</TableCell>
+                    {donations.map((donation, idx) => (
+                      <TableRow key={donation.donation_id || idx}>
+                        <TableCell className="font-medium">
+                          {donation.campaign?.title || 'General Fund'}
+                        </TableCell>
                         <TableCell className="font-semibold">
                           ${donation.amount.toLocaleString('en-US', {
                             minimumFractionDigits: 2,
                             maximumFractionDigits: 2,
                           })}
                         </TableCell>
-                        <TableCell>{donation.target}</TableCell>
                         <TableCell>
-                          <Badge className="bg-green-100 text-green-800">
-                            {donation.status}
+                          <Badge className={
+                            donation.payment_status === 'paid' || donation.payment_status === 'completed'
+                              ? 'bg-green-100 text-green-800'
+                              : 'bg-yellow-100 text-yellow-800'
+                          }>
+                            {donation.payment_status}
                           </Badge>
                         </TableCell>
                         <TableCell>
-                          {new Date(donation.createdAt).toLocaleDateString('en-US', {
+                          {new Date(donation.created_at).toLocaleDateString('en-US', {
                             year: 'numeric',
                             month: 'short',
                             day: 'numeric',
@@ -143,7 +153,7 @@ function DonorDashboardContent() {
                       </TableRow>
                     ))}
                   </TableBody>
-                </TableComponent>
+                </Table>
               </div>
             </CardContent>
           </Card>
@@ -181,10 +191,7 @@ export default function DonorDashboardPage() {
             View your donations and track your impact on education funding.
           </p>
           <Suspense fallback={
-            <div className="text-center py-12">
-              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-              <p className="text-gray-600">Loading...</p>
-            </div>
+            <DashboardSkeleton />
           }>
             <DonorDashboardContent />
           </Suspense>

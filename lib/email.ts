@@ -3,6 +3,19 @@
  * Gracefully handles failures without breaking main flows
  */
 
+import { maskEmail } from '@/lib/pii-mask';
+
+/** Escape user-supplied strings before embedding in HTML emails */
+function escapeHtml(str: string): string {
+  if (!str) return '';
+  return str
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
 interface EmailOptions {
   to: string;
   subject: string;
@@ -15,7 +28,6 @@ interface EmailTemplateData {
 }
 
 const FROM_EMAIL = process.env.EMAIL_FROM || 'FundEd <noreply@funded.com>';
-const RESEND_API_KEY = process.env.RESEND_API_KEY;
 
 /**
  * Send email using Resend API
@@ -23,10 +35,11 @@ const RESEND_API_KEY = process.env.RESEND_API_KEY;
  * Never throws - failures are logged but don't break the flow
  */
 export async function sendEmail(options: EmailOptions): Promise<boolean> {
-  // Skip if Resend not configured
-  if (!RESEND_API_KEY) {
+  // Skip if Resend not configured (read at call time, not build time)
+  const resendApiKey = process.env.RESEND_API_KEY;
+  if (!resendApiKey) {
     if (process.env.NODE_ENV === 'development') {
-      console.log('[Email] Skipped (RESEND_API_KEY not set):', options.to, options.subject);
+      console.log('[Email] Skipped (RESEND_API_KEY not set):', maskEmail(options.to), options.subject);
     }
     return false;
   }
@@ -35,7 +48,7 @@ export async function sendEmail(options: EmailOptions): Promise<boolean> {
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${RESEND_API_KEY}`,
+        'Authorization': `Bearer ${resendApiKey}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -50,7 +63,7 @@ export async function sendEmail(options: EmailOptions): Promise<boolean> {
       const error = await response.text();
       // Log error but don't expose sensitive data
       console.error('[Email] Failed to send:', {
-        to: options.to,
+        to: maskEmail(options.to),
         subject: options.subject,
         status: response.status,
         error: error.substring(0, 200), // Limit error length
@@ -60,13 +73,13 @@ export async function sendEmail(options: EmailOptions): Promise<boolean> {
 
     const result = await response.json();
     if (process.env.NODE_ENV === 'development') {
-      console.log('[Email] Sent successfully:', options.to, options.subject);
+      console.log('[Email] Sent successfully:', maskEmail(options.to), options.subject);
     }
     return true;
   } catch (error: any) {
     // Log error but don't expose stack traces or sensitive data
     console.error('[Email] Error sending email:', {
-      to: options.to,
+      to: maskEmail(options.to),
       subject: options.subject,
       message: error.message || 'Unknown error',
     });
@@ -94,7 +107,7 @@ export function renderStudentVerifiedEmail(data: {
   </div>
   
   <div style="background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
-    <p style="font-size: 16px; margin-bottom: 20px;">Hello ${data.studentName || 'Student'},</p>
+    <p style="font-size: 16px; margin-bottom: 20px;">Hello ${escapeHtml(data.studentName) || 'Student'},</p>
     
     <p style="font-size: 16px; margin-bottom: 20px;">
       Great news! Your student verification has been approved. You can now create and publish campaigns on FundEd.
@@ -150,7 +163,7 @@ export function renderStudentRejectedEmail(data: {
   </div>
   
   <div style="background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
-    <p style="font-size: 16px; margin-bottom: 20px;">Hello ${data.studentName || 'Student'},</p>
+    <p style="font-size: 16px; margin-bottom: 20px;">Hello ${escapeHtml(data.studentName) || 'Student'},</p>
     
     <p style="font-size: 16px; margin-bottom: 20px;">
       We've reviewed your student verification request. Unfortunately, we're unable to approve it at this time.
@@ -160,7 +173,7 @@ export function renderStudentRejectedEmail(data: {
     <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 15px; margin: 20px 0;">
       <p style="margin: 0; font-size: 14px; color: #991b1b;">
         <strong>Reason:</strong><br>
-        ${data.reason}
+        ${escapeHtml(data.reason || '')}
       </p>
     </div>
     ` : ''}
@@ -216,7 +229,7 @@ export function renderDonationSuccessEmail(data: {
   </div>
   
   <div style="background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
-    <p style="font-size: 16px; margin-bottom: 20px;">Hello ${data.donorName},</p>
+    <p style="font-size: 16px; margin-bottom: 20px;">Hello ${escapeHtml(data.donorName)},</p>
     
     <p style="font-size: 16px; margin-bottom: 20px;">
       Thank you for your generous donation of <strong>${formattedAmount}</strong> to support:
@@ -224,7 +237,7 @@ export function renderDonationSuccessEmail(data: {
     
     <div style="background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 15px; margin: 20px 0;">
       <p style="margin: 0; font-size: 16px; font-weight: 600; color: #1e40af;">
-        ${data.campaignTitle}
+        ${escapeHtml(data.campaignTitle)}
       </p>
     </div>
     
@@ -274,10 +287,10 @@ export function renderCampaignPublishedEmail(data: {
   </div>
   
   <div style="background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
-    <p style="font-size: 16px; margin-bottom: 20px;">Hello ${data.studentName},</p>
+    <p style="font-size: 16px; margin-bottom: 20px;">Hello ${escapeHtml(data.studentName)},</p>
     
     <p style="font-size: 16px; margin-bottom: 20px;">
-      Great news! Your campaign "<strong>${data.campaignTitle}</strong>" has been published and is now live on FundEd.
+      Great news! Your campaign "<strong>${escapeHtml(data.campaignTitle)}</strong>" has been published and is now live on FundEd.
     </p>
     
     <div style="background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 15px; margin: 20px 0;">
@@ -318,7 +331,7 @@ export function renderAdminNotificationEmail(data: {
   studentId: string;
 }): string {
   const adminUrl = `${process.env.AUTH_URL || 'http://localhost:3000'}/admin/students/${data.studentId}`;
-  
+
   return `
 <!DOCTYPE html>
 <html>
@@ -340,8 +353,8 @@ export function renderAdminNotificationEmail(data: {
     
     <div style="background: #fffbeb; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0;">
       <p style="margin: 0; font-size: 14px; color: #92400e;">
-        <strong>Student:</strong> ${data.studentName || 'N/A'}<br>
-        <strong>Email:</strong> ${data.studentEmail}<br>
+        <strong>Student:</strong> ${escapeHtml(data.studentName) || 'N/A'}<br>
+        <strong>Email:</strong> ${escapeHtml(data.studentEmail)}<br>
         <strong>Status:</strong> Pending Review
       </p>
     </div>
@@ -364,4 +377,79 @@ export function renderAdminNotificationEmail(data: {
 </body>
 </html>
   `.trim();
+}
+
+// ─── Payout Notification Emails ──────────────────────────────────
+
+interface PayoutEmailData {
+  studentName: string;
+  amount: number;
+  referenceCode: string;
+}
+
+function payoutEmailWrapper(title: string, color: string, body: string): string {
+  return `
+<!DOCTYPE html>
+<html>
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: ${color}; padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 24px;">${title}</h1>
+  </div>
+  <div style="background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
+    ${body}
+  </div>
+  <div style="text-align: center; margin-top: 20px; color: #9ca3af; font-size: 12px;">
+    <p>© ${new Date().getFullYear()} FundEd. Tüm hakları saklıdır.</p>
+  </div>
+</body>
+</html>`.trim();
+}
+
+function formatUSD(amount: number): string {
+  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+}
+
+export function renderStripePayoutNotification(data: PayoutEmailData): string {
+  return payoutEmailWrapper('💳 Stripe Ödeme Bildirimi', '#635bff', `
+    <p>Merhaba ${escapeHtml(data.studentName)},</p>
+    <p><strong>${formatUSD(data.amount)}</strong> tutarındaki ödemeniz Stripe Connect hesabınıza otomatik olarak aktarılmıştır.</p>
+    <div style="background: #f0f9ff; border-left: 4px solid #635bff; padding: 15px; margin: 20px 0;">
+      <p style="margin: 0; font-size: 14px;"><strong>Referans:</strong> ${escapeHtml(data.referenceCode)}</p>
+    </div>
+    <p style="font-size: 14px; color: #6b7280;">Transfer genellikle 1-2 iş günü içinde Stripe hesabınıza yansır.</p>
+  `);
+}
+
+export function renderPaypalPayoutNotification(data: PayoutEmailData): string {
+  return payoutEmailWrapper('💰 PayPal Ödeme Bildirimi', '#003087', `
+    <p>Merhaba ${escapeHtml(data.studentName)},</p>
+    <p><strong>${formatUSD(data.amount)}</strong> tutarındaki ödemeniz PayPal hesabınıza gönderilmiştir.</p>
+    <div style="background: #fff8e1; border-left: 4px solid #003087; padding: 15px; margin: 20px 0;">
+      <p style="margin: 0; font-size: 14px;"><strong>Referans:</strong> ${escapeHtml(data.referenceCode)}</p>
+    </div>
+    <p style="font-size: 14px; color: #6b7280;">Ödeme genellikle birkaç dakika içinde PayPal bakiyenize yansır.</p>
+  `);
+}
+
+export function renderWisePayoutNotification(data: PayoutEmailData): string {
+  return payoutEmailWrapper('🌍 Wise Ödeme Bildirimi', '#9fe870', `
+    <p>Merhaba ${escapeHtml(data.studentName)},</p>
+    <p><strong>${formatUSD(data.amount)}</strong> tutarındaki ödemeniz Wise hesabınıza gönderilmiştir.</p>
+    <div style="background: #f0fff4; border-left: 4px solid #9fe870; padding: 15px; margin: 20px 0;">
+      <p style="margin: 0; font-size: 14px;"><strong>Referans:</strong> ${escapeHtml(data.referenceCode)}</p>
+    </div>
+    <p style="font-size: 14px; color: #6b7280;">Transfer 1-3 iş günü içinde hesabınıza ulaşacaktır.</p>
+  `);
+}
+
+export function renderPaparaPayoutNotification(data: PayoutEmailData): string {
+  return payoutEmailWrapper('🟠 Papara Ödeme Bildirimi', '#e65100', `
+    <p>Merhaba ${escapeHtml(data.studentName)},</p>
+    <p><strong>${formatUSD(data.amount)}</strong> tutarındaki ödemeniz Papara hesabınıza gönderilmiştir.</p>
+    <div style="background: #fff3e0; border-left: 4px solid #e65100; padding: 15px; margin: 20px 0;">
+      <p style="margin: 0; font-size: 14px;"><strong>Referans:</strong> ${escapeHtml(data.referenceCode)}</p>
+    </div>
+    <p style="font-size: 14px; color: #6b7280;">Ödeme genellikle anında Papara bakiyenize yansır.</p>
+  `);
 }

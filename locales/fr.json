@@ -761,6 +761,13 @@
         "submitError": "Échec de la soumission de la vérification. Veuillez réessayer.",
         "selectedFiles": "Fichiers sélectionnés"
     },
+    "campaignCard": {
+        "approved": "Approuvé",
+        "raised": "{amount} collectés",
+        "goal": "Objectif {amount}",
+        "donorCount": "{count} donateurs",
+        "funded": "{percent}% financé"
+    },
     "campaign": {
         "createCampaign": "Créer une campagne",
         "editCampaign": "Modifier la campagne",
@@ -776,7 +783,45 @@
         "verified": "Étudiant vérifié",
         "category": "Catégorie",
         "createdAt": "Créé le",
-        "endDate": "Date de fin"
+        "endDate": "Date de fin",
+        "notFound": "Campaign not found",
+        "browseCampaigns": "Browse Campaigns",
+        "loading": "Loading campaign...",
+        "raisedOf": "{raised} raised of {goal}",
+        "donationCount": "{count} donations",
+        "justDonated": "{count} people just donated",
+        "seeAll": "See all",
+        "topDonors": "Top donors",
+        "beTopDonor": "Be a top donor for {name} with {amount} or more.",
+        "topDonation": "Top donation",
+        "supportCtaTitle": "Do you want to support?",
+        "supportCtaDesc": "You can support securely from the donation page.",
+        "back": "Back",
+        "donationProtected": "Donation protected",
+        "campaignStudent": "Campaign Student",
+        "createdOn": "Created {date}",
+        "education": "Education",
+        "supportTitle": "Support {name}'s education",
+        "shareSuccess": "Link copied to clipboard!",
+        "shareError": "Could not copy link",
+        "copyLink": "Copy Link",
+        "verifyingPayment": "Verifying your payment...",
+        "pleaseWait": "Please wait",
+        "paymentError": "Payment could not be processed. Please try again.",
+        "enterValidAmount": "Please enter a valid donation amount",
+        "eachGift": "Each gift brings hope — together, we create change.",
+        "donations": "Donations",
+        "noDonationsYet": "No donations yet. Be the first to support!",
+        "studentVerification": "Student Verification",
+        "videos": "Videos",
+        "verificationLabels": {
+            "id": "Identity Verification",
+            "school_email": "School Email Verification",
+            "transcript": "Transcript Verification",
+            "approved": "Approved",
+            "rejected": "Rejected",
+            "pending": "Pending"
+        }
     },
     "donation": {
         "title": "Faire un don",
@@ -830,6 +875,38 @@
         "equalityCampaign": "Campagne pour l'égalité éducative",
         "equalityDesc": "Découvrez notre campagne pour soutenir les enfants du monde entier qui n'ont pas accès à l'éducation.",
         "viewCampaign": "Voir la campagne"
+    },
+    "donationForm": {
+        "oneTime": "One-Time",
+        "oneTimeDesc": "A single donation",
+        "recurring": "Recurring",
+        "recurringDesc": "Regular support",
+        "recommended": "Recommended",
+        "frequency": "Donation Frequency",
+        "monthly": "Monthly",
+        "quarterly": "Quarterly",
+        "yearly": "Yearly",
+        "amount": "Donation Amount",
+        "customAmount": "Custom amount",
+        "matchingGift": "Matching Gift",
+        "matchingDesc": "{partner} will multiply your donation {multiplier}x!",
+        "joinMatching": "Join matching program",
+        "totalImpact": "Total Impact",
+        "donateAnonymously": "Donate anonymously",
+        "yourName": "Your name (optional)",
+        "namePlaceholder": "Your Full Name",
+        "email": "Email *",
+        "emailPlaceholder": "example@email.com",
+        "message": "Message (optional)",
+        "messagePlaceholder": "Leave a message for the student...",
+        "summaryAmount": "Donation Amount",
+        "matchingBonus": "Matching Bonus",
+        "frequencySummary": "Frequency",
+        "everyMonth": "Every Month",
+        "every3Months": "Every 3 Months",
+        "submitRecurring": "Start Monthly Donation",
+        "submitOneTime": "Donate Now",
+        "securePayment": "Your payment will be processed securely via Stripe."
     },
     "dashboard": {
         "title": "Tableau de bord",
@@ -2226,7 +2303,13 @@
         "step3Title": "Recevoir du soutien",
         "step3Desc": "Soyez mis en relation avec des donateurs qui veulent aider.",
         "trustTitle": "Processus sûr et transparent",
-        "trustDesc": "Toutes les candidatures sont examinées par notre équipe. Vos informations personnelles sont sécurisées."
+        "trustDesc": "Toutes les candidatures sont examinées par notre équipe. Vos informations personnelles sont sécurisées.",
+        "parentTitle": "Postuler en tant que parent",
+        "parentDescription": "Si votre enfant (moins de 18 ans) a besoin de soutien éducatif, postulez en son nom.",
+        "parentFeature1": "Pour les enfants de moins de 18 ans",
+        "parentFeature2": "Vérification parent & enfant",
+        "parentFeature3": "Vérification bulletin & école",
+        "parentCta": "Postuler en tant que parent"
     },
     "applyTeacher": {
         "badge": "Formulaire de candidature enseignant",
@@ -2328,6 +2411,160 @@
             "dropText": "Glissez-déposez vos photos ici, ou",
             "selectBtn": "Sélectionner des photos",
             "maxCount": "Jusqu'à 5 photos"
+        }
+    },
+    "applyParent": {
+        "badge": "Candidature parent",
+        "heroTitle": "Postulez au nom de votre enfant",
+        "heroHighlight": "Pour un avenir meilleur",
+        "heroDesc": "En tant que parent ou tuteur, vous pouvez demander un soutien éducatif pour votre enfant de moins de 18 ans.",
+        "steps": {
+            "step1": "Info parent",
+            "step2": "Info enfant",
+            "step3": "Vérification",
+            "step4": "Histoire & médias",
+            "step5": "Révision"
+        },
+        "step1": {
+            "title": "Informations du parent",
+            "subtitle": "Entrez vos coordonnées"
+        },
+        "step2": {
+            "title": "Informations de l'enfant",
+            "subtitle": "Entrez les détails de votre enfant"
+        },
+        "step3": {
+            "title": "Documents de vérification",
+            "subtitle": "Téléchargez les documents"
+        },
+        "step4": {
+            "title": "Histoire & médias",
+            "subtitle": "Racontez l'histoire de votre enfant"
+        },
+        "step5": {
+            "title": "Vérifier & soumettre",
+            "subtitle": "Vérifiez votre candidature"
+        },
+        "labels": {
+            "parentFullName": "Nom complet",
+            "email": "Adresse e-mail",
+            "phone": "Téléphone (Optionnel)",
+            "country": "Pays",
+            "relation": "Relation avec l'enfant",
+            "childName": "Nom de l'enfant",
+            "childDob": "Date de naissance",
+            "age": "Âge",
+            "gender": "Genre",
+            "studentId": "ID étudiant (Optionnel)",
+            "schoolName": "Nom de l'école",
+            "schoolCity": "Ville de l'école",
+            "grade": "Classe / Niveau",
+            "parentId": "Pièce d'identité parent",
+            "childId": "Pièce d'identité enfant",
+            "reportCard": "Bulletin scolaire",
+            "enrollment": "Preuve d'inscription (Optionnel)",
+            "story": "Histoire de votre enfant",
+            "targetAmount": "Montant cible",
+            "photos": "Photos (Optionnel)",
+            "video": "Vidéo (Optionnel)"
+        },
+        "placeholders": {
+            "parentFullName": "ex. Marie Dupont",
+            "email": "ex. parent@email.com",
+            "country": "ex. France",
+            "selectRelation": "Sélectionner...",
+            "childName": "ex. Pierre Dupont",
+            "selectGender": "Sélectionner...",
+            "studentId": "ex. 123456",
+            "schoolName": "ex. École Victor Hugo",
+            "schoolCity": "ex. Paris",
+            "grade": "ex. CM2",
+            "story": "Décrivez les besoins éducatifs de votre enfant...",
+            "targetAmount": "ex. 5000"
+        },
+        "options": {
+            "mother": "Mère",
+            "father": "Père",
+            "guardian": "Tuteur légal",
+            "male": "Masculin",
+            "female": "Féminin",
+            "other": "Autre"
+        },
+        "hints": {
+            "parentId": "Téléchargez un scan de votre pièce d'identité.",
+            "childId": "Téléchargez la pièce d'identité ou l'acte de naissance.",
+            "reportCard": "Téléchargez le dernier bulletin scolaire.",
+            "enrollment": "Téléchargez la preuve d'inscription.",
+            "childAgeNote": "Cette candidature est pour les enfants de moins de 18 ans."
+        },
+        "uploadClick": "Cliquez ou glissez-déposez",
+        "validation": {
+            "parentFullName": "Le nom est requis",
+            "email": "L'e-mail est requis",
+            "invalidEmail": "Entrez un e-mail valide",
+            "country": "Le pays est requis",
+            "relation": "La relation est requise",
+            "parentId": "Pièce d'identité parent requise",
+            "childName": "Nom de l'enfant requis",
+            "childDob": "Date de naissance requise",
+            "childAge": "L'enfant doit avoir moins de 18 ans",
+            "schoolName": "Nom de l'école requis",
+            "schoolCity": "Ville requise",
+            "grade": "Classe requise",
+            "childId": "Pièce d'identité enfant requise",
+            "reportCard": "Bulletin requis",
+            "story": "Histoire requise",
+            "storyMin": "Au moins {{min}} caractères",
+            "targetAmount": "Montant cible requis"
+        },
+        "tips": {
+            "title": "Conseils:",
+            "tip1": "Décrivez les besoins en détail",
+            "tip2": "Expliquez l'utilisation des fonds",
+            "tip3": "Partagez ce qui rend la situation unique"
+        },
+        "docTips": {
+            "title": "Important:",
+            "tip1": "Documents lisibles requis",
+            "tip2": "Informations chiffrées",
+            "tip3": "Documents pour vérification seulement"
+        },
+        "photos": {
+            "dropText": "Glissez les photos ici, ou",
+            "selectBtn": "Sélectionner des photos",
+            "maxCount": "Jusqu'à 5 photos"
+        },
+        "video": {
+            "selectBtn": "Télécharger une vidéo"
+        },
+        "review": {
+            "parentInfo": "Info parent",
+            "childInfo": "Info enfant",
+            "documents": "Documents",
+            "storyMedia": "Histoire & médias",
+            "files": "fichier(s)",
+            "photos": "photo(s)",
+            "videos": "vidéo(s)",
+            "yearsOld": "ans"
+        },
+        "prev": "Précédent",
+        "next": "Suivant",
+        "back": "Retour",
+        "submit": "Soumettre",
+        "submitting": "Envoi...",
+        "submitSuccess": "Candidature soumise!",
+        "submitError": "Échec de l'envoi.",
+        "successTitle": "Candidature soumise!",
+        "successDesc": "Merci! Notre équipe examinera votre candidature sous 48 heures.",
+        "backToHome": "Retour à l'accueil",
+        "sidebar": {
+            "title": "Processus de vérification",
+            "point1": "Identités parent et enfant vérifiées",
+            "point2": "Inscription scolaire confirmée",
+            "point3": "Données chiffrées",
+            "point4": "Examen sous 48 heures",
+            "bannerTitle": "Campagnes enfants",
+            "bannerDesc": "Les campagnes parentales aident les enfants de moins de 18 ans!"
         }
     }
 }

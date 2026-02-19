@@ -7,3 +7,11 @@ coverage
 .env.local
 .env.production
 .env.*.local
+
+# IDE
+.vs/
+.vscode/
+.cursor/
+
+# Build cache
+tsconfig.tsbuildinfo

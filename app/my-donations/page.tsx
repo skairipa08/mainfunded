@@ -91,7 +91,7 @@ function MyDonationsContent() {
   // Redirect to login if not authenticated
   useEffect(() => {
     if (status === 'unauthenticated') {
-      router.push('/login?callbackUrl=/my-donations');
+      router.replace('/login?callbackUrl=/my-donations');
     }
   }, [status, router]);
 

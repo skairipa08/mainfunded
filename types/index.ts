@@ -173,3 +173,44 @@ export interface SimpleDonation {
   status: 'Completed';
   createdAt: string;
 }
+
+// Payout Method Types
+export type PayoutMethodType = 'stripe_connect' | 'paypal' | 'wise' | 'papara';
+
+export interface PayoutMethod {
+  type: PayoutMethodType;
+  stripeAccountId?: string;
+  stripeAccountStatus?: 'pending' | 'active' | 'restricted';
+  paypalEmail?: string;
+  wiseEmail?: string;
+  wiseCurrency?: 'USD' | 'EUR' | 'GBP';
+  paparaAccountNumber?: string;
+  paparaPhoneNumber?: string;
+  isVerified: boolean;
+  addedAt: string;
+  lastPayoutAt?: string;
+  isDefault?: boolean;
+}
+
+export type PayoutStatus = 'pending' | 'processing' | 'completed' | 'failed';
+
+export interface Payout {
+  payout_id: string;
+  user_id: string;
+  amount: number;
+  method_type: PayoutMethodType;
+  status: PayoutStatus;
+  reference_code?: string;
+  notes?: string;
+  created_at: string;
+  completed_at?: string;
+}
+
+export interface StudentBalance {
+  user_id: string;
+  totalEarned: number;
+  totalWithdrawn: number;
+  available: number;
+  pending: number;
+  lastUpdated: string;
+}

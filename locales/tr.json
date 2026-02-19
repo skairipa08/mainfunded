@@ -758,8 +758,19 @@
             "notePlaceholder": "Varsa ek aciklama yazabilirsin."
         },
         "reviewNote": "Gondererek, saglanan tum bilgilerin dogru oldugunu onaylarsiniz. Ekibimiz basvurunuzu 1-3 is gunu icinde inceleyecektir.",
-        "submitError": "Failed to submit verification. Please try again.",
-        "selectedFiles": "Selected Files"
+        "submitSuccess": "Dogrulama basvurusu basariyla gonderildi!",
+        "submitError": "Basvuru gonderilemedi. Lutfen tekrar deneyin.",
+        "selectedFiles": "Secilen Dosyalar",
+        "alreadySubmitted": "Basvuru Zaten Gonderildi",
+        "checkStatus": "Dogrulama durumunuzu kontrol edin.",
+        "viewStatus": "Durumu Goruntule"
+    },
+    "campaignCard": {
+        "approved": "Onayland\u0131",
+        "raised": "{amount} topland\u0131",
+        "goal": "{amount} hedef",
+        "donorCount": "{count} ba\u011f\u0131\u015f\u00e7\u0131",
+        "funded": "%{percent} fonland\u0131"
     },
     "campaign": {
         "createCampaign": "Kampanya Olustur",
@@ -776,7 +787,45 @@
         "verified": "Dogrulanmis Ogrenci",
         "category": "Kategori",
         "createdAt": "Olusturulma",
-        "endDate": "Bitis Tarihi"
+        "endDate": "Bitis Tarihi",
+        "notFound": "Kampanya bulunamadı",
+        "browseCampaigns": "Kampanyalara Göz At",
+        "loading": "Kampanya yükleniyor...",
+        "raisedOf": "{goal} hedefinin {raised} toplandı",
+        "donationCount": "{count} bağış",
+        "justDonated": "Az önce {count} kişi bağış yaptı",
+        "seeAll": "Tümü",
+        "topDonors": "En çok bağışlayanlar",
+        "beTopDonor": "{name} için {amount} veya üzeri bağış yaparak en çok bağışlayanlar arasına girin.",
+        "topDonation": "En yüksek bağış",
+        "supportCtaTitle": "Destek Olmak İster misiniz?",
+        "supportCtaDesc": "Bağış sayfasından güvenli bir şekilde destek olabilirsiniz.",
+        "back": "Geri",
+        "donationProtected": "Bağış koruması altında",
+        "campaignStudent": "Kampanya Öğrencisi",
+        "createdOn": "{date} tarihinde oluşturuldu",
+        "education": "Eğitim",
+        "supportTitle": "{name} eğitimine destek ol",
+        "shareSuccess": "Bağlantı kopyalandı!",
+        "shareError": "Bağlantı kopyalanamadı",
+        "copyLink": "Bağlantıyı Kopyala",
+        "verifyingPayment": "Ödemeniz doğrulanıyor...",
+        "pleaseWait": "Lütfen bekleyin",
+        "paymentError": "Ödeme işlenemedi. Lütfen tekrar deneyin.",
+        "enterValidAmount": "Lütfen geçerli bir bağış miktarı girin",
+        "eachGift": "Her bağış bir umut yeşertir — birlikte değişimi yaratıyoruz.",
+        "donations": "Bağışlar",
+        "noDonationsYet": "Henüz bağış yok. İlk bağışçı siz olun!",
+        "studentVerification": "Öğrenci Doğrulama",
+        "videos": "Videolar",
+        "verificationLabels": {
+            "id": "Kimlik Doğrulaması",
+            "school_email": "Okul E-postası Doğrulaması",
+            "transcript": "Transkript Doğrulaması",
+            "approved": "Onaylandı",
+            "rejected": "Reddedildi",
+            "pending": "Beklemede"
+        }
     },
     "donation": {
         "title": "Bağış Yap",
@@ -830,6 +879,38 @@
         "equalityCampaign": "Eğitimde Eşitlik Kampanyası",
         "equalityDesc": "Dünya genelinde eğitime erişemeyen çocuklara destek olmak için kampanyamızı inceleyin.",
         "viewCampaign": "Kampanyayı Gör"
+    },
+    "donationForm": {
+        "oneTime": "Tek Seferlik",
+        "oneTimeDesc": "Bir defalık bağış",
+        "recurring": "Aylık Bağış",
+        "recurringDesc": "Düzenli destek",
+        "recommended": "Önerilen",
+        "frequency": "Bağış Sıklığı",
+        "monthly": "Aylık",
+        "quarterly": "3 Ayda Bir",
+        "yearly": "Yıllık",
+        "amount": "Bağış Tutarı",
+        "customAmount": "Özel tutar",
+        "matchingGift": "Eşleşen Bağış",
+        "matchingDesc": "{partner} bağışınızı {multiplier} katına çıkarıyor!",
+        "joinMatching": "Matching programına katıl",
+        "totalImpact": "Toplam Etki",
+        "donateAnonymously": "Anonim olarak bağış yap",
+        "yourName": "Adınız (opsiyonel)",
+        "namePlaceholder": "Adınız Soyadınız",
+        "email": "E-posta *",
+        "emailPlaceholder": "örnek@email.com",
+        "message": "Mesaj (opsiyonel)",
+        "messagePlaceholder": "Öğrenciye bir mesaj bırakın...",
+        "summaryAmount": "Bağış Tutarı",
+        "matchingBonus": "Matching Bonus",
+        "frequencySummary": "Sıklık",
+        "everyMonth": "Her Ay",
+        "every3Months": "3 Ayda Bir",
+        "submitRecurring": "Aylık Bağış Başlat",
+        "submitOneTime": "Bağış Yap",
+        "securePayment": "Ödemeniz güvenli bir şekilde Stripe üzerinden işlenecektir."
     },
     "dashboard": {
         "title": "Panel",
@@ -2218,6 +2299,12 @@
         "teacherFeature2": "Ekipman ve malzeme desteği",
         "teacherFeature3": "Tüm sınıfınıza fayda sağlayın",
         "teacherCta": "Öğretmen Olarak Başvur",
+        "parentTitle": "Veli Olarak Başvur",
+        "parentDescription": "Çocuğunuz (18 yaş altı) eğitim desteğine ihtiyaç duyuyorsa, onun adına veli ve çocuk doğrulamasıyla başvurun.",
+        "parentFeature1": "18 yaş altı çocuklar için",
+        "parentFeature2": "Veli ve çocuk kimlik doğrulaması",
+        "parentFeature3": "Karne ve okul doğrulaması",
+        "parentCta": "Veli Olarak Başvur",
         "howItWorks": "Nasıl Çalışır?",
         "step1Title": "Formu Doldurun",
         "step1Desc": "Bilgilerinizi girin ve eğitim ihtiyaçlarınızı açıklayın.",
@@ -2328,6 +2415,160 @@
             "dropText": "Fotoğraflarınızı buraya sürükleyip bırakın veya",
             "selectBtn": "Fotoğraf Seç",
             "maxCount": "En fazla 5 fotoğraf"
+        }
+    },
+    "applyParent": {
+        "badge": "Veli Başvurusu",
+        "heroTitle": "Çocuğunuz Adına Başvurun",
+        "heroHighlight": "Daha Parlak Bir Gelecek İçin",
+        "heroDesc": "Veli veya vasi olarak, 18 yaş altındaki çocuğunuz adına eğitim desteği başvurusu yapabilirsiniz. Hem sizin hem çocuğunuzun kimliği doğrulanacaktır.",
+        "steps": {
+            "step1": "Veli Bilgileri",
+            "step2": "Çocuk Bilgileri",
+            "step3": "Doğrulama",
+            "step4": "Hikaye ve Medya",
+            "step5": "İnceleme"
+        },
+        "step1": {
+            "title": "Veli Bilgileri",
+            "subtitle": "Kişisel ve iletişim bilgilerinizi girin"
+        },
+        "step2": {
+            "title": "Çocuk Bilgileri",
+            "subtitle": "Çocuğunuzun bilgilerini ve okul bilgilerini girin"
+        },
+        "step3": {
+            "title": "Doğrulama Belgeleri",
+            "subtitle": "Çocuğunuzun kimliğini ve kaydını doğrulamak için belgeler yükleyin"
+        },
+        "step4": {
+            "title": "Hikaye ve Medya",
+            "subtitle": "Çocuğunuzun hikayesini anlatın ve fotoğraf/video yükleyin"
+        },
+        "step5": {
+            "title": "İncele ve Gönder",
+            "subtitle": "Göndermeden önce başvurunuzu inceleyin"
+        },
+        "labels": {
+            "parentFullName": "Ad Soyad",
+            "email": "E-posta Adresi",
+            "phone": "Telefon (İsteğe Bağlı)",
+            "country": "Ülke",
+            "relation": "Çocukla İlişki",
+            "childName": "Çocuğun Adı Soyadı",
+            "childDob": "Doğum Tarihi",
+            "age": "Yaş",
+            "gender": "Cinsiyet",
+            "studentId": "Öğrenci Numarası (İsteğe Bağlı)",
+            "schoolName": "Okul Adı",
+            "schoolCity": "Okul Şehri / İlçesi",
+            "grade": "Sınıf / Seviye",
+            "parentId": "Veli Kimlik Belgesi",
+            "childId": "Çocuk Kimlik Belgesi",
+            "reportCard": "Karne / Transkript",
+            "enrollment": "Kayıt Belgesi (İsteğe Bağlı)",
+            "story": "Çocuğunuzun Hikayesi",
+            "targetAmount": "Hedef Tutar",
+            "photos": "Fotoğraflar (İsteğe Bağlı)",
+            "video": "Video (İsteğe Bağlı)"
+        },
+        "placeholders": {
+            "parentFullName": "Örn: Ayşe Yılmaz",
+            "email": "Örn: veli@email.com",
+            "country": "Örn: Türkiye",
+            "selectRelation": "İlişki seçin...",
+            "childName": "Örn: Ali Yılmaz",
+            "selectGender": "Cinsiyet seçin...",
+            "studentId": "Örn: 123456",
+            "schoolName": "Örn: Atatürk İlkokulu",
+            "schoolCity": "Örn: İstanbul / Kadıköy",
+            "grade": "Örn: 5. Sınıf",
+            "story": "Çocuğunuzun eğitim ihtiyaçlarını, durumunu ve fonların nasıl yardımcı olacağını açıklayın...",
+            "targetAmount": "Örn: 5000"
+        },
+        "options": {
+            "mother": "Anne",
+            "father": "Baba",
+            "guardian": "Yasal Vasi",
+            "male": "Erkek",
+            "female": "Kız",
+            "other": "Diğer"
+        },
+        "hints": {
+            "parentId": "Nüfus cüzdanı, pasaport veya ehliyet taraması/fotoğrafı yükleyin.",
+            "childId": "Çocuğunuzun kimlik belgesi veya doğum belgesi taraması/fotoğrafı yükleyin.",
+            "reportCard": "Çocuğunuzun son karnesini veya akademik transkriptini yükleyin.",
+            "enrollment": "Okul kayıt belgesi veya kayıt kanıtı yükleyin.",
+            "childAgeNote": "Bu başvuru 18 yaş altı çocuklar içindir. Çocuğun yaşı doğum tarihinden otomatik hesaplanacaktır."
+        },
+        "uploadClick": "Yüklemek için tıklayın veya sürükleyip bırakın",
+        "validation": {
+            "parentFullName": "Velinin adı soyadı gereklidir",
+            "email": "E-posta gereklidir",
+            "invalidEmail": "Geçerli bir e-posta girin",
+            "country": "Ülke gereklidir",
+            "relation": "Çocukla ilişki gereklidir",
+            "parentId": "Veli kimlik belgesi gereklidir",
+            "childName": "Çocuğun adı soyadı gereklidir",
+            "childDob": "Doğum tarihi gereklidir",
+            "childAge": "Çocuk 18 yaşından küçük olmalıdır",
+            "schoolName": "Okul adı gereklidir",
+            "schoolCity": "Okul şehri gereklidir",
+            "grade": "Sınıf / seviye gereklidir",
+            "childId": "Çocuk kimlik belgesi gereklidir",
+            "reportCard": "Karne gereklidir",
+            "story": "Hikaye gereklidir",
+            "storyMin": "Hikaye en az {{min}} karakter olmalıdır",
+            "targetAmount": "Hedef tutar gereklidir"
+        },
+        "tips": {
+            "title": "Güçlü bir başvuru için ipuçları:",
+            "tip1": "Çocuğunuzun eğitim ihtiyaçlarını detaylıca açıklayın",
+            "tip2": "Fonların ne için kullanılacağını belirtin",
+            "tip3": "Çocuğunuzun durumunu özel kılan şeyleri paylaşın"
+        },
+        "docTips": {
+            "title": "Önemli:",
+            "tip1": "Tüm belgeler okunaklı olmalıdır",
+            "tip2": "Kişisel bilgiler şifrelenerek güvenli şekilde saklanır",
+            "tip3": "Belgeler yalnızca doğrulama amacıyla kullanılır"
+        },
+        "photos": {
+            "dropText": "Fotoğrafları buraya sürükleyip bırakın veya",
+            "selectBtn": "Fotoğraf Seç",
+            "maxCount": "En fazla 5 fotoğraf"
+        },
+        "video": {
+            "selectBtn": "Video yüklemek için tıklayın"
+        },
+        "review": {
+            "parentInfo": "Veli Bilgileri",
+            "childInfo": "Çocuk Bilgileri",
+            "documents": "Doğrulama Belgeleri",
+            "storyMedia": "Hikaye ve Medya",
+            "files": "dosya",
+            "photos": "fotoğraf",
+            "videos": "video",
+            "yearsOld": "yaşında"
+        },
+        "prev": "Önceki",
+        "next": "Sonraki",
+        "back": "Geri",
+        "submit": "Başvuruyu Gönder",
+        "submitting": "Gönderiliyor...",
+        "submitSuccess": "Başvurunuz gönderildi! En kısa sürede inceleyeceğiz.",
+        "submitError": "Başvuru gönderilemedi. Lütfen tekrar deneyin.",
+        "successTitle": "Başvuru Gönderildi!",
+        "successDesc": "Teşekkürler! Ekibimiz başvurunuzu inceleyecek ve 48 saat içinde e-posta ile iletişime geçecektir.",
+        "backToHome": "Ana Sayfaya Dön",
+        "sidebar": {
+            "title": "Veli Doğrulama Süreci",
+            "point1": "Hem veli hem çocuk kimlikleri doğrulanır",
+            "point2": "Okul kaydı belgelerle onaylanır",
+            "point3": "Tüm veriler şifrelenerek güvenli şekilde saklanır",
+            "point4": "Başvurular 48 saat içinde incelenir",
+            "bannerTitle": "Çocuk Kampanyaları",
+            "bannerDesc": "Veli liderliğindeki kampanyalar, 18 yaş altı çocukların eğitime erişmesine yardımcı olur!"
         }
     }
 }

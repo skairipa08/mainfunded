@@ -87,29 +87,41 @@ async function apiCall(endpoint: string, options: RequestInit = {}, includeCrede
   }
 }
 
-export const getCategories = () => apiCall('/static/categories', {}, false);
-export const getCountries = () => apiCall('/static/countries', {}, false);
-export const getFieldsOfStudy = () => apiCall('/static/fields-of-study', {}, false);
+// --------------- Client-side cache for GET endpoints ---------------
+import { cachedFetch, invalidateCacheByPrefix } from './api-cache';
+
+const STATIC_TTL = 5 * 60_000;  // 5 min for rarely-changing data
+const LIST_TTL   = 60_000;       // 1 min for campaign lists
+const DETAIL_TTL = 60_000;       // 1 min for single campaign
+
+export const getCategories = () =>
+  cachedFetch('/static/categories', () => apiCall('/static/categories', {}, false), { ttl: STATIC_TTL });
+export const getCountries = () =>
+  cachedFetch('/static/countries', () => apiCall('/static/countries', {}, false), { ttl: STATIC_TTL });
+export const getFieldsOfStudy = () =>
+  cachedFetch('/static/fields-of-study', () => apiCall('/static/fields-of-study', {}, false), { ttl: STATIC_TTL });
 
 export const getCampaigns = (params: Record<string, any> = {}) => {
   const queryString = new URLSearchParams(params as any).toString();
-  return apiCall(`/campaigns${queryString ? `?${queryString}` : ''}`, {}, false);
+  const key = `/campaigns${queryString ? `?${queryString}` : ''}`;
+  return cachedFetch(key, () => apiCall(key, {}, false), { ttl: LIST_TTL });
 };
 
-export const getCampaign = (campaignId: string) => apiCall(`/campaigns/${campaignId}`, {}, false);
+export const getCampaign = (campaignId: string) =>
+  cachedFetch(`/campaigns/${campaignId}`, () => apiCall(`/campaigns/${campaignId}`, {}, false), { ttl: DETAIL_TTL });
 export const getMyCampaigns = () => apiCall('/campaigns/my');
 
 export const createCampaign = (campaignData: any) =>
   apiCall('/campaigns', {
     method: 'POST',
     body: JSON.stringify(campaignData),
-  });
+  }).then(res => { invalidateCacheByPrefix('/campaigns'); return res; });
 
 export const updateCampaign = (campaignId: string, campaignData: any) =>
   apiCall(`/campaigns/${campaignId}`, {
     method: 'PUT',
     body: JSON.stringify(campaignData),
-  });
+  }).then(res => { invalidateCacheByPrefix('/campaigns'); return res; });
 
 export const createCheckout = async (donationData: any) => {
   try {
@@ -156,20 +168,5 @@ export const getAdminCampaigns = (status?: string) =>
   apiCall(`/admin/campaigns${status ? `?status=${status}` : ''}`);
 export const getAdminStats = () => apiCall('/admin/stats');
 
-export const verificationStatuses = {
-  pending: {
-    label: 'Pending Verification',
-    color: 'bg-yellow-100 text-yellow-800 border-yellow-300',
-    icon: 'Clock'
-  },
-  verified: {
-    label: 'Verified Student',
-    color: 'bg-green-100 text-green-800 border-green-300',
-    icon: 'CheckCircle2'
-  },
-  rejected: {
-    label: 'Verification Rejected',
-    color: 'bg-red-100 text-red-800 border-red-300',
-    icon: 'XCircle'
-  }
-};
+// Re-export from dedicated module for backwards compatibility
+export { verificationStatuses } from './verification-statuses';

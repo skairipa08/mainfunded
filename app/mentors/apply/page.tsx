@@ -87,10 +87,33 @@ export default function MentorApplyPage() {
         if (!isFormValid()) return;
 
         setIsSubmitting(true);
-        // Simulate API call
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        setIsSubmitting(false);
-        setIsSubmitted(true);
+        try {
+            const res = await fetch('/api/mentors/apply', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    firstName: formData.firstName,
+                    lastName: formData.lastName,
+                    email: formData.email,
+                    phone: formData.phone,
+                    country: formData.country,
+                    jobTitle: formData.jobTitle,
+                    experienceYears: formData.experienceYears,
+                    mentorType,
+                    whyText,
+                }),
+            });
+            const data = await res.json();
+            if (data.success) {
+                setIsSubmitted(true);
+            } else {
+                alert(data.error?.message || 'Bir hata oluştu, lütfen tekrar deneyin.');
+            }
+        } catch {
+            alert('Bağlantı hatası. Lütfen tekrar deneyin.');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     if (isSubmitted) {

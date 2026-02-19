@@ -3,6 +3,8 @@
  * Handles SMS verification for phone numbers using Twilio
  */
 
+import { maskPhone } from '@/lib/pii-mask';
+
 interface SMSResult {
     success: boolean;
     messageId?: string;
@@ -47,8 +49,8 @@ export async function sendSMS(to: string, message: string): Promise<SMSResult> {
 
     if (!TWILIO_ACCOUNT_SID || !TWILIO_AUTH_TOKEN || !TWILIO_PHONE_NUMBER) {
         console.log('[SMS] Twilio not configured, logging message instead:');
-        console.log(`To: ${to}`);
-        console.log(`Message: ${message}`);
+        console.log(`To: ${maskPhone(to)}`);
+        console.log(`Message: [verification code sent]`);
         return { success: true, messageId: 'demo-' + Date.now() };
     }
 

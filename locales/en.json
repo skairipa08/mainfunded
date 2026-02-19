@@ -761,6 +761,13 @@
         "submitError": "Failed to submit verification. Please try again.",
         "selectedFiles": "Selected Files"
     },
+    "campaignCard": {
+        "approved": "Approved",
+        "raised": "{amount} raised",
+        "goal": "{amount} goal",
+        "donorCount": "{count} donors",
+        "funded": "{percent}% funded"
+    },
     "campaign": {
         "createCampaign": "Create Campaign",
         "editCampaign": "Edit Campaign",
@@ -776,7 +783,45 @@
         "verified": "Verified Student",
         "category": "Category",
         "createdAt": "Created",
-        "endDate": "End Date"
+        "endDate": "End Date",
+        "notFound": "Campaign not found",
+        "browseCampaigns": "Browse Campaigns",
+        "loading": "Loading campaign...",
+        "raisedOf": "{raised} raised of {goal}",
+        "donationCount": "{count} donations",
+        "justDonated": "{count} people just donated",
+        "seeAll": "See all",
+        "topDonors": "Top donors",
+        "beTopDonor": "Be a top donor for {name} with {amount} or more.",
+        "topDonation": "Top donation",
+        "supportCtaTitle": "Do you want to support?",
+        "supportCtaDesc": "You can support securely from the donation page.",
+        "back": "Back",
+        "donationProtected": "Donation protected",
+        "campaignStudent": "Campaign Student",
+        "createdOn": "Created {date}",
+        "education": "Education",
+        "supportTitle": "Support {name}'s education",
+        "shareSuccess": "Link copied to clipboard!",
+        "shareError": "Could not copy link",
+        "copyLink": "Copy Link",
+        "verifyingPayment": "Verifying your payment...",
+        "pleaseWait": "Please wait",
+        "paymentError": "Payment could not be processed. Please try again.",
+        "enterValidAmount": "Please enter a valid donation amount",
+        "eachGift": "Each gift brings hope — together, we create change.",
+        "donations": "Donations",
+        "noDonationsYet": "No donations yet. Be the first to support!",
+        "studentVerification": "Student Verification",
+        "videos": "Videos",
+        "verificationLabels": {
+            "id": "Identity Verification",
+            "school_email": "School Email Verification",
+            "transcript": "Transcript Verification",
+            "approved": "Approved",
+            "rejected": "Rejected",
+            "pending": "Pending"
+        }
     },
     "donation": {
         "title": "Make a Donation",
@@ -830,6 +875,38 @@
         "equalityCampaign": "Education Equality Campaign",
         "equalityDesc": "Explore our campaign to support children worldwide who cannot access education.",
         "viewCampaign": "View Campaign"
+    },
+    "donationForm": {
+        "oneTime": "One-Time",
+        "oneTimeDesc": "A single donation",
+        "recurring": "Recurring",
+        "recurringDesc": "Regular support",
+        "recommended": "Recommended",
+        "frequency": "Donation Frequency",
+        "monthly": "Monthly",
+        "quarterly": "Quarterly",
+        "yearly": "Yearly",
+        "amount": "Donation Amount",
+        "customAmount": "Custom amount",
+        "matchingGift": "Matching Gift",
+        "matchingDesc": "{partner} will multiply your donation {multiplier}x!",
+        "joinMatching": "Join matching program",
+        "totalImpact": "Total Impact",
+        "donateAnonymously": "Donate anonymously",
+        "yourName": "Your name (optional)",
+        "namePlaceholder": "Your Full Name",
+        "email": "Email *",
+        "emailPlaceholder": "example@email.com",
+        "message": "Message (optional)",
+        "messagePlaceholder": "Leave a message for the student...",
+        "summaryAmount": "Donation Amount",
+        "matchingBonus": "Matching Bonus",
+        "frequencySummary": "Frequency",
+        "everyMonth": "Every Month",
+        "every3Months": "Every 3 Months",
+        "submitRecurring": "Start Monthly Donation",
+        "submitOneTime": "Donate Now",
+        "securePayment": "Your payment will be processed securely via Stripe."
     },
     "dashboard": {
         "title": "Dashboard",
@@ -2218,6 +2295,12 @@
         "teacherFeature2": "Support for equipment & materials",
         "teacherFeature3": "Benefit your entire class",
         "teacherCta": "Apply as Teacher",
+        "parentTitle": "Apply as a Parent",
+        "parentDescription": "If your child (under 18) needs educational support, apply on their behalf with parent & child verification.",
+        "parentFeature1": "For children under 18",
+        "parentFeature2": "Parent & child ID verification",
+        "parentFeature3": "Report card & school verification",
+        "parentCta": "Apply as a Parent",
         "howItWorks": "How Does It Work?",
         "step1Title": "Fill Out the Form",
         "step1Desc": "Provide your details and describe your educational needs.",
@@ -2328,6 +2411,160 @@
             "dropText": "Drag & drop your photos here, or",
             "selectBtn": "Select Photos",
             "maxCount": "Up to 5 photos"
+        }
+    },
+    "applyParent": {
+        "badge": "Parent Application",
+        "heroTitle": "Apply on Behalf of Your Child",
+        "heroHighlight": "For a Brighter Future",
+        "heroDesc": "As a parent or guardian, you can apply for educational support on behalf of your child under 18. We'll verify both your identity and your child's enrollment.",
+        "steps": {
+            "step1": "Parent Info",
+            "step2": "Child Info",
+            "step3": "Verification",
+            "step4": "Story & Media",
+            "step5": "Review"
+        },
+        "step1": {
+            "title": "Parent Information",
+            "subtitle": "Enter your personal and contact details"
+        },
+        "step2": {
+            "title": "Child Information",
+            "subtitle": "Enter your child's details and school information"
+        },
+        "step3": {
+            "title": "Verification Documents",
+            "subtitle": "Upload documents to verify your child's identity and enrollment"
+        },
+        "step4": {
+            "title": "Story & Media",
+            "subtitle": "Tell your child's story and upload photos or videos"
+        },
+        "step5": {
+            "title": "Review & Submit",
+            "subtitle": "Review your application before submitting"
+        },
+        "labels": {
+            "parentFullName": "Full Name",
+            "email": "Email Address",
+            "phone": "Phone (Optional)",
+            "country": "Country",
+            "relation": "Relationship to Child",
+            "childName": "Child's Full Name",
+            "childDob": "Date of Birth",
+            "age": "Age",
+            "gender": "Gender",
+            "studentId": "Student ID (Optional)",
+            "schoolName": "School Name",
+            "schoolCity": "School City / District",
+            "grade": "Grade / Class Level",
+            "parentId": "Parent ID Document",
+            "childId": "Child's ID Document",
+            "reportCard": "Report Card / Transcript",
+            "enrollment": "Enrollment Proof (Optional)",
+            "story": "Your Child's Story",
+            "targetAmount": "Target Amount",
+            "photos": "Photos (Optional)",
+            "video": "Video (Optional)"
+        },
+        "placeholders": {
+            "parentFullName": "e.g. Jane Doe",
+            "email": "e.g. parent@email.com",
+            "country": "e.g. Turkey",
+            "selectRelation": "Select relationship...",
+            "childName": "e.g. Ali Doe",
+            "selectGender": "Select gender...",
+            "studentId": "e.g. 123456",
+            "schoolName": "e.g. Atatürk Primary School",
+            "schoolCity": "e.g. Istanbul / Kadıköy",
+            "grade": "e.g. 5th Grade",
+            "story": "Describe your child's educational needs, their situation, and how the funds will help them...",
+            "targetAmount": "e.g. 5000"
+        },
+        "options": {
+            "mother": "Mother",
+            "father": "Father",
+            "guardian": "Legal Guardian",
+            "male": "Male",
+            "female": "Female",
+            "other": "Other"
+        },
+        "hints": {
+            "parentId": "Upload a scan or photo of your national ID, passport, or driver's license.",
+            "childId": "Upload a scan or photo of your child's ID or birth certificate.",
+            "reportCard": "Upload your child's latest report card or academic transcript.",
+            "enrollment": "Upload school enrollment letter or proof of registration.",
+            "childAgeNote": "This application is for children under 18. The child's age will be automatically calculated from the date of birth."
+        },
+        "uploadClick": "Click to upload or drag & drop",
+        "validation": {
+            "parentFullName": "Parent's full name is required",
+            "email": "Email is required",
+            "invalidEmail": "Please enter a valid email",
+            "country": "Country is required",
+            "relation": "Relationship to child is required",
+            "parentId": "Parent ID document is required",
+            "childName": "Child's full name is required",
+            "childDob": "Date of birth is required",
+            "childAge": "Child must be under 18",
+            "schoolName": "School name is required",
+            "schoolCity": "School city is required",
+            "grade": "Grade / class level is required",
+            "childId": "Child's ID document is required",
+            "reportCard": "Report card is required",
+            "story": "Story is required",
+            "storyMin": "Story must be at least {{min}} characters",
+            "targetAmount": "Target amount is required"
+        },
+        "tips": {
+            "title": "Tips for a strong application:",
+            "tip1": "Describe your child's educational needs in detail",
+            "tip2": "Explain what the funds will be used for",
+            "tip3": "Share what makes your child's situation unique"
+        },
+        "docTips": {
+            "title": "Important:",
+            "tip1": "All documents must be clearly readable",
+            "tip2": "Personal information is encrypted and stored securely",
+            "tip3": "Documents are only used for verification purposes"
+        },
+        "photos": {
+            "dropText": "Drag & drop photos here, or",
+            "selectBtn": "Select Photos",
+            "maxCount": "Up to 5 photos"
+        },
+        "video": {
+            "selectBtn": "Click to upload a video"
+        },
+        "review": {
+            "parentInfo": "Parent Information",
+            "childInfo": "Child Information",
+            "documents": "Verification Documents",
+            "storyMedia": "Story & Media",
+            "files": "file(s)",
+            "photos": "photo(s)",
+            "videos": "video(s)",
+            "yearsOld": "years old"
+        },
+        "prev": "Previous",
+        "next": "Next",
+        "back": "Back",
+        "submit": "Submit Application",
+        "submitting": "Submitting...",
+        "submitSuccess": "Your application has been submitted! We will review it shortly.",
+        "submitError": "Failed to submit application. Please try again.",
+        "successTitle": "Application Submitted!",
+        "successDesc": "Thank you! Our team will review your application and contact you via email within 48 hours.",
+        "backToHome": "Back to Home",
+        "sidebar": {
+            "title": "Parent Verification Process",
+            "point1": "Both parent and child identities are verified",
+            "point2": "School enrollment is confirmed with documents",
+            "point3": "All data is encrypted and stored securely",
+            "point4": "Applications are reviewed within 48 hours",
+            "bannerTitle": "Children's Campaigns",
+            "bannerDesc": "Parent-led campaigns help children under 18 access education. Your advocacy makes their future brighter!"
         }
     }
 }

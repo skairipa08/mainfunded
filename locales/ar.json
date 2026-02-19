@@ -761,6 +761,13 @@
         "submitError": "فشل في تقديم التحقق. يرجى المحاولة مرة أخرى.",
         "selectedFiles": "الملفات المحددة"
     },
+    "campaignCard": {
+        "approved": "تمت الموافقة",
+        "raised": "تم جمع {amount}",
+        "goal": "الهدف {amount}",
+        "donorCount": "{count} متبرع",
+        "funded": "تم تمويل {percent}%"
+    },
     "campaign": {
         "createCampaign": "إنشاء حملة",
         "editCampaign": "تعديل الحملة",
@@ -776,7 +783,45 @@
         "verified": "طالب معتمد",
         "category": "الفئة",
         "createdAt": "تاريخ الإنشاء",
-        "endDate": "تاريخ الانتهاء"
+        "endDate": "تاريخ الانتهاء",
+        "notFound": "Campaign not found",
+        "browseCampaigns": "Browse Campaigns",
+        "loading": "Loading campaign...",
+        "raisedOf": "{raised} raised of {goal}",
+        "donationCount": "{count} donations",
+        "justDonated": "{count} people just donated",
+        "seeAll": "See all",
+        "topDonors": "Top donors",
+        "beTopDonor": "Be a top donor for {name} with {amount} or more.",
+        "topDonation": "Top donation",
+        "supportCtaTitle": "Do you want to support?",
+        "supportCtaDesc": "You can support securely from the donation page.",
+        "back": "Back",
+        "donationProtected": "Donation protected",
+        "campaignStudent": "Campaign Student",
+        "createdOn": "Created {date}",
+        "education": "Education",
+        "supportTitle": "Support {name}'s education",
+        "shareSuccess": "Link copied to clipboard!",
+        "shareError": "Could not copy link",
+        "copyLink": "Copy Link",
+        "verifyingPayment": "Verifying your payment...",
+        "pleaseWait": "Please wait",
+        "paymentError": "Payment could not be processed. Please try again.",
+        "enterValidAmount": "Please enter a valid donation amount",
+        "eachGift": "Each gift brings hope — together, we create change.",
+        "donations": "Donations",
+        "noDonationsYet": "No donations yet. Be the first to support!",
+        "studentVerification": "Student Verification",
+        "videos": "Videos",
+        "verificationLabels": {
+            "id": "Identity Verification",
+            "school_email": "School Email Verification",
+            "transcript": "Transcript Verification",
+            "approved": "Approved",
+            "rejected": "Rejected",
+            "pending": "Pending"
+        }
     },
     "donation": {
         "title": "قدم تبرعاً",
@@ -830,6 +875,38 @@
         "equalityCampaign": "حملة المساواة في التعليم",
         "equalityDesc": "استكشف حملتنا لدعم الأطفال حول العالم الذين لا يستطيعون الوصول إلى التعليم.",
         "viewCampaign": "عرض الحملة"
+    },
+    "donationForm": {
+        "oneTime": "One-Time",
+        "oneTimeDesc": "A single donation",
+        "recurring": "Recurring",
+        "recurringDesc": "Regular support",
+        "recommended": "Recommended",
+        "frequency": "Donation Frequency",
+        "monthly": "Monthly",
+        "quarterly": "Quarterly",
+        "yearly": "Yearly",
+        "amount": "Donation Amount",
+        "customAmount": "Custom amount",
+        "matchingGift": "Matching Gift",
+        "matchingDesc": "{partner} will multiply your donation {multiplier}x!",
+        "joinMatching": "Join matching program",
+        "totalImpact": "Total Impact",
+        "donateAnonymously": "Donate anonymously",
+        "yourName": "Your name (optional)",
+        "namePlaceholder": "Your Full Name",
+        "email": "Email *",
+        "emailPlaceholder": "example@email.com",
+        "message": "Message (optional)",
+        "messagePlaceholder": "Leave a message for the student...",
+        "summaryAmount": "Donation Amount",
+        "matchingBonus": "Matching Bonus",
+        "frequencySummary": "Frequency",
+        "everyMonth": "Every Month",
+        "every3Months": "Every 3 Months",
+        "submitRecurring": "Start Monthly Donation",
+        "submitOneTime": "Donate Now",
+        "securePayment": "Your payment will be processed securely via Stripe."
     },
     "dashboard": {
         "title": "لوحة التحكم",
@@ -2226,7 +2303,13 @@
         "step3Title": "احصل على الدعم",
         "step3Desc": "تواصل مع متبرعين يريدون المساعدة.",
         "trustTitle": "عملية آمنة وشفافة",
-        "trustDesc": "تتم مراجعة جميع الطلبات من قبل فريقنا. معلوماتك الشخصية محفوظة بأمان."
+        "trustDesc": "تتم مراجعة جميع الطلبات من قبل فريقنا. معلوماتك الشخصية محفوظة بأمان.",
+        "parentTitle": "التقديم كولي أمر",
+        "parentDescription": "إذا كان طفلك (أقل من 18 عامًا) يحتاج إلى دعم تعليمي، قدّم باسمه مع التحقق من هوية الوالد والطفل.",
+        "parentFeature1": "للأطفال دون 18 عامًا",
+        "parentFeature2": "التحقق من هوية الوالد والطفل",
+        "parentFeature3": "التحقق من الشهادة المدرسية",
+        "parentCta": "التقديم كولي أمر"
     },
     "applyTeacher": {
         "badge": "نموذج طلب المعلم",
@@ -2328,6 +2411,160 @@
             "dropText": "اسحب وأفلت صورك هنا، أو",
             "selectBtn": "اختر صوراً",
             "maxCount": "حتى 5 صور"
+        }
+    },
+    "applyParent": {
+        "badge": "طلب ولي الأمر",
+        "heroTitle": "قدّم باسم طفلك",
+        "heroHighlight": "من أجل مستقبل أفضل",
+        "heroDesc": "بصفتك والدًا أو وصيًا، يمكنك التقدم بطلب دعم تعليمي لطفلك الذي يقل عمره عن 18 عامًا.",
+        "steps": {
+            "step1": "معلومات الوالد",
+            "step2": "معلومات الطفل",
+            "step3": "التحقق",
+            "step4": "القصة والوسائط",
+            "step5": "المراجعة"
+        },
+        "step1": {
+            "title": "معلومات ولي الأمر",
+            "subtitle": "أدخل بياناتك الشخصية"
+        },
+        "step2": {
+            "title": "معلومات الطفل",
+            "subtitle": "أدخل بيانات طفلك"
+        },
+        "step3": {
+            "title": "وثائق التحقق",
+            "subtitle": "ارفع الوثائق للتحقق"
+        },
+        "step4": {
+            "title": "القصة والوسائط",
+            "subtitle": "اروِ قصة طفلك"
+        },
+        "step5": {
+            "title": "المراجعة والإرسال",
+            "subtitle": "راجع طلبك"
+        },
+        "labels": {
+            "parentFullName": "الاسم الكامل",
+            "email": "البريد الإلكتروني",
+            "phone": "الهاتف (اختياري)",
+            "country": "البلد",
+            "relation": "العلاقة بالطفل",
+            "childName": "اسم الطفل",
+            "childDob": "تاريخ الميلاد",
+            "age": "العمر",
+            "gender": "الجنس",
+            "studentId": "رقم الطالب (اختياري)",
+            "schoolName": "اسم المدرسة",
+            "schoolCity": "مدينة المدرسة",
+            "grade": "الصف / المستوى",
+            "parentId": "هوية ولي الأمر",
+            "childId": "هوية الطفل",
+            "reportCard": "الشهادة المدرسية",
+            "enrollment": "إثبات التسجيل (اختياري)",
+            "story": "قصة طفلك",
+            "targetAmount": "المبلغ المستهدف",
+            "photos": "صور (اختياري)",
+            "video": "فيديو (اختياري)"
+        },
+        "placeholders": {
+            "parentFullName": "مثال: فاطمة أحمد",
+            "email": "مثال: parent@email.com",
+            "country": "مثال: تركيا",
+            "selectRelation": "اختر العلاقة...",
+            "childName": "مثال: علي أحمد",
+            "selectGender": "اختر الجنس...",
+            "studentId": "مثال: 123456",
+            "schoolName": "مثال: مدرسة الفاتح",
+            "schoolCity": "مثال: إسطنبول",
+            "grade": "مثال: الصف الخامس",
+            "story": "صف احتياجات طفلك التعليمية...",
+            "targetAmount": "مثال: 5000"
+        },
+        "options": {
+            "mother": "أم",
+            "father": "أب",
+            "guardian": "الوصي القانوني",
+            "male": "ذكر",
+            "female": "أنثى",
+            "other": "آخر"
+        },
+        "hints": {
+            "parentId": "ارفع نسخة من هويتك.",
+            "childId": "ارفع هوية الطفل أو شهادة الميلاد.",
+            "reportCard": "ارفع آخر شهادة مدرسية.",
+            "enrollment": "ارفع إثبات التسجيل.",
+            "childAgeNote": "هذا الطلب للأطفال دون 18 عامًا."
+        },
+        "uploadClick": "انقر للرفع أو اسحب وأفلت",
+        "validation": {
+            "parentFullName": "الاسم مطلوب",
+            "email": "البريد مطلوب",
+            "invalidEmail": "بريد إلكتروني غير صالح",
+            "country": "البلد مطلوب",
+            "relation": "العلاقة مطلوبة",
+            "parentId": "هوية الوالد مطلوبة",
+            "childName": "اسم الطفل مطلوب",
+            "childDob": "تاريخ الميلاد مطلوب",
+            "childAge": "يجب أن يكون الطفل أقل من 18",
+            "schoolName": "اسم المدرسة مطلوب",
+            "schoolCity": "المدينة مطلوبة",
+            "grade": "الصف مطلوب",
+            "childId": "هوية الطفل مطلوبة",
+            "reportCard": "الشهادة مطلوبة",
+            "story": "القصة مطلوبة",
+            "storyMin": "{{min}} حرف على الأقل",
+            "targetAmount": "المبلغ مطلوب"
+        },
+        "tips": {
+            "title": "نصائح:",
+            "tip1": "صف الاحتياجات بالتفصيل",
+            "tip2": "اشرح كيف ستُستخدم الأموال",
+            "tip3": "شارك ما يجعل الموقف فريدًا"
+        },
+        "docTips": {
+            "title": "مهم:",
+            "tip1": "يجب أن تكون الوثائق واضحة",
+            "tip2": "البيانات مشفرة ومخزنة بأمان",
+            "tip3": "الوثائق للتحقق فقط"
+        },
+        "photos": {
+            "dropText": "اسحب الصور هنا أو",
+            "selectBtn": "اختر صورًا",
+            "maxCount": "حتى 5 صور"
+        },
+        "video": {
+            "selectBtn": "ارفع فيديو"
+        },
+        "review": {
+            "parentInfo": "معلومات الوالد",
+            "childInfo": "معلومات الطفل",
+            "documents": "الوثائق",
+            "storyMedia": "القصة والوسائط",
+            "files": "ملف(ات)",
+            "photos": "صورة",
+            "videos": "فيديو",
+            "yearsOld": "سنة"
+        },
+        "prev": "السابق",
+        "next": "التالي",
+        "back": "رجوع",
+        "submit": "إرسال الطلب",
+        "submitting": "جارٍ الإرسال...",
+        "submitSuccess": "تم إرسال الطلب!",
+        "submitError": "فشل الإرسال.",
+        "successTitle": "تم الإرسال!",
+        "successDesc": "شكرًا! سيراجع فريقنا طلبك خلال 48 ساعة.",
+        "backToHome": "العودة للرئيسية",
+        "sidebar": {
+            "title": "عملية التحقق",
+            "point1": "يتم التحقق من هوية الوالد والطفل",
+            "point2": "يتم تأكيد التسجيل المدرسي",
+            "point3": "جميع البيانات مشفرة",
+            "point4": "المراجعة خلال 48 ساعة",
+            "bannerTitle": "حملات الأطفال",
+            "bannerDesc": "حملات الوالدين تساعد الأطفال دون 18 عامًا في الوصول إلى التعليم!"
         }
     }
 }

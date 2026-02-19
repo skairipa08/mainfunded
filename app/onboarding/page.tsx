@@ -24,11 +24,11 @@ export default function OnboardingPage() {
 
   useEffect(() => {
     if (status === 'loading') return;
-    
+
     // If not authenticated, redirect to login with return path
     if (!session) {
       const currentPath = window.location.pathname + window.location.search;
-      router.push(`/login?callbackUrl=${encodeURIComponent(currentPath)}`);
+      router.replace(`/login?callbackUrl=${encodeURIComponent(currentPath)}`);
       return;
     }
   }, [session, status, router]);

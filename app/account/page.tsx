@@ -27,6 +27,7 @@ function AccountPageContent() {
     const [verification, setVerification] = useState<VerificationStatus | null>(null);
     const [verificationLoading, setVerificationLoading] = useState(true);
     const [personalInfo, setPersonalInfo] = useState({
+        phoneCountryCode: '+90',
         phone: '',
         backupEmail: '',
         country: '',
@@ -37,6 +38,19 @@ function AccountPageContent() {
     });
     const [saving, setSaving] = useState(false);
     const [saved, setSaved] = useState(false);
+
+    const COUNTRY_CODES = [
+        { code: '+90', label: 'TR +90' },
+        { code: '+1', label: 'US/CA +1' },
+        { code: '+44', label: 'UK +44' },
+        { code: '+49', label: 'DE +49' },
+        { code: '+33', label: 'FR +33' },
+        { code: '+34', label: 'ES +34' },
+        { code: '+971', label: 'UAE +971' },
+        { code: '+966', label: 'SA +966' },
+        { code: '+7', label: 'RU +7' },
+        { code: '+86', label: 'CN +86' },
+    ];
 
     const handlePersonalInfoChange = (field: string, value: string | boolean) => {
         setPersonalInfo(prev => ({ ...prev, [field]: value }));
@@ -59,7 +73,7 @@ function AccountPageContent() {
     // Redirect to login if not authenticated (skip in preview mode)
     useEffect(() => {
         if (!isPreviewMode && status === 'unauthenticated') {
-            router.push('/login');
+            router.replace('/login');
         }
     }, [status, router, isPreviewMode]);
 
@@ -430,13 +444,24 @@ function AccountPageContent() {
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                                 <div>
                                                     <label className="block text-sm font-medium text-gray-600 mb-1">{t('personalInfo.phone')}</label>
-                                                    <Input
-                                                        type="tel"
-                                                        placeholder="+90 5XX XXX XX XX"
-                                                        value={personalInfo.phone}
-                                                        onChange={(e) => handlePersonalInfoChange('phone', e.target.value)}
-                                                        className="w-full"
-                                                    />
+                                                    <div className="flex gap-2">
+                                                        <select
+                                                            value={personalInfo.phoneCountryCode}
+                                                            onChange={(e) => handlePersonalInfoChange('phoneCountryCode', e.target.value)}
+                                                            className="w-28 px-3 py-2 border border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                                        >
+                                                            {COUNTRY_CODES.map((c) => (
+                                                                <option key={c.code} value={c.code}>{c.label}</option>
+                                                            ))}
+                                                        </select>
+                                                        <Input
+                                                            type="tel"
+                                                            placeholder="5XX XXX XX XX"
+                                                            value={personalInfo.phone}
+                                                            onChange={(e) => handlePersonalInfoChange('phone', e.target.value)}
+                                                            className="flex-1"
+                                                        />
+                                                    </div>
                                                 </div>
                                                 <div>
                                                     <label className="block text-sm font-medium text-gray-600 mb-1">{t('personalInfo.backupEmail')}</label>

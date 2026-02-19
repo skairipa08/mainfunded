@@ -8,8 +8,26 @@ import { Toaster } from '@/components/ui/sonner';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'FundEd - Educational Crowdfunding',
-  description: 'Support verified students in their educational journey',
+  metadataBase: new URL('https://fund-ed.com'),
+  title: {
+    default: 'FundEd - Eğitim Kitle Fonlama Platformu',
+    template: '%s | FundEd',
+  },
+  description: 'Doğrulanmış öğrencilere bağış yaparak eğitim hayallerini gerçeğe dönüştürün. FundEd, güvenli ve şeffaf bir kitle fonlama platformudur.',
+  openGraph: {
+    siteName: 'FundEd',
+    locale: 'tr_TR',
+    type: 'website',
+    images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'FundEd' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    images: ['/og-image.png'],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
@@ -23,6 +41,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `history.scrollRestoration = "manual"`,
+          }}
+        />
         <ErrorBoundary>
           <Providers>
             {children}

@@ -4,9 +4,8 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { checkRateLimit, RATE_LIMITS } from './rate-limit';
 import {
-    checkRateLimit,
-    RateLimits,
     sanitizeObject,
     detectMaliciousInput,
     logSecurityEvent,
@@ -34,18 +33,17 @@ export function withSecurity(
 ): ApiHandler {
     return async (request: NextRequest, context?: { params?: Record<string, string> }) => {
         const {
-            rateLimit = RateLimits.api,
+            rateLimit = RATE_LIMITS.verificationApi,
             sanitizeBody = true,
             checkMalicious = true,
         } = options;
 
-        // Get IP for rate limiting
+        // Get client IP for logging
         const forwarded = request.headers.get('x-forwarded-for');
         const ip = forwarded ? forwarded.split(',')[0].trim() : 'unknown';
-        const rateLimitKey = `${ip}:${request.nextUrl.pathname}`;
 
-        // Rate limiting
-        const rateLimitResult = checkRateLimit(rateLimitKey, rateLimit);
+        // Rate limiting using the canonical rate-limit module
+        const rateLimitResult = checkRateLimit(request, rateLimit);
         if (!rateLimitResult.allowed) {
             logSecurityEvent({
                 type: 'rate_limit',
@@ -58,7 +56,7 @@ export function withSecurity(
                 {
                     status: 429,
                     headers: {
-                        'Retry-After': Math.ceil(rateLimitResult.resetIn / 1000).toString(),
+                        'Retry-After': Math.ceil((rateLimitResult.resetAt - Date.now()) / 1000).toString(),
                         'X-RateLimit-Remaining': '0',
                     },
                 }

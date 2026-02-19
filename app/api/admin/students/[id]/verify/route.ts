@@ -5,8 +5,8 @@ import { errorResponse, getStatusCode } from '@/lib/api-error';
 import { studentVerifySchema } from '@/lib/validators/admin';
 import { withRateLimit, RATE_LIMITS } from '@/lib/rate-limit';
 import { sendEmail, renderStudentVerifiedEmail, renderStudentRejectedEmail } from '@/lib/email';
+import { logAudit } from '@/lib/audit';
 import { ObjectId } from 'mongodb';
-import crypto from 'crypto';
 
 export async function POST(
   request: NextRequest,
@@ -84,20 +84,18 @@ export async function POST(
       { $set: updateData }
     );
     
-    // Create audit log
-    try {
-      await db.collection('audit_logs').insertOne({
-        audit_id: `audit_${crypto.randomBytes(6).toString('hex')}`,
-        actor_user_id: admin.id,
-        action: action === 'approve' ? 'student.verified' : 'student.rejected',
-        target_type: 'student_profile',
-        target_id: userId,
-        meta: { reason },
-        created_at: new Date().toISOString(),
-      });
-    } catch {
-      // Ignore audit log errors
-    }
+    // Centralized audit log
+    const ip = request.headers.get('x-forwarded-for') || 'unknown';
+    await logAudit(db, {
+      actor_user_id: admin.id,
+      actor_email: admin.email,
+      action: action === 'approve' ? 'student.verified' : 'student.rejected',
+      target_type: 'student_profile',
+      target_id: userId,
+      target_details: { previous_status: currentStatus, new_status: newStatus, reason: reason ?? '' },
+      ip_address: ip,
+      severity: 'info',
+    });
     
     try {
       const user = await db.collection('users').findOne(

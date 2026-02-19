@@ -38,7 +38,9 @@ async function processSuccessfulPayment(db: any, sessionId: string, paymentInten
     donor_name: transaction.donor_name,
     donor_email: transaction.donor_email || null,
     anonymous: transaction.anonymous || false,
-    amount: transaction.amount,
+    amount: transaction.base_amount ?? transaction.amount,
+    total_charged: transaction.amount,
+    cover_fees: transaction.cover_fees || false,
     currency: transaction.currency || 'usd',
     stripe_session_id: sessionId,
     stripe_payment_intent_id: paymentIntentId || null,
@@ -47,6 +49,23 @@ async function processSuccessfulPayment(db: any, sessionId: string, paymentInten
   };
   
   await db.collection('donations').insertOne(donation);
+
+  // Record platform fee if fees were covered
+  if (transaction.cover_fees && transaction.platform_fee > 0) {
+    try {
+      await db.collection('platform_fees').insertOne({
+        fee_id: `fee_${crypto.randomBytes(6).toString('hex')}`,
+        donation_id: donation.donation_id,
+        campaign_id: transaction.campaign_id,
+        base_amount: transaction.base_amount ?? transaction.amount,
+        platform_fee: transaction.platform_fee,
+        stripe_fee: transaction.stripe_fee || 0,
+        created_at: new Date().toISOString(),
+      });
+    } catch {
+      // Non-critical: fee record failed but donation is still valid
+    }
+  }
   
   await db.collection('payment_transactions').updateOne(
     { session_id: sessionId },
@@ -61,7 +80,7 @@ async function processSuccessfulPayment(db: any, sessionId: string, paymentInten
     { campaign_id: transaction.campaign_id },
     {
       $inc: {
-        raised_amount: transaction.amount,
+        raised_amount: transaction.base_amount ?? transaction.amount,
         donor_count: 1,
       },
       $set: {

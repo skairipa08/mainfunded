@@ -47,6 +47,10 @@ import {
   Star,
   Camera,
   ImagePlus,
+  Film,
+  GripVertical,
+  ChevronUp,
+  ChevronDown,
 } from 'lucide-react';
 
 type DocStatus = 'ready' | 'uploading' | 'uploaded' | 'failed';
@@ -65,6 +69,17 @@ interface PhotoItem {
   file: File;
   previewUrl: string;
   label: string;
+  uploadedUrl?: string;
+  status: DocStatus;
+}
+
+interface VideoItem {
+  id: string;
+  file: File;
+  previewUrl: string;
+  label: string;
+  uploadedUrl?: string;
+  status: DocStatus;
 }
 
 const CLASS_YEAR_KEYS = [
@@ -142,6 +157,7 @@ export default function ApplyPage() {
     classYear: '',
     faculty: '',
     department: '',
+    campaignTitle: '',
   });
 
   // Document State
@@ -154,6 +170,11 @@ export default function ApplyPage() {
   const [photos, setPhotos] = useState<PhotoItem[]>([]);
   const photoInputRef = useRef<HTMLInputElement>(null);
   const [photoDragOver, setPhotoDragOver] = useState(false);
+
+  // Video State (step 3 optional)
+  const [videos, setVideos] = useState<VideoItem[]>([]);
+  const videoInputRef = useRef<HTMLInputElement>(null);
+  const [videoDragOver, setVideoDragOver] = useState(false);
 
   const validateForm = (): boolean => {
     const newErrors: Record<string, string> = {};
@@ -292,7 +313,7 @@ export default function ApplyPage() {
     const updatedDocs = [...documents, newDoc];
     setDocuments(updatedDocs);
     setDocumentNameInput('');
-    await simulateUpload(newDoc.id!);
+    await uploadFile(newDoc.id!, file, 'document');
   };
 
   const handleDrop = async (e: React.DragEvent) => {
@@ -302,22 +323,80 @@ export default function ApplyPage() {
     if (file) await processFile(file);
   };
 
-  const simulateUpload = async (docId: string) => {
+  const uploadFile = async (docId: string, file: File, type: 'document' | 'photo' = 'document') => {
     setDocuments((prev) => prev.map((d) => (d.id === docId ? { ...d, status: 'uploading' } : d)));
     try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('type', type);
+
+      const res = await fetch('/api/upload', { method: 'POST', body: fd });
+      const json = await res.json();
+
+      if (!res.ok || !json.success) {
+        throw new Error(json.error || 'Upload failed');
+      }
+
       setDocuments((prev) =>
-        prev.map((d) => (d.id === docId ? { ...d, status: 'uploaded', uploadedUrl: `mock_url_${d.name}` } : d))
+        prev.map((d) => (d.id === docId ? { ...d, status: 'uploaded', uploadedUrl: json.data.url } : d))
       );
       toast.success(t('apply.documents.status.uploaded'));
-    } catch {
+    } catch (err: any) {
       setDocuments((prev) => prev.map((d) => (d.id === docId ? { ...d, status: 'failed' } : d)));
-      toast.error(t('apply.documents.status.failed'));
+      toast.error(err.message || t('apply.documents.status.failed'));
     }
   };
 
   const handleRemoveDocument = (id: string) => {
     setDocuments((prev) => prev.filter((d) => d.id !== id));
+  };
+
+  /* ── Photo upload helper ── */
+  const uploadPhoto = async (photoId: string, file: File) => {
+    setPhotos((prev) => prev.map((p) => (p.id === photoId ? { ...p, status: 'uploading' as DocStatus } : p)));
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('type', 'photo');
+
+      const res = await fetch('/api/upload', { method: 'POST', body: fd });
+      const json = await res.json();
+
+      if (!res.ok || !json.success) {
+        throw new Error(json.error || 'Upload failed');
+      }
+
+      setPhotos((prev) =>
+        prev.map((p) => (p.id === photoId ? { ...p, status: 'uploaded' as DocStatus, uploadedUrl: json.data.url } : p))
+      );
+    } catch {
+      setPhotos((prev) => prev.map((p) => (p.id === photoId ? { ...p, status: 'failed' as DocStatus } : p)));
+      toast.error('Fotoğraf yüklenemedi.');
+    }
+  };
+
+  /* ── Video upload helper ── */
+  const uploadVideo = async (videoId: string, file: File) => {
+    setVideos((prev) => prev.map((v) => (v.id === videoId ? { ...v, status: 'uploading' as DocStatus } : v)));
+    try {
+      const fd = new FormData();
+      fd.append('file', file);
+      fd.append('type', 'video');
+
+      const res = await fetch('/api/upload', { method: 'POST', body: fd });
+      const json = await res.json();
+
+      if (!res.ok || !json.success) {
+        throw new Error(json.error || 'Upload failed');
+      }
+
+      setVideos((prev) =>
+        prev.map((v) => (v.id === videoId ? { ...v, status: 'uploaded' as DocStatus, uploadedUrl: json.data.url } : v))
+      );
+    } catch {
+      setVideos((prev) => prev.map((v) => (v.id === videoId ? { ...v, status: 'failed' as DocStatus } : v)));
+      toast.error('Video yüklenemedi.');
+    }
   };
 
   /* ── Photo handlers (step 3) ── */
@@ -346,8 +425,10 @@ export default function ApplyPage() {
         file,
         previewUrl,
         label: file.name,
+        status: 'ready',
       };
       setPhotos((prev) => [...prev, newPhoto]);
+      uploadPhoto(newPhoto.id, file);
     });
   };
 
@@ -368,8 +449,10 @@ export default function ApplyPage() {
         file,
         previewUrl,
         label: file.name,
+        status: 'ready',
       };
       setPhotos((prev) => [...prev, newPhoto]);
+      uploadPhoto(newPhoto.id, file);
     });
   };
 
@@ -399,12 +482,16 @@ export default function ApplyPage() {
 
     const pendingDocs = documents.some((d) => d.status === 'uploading');
     const failedDocs = documents.some((d) => d.status === 'failed');
+    const pendingPhotos = photos.some((p) => p.status === 'uploading');
+    const failedPhotos = photos.some((p) => p.status === 'failed');
+    const pendingVideos = videos.some((v) => v.status === 'uploading');
+    const failedVideos = videos.some((v) => v.status === 'failed');
 
-    if (pendingDocs) {
+    if (pendingDocs || pendingPhotos || pendingVideos) {
       toast.warning(t('apply.validation.waitUpload'));
       return;
     }
-    if (failedDocs) {
+    if (failedDocs || failedPhotos || failedVideos) {
       toast.error(t('apply.validation.removeFailed'));
       return;
     }
@@ -413,7 +500,20 @@ export default function ApplyPage() {
     setSubmitted(true);
 
     try {
-      const documentNames = documents.map((d) => d.name);
+      // Build document objects with name + URL
+      const documentData = documents
+        .filter((d) => d.status === 'uploaded' && d.uploadedUrl)
+        .map((d) => ({ name: d.name, url: d.uploadedUrl! }));
+
+      // Build photo URLs
+      const photoUrls = photos
+        .filter((p) => p.status === 'uploaded' && p.uploadedUrl)
+        .map((p) => p.uploadedUrl!);
+
+      const videoUrls = videos
+        .filter((v) => v.status === 'uploaded' && v.uploadedUrl)
+        .map((v) => v.uploadedUrl!);
+
       const response = await fetch('/api/ops/applications', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -423,11 +523,14 @@ export default function ApplyPage() {
           country: sanitizeInput(formData.country),
           educationLevel: formData.educationLevel,
           needSummary: sanitizeInput(formData.needSummary),
-          documents: documentNames,
+          documents: documentData,
+          photos: photoUrls,
+          videos: videoUrls,
           targetAmount: parseInt(formData.targetAmount) || 0,
           classYear: formData.classYear,
           faculty: sanitizeInput(formData.faculty),
           department: sanitizeInput(formData.department),
+          campaignTitle: sanitizeInput(formData.campaignTitle || ''),
         }),
       });
       const result = await response.json();
@@ -444,6 +547,30 @@ export default function ApplyPage() {
   };
 
   const descriptionLength = formData.needSummary.trim().length;
+
+  const movePhoto = (index: number, direction: 'up' | 'down') => {
+    setPhotos((prev) => {
+      const newArr = [...prev];
+      const targetIndex = direction === 'up' ? index - 1 : index + 1;
+      if (targetIndex < 0 || targetIndex >= newArr.length) return prev;
+      const temp = newArr[index];
+      newArr[index] = newArr[targetIndex];
+      newArr[targetIndex] = temp;
+      return newArr;
+    });
+  };
+
+  const moveVideo = (index: number, direction: 'up' | 'down') => {
+    setVideos((prev) => {
+      const newArr = [...prev];
+      const targetIndex = direction === 'up' ? index - 1 : index + 1;
+      if (targetIndex < 0 || targetIndex >= newArr.length) return prev;
+      const temp = newArr[index];
+      newArr[index] = newArr[targetIndex];
+      newArr[targetIndex] = temp;
+      return newArr;
+    });
+  };
 
   /* ───────────────────────
      RENDER
@@ -747,7 +874,7 @@ export default function ApplyPage() {
                         </div>
                       </div>
 
-                      {/* Description */}
+                      {/* Description + Custom Campaign Title */}
                       <div className="space-y-2">
                         <div className="flex justify-between items-center">
                           <Label htmlFor="needSummary" className="text-sm font-semibold text-slate-700 flex items-center gap-2">
@@ -788,6 +915,28 @@ export default function ApplyPage() {
                         )}
                       </div>
 
+                      {/* Optional custom campaign title (used as headline when approved) */}
+                      <div className="space-y-2 pt-2">
+                        <Label htmlFor="campaignTitle" className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                          <FileText className="h-4 w-4 text-slate-400" />
+                          Kampanya Başlığı (Opsiyonel)
+                        </Label>
+                        <Input
+                          id="campaignTitle"
+                          type="text"
+                          value={formData.campaignTitle}
+                          onChange={(e) => {
+                            setFormData({ ...formData, campaignTitle: e.target.value });
+                          }}
+                          placeholder="Örn: Mehmet'in Bilgisayar Mühendisliği Eğitimine Destek"
+                          className={inputClass(false)}
+                          maxLength={200}
+                        />
+                        <p className="text-xs text-slate-400">
+                          Bu alanı doldurursanız, kampanya onaylandığında sayfanın başlığında bu metin görünecek.
+                        </p>
+                      </div>
+
                       {/* ── Optional Photo Upload ── */}
                       <div className="space-y-3 pt-2">
                         <div className="flex items-center justify-between">
@@ -818,23 +967,71 @@ export default function ApplyPage() {
 
                         {/* Photo grid */}
                         <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                          {photos.map((photo) => (
-                            <div key={photo.id} className="relative group rounded-xl overflow-hidden border border-slate-200 aspect-[4/3]">
-                              <img
-                                src={photo.previewUrl}
-                                alt={photo.label}
-                                className="w-full h-full object-cover"
-                              />
-                              <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-200" />
-                              <button
-                                type="button"
-                                onClick={() => handleRemovePhoto(photo.id)}
-                                className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-500"
-                              >
-                                <X className="h-3.5 w-3.5" />
-                              </button>
-                              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                <p className="text-[10px] text-white truncate">{photo.label}</p>
+                          {photos.map((photo, index) => (
+                            <div key={photo.id} className="relative group rounded-xl overflow-hidden border border-slate-200 aspect-[4/3] flex flex-col">
+                              <div className="relative flex-1 w-full">
+                                <img
+                                  src={photo.previewUrl}
+                                  alt={photo.label}
+                                  className="w-full h-full object-cover"
+                                />
+                                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-200" />
+                              {/* Upload status overlay */}
+                                {photo.status === 'uploading' && (
+                                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                                  <Loader2 className="h-6 w-6 text-white animate-spin" />
+                                </div>
+                                )}
+                                {photo.status === 'uploaded' && (
+                                  <div className="absolute top-2 left-2">
+                                    <div className="w-6 h-6 rounded-full bg-emerald-500 flex items-center justify-center shadow-sm">
+                                      <CheckCircle className="h-3.5 w-3.5 text-white" />
+                                    </div>
+                                  </div>
+                                )}
+                                {photo.status === 'failed' && (
+                                  <div className="absolute inset-0 bg-red-500/20 flex items-center justify-center">
+                                    <div className="bg-red-500 text-white text-[10px] px-2 py-1 rounded-full font-medium">
+                                      Yükleme Başarısız
+                                    </div>
+                                  </div>
+                                )}
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemovePhoto(photo.id)}
+                                  className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-red-500"
+                                >
+                                  <X className="h-3.5 w-3.5" />
+                                </button>
+                                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                                  <p className="text-[10px] text-white truncate">{photo.label}</p>
+                                </div>
+                              </div>
+
+                              {/* Order controls */}
+                              <div className="flex items-center justify-between px-2 py-1.5 bg-slate-900/80 text-white text-[10px]">
+                                <div className="flex items-center gap-1">
+                                  <GripVertical className="h-3 w-3 text-slate-400" />
+                                  <span className="font-medium">Fotoğraf {index + 1}</span>
+                                </div>
+                                <div className="flex items-center gap-1">
+                                  <button
+                                    type="button"
+                                    onClick={() => movePhoto(index, 'up')}
+                                    disabled={index === 0}
+                                    className="disabled:opacity-40 hover:text-emerald-300 transition-colors"
+                                  >
+                                    <ChevronUp className="h-3 w-3" />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => movePhoto(index, 'down')}
+                                    disabled={index === photos.length - 1}
+                                    className="disabled:opacity-40 hover:text-emerald-300 transition-colors"
+                                  >
+                                    <ChevronDown className="h-3 w-3" />
+                                  </button>
+                                </div>
                               </div>
                             </div>
                           ))}
@@ -857,6 +1054,163 @@ export default function ApplyPage() {
                             </div>
                           )}
                         </div>
+                      </div>
+
+                      {/* ── Optional Video Upload ── */}
+                      <div className="space-y-3 pt-4">
+                        <div className="flex items-center justify-between">
+                          <Label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                            <Film className="h-4 w-4 text-slate-400" />
+                            Videolar
+                            <span className="text-xs font-normal text-slate-400 ml-1">(Opsiyonel)</span>
+                          </Label>
+                          <span className="text-xs text-slate-400">{videos.length}/2</span>
+                        </div>
+
+                        <input
+                          type="file"
+                          ref={videoInputRef}
+                          className="hidden"
+                          accept="video/mp4,video/quicktime,video/webm"
+                          multiple
+                          onChange={(e) => {
+                            const files = e.target.files;
+                            if (!files) return;
+                            e.target.value = '';
+
+                            Array.from(files).forEach((file) => {
+                              if (!file.type.startsWith('video/')) {
+                                toast.error('Sadece video dosyaları yükleyebilirsiniz.');
+                                return;
+                              }
+                              if (file.size > 50 * 1024 * 1024) {
+                                toast.error('Video boyutu maksimum 50 MB olabilir.');
+                                return;
+                              }
+                              if (videos.length >= 2) {
+                                toast.error('En fazla 2 video yükleyebilirsiniz.');
+                                return;
+                              }
+
+                              const previewUrl = URL.createObjectURL(file);
+                              const newVideo: VideoItem = {
+                                id: Math.random().toString(36).substring(7),
+                                file,
+                                previewUrl,
+                                label: file.name,
+                                status: 'ready',
+                              };
+                              setVideos((prev) => [...prev, newVideo]);
+                              uploadVideo(newVideo.id, file);
+                            });
+                          }}
+                        />
+
+                        <div
+                          onClick={() => videoInputRef.current?.click()}
+                          onDragOver={(e) => {
+                            e.preventDefault();
+                            setVideoDragOver(true);
+                          }}
+                          onDragLeave={() => setVideoDragOver(false)}
+                          onDrop={(e) => {
+                            e.preventDefault();
+                            setVideoDragOver(false);
+                            const files = e.dataTransfer.files;
+                            if (!files) return;
+
+                            Array.from(files).forEach((file) => {
+                              if (!file.type.startsWith('video/')) return;
+                              if (file.size > 50 * 1024 * 1024) return;
+                              if (videos.length >= 2) return;
+
+                              const previewUrl = URL.createObjectURL(file);
+                              const newVideo: VideoItem = {
+                                id: Math.random().toString(36).substring(7),
+                                file,
+                                previewUrl,
+                                label: file.name,
+                                status: 'ready',
+                              };
+                              setVideos((prev) => [...prev, newVideo]);
+                              uploadVideo(newVideo.id, file);
+                            });
+                          }}
+                          className={`rounded-xl border-2 border-dashed flex flex-col items-center justify-center p-4 text-center cursor-pointer transition-all duration-200 ${
+                            videoDragOver
+                              ? 'border-blue-400 bg-blue-50'
+                              : 'border-slate-200 hover:border-blue-300 hover:bg-blue-50/40 bg-slate-50/50'
+                          }`}
+                        >
+                          <Film className={`h-7 w-7 mb-1.5 ${videoDragOver ? 'text-blue-500' : 'text-slate-300'}`} />
+                          <span className="text-xs text-slate-500 font-medium">Video Ekle veya Bırak</span>
+                          <span className="text-[10px] text-slate-300 mt-0.5">MP4, WebM, QuickTime • Maks. 50 MB</span>
+                        </div>
+
+                        {videos.length > 0 && (
+                          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            {videos.map((video, index) => (
+                              <div key={video.id} className="relative rounded-xl border border-slate-200 overflow-hidden bg-black">
+                                <div className="aspect-video relative">
+                                  <video
+                                    src={video.previewUrl}
+                                    className="w-full h-full object-contain bg-black"
+                                    controls
+                                  />
+                                  {video.status === 'uploading' && (
+                                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                                      <Loader2 className="h-6 w-6 text-white animate-spin" />
+                                    </div>
+                                  )}
+                                  {video.status === 'failed' && (
+                                    <div className="absolute inset-0 bg-red-500/30 flex items-center justify-center">
+                                      <div className="bg-red-500 text-white text-[10px] px-2 py-1 rounded-full font-medium">
+                                        Yükleme Başarısız
+                                      </div>
+                                    </div>
+                                  )}
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      setVideos((prev) => {
+                                        const found = prev.find((v) => v.id === video.id);
+                                        if (found) URL.revokeObjectURL(found.previewUrl);
+                                        return prev.filter((v) => v.id !== video.id);
+                                      });
+                                    }}
+                                    className="absolute top-2 right-2 w-7 h-7 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center text-white hover:bg-red-500"
+                                  >
+                                    <X className="h-3.5 w-3.5" />
+                                  </button>
+                                </div>
+                                <div className="flex items-center justify-between px-2 py-1.5 bg-slate-900/80 text-white text-[10px]">
+                                  <div className="flex items-center gap-1">
+                                    <GripVertical className="h-3 w-3 text-slate-400" />
+                                    <span className="font-medium">Video {index + 1}</span>
+                                  </div>
+                                  <div className="flex items-center gap-1">
+                                    <button
+                                      type="button"
+                                      onClick={() => moveVideo(index, 'up')}
+                                      disabled={index === 0}
+                                      className="disabled:opacity-40 hover:text-emerald-300 transition-colors"
+                                    >
+                                      <ChevronUp className="h-3 w-3" />
+                                    </button>
+                                    <button
+                                      type="button"
+                                      onClick={() => moveVideo(index, 'down')}
+                                      disabled={index === videos.length - 1}
+                                      className="disabled:opacity-40 hover:text-emerald-300 transition-colors"
+                                    >
+                                      <ChevronDown className="h-3 w-3" />
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
                       </div>
                     </div>
                   )}

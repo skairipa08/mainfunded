@@ -43,7 +43,7 @@ export default function DashboardPage() {
     if (status === 'loading') return;
 
     if (!session) {
-      router.push('/login');
+      router.replace('/login');
       return;
     }
 
@@ -109,7 +109,7 @@ export default function DashboardPage() {
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               Verification Status
             </h2>
-            
+
             {verificationStatus === 'none' && (
               <div className="border border-gray-200 rounded-lg p-6">
                 <div className="flex items-start gap-4">

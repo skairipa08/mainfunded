@@ -6,6 +6,7 @@ import { requireAdmin } from '@/lib/authz';
 import { errorResponse, getStatusCode } from '@/lib/api-error';
 import { campaignStatusSchema } from '@/lib/validators/admin';
 import { withRateLimit, RATE_LIMITS } from '@/lib/rate-limit';
+import { logAudit } from '@/lib/audit';
 
 export async function PUT(
   request: NextRequest,
@@ -18,7 +19,7 @@ export async function PUT(
   }
 
   try {
-    await requireAdmin();
+    const admin = await requireAdmin();
 
     const { id } = params;
     const db = await getDb();
@@ -66,6 +67,19 @@ export async function PUT(
       { campaign_id: id },
       { $set: updateData }
     );
+
+    // Audit log
+    const ip = request.headers.get('x-forwarded-for') || 'unknown';
+    await logAudit(db, {
+      actor_user_id: admin.id,
+      actor_email: admin.email,
+      action: 'campaign.status_changed',
+      target_type: 'campaign',
+      target_id: id,
+      target_details: { previous_status: campaign.status, new_status: status, reason: reason ?? '' },
+      ip_address: ip,
+      severity: 'info',
+    });
 
     const updatedCampaign = await db.collection('campaigns').findOne(
       { campaign_id: id },

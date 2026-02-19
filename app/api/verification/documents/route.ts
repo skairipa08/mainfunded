@@ -18,11 +18,12 @@ import {
     calculateFileHash,
     sanitizeFileName,
     generateStoragePath,
-    generateSignedUrl,
     checkForMaliciousContent,
     DocumentType,
     DOCUMENT_TYPES
 } from '@/lib/verification';
+import { storage } from '@/lib/storage';
+import { processImage, generateThumbnail } from '@/lib/storage/image-processing';
 import crypto from 'crypto';
 
 /**
@@ -51,7 +52,7 @@ export async function GET(request: NextRequest) {
         // Add signed URLs for viewing
         const docsWithUrls = documents.map(doc => ({
             ...doc,
-            view_url: generateSignedUrl(doc.storage_path)
+            view_url: storage.getSignedUrl(doc.storage_path)
         }));
 
         return NextResponse.json({ documents: docsWithUrls });
@@ -132,25 +133,63 @@ export async function POST(request: NextRequest) {
 
         // Generate storage path
         const docId = crypto.randomUUID();
-        const storagePath = generateStoragePath(user.id, verificationId, docId, file.type);
         const safeFileName = sanitizeFileName(file.name);
 
-        // TODO: Actually upload to storage (S3/Cloudinary)
-        // For now, we just create the record
-        // await uploadToStorage(storagePath, buffer);
+        // Process images: strip EXIF metadata and re-encode for security
+        let uploadBuffer = buffer;
+        let uploadMimeType = file.type;
 
-        // Create document record
+        if (file.type.startsWith('image/')) {
+            const processed = await processImage(buffer, file.type);
+            if (!processed) {
+                return NextResponse.json(
+                    { error: 'Image could not be processed. The file may be corrupted.' },
+                    { status: 400 }
+                );
+            }
+            uploadBuffer = Buffer.from(processed.buffer);
+            uploadMimeType = processed.mimeType;
+        }
+
+        const storagePath = generateStoragePath(user.id, verificationId, docId, uploadMimeType);
+
+        // Upload to Cloudinary (or local fallback in dev)
+        const uploadResult = await storage.upload(uploadBuffer, storagePath, uploadMimeType);
+        if (!uploadResult.success) {
+            return NextResponse.json(
+                { error: 'Failed to upload file to storage' },
+                { status: 500 }
+            );
+        }
+
+        // Generate thumbnail for admin preview (non-blocking, best-effort)
+        let thumbnailUrl: string | undefined;
+        if (file.type.startsWith('image/')) {
+            const thumb = await generateThumbnail(uploadBuffer, uploadMimeType);
+            if (thumb) {
+                const thumbPath = generateStoragePath(user.id, verificationId, `${docId}_thumb`, 'image/jpeg');
+                const thumbResult = await storage.upload(thumb, thumbPath, 'image/jpeg');
+                if (thumbResult.success) {
+                    thumbnailUrl = thumbResult.url;
+                }
+            }
+        }
+
+        // Create document record in database
         const document = await createDocumentRecord(verificationId, user.id, {
             document_type: documentType,
             storage_path: storagePath,
             file_name: safeFileName,
-            mime_type: file.type,
-            file_size_bytes: buffer.length,
+            mime_type: uploadMimeType,
+            file_size_bytes: uploadBuffer.length,
             sha256_hash: sha256Hash,
             is_verified: false
         });
 
         if (!document) {
+            // Cleanup: delete the uploaded file since DB write failed
+            const publicId = storagePath.replace(/\.[^/.]+$/, '');
+            await storage.delete(publicId, uploadMimeType === 'application/pdf' ? 'raw' : 'image');
             return NextResponse.json(
                 { error: 'Failed to save document record' },
                 { status: 500 }
@@ -161,7 +200,8 @@ export async function POST(request: NextRequest) {
             message: 'Document uploaded successfully',
             document: {
                 ...document,
-                view_url: generateSignedUrl(storagePath)
+                view_url: storage.getSignedUrl(storagePath),
+                thumbnail_url: thumbnailUrl
             },
             warnings: duplicateCheck.isDuplicate
                 ? ['This document appears to be a duplicate']

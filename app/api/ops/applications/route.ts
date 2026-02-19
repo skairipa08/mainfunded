@@ -64,28 +64,60 @@ export async function POST(request: NextRequest) {
                 error: 'Açıklama en az 100 karakter olmalı'
             }, { status: 400 });
         }
-        if (!body.targetAmount || body.targetAmount < 1) {
-            return NextResponse.json({ success: false, error: 'Hedef miktar gerekli' }, { status: 400 });
+        // targetAmount is only required for student (campaign) applications
+        if (body.type !== 'teacher' && body.type !== 'parent') {
+            if (!body.targetAmount || body.targetAmount < 1) {
+                return NextResponse.json({ success: false, error: 'Hedef miktar gerekli' }, { status: 400 });
+            }
         }
 
-        const application = {
+        const application: Record<string, any> = {
+            type: body.type || 'student',
             fullName: body.fullName,
             email: body.email,
             country: body.country,
-            educationLevel: body.educationLevel,
+            educationLevel: body.educationLevel || null,
             needSummary: body.needSummary,
             documents: body.documents || [],
-            // New fields
+            photos: body.photos || [],
+            videos: body.videos || [],
             targetAmount: body.targetAmount || 0,
-            goalAmount: body.targetAmount || body.goalAmount || 500, // alias for campaign creation
+            goalAmount: body.targetAmount || body.goalAmount || 0,
             classYear: body.classYear || null,
             faculty: body.faculty || null,
             department: body.department || null,
             story: body.story || body.needSummary,
+            campaignTitle: body.campaignTitle || null,
             status: 'Received',
             createdAt: new Date().toISOString(),
             updatedAt: new Date().toISOString(),
         };
+
+        // Teacher-specific fields
+        if (body.type === 'teacher') {
+            application.schoolName = body.schoolName || null;
+            application.schoolCity = body.schoolCity || null;
+            application.classGrade = body.classGrade || null;
+            application.subject = body.subject || null;
+            application.studentCount = body.studentCount || null;
+            application.phone = body.phone || null;
+            application.photoCount = body.photoCount || 0;
+        }
+
+        // Parent-specific fields
+        if (body.type === 'parent') {
+            application.parentRelation = body.parentRelation || null;
+            application.phone = body.phone || null;
+            application.childName = body.childName || null;
+            application.childDob = body.childDob || null;
+            application.childGender = body.childGender || null;
+            application.childSchool = body.childSchool || null;
+            application.childSchoolCity = body.childSchoolCity || null;
+            application.childGrade = body.childGrade || null;
+            application.childStudentId = body.childStudentId || null;
+            application.photoCount = body.photoCount || 0;
+            application.hasVideo = body.hasVideo || false;
+        }
 
         const result = await db.collection('applications').insertOne(application);
 
