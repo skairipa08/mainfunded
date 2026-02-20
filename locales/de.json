@@ -336,24 +336,16 @@
                 "title": "Unsere Meilensteine",
                 "items": {
                     "e1": {
-                        "event": "FundEd Idee wurde geboren",
-                        "desc": "Erster Schritt zur Lösung der Ungleichheit in der Bildung."
+                        "event": "Ideenentwicklung",
+                        "desc": "Das FundEd-Konzept wurde geformt und das Geschäftsmodell erstellt."
                     },
                     "e2": {
-                        "event": "Plattformentwicklung",
-                        "desc": "Technische Infrastruktur und Verifizierungssystem eingerichtet."
+                        "event": "Erster Prototyp",
+                        "desc": "Der erste funktionierende Prototyp der Plattform wurde entwickelt."
                     },
                     "e3": {
-                        "event": "Beta-Start",
-                        "desc": "Erste Studenten und Spender traten der Plattform bei."
-                    },
-                    "e4": {
-                        "event": "Firmenmodul",
-                        "desc": "ESG-konformes Spendenpanel für Unternehmen eröffnet."
-                    },
-                    "e5": {
-                        "event": "Globale Expansion",
-                        "desc": "Zugang zu 12 Ländern, Unterstützung für Tausende von Studenten."
+                        "event": "Erste Unternehmens- & globale Präsentation",
+                        "desc": "Die Plattform wurde Unternehmenspartnern und dem globalen Markt vorgestellt."
                     }
                 }
             },
@@ -595,7 +587,7 @@
         },
         "cta": {
             "title": "Bereit, etwas zu bewegen?",
-            "description": "Schließen Sie sich Tausenden von Spendern an, die Studenten weltweit unterstützen.",
+            "description": "Treten Sie unserer Gemeinschaft bei, die den Zugang zu Bildung demokratisiert.",
             "button": "Kampagnen entdecken"
         }
     },
@@ -1999,24 +1991,16 @@
             "title": "Unsere Meilensteine",
             "items": {
                 "e1": {
-                    "event": "FundEd-Idee wurde geboren",
-                    "desc": "Der erste Schritt wurde getan, um Ungleichheit in der Bildung zu lösen."
+                    "event": "Ideenentwicklung",
+                    "desc": "Das FundEd-Konzept wurde geformt und das Geschäftsmodell erstellt."
                 },
                 "e2": {
-                    "event": "Plattformentwicklung",
-                    "desc": "Technische Infrastruktur und Verifizierungssystem wurden aufgebaut."
+                    "event": "Erster Prototyp",
+                    "desc": "Der erste funktionierende Prototyp der Plattform wurde entwickelt."
                 },
                 "e3": {
-                    "event": "Beta-Start",
-                    "desc": "Erste Schüler und Spender traten der Plattform bei."
-                },
-                "e4": {
-                    "event": "Unternehmensmodul",
-                    "desc": "ESG-konformes Spendenpanel für Unternehmen wurde gestartet."
-                },
-                "e5": {
-                    "event": "Globale Expansion",
-                    "desc": "Zugang zu 12 Ländern, Unterstützung für Tausende von Schülern."
+                    "event": "Erste Unternehmens- & globale Präsentation",
+                    "desc": "Die Plattform wurde Unternehmenspartnern und dem globalen Markt vorgestellt."
                 }
             }
         },
@@ -2148,11 +2132,11 @@
                 "desc": "Im Gegensatz zu traditionellen Spendenplattformen verifizieren wir jeden Schüler, verfolgen jeden Cent und messen jede Wirkung.",
                 "stats": {
                     "verification": {
-                        "val": "100%",
+                        "val": "98%",
                         "label": "Verifizierung"
                     },
                     "traceability": {
-                        "val": "100%",
+                        "val": "98%",
                         "label": "Rückverfolgbarkeit"
                     },
                     "hiddenCost": {
@@ -2280,7 +2264,7 @@
         "badge": "Kampagnenbewerbung",
         "heroTitle": "Für eine Kampagne bewerben",
         "heroTitleHighlight": "Gemeinsam erreichen",
-        "heroDescription": "Ob Sie ein Student sind, der Unterstützung benötigt, oder ein Lehrer, der sich für seine Klasse einsetzt — wir verbinden Sie mit Tausenden von Spendern.",
+        "heroDescription": "Ob Sie ein Student sind, der Unterstützung benötigt, oder ein Lehrer, der sich für seine Klasse einsetzt — wir verbinden Sie mit Spendern.",
         "selectRole": "Wie möchten Sie sich bewerben?",
         "selectRoleDesc": "Wählen Sie die Option, die Ihre Situation am besten beschreibt.",
         "studentTitle": "Kampagne starten",
@@ -2309,13 +2293,19 @@
         "parentFeature1": "Für Kinder unter 18",
         "parentFeature2": "Eltern- & Kind-ID-Verifizierung",
         "parentFeature3": "Zeugnis- & Schulverifizierung",
-        "parentCta": "Als Elternteil bewerben"
+        "parentCta": "Als Elternteil bewerben",
+        "schoolTitle": "Apply as a School",
+        "schoolDescription": "Apply on behalf of your school for a general or specific educational project, laboratory, or library.",
+        "schoolFeature1": "Corporate campaigns",
+        "schoolFeature2": "Large-scale projects",
+        "schoolFeature3": "Broad social impact",
+        "schoolCta": "Apply as a School"
     },
     "applyTeacher": {
         "badge": "Lehrerbewerbungsformular",
         "heroTitle": "Bewerben Sie sich für Ihre Klasse",
         "heroHighlight": "Wir hören Ihre Schüler",
-        "heroDesc": "Füllen Sie das Formular aus, beschreiben Sie die Bedürfnisse Ihrer Klasse und verbinden Sie sich mit Tausenden von Spendern.",
+        "heroDesc": "Füllen Sie das Formular aus, beschreiben Sie die Bedürfnisse Ihrer Klasse und verbinden Sie sich mit Spendern.",
         "step1": {
             "title": "Lehrerinformationen",
             "subtitle": "Geben Sie Ihre persönlichen und Kontaktdaten ein"
@@ -2385,7 +2375,7 @@
             "title": "Warum als Lehrer bewerben?",
             "point1": "Setzen Sie sich für die Bedürfnisse Ihrer gesamten Klasse ein",
             "point2": "Verifizierte Lehrerbewerbungen gewinnen mehr Spendervertrauen",
-            "point3": "Erreichen Sie Tausende von Spendern auf der Plattform",
+            "point3": "Erreichen Sie Spender auf der Plattform",
             "point4": "Alle Bewerbungen werden innerhalb von 48 Stunden geprüft",
             "bannerTitle": "Klassenkampagnen",
             "bannerDesc": "Lehrergeführte Kampagnen helfen ganzen Klassen, die benötigten Ressourcen zu erhalten!"

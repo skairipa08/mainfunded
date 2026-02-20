@@ -85,7 +85,7 @@ export default function SponsorsPage() {
                                 Sponsorluk Neden Onemli?
                             </h2>
                             <p className="text-gray-700 leading-relaxed">
-                                Sponsorlarimiz sayesinde binlerce ogrenci egitim burslarindan faydalanabiliyor.
+                                Sponsorlarımız sayesinde öğrenciler eğitim burslarından faydalanabilecek.
                                 Her bir sponsor, bir ogrencinin gelecegine yatirim yapiyor. Sponsorlarimizin
                                 destekleriyle ogrenciler kitap, okul malzemesi, barinma ve ulasim gibi temel
                                 ihtiyaclarini karsilayabiliyor ve egitimlerine odaklanabiliyor.

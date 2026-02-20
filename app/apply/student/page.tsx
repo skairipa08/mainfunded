@@ -610,7 +610,7 @@ export default function ApplyPage() {
               </h1>
 
               <p className="text-base sm:text-lg text-emerald-100/80 leading-relaxed max-w-xl mx-auto">
-                Başvurunuzu tamamlayın, doğrulama sürecimizden geçin ve binlerce bağışçıyla buluşun.
+                Başvurunuzu tamamlayın, doğrulama sürecimizden geçin ve bağışçılarla buluşun.
               </p>
             </div>
           </div>
@@ -1449,18 +1449,18 @@ export default function ApplyPage() {
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-[40px]" />
                   <div className="relative z-10">
                     <Star className="h-8 w-8 mb-4 text-yellow-300" />
-                    <h3 className="text-lg font-bold mb-2">Binlerce Öğrenci</h3>
+                    <h3 className="text-lg font-bold mb-2">İlk Adımlar</h3>
                     <p className="text-sm text-emerald-100 leading-relaxed mb-5">
-                      FundEd ile hayallerine ulaşan öğrenci topluluğuna siz de katılın.
+                      FundEd ile eğitim hayallerine ulaşacak öğrenci topluluğunun ilk üyesi siz olun.
                     </p>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center">
-                        <p className="text-2xl font-bold">2.4K+</p>
+                        <p className="text-2xl font-bold">0</p>
                         <p className="text-xs text-emerald-200">Desteklenen Öğrenci</p>
                       </div>
                       <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center">
-                        <p className="text-2xl font-bold">48s</p>
-                        <p className="text-xs text-emerald-200">Ort. İnceleme</p>
+                        <p className="text-2xl font-bold">Beta</p>
+                        <p className="text-xs text-emerald-200">Aşama</p>
                       </div>
                     </div>
                   </div>

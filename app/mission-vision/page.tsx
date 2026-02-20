@@ -135,10 +135,10 @@ export default function MissionVisionPage() {
   ];
 
   const impactNumbers = [
-    { value: '2.4K+', label: t('pages.missionVision.impactNumbers.students'), icon: GraduationCap },
-    { value: '12', label: t('pages.missionVision.impactNumbers.countries'), icon: Globe },
-    { value: '$850K+', label: t('pages.missionVision.impactNumbers.funding'), icon: TrendingUp },
-    { value: '98%', label: t('pages.missionVision.impactNumbers.satisfaction'), icon: Star },
+    { value: '0', label: t('pages.missionVision.impactNumbers.students'), icon: GraduationCap },
+    { value: '1', label: t('pages.missionVision.impactNumbers.countries'), icon: Globe },
+    { value: '$0', label: t('pages.missionVision.impactNumbers.funding'), icon: TrendingUp },
+    { value: '-', label: t('pages.missionVision.impactNumbers.satisfaction'), icon: Star },
   ];
 
   return (

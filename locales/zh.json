@@ -336,24 +336,16 @@
                 "title": "Our Milestones",
                 "items": {
                     "e1": {
-                        "event": "FundEd idea was born",
-                        "desc": "First step taken to solve inequality in education."
+                        "event": "Idea development",
+                        "desc": "FundEd concept was shaped and the business model was created."
                     },
                     "e2": {
-                        "event": "Platform development",
-                        "desc": "Technical infrastructure and verification system established."
+                        "event": "First prototype",
+                        "desc": "The first working prototype of the platform was developed."
                     },
                     "e3": {
-                        "event": "Beta launch",
-                        "desc": "First students and donors joined the platform."
-                    },
-                    "e4": {
-                        "event": "Corporate module",
-                        "desc": "ESG compliant donation panel opened for companies."
-                    },
-                    "e5": {
-                        "event": "Global expansion",
-                        "desc": "Access to 12 countries, support for thousands of students."
+                        "event": "First corporate & global showcase",
+                        "desc": "The platform was introduced to corporate partners and the global market."
                     }
                 }
             },
@@ -595,7 +587,7 @@
         },
         "cta": {
             "title": "准备好做出改变了吗？",
-            "description": "加入全球数千名支持学生的捐助者。",
+            "description": "加入我们民主化教育准入的社区。",
             "button": "探索活动"
         }
     },
@@ -1999,24 +1991,16 @@
             "title": "我们的里程碑",
             "items": {
                 "e1": {
-                    "event": "FundEd 理念诞生",
-                    "desc": "迈出了解决教育不平等的第一步。"
+                    "event": "创意开发",
+                    "desc": "FundEd概念成形，商业模式建立。"
                 },
                 "e2": {
-                    "event": "平台开发",
-                    "desc": "建立了技术基础设施和验证系统。"
+                    "event": "首个原型",
+                    "desc": "开发了平台的第一个可运行原型。"
                 },
                 "e3": {
-                    "event": "测试版发布",
-                    "desc": "第一批学生和捐助者加入平台。"
-                },
-                "e4": {
-                    "event": "企业模块",
-                    "desc": "为公司推出了符合 ESG 标准的捐赠面板。"
-                },
-                "e5": {
-                    "event": "全球扩张",
-                    "desc": "进入12个国家，支持数千名学生。"
+                    "event": "首次企业与全球展示",
+                    "desc": "平台向企业合作伙伴和全球市场进行了展示。"
                 }
             }
         },
@@ -2148,11 +2132,11 @@
                 "desc": "与传统捐赠平台不同，我们验证每一位学生，追踪每一分钱，并衡量每一份影响力。",
                 "stats": {
                     "verification": {
-                        "val": "100%",
+                        "val": "98%",
                         "label": "验证"
                     },
                     "traceability": {
-                        "val": "100%",
+                        "val": "98%",
                         "label": "可追溯性"
                     },
                     "hiddenCost": {
@@ -2280,7 +2264,7 @@
         "badge": "活动申请",
         "heroTitle": "申请活动",
         "heroTitleHighlight": "让我们一起实现",
-        "heroDescription": "无论您是需要支持的学生还是为班级倡导的教师，我们都在这里将您与数千名捐助者联系起来。",
+        "heroDescription": "无论您是需要支持的学生还是为班级倡导的教师，我们都在这里将您与捐助者联系起来。",
         "selectRole": "您想如何申请？",
         "selectRoleDesc": "选择最能描述您情况的选项。",
         "studentTitle": "发起活动",
@@ -2309,13 +2293,19 @@
         "parentFeature1": "适用于18岁以下儿童",
         "parentFeature2": "家长和孩子身份验证",
         "parentFeature3": "成绩单和学校验证",
-        "parentCta": "以家长身份申请"
+        "parentCta": "以家长身份申请",
+        "schoolTitle": "作为学校申请",
+        "schoolDescription": "代表您的学校申请一般或特定的教育项目、实验室或图书馆。",
+        "schoolFeature1": "企业活动",
+        "schoolFeature2": "大型项目",
+        "schoolFeature3": "广泛的社会影响",
+        "schoolCta": "作为学校申请"
     },
     "applyTeacher": {
         "badge": "教师申请表",
         "heroTitle": "为您的班级申请",
         "heroHighlight": "我们倾听您的学生",
-        "heroDesc": "填写表格，描述您班级的需求，与数千名捐助者联系。",
+        "heroDesc": "填写表格，描述您班级的需求，与捐助者联系。",
         "step1": {
             "title": "教师信息",
             "subtitle": "输入您的个人和联系信息"
@@ -2385,7 +2375,7 @@
             "title": "为什么以教师身份申请？",
             "point1": "为整个班级的需求代言",
             "point2": "经验证的教师申请获得更多捐助者信任",
-            "point3": "接触平台上数千名捐助者",
+            "point3": "接触平台上的捐助者",
             "point4": "所有申请在48小时内审核",
             "bannerTitle": "班级活动",
             "bannerDesc": "教师主导的活动帮助整个班级获得所需资源！"

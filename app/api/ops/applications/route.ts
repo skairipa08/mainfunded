@@ -64,6 +64,18 @@ export async function POST(request: NextRequest) {
                 error: 'Açıklama en az 100 karakter olmalı'
             }, { status: 400 });
         }
+        // School-specific validation
+        if (body.type === 'school') {
+            if (!body.schoolName || body.schoolName.trim().length < 2) {
+                return NextResponse.json({ success: false, error: 'Okul adı gerekli' }, { status: 400 });
+            }
+            if (!body.applicantRole) {
+                return NextResponse.json({ success: false, error: 'Başvuran mercii gerekli' }, { status: 400 });
+            }
+            if (!body.projectTitle || body.projectTitle.trim().length < 2) {
+                return NextResponse.json({ success: false, error: 'Proje başlığı gerekli' }, { status: 400 });
+            }
+        }
         // targetAmount is only required for student (campaign) applications
         if (body.type !== 'teacher' && body.type !== 'parent') {
             if (!body.targetAmount || body.targetAmount < 1) {
@@ -115,6 +127,26 @@ export async function POST(request: NextRequest) {
             application.childSchoolCity = body.childSchoolCity || null;
             application.childGrade = body.childGrade || null;
             application.childStudentId = body.childStudentId || null;
+            application.photoCount = body.photoCount || 0;
+            application.hasVideo = body.hasVideo || false;
+        }
+
+        // School-specific fields
+        if (body.type === 'school') {
+            application.schoolName = body.schoolName || null;
+            application.schoolCity = body.schoolCity || null;
+            application.schoolDistrict = body.schoolDistrict || null;
+            application.schoolAddress = body.schoolAddress || null;
+            application.schoolType = body.schoolType || null;
+            application.studentTotal = body.studentTotal || null;
+            application.schoolWebsite = body.schoolWebsite || null;
+            application.schoolPhone = body.schoolPhone || null;
+            application.applicantRole = body.applicantRole || null;
+            application.applicantTitle = body.applicantTitle || null;
+            application.projectTitle = body.projectTitle || null;
+            application.projectCategory = body.projectCategory || null;
+            application.beneficiaryCount = body.beneficiaryCount || null;
+            application.phone = body.phone || null;
             application.photoCount = body.photoCount || 0;
             application.hasVideo = body.hasVideo || false;
         }

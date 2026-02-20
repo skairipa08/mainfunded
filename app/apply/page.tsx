@@ -16,6 +16,7 @@ import {
   School,
   UserCheck,
 } from 'lucide-react';
+import Image from 'next/image';
 
 export default function ApplyLandingPage() {
   const router = useRouter();
@@ -79,7 +80,7 @@ export default function ApplyLandingPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-4xl mx-auto">
               {/* STUDENT CARD */}
               <button
                 onClick={() => router.push('/apply/student')}
@@ -201,6 +202,59 @@ export default function ApplyLandingPage() {
 
                   <div className="flex items-center text-purple-600 font-semibold group-hover:gap-3 gap-2 transition-all duration-300">
                     <span>{t('applyLanding.parentCta')}</span>
+                    <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </div>
+              </button>
+
+              {/* SCHOOL CARD */}
+              <button
+                onClick={() => router.push('/apply/school')}
+                className="group relative bg-slate-900 rounded-3xl border-2 border-slate-800 hover:border-slate-500 shadow-sm hover:shadow-xl transition-all duration-500 text-left overflow-hidden min-h-[420px]"
+              >
+                {/* Background Image */}
+                <div className="absolute inset-0 z-0">
+                  <Image
+                    src="https://images.unsplash.com/photo-1427504494785-3a9a2e4fe4a1?w=800&q=80&auto=format&fit=crop"
+                    alt="School Application"
+                    fill
+                    className="object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  {/* Dark gradient overlay for readability */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/80 to-slate-900/60" />
+                </div>
+
+                <div className="relative z-10 p-8 h-full flex flex-col justify-between">
+                  <div>
+                    <div className="w-16 h-16 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center mb-6 shadow-lg group-hover:scale-110 transition-transform duration-300">
+                      <School className="h-8 w-8 text-white" />
+                    </div>
+
+                    <h3 className="text-2xl font-bold text-white mb-3 group-hover:text-amber-300 transition-colors">
+                      {t('applyLanding.schoolTitle')}
+                    </h3>
+                    <p className="text-white/80 mb-6 leading-relaxed line-clamp-3">
+                      {t('applyLanding.schoolDescription')}
+                    </p>
+
+                    <div className="space-y-3 mb-8">
+                      <div className="flex items-center gap-3 text-sm text-white/90">
+                        <CheckCircle className="h-4 w-4 text-amber-400 flex-shrink-0" />
+                        <span>{t('applyLanding.schoolFeature1')}</span>
+                      </div>
+                      <div className="flex items-center gap-3 text-sm text-white/90">
+                        <CheckCircle className="h-4 w-4 text-amber-400 flex-shrink-0" />
+                        <span>{t('applyLanding.schoolFeature2')}</span>
+                      </div>
+                      <div className="flex items-center gap-3 text-sm text-white/90">
+                        <CheckCircle className="h-4 w-4 text-amber-400 flex-shrink-0" />
+                        <span>{t('applyLanding.schoolFeature3')}</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center text-amber-400 font-semibold group-hover:gap-3 gap-2 transition-all duration-300 mt-auto pt-4">
+                    <span>{t('applyLanding.schoolCta')}</span>
                     <ArrowRight className="h-5 w-5 group-hover:translate-x-1 transition-transform" />
                   </div>
                 </div>

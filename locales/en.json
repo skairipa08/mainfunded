@@ -268,24 +268,16 @@
                 "title": "Our Milestones",
                 "items": {
                     "e1": {
-                        "event": "FundEd idea was born",
-                        "desc": "First step taken to solve inequality in education."
+                        "event": "Idea development",
+                        "desc": "FundEd concept was shaped and the business model was created."
                     },
                     "e2": {
-                        "event": "Platform development",
-                        "desc": "Technical infrastructure and verification system established."
+                        "event": "First prototype",
+                        "desc": "The first working prototype of the platform was developed."
                     },
                     "e3": {
-                        "event": "Beta launch",
-                        "desc": "First students and donors joined the platform."
-                    },
-                    "e4": {
-                        "event": "Corporate module",
-                        "desc": "ESG compliant donation panel opened for companies."
-                    },
-                    "e5": {
-                        "event": "Global expansion",
-                        "desc": "Access to 12 countries, support for thousands of students."
+                        "event": "First corporate & global showcase",
+                        "desc": "The platform was introduced to corporate partners and the global market."
                     }
                 }
             },
@@ -595,7 +587,7 @@
         },
         "cta": {
             "title": "Ready to Make a Difference?",
-            "description": "Join thousands of donors supporting students worldwide.",
+            "description": "Join our community democratizing access to education.",
             "button": "Explore Campaigns"
         }
     },
@@ -1999,24 +1991,16 @@
             "title": "Our Milestones",
             "items": {
                 "e1": {
-                    "event": "FundEd idea was born",
-                    "desc": "The first step was taken to solve inequality in education."
+                    "event": "Idea development",
+                    "desc": "FundEd concept was shaped and the business model was created."
                 },
                 "e2": {
-                    "event": "Platform development",
-                    "desc": "Technical infrastructure and verification system was built."
+                    "event": "First prototype",
+                    "desc": "The first working prototype of the platform was developed."
                 },
                 "e3": {
-                    "event": "Beta launch",
-                    "desc": "First students and donors joined the platform."
-                },
-                "e4": {
-                    "event": "Corporate module",
-                    "desc": "ESG-compliant donation panel for companies was launched."
-                },
-                "e5": {
-                    "event": "Global expansion",
-                    "desc": "Access to 12 countries, support for thousands of students."
+                    "event": "First corporate & global showcase",
+                    "desc": "The platform was introduced to corporate partners and the global market."
                 }
             }
         },
@@ -2148,11 +2132,11 @@
                 "desc": "Unlike traditional donation platforms, we verify every student, track every penny, and measure every impact.",
                 "stats": {
                     "verification": {
-                        "val": "100%",
+                        "val": "98%",
                         "label": "Verification"
                     },
                     "traceability": {
-                        "val": "100%",
+                        "val": "98%",
                         "label": "Traceability"
                     },
                     "hiddenCost": {
@@ -2280,7 +2264,7 @@
         "badge": "Campaign Application",
         "heroTitle": "Apply for a Campaign",
         "heroTitleHighlight": "Let's Reach Together",
-        "heroDescription": "Whether you're a student in need or a teacher advocating for your class, we're here to connect you with thousands of donors.",
+        "heroDescription": "Whether you're a student in need or a teacher advocating for your class, we're here to connect you with donors.",
         "selectRole": "How would you like to apply?",
         "selectRoleDesc": "Choose the option that best describes your situation.",
         "studentTitle": "Start Campaign",
@@ -2301,6 +2285,12 @@
         "parentFeature2": "Parent & child ID verification",
         "parentFeature3": "Report card & school verification",
         "parentCta": "Apply as a Parent",
+        "schoolTitle": "Apply as a School",
+        "schoolDescription": "Apply on behalf of your school for a general or specific educational project, laboratory, or library.",
+        "schoolFeature1": "Corporate campaigns",
+        "schoolFeature2": "Large-scale projects",
+        "schoolFeature3": "Broad social impact",
+        "schoolCta": "Apply as a School",
         "howItWorks": "How Does It Work?",
         "step1Title": "Fill Out the Form",
         "step1Desc": "Provide your details and describe your educational needs.",
@@ -2315,7 +2305,7 @@
         "badge": "Teacher Application Form",
         "heroTitle": "Apply for Your Class",
         "heroHighlight": "We Hear Your Students",
-        "heroDesc": "Fill out the form, describe your class's needs, and connect with thousands of donors.",
+        "heroDesc": "Fill out the form, describe your class's needs, and connect with donors.",
         "step1": {
             "title": "Teacher Information",
             "subtitle": "Enter your personal and contact details"
@@ -2385,7 +2375,7 @@
             "title": "Why Apply as a Teacher?",
             "point1": "Advocate for your entire classroom's needs",
             "point2": "Verified teacher applications gain more donor trust",
-            "point3": "Reach thousands of donors on the platform",
+            "point3": "Reach donors on the platform",
             "point4": "All applications are reviewed within 48 hours",
             "bannerTitle": "Class Campaigns",
             "bannerDesc": "Teacher-led campaigns help entire classrooms receive the resources they need. Your advocacy makes a difference!"
@@ -2565,6 +2555,181 @@
             "point4": "Applications are reviewed within 48 hours",
             "bannerTitle": "Children's Campaigns",
             "bannerDesc": "Parent-led campaigns help children under 18 access education. Your advocacy makes their future brighter!"
+        }
+    },
+    "applySchool": {
+        "badge": "School Application Form",
+        "heroTitle": "Apply for Your School",
+        "heroHighlight": "Stronger Education Together",
+        "heroDesc": "Describe your school's projects, laboratory needs, or library gaps. Connect with donors.",
+        "step1": {
+            "title": "School Information",
+            "subtitle": "Enter your school's general information"
+        },
+        "step2": {
+            "title": "Applicant Information",
+            "subtitle": "Details about the person making this application",
+            "notice": "The person submitting this application should be authorized to represent the school (e.g. principal)."
+        },
+        "step3": {
+            "title": "Project Details",
+            "subtitle": "Describe your needs and project in detail"
+        },
+        "step4": {
+            "title": "Media & Documents",
+            "subtitle": "Upload photos, videos, and supporting documents"
+        },
+        "step5": {
+            "title": "Review & Submit",
+            "subtitle": "Review your application before submitting"
+        },
+        "labels": {
+            "schoolName": "School Name",
+            "schoolType": "School Type",
+            "schoolCity": "City / Province",
+            "schoolDistrict": "District",
+            "schoolAddress": "Full Address (Optional)",
+            "studentTotal": "Total Number of Students",
+            "schoolWebsite": "School Website (Optional)",
+            "schoolPhone": "School Phone (Optional)",
+            "applicantFullName": "Full Name",
+            "applicantRole": "Role / Position",
+            "applicantTitle": "Title (Optional)",
+            "applicantEmail": "Email Address",
+            "applicantPhone": "Phone (Optional)",
+            "projectTitle": "Project Title",
+            "projectCategory": "Project Category",
+            "needSummary": "Project Description (min. 100 characters)",
+            "targetAmount": "Target Amount",
+            "beneficiaryCount": "Number of Benefiting Students"
+        },
+        "placeholders": {
+            "schoolName": "e.g. Atatürk Primary School",
+            "schoolType": "Select school type",
+            "schoolCity": "e.g. Istanbul",
+            "schoolDistrict": "e.g. Kadıköy",
+            "schoolAddress": "Street, neighborhood, and number",
+            "studentTotal": "e.g. 500",
+            "schoolWebsite": "e.g. https://school.edu",
+            "schoolPhone": "e.g. +90 212 XXX XX XX",
+            "applicantFullName": "e.g. Jane Smith",
+            "applicantRole": "Select your role",
+            "applicantTitle": "e.g. Science Teacher",
+            "applicantEmail": "e.g. principal@school.edu",
+            "projectTitle": "e.g. Science Lab Renovation Project",
+            "projectCategory": "Select a category",
+            "needSummary": "Describe your school's needs, the project details, how funds will be used, and the impact on students...",
+            "targetAmount": "e.g. 25000",
+            "beneficiaryCount": "e.g. 200"
+        },
+        "schoolTypes": {
+            "ilkokul": "Primary School",
+            "ortaokul": "Middle School",
+            "lise": "High School",
+            "meslek_lisesi": "Vocational School",
+            "universite": "University",
+            "ozel": "Private School",
+            "diger": "Other"
+        },
+        "roles": {
+            "mudur": "Principal",
+            "mudur_yardimcisi": "Vice Principal",
+            "ogretmen": "Teacher",
+            "okul_aile_birligi": "PTA President",
+            "idari_personel": "Administrative Staff",
+            "diger": "Other"
+        },
+        "categories": {
+            "laboratuvar": "Laboratory",
+            "kutuphane": "Library",
+            "teknoloji": "Technology & IT",
+            "spor": "Sports & Activities",
+            "sanat": "Arts & Music",
+            "altyapi": "Infrastructure & Renovation",
+            "malzeme": "Educational Materials",
+            "diger": "Other"
+        },
+        "tips": {
+            "title": "Tips:",
+            "tip1": "Clearly explain the purpose and scope of the project",
+            "tip2": "Specify how many students will benefit from this project",
+            "tip3": "Describe in detail how funds will be used",
+            "tip4": "Share examples of similar successful projects if available"
+        },
+        "docTips": {
+            "title": "Recommended Documents:",
+            "tip1": "Official application letter on school letterhead",
+            "tip2": "Project budget or proposal document",
+            "tip3": "Photos of the school or visuals showing current conditions"
+        },
+        "docUploadText": "Drag & drop your file here, or",
+        "docSelectFile": "Select File",
+        "documents": {
+            "label": "Supporting Documents (Optional)"
+        },
+        "photos": {
+            "label": "Photos (Optional)",
+            "hint": "Upload photos of your school building, classrooms, laboratory, or project area.",
+            "dropText": "Drag & drop your photos here, or",
+            "selectBtn": "Select Photos",
+            "maxCount": "Up to 10 photos",
+            "typeError": "Only JPG, PNG, or WebP format is accepted.",
+            "sizeError": "Photo size must be 5 MB or less.",
+            "maxError": "You can upload up to 10 photos."
+        },
+        "video": {
+            "label": "Introduction Video (Optional)",
+            "hint": "Upload a short video introducing your school and project. This can be very impactful for donors.",
+            "dropText": "Click to upload a video",
+            "selectBtn": "Select Video",
+            "typeError": "Only MP4, WebM, or QuickTime format is accepted.",
+            "sizeError": "Video size must be 50 MB or less."
+        },
+        "review": {
+            "photos": "Photo count",
+            "video": "Video",
+            "documents": "Document count",
+            "yes": "Yes",
+            "no": "No",
+            "notice": "After submission, your application will be reviewed by our team. You will be notified about the status of your application via email."
+        },
+        "prev": "Previous",
+        "next": "Next",
+        "back": "Back",
+        "submit": "Submit Application",
+        "submitting": "Submitting...",
+        "submitSuccess": "Your school application has been submitted! We will review it shortly.",
+        "submitError": "Failed to submit application. Please try again.",
+        "successTitle": "Application Submitted!",
+        "successDesc": "Thank you. Our team will review your application and get back to you via email.",
+        "backToHome": "Back to Home",
+        "sidebar": {
+            "title": "Why Apply as a School?",
+            "point1": "Submit institutional applications for large-scale projects",
+            "point2": "Verified school applications are seen as more credible",
+            "point3": "Obtain resources that benefit all your students",
+            "point4": "All applications are reviewed within 48 hours by our team",
+            "bannerTitle": "School Campaigns",
+            "bannerDesc": "Laboratory, library, technology — get support for all the projects your school needs!",
+            "progressTitle": "Your Application Progress"
+        },
+        "validation": {
+            "schoolName": "School name is required",
+            "schoolCity": "City is required",
+            "schoolDistrict": "District is required",
+            "schoolType": "School type must be selected",
+            "studentTotal": "Total number of students is required",
+            "applicantFullName": "Full name is required",
+            "invalidName": "Name must be at least 2 characters",
+            "email": "Email is required",
+            "invalidEmail": "Please enter a valid email",
+            "applicantRole": "Role / position must be selected",
+            "projectTitle": "Project title is required",
+            "projectCategory": "Project category must be selected",
+            "needSummary": "Project description is required",
+            "needSummaryMin": "Description must be at least {{min}} characters",
+            "targetAmount": "Target amount is required",
+            "beneficiaryCount": "Number of benefiting students is required"
         }
     }
 }

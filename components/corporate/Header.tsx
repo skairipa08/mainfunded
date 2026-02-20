@@ -49,9 +49,9 @@ export default function CorporateHeader({ title, subtitle }: HeaderProps) {
                     <p>${companyName} - Rapor Dönemi: Ocak 2026 - Şubat 2026</p>
                     
                     <h2>Etki Özeti</h2>
-                    <div class="stat"><div class="stat-value">24</div><div class="stat-label">Desteklenen Öğrenci</div></div>
-                    <div class="stat"><div class="stat-value">8</div><div class="stat-label">Mezun Sayısı</div></div>
-                    <div class="stat"><div class="stat-value">%92</div><div class="stat-label">İstihdam Oranı</div></div>
+                    <div class="stat"><div class="stat-value">0</div><div class="stat-label">Desteklenen Öğrenci</div></div>
+                    <div class="stat"><div class="stat-value">0</div><div class="stat-label">Mezun Sayısı</div></div>
+                    <div class="stat"><div class="stat-value">-</div><div class="stat-label">İstihdam Oranı</div></div>
                     
                     <h2>BM SDG Uyumu</h2>
                     <ul>

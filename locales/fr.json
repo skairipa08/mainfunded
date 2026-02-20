@@ -336,24 +336,16 @@
                 "title": "Our Milestones",
                 "items": {
                     "e1": {
-                        "event": "FundEd idea was born",
-                        "desc": "First step taken to solve inequality in education."
+                        "event": "Idea development",
+                        "desc": "FundEd concept was shaped and the business model was created."
                     },
                     "e2": {
-                        "event": "Platform development",
-                        "desc": "Technical infrastructure and verification system established."
+                        "event": "First prototype",
+                        "desc": "The first working prototype of the platform was developed."
                     },
                     "e3": {
-                        "event": "Beta launch",
-                        "desc": "First students and donors joined the platform."
-                    },
-                    "e4": {
-                        "event": "Corporate module",
-                        "desc": "ESG compliant donation panel opened for companies."
-                    },
-                    "e5": {
-                        "event": "Global expansion",
-                        "desc": "Access to 12 countries, support for thousands of students."
+                        "event": "First corporate & global showcase",
+                        "desc": "The platform was introduced to corporate partners and the global market."
                     }
                 }
             },
@@ -595,7 +587,7 @@
         },
         "cta": {
             "title": "Prêt à faire la différence ?",
-            "description": "Rejoignez des milliers de donateurs qui soutiennent les étudiants du monde entier.",
+            "description": "Rejoignez notre communauté qui démocratise l'accès à l'éducation.",
             "button": "Explorer les campagnes"
         }
     },
@@ -1999,24 +1991,16 @@
             "title": "Nos jalons",
             "items": {
                 "e1": {
-                    "event": "L'idée FundEd est née",
-                    "desc": "Le premier pas a été fait pour résoudre l'inégalité dans l'éducation."
+                    "event": "Développement de l'idée",
+                    "desc": "Le concept FundEd a été façonné et le modèle commercial créé."
                 },
                 "e2": {
-                    "event": "Développement de la plateforme",
-                    "desc": "L'infrastructure technique et le système de vérification ont été construits."
+                    "event": "Premier prototype",
+                    "desc": "Le premier prototype fonctionnel de la plateforme a été développé."
                 },
                 "e3": {
-                    "event": "Lancement bêta",
-                    "desc": "Les premiers étudiants et donateurs ont rejoint la plateforme."
-                },
-                "e4": {
-                    "event": "Module entreprise",
-                    "desc": "Le panneau de don conforme ESG pour les entreprises a été lancé."
-                },
-                "e5": {
-                    "event": "Expansion mondiale",
-                    "desc": "Accès à 12 pays, soutien à des milliers d'étudiants."
+                    "event": "Première présentation entreprise & mondiale",
+                    "desc": "La plateforme a été présentée aux partenaires entreprises et au marché mondial."
                 }
             }
         },
@@ -2148,11 +2132,11 @@
                 "desc": "Contrairement aux plateformes de don traditionnelles, nous vérifions chaque étudiant, traçons chaque centime et mesurons chaque impact.",
                 "stats": {
                     "verification": {
-                        "val": "100%",
+                        "val": "98%",
                         "label": "Vérification"
                     },
                     "traceability": {
-                        "val": "100%",
+                        "val": "98%",
                         "label": "Traçabilité"
                     },
                     "hiddenCost": {
@@ -2280,7 +2264,7 @@
         "badge": "Candidature de campagne",
         "heroTitle": "Postuler pour une campagne",
         "heroTitleHighlight": "Atteignons ensemble",
-        "heroDescription": "Que vous soyez un étudiant ayant besoin de soutien ou un enseignant défendant sa classe, nous sommes là pour vous connecter avec des milliers de donateurs.",
+        "heroDescription": "Que vous soyez un étudiant ayant besoin de soutien ou un enseignant défendant sa classe, nous sommes là pour vous connecter avec des donateurs.",
         "selectRole": "Comment souhaitez-vous postuler ?",
         "selectRoleDesc": "Choisissez l'option qui décrit le mieux votre situation.",
         "studentTitle": "Lancer une campagne",
@@ -2309,13 +2293,19 @@
         "parentFeature1": "Pour les enfants de moins de 18 ans",
         "parentFeature2": "Vérification parent & enfant",
         "parentFeature3": "Vérification bulletin & école",
-        "parentCta": "Postuler en tant que parent"
+        "parentCta": "Postuler en tant que parent",
+        "schoolTitle": "Apply as a School",
+        "schoolDescription": "Apply on behalf of your school for a general or specific educational project, laboratory, or library.",
+        "schoolFeature1": "Corporate campaigns",
+        "schoolFeature2": "Large-scale projects",
+        "schoolFeature3": "Broad social impact",
+        "schoolCta": "Apply as a School"
     },
     "applyTeacher": {
         "badge": "Formulaire de candidature enseignant",
         "heroTitle": "Postuler pour votre classe",
         "heroHighlight": "Nous entendons vos élèves",
-        "heroDesc": "Remplissez le formulaire, décrivez les besoins de votre classe et connectez-vous avec des milliers de donateurs.",
+        "heroDesc": "Remplissez le formulaire, décrivez les besoins de votre classe et connectez-vous avec des donateurs.",
         "step1": {
             "title": "Informations enseignant",
             "subtitle": "Entrez vos coordonnées personnelles"
@@ -2385,7 +2375,7 @@
             "title": "Pourquoi postuler en tant qu'enseignant ?",
             "point1": "Défendez les besoins de toute votre classe",
             "point2": "Les candidatures d'enseignants vérifiés gagnent plus de confiance",
-            "point3": "Atteignez des milliers de donateurs sur la plateforme",
+            "point3": "Atteignez des donateurs sur la plateforme",
             "point4": "Toutes les candidatures sont examinées sous 48 heures",
             "bannerTitle": "Campagnes de classe",
             "bannerDesc": "Les campagnes menées par les enseignants aident des classes entières à recevoir les ressources nécessaires !"

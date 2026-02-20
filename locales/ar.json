@@ -336,24 +336,16 @@
                 "title": "Our Milestones",
                 "items": {
                     "e1": {
-                        "event": "FundEd idea was born",
-                        "desc": "First step taken to solve inequality in education."
+                        "event": "Idea development",
+                        "desc": "FundEd concept was shaped and the business model was created."
                     },
                     "e2": {
-                        "event": "Platform development",
-                        "desc": "Technical infrastructure and verification system established."
+                        "event": "First prototype",
+                        "desc": "The first working prototype of the platform was developed."
                     },
                     "e3": {
-                        "event": "Beta launch",
-                        "desc": "First students and donors joined the platform."
-                    },
-                    "e4": {
-                        "event": "Corporate module",
-                        "desc": "ESG compliant donation panel opened for companies."
-                    },
-                    "e5": {
-                        "event": "Global expansion",
-                        "desc": "Access to 12 countries, support for thousands of students."
+                        "event": "First corporate & global showcase",
+                        "desc": "The platform was introduced to corporate partners and the global market."
                     }
                 }
             },
@@ -595,7 +587,7 @@
         },
         "cta": {
             "title": "مستعد لإحداث فرق؟",
-            "description": "انضم إلى آلاف المتبرعين الذين يدعمون الطلاب حول العالم.",
+            "description": "انضم إلى مجتمعنا الذي يعمل على ديمقراطية الوصول إلى التعليم.",
             "button": "استكشف الحملات"
         }
     },
@@ -1999,24 +1991,16 @@
             "title": "مراحلنا الهامة",
             "items": {
                 "e1": {
-                    "event": "ولدت فكرة فاند-إد",
-                    "desc": "تم اتخاذ الخطوة الأولى لحل عدم المساواة في التعليم."
+                    "event": "تطوير الفكرة",
+                    "desc": "تم تشكيل مفهوم فاند-إد وإنشاء نموذج العمل."
                 },
                 "e2": {
-                    "event": "تطوير المنصة",
-                    "desc": "تم بناء البنية التحتية التقنية ونظام التحقق."
+                    "event": "النموذج الأولي",
+                    "desc": "تم تطوير أول نموذج أولي عامل للمنصة."
                 },
                 "e3": {
-                    "event": "الإطلاق التجريبي",
-                    "desc": "انضم أول الطلاب والمانحين إلى المنصة."
-                },
-                "e4": {
-                    "event": "وحدة الشركات",
-                    "desc": "تم إطلاق لوحة التبرع المتوافقة مع ESG للشركات."
-                },
-                "e5": {
-                    "event": "التوسع العالمي",
-                    "desc": "الوصول إلى 12 دولة، ودعم آلاف الطلاب."
+                    "event": "أول عرض مؤسسي وعالمي",
+                    "desc": "تم تقديم المنصة للشركاء المؤسسيين والسوق العالمية."
                 }
             }
         },
@@ -2148,11 +2132,11 @@
                 "desc": "على عكس منصات التبرع التقليدية، نتحقق من كل طالب، نتتبع كل قرش ونقيس كل تأثير.",
                 "stats": {
                     "verification": {
-                        "val": "100%",
+                        "val": "98%",
                         "label": "التحقق"
                     },
                     "traceability": {
-                        "val": "100%",
+                        "val": "98%",
                         "label": "التتبع"
                     },
                     "hiddenCost": {
@@ -2280,7 +2264,7 @@
         "badge": "طلب حملة",
         "heroTitle": "تقدم بطلب لحملة",
         "heroTitleHighlight": "لنصل معاً",
-        "heroDescription": "سواء كنت طالباً يحتاج إلى دعم أو معلماً يدافع عن صفه — نحن هنا لربطك بآلاف المتبرعين.",
+        "heroDescription": "سواء كنت طالباً يحتاج إلى دعم أو معلماً يدافع عن صفه — نحن هنا لربطك بالمتبرعين.",
         "selectRole": "كيف تريد التقديم؟",
         "selectRoleDesc": "اختر الخيار الذي يصف وضعك بشكل أفضل.",
         "studentTitle": "بدء حملة",
@@ -2309,13 +2293,19 @@
         "parentFeature1": "للأطفال دون 18 عامًا",
         "parentFeature2": "التحقق من هوية الوالد والطفل",
         "parentFeature3": "التحقق من الشهادة المدرسية",
-        "parentCta": "التقديم كولي أمر"
+        "parentCta": "التقديم كولي أمر",
+        "schoolTitle": "Apply as a School",
+        "schoolDescription": "Apply on behalf of your school for a general or specific educational project, laboratory, or library.",
+        "schoolFeature1": "Corporate campaigns",
+        "schoolFeature2": "Large-scale projects",
+        "schoolFeature3": "Broad social impact",
+        "schoolCta": "Apply as a School"
     },
     "applyTeacher": {
         "badge": "نموذج طلب المعلم",
         "heroTitle": "تقدم لصفك",
         "heroHighlight": "نسمع طلابك",
-        "heroDesc": "املأ النموذج، صف احتياجات صفك، وتواصل مع آلاف المتبرعين.",
+        "heroDesc": "املأ النموذج، صف احتياجات صفك، وتواصل مع المتبرعين.",
         "step1": {
             "title": "معلومات المعلم",
             "subtitle": "أدخل بياناتك الشخصية وبيانات الاتصال"
@@ -2385,7 +2375,7 @@
             "title": "لماذا التقديم كمعلم؟",
             "point1": "دافع عن احتياجات صفك بالكامل",
             "point2": "طلبات المعلمين الموثقة تكسب ثقة أكبر من المتبرعين",
-            "point3": "تواصل مع آلاف المتبرعين على المنصة",
+            "point3": "تواصل مع المتبرعين على المنصة",
             "point4": "تتم مراجعة جميع الطلبات خلال 48 ساعة",
             "bannerTitle": "حملات الصف",
             "bannerDesc": "تساعد الحملات بقيادة المعلمين صفوفاً بأكملها في الحصول على الموارد التي يحتاجونها!"

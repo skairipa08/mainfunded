@@ -336,24 +336,16 @@
                 "title": "Our Milestones",
                 "items": {
                     "e1": {
-                        "event": "FundEd idea was born",
-                        "desc": "First step taken to solve inequality in education."
+                        "event": "Idea development",
+                        "desc": "FundEd concept was shaped and the business model was created."
                     },
                     "e2": {
-                        "event": "Platform development",
-                        "desc": "Technical infrastructure and verification system established."
+                        "event": "First prototype",
+                        "desc": "The first working prototype of the platform was developed."
                     },
                     "e3": {
-                        "event": "Beta launch",
-                        "desc": "First students and donors joined the platform."
-                    },
-                    "e4": {
-                        "event": "Corporate module",
-                        "desc": "ESG compliant donation panel opened for companies."
-                    },
-                    "e5": {
-                        "event": "Global expansion",
-                        "desc": "Access to 12 countries, support for thousands of students."
+                        "event": "First corporate & global showcase",
+                        "desc": "The platform was introduced to corporate partners and the global market."
                     }
                 }
             },
@@ -595,7 +587,7 @@
         },
         "cta": {
             "title": "¿Listo para hacer la diferencia?",
-            "description": "Únete a miles de donantes que apoyan a estudiantes en todo el mundo.",
+            "description": "Únete a nuestra comunidad que democratiza el acceso a la educación.",
             "button": "Explorar campañas"
         }
     },
@@ -1999,24 +1991,16 @@
             "title": "Nuestros Hitos",
             "items": {
                 "e1": {
-                    "event": "Nació la idea de FundEd",
-                    "desc": "Se dio el primer paso para resolver la desigualdad en la educación."
+                    "event": "Desarrollo de la idea",
+                    "desc": "Se dio forma al concepto FundEd y se creó el modelo de negocio."
                 },
                 "e2": {
-                    "event": "Desarrollo de plataforma",
-                    "desc": "Se estableció la infraestructura técnica y el sistema de verificación."
+                    "event": "Primer prototipo",
+                    "desc": "Se desarrolló el primer prototipo funcional de la plataforma."
                 },
                 "e3": {
-                    "event": "Lanzamiento Beta",
-                    "desc": "Los primeros estudiantes y donantes se unieron a la plataforma."
-                },
-                "e4": {
-                    "event": "Módulo Corporativo",
-                    "desc": "Se abrió el panel de donaciones compatible con ESG para empresas."
-                },
-                "e5": {
-                    "event": "Expansión Global",
-                    "desc": "Acceso a 12 países, apoyo a miles de estudiantes."
+                    "event": "Primera presentación corporativa y global",
+                    "desc": "La plataforma fue presentada a socios corporativos y al mercado global."
                 }
             }
         },
@@ -2148,11 +2132,11 @@
                 "desc": "A diferencia de las plataformas de donación tradicionales, verificamos a cada estudiante, rastreamos cada centavo y medimos cada impacto.",
                 "stats": {
                     "verification": {
-                        "val": "100%",
+                        "val": "98%",
                         "label": "Verificación"
                     },
                     "traceability": {
-                        "val": "100%",
+                        "val": "98%",
                         "label": "Trazabilidad"
                     },
                     "hiddenCost": {
@@ -2280,7 +2264,7 @@
         "badge": "Solicitud de campaña",
         "heroTitle": "Solicitar una campaña",
         "heroTitleHighlight": "Alcancemos juntos",
-        "heroDescription": "Ya seas un estudiante que necesita apoyo o un profesor que aboga por su clase, estamos aquí para conectarte con miles de donantes.",
+        "heroDescription": "Ya seas un estudiante que necesita apoyo o un profesor que aboga por su clase, estamos aquí para conectarte con donantes.",
         "selectRole": "¿Cómo deseas solicitar?",
         "selectRoleDesc": "Elige la opción que mejor describe tu situación.",
         "studentTitle": "Iniciar campaña",
@@ -2309,13 +2293,19 @@
         "parentFeature1": "Para niños menores de 18",
         "parentFeature2": "Verificación de padre e hijo",
         "parentFeature3": "Verificación de boletín y escuela",
-        "parentCta": "Aplicar como padre"
+        "parentCta": "Aplicar como padre",
+        "schoolTitle": "Apply as a School",
+        "schoolDescription": "Apply on behalf of your school for a general or specific educational project, laboratory, or library.",
+        "schoolFeature1": "Corporate campaigns",
+        "schoolFeature2": "Large-scale projects",
+        "schoolFeature3": "Broad social impact",
+        "schoolCta": "Apply as a School"
     },
     "applyTeacher": {
         "badge": "Formulario de solicitud para profesores",
         "heroTitle": "Solicita para tu clase",
         "heroHighlight": "Escuchamos a tus estudiantes",
-        "heroDesc": "Completa el formulario, describe las necesidades de tu clase y conecta con miles de donantes.",
+        "heroDesc": "Completa el formulario, describe las necesidades de tu clase y conecta con donantes.",
         "step1": {
             "title": "Información del profesor",
             "subtitle": "Ingresa tus datos personales y de contacto"
@@ -2385,7 +2375,7 @@
             "title": "¿Por qué solicitar como profesor?",
             "point1": "Aboga por las necesidades de toda tu clase",
             "point2": "Las solicitudes de profesores verificados generan más confianza",
-            "point3": "Alcanza miles de donantes en la plataforma",
+            "point3": "Alcanza donantes en la plataforma",
             "point4": "Todas las solicitudes se revisan en 48 horas",
             "bannerTitle": "Campañas de clase",
             "bannerDesc": "Las campañas lideradas por profesores ayudan a clases enteras a recibir los recursos que necesitan."

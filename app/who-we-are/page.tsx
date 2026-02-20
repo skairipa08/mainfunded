@@ -35,31 +35,17 @@ export default function WhoWeArePage() {
   const teamMembers = [
     {
       name: 'Baran Deniz',
-      role: t('pages.whoWeAre.team.items.te1.role'),
-      bio: t('pages.whoWeAre.team.items.te1.bio'),
+      role: 'CEO',
+      bio: '',
       initials: 'BD',
       gradient: 'from-blue-500 to-indigo-600',
     },
     {
-      name: 'Elif Korkmaz',
-      role: t('pages.whoWeAre.team.items.te2.role'),
-      bio: t('pages.whoWeAre.team.items.te2.bio'),
-      initials: 'EK',
+      name: 'Özge Karabaş',
+      role: 'COO',
+      bio: '',
+      initials: 'ÖK',
       gradient: 'from-emerald-500 to-teal-600',
-    },
-    {
-      name: 'Ahmet Yıldırım',
-      role: t('pages.whoWeAre.team.items.te3.role'),
-      bio: t('pages.whoWeAre.team.items.te3.bio'),
-      initials: 'AY',
-      gradient: 'from-amber-500 to-orange-600',
-    },
-    {
-      name: 'Zeynep Acar',
-      role: t('pages.whoWeAre.team.items.te4.role'),
-      bio: t('pages.whoWeAre.team.items.te4.bio'),
-      initials: 'ZA',
-      gradient: 'from-rose-500 to-pink-600',
     },
   ];
 
@@ -115,11 +101,9 @@ export default function WhoWeArePage() {
   ];
 
   const milestones = [
-    { year: '2024', event: t('pages.whoWeAre.timeline.items.e1.event'), desc: t('pages.whoWeAre.timeline.items.e1.desc') },
-    { year: '2025 Q1', event: t('pages.whoWeAre.timeline.items.e2.event'), desc: t('pages.whoWeAre.timeline.items.e2.desc') },
-    { year: '2025 Q2', event: t('pages.whoWeAre.timeline.items.e3.event'), desc: t('pages.whoWeAre.timeline.items.e3.desc') },
-    { year: '2025 Q3', event: t('pages.whoWeAre.timeline.items.e4.event'), desc: t('pages.whoWeAre.timeline.items.e4.desc') },
-    { year: '2026', event: t('pages.whoWeAre.timeline.items.e5.event'), desc: t('pages.whoWeAre.timeline.items.e5.desc') },
+    { year: '2025 Q4', event: t('pages.whoWeAre.timeline.items.e1.event'), desc: t('pages.whoWeAre.timeline.items.e1.desc') },
+    { year: '2026 Q1', event: t('pages.whoWeAre.timeline.items.e2.event'), desc: t('pages.whoWeAre.timeline.items.e2.desc') },
+    { year: '2026 Q1', event: t('pages.whoWeAre.timeline.items.e3.event'), desc: t('pages.whoWeAre.timeline.items.e3.desc') },
   ];
 
   return (
@@ -227,10 +211,10 @@ export default function WhoWeArePage() {
               {/* Right - Visual stats */}
               <div className="grid grid-cols-2 gap-5">
                 {[
-                  { icon: GraduationCap, value: '1,200+', label: t('pages.whoWeAre.story.stats.students'), gradient: 'from-blue-500 to-indigo-600', bg: 'bg-blue-50' },
-                  { icon: Globe, value: '12', label: t('pages.whoWeAre.story.stats.countries'), gradient: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-50' },
-                  { icon: HandHeart, value: '2,800+', label: t('pages.whoWeAre.story.stats.donors'), gradient: 'from-rose-500 to-pink-600', bg: 'bg-rose-50' },
-                  { icon: TrendingUp, value: '%96', label: t('pages.whoWeAre.story.stats.successRate'), gradient: 'from-amber-500 to-orange-600', bg: 'bg-amber-50' },
+                  { icon: GraduationCap, value: '0', label: t('pages.whoWeAre.story.stats.students'), gradient: 'from-blue-500 to-indigo-600', bg: 'bg-blue-50' },
+                  { icon: Globe, value: '1', label: t('pages.whoWeAre.story.stats.countries'), gradient: 'from-emerald-500 to-teal-600', bg: 'bg-emerald-50' },
+                  { icon: HandHeart, value: '0', label: t('pages.whoWeAre.story.stats.donors'), gradient: 'from-rose-500 to-pink-600', bg: 'bg-rose-50' },
+                  { icon: TrendingUp, value: '-', label: t('pages.whoWeAre.story.stats.successRate'), gradient: 'from-amber-500 to-orange-600', bg: 'bg-amber-50' },
                 ].map((stat, i) => {
                   const Icon = stat.icon;
                   return (
@@ -411,7 +395,7 @@ export default function WhoWeArePage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:max-w-3xl lg:mx-auto gap-8">
               {teamMembers.map((member, i) => (
                 <div
                   key={i}

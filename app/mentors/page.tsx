@@ -125,9 +125,9 @@ export default function MentorsPage() {
                     {/* Stats */}
                     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }} className="flex flex-wrap justify-center gap-8 md:gap-16 mt-14 text-center">
                         {[
-                            { icon: Users, num: '500+', label: 'Aktif Mentor' },
-                            { icon: Handshake, num: '10,000+', label: 'Başarılı Eşleşme' },
-                            { icon: Star, num: '4.8/5', label: 'Ortalama Puan' },
+                            { icon: Users, num: '0', label: 'Aktif Mentor' },
+                            { icon: Handshake, num: '0', label: 'Başarılı Eşleşme' },
+                            { icon: Star, num: '-', label: 'Ortalama Puan' },
                         ].map((s, i) => (
                             <div key={i} className="flex items-center gap-3">
                                 <div className="w-12 h-12 rounded-xl bg-white/15 backdrop-blur-sm flex items-center justify-center">

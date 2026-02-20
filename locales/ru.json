@@ -336,24 +336,16 @@
                 "title": "Our Milestones",
                 "items": {
                     "e1": {
-                        "event": "FundEd idea was born",
-                        "desc": "First step taken to solve inequality in education."
+                        "event": "Idea development",
+                        "desc": "FundEd concept was shaped and the business model was created."
                     },
                     "e2": {
-                        "event": "Platform development",
-                        "desc": "Technical infrastructure and verification system established."
+                        "event": "First prototype",
+                        "desc": "The first working prototype of the platform was developed."
                     },
                     "e3": {
-                        "event": "Beta launch",
-                        "desc": "First students and donors joined the platform."
-                    },
-                    "e4": {
-                        "event": "Corporate module",
-                        "desc": "ESG compliant donation panel opened for companies."
-                    },
-                    "e5": {
-                        "event": "Global expansion",
-                        "desc": "Access to 12 countries, support for thousands of students."
+                        "event": "First corporate & global showcase",
+                        "desc": "The platform was introduced to corporate partners and the global market."
                     }
                 }
             },
@@ -595,7 +587,7 @@
         },
         "cta": {
             "title": "Готовы изменить мир к лучшему?",
-            "description": "Присоединяйтесь к тысячам доноров, поддерживающих студентов по всему миру.",
+            "description": "Присоединяйтесь к нашему сообществу, демократизирующему доступ к образованию.",
             "button": "Исследовать кампании"
         }
     },
@@ -1999,24 +1991,16 @@
             "title": "Наши Вехи",
             "items": {
                 "e1": {
-                    "event": "Родилась идея FundEd",
-                    "desc": "Был сделан первый шаг к решению проблемы неравенства в образовании."
+                    "event": "Разработка идеи",
+                    "desc": "Концепция FundEd была сформирована и создана бизнес-модель."
                 },
                 "e2": {
-                    "event": "Разработка платформы",
-                    "desc": "Была построена техническая инфраструктура и система проверки."
+                    "event": "Первый прототип",
+                    "desc": "Был разработан первый рабочий прототип платформы."
                 },
                 "e3": {
-                    "event": "Бета-запуск",
-                    "desc": "Первые студенты и доноры присоединились к платформе."
-                },
-                "e4": {
-                    "event": "Корпоративный модуль",
-                    "desc": "Была запущена панель пожертвований для компаний, соответствующая ESG."
-                },
-                "e5": {
-                    "event": "Глобальное расширение",
-                    "desc": "Доступ в 12 странах, поддержка тысяч студентов."
+                    "event": "Первая корпоративная и глобальная презентация",
+                    "desc": "Платформа была представлена корпоративным партнерам и мировому рынку."
                 }
             }
         },
@@ -2148,11 +2132,11 @@
                 "desc": "В отличие от традиционных платформ пожертвований, мы проверяем каждого студента, отслеживаем каждый цент и измеряем каждое влияние.",
                 "stats": {
                     "verification": {
-                        "val": "100%",
+                        "val": "98%",
                         "label": "Проверка"
                     },
                     "traceability": {
-                        "val": "100%",
+                        "val": "98%",
                         "label": "Отслеживаемость"
                     },
                     "hiddenCost": {
@@ -2280,7 +2264,7 @@
         "badge": "Заявка на кампанию",
         "heroTitle": "Подать заявку на кампанию",
         "heroTitleHighlight": "Вместе достигнем",
-        "heroDescription": "Будь вы студентом, нуждающимся в поддержке, или учителем, защищающим интересы своего класса — мы свяжем вас с тысячами доноров.",
+        "heroDescription": "Будь вы студентом, нуждающимся в поддержке, или учителем, защищающим интересы своего класса — мы свяжем вас с донорами.",
         "selectRole": "Как вы хотите подать заявку?",
         "selectRoleDesc": "Выберите вариант, который лучше всего описывает вашу ситуацию.",
         "studentTitle": "Начать кампанию",
@@ -2309,13 +2293,19 @@
         "parentFeature1": "Для детей до 18 лет",
         "parentFeature2": "Верификация родителя и ребёнка",
         "parentFeature3": "Верификация табеля и школы",
-        "parentCta": "Подать заявку как родитель"
+        "parentCta": "Подать заявку как родитель",
+        "schoolTitle": "Apply as a School",
+        "schoolDescription": "Apply on behalf of your school for a general or specific educational project, laboratory, or library.",
+        "schoolFeature1": "Corporate campaigns",
+        "schoolFeature2": "Large-scale projects",
+        "schoolFeature3": "Broad social impact",
+        "schoolCta": "Apply as a School"
     },
     "applyTeacher": {
         "badge": "Форма заявки учителя",
         "heroTitle": "Подайте заявку для вашего класса",
         "heroHighlight": "Мы слышим ваших учеников",
-        "heroDesc": "Заполните форму, опишите потребности вашего класса и свяжитесь с тысячами доноров.",
+        "heroDesc": "Заполните форму, опишите потребности вашего класса и свяжитесь с донорами.",
         "step1": {
             "title": "Информация об учителе",
             "subtitle": "Введите ваши личные и контактные данные"
@@ -2385,7 +2375,7 @@
             "title": "Почему подать заявку как учитель?",
             "point1": "Защищайте потребности всего вашего класса",
             "point2": "Заявки проверенных учителей вызывают больше доверия",
-            "point3": "Свяжитесь с тысячами доноров на платформе",
+            "point3": "Свяжитесь с донорами на платформе",
             "point4": "Все заявки рассматриваются в течение 48 часов",
             "bannerTitle": "Классные кампании",
             "bannerDesc": "Кампании под руководством учителей помогают целым классам получить необходимые ресурсы!"

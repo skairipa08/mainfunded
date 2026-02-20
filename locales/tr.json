@@ -268,24 +268,16 @@
                 "title": "Kilometre Taşlarımız",
                 "items": {
                     "e1": {
-                        "event": "FundEd fikri doğdu",
-                        "desc": "Eğitimde eşitsizliği çözmek için ilk adım atıldı."
+                        "event": "Fikir geliştirme",
+                        "desc": "FundEd konsepti şekillendirildi ve iş modeli oluşturuldu."
                     },
                     "e2": {
-                        "event": "Platform geliştirme",
-                        "desc": "Teknik altyapı ve doğrulama sistemi kuruldu."
+                        "event": "İlk prototip",
+                        "desc": "Platformun ilk çalışan prototipi geliştirildi."
                     },
                     "e3": {
-                        "event": "Beta lansmanı",
-                        "desc": "İlk öğrenciler ve bağışçılar platforma dahil oldu."
-                    },
-                    "e4": {
-                        "event": "Kurumsal modül",
-                        "desc": "Şirketler için ESG uyumlu bağış paneli açıldı."
-                    },
-                    "e5": {
-                        "event": "Global genişleme",
-                        "desc": "12 ülkeye erişim, binlerce öğrenciye destek."
+                        "event": "İlk kurumsal ve global gösterim",
+                        "desc": "Platform kurumsal ortaklara ve global pazara tanıtıldı."
                     }
                 }
             },
@@ -595,7 +587,7 @@
         },
         "cta": {
             "title": "Fark Yaratmaya Hazir misiniz?",
-            "description": "Dunya genelinde ogrencileri destekleyen binlerce bagisciya katilin.",
+            "description": "Eğitime erişimi demokratikleştiren topluluğumuza katılın.",
             "button": "Kampanyalari Kesfet"
         }
     },
@@ -2003,24 +1995,16 @@
             "title": "Kilometre Taşlarımız",
             "items": {
                 "e1": {
-                    "event": "FundEd fikri doğdu",
-                    "desc": "Eğitimde eşitsizliği çözmek için ilk adım atıldı."
+                    "event": "Fikir geliştirme",
+                    "desc": "FundEd konsepti şekillendirildi ve iş modeli oluşturuldu."
                 },
                 "e2": {
-                    "event": "Platform geliştirme",
-                    "desc": "Teknik altyapı ve doğrulama sistemi kuruldu."
+                    "event": "İlk prototip",
+                    "desc": "Platformun ilk çalışan prototipi geliştirildi."
                 },
                 "e3": {
-                    "event": "Beta lansmanı",
-                    "desc": "İlk öğrenciler ve bağışçılar platforma dahil oldu."
-                },
-                "e4": {
-                    "event": "Kurumsal modül",
-                    "desc": "Şirketler için ESG uyumlu bağış paneli açıldı."
-                },
-                "e5": {
-                    "event": "Global genişleme",
-                    "desc": "12 ülkeye erişim, binlerce öğrenciye destek."
+                    "event": "İlk kurumsal ve global gösterim",
+                    "desc": "Platform kurumsal ortaklara ve global pazara tanıtıldı."
                 }
             }
         },
@@ -2152,11 +2136,11 @@
                 "desc": "Geleneksel bağış platformlarından farklı olarak, her öğrenciyi doğruluyoruz, her kuruşu izliyoruz ve her etkiyi ölçüyoruz.",
                 "stats": {
                     "verification": {
-                        "val": "%100",
+                        "val": "%98",
                         "label": "Doğrulama"
                     },
                     "traceability": {
-                        "val": "%100",
+                        "val": "%98",
                         "label": "İzlenebilirlik"
                     },
                     "hiddenCost": {
@@ -2284,7 +2268,7 @@
         "badge": "Kampanya Başvurusu",
         "heroTitle": "Kampanya İçin Başvurun",
         "heroTitleHighlight": "Birlikte Ulaşalım",
-        "heroDescription": "İster desteğe ihtiyaç duyan bir öğrenci olun, ister sınıfınız adına başvuran bir öğretmen — binlerce bağışçıyla buluşmanız için buradayız.",
+        "heroDescription": "İster desteğe ihtiyaç duyan bir öğrenci olun, ister sınıfınız adına başvuran bir öğretmen — bağışçılarla buluşmanız için buradayız.",
         "selectRole": "Nasıl başvurmak istersiniz?",
         "selectRoleDesc": "Durumunuzu en iyi tanımlayan seçeneği belirleyin.",
         "studentTitle": "Kampanya Başlat",
@@ -2305,6 +2289,12 @@
         "parentFeature2": "Veli ve çocuk kimlik doğrulaması",
         "parentFeature3": "Karne ve okul doğrulaması",
         "parentCta": "Veli Olarak Başvur",
+        "schoolTitle": "Okul Olarak Başvur",
+        "schoolDescription": "Okulunuzun genel veya spesifik bir eğitim projesi, laboratuvarı veya kütüphanesi için kurumsal başvuru yapın.",
+        "schoolFeature1": "Kurumsal kampanyalar",
+        "schoolFeature2": "Büyük çaplı projeler",
+        "schoolFeature3": "Geniş sosyal etki",
+        "schoolCta": "Okul Olarak Başvur",
         "howItWorks": "Nasıl Çalışır?",
         "step1Title": "Formu Doldurun",
         "step1Desc": "Bilgilerinizi girin ve eğitim ihtiyaçlarınızı açıklayın.",
@@ -2319,7 +2309,7 @@
         "badge": "Öğretmen Başvuru Formu",
         "heroTitle": "Sınıfınız İçin Başvurun",
         "heroHighlight": "Öğrencilerinizi Duyuyoruz",
-        "heroDesc": "Formu doldurun, sınıfınızın ihtiyaçlarını anlatın ve binlerce bağışçıyla buluşun.",
+        "heroDesc": "Formu doldurun, sınıfınızın ihtiyaçlarını anlatın ve bağışçılarla buluşun.",
         "step1": {
             "title": "Öğretmen Bilgileri",
             "subtitle": "Kişisel ve iletişim bilgilerinizi girin"
@@ -2389,7 +2379,7 @@
             "title": "Neden Öğretmen Olarak Başvurmalısınız?",
             "point1": "Tüm sınıfınızın ihtiyaçları için savunuculuk yapın",
             "point2": "Doğrulanmış öğretmen başvuruları daha fazla bağışçı güveni kazanır",
-            "point3": "Platformdaki binlerce bağışçıya ulaşın",
+            "point3": "Platformdaki bağışçılara ulaşın",
             "point4": "Tüm başvurular 48 saat içinde incelenir",
             "bannerTitle": "Sınıf Kampanyaları",
             "bannerDesc": "Öğretmen liderliğindeki kampanyalar, tüm sınıfların ihtiyaç duydukları kaynakları almasına yardımcı olur!"
@@ -2569,6 +2559,185 @@
             "point4": "Başvurular 48 saat içinde incelenir",
             "bannerTitle": "Çocuk Kampanyaları",
             "bannerDesc": "Veli liderliğindeki kampanyalar, 18 yaş altı çocukların eğitime erişmesine yardımcı olur!"
+        }
+    },
+    "applySchool": {
+        "badge": "Okul Başvuru Formu",
+        "heroTitle": "Okulunuz İçin Başvurun",
+        "heroHighlight": "Birlikte Güçlü Eğitim",
+        "heroDesc": "Okulunuzun projelerini, laboratuvar ihtiyaçlarını veya kütüphane eksikliklerini anlatın. Bağışçılarla buluşun.",
+        "step1": {
+            "title": "Okul Bilgileri",
+            "subtitle": "Okulunuzun genel bilgilerini girin"
+        },
+        "step2": {
+            "title": "Başvuran Bilgileri",
+            "subtitle": "Başvuruyu yapan kişinin bilgileri"
+        },
+        "step3": {
+            "title": "Proje Detayı",
+            "subtitle": "İhtiyaçlarınızı ve projenizi detaylıca açıklayın"
+        },
+        "step4": {
+            "title": "Medya & Belgeler",
+            "subtitle": "Fotoğraf, video ve destekleyici belge yükleyin"
+        },
+        "step5": {
+            "title": "İncele & Gönder",
+            "subtitle": "Başvurunuzu göndermeden önce kontrol edin"
+        },
+        "labels": {
+            "schoolName": "Okul Adı",
+            "schoolType": "Okul Türü",
+            "schoolCity": "İl",
+            "schoolDistrict": "İlçe",
+            "schoolAddress": "Açık Adres (İsteğe Bağlı)",
+            "studentTotal": "Toplam Öğrenci Sayısı",
+            "schoolWebsite": "Okul Web Sitesi (İsteğe Bağlı)",
+            "schoolPhone": "Okul Telefon (İsteğe Bağlı)",
+            "applicantFullName": "Ad Soyad",
+            "applicantRole": "Mercii / Görev",
+            "applicantTitle": "Ünvan (İsteğe Bağlı)",
+            "applicantEmail": "E-posta Adresi",
+            "applicantPhone": "Telefon (İsteğe Bağlı)",
+            "projectTitle": "Proje Başlığı",
+            "projectCategory": "Proje Kategorisi",
+            "needSummary": "Proje Açıklaması (min. 100 karakter)",
+            "targetAmount": "Hedef Tutar",
+            "beneficiaryCount": "Faydalanacak Öğrenci Sayısı"
+        },
+        "placeholders": {
+            "schoolName": "Örn: Atatürk İlkokulu",
+            "schoolType": "Okul türünü seçin",
+            "schoolCity": "Örn: İstanbul",
+            "schoolDistrict": "Örn: Kadıköy",
+            "schoolAddress": "Sokak, mahalle ve numara",
+            "studentTotal": "Örn: 500",
+            "schoolWebsite": "Örn: https://okul.meb.gov.tr",
+            "schoolPhone": "Örn: 0212 XXX XX XX",
+            "applicantFullName": "Örn: Ayşe Kaya",
+            "applicantRole": "Görevinizi seçin",
+            "applicantTitle": "Örn: Fen Bilimleri Öğretmeni",
+            "applicantEmail": "Örn: mudurluk@okul.edu.tr",
+            "projectTitle": "Örn: Fen Laboratuvarı Yenileme Projesi",
+            "projectCategory": "Kategori seçin",
+            "needSummary": "Okulunuzun ihtiyaçlarını, projenin detaylarını, fonların nasıl kullanılacağını ve öğrencilere etkisini anlatın...",
+            "targetAmount": "Örn: 25000",
+            "beneficiaryCount": "Örn: 200"
+        },
+        "schoolTypes": {
+            "ilkokul": "İlkokul",
+            "ortaokul": "Ortaokul",
+            "lise": "Lise",
+            "meslek_lisesi": "Meslek Lisesi",
+            "universite": "Üniversite",
+            "ozel": "Özel Okul",
+            "diger": "Diğer"
+        },
+        "roles": {
+            "mudur": "Okul Müdürü",
+            "mudur_yardimcisi": "Müdür Yardımcısı",
+            "ogretmen": "Öğretmen",
+            "okul_aile_birligi": "Okul Aile Birliği Başkanı",
+            "idari_personel": "İdari Personel",
+            "diger": "Diğer"
+        },
+        "categories": {
+            "laboratuvar": "Laboratuvar",
+            "kutuphane": "Kütüphane",
+            "teknoloji": "Teknoloji & Bilişim",
+            "spor": "Spor & Aktivite",
+            "sanat": "Sanat & Müzik",
+            "altyapi": "Altyapı & Tadilat",
+            "malzeme": "Eğitim Malzemesi",
+            "diger": "Diğer"
+        },
+        "tips": {
+            "title": "İpuçları:",
+            "tip1": "Projenin amacını ve kapsamını net biçimde açıklayın",
+            "tip2": "Kaç öğrencinin bu projeden faydalanacağını belirtin",
+            "tip3": "Fonları nasıl kullanacağınızı detaylı anlatın",
+            "tip4": "Varsa benzer projelerin başarı örneklerini paylaşın"
+        },
+        "docTips": {
+            "title": "Önerilen Belgeler:",
+            "tip1": "Okul antetli resmi başvuru mektubu",
+            "tip2": "Proje bütçesi veya teklif dokümanı",
+            "tip3": "Okul fotoğrafları veya mevcut durumu gösteren görseller"
+        },
+        "docUploadText": "Dosyanızı sürükleyip bırakın veya",
+        "docSelectFile": "Dosya Seç",
+        "documents": {
+            "label": "Destekleyici Belgeler (İsteğe Bağlı)"
+        },
+        "photos": {
+            "label": "Fotoğraflar (İsteğe Bağlı)",
+            "hint": "Okul binası, sınıflar, laboratuvar veya proje alanı fotoğrafları yükleyin.",
+            "dropText": "Fotoğraflarınızı buraya sürükleyip bırakın veya",
+            "selectBtn": "Fotoğraf Seç",
+            "maxCount": "En fazla 10 fotoğraf",
+            "typeError": "Sadece JPG, PNG veya WebP formatı kabul edilir.",
+            "sizeError": "Fotoğraf boyutu en fazla 5 MB olabilir.",
+            "maxError": "En fazla 10 fotoğraf yükleyebilirsiniz."
+        },
+        "video": {
+            "label": "Tanıtım Videosu (İsteğe Bağlı)",
+            "hint": "Okulunuzu ve projeyi tanıtan kısa bir video yükleyin. Bağışçılar için çok etkili olabilir.",
+            "dropText": "Video yüklemek için tıklayın",
+            "selectBtn": "Video Seç",
+            "typeError": "Sadece MP4, WebM veya QuickTime formatı kabul edilir.",
+            "sizeError": "Video boyutu en fazla 50 MB olabilir."
+        },
+        "review": {
+            "photos": "Fotoğraf sayısı",
+            "video": "Video",
+            "documents": "Belge sayısı",
+            "yes": "Evet",
+            "no": "Hayır",
+            "notice": "Başvurunuz gönderildikten sonra ekibimiz tarafından incelenecektir. Başvuru durumunuz hakkında e-posta ile bilgilendirileceksiniz."
+        },
+        "prev": "Önceki",
+        "next": "Sonraki",
+        "back": "Geri",
+        "submit": "Başvuruyu Gönder",
+        "submitting": "Gönderiliyor...",
+        "submitSuccess": "Okul başvurunuz gönderildi! En kısa sürede inceleyeceğiz.",
+        "submitError": "Başvuru gönderilemedi. Lütfen tekrar deneyin.",
+        "successTitle": "Başvuru Gönderildi!",
+        "successDesc": "Teşekkürler. Ekibimiz başvurunuzu inceleyecek ve en kısa sürede e-posta ile dönüş yapacak.",
+        "backToHome": "Ana Sayfaya Dön",
+        "sidebar": {
+            "title": "Neden Okul Olarak Başvurmalısınız?",
+            "point1": "Büyük çaplı projeler için kurumsal başvuru yapabilirsiniz",
+            "point2": "Doğrulanmış okul başvuruları daha güvenilir bulunur",
+            "point3": "Tüm öğrencilerinize fayda sağlayacak kaynaklar elde edin",
+            "point4": "Tüm başvurular ekibimiz tarafından 48 saat içinde incelenir",
+            "bannerTitle": "Okul Kampanyaları",
+            "bannerDesc": "Laboratuvar, kütüphane, teknoloji — okulunuzun ihtiyaç duyduğu tüm projeler için destek alın!",
+            "progressTitle": "Başvuru İlerlemeniz"
+        },
+        "step2": {
+            "title": "Başvuran Bilgileri",
+            "subtitle": "Başvuruyu yapan kişinin bilgileri",
+            "notice": "Bu başvuruyu yapan kişi okul adına yetkilendirilmiş biri olmalıdır (müdür, vb.)."
+        },
+        "validation": {
+            "schoolName": "Okul adı gereklidir",
+            "schoolCity": "İl gereklidir",
+            "schoolDistrict": "İlçe gereklidir",
+            "schoolType": "Okul türü seçilmelidir",
+            "studentTotal": "Toplam öğrenci sayısı gereklidir",
+            "applicantFullName": "Ad soyad gereklidir",
+            "invalidName": "İsim en az 2 karakter olmalıdır",
+            "email": "E-posta gereklidir",
+            "invalidEmail": "Geçerli bir e-posta girin",
+            "applicantRole": "Görev/mercii seçilmelidir",
+            "projectTitle": "Proje başlığı gereklidir",
+            "projectCategory": "Proje kategorisi seçilmelidir",
+            "needSummary": "Proje açıklaması gereklidir",
+            "needSummaryMin": "Açıklama en az {{min}} karakter olmalıdır",
+            "targetAmount": "Hedef tutar gereklidir",
+            "beneficiaryCount": "Faydalanacak öğrenci sayısı gereklidir"
         }
     }
 }
