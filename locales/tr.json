@@ -2572,7 +2572,8 @@
         },
         "step2": {
             "title": "Başvuran Bilgileri",
-            "subtitle": "Başvuruyu yapan kişinin bilgileri"
+            "subtitle": "Başvuruyu yapan kişinin bilgileri",
+            "notice": "Bu başvuruyu yapan kişi okul adına yetkilendirilmiş biri olmalıdır (müdür, vb.)."
         },
         "step3": {
             "title": "Proje Detayı",
@@ -2715,11 +2716,6 @@
             "bannerTitle": "Okul Kampanyaları",
             "bannerDesc": "Laboratuvar, kütüphane, teknoloji — okulunuzun ihtiyaç duyduğu tüm projeler için destek alın!",
             "progressTitle": "Başvuru İlerlemeniz"
-        },
-        "step2": {
-            "title": "Başvuran Bilgileri",
-            "subtitle": "Başvuruyu yapan kişinin bilgileri",
-            "notice": "Bu başvuruyu yapan kişi okul adına yetkilendirilmiş biri olmalıdır (müdür, vb.)."
         },
         "validation": {
             "schoolName": "Okul adı gereklidir",

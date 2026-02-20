@@ -750,8 +750,12 @@
             "notePlaceholder": "Ajoutez un contexte supplémentaire."
         },
         "reviewNote": "En soumettant, vous confirmez que toutes les informations fournies sont exactes. Notre équipe examinera votre candidature dans un délai de 1 à 3 jours ouvrables.",
+        "submitSuccess": "Demande de vérification soumise avec succès !",
         "submitError": "Échec de la soumission de la vérification. Veuillez réessayer.",
-        "selectedFiles": "Fichiers sélectionnés"
+        "selectedFiles": "Fichiers sélectionnés",
+        "alreadySubmitted": "Demande déjà soumise",
+        "checkStatus": "Vérifiez votre statut de vérification.",
+        "viewStatus": "Voir le statut"
     },
     "campaignCard": {
         "approved": "Approuvé",
@@ -2555,6 +2559,181 @@
             "point4": "Examen sous 48 heures",
             "bannerTitle": "Campagnes enfants",
             "bannerDesc": "Les campagnes parentales aident les enfants de moins de 18 ans!"
+        }
+    },
+    "applySchool": {
+        "badge": "Formulaire de candidature scolaire",
+        "heroTitle": "Postulez pour votre école",
+        "heroHighlight": "Une éducation plus forte ensemble",
+        "heroDesc": "Décrivez les projets de votre école, les besoins en laboratoire ou les lacunes de la bibliothèque. Connectez-vous avec des donateurs.",
+        "step1": {
+            "title": "Informations sur l'école",
+            "subtitle": "Entrez les informations générales de votre école"
+        },
+        "step2": {
+            "title": "Informations du demandeur",
+            "subtitle": "Détails sur la personne qui fait cette demande",
+            "notice": "La personne soumettant cette demande doit être autorisée à représenter l'école (ex: directeur)."
+        },
+        "step3": {
+            "title": "Détails du projet",
+            "subtitle": "Décrivez vos besoins et votre projet en détail"
+        },
+        "step4": {
+            "title": "Médias et documents",
+            "subtitle": "Téléchargez des photos, vidéos et documents justificatifs"
+        },
+        "step5": {
+            "title": "Vérifier et soumettre",
+            "subtitle": "Vérifiez votre demande avant de la soumettre"
+        },
+        "labels": {
+            "schoolName": "Nom de l'école",
+            "schoolType": "Type d'école",
+            "schoolCity": "Ville / Province",
+            "schoolDistrict": "Quartier",
+            "schoolAddress": "Adresse complète (Optionnel)",
+            "studentTotal": "Nombre total d'élèves",
+            "schoolWebsite": "Site web de l'école (Optionnel)",
+            "schoolPhone": "Téléphone de l'école (Optionnel)",
+            "applicantFullName": "Nom complet",
+            "applicantRole": "Rôle / Poste",
+            "applicantTitle": "Titre (Optionnel)",
+            "applicantEmail": "Adresse e-mail",
+            "applicantPhone": "Téléphone (Optionnel)",
+            "projectTitle": "Titre du projet",
+            "projectCategory": "Catégorie du projet",
+            "needSummary": "Description du projet (min. 100 caractères)",
+            "targetAmount": "Montant cible",
+            "beneficiaryCount": "Nombre d'élèves bénéficiaires"
+        },
+        "placeholders": {
+            "schoolName": "ex: École primaire Atatürk",
+            "schoolType": "Sélectionnez le type",
+            "schoolCity": "ex: Istanbul",
+            "schoolDistrict": "ex: Kadıköy",
+            "schoolAddress": "Rue, quartier et numéro",
+            "studentTotal": "ex: 500",
+            "schoolWebsite": "ex: https://ecole.edu",
+            "schoolPhone": "ex: +90 212 XXX XX XX",
+            "applicantFullName": "ex: Jean Dupont",
+            "applicantRole": "Sélectionnez votre rôle",
+            "applicantTitle": "ex: Professeur de sciences",
+            "applicantEmail": "ex: directeur@ecole.edu",
+            "projectTitle": "ex: Rénovation du laboratoire",
+            "projectCategory": "Sélectionnez une catégorie",
+            "needSummary": "Décrivez les besoins de votre école, les détails du projet, l'utilisation des fonds et l'impact sur les élèves...",
+            "targetAmount": "ex: 25000",
+            "beneficiaryCount": "ex: 200"
+        },
+        "schoolTypes": {
+            "ilkokul": "École primaire",
+            "ortaokul": "Collège",
+            "lise": "Lycée",
+            "meslek_lisesi": "Lycée professionnel",
+            "universite": "Université",
+            "ozel": "École privée",
+            "diger": "Autre"
+        },
+        "roles": {
+            "mudur": "Directeur",
+            "mudur_yardimcisi": "Directeur adjoint",
+            "ogretmen": "Enseignant",
+            "okul_aile_birligi": "Président APE",
+            "idari_personel": "Personnel administratif",
+            "diger": "Autre"
+        },
+        "categories": {
+            "laboratuvar": "Laboratoire",
+            "kutuphane": "Bibliothèque",
+            "teknoloji": "Technologie & IT",
+            "spor": "Sports & Activités",
+            "sanat": "Arts & Musique",
+            "altyapi": "Infrastructure & Rénovation",
+            "malzeme": "Matériel pédagogique",
+            "diger": "Autre"
+        },
+        "tips": {
+            "title": "Conseils :",
+            "tip1": "Expliquez clairement le but et la portée du projet",
+            "tip2": "Indiquez combien d'élèves bénéficieront de ce projet",
+            "tip3": "Décrivez en détail l'utilisation des fonds",
+            "tip4": "Partagez des exemples de projets similaires réussis si disponible"
+        },
+        "docTips": {
+            "title": "Documents recommandés :",
+            "tip1": "Lettre officielle sur papier à en-tête",
+            "tip2": "Budget du projet ou document de proposition",
+            "tip3": "Photos de l'école ou images de l'état actuel"
+        },
+        "docUploadText": "Glissez votre fichier ici ou",
+        "docSelectFile": "Choisir un fichier",
+        "documents": {
+            "label": "Documents justificatifs (Optionnel)"
+        },
+        "photos": {
+            "label": "Photos (Optionnel)",
+            "hint": "Téléchargez des photos de votre bâtiment scolaire, salles de classe, laboratoire ou zone du projet.",
+            "dropText": "Glissez vos photos ici ou",
+            "selectBtn": "Choisir des photos",
+            "maxCount": "Jusqu'à 10 photos",
+            "typeError": "Seuls JPG, PNG ou WebP sont acceptés.",
+            "sizeError": "La photo doit faire 5 Mo maximum.",
+            "maxError": "Vous pouvez télécharger jusqu'à 10 photos."
+        },
+        "video": {
+            "label": "Vidéo de présentation (Optionnel)",
+            "hint": "Téléchargez une courte vidéo présentant votre école et votre projet.",
+            "dropText": "Cliquez pour télécharger",
+            "selectBtn": "Choisir une vidéo",
+            "typeError": "Seuls MP4, WebM ou QuickTime sont acceptés.",
+            "sizeError": "La vidéo doit faire 50 Mo maximum."
+        },
+        "review": {
+            "photos": "Nombre de photos",
+            "video": "Vidéo",
+            "documents": "Nombre de documents",
+            "yes": "Oui",
+            "no": "Non",
+            "notice": "Après soumission, votre demande sera examinée par notre équipe. Vous serez notifié par e-mail."
+        },
+        "prev": "Précédent",
+        "next": "Suivant",
+        "back": "Retour",
+        "submit": "Soumettre la demande",
+        "submitting": "Envoi en cours...",
+        "submitSuccess": "La demande de votre école a été soumise !",
+        "submitError": "Échec de l'envoi. Veuillez réessayer.",
+        "successTitle": "Demande soumise !",
+        "successDesc": "Merci. Notre équipe examinera votre demande et vous contactera par e-mail.",
+        "backToHome": "Retour à l'accueil",
+        "sidebar": {
+            "title": "Pourquoi postuler en tant qu'école ?",
+            "point1": "Soumettez des demandes institutionnelles pour de grands projets",
+            "point2": "Les demandes scolaires vérifiées sont plus crédibles",
+            "point3": "Obtenez des ressources bénéficiant à tous vos élèves",
+            "point4": "Toutes les demandes sont examinées sous 48 heures",
+            "bannerTitle": "Campagnes scolaires",
+            "bannerDesc": "Laboratoire, bibliothèque, technologie — obtenez du soutien pour tous les projets scolaires !",
+            "progressTitle": "Votre progression"
+        },
+        "validation": {
+            "schoolName": "Nom de l'école requis",
+            "schoolCity": "Ville requise",
+            "schoolDistrict": "Quartier requis",
+            "schoolType": "Le type d'école doit être sélectionné",
+            "studentTotal": "Nombre total d'élèves requis",
+            "applicantFullName": "Nom complet requis",
+            "invalidName": "Le nom doit contenir au moins 2 caractères",
+            "email": "E-mail requis",
+            "invalidEmail": "Veuillez entrer un e-mail valide",
+            "applicantRole": "Le rôle doit être sélectionné",
+            "projectTitle": "Titre du projet requis",
+            "projectCategory": "La catégorie doit être sélectionnée",
+            "needSummary": "Description du projet requise",
+            "needSummaryMin": "La description doit contenir au moins {{min}} caractères",
+            "targetAmount": "Montant cible requis",
+            "beneficiaryCount": "Nombre d'élèves bénéficiaires requis"
         }
     }
 }

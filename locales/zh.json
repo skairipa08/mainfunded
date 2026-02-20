@@ -750,8 +750,12 @@
             "notePlaceholder": "添加额外说明。"
         },
         "reviewNote": "提交即表示您确认所提供的所有信息均准确无误。我们的团队将在1-3个工作日内审核您的申请。",
+        "submitSuccess": "验证申请已成功提交！",
         "submitError": "提交验证失败，请重试。",
-        "selectedFiles": "已选文件"
+        "selectedFiles": "已选文件",
+        "alreadySubmitted": "申请已提交",
+        "checkStatus": "检查您的验证状态。",
+        "viewStatus": "查看状态"
     },
     "campaignCard": {
         "approved": "已批准",
@@ -2555,6 +2559,181 @@
             "point4": "48小时内审核",
             "bannerTitle": "儿童活动",
             "bannerDesc": "家长发起的活动帮助18岁以下儿童获得教育！"
+        }
+    },
+    "applySchool": {
+        "badge": "学校申请表",
+        "heroTitle": "为您的学校申请",
+        "heroHighlight": "共同打造更强教育",
+        "heroDesc": "描述您学校的项目、实验室需求或图书馆不足。与捐赠者联系。",
+        "step1": {
+            "title": "学校信息",
+            "subtitle": "输入您学校的基本信息"
+        },
+        "step2": {
+            "title": "申请人信息",
+            "subtitle": "提交此申请的人员详情",
+            "notice": "提交此申请的人员应被授权代表学校（如校长）。"
+        },
+        "step3": {
+            "title": "项目详情",
+            "subtitle": "详细描述您的需求和项目"
+        },
+        "step4": {
+            "title": "媒体和文件",
+            "subtitle": "上传照片、视频和支持文件"
+        },
+        "step5": {
+            "title": "审核并提交",
+            "subtitle": "提交前请审核您的申请"
+        },
+        "labels": {
+            "schoolName": "学校名称",
+            "schoolType": "学校类型",
+            "schoolCity": "城市/省份",
+            "schoolDistrict": "区/县",
+            "schoolAddress": "详细地址（可选）",
+            "studentTotal": "学生总数",
+            "schoolWebsite": "学校网站（可选）",
+            "schoolPhone": "学校电话（可选）",
+            "applicantFullName": "姓名",
+            "applicantRole": "职务/角色",
+            "applicantTitle": "头衔（可选）",
+            "applicantEmail": "电子邮箱",
+            "applicantPhone": "电话（可选）",
+            "projectTitle": "项目标题",
+            "projectCategory": "项目类别",
+            "needSummary": "项目描述（至少100个字符）",
+            "targetAmount": "目标金额",
+            "beneficiaryCount": "受益学生人数"
+        },
+        "placeholders": {
+            "schoolName": "例：阿塔图尔克小学",
+            "schoolType": "选择学校类型",
+            "schoolCity": "例：伊斯坦布尔",
+            "schoolDistrict": "例：卡德柯伊",
+            "schoolAddress": "街道、社区和号码",
+            "studentTotal": "例：500",
+            "schoolWebsite": "例：https://school.edu",
+            "schoolPhone": "例：+90 212 XXX XX XX",
+            "applicantFullName": "例：张三",
+            "applicantRole": "选择您的角色",
+            "applicantTitle": "例：科学教师",
+            "applicantEmail": "例：principal@school.edu",
+            "projectTitle": "例：科学实验室翻新项目",
+            "projectCategory": "选择类别",
+            "needSummary": "描述学校的需求、项目详情、资金使用方式及对学生的影响...",
+            "targetAmount": "例：25000",
+            "beneficiaryCount": "例：200"
+        },
+        "schoolTypes": {
+            "ilkokul": "小学",
+            "ortaokul": "初中",
+            "lise": "高中",
+            "meslek_lisesi": "职业学校",
+            "universite": "大学",
+            "ozel": "私立学校",
+            "diger": "其他"
+        },
+        "roles": {
+            "mudur": "校长",
+            "mudur_yardimcisi": "副校长",
+            "ogretmen": "教师",
+            "okul_aile_birligi": "家委会主席",
+            "idari_personel": "行政人员",
+            "diger": "其他"
+        },
+        "categories": {
+            "laboratuvar": "实验室",
+            "kutuphane": "图书馆",
+            "teknoloji": "技术与信息",
+            "spor": "体育与活动",
+            "sanat": "艺术与音乐",
+            "altyapi": "基础设施与翻新",
+            "malzeme": "教学材料",
+            "diger": "其他"
+        },
+        "tips": {
+            "title": "提示：",
+            "tip1": "清楚说明项目的目的和范围",
+            "tip2": "说明有多少学生将从中受益",
+            "tip3": "详细描述资金的使用方式",
+            "tip4": "如有类似成功项目请分享案例"
+        },
+        "docTips": {
+            "title": "推荐文件：",
+            "tip1": "学校正式信函",
+            "tip2": "项目预算或提案文件",
+            "tip3": "学校照片或现状图片"
+        },
+        "docUploadText": "拖放文件到此处或",
+        "docSelectFile": "选择文件",
+        "documents": {
+            "label": "辅助文件（可选）"
+        },
+        "photos": {
+            "label": "照片（可选）",
+            "hint": "上传学校建筑、教室、实验室或项目区域的照片。",
+            "dropText": "拖放照片到此处或",
+            "selectBtn": "选择照片",
+            "maxCount": "最多10张照片",
+            "typeError": "仅接受JPG、PNG或WebP格式。",
+            "sizeError": "照片大小不超过5MB。",
+            "maxError": "最多可上传10张照片。"
+        },
+        "video": {
+            "label": "介绍视频（可选）",
+            "hint": "上传一段介绍您学校和项目的短视频。",
+            "dropText": "点击上传视频",
+            "selectBtn": "选择视频",
+            "typeError": "仅接受MP4、WebM或QuickTime格式。",
+            "sizeError": "视频大小不超过50MB。"
+        },
+        "review": {
+            "photos": "照片数量",
+            "video": "视频",
+            "documents": "文件数量",
+            "yes": "是",
+            "no": "否",
+            "notice": "提交后，我们的团队将审核您的申请。您将通过电子邮件收到通知。"
+        },
+        "prev": "上一步",
+        "next": "下一步",
+        "back": "返回",
+        "submit": "提交申请",
+        "submitting": "提交中...",
+        "submitSuccess": "您的学校申请已提交！",
+        "submitError": "提交失败，请重试。",
+        "successTitle": "申请已提交！",
+        "successDesc": "谢谢。我们的团队将审核您的申请并通过电子邮件与您联系。",
+        "backToHome": "返回首页",
+        "sidebar": {
+            "title": "为什么以学校身份申请？",
+            "point1": "为大型项目提交机构申请",
+            "point2": "经验证的学校申请更具可信度",
+            "point3": "获取惠及所有学生的资源",
+            "point4": "所有申请在48小时内审核",
+            "bannerTitle": "学校活动",
+            "bannerDesc": "实验室、图书馆、技术——为您学校的所有项目获取支持！",
+            "progressTitle": "您的申请进度"
+        },
+        "validation": {
+            "schoolName": "学校名称为必填项",
+            "schoolCity": "城市为必填项",
+            "schoolDistrict": "区域为必填项",
+            "schoolType": "必须选择学校类型",
+            "studentTotal": "学生总数为必填项",
+            "applicantFullName": "姓名为必填项",
+            "invalidName": "姓名至少需要2个字符",
+            "email": "电子邮箱为必填项",
+            "invalidEmail": "请输入有效的电子邮箱",
+            "applicantRole": "必须选择职务/角色",
+            "projectTitle": "项目标题为必填项",
+            "projectCategory": "必须选择项目类别",
+            "needSummary": "项目描述为必填项",
+            "needSummaryMin": "描述至少需要{{min}}个字符",
+            "targetAmount": "目标金额为必填项",
+            "beneficiaryCount": "受益学生人数为必填项"
         }
     }
 }

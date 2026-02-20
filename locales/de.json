@@ -750,8 +750,12 @@
             "notePlaceholder": "Fügen Sie zusätzlichen Kontext hinzu."
         },
         "reviewNote": "Mit dem Absenden bestätigen Sie, dass alle angegebenen Informationen korrekt sind. Unser Team wird Ihre Bewerbung innerhalb von 1-3 Werktagen überprüfen.",
+        "submitSuccess": "Verifizierungsantrag erfolgreich eingereicht!",
         "submitError": "Verifizierung konnte nicht eingereicht werden. Bitte versuchen Sie es erneut.",
-        "selectedFiles": "Ausgewählte Dateien"
+        "selectedFiles": "Ausgewählte Dateien",
+        "alreadySubmitted": "Antrag bereits eingereicht",
+        "checkStatus": "Prüfen Sie Ihren Verifizierungsstatus.",
+        "viewStatus": "Status anzeigen"
     },
     "campaignCard": {
         "approved": "Genehmigt",
@@ -2555,6 +2559,181 @@
             "point4": "Bewerbungen in 48 Stunden geprüft",
             "bannerTitle": "Kinderkampagnen",
             "bannerDesc": "Elternkampagnen helfen Kindern unter 18 beim Bildungszugang!"
+        }
+    },
+    "applySchool": {
+        "badge": "Schulbewerbungsformular",
+        "heroTitle": "Bewerben Sie sich für Ihre Schule",
+        "heroHighlight": "Gemeinsam stärkere Bildung",
+        "heroDesc": "Beschreiben Sie die Projekte, Laborbedürfnisse oder Bibliothekslücken Ihrer Schule. Verbinden Sie sich mit Spendern.",
+        "step1": {
+            "title": "Schulinformationen",
+            "subtitle": "Geben Sie die allgemeinen Informationen Ihrer Schule ein"
+        },
+        "step2": {
+            "title": "Antragstellerinformationen",
+            "subtitle": "Angaben zur Person, die diesen Antrag stellt",
+            "notice": "Die Person, die diesen Antrag einreicht, sollte autorisiert sein, die Schule zu vertreten (z. B. Schulleiter)."
+        },
+        "step3": {
+            "title": "Projektdetails",
+            "subtitle": "Beschreiben Sie Ihre Bedürfnisse und Ihr Projekt im Detail"
+        },
+        "step4": {
+            "title": "Medien & Dokumente",
+            "subtitle": "Laden Sie Fotos, Videos und unterstützende Dokumente hoch"
+        },
+        "step5": {
+            "title": "Überprüfen & Absenden",
+            "subtitle": "Überprüfen Sie Ihren Antrag vor dem Absenden"
+        },
+        "labels": {
+            "schoolName": "Schulname",
+            "schoolType": "Schultyp",
+            "schoolCity": "Stadt / Provinz",
+            "schoolDistrict": "Bezirk",
+            "schoolAddress": "Vollständige Adresse (Optional)",
+            "studentTotal": "Gesamtzahl der Schüler",
+            "schoolWebsite": "Schulwebseite (Optional)",
+            "schoolPhone": "Schultelefon (Optional)",
+            "applicantFullName": "Vollständiger Name",
+            "applicantRole": "Rolle / Position",
+            "applicantTitle": "Titel (Optional)",
+            "applicantEmail": "E-Mail-Adresse",
+            "applicantPhone": "Telefon (Optional)",
+            "projectTitle": "Projekttitel",
+            "projectCategory": "Projektkategorie",
+            "needSummary": "Projektbeschreibung (mind. 100 Zeichen)",
+            "targetAmount": "Zielbetrag",
+            "beneficiaryCount": "Anzahl begünstigter Schüler"
+        },
+        "placeholders": {
+            "schoolName": "z.B. Atatürk-Grundschule",
+            "schoolType": "Schultyp auswählen",
+            "schoolCity": "z.B. Istanbul",
+            "schoolDistrict": "z.B. Kadıköy",
+            "schoolAddress": "Straße, Viertel und Nummer",
+            "studentTotal": "z.B. 500",
+            "schoolWebsite": "z.B. https://schule.edu",
+            "schoolPhone": "z.B. +90 212 XXX XX XX",
+            "applicantFullName": "z.B. Max Mustermann",
+            "applicantRole": "Wählen Sie Ihre Rolle",
+            "applicantTitle": "z.B. Naturwissenschaftslehrer",
+            "applicantEmail": "z.B. direktor@schule.edu",
+            "projectTitle": "z.B. Labor-Renovierungsprojekt",
+            "projectCategory": "Kategorie auswählen",
+            "needSummary": "Beschreiben Sie die Bedürfnisse Ihrer Schule, Projektdetails, Mittelverwendung und die Auswirkungen auf die Schüler...",
+            "targetAmount": "z.B. 25000",
+            "beneficiaryCount": "z.B. 200"
+        },
+        "schoolTypes": {
+            "ilkokul": "Grundschule",
+            "ortaokul": "Mittelschule",
+            "lise": "Gymnasium",
+            "meslek_lisesi": "Berufsschule",
+            "universite": "Universität",
+            "ozel": "Privatschule",
+            "diger": "Sonstiges"
+        },
+        "roles": {
+            "mudur": "Schulleiter",
+            "mudur_yardimcisi": "Stellv. Schulleiter",
+            "ogretmen": "Lehrer",
+            "okul_aile_birligi": "Elternbeiratsvorsitzender",
+            "idari_personel": "Verwaltungspersonal",
+            "diger": "Sonstiges"
+        },
+        "categories": {
+            "laboratuvar": "Labor",
+            "kutuphane": "Bibliothek",
+            "teknoloji": "Technologie & IT",
+            "spor": "Sport & Aktivitäten",
+            "sanat": "Kunst & Musik",
+            "altyapi": "Infrastruktur & Renovierung",
+            "malzeme": "Lehrmittel",
+            "diger": "Sonstiges"
+        },
+        "tips": {
+            "title": "Tipps:",
+            "tip1": "Erklären Sie den Zweck und Umfang des Projekts klar",
+            "tip2": "Geben Sie an, wie viele Schüler von diesem Projekt profitieren werden",
+            "tip3": "Beschreiben Sie detailliert, wie die Mittel verwendet werden",
+            "tip4": "Teilen Sie Beispiele ähnlicher erfolgreicher Projekte, falls vorhanden"
+        },
+        "docTips": {
+            "title": "Empfohlene Dokumente:",
+            "tip1": "Offizielles Bewerbungsschreiben auf Schulkopf",
+            "tip2": "Projektbudget oder Antragsdokument",
+            "tip3": "Fotos der Schule oder Bilder des aktuellen Zustands"
+        },
+        "docUploadText": "Datei hierher ziehen oder",
+        "docSelectFile": "Datei auswählen",
+        "documents": {
+            "label": "Unterstützende Dokumente (Optional)"
+        },
+        "photos": {
+            "label": "Fotos (Optional)",
+            "hint": "Laden Sie Fotos Ihres Schulgebäudes, Ihrer Klassenräume, Ihres Labors oder Projektbereichs hoch.",
+            "dropText": "Fotos hierher ziehen oder",
+            "selectBtn": "Fotos auswählen",
+            "maxCount": "Bis zu 10 Fotos",
+            "typeError": "Nur JPG, PNG oder WebP akzeptiert.",
+            "sizeError": "Foto darf max. 5 MB groß sein.",
+            "maxError": "Sie können bis zu 10 Fotos hochladen."
+        },
+        "video": {
+            "label": "Vorstellungsvideo (Optional)",
+            "hint": "Laden Sie ein kurzes Video hoch, das Ihre Schule und Ihr Projekt vorstellt.",
+            "dropText": "Klicken zum Hochladen",
+            "selectBtn": "Video auswählen",
+            "typeError": "Nur MP4, WebM oder QuickTime akzeptiert.",
+            "sizeError": "Video darf max. 50 MB groß sein."
+        },
+        "review": {
+            "photos": "Fotoanzahl",
+            "video": "Video",
+            "documents": "Dokumentenanzahl",
+            "yes": "Ja",
+            "no": "Nein",
+            "notice": "Nach dem Absenden wird Ihr Antrag von unserem Team geprüft. Sie werden per E-Mail über den Status informiert."
+        },
+        "prev": "Zurück",
+        "next": "Weiter",
+        "back": "Zurück",
+        "submit": "Antrag absenden",
+        "submitting": "Wird gesendet...",
+        "submitSuccess": "Ihr Schulantrag wurde eingereicht!",
+        "submitError": "Fehler beim Senden. Bitte versuchen Sie es erneut.",
+        "successTitle": "Antrag eingereicht!",
+        "successDesc": "Danke. Unser Team wird Ihren Antrag prüfen und sich per E-Mail melden.",
+        "backToHome": "Zur Startseite",
+        "sidebar": {
+            "title": "Warum als Schule bewerben?",
+            "point1": "Institutionelle Anträge für große Projekte stellen",
+            "point2": "Verifizierte Schulanträge wirken glaubwürdiger",
+            "point3": "Ressourcen erhalten, die allen Schülern zugutekommen",
+            "point4": "Alle Anträge werden innerhalb von 48 Stunden geprüft",
+            "bannerTitle": "Schulkampagnen",
+            "bannerDesc": "Labor, Bibliothek, Technologie — Unterstützung für alle Schulprojekte!",
+            "progressTitle": "Ihr Fortschritt"
+        },
+        "validation": {
+            "schoolName": "Schulname erforderlich",
+            "schoolCity": "Stadt erforderlich",
+            "schoolDistrict": "Bezirk erforderlich",
+            "schoolType": "Schultyp muss ausgewählt werden",
+            "studentTotal": "Gesamtzahl der Schüler erforderlich",
+            "applicantFullName": "Vollständiger Name erforderlich",
+            "invalidName": "Name muss mindestens 2 Zeichen lang sein",
+            "email": "E-Mail erforderlich",
+            "invalidEmail": "Bitte geben Sie eine gültige E-Mail ein",
+            "applicantRole": "Rolle / Position auswählen",
+            "projectTitle": "Projekttitel erforderlich",
+            "projectCategory": "Projektkategorie auswählen",
+            "needSummary": "Projektbeschreibung erforderlich",
+            "needSummaryMin": "Beschreibung muss mindestens {{min}} Zeichen lang sein",
+            "targetAmount": "Zielbetrag erforderlich",
+            "beneficiaryCount": "Anzahl begünstigter Schüler erforderlich"
         }
     }
 }
