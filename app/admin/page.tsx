@@ -7,6 +7,7 @@ import { StatCard } from '@/components/ui/StatCard';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Users, ShieldAlert, Megaphone, DollarSign, Wallet, FileText } from 'lucide-react';
+import { useCurrency } from '@/lib/currency-context';
 
 interface Stats {
   users: { total: number; admins: number };
@@ -17,6 +18,7 @@ interface Stats {
 
 export default function AdminDashboard() {
   const { data: session } = useSession();
+  const { formatAmount } = useCurrency();
   const [stats, setStats] = useState<Stats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -86,7 +88,7 @@ export default function AdminDashboard() {
         />
         <StatCard
           title="Toplam Bağış"
-          value={`$${(stats?.donations.total_amount ?? 0).toLocaleString()}`}
+          value={formatAmount(stats?.donations.total_amount ?? 0)}
           subtitle={`${stats?.donations.total_count ?? 0} bağış`}
           icon={<DollarSign className="h-5 w-5" />}
           loading={loading}

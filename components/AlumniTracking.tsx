@@ -16,6 +16,7 @@ import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { censorSurname } from '@/lib/privacy';
 import { useTranslation } from '@/lib/i18n/context';
+import { useCurrency } from '@/lib/currency-context';
 
 export interface AlumniProfile {
     id: string;
@@ -50,6 +51,7 @@ export function AlumniTracking({ alumni, className }: AlumniTrackingProps) {
 
 function AlumniCard({ profile }: { profile: AlumniProfile }) {
     const { t } = useTranslation();
+    const { formatAmount } = useCurrency();
     return (
         <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
             {/* Header */}
@@ -111,12 +113,12 @@ function AlumniCard({ profile }: { profile: AlumniProfile }) {
             <div className="p-4 bg-gray-50 flex items-center justify-between">
                 <div className="text-center">
                     <p className="text-sm text-gray-500">{t('pages.alumni.card.totalReceived')}</p>
-                    <p className="font-bold text-indigo-600">${profile.totalReceived.toLocaleString()}</p>
+                    <p className="font-bold text-indigo-600">{formatAmount(profile.totalReceived)}</p>
                 </div>
                 {profile.givingBack && profile.givingBack > 0 && (
                     <div className="text-center">
                         <p className="text-sm text-gray-500">{t('pages.alumni.card.totalGivenBack')}</p>
-                        <p className="font-bold text-green-600">${profile.givingBack.toLocaleString()}</p>
+                        <p className="font-bold text-green-600">{formatAmount(profile.givingBack)}</p>
                     </div>
                 )}
                 <Button variant="outline" size="sm">

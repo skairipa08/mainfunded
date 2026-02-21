@@ -16,7 +16,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { StatusBadge } from '@/components/ui/status-badge';
-import { CheckCircle, XCircle, RefreshCw, Filter, Users, GraduationCap, BookOpen, Heart, MessageSquare, Clock, Eye, Briefcase } from 'lucide-react';
+import { CheckCircle, XCircle, RefreshCw, Filter, Users, GraduationCap, BookOpen, Heart, MessageSquare, Clock, Eye, Briefcase, School } from 'lucide-react';
 
 interface StudentApplication {
   id: string;
@@ -34,7 +34,30 @@ interface StudentApplication {
 
 type TypeFilter = 'all' | 'student' | 'teacher' | 'parent';
 type ActivityFilter = 'all' | 'active' | 'inactive';
-type MainTab = 'applications' | 'stories' | 'mentors';
+type MainTab = 'applications' | 'stories' | 'mentors' | 'schools';
+
+interface SchoolApplication {
+  id: string;
+  type: 'school';
+  fullName: string;
+  email: string;
+  country: string;
+  schoolName: string;
+  schoolCity: string;
+  schoolDistrict: string;
+  schoolType: string;
+  studentTotal: number;
+  applicantRole: string;
+  projectTitle: string;
+  projectCategory: string;
+  needSummary: string;
+  targetAmount: number;
+  beneficiaryCount: number;
+  documents: string[];
+  status: 'Received' | 'Under Review' | 'Approved' | 'Rejected';
+  createdAt: string;
+  updatedAt: string;
+}
 
 interface MentorApplication {
   application_id: string;
@@ -96,6 +119,12 @@ export default function OperationsApplicationsPage() {
   const [mentorStatusFilter, setMentorStatusFilter] = useState('pending');
   const [mentorActionLoading, setMentorActionLoading] = useState<string | null>(null);
 
+  // Schools state
+  const [schoolApps, setSchoolApps] = useState<SchoolApplication[]>([]);
+  const [schoolsLoading, setSchoolsLoading] = useState(false);
+  const [schoolStatusFilter, setSchoolStatusFilter] = useState('all');
+  const [schoolActionLoading, setSchoolActionLoading] = useState<string | null>(null);
+
   // Filters
   const [typeFilter, setTypeFilter] = useState<TypeFilter>('all');
   const [activityFilter, setActivityFilter] = useState<ActivityFilter>('all');
@@ -148,6 +177,52 @@ export default function OperationsApplicationsPage() {
     return () => window.removeEventListener('applicationUpdated', handleUpdate);
   }, []);
 
+  const loadSchools = useCallback(async () => {
+    setSchoolsLoading(true);
+    try {
+      const url = schoolStatusFilter === 'all'
+        ? '/api/ops/applications?type=school'
+        : `/api/ops/applications?type=school&status=${schoolStatusFilter}`;
+      const res = await fetch(url, { cache: 'no-store' });
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          setSchoolApps(data.data || []);
+        }
+      }
+    } catch {
+      toast.error('Okul başvuruları yüklenemedi');
+    } finally {
+      setSchoolsLoading(false);
+    }
+  }, [schoolStatusFilter]);
+
+  const handleSchoolAction = async (appId: string, newStatus: 'Approved' | 'Rejected') => {
+    setSchoolActionLoading(appId);
+    try {
+      const res = await fetch(`/api/ops/applications/${appId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: newStatus }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        toast.success(
+          newStatus === 'Approved'
+            ? 'Okul başvurusu onaylandı!'
+            : 'Okul başvurusu reddedildi.'
+        );
+        loadSchools();
+      } else {
+        toast.error(data.error || 'İşlem başarısız');
+      }
+    } catch {
+      toast.error('Sunucu hatası, tekrar deneyin.');
+    } finally {
+      setSchoolActionLoading(null);
+    }
+  };
+
   const loadMentors = useCallback(async () => {
     setMentorsLoading(true);
     try {
@@ -192,8 +267,16 @@ export default function OperationsApplicationsPage() {
       loadStories();
     } else if (mainTab === 'mentors') {
       loadMentors();
+    } else if (mainTab === 'schools') {
+      loadSchools();
     }
-  }, [mainTab, loadStories, loadMentors]);
+  }, [mainTab, loadStories, loadMentors, loadSchools]);
+
+  useEffect(() => {
+    if (mainTab === 'schools') {
+      loadSchools();
+    }
+  }, [schoolStatusFilter, loadSchools]);
 
   const loadApplications = async () => {
     try {
@@ -294,7 +377,7 @@ export default function OperationsApplicationsPage() {
               <h1 className="text-3xl font-bold text-gray-900">Başvuru Yönetimi</h1>
               <p className="text-gray-500 mt-1 text-sm">Öğrenci, öğretmen ve veli başvurularını inceleyin, onaylayın veya reddedin.</p>
             </div>
-            <Button variant="outline" size="sm" onClick={() => mainTab === 'stories' ? loadStories() : mainTab === 'mentors' ? loadMentors() : loadApplications()} className="gap-2 self-start md:self-auto">
+            <Button variant="outline" size="sm" onClick={() => mainTab === 'stories' ? loadStories() : mainTab === 'mentors' ? loadMentors() : mainTab === 'schools' ? loadSchools() : loadApplications()} className="gap-2 self-start md:self-auto">
               <RefreshCw className="h-4 w-4" /> Yenile
             </Button>
           </div>
@@ -330,6 +413,16 @@ export default function OperationsApplicationsPage() {
             >
               <Briefcase className="h-4 w-4" />
               Mentör Başvuruları
+            </button>
+            <button
+              onClick={() => setMainTab('schools')}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${mainTab === 'schools'
+                ? 'bg-amber-600 text-white shadow-md'
+                : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+                }`}
+            >
+              <School className="h-4 w-4" />
+              Okul Başvuruları
             </button>
           </div>
 
@@ -755,6 +848,148 @@ export default function OperationsApplicationsPage() {
 
               <div className="mt-4 flex items-center justify-between text-xs text-gray-400">
                 <span>Gösterilen: {mentors.length} başvuru</span>
+                <span>Son güncelleme: {new Date().toLocaleTimeString('tr-TR')}</span>
+              </div>
+            </>
+          )}
+
+          {/* ============================================ */}
+          {/* ========== SCHOOLS TAB CONTENT ============= */}
+          {/* ============================================ */}
+          {mainTab === 'schools' && (
+            <>
+              {/* School Status Filter */}
+              <div className="flex gap-2 mb-6 flex-wrap">
+                {[
+                  { key: 'all', label: 'Tümü', icon: Eye },
+                  { key: 'Received', label: 'Alındı', icon: Clock },
+                  { key: 'Under Review', label: 'İnceleniyor', icon: Clock },
+                  { key: 'Approved', label: 'Onaylananlar', icon: CheckCircle },
+                  { key: 'Rejected', label: 'Reddedilenler', icon: XCircle },
+                ].map((tab) => {
+                  const Icon = tab.icon;
+                  return (
+                    <button
+                      key={tab.key}
+                      onClick={() => setSchoolStatusFilter(tab.key)}
+                      className={`flex items-center gap-1.5 px-4 py-2 rounded-lg text-sm font-medium transition-colors ${schoolStatusFilter === tab.key
+                        ? 'bg-amber-600 text-white'
+                        : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
+                        }`}
+                    >
+                      <Icon className="h-4 w-4" />
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
+
+              {/* Schools Table */}
+              {schoolsLoading ? (
+                <div className="text-center py-16">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-600 mx-auto mb-4" />
+                  <p className="text-gray-500 text-sm">Okul başvuruları yükleniyor…</p>
+                </div>
+              ) : schoolApps.length === 0 ? (
+                <div className="text-center py-16 bg-white rounded-xl border">
+                  <School className="h-12 w-12 text-gray-300 mx-auto mb-4" />
+                  <p className="text-gray-500 mb-2">Bu kategoride okul başvurusu bulunamadı.</p>
+                  <p className="text-xs text-gray-400">Okullar /apply/school sayfasından başvuru yapabilir.</p>
+                </div>
+              ) : (
+                <div className="bg-white border rounded-xl overflow-hidden shadow-sm">
+                  <TableComponent>
+                    <TableHeader>
+                      <TableRow className="bg-gray-50/80">
+                        <TableHead className="text-xs">Okul Adı</TableHead>
+                        <TableHead className="text-xs">Başvuran</TableHead>
+                        <TableHead className="text-xs">Şehir / İlçe</TableHead>
+                        <TableHead className="text-xs">Proje</TableHead>
+                        <TableHead className="text-xs">Kategori</TableHead>
+                        <TableHead className="text-xs">Durum</TableHead>
+                        <TableHead className="text-xs">Tarih</TableHead>
+                        <TableHead className="text-xs text-right">İşlemler</TableHead>
+                      </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                      {schoolApps.map((app) => {
+                        const isPending = app.status === 'Received' || app.status === 'Under Review';
+                        const isBusy = schoolActionLoading === app.id;
+
+                        return (
+                          <TableRow
+                            key={app.id}
+                            className="cursor-pointer hover:bg-amber-50/40 transition-colors"
+                            onClick={() => router.push(`/ops/applications/${app.id}`)}
+                          >
+                            <TableCell className="font-medium text-gray-900">
+                              <div>{app.schoolName}</div>
+                              <div className="text-xs text-gray-400">{app.schoolType} • {app.studentTotal} öğrenci</div>
+                            </TableCell>
+                            <TableCell>
+                              <div className="text-gray-900 text-sm">{app.fullName}</div>
+                              <div className="text-xs text-gray-400">{app.email}</div>
+                            </TableCell>
+                            <TableCell className="text-gray-600 text-sm">
+                              <div>{app.schoolCity}</div>
+                              <div className="text-xs text-gray-400">{app.schoolDistrict}</div>
+                            </TableCell>
+                            <TableCell className="text-gray-700 text-sm max-w-xs">
+                              <p className="line-clamp-2">{app.projectTitle}</p>
+                            </TableCell>
+                            <TableCell>
+                              <Badge variant="outline" className="bg-amber-50 text-amber-800 border-amber-200">
+                                {app.projectCategory || '—'}
+                              </Badge>
+                            </TableCell>
+                            <TableCell><StatusBadge status={app.status} /></TableCell>
+                            <TableCell className="text-gray-500 text-sm">
+                              {new Date(app.createdAt).toLocaleDateString('tr-TR', {
+                                year: 'numeric', month: 'short', day: 'numeric',
+                              })}
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <div className="flex items-center justify-end gap-1.5" onClick={(e) => e.stopPropagation()}>
+                                {isPending && (
+                                  <>
+                                    <button
+                                      disabled={isBusy}
+                                      onClick={() => handleSchoolAction(app.id, 'Approved')}
+                                      className="inline-flex items-center gap-1 rounded-md bg-green-600 hover:bg-green-700 text-white px-2.5 py-1 text-xs font-medium transition-colors disabled:opacity-50"
+                                      title="Onayla"
+                                    >
+                                      <CheckCircle className="h-3.5 w-3.5" />
+                                      Onayla
+                                    </button>
+                                    <button
+                                      disabled={isBusy}
+                                      onClick={() => handleSchoolAction(app.id, 'Rejected')}
+                                      className="inline-flex items-center gap-1 rounded-md bg-red-600 hover:bg-red-700 text-white px-2.5 py-1 text-xs font-medium transition-colors disabled:opacity-50"
+                                      title="Reddet"
+                                    >
+                                      <XCircle className="h-3.5 w-3.5" />
+                                      Reddet
+                                    </button>
+                                  </>
+                                )}
+                                <button
+                                  onClick={() => router.push(`/ops/applications/${app.id}`)}
+                                  className="text-amber-600 hover:text-amber-800 text-xs font-medium underline underline-offset-2"
+                                >
+                                  Detay
+                                </button>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                        );
+                      })}
+                    </TableBody>
+                  </TableComponent>
+                </div>
+              )}
+
+              <div className="mt-4 flex items-center justify-between text-xs text-gray-400">
+                <span>Gösterilen: {schoolApps.length} okul başvurusu</span>
                 <span>Son güncelleme: {new Date().toLocaleTimeString('tr-TR')}</span>
               </div>
             </>

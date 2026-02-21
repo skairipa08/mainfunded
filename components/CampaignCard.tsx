@@ -10,6 +10,7 @@ import { Progress } from './ui/progress';
 import { verificationStatuses } from '@/lib/verification-statuses';
 import { VerificationBadgeCompact } from './VerificationBadge';
 import { useTranslation } from '@/lib/i18n';
+import { useCurrency } from '@/lib/currency-context';
 
 interface CampaignCardProps {
   campaign: any;
@@ -17,6 +18,7 @@ interface CampaignCardProps {
 
 export default function CampaignCard({ campaign }: CampaignCardProps) {
   const { t } = useTranslation();
+  const { formatAmount } = useCurrency();
   const progress = campaign.goal_amount > 0
     ? (campaign.raised_amount / campaign.goal_amount) * 100
     : 0;
@@ -95,10 +97,10 @@ export default function CampaignCard({ campaign }: CampaignCardProps) {
             <div>
               <div className="flex justify-between text-sm mb-2">
                 <span className="font-semibold text-gray-900">
-                  {t('campaignCard.raised', { amount: `$${(campaign.raised_amount || 0).toLocaleString()}` })}
+                  {t('campaignCard.raised', { amount: formatAmount(campaign.raised_amount || 0) })}
                 </span>
                 <span className="text-gray-600">
-                  {t('campaignCard.goal', { amount: `$${(campaign.goal_amount || 0).toLocaleString()}` })}
+                  {t('campaignCard.goal', { amount: formatAmount(campaign.goal_amount || 0) })}
                 </span>
               </div>
               <Progress value={Math.min(progress, 100)} className="h-2" />

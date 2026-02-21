@@ -2735,5 +2735,18 @@
             "targetAmount": "Monto objetivo requerido",
             "beneficiaryCount": "Número de beneficiarios requerido"
         }
+    },
+    "feeCalculator": {
+        "title": "Desglose de tarifas",
+        "toStudent": "Al estudiante",
+        "platformFee": "Tarifa de plataforma (5%)",
+        "stripeFee": "Tarifa de Stripe (2,9% + $0,30)",
+        "total": "Cargo total"
+    },
+    "currency": {
+        "usd": "Dólar estadounidense",
+        "try": "Lira turca",
+        "switchToTry": "Mostrar en ₺ TRY",
+        "switchToUsd": "Mostrar en $ USD"
     }
 }

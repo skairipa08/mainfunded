@@ -6,9 +6,11 @@ import { BadgeGrid, ProgressToBadge } from '@/components/BadgeDisplay';
 import { BADGES } from '@/lib/gamification';
 import MobileHeader from '@/components/MobileHeader';
 import { useTranslation } from '@/lib/i18n/context';
+import { useCurrency } from '@/lib/currency-context';
 
 export default function BadgesPage() {
     const { t } = useTranslation();
+    const { formatAmount } = useCurrency();
     // Demo mode - no badges earned yet
     const earnedBadgeIds: string[] = [];
 
@@ -72,10 +74,10 @@ export default function BadgesPage() {
                         <div>
                             <p className="font-medium text-gray-800 mb-2">{t('pages.badges.totalAmount')}</p>
                             <ul className="space-y-1">
-                                <li>• {t('pages.common.bronze')}: $100</li>
-                                <li>• {t('pages.common.silver')}: $500</li>
-                                <li>• {t('pages.common.gold')}: $1,000</li>
-                                <li>• {t('pages.common.platinum')}: $5,000</li>
+                                <li>• {t('pages.common.bronze')}: {formatAmount(100)}</li>
+                                <li>• {t('pages.common.silver')}: {formatAmount(500)}</li>
+                                <li>• {t('pages.common.gold')}: {formatAmount(1000)}</li>
+                                <li>• {t('pages.common.platinum')}: {formatAmount(5000)}</li>
                             </ul>
                         </div>
                     </div>

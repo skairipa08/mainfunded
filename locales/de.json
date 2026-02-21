@@ -2735,5 +2735,18 @@
             "targetAmount": "Zielbetrag erforderlich",
             "beneficiaryCount": "Anzahl begünstigter Schüler erforderlich"
         }
+    },
+    "feeCalculator": {
+        "title": "Gebührenaufschlüsselung",
+        "toStudent": "An Studenten",
+        "platformFee": "Plattformgebühr (5%)",
+        "stripeFee": "Stripe-Gebühr (2,9% + 0,30$)",
+        "total": "Gesamtbetrag"
+    },
+    "currency": {
+        "usd": "US-Dollar",
+        "try": "Türkische Lira",
+        "switchToTry": "In ₺ TRY anzeigen",
+        "switchToUsd": "In $ USD anzeigen"
     }
 }

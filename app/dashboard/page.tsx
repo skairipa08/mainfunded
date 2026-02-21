@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CampaignCard from '@/components/CampaignCard';
+import { useCurrency } from '@/lib/currency-context';
 
 interface UserData {
   id: string;
@@ -35,6 +36,7 @@ interface Campaign {
 export default function DashboardPage() {
   const { data: session, status } = useSession();
   const router = useRouter();
+  const { formatAmount } = useCurrency();
   const [userData, setUserData] = useState<UserData | null>(null);
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [loading, setLoading] = useState(true);
@@ -229,7 +231,7 @@ export default function DashboardPage() {
                     <div className="text-sm text-gray-600 mb-4">
                       <p>Status: <span className="font-medium">{campaign.status}</span></p>
                       <p>
-                        Progress: ${campaign.raised_amount.toLocaleString()} / ${campaign.goal_amount.toLocaleString()}
+                        Progress: {formatAmount(campaign.raised_amount)} / {formatAmount(campaign.goal_amount)}
                       </p>
                     </div>
                     <div className="flex gap-2">

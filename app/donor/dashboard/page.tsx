@@ -16,6 +16,7 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { CheckCircle } from 'lucide-react';
 import { DashboardSkeleton } from '@/components/ui/PageSkeleton';
+import { useCurrency } from '@/lib/currency-context';
 
 interface DonationItem {
   donation_id?: string;
@@ -28,6 +29,7 @@ interface DonationItem {
 
 function DonorDashboardContent() {
   const searchParams = useSearchParams();
+  const { formatAmount } = useCurrency();
   const [donations, setDonations] = useState<DonationItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [summary, setSummary] = useState<{
@@ -101,11 +103,8 @@ function DonorDashboardContent() {
           <div className="mb-6">
             <h2 className="text-2xl font-semibold text-gray-900 mb-2">Your Donations</h2>
             <p className="text-gray-600">
-              Total donations: {summary?.totalDonations || donations.length} | Total amount: $
-              {(summary?.totalAmount || donations.reduce((sum, d) => sum + d.amount, 0)).toLocaleString('en-US', {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              })}
+              Total donations: {summary?.totalDonations || donations.length} | Total amount:{' '}
+              {formatAmount(summary?.totalAmount || donations.reduce((sum, d) => sum + d.amount, 0))}
               {summary?.supportedStudents ? ` | Students supported: ${summary.supportedStudents}` : ''}
             </p>
           </div>
@@ -129,10 +128,7 @@ function DonorDashboardContent() {
                           {donation.campaign?.title || 'General Fund'}
                         </TableCell>
                         <TableCell className="font-semibold">
-                          ${donation.amount.toLocaleString('en-US', {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2,
-                          })}
+                          {formatAmount(donation.amount)}
                         </TableCell>
                         <TableCell>
                           <Badge className={

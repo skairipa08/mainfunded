@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { MessageSquare, CheckCircle, XCircle, Clock, Eye } from 'lucide-react';
+import { useCurrency } from '@/lib/currency-context';
 
 interface Story {
     story_id: string;
@@ -28,6 +29,7 @@ const statusConfig = {
 };
 
 export default function AdminStoriesPage() {
+    const { formatAmount } = useCurrency();
     const [stories, setStories] = useState<Story[]>([]);
     const [loading, setLoading] = useState(true);
     const [filter, setFilter] = useState('pending');
@@ -194,7 +196,7 @@ export default function AdminStoriesPage() {
                                             <div>
                                                 <p className="text-gray-500">Toplanan</p>
                                                 <p className="font-medium text-green-600">
-                                                    ${story.funded_amount.toLocaleString()}
+                                                    {formatAmount(story.funded_amount)}
                                                 </p>
                                             </div>
                                         </div>

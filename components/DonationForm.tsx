@@ -14,6 +14,7 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
 import { useTranslation } from '@/lib/i18n/context';
+import { useCurrency } from '@/lib/currency-context';
 
 interface DonationFormProps {
     studentName?: string;
@@ -29,7 +30,7 @@ interface DonationFormProps {
 }
 
 interface DonationData {
-    amount: number;
+    amount: number; // always in USD
     isRecurring: boolean;
     frequency?: 'monthly' | 'quarterly' | 'yearly';
     isAnonymous: boolean;
@@ -54,6 +55,7 @@ export function DonationForm({
     onSubmit,
 }: DonationFormProps) {
     const { t } = useTranslation();
+    const { currency, currencySymbol, formatAmount, toUSD, presetAmounts } = useCurrency();
     const [donationType, setDonationType] = useState<'one-time' | 'recurring'>('one-time');
     const [amount, setAmount] = useState<number>(100);
     const [customAmount, setCustomAmount] = useState('');
@@ -65,13 +67,14 @@ export function DonationForm({
     const [message, setMessage] = useState('');
 
     const effectiveAmount = customAmount ? parseFloat(customAmount) : amount;
+    const effectiveAmountUSD = currency === 'TRY' ? toUSD(effectiveAmount) : effectiveAmount;
     const matchedAmount = useMatching ? effectiveAmount * matchingMultiplier : effectiveAmount;
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         if (onSubmit) {
             onSubmit({
-                amount: effectiveAmount,
+                amount: effectiveAmountUSD,
                 isRecurring: donationType === 'recurring',
                 frequency: donationType === 'recurring' ? frequency : undefined,
                 isAnonymous,
@@ -166,7 +169,7 @@ export function DonationForm({
             <div>
                 <Label className="mb-3 block">{t('donationForm.amount')}</Label>
                 <div className="grid grid-cols-3 gap-2 mb-3">
-                    {PRESET_AMOUNTS.map((preset) => (
+                    {presetAmounts.map((preset, idx) => (
                         <button
                             key={preset}
                             type="button"
@@ -181,12 +184,12 @@ export function DonationForm({
                                     : 'border-gray-200 hover:border-gray-300'
                             )}
                         >
-                            ${preset}
+                            {currencySymbol}{preset.toLocaleString()}
                         </button>
                     ))}
                 </div>
                 <div className="relative">
-                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">$</span>
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">{currencySymbol}</span>
                     <Input
                         type="number"
                         placeholder={t('donationForm.customAmount')}
@@ -230,7 +233,7 @@ export function DonationForm({
                         <div className="mt-3 pt-3 border-t border-green-200 text-center">
                             <p className="text-sm text-green-600">{t('donationForm.totalImpact')}:</p>
                             <p className="text-2xl font-bold text-green-800">
-                                ${matchedAmount.toLocaleString()}
+                                {currencySymbol}{matchedAmount.toLocaleString()}
                             </p>
                         </div>
                     )}
@@ -290,12 +293,12 @@ export function DonationForm({
             <div className="bg-gray-50 rounded-xl p-4 space-y-2">
                 <div className="flex justify-between">
                     <span className="text-gray-600">{t('donationForm.summaryAmount')}</span>
-                    <span className="font-medium">${effectiveAmount.toLocaleString()}</span>
+                    <span className="font-medium">{currencySymbol}{effectiveAmount.toLocaleString()}</span>
                 </div>
                 {useMatching && (
                     <div className="flex justify-between text-green-600">
                         <span>{t('donationForm.matchingBonus')}</span>
-                        <span>+${((matchingMultiplier - 1) * effectiveAmount).toLocaleString()}</span>
+                        <span>+{currencySymbol}{((matchingMultiplier - 1) * effectiveAmount).toLocaleString()}</span>
                     </div>
                 )}
                 {donationType === 'recurring' && (
@@ -308,7 +311,7 @@ export function DonationForm({
                 )}
                 <div className="pt-2 border-t flex justify-between text-lg font-bold">
                     <span>{t('donationForm.totalImpact')}</span>
-                    <span className="text-blue-600">${matchedAmount.toLocaleString()}</span>
+                    <span className="text-blue-600">{currencySymbol}{matchedAmount.toLocaleString()}</span>
                 </div>
             </div>
 

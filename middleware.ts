@@ -161,6 +161,11 @@ export default async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  // Skip cron endpoints (authenticated by CRON_SECRET, not rate-limited)
+  if (pathname.startsWith('/api/cron/')) {
+    return NextResponse.next();
+  }
+
   // ── Rate limiting (per-path tiers) ──────────────────────────
   const { tier, idx } = matchTier(pathname);
   const rlKey = getRateLimitKey(request, idx);

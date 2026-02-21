@@ -19,6 +19,7 @@ import {
 import { validateAmount, sanitizeInput, validateEmail } from '@/lib/validation';
 import { toast } from 'sonner';
 import { useTranslation } from '@/lib/i18n';
+import { useCurrency } from '@/lib/currency-context';
 import {
   Heart,
   Shield,
@@ -39,6 +40,7 @@ function DonatePageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { t } = useTranslation();
+  const { currencySymbol, presetAmounts, formatAmount, toUSD, currency } = useCurrency();
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -101,13 +103,16 @@ function DonatePageContent() {
     setSubmitted(true);
 
     try {
+      // Convert to USD if user is in TRY mode
+      const amountUSD = currency === 'TRY' ? toUSD(amount) : amount;
+
       // Use real API endpoint for donation
       const res = await fetch('/api/donations/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           campaign_id: searchParams.get('campaign') || 'general',
-          amount,
+          amount: Math.round(amountUSD * 100) / 100,
           donor_name: formData.donorName ? sanitizeInput(formData.donorName) : 'Anonymous',
           donor_email: formData.donorEmail ? formData.donorEmail.trim().toLowerCase() : undefined,
           anonymous: !formData.donorName,
@@ -135,7 +140,7 @@ function DonatePageContent() {
     }
   };
 
-  const quickAmounts = [10, 25, 50, 100, 250, 500];
+  const quickAmounts = presetAmounts.slice(0, 6);
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-slate-50 to-white">
@@ -208,13 +213,13 @@ function DonatePageContent() {
                             : 'bg-slate-50 text-slate-700 border-slate-100 hover:border-blue-300 hover:bg-blue-50'
                           }`}
                       >
-                        ${amount}
+                        {currencySymbol}{amount.toLocaleString()}
                       </button>
                     ))}
                   </div>
 
                   <div className="relative">
-                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-semibold text-lg">$</span>
+                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 font-semibold text-lg">{currencySymbol}</span>
                     <Input
                       id="amount"
                       type="number"
@@ -368,7 +373,7 @@ function DonatePageContent() {
                       ) : (
                         <div className="flex items-center gap-2">
                           <Heart className="h-5 w-5" />
-                          {formData.amount ? `$${parseFloat(formData.amount).toLocaleString()} ${t('donation.submitDonateWithAmount')}` : t('donation.submitDonate')}
+                          {formData.amount ? `${currencySymbol}${parseFloat(formData.amount).toLocaleString()} ${t('donation.submitDonateWithAmount')}` : t('donation.submitDonate')}
                           <ArrowRight className="h-5 w-5" />
                         </div>
                       )}
@@ -396,12 +401,12 @@ function DonatePageContent() {
 
                 <div className="space-y-4">
                   {[
-                    { amount: '$10', desc: t('donation.impact10'), icon: '📝' },
-                    { amount: '$25', desc: t('donation.impact25'), icon: '🎒' },
-                    { amount: '$50', desc: t('donation.impact50'), icon: '📚' },
-                    { amount: '$100', desc: t('donation.impact100'), icon: '💻' },
-                    { amount: '$250', desc: t('donation.impact250'), icon: '🎓' },
-                    { amount: '$500', desc: t('donation.impact500'), icon: '🏫' },
+                    { amount: formatAmount(10), desc: t('donation.impact10'), icon: '📝' },
+                    { amount: formatAmount(25), desc: t('donation.impact25'), icon: '🎒' },
+                    { amount: formatAmount(50), desc: t('donation.impact50'), icon: '📚' },
+                    { amount: formatAmount(100), desc: t('donation.impact100'), icon: '💻' },
+                    { amount: formatAmount(250), desc: t('donation.impact250'), icon: '🎓' },
+                    { amount: formatAmount(500), desc: t('donation.impact500'), icon: '🏫' },
                   ].map((item, i) => (
                     <div
                       key={i}

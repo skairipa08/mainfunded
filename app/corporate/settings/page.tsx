@@ -50,6 +50,7 @@ import {
 } from '@/components/ui/select';
 import { mockCorporateAccount, mockCorporateUser } from '@/lib/corporate/mock-data';
 import { useTranslation } from '@/lib/i18n/context';
+import { useCurrency } from '@/lib/currency-context';
 import { useCorporateAuth } from '@/lib/corporate/auth';
 
 // Subscription tier data
@@ -151,6 +152,7 @@ const mockBillingHistory = [
 
 export default function SettingsPage() {
     const { t } = useTranslation();
+    const { formatAmount } = useCurrency();
     const { user } = useCorporateAuth();
     const [companyName, setCompanyName] = useState(mockCorporateAccount.company_name);
     const [userName, setUserName] = useState(mockCorporateUser.name);
@@ -373,7 +375,7 @@ export default function SettingsPage() {
                                     </div>
                                 </div>
                                 <div className="text-right">
-                                    <div className="text-3xl font-bold">${currentTier.price}</div>
+                                    <div className="text-3xl font-bold">{formatAmount(currentTier.price)}</div>
                                     <div className="text-white/70 text-sm">/ay</div>
                                 </div>
                             </div>
@@ -549,7 +551,7 @@ export default function SettingsPage() {
                                             >
                                                 {invoice.status === 'paid' ? 'Ödendi' : 'Beklemede'}
                                             </Badge>
-                                            <span className="font-semibold text-gray-900">${invoice.amount}</span>
+                                            <span className="font-semibold text-gray-900">{formatAmount(invoice.amount)}</span>
                                             <Button variant="ghost" size="sm" className="text-gray-400 hover:text-gray-600">
                                                 <Download className="h-4 w-4" />
                                             </Button>
@@ -609,7 +611,7 @@ export default function SettingsPage() {
                             </div>
                             <div>
                                 <p className="text-xs text-gray-500">Toplam Harcama</p>
-                                <p className="font-semibold text-gray-900">$2.395</p>
+                                <p className="font-semibold text-gray-900">{formatAmount(2395)}</p>
                             </div>
                         </div>
                         <div className="text-xs text-gray-500">
@@ -1044,7 +1046,7 @@ export default function SettingsPage() {
                                                     </div>
                                                     <h4 className="font-bold text-gray-900">{tier.name}</h4>
                                                     <div className="mt-2">
-                                                        <span className="text-3xl font-bold text-gray-900">${tier.price}</span>
+                                                        <span className="text-3xl font-bold text-gray-900">{formatAmount(tier.price)}</span>
                                                         <span className="text-gray-500 text-sm">/ay</span>
                                                     </div>
                                                 </div>

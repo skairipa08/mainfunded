@@ -9,6 +9,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { StatCard } from '@/components/ui/StatCard';
 import { toast } from 'sonner';
 import { DollarSign, Clock, CheckCircle, XCircle, RefreshCw, Send } from 'lucide-react';
+import { useCurrency } from '@/lib/currency-context';
 
 interface PayoutSummary {
   method_type: string;
@@ -28,6 +29,7 @@ interface PendingPayout {
 }
 
 export default function AdminPayoutsPage() {
+  const { formatAmount } = useCurrency();
   const [summaries, setSummaries] = useState<PayoutSummary[]>([]);
   const [pendingPayouts, setPendingPayouts] = useState<PendingPayout[]>([]);
   const [loading, setLoading] = useState(true);
@@ -61,7 +63,7 @@ export default function AdminPayoutsPage() {
     const amountStr = payoutAmounts[payout.user_id];
     const amount = parseFloat(amountStr);
     if (!amount || amount <= 0 || amount > payout.available) {
-      toast.error(`Geçerli bir tutar girin (maks. $${payout.available})`);
+      toast.error(`Geçerli bir tutar girin (maks. ${formatAmount(payout.available)})`);
       return;
     }
 
@@ -80,7 +82,7 @@ export default function AdminPayoutsPage() {
         const errData = await res.json();
         throw new Error(errData.error ?? 'Ödeme işlenemedi');
       }
-      toast.success(`$${amount} ödeme başarıyla işlendi`);
+      toast.success(`${formatAmount(amount)} ödeme başarıyla işlendi`);
       setPayoutAmounts((prev) => ({ ...prev, [payout.user_id]: '' }));
       await fetchPayouts();
     } catch (err: unknown) {
@@ -110,7 +112,7 @@ export default function AdminPayoutsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         <StatCard
           title="Toplam Bekleyen Bakiye"
-          value={`$${totalAvailable.toLocaleString()}`}
+          value={formatAmount(totalAvailable)}
           icon={<DollarSign className="h-5 w-5" />}
           loading={loading}
           valueClassName="text-green-600"
@@ -139,7 +141,7 @@ export default function AdminPayoutsPage() {
             {summaries.map((s) => (
               <div key={s.method_type} className="p-4 bg-gray-50 rounded-lg text-center">
                 <p className="text-xs font-medium text-gray-500 uppercase mb-1">{s.method_type}</p>
-                <p className="text-xl font-bold text-gray-900">${s.total_available.toLocaleString()}</p>
+                <p className="text-xl font-bold text-gray-900">{formatAmount(s.total_available)}</p>
                 <p className="text-xs text-gray-500">{s.total_students} öğrenci</p>
               </div>
             ))}
@@ -197,7 +199,7 @@ export default function AdminPayoutsPage() {
                       {Object.values(p.method_details).join(' · ')}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-right font-semibold text-green-600">
-                      ${p.available.toLocaleString()}
+                      {formatAmount(p.available)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-right">
                       <Input

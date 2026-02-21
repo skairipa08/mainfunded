@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useCurrency } from '@/lib/currency-context';
 
 interface SocialShareProps {
     url: string;
@@ -178,6 +179,7 @@ export function ShareCard({
     className?: string;
 }) {
     const progress = Math.round((raised / goal) * 100);
+    const { formatAmount } = useCurrency();
 
     return (
         <div
@@ -206,8 +208,8 @@ export function ShareCard({
                     />
                 </div>
                 <div className="flex justify-between text-xs mt-2 text-white/70">
-                    <span>${raised.toLocaleString()}</span>
-                    <span>${goal.toLocaleString()}</span>
+                    <span>{formatAmount(raised)}</span>
+                    <span>{formatAmount(goal)}</span>
                 </div>
             </div>
 

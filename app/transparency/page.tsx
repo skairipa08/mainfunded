@@ -5,9 +5,11 @@ import { Shield, PieChart, FileCheck, Users, DollarSign } from 'lucide-react';
 import { TransparencyCard, VerificationBadge } from '@/components/TransparencyCard';
 import MobileHeader from '@/components/MobileHeader';
 import { useTranslation } from '@/lib/i18n/context';
+import { useCurrency } from '@/lib/currency-context';
 
 export default function TransparencyPage() {
     const { t } = useTranslation();
+    const { formatAmount } = useCurrency();
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-gray-50 to-green-50">
@@ -38,7 +40,7 @@ export default function TransparencyPage() {
                 <div className="grid md:grid-cols-4 gap-6 mb-12">
                     <div className="bg-white rounded-xl p-6 shadow-sm border text-center">
                         <DollarSign className="h-8 w-8 text-green-600 mx-auto mb-2" />
-                        <p className="text-3xl font-bold text-gray-900">$0</p>
+                        <p className="text-3xl font-bold text-gray-900">{formatAmount(0)}</p>
                         <p className="text-gray-600">Toplam Bagis</p>
                     </div>
                     <div className="bg-white rounded-xl p-6 shadow-sm border text-center">

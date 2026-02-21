@@ -34,6 +34,14 @@ import {
   Calendar,
   Camera,
   ExternalLink,
+  School,
+  MapPin,
+  Phone,
+  Users,
+  Hash,
+  Briefcase,
+  BookOpen,
+  Link,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -52,6 +60,7 @@ type DocType = typeof DOC_TYPES[number]['value'] | '';
 
 interface StudentApplication {
   id: string;
+  type?: 'student' | 'teacher' | 'parent' | 'school';
   fullName: string;
   email: string;
   country: string;
@@ -66,6 +75,35 @@ interface StudentApplication {
   classYear?: string;
   faculty?: string;
   department?: string;
+  // School-specific fields
+  schoolName?: string;
+  schoolCity?: string;
+  schoolDistrict?: string;
+  schoolAddress?: string;
+  schoolType?: string;
+  studentTotal?: number;
+  schoolWebsite?: string;
+  schoolPhone?: string;
+  applicantRole?: string;
+  applicantTitle?: string;
+  projectTitle?: string;
+  projectCategory?: string;
+  beneficiaryCount?: number;
+  phone?: string;
+  // Teacher-specific fields
+  classGrade?: string;
+  subject?: string;
+  studentCount?: number;
+  // Parent-specific fields
+  parentRelation?: string;
+  childName?: string;
+  childDob?: string;
+  childGender?: string;
+  childSchool?: string;
+  childSchoolCity?: string;
+  childGrade?: string;
+  childStudentId?: string;
+  story?: string;
   status: 'Received' | 'Under Review' | 'Approved' | 'Rejected';
   createdAt: string;
   updatedAt: string;
@@ -314,52 +352,281 @@ export default function ApplicationDetailPage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             <div className="lg:col-span-2 space-y-6">
-              <Card className="rounded-2xl border-slate-200 shadow-sm overflow-hidden">
-                <CardHeader className="bg-white border-b border-slate-100">
-                  <CardTitle className="flex items-center gap-2 text-lg">
-                    <User className="h-5 w-5 text-blue-500" />
-                    Başvuran Bilgileri
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <InfoRow icon={User} label="Ad Soyad" value={application.fullName} />
-                    <InfoRow icon={Mail} label="E-posta" value={application.email} />
-                    <InfoRow icon={Globe} label="Ülke" value={application.country} />
-                    <InfoRow icon={GraduationCap} label="Eğitim Seviyesi" value={application.educationLevel} />
-                    {application.faculty && <InfoRow icon={Building} label="Fakülte" value={application.faculty} />}
-                    {application.department && <InfoRow icon={Building} label="Bölüm" value={application.department} />}
-                    {application.classYear && <InfoRow icon={Calendar} label="Sınıf" value={application.classYear} />}
-                    {(application.targetAmount || application.goalAmount) && (
-                      <InfoRow icon={DollarSign} label="Hedef Miktar" value={`$${application.targetAmount || application.goalAmount}`} />
-                    )}
-                  </div>
 
-                  <div className="mt-6 pt-5 border-t border-slate-100">
-                    <h4 className="text-sm font-semibold text-slate-700 flex items-center gap-2 mb-3">
-                      <FileText className="h-4 w-4 text-slate-400" />
-                      İhtiyaç Açıklaması
-                      <span className="text-xs font-normal text-slate-400">({(needSummary || '').length} karakter)</span>
-                    </h4>
-                    <div className="bg-slate-50 rounded-xl p-4 text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
-                      {needSummary}
-                    </div>
-                  </div>
+              {/* ===== SCHOOL-SPECIFIC SECTIONS ===== */}
+              {application.type === 'school' ? (
+                <>
+                  {/* Okul Bilgileri */}
+                  <Card className="rounded-2xl border-slate-200 shadow-sm overflow-hidden">
+                    <CardHeader className="bg-white border-b border-slate-100">
+                      <CardTitle className="flex items-center gap-2 text-lg">
+                        <School className="h-5 w-5 text-amber-500" />
+                        Okul Bilgileri
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <InfoRow icon={School} label="Okul Adı" value={application.schoolName || '—'} />
+                        <InfoRow icon={Building} label="Okul Türü" value={application.schoolType || '—'} />
+                        <InfoRow icon={MapPin} label="Şehir" value={application.schoolCity || '—'} />
+                        <InfoRow icon={MapPin} label="İlçe" value={application.schoolDistrict || '—'} />
+                        {application.schoolAddress && <InfoRow icon={MapPin} label="Adres" value={application.schoolAddress} />}
+                        <InfoRow icon={Users} label="Toplam Öğrenci" value={application.studentTotal || '—'} />
+                        {application.schoolPhone && <InfoRow icon={Phone} label="Okul Telefonu" value={application.schoolPhone} />}
+                        {application.schoolWebsite && <InfoRow icon={Link} label="Web Sitesi" value={application.schoolWebsite} />}
+                      </div>
+                    </CardContent>
+                  </Card>
 
-                  <div className="mt-5 pt-4 border-t border-slate-100 flex flex-wrap gap-6 text-xs text-slate-400">
-                    <div className="flex items-center gap-1.5">
-                      <Clock className="h-3.5 w-3.5" />
-                      Gönderildi: {createdAt}
+                  {/* Başvuran Bilgileri */}
+                  <Card className="rounded-2xl border-slate-200 shadow-sm overflow-hidden">
+                    <CardHeader className="bg-white border-b border-slate-100">
+                      <CardTitle className="flex items-center gap-2 text-lg">
+                        <User className="h-5 w-5 text-blue-500" />
+                        Başvuran Bilgileri
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <InfoRow icon={User} label="Ad Soyad" value={application.fullName} />
+                        <InfoRow icon={Mail} label="E-posta" value={application.email} />
+                        <InfoRow icon={Briefcase} label="Görev / Rol" value={application.applicantRole || '—'} />
+                        {application.applicantTitle && <InfoRow icon={Briefcase} label="Ünvan" value={application.applicantTitle} />}
+                        {application.phone && <InfoRow icon={Phone} label="Telefon" value={application.phone} />}
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Proje Detayı */}
+                  <Card className="rounded-2xl border-slate-200 shadow-sm overflow-hidden">
+                    <CardHeader className="bg-white border-b border-slate-100">
+                      <CardTitle className="flex items-center gap-2 text-lg">
+                        <BookOpen className="h-5 w-5 text-emerald-500" />
+                        Proje Detayı
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <InfoRow icon={FileText} label="Proje Başlığı" value={application.projectTitle || '—'} />
+                        <InfoRow icon={Hash} label="Kategori" value={application.projectCategory || '—'} />
+                        <InfoRow icon={DollarSign} label="Hedef Miktar" value={`$${application.targetAmount || 0}`} />
+                        <InfoRow icon={Users} label="Faydalanacak Kişi Sayısı" value={application.beneficiaryCount || '—'} />
+                      </div>
+
+                      <div className="mt-6 pt-5 border-t border-slate-100">
+                        <h4 className="text-sm font-semibold text-slate-700 flex items-center gap-2 mb-3">
+                          <FileText className="h-4 w-4 text-slate-400" />
+                          Proje Açıklaması
+                          <span className="text-xs font-normal text-slate-400">({(needSummary || '').length} karakter)</span>
+                        </h4>
+                        <div className="bg-slate-50 rounded-xl p-4 text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+                          {needSummary}
+                        </div>
+                      </div>
+
+                      <div className="mt-5 pt-4 border-t border-slate-100 flex flex-wrap gap-6 text-xs text-slate-400">
+                        <div className="flex items-center gap-1.5">
+                          <Clock className="h-3.5 w-3.5" />
+                          Gönderildi: {createdAt}
+                        </div>
+                        {application.updatedAt && application.updatedAt !== application.createdAt && (
+                          <div className="flex items-center gap-1.5">
+                            <Clock className="h-3.5 w-3.5" />
+                            Güncellendi: {updatedAt}
+                          </div>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </>
+              ) : application.type === 'teacher' ? (
+                /* ===== TEACHER-SPECIFIC SECTIONS ===== */
+                <>
+                  {/* Öğretmen Bilgileri */}
+                  <Card className="rounded-2xl border-slate-200 shadow-sm overflow-hidden">
+                    <CardHeader className="bg-white border-b border-slate-100">
+                      <CardTitle className="flex items-center gap-2 text-lg">
+                        <User className="h-5 w-5 text-blue-500" />
+                        Öğretmen Bilgileri
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <InfoRow icon={User} label="Ad Soyad" value={application.fullName} />
+                        <InfoRow icon={Mail} label="E-posta" value={application.email} />
+                        <InfoRow icon={Globe} label="Ülke" value={application.country} />
+                        {application.phone && <InfoRow icon={Phone} label="Telefon" value={application.phone} />}
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Okul & Sınıf Bilgileri */}
+                  <Card className="rounded-2xl border-slate-200 shadow-sm overflow-hidden">
+                    <CardHeader className="bg-white border-b border-slate-100">
+                      <CardTitle className="flex items-center gap-2 text-lg">
+                        <School className="h-5 w-5 text-amber-500" />
+                        Okul & Sınıf Bilgileri
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <InfoRow icon={School} label="Okul Adı" value={application.schoolName || '—'} />
+                        <InfoRow icon={MapPin} label="Okul Şehri" value={application.schoolCity || '—'} />
+                        <InfoRow icon={BookOpen} label="Ders / Branş" value={application.subject || '—'} />
+                        <InfoRow icon={Hash} label="Sınıf Seviyesi" value={application.classGrade || '—'} />
+                        <InfoRow icon={Users} label="Öğrenci Sayısı" value={application.studentCount || '—'} />
+                        <InfoRow icon={DollarSign} label="Hedef Miktar" value={`$${application.targetAmount || 0}`} />
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* İhtiyaç Açıklaması */}
+                  <Card className="rounded-2xl border-slate-200 shadow-sm overflow-hidden">
+                    <CardContent className="p-6">
+                      <h4 className="text-sm font-semibold text-slate-700 flex items-center gap-2 mb-3">
+                        <FileText className="h-4 w-4 text-slate-400" />
+                        İhtiyaç Açıklaması
+                        <span className="text-xs font-normal text-slate-400">({(needSummary || '').length} karakter)</span>
+                      </h4>
+                      <div className="bg-slate-50 rounded-xl p-4 text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+                        {needSummary}
+                      </div>
+                      <div className="mt-5 pt-4 border-t border-slate-100 flex flex-wrap gap-6 text-xs text-slate-400">
+                        <div className="flex items-center gap-1.5">
+                          <Clock className="h-3.5 w-3.5" />
+                          Gönderildi: {createdAt}
+                        </div>
+                        {application.updatedAt && application.updatedAt !== application.createdAt && (
+                          <div className="flex items-center gap-1.5">
+                            <Clock className="h-3.5 w-3.5" />
+                            Güncellendi: {updatedAt}
+                          </div>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </>
+              ) : application.type === 'parent' ? (
+                /* ===== PARENT-SPECIFIC SECTIONS ===== */
+                <>
+                  {/* Veli Bilgileri */}
+                  <Card className="rounded-2xl border-slate-200 shadow-sm overflow-hidden">
+                    <CardHeader className="bg-white border-b border-slate-100">
+                      <CardTitle className="flex items-center gap-2 text-lg">
+                        <User className="h-5 w-5 text-blue-500" />
+                        Veli Bilgileri
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <InfoRow icon={User} label="Ad Soyad" value={application.fullName} />
+                        <InfoRow icon={Mail} label="E-posta" value={application.email} />
+                        <InfoRow icon={Globe} label="Ülke" value={application.country} />
+                        {application.phone && <InfoRow icon={Phone} label="Telefon" value={application.phone} />}
+                        <InfoRow icon={Users} label="Yakınlık" value={application.parentRelation || '—'} />
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Çocuk Bilgileri */}
+                  <Card className="rounded-2xl border-slate-200 shadow-sm overflow-hidden">
+                    <CardHeader className="bg-white border-b border-slate-100">
+                      <CardTitle className="flex items-center gap-2 text-lg">
+                        <GraduationCap className="h-5 w-5 text-emerald-500" />
+                        Çocuk Bilgileri
+                      </CardTitle>
+                    </CardHeader>
+                    <CardContent className="p-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                        <InfoRow icon={User} label="Çocuk Adı" value={application.childName || '—'} />
+                        <InfoRow icon={Calendar} label="Doğum Tarihi" value={application.childDob || '—'} />
+                        {application.childGender && <InfoRow icon={User} label="Cinsiyet" value={application.childGender} />}
+                        <InfoRow icon={School} label="Okul" value={application.childSchool || '—'} />
+                        <InfoRow icon={MapPin} label="Okul Şehri" value={application.childSchoolCity || '—'} />
+                        <InfoRow icon={Hash} label="Sınıf" value={application.childGrade || '—'} />
+                        {application.childStudentId && <InfoRow icon={Hash} label="Öğrenci No" value={application.childStudentId} />}
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* İhtiyaç & Hedef */}
+                  <Card className="rounded-2xl border-slate-200 shadow-sm overflow-hidden">
+                    <CardContent className="p-6">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
+                        <InfoRow icon={DollarSign} label="Hedef Miktar" value={`$${application.targetAmount || 0}`} />
+                      </div>
+                      <h4 className="text-sm font-semibold text-slate-700 flex items-center gap-2 mb-3">
+                        <FileText className="h-4 w-4 text-slate-400" />
+                        Hikaye / Açıklama
+                        <span className="text-xs font-normal text-slate-400">({(needSummary || '').length} karakter)</span>
+                      </h4>
+                      <div className="bg-slate-50 rounded-xl p-4 text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+                        {needSummary}
+                      </div>
+                      <div className="mt-5 pt-4 border-t border-slate-100 flex flex-wrap gap-6 text-xs text-slate-400">
+                        <div className="flex items-center gap-1.5">
+                          <Clock className="h-3.5 w-3.5" />
+                          Gönderildi: {createdAt}
+                        </div>
+                        {application.updatedAt && application.updatedAt !== application.createdAt && (
+                          <div className="flex items-center gap-1.5">
+                            <Clock className="h-3.5 w-3.5" />
+                            Güncellendi: {updatedAt}
+                          </div>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </>
+              ) : (
+                /* ===== DEFAULT (STUDENT) ===== */
+                <Card className="rounded-2xl border-slate-200 shadow-sm overflow-hidden">
+                  <CardHeader className="bg-white border-b border-slate-100">
+                    <CardTitle className="flex items-center gap-2 text-lg">
+                      <User className="h-5 w-5 text-blue-500" />
+                      Başvuran Bilgileri
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-6">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                      <InfoRow icon={User} label="Ad Soyad" value={application.fullName} />
+                      <InfoRow icon={Mail} label="E-posta" value={application.email} />
+                      <InfoRow icon={Globe} label="Ülke" value={application.country} />
+                      <InfoRow icon={GraduationCap} label="Eğitim Seviyesi" value={application.educationLevel} />
+                      {application.faculty && <InfoRow icon={Building} label="Fakülte" value={application.faculty} />}
+                      {application.department && <InfoRow icon={Building} label="Bölüm" value={application.department} />}
+                      {application.classYear && <InfoRow icon={Calendar} label="Sınıf" value={application.classYear} />}
+                      {(application.targetAmount || application.goalAmount) && (
+                        <InfoRow icon={DollarSign} label="Hedef Miktar" value={`$${application.targetAmount || application.goalAmount}`} />
+                      )}
                     </div>
-                    {application.updatedAt && application.updatedAt !== application.createdAt && (
+
+                    <div className="mt-6 pt-5 border-t border-slate-100">
+                      <h4 className="text-sm font-semibold text-slate-700 flex items-center gap-2 mb-3">
+                        <FileText className="h-4 w-4 text-slate-400" />
+                        İhtiyaç Açıklaması
+                        <span className="text-xs font-normal text-slate-400">({(needSummary || '').length} karakter)</span>
+                      </h4>
+                      <div className="bg-slate-50 rounded-xl p-4 text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
+                        {needSummary}
+                      </div>
+                    </div>
+
+                    <div className="mt-5 pt-4 border-t border-slate-100 flex flex-wrap gap-6 text-xs text-slate-400">
                       <div className="flex items-center gap-1.5">
                         <Clock className="h-3.5 w-3.5" />
-                        Güncellendi: {updatedAt}
+                        Gönderildi: {createdAt}
                       </div>
-                    )}
-                  </div>
-                </CardContent>
-              </Card>
+                      {application.updatedAt && application.updatedAt !== application.createdAt && (
+                        <div className="flex items-center gap-1.5">
+                          <Clock className="h-3.5 w-3.5" />
+                          Güncellendi: {updatedAt}
+                        </div>
+                      )}
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
 
               <Card className="rounded-2xl border-slate-200 shadow-sm overflow-hidden">
                 <CardHeader className="bg-white border-b border-slate-100">

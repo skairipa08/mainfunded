@@ -16,6 +16,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { useCurrency } from '@/lib/currency-context';
 
 interface ProgressUpdate {
     id: string;
@@ -168,6 +169,7 @@ export function QuarterlyReport({
     nextMilestone,
     className,
 }: QuarterlyReportProps) {
+    const { formatAmount } = useCurrency();
     const formatDate = (dateStr: string) => {
         return new Date(dateStr).toLocaleDateString('tr-TR', {
             year: 'numeric',
@@ -177,11 +179,7 @@ export function QuarterlyReport({
     };
 
     const formatCurrency = (value: number) => {
-        return new Intl.NumberFormat('tr-TR', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 0,
-        }).format(value);
+        return formatAmount(value);
     };
 
     const getUpdateIcon = (type: ProgressUpdate['type']) => {

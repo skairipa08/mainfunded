@@ -2735,5 +2735,18 @@
             "targetAmount": "Target amount is required",
             "beneficiaryCount": "Number of benefiting students is required"
         }
+    },
+    "feeCalculator": {
+        "title": "Fee Breakdown",
+        "toStudent": "To Student",
+        "platformFee": "Platform Fee (5%)",
+        "stripeFee": "Stripe Fee (2.9% + $0.30)",
+        "total": "Total Charge"
+    },
+    "currency": {
+        "usd": "US Dollar",
+        "try": "Turkish Lira",
+        "switchToTry": "Show in ₺ TRY",
+        "switchToUsd": "Show in $ USD"
     }
 }

@@ -2735,5 +2735,18 @@
             "targetAmount": "Целевая сумма обязательна",
             "beneficiaryCount": "Число бенефициаров обязательно"
         }
+    },
+    "feeCalculator": {
+        "title": "Расчёт комиссии",
+        "toStudent": "Студенту",
+        "platformFee": "Комиссия платформы (5%)",
+        "stripeFee": "Комиссия Stripe (2,9% + $0,30)",
+        "total": "Итого к оплате"
+    },
+    "currency": {
+        "usd": "Доллар США",
+        "try": "Турецкая лира",
+        "switchToTry": "Показать в ₺ TRY",
+        "switchToUsd": "Показать в $ USD"
     }
 }

@@ -18,6 +18,7 @@ import { cn } from '@/lib/utils';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useCurrency } from '@/lib/currency-context';
 
 interface BreakdownItem {
     category: string;
@@ -100,12 +101,10 @@ export function TransparencyCard({
     documents,
     className,
 }: TransparencyCardProps) {
-    const formatCurrency = (value: number) => {
-        return new Intl.NumberFormat('tr-TR', {
-            style: 'currency',
-            currency: 'USD',
-            minimumFractionDigits: 0,
-        }).format(value);
+    const { formatAmount } = useCurrency();
+
+    const formatCurrencyLocal = (value: number) => {
+        return formatAmount(value);
     };
 
     const getVerificationBadge = () => {
@@ -160,7 +159,7 @@ export function TransparencyCard({
                                 </div>
                             </div>
                             <div className="text-right">
-                                <span className="font-medium text-gray-900">{formatCurrency(item.amount)}</span>
+                                <span className="font-medium text-gray-900">{formatCurrencyLocal(item.amount)}</span>
                                 <p className="text-xs text-gray-500">{item.percentage}%</p>
                             </div>
                         </div>
@@ -173,7 +172,7 @@ export function TransparencyCard({
             <div className="bg-gray-50 p-4 border-t">
                 <div className="flex justify-between items-center">
                     <span className="text-gray-600">Toplam Butce</span>
-                    <span className="text-xl font-bold text-gray-900">{formatCurrency(goalAmount)}</span>
+                    <span className="text-xl font-bold text-gray-900">{formatCurrencyLocal(goalAmount)}</span>
                 </div>
                 <p className="text-xs text-gray-500 mt-1">
                     Son guncelleme: {new Date(lastUpdated).toLocaleDateString('tr-TR')}

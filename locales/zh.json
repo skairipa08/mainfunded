@@ -2735,5 +2735,18 @@
             "targetAmount": "目标金额为必填项",
             "beneficiaryCount": "受益学生人数为必填项"
         }
+    },
+    "feeCalculator": {
+        "title": "费用明细",
+        "toStudent": "给学生",
+        "platformFee": "平台费 (5%)",
+        "stripeFee": "Stripe费用 (2.9% + $0.30)",
+        "total": "总费用"
+    },
+    "currency": {
+        "usd": "美元",
+        "try": "土耳其里拉",
+        "switchToTry": "以 ₺ TRY 显示",
+        "switchToUsd": "以 $ USD 显示"
     }
 }

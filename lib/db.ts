@@ -129,6 +129,10 @@ export async function createIndexes() {
     await db.collection('donation_messages').createIndex('sender_id');
     await db.collection('donation_messages').createIndex('recipient_id');
     await db.collection('donation_messages').createIndex('created_at');
+
+    // Exchange Rates indexes
+    await db.collection('exchange_rates').createIndex({ from: 1, to: 1 }, { unique: true });
+    await db.collection('exchange_rates').createIndex('updatedAt');
   } catch (error: any) {
     if (error.code !== 85 && error.codeName !== 'IndexOptionsConflict') {
       console.error('Error creating indexes:', error);

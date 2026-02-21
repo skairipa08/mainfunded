@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { SocialShare } from './SocialShare';
+import { useCurrency } from '@/lib/currency-context';
 
 interface MilestoneCardProps {
     type: 'first_donation' | 'halfway' | 'goal_reached' | 'fully_funded';
@@ -58,6 +59,7 @@ export function MilestoneCard({
 }: MilestoneCardProps) {
     const config = milestoneConfig[type];
     const Icon = config.icon;
+    const { formatAmount } = useCurrency();
 
     return (
         <div
@@ -76,10 +78,10 @@ export function MilestoneCard({
 
                 {amount && (
                     <div className="bg-white/20 rounded-xl p-4 mb-4">
-                        <p className="text-3xl font-bold">${amount.toLocaleString()}</p>
+                        <p className="text-3xl font-bold">{formatAmount(amount)}</p>
                         {goal && (
                             <p className="text-sm text-white/70">
-                                / ${goal.toLocaleString()} hedefe ulasti
+                                / {formatAmount(goal)} hedefe ulasti
                             </p>
                         )}
                     </div>

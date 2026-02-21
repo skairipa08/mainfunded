@@ -1,5 +1,6 @@
 'use client';
 import { useTranslation } from '@/lib/i18n/context';
+import { useCurrency } from '@/lib/currency-context';
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
@@ -87,6 +88,7 @@ function AnimatedNumber({ target, prefix = '', suffix = '' }: { target: number; 
    ════════════════════════════════════════════ */
 export default function EducationEqualityPage() {
     const { t } = useTranslation();
+    const { formatAmount, currencySymbol } = useCurrency();
     const router = useRouter();
     const [donationAmount, setDonationAmount] = useState('');
     const [showAllStories, setShowAllStories] = useState(false);
@@ -242,8 +244,8 @@ export default function EducationEqualityPage() {
                                     <span className="text-white/70 text-sm font-medium">{t('educationEquality.goal')}</span>
                                 </div>
                                 <div className="flex items-center justify-between mb-2">
-                                    <span className="text-2xl font-bold text-white">${CAMPAIGN_RAISED.toLocaleString()}</span>
-                                    <span className="text-lg text-white/60">${CAMPAIGN_GOAL.toLocaleString()}</span>
+                                    <span className="text-2xl font-bold text-white">{formatAmount(CAMPAIGN_RAISED)}</span>
+                                    <span className="text-lg text-white/60">{formatAmount(CAMPAIGN_GOAL)}</span>
                                 </div>
                                 <div className="w-full bg-white/10 rounded-full h-3 overflow-hidden">
                                     <div
@@ -375,7 +377,7 @@ export default function EducationEqualityPage() {
                                         color: 'bg-purple-500',
                                     },
                                     {
-                                        stat: '$50',
+                                        stat: formatAmount(50),
                                         text: t('educationEquality.problem.fact5'),
                                         color: 'bg-emerald-500',
                                     },
@@ -425,8 +427,8 @@ export default function EducationEqualityPage() {
                                         <p className="text-slate-500 text-sm mb-5 leading-relaxed">{area.description}</p>
                                         <div className="space-y-2">
                                             <div className="flex items-center justify-between text-sm">
-                                                <span className="font-semibold text-slate-700">${area.raised.toLocaleString()}</span>
-                                                <span className="text-slate-400">${area.goal.toLocaleString()}</span>
+                                                <span className="font-semibold text-slate-700">{formatAmount(area.raised)}</span>
+                                                <span className="text-slate-400">{formatAmount(area.goal)}</span>
                                             </div>
                                             <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
                                                 <div
@@ -616,7 +618,7 @@ export default function EducationEqualityPage() {
                                                     : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
                                                 }`}
                                         >
-                                            ${amount}
+                                            {formatAmount(amount)}
                                         </button>
                                     ))}
                                 </div>
@@ -624,7 +626,7 @@ export default function EducationEqualityPage() {
                                 {/* Custom amount */}
                                 <div className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto mb-3">
                                     <div className="relative flex-1">
-                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 font-bold">$</span>
+                                        <span className="absolute left-4 top-1/2 -translate-y-1/2 text-white/50 font-bold">{currencySymbol}</span>
                                         <Input
                                             type="number"
                                             placeholder={t('educationEquality.otherAmount')}

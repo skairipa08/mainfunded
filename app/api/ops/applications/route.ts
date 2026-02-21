@@ -21,8 +21,12 @@ export async function GET(request: NextRequest) {
         const status = searchParams.get('status');
 
         const query: any = {};
+        const type = searchParams.get('type');
         if (status && status !== 'all') {
             query.status = status;
+        }
+        if (type && type !== 'all') {
+            query.type = type;
         }
 
         const applications = await db.collection('applications')

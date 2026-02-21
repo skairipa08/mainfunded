@@ -2735,5 +2735,18 @@
             "targetAmount": "Hedef tutar gereklidir",
             "beneficiaryCount": "Faydalanacak öğrenci sayısı gereklidir"
         }
+    },
+    "feeCalculator": {
+        "title": "Ücret Dağılımı",
+        "toStudent": "Öğrenciye",
+        "platformFee": "Platform Ücreti (%5)",
+        "stripeFee": "Stripe Ücreti (%2.9 + $0.30)",
+        "total": "Toplam Tutar"
+    },
+    "currency": {
+        "usd": "ABD Doları",
+        "try": "Türk Lirası",
+        "switchToTry": "₺ TRY olarak göster",
+        "switchToUsd": "$ USD olarak göster"
     }
 }

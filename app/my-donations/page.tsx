@@ -7,6 +7,7 @@ import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useTranslation } from '@/lib/i18n';
+import { useCurrency } from '@/lib/currency-context';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -71,6 +72,7 @@ function MyDonationsContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { t } = useTranslation();
+  const { formatAmount } = useCurrency();
 
   const [donations, setDonations] = useState<Donation[]>([]);
   const [summary, setSummary] = useState<Summary>({ totalAmount: 0, totalDonations: 0, supportedStudents: 0, lastDonationDate: null });
@@ -188,7 +190,7 @@ function MyDonationsContent() {
           doc.setFontSize(10);
           doc.setTextColor(100, 100, 100);
           doc.text(`${t('myDonationsPage.date')}: ${new Date().toLocaleDateString('tr-TR')}`, 14, 32);
-          doc.text(`${t('myDonationsPage.totalDonation')}: $${summary.totalAmount.toLocaleString()}`, 14, 38);
+          doc.text(`${t('myDonationsPage.totalDonation')}: ${formatAmount(summary.totalAmount)}`, 14, 38);
           doc.text(`${t('myDonationsPage.donationCount')}: ${summary.totalDonations}`, 14, 44);
 
           // Table Header
@@ -214,7 +216,7 @@ function MyDonationsContent() {
             }
             const title = d.campaign_title.length > 40 ? d.campaign_title.substring(0, 40) + '...' : d.campaign_title;
             doc.text(title, 14, y);
-            doc.text(`$${d.amount}`, 100, y);
+            doc.text(formatAmount(d.amount), 100, y);
             doc.text(new Date(d.date).toLocaleDateString('tr-TR'), 130, y);
             doc.text(d.status === 'paid' || d.status === 'completed' ? t('myDonationsPage.completed') : d.status, 170, y);
             y += 7;
@@ -264,7 +266,7 @@ function MyDonationsContent() {
           [`${t('myDonationsPage.detail.donor')}:`, receipt.donor_name],
           ['E-posta:', receipt.donor_email],
           [`${t('myDonationsPage.campaign')}:`, receipt.campaign_title],
-          [`${t('myDonationsPage.amount')}:`, `$${receipt.amount} ${receipt.currency}`],
+          [`${t('myDonationsPage.amount')}:`, formatAmount(receipt.amount)],
           [`${t('myDonationsPage.date')}:`, new Date(receipt.date).toLocaleDateString('tr-TR')],
           [`${t('myDonationsPage.status')}:`, receipt.payment_status === 'paid' || receipt.payment_status === 'completed' ? t('myDonationsPage.completed') : receipt.payment_status],
         ];
@@ -386,7 +388,7 @@ function MyDonationsContent() {
                 </div>
                 <div>
                   <p className="text-sm text-gray-500 font-medium">{t('myDonationsPage.totalDonation')}</p>
-                  <p className="text-2xl font-bold text-gray-900">${summary.totalAmount.toLocaleString()}</p>
+                  <p className="text-2xl font-bold text-gray-900">{formatAmount(summary.totalAmount)}</p>
                 </div>
               </div>
             </div>
@@ -601,7 +603,7 @@ function MyDonationsContent() {
                           </td>
                           <td className="py-4 px-6 text-right">
                             <p className="text-sm font-semibold text-gray-900">
-                              ${donation.amount?.toLocaleString() || 0}
+                              {formatAmount(donation.amount || 0)}
                             </p>
                           </td>
                           <td className="py-4 px-6 text-center">
@@ -646,7 +648,7 @@ function MyDonationsContent() {
                           </p>
                           <p className="text-sm text-gray-500">{donation.student?.name || '-'}</p>
                         </div>
-                        <p className="text-lg font-bold text-gray-900">${donation.amount?.toLocaleString()}</p>
+                        <p className="text-lg font-bold text-gray-900">{formatAmount(donation.amount || 0)}</p>
                       </div>
                       <div className="flex items-center justify-between">
                         <p className="text-xs text-gray-500">{formatDate(donation.created_at)}</p>

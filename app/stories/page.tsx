@@ -5,6 +5,7 @@ import { MessageSquare, Play, Quote, Send, X, Loader2 } from 'lucide-react';
 import { ThankYouCard, mockThankYouMessages } from '@/components/ThankYouMessage';
 import MobileHeader from '@/components/MobileHeader';
 import { useTranslation } from '@/lib/i18n/context';
+import { useCurrency } from '@/lib/currency-context';
 import { censorSurname } from '@/lib/privacy';
 import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
@@ -57,6 +58,7 @@ const fallbackStories: SuccessStory[] = [
 
 export default function StoriesPage() {
     const { t } = useTranslation();
+    const { formatAmount } = useCurrency();
     const { data: session } = useSession();
     const router = useRouter();
     const [stories, setStories] = useState<SuccessStory[]>(fallbackStories);
@@ -195,7 +197,7 @@ export default function StoriesPage() {
 
                                 <div className="flex items-center justify-between text-sm">
                                     <span className="text-gray-500">{t('pages.stories.collected')}:</span>
-                                    <span className="font-bold text-green-600">${story.funded_amount.toLocaleString()}</span>
+                                    <span className="font-bold text-green-600">{formatAmount(story.funded_amount)}</span>
                                 </div>
                             </div>
                         </div>
@@ -318,7 +320,7 @@ export default function StoriesPage() {
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                                    Toplanan Destek ($) <span className="text-gray-400">(opsiyonel)</span>
+                                    Toplanan Destek <span className="text-gray-400">(opsiyonel)</span>
                                 </label>
                                 <input
                                     type="number"

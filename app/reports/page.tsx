@@ -6,9 +6,11 @@ import { QuarterlyReport, ProgressReportsList, mockQuarterlyReport, exportReport
 import { Button } from '@/components/ui/button';
 import MobileHeader from '@/components/MobileHeader';
 import { useTranslation } from '@/lib/i18n/context';
+import { useCurrency } from '@/lib/currency-context';
 
 export default function ReportsPage() {
     const { t } = useTranslation();
+    const { formatAmount } = useCurrency();
 
     const mockReports = [
         { id: '1', quarter: 'Q4 2025', date: '15 Ocak 2026', studentName: 'Elif Yilmaz' },
@@ -22,7 +24,7 @@ export default function ReportsPage() {
     const handleDownloadAll = () => {
         const reportWindow = window.open('', '_blank');
         if (reportWindow) {
-            const formatCurrency = (value: number) => `$${value.toLocaleString()}`;
+            const formatCurrency = (value: number) => formatAmount(value);
 
             const reportsData = [
                 { name: 'Demo Ogrenci A', quarter: 'Q4 2025', gpa: 0, credits: 0, received: 0, spent: 0 },

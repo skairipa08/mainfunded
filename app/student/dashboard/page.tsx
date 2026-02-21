@@ -10,6 +10,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Wallet, TrendingUp, Clock, DollarSign, Plus, ExternalLink } from 'lucide-react';
+import { useCurrency } from '@/lib/currency-context';
 
 interface BalanceData {
   totalEarned: number;
@@ -40,6 +41,7 @@ interface DonationItem {
 export default function StudentDashboardPage() {
   const { data: session, status: authStatus } = useSession();
   const router = useRouter();
+  const { formatAmount } = useCurrency();
 
   const [balance, setBalance] = useState<BalanceData | null>(null);
   const [campaigns, setCampaigns] = useState<CampaignItem[]>([]);
@@ -139,21 +141,21 @@ export default function StudentDashboardPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <StatCard
             title="Toplam Kazanç"
-            value={`$${(balance?.totalEarned ?? 0).toLocaleString()}`}
+            value={formatAmount(balance?.totalEarned ?? 0)}
             icon={<TrendingUp className="h-5 w-5" />}
             loading={loading}
             valueClassName="text-green-600"
           />
           <StatCard
             title="Kullanılabilir Bakiye"
-            value={`$${(balance?.available ?? 0).toLocaleString()}`}
+            value={formatAmount(balance?.available ?? 0)}
             icon={<DollarSign className="h-5 w-5" />}
             loading={loading}
             valueClassName="text-blue-600"
           />
           <StatCard
             title="Beklemede"
-            value={`$${(balance?.pending ?? 0).toLocaleString()}`}
+            value={formatAmount(balance?.pending ?? 0)}
             subtitle="(son 14 gün)"
             icon={<Clock className="h-5 w-5" />}
             loading={loading}
@@ -161,7 +163,7 @@ export default function StudentDashboardPage() {
           />
           <StatCard
             title="Çekilen Toplam"
-            value={`$${(balance?.totalWithdrawn ?? 0).toLocaleString()}`}
+            value={formatAmount(balance?.totalWithdrawn ?? 0)}
             icon={<Wallet className="h-5 w-5" />}
             loading={loading}
           />
@@ -199,7 +201,7 @@ export default function StudentDashboardPage() {
                           <div className="flex-1 min-w-0">
                             <h3 className="font-medium text-gray-900 truncate">{c.title}</h3>
                             <p className="text-sm text-gray-500 mt-1">
-                              ${c.raised_amount.toLocaleString()} / ${c.goal_amount.toLocaleString()} &middot; {c.donor_count} bağışçı
+                              {formatAmount(c.raised_amount)} / {formatAmount(c.goal_amount)} &middot; {c.donor_count} bağışçı
                             </p>
                           </div>
                           <Badge className={statusColor[c.status] ?? 'bg-gray-100 text-gray-800'}>
@@ -246,7 +248,7 @@ export default function StudentDashboardPage() {
                       </p>
                     </div>
                     <span className="text-sm font-semibold text-green-600">
-                      +${d.amount.toLocaleString()}
+                      +{formatAmount(d.amount)}
                     </span>
                   </div>
                 ))}

@@ -28,9 +28,11 @@ import {
     Cell,
 } from 'recharts';
 import { useTranslation } from '@/lib/i18n/context';
+import { useCurrency } from '@/lib/currency-context';
 
 export default function ESGPage() {
     const { t } = useTranslation();
+    const { formatAmount } = useCurrency();
 
     const impactData = [
         { month: 'Oca', impact: 45 },
@@ -261,7 +263,7 @@ export default function ESGPage() {
                             <p className="text-gray-500 text-sm">{t('corporate.esg.countriesReached')}</p>
                         </div>
                         <div className="text-center">
-                            <div className="text-3xl font-bold text-purple-600">$0</div>
+                            <div className="text-3xl font-bold text-purple-600">{formatAmount(0)}</div>
                             <p className="text-gray-500 text-sm">{t('corporate.esg.totalDonations')}</p>
                         </div>
                         <div className="text-center">

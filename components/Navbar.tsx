@@ -26,6 +26,7 @@ import {
 import { Button } from './ui/button';
 import { useTranslation } from '@/lib/i18n';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
+import { useCurrency } from '@/lib/currency-context';
 
 interface DropdownItem {
   label: string;
@@ -38,6 +39,21 @@ interface NavDropdownProps {
   label: string;
   icon: React.ElementType;
   items: DropdownItem[];
+}
+
+function CurrencySwitcherButton() {
+  const { currency, setCurrency } = useCurrency();
+  const toggleCurrency = () => setCurrency(currency === 'USD' ? 'TRY' : 'USD');
+  return (
+    <button
+      onClick={toggleCurrency}
+      className="flex items-center gap-1 px-2 py-1.5 rounded-lg text-sm font-medium text-gray-600 hover:text-gray-900 hover:bg-gray-100 transition-colors"
+      title={currency === 'USD' ? 'Switch to TRY' : 'Switch to USD'}
+    >
+      <span className="text-base">{currency === 'USD' ? '$' : '₺'}</span>
+      <span className="text-xs">{currency}</span>
+    </button>
+  );
 }
 
 function NavDropdown({ label, icon: Icon, items }: NavDropdownProps) {
@@ -260,7 +276,8 @@ export default function Navbar() {
           {/* Right Side Actions */}
           <div className="flex items-center space-x-2 sm:space-x-3">
             {/* Language Switcher - hidden on mobile */}
-            <div className="hidden sm:block">
+            <div className="hidden sm:flex items-center space-x-1">
+              <CurrencySwitcherButton />
               <LanguageSwitcher variant="minimal" />
             </div>
 
@@ -506,7 +523,8 @@ export default function Navbar() {
 
             {/* Language Switcher for Mobile */}
             <div className="border-t border-gray-100 pt-4">
-              <div className="px-3">
+              <div className="px-3 flex items-center gap-2">
+                <CurrencySwitcherButton />
                 <LanguageSwitcher variant="minimal" />
               </div>
             </div>

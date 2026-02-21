@@ -2735,5 +2735,18 @@
             "targetAmount": "المبلغ المستهدف مطلوب",
             "beneficiaryCount": "عدد الطلاب المستفيدين مطلوب"
         }
+    },
+    "feeCalculator": {
+        "title": "تفصيل الرسوم",
+        "toStudent": "للطالب",
+        "platformFee": "رسوم المنصة (5%)",
+        "stripeFee": "رسوم Stripe (2.9% + $0.30)",
+        "total": "إجمالي الرسوم"
+    },
+    "currency": {
+        "usd": "الدولار الأمريكي",
+        "try": "الليرة التركية",
+        "switchToTry": "عرض بـ ₺ TRY",
+        "switchToUsd": "عرض بـ $ USD"
     }
 }

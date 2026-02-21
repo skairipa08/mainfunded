@@ -14,6 +14,7 @@ import {
 } from '@/components/ui/table';
 import { TrendingUp, Users, DollarSign, FileCheck } from 'lucide-react';
 import { DashboardSkeleton } from '@/components/ui/PageSkeleton';
+import { useCurrency } from '@/lib/currency-context';
 
 interface InstitutionMetrics {
   studentsHelped: number;
@@ -25,6 +26,7 @@ interface InstitutionMetrics {
 export default function InstitutionDashboardPage() {
   const [metrics, setMetrics] = useState<InstitutionMetrics | null>(null);
   const [loading, setLoading] = useState(true);
+  const { formatAmount } = useCurrency();
 
   useEffect(() => {
     loadMetrics();
@@ -50,10 +52,7 @@ export default function InstitutionDashboardPage() {
     ? [
       {
         title: 'Total Raised',
-        value: `$${metrics.totalRaised.toLocaleString('en-US', {
-          minimumFractionDigits: 2,
-          maximumFractionDigits: 2,
-        })}`,
+        value: formatAmount(metrics.totalRaised),
         icon: DollarSign,
         description: 'Cumulative contribution amount',
       },

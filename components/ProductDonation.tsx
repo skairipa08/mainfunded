@@ -18,6 +18,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { useCurrency } from '@/lib/currency-context';
 
 interface ProductItem {
     id: string;
@@ -110,6 +111,7 @@ export function ProductDonationForm({
     className,
     onSubmit,
 }: ProductDonationFormProps) {
+    const { formatAmount } = useCurrency();
     const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
     const [quantity, setQuantity] = useState(1);
     const [condition, setCondition] = useState<'new' | 'like_new' | 'good'>('new');
@@ -343,7 +345,7 @@ export function ProductDonationForm({
                             <div className="flex justify-between">
                                 <span className="text-gray-600">Tahmini Deger</span>
                                 <span className="font-medium text-green-600">
-                                    ~${(selectedProduct.estimatedValue * quantity).toLocaleString()}
+                                    ~{formatAmount(selectedProduct.estimatedValue * quantity)}
                                 </span>
                             </div>
                         </div>

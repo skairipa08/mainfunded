@@ -4,6 +4,7 @@ import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { toast } from 'sonner';
+import { useCurrency } from '@/lib/currency-context';
 
 interface Campaign {
   campaign_id: string;
@@ -28,6 +29,7 @@ const STATUS_OPTIONS = [
 
 export default function AdminCampaignsPage() {
   const { data: session } = useSession();
+  const { formatAmount } = useCurrency();
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -164,10 +166,10 @@ export default function AdminCampaignsPage() {
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">{getStatusBadge(campaign.status)}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                      ${campaign.goal_amount.toLocaleString()}
+                      {formatAmount(campaign.goal_amount)}
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                      ${campaign.raised_amount.toLocaleString()}
+                      {formatAmount(campaign.raised_amount)}
                       <div className="w-20 bg-gray-200 rounded-full h-1.5 mt-1">
                         <div
                           className="bg-blue-600 h-1.5 rounded-full"

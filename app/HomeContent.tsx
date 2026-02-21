@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import CampaignCard from '@/components/CampaignCard';
 import HomeSearchBar from './HomeSearchBar';
 import { useTranslation } from '@/lib/i18n';
+import { useCurrency } from '@/lib/currency-context';
 
 interface PlatformStats {
     studentsHelped: number;
@@ -23,10 +24,11 @@ interface HomeContentProps {
 export default function HomeContent({ featuredCampaigns, platformStats, isDemoMode }: HomeContentProps) {
     const router = useRouter();
     const { t } = useTranslation();
+    const { formatAmount } = useCurrency();
 
     const stats = [
         { labelKey: 'home.stats.studentsHelped', value: platformStats.studentsHelped.toString(), icon: Users },
-        { labelKey: 'home.stats.totalRaised', value: `$${platformStats.totalRaised.toLocaleString()}`, icon: TrendingUp },
+        { labelKey: 'home.stats.totalRaised', value: formatAmount(platformStats.totalRaised), icon: TrendingUp },
         { labelKey: 'home.stats.campaigns', value: platformStats.campaigns.toString(), icon: Globe },
         { labelKey: 'home.stats.donors', value: platformStats.donors.toString(), icon: CheckCircle },
     ];
