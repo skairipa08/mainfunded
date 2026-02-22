@@ -2,623 +2,1495 @@
 
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
+import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { useEffect, useState, Suspense } from 'react';
+import { useEffect, useState, useCallback, Suspense, useRef } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useTranslation } from '@/lib/i18n';
-import { User, Heart, Target, Calendar, Mail, Shield, TrendingUp, BadgeCheck, ArrowRight, Phone, Globe, Lock, Save, CheckCircle2 } from 'lucide-react';
+import { useCurrency } from '@/lib/currency-context';
+import {
+  User, Heart, Target, Calendar, Mail, Shield, TrendingUp, BadgeCheck,
+  ArrowRight, Phone, Globe, Lock, Save, CheckCircle2,
+  MessageCircle, ChevronRight, Clock, Award, Settings, Download,
+  Eye, BookOpen, CreditCard, BarChart3, Search, Bell, ExternalLink,
+  GraduationCap, Wallet, Activity, Star, Receipt, FileText, Send,
+  RefreshCw, AlertCircle, X, ChevronLeft
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
 
+// ── Types ──────────────────────────────────────────────
 interface VerificationStatus {
-    verification_id: string;
-    status: string;
-    tier_requested?: number;
-    tier_approved?: number;
+  verification_id: string;
+  status: string;
+  tier_requested?: number;
+  tier_approved?: number;
 }
+
+interface Donation {
+  donation_id: string;
+  campaign_id: string;
+  amount: number;
+  currency: string;
+  created_at: string;
+  payment_status: string;
+  donor_name: string;
+  campaign: {
+    campaign_id: string;
+    title: string;
+    category: string;
+    status: string;
+  } | null;
+  student: {
+    name: string;
+    image: string | null;
+    university: string;
+    department: string;
+  } | null;
+}
+
+interface DonationSummary {
+  totalAmount: number;
+  totalDonations: number;
+  supportedStudents: number;
+  lastDonationDate: string | null;
+}
+
+interface ConversationThread {
+  campaign_id: string;
+  campaign_title: string;
+  student_name: string;
+  student_image: string | null;
+  last_message: string;
+  last_message_date: string;
+  unread_count: number;
+  messages: Message[];
+}
+
+interface Message {
+  message_id: string;
+  sender_id: string;
+  sender_name: string;
+  content: string;
+  created_at: string;
+  type: string;
+  read: boolean;
+}
+
+// ── Sidebar Nav Item ───────────────────────────────────
+function SidebarItem({ icon: Icon, label, active, onClick, badge }: {
+  icon: any;
+  label: string;
+  active: boolean;
+  onClick: () => void;
+  badge?: number;
+}) {
+  return (
+    <button
+      onClick={onClick}
+      className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 group
+        ${active
+          ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/25'
+          : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
+        }`}
+    >
+      <Icon className={`h-5 w-5 flex-shrink-0 ${active ? 'text-white' : 'text-gray-400 group-hover:text-gray-600'}`} />
+      <span className="flex-1 text-left">{label}</span>
+      {badge !== undefined && badge > 0 && (
+        <span className={`px-2 py-0.5 text-xs font-bold rounded-full ${active ? 'bg-white/20 text-white' : 'bg-red-100 text-red-600'}`}>
+          {badge}
+        </span>
+      )}
+    </button>
+  );
+}
+
+// ── Stat Card ──────────────────────────────────────────
+function StatCard({ icon: Icon, value, label, trend, color, onClick }: {
+  icon: any;
+  value: string;
+  label: string;
+  trend?: string;
+  color: string;
+  onClick?: () => void;
+}) {
+  const colorMap: Record<string, { bg: string; icon: string; ring: string }> = {
+    blue: { bg: 'bg-blue-50', icon: 'text-blue-600', ring: 'ring-blue-100' },
+    red: { bg: 'bg-red-50', icon: 'text-red-500', ring: 'ring-red-100' },
+    green: { bg: 'bg-emerald-50', icon: 'text-emerald-600', ring: 'ring-emerald-100' },
+    purple: { bg: 'bg-purple-50', icon: 'text-purple-600', ring: 'ring-purple-100' },
+    orange: { bg: 'bg-orange-50', icon: 'text-orange-500', ring: 'ring-orange-100' },
+  };
+  const c = colorMap[color] || colorMap.blue;
+
+  return (
+    <div
+      onClick={onClick}
+      className={`bg-white rounded-2xl p-5 border border-gray-100 hover:shadow-lg transition-all duration-300 ${onClick ? 'cursor-pointer hover:scale-[1.02]' : ''}`}
+    >
+      <div className="flex items-start justify-between mb-3">
+        <div className={`p-2.5 rounded-xl ${c.bg} ring-4 ${c.ring}`}>
+          <Icon className={`h-5 w-5 ${c.icon}`} />
+        </div>
+        {trend && (
+          <span className="text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-1 rounded-full flex items-center gap-1">
+            <TrendingUp className="h-3 w-3" />
+            {trend}
+          </span>
+        )}
+      </div>
+      <div className="text-2xl font-bold text-gray-900 tracking-tight">{value}</div>
+      <div className="text-sm text-gray-500 mt-0.5">{label}</div>
+    </div>
+  );
+}
+
+// ── Donation Row ───────────────────────────────────────
+function DonationRow({ donation, formatAmount }: { donation: Donation; formatAmount: (n: number) => string }) {
+  const statusColors: Record<string, string> = {
+    paid: 'bg-emerald-100 text-emerald-700',
+    completed: 'bg-emerald-100 text-emerald-700',
+    pending: 'bg-yellow-100 text-yellow-700',
+    failed: 'bg-red-100 text-red-700',
+    cancelled: 'bg-gray-100 text-gray-600',
+  };
+
+  return (
+    <Link
+      href={`/my-donations/${donation.donation_id}`}
+      className="flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors group border border-transparent hover:border-gray-200"
+    >
+      {/* Student Avatar */}
+      <div className="relative flex-shrink-0">
+        {donation.student?.image ? (
+          <Image
+            src={donation.student.image}
+            alt={donation.student.name}
+            width={44}
+            height={44}
+            className="rounded-full object-cover ring-2 ring-gray-100"
+          />
+        ) : (
+          <div className="w-11 h-11 rounded-full bg-gradient-to-br from-blue-400 to-indigo-500 flex items-center justify-center text-white font-semibold text-sm">
+            {donation.student?.name?.charAt(0) || donation.campaign?.title?.charAt(0) || '?'}
+          </div>
+        )}
+      </div>
+
+      {/* Info */}
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2">
+          <p className="font-medium text-gray-900 truncate text-sm">
+            {donation.campaign?.title || 'Kampanya'}
+          </p>
+        </div>
+        <p className="text-xs text-gray-500 mt-0.5 flex items-center gap-1">
+          {donation.student?.name && (
+            <>
+              <GraduationCap className="h-3 w-3" />
+              {donation.student.name}
+              {donation.student.university && ` · ${donation.student.university}`}
+            </>
+          )}
+        </p>
+      </div>
+
+      {/* Amount & Date */}
+      <div className="text-right flex-shrink-0">
+        <p className="font-semibold text-gray-900 text-sm">{formatAmount(donation.amount)}</p>
+        <p className="text-xs text-gray-400 mt-0.5">
+          {new Date(donation.created_at).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })}
+        </p>
+      </div>
+
+      {/* Status */}
+      <span className={`text-xs px-2 py-1 rounded-full font-medium flex-shrink-0 hidden sm:inline-block ${statusColors[donation.payment_status] || 'bg-gray-100 text-gray-600'}`}>
+        {donation.payment_status === 'paid' || donation.payment_status === 'completed' ? '✓ Tamamlandı' : donation.payment_status}
+      </span>
+
+      <ChevronRight className="h-4 w-4 text-gray-300 group-hover:text-gray-500 transition-colors flex-shrink-0" />
+    </Link>
+  );
+}
+
+// ── Conversation Preview ───────────────────────────────
+function ConversationPreview({ thread, onClick }: { thread: ConversationThread; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="w-full flex items-center gap-4 p-4 rounded-xl hover:bg-gray-50 transition-colors text-left group border border-transparent hover:border-gray-200"
+    >
+      <div className="relative flex-shrink-0">
+        {thread.student_image ? (
+          <Image
+            src={thread.student_image}
+            alt={thread.student_name}
+            width={44}
+            height={44}
+            className="rounded-full object-cover ring-2 ring-gray-100"
+          />
+        ) : (
+          <div className="w-11 h-11 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white font-semibold text-sm">
+            {thread.student_name?.charAt(0) || '?'}
+          </div>
+        )}
+        {thread.unread_count > 0 && (
+          <span className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center ring-2 ring-white">
+            {thread.unread_count}
+          </span>
+        )}
+      </div>
+
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center justify-between gap-2">
+          <p className="font-medium text-gray-900 truncate text-sm">{thread.student_name}</p>
+          <span className="text-[11px] text-gray-400 flex-shrink-0">
+            {new Date(thread.last_message_date).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })}
+          </span>
+        </div>
+        <p className="text-xs text-gray-500 truncate mt-0.5">{thread.campaign_title}</p>
+        <p className="text-xs text-gray-400 truncate mt-1">{thread.last_message}</p>
+      </div>
+
+      <ChevronRight className="h-4 w-4 text-gray-300 group-hover:text-gray-500 transition-colors flex-shrink-0" />
+    </button>
+  );
+}
+
+// ── Quick Action Button ────────────────────────────────
+function QuickAction({ icon: Icon, label, href, color }: { icon: any; label: string; href: string; color: string }) {
+  const colorMap: Record<string, string> = {
+    blue: 'bg-blue-50 text-blue-600 hover:bg-blue-100 ring-blue-100',
+    red: 'bg-red-50 text-red-500 hover:bg-red-100 ring-red-100',
+    green: 'bg-emerald-50 text-emerald-600 hover:bg-emerald-100 ring-emerald-100',
+    purple: 'bg-purple-50 text-purple-600 hover:bg-purple-100 ring-purple-100',
+    orange: 'bg-orange-50 text-orange-600 hover:bg-orange-100 ring-orange-100',
+  };
+
+  return (
+    <Link
+      href={href}
+      className="flex flex-col items-center gap-2.5 p-5 rounded-2xl hover:shadow-md transition-all duration-200 group border border-gray-100 hover:border-gray-200 bg-white"
+    >
+      <div className={`p-3 rounded-xl ${colorMap[color] || colorMap.blue} transition-colors ring-4 ${colorMap[color]?.split(' ').pop() || 'ring-blue-100'}`}>
+        <Icon className="h-5 w-5" />
+      </div>
+      <span className="text-xs font-medium text-gray-700 text-center leading-tight">{label}</span>
+    </Link>
+  );
+}
+
+// ══════════════════════════════════════════════════════
+// ── Main Account Page ─────────────────────────────────
+// ══════════════════════════════════════════════════════
+
+type TabType = 'overview' | 'donations' | 'messages' | 'settings';
 
 function AccountPageContent() {
-    const { data: session, status } = useSession();
-    const router = useRouter();
-    const searchParams = useSearchParams();
-    const { t } = useTranslation();
-    const [activeTab, setActiveTab] = useState<'overview' | 'donations' | 'campaigns' | 'personalInfo'>('overview');
-    const [verification, setVerification] = useState<VerificationStatus | null>(null);
-    const [verificationLoading, setVerificationLoading] = useState(true);
-    const [personalInfo, setPersonalInfo] = useState({
-        phoneCountryCode: '+90',
-        phone: '',
-        backupEmail: '',
-        country: '',
-        gender: '',
-        dateOfBirth: '',
-        language: 'tr',
-        twoFactorEnabled: false,
-    });
-    const [saving, setSaving] = useState(false);
-    const [saved, setSaved] = useState(false);
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const { t } = useTranslation();
+  const { formatAmount } = useCurrency();
+  const chatEndRef = useRef<HTMLDivElement>(null);
 
-    const COUNTRY_CODES = [
-        { code: '+90', label: 'TR +90' },
-        { code: '+1', label: 'US/CA +1' },
-        { code: '+44', label: 'UK +44' },
-        { code: '+49', label: 'DE +49' },
-        { code: '+33', label: 'FR +33' },
-        { code: '+34', label: 'ES +34' },
-        { code: '+971', label: 'UAE +971' },
-        { code: '+966', label: 'SA +966' },
-        { code: '+7', label: 'RU +7' },
-        { code: '+86', label: 'CN +86' },
-    ];
+  const [activeTab, setActiveTab] = useState<TabType>('overview');
+  const [verification, setVerification] = useState<VerificationStatus | null>(null);
+  const [verificationLoading, setVerificationLoading] = useState(true);
 
-    const handlePersonalInfoChange = (field: string, value: string | boolean) => {
-        setPersonalInfo(prev => ({ ...prev, [field]: value }));
-        setSaved(false);
-    };
+  // Donations state
+  const [donations, setDonations] = useState<Donation[]>([]);
+  const [donationSummary, setDonationSummary] = useState<DonationSummary>({
+    totalAmount: 0, totalDonations: 0, supportedStudents: 0, lastDonationDate: null
+  });
+  const [donationsLoading, setDonationsLoading] = useState(true);
+  const [donationPage, setDonationPage] = useState(1);
+  const [donationTotal, setDonationTotal] = useState(0);
+  const [donationTotalPages, setDonationTotalPages] = useState(0);
 
-    const handleSavePersonalInfo = async () => {
-        setSaving(true);
-        // Simulate save (backend integration to be added)
-        await new Promise(resolve => setTimeout(resolve, 800));
-        setSaving(false);
-        setSaved(true);
-        setTimeout(() => setSaved(false), 3000);
-    };
+  // Messages state
+  const [conversations, setConversations] = useState<ConversationThread[]>([]);
+  const [messagesLoading, setMessagesLoading] = useState(true);
+  const [selectedConversation, setSelectedConversation] = useState<ConversationThread | null>(null);
+  const [newMessage, setNewMessage] = useState('');
+  const [sendingMessage, setSendingMessage] = useState(false);
 
-    // Preview mode for demo
-    const isPreviewMode = searchParams.get('preview') === 'true';
-    const previewTier = parseInt(searchParams.get('tier') || '1');
+  // Personal info state
+  const [personalInfo, setPersonalInfo] = useState({
+    phoneCountryCode: '+90',
+    phone: '',
+    backupEmail: '',
+    country: '',
+    gender: '',
+    dateOfBirth: '',
+    language: 'tr',
+    twoFactorEnabled: false,
+  });
+  const [saving, setSaving] = useState(false);
+  const [saved, setSaved] = useState(false);
 
-    // Redirect to login if not authenticated (skip in preview mode)
-    useEffect(() => {
-        if (!isPreviewMode && status === 'unauthenticated') {
-            router.replace('/login');
+  // Mobile sidebar
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  const COUNTRY_CODES = [
+    { code: '+90', label: 'TR +90' },
+    { code: '+1', label: 'US +1' },
+    { code: '+44', label: 'UK +44' },
+    { code: '+49', label: 'DE +49' },
+    { code: '+33', label: 'FR +33' },
+    { code: '+34', label: 'ES +34' },
+    { code: '+971', label: 'AE +971' },
+    { code: '+966', label: 'SA +966' },
+  ];
+
+  // Preview mode for demo
+  const isPreviewMode = searchParams.get('preview') === 'true';
+  const previewTier = parseInt(searchParams.get('tier') || '1');
+
+  // ── Scroll chat to bottom ──
+  useEffect(() => {
+    if (selectedConversation && chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [selectedConversation?.messages?.length]);
+
+  // ── Fetch donations ──
+  const fetchDonations = useCallback(async (page: number = 1) => {
+    try {
+      setDonationsLoading(true);
+      const res = await fetch(`/api/donations/my?page=${page}&limit=10`);
+      if (res.ok) {
+        const data = await res.json();
+        if (data.success) {
+          setDonations(data.data.donations || []);
+          setDonationSummary(data.data.summary || { totalAmount: 0, totalDonations: 0, supportedStudents: 0, lastDonationDate: null });
+          setDonationTotal(data.data.pagination?.total || 0);
+          setDonationTotalPages(data.data.pagination?.totalPages || 0);
         }
-    }, [status, router, isPreviewMode]);
+      }
+    } catch (err) {
+      console.error('Failed to fetch donations:', err);
+    } finally {
+      setDonationsLoading(false);
+    }
+  }, []);
 
-    // Fetch verification status (or use mock data in preview mode)
-    useEffect(() => {
-        if (isPreviewMode) {
-            // Mock verification for demo
-            setVerification({
-                verification_id: 'demo-123',
-                status: 'APPROVED',
-                tier_requested: previewTier,
-                tier_approved: previewTier,
-            });
-            setVerificationLoading(false);
-            return;
+  // ── Build conversation threads from donations ──
+  const buildConversationThreads = useCallback(async (donationsList: Donation[]) => {
+    try {
+      setMessagesLoading(true);
+      const threads: ConversationThread[] = [];
+      const seenCampaigns = new Set<string>();
+
+      for (const d of donationsList) {
+        if (!d.campaign_id || seenCampaigns.has(d.campaign_id)) continue;
+        seenCampaigns.add(d.campaign_id);
+
+        try {
+          const res = await fetch(`/api/messages?campaign_id=${d.campaign_id}`);
+          if (res.ok) {
+            const data = await res.json();
+            const msgs: Message[] = data.data || [];
+            if (msgs.length > 0) {
+              threads.push({
+                campaign_id: d.campaign_id,
+                campaign_title: d.campaign?.title || 'Kampanya',
+                student_name: d.student?.name || 'Öğrenci',
+                student_image: d.student?.image || null,
+                last_message: msgs[msgs.length - 1].content,
+                last_message_date: msgs[msgs.length - 1].created_at,
+                unread_count: msgs.filter(m => !m.read && m.sender_id !== (session?.user as any)?.id).length,
+                messages: msgs,
+              });
+            }
+          }
+        } catch {
+          // skip
         }
+      }
 
-        if (session?.user) {
-            fetch('/api/verification')
-                .then(res => res.json())
-                .then(data => {
-                    if (data.verification) {
-                        setVerification(data.verification);
-                    }
-                })
-                .catch(console.error)
-                .finally(() => setVerificationLoading(false));
-        }
-    }, [session, isPreviewMode, previewTier]);
+      setConversations(threads);
+    } catch (err) {
+      console.error('Failed to build threads:', err);
+    } finally {
+      setMessagesLoading(false);
+    }
+  }, [session?.user]);
 
-    if (status === 'loading' && !isPreviewMode) {
-        return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <div className="text-center">
-                    <div className="h-12 w-12 animate-spin mx-auto text-blue-600 mb-4 border-4 border-blue-200 border-t-blue-600 rounded-full" />
-                    <p className="text-gray-600">{t('common.loading')}</p>
-                </div>
-            </div>
-        );
+  // ── Redirect & init ──
+  useEffect(() => {
+    if (!isPreviewMode && status === 'unauthenticated') {
+      router.replace('/login?callbackUrl=/account');
+    }
+  }, [status, router, isPreviewMode]);
+
+  useEffect(() => {
+    if (isPreviewMode) {
+      setVerification({
+        verification_id: 'demo-123',
+        status: 'APPROVED',
+        tier_requested: previewTier,
+        tier_approved: previewTier,
+      });
+      setVerificationLoading(false);
+
+      // Demo donations
+      setDonations([
+        {
+          donation_id: 'demo-d1', campaign_id: 'demo-c1', amount: 250, currency: 'USD',
+          created_at: new Date().toISOString(), payment_status: 'completed', donor_name: 'Demo User',
+          campaign: { campaign_id: 'demo-c1', title: 'Tıp Fakültesi Öğrencisi İçin Burs', category: 'education', status: 'active' },
+          student: { name: 'Ayşe Yılmaz', image: null, university: 'İstanbul Üniversitesi', department: 'Tıp Fakültesi' }
+        },
+        {
+          donation_id: 'demo-d2', campaign_id: 'demo-c2', amount: 150, currency: 'USD',
+          created_at: new Date(Date.now() - 7 * 86400000).toISOString(), payment_status: 'completed', donor_name: 'Demo User',
+          campaign: { campaign_id: 'demo-c2', title: 'Bilgisayar Mühendisliği Öğrencisi', category: 'education', status: 'active' },
+          student: { name: 'Mehmet Kaya', image: null, university: 'ODTÜ', department: 'Bilgisayar Müh.' }
+        },
+        {
+          donation_id: 'demo-d3', campaign_id: 'demo-c3', amount: 100, currency: 'USD',
+          created_at: new Date(Date.now() - 30 * 86400000).toISOString(), payment_status: 'paid', donor_name: 'Demo User',
+          campaign: { campaign_id: 'demo-c3', title: 'Hukuk Fakültesi Burs Kampanyası', category: 'education', status: 'active' },
+          student: { name: 'Zeynep Demir', image: null, university: 'Ankara Üniversitesi', department: 'Hukuk' }
+        },
+        {
+          donation_id: 'demo-d4', campaign_id: 'demo-c4', amount: 75, currency: 'USD',
+          created_at: new Date(Date.now() - 45 * 86400000).toISOString(), payment_status: 'completed', donor_name: 'Demo User',
+          campaign: { campaign_id: 'demo-c4', title: 'Mimarlık Öğrencisi Destek Fonu', category: 'education', status: 'active' },
+          student: { name: 'Ali Öztürk', image: null, university: 'İTÜ', department: 'Mimarlık' }
+        },
+      ]);
+      setDonationSummary({ totalAmount: 575, totalDonations: 4, supportedStudents: 4, lastDonationDate: new Date().toISOString() });
+      setDonationsLoading(false);
+
+      // Demo conversations
+      setConversations([
+        {
+          campaign_id: 'demo-c1',
+          campaign_title: 'Tıp Fakültesi Öğrencisi İçin Burs',
+          student_name: 'Ayşe Yılmaz',
+          student_image: null,
+          last_message: 'Desteğiniz için çok teşekkür ederim! Sınav sonuçlarım çok iyi geldi.',
+          last_message_date: new Date().toISOString(),
+          unread_count: 1,
+          messages: [
+            { message_id: 'm1', sender_id: 'student-1', sender_name: 'Ayşe Yılmaz', content: 'Merhaba, bağışınız için çok teşekkür ederim! Bu destek benim için çok önemli.', created_at: new Date(Date.now() - 2 * 86400000).toISOString(), type: 'student_to_donor', read: true },
+            { message_id: 'm2', sender_id: 'demo-user', sender_name: 'Demo User', content: 'Rica ederim Ayşe, başarılar dilerim! Eğitim hayatın boyunca yanındayız.', created_at: new Date(Date.now() - 86400000).toISOString(), type: 'donor_to_student', read: true },
+            { message_id: 'm3', sender_id: 'student-1', sender_name: 'Ayşe Yılmaz', content: 'Desteğiniz için çok teşekkür ederim! Sınav sonuçlarım çok iyi geldi.', created_at: new Date().toISOString(), type: 'student_to_donor', read: false },
+          ]
+        },
+        {
+          campaign_id: 'demo-c2',
+          campaign_title: 'Bilgisayar Mühendisliği Öğrencisi',
+          student_name: 'Mehmet Kaya',
+          student_image: null,
+          last_message: 'Staj başvurum kabul edildi! Google\'da staj yapacağım.',
+          last_message_date: new Date(Date.now() - 172800000).toISOString(),
+          unread_count: 0,
+          messages: [
+            { message_id: 'm4', sender_id: 'student-2', sender_name: 'Mehmet Kaya', content: 'Merhaba! Desteğiniz sayesinde yeni bir laptop alabildim ve projelerime devam edebiliyorum.', created_at: new Date(Date.now() - 5 * 86400000).toISOString(), type: 'student_to_donor', read: true },
+            { message_id: 'm5', sender_id: 'demo-user', sender_name: 'Demo User', content: 'Harika! Projelerini görmek isterim.', created_at: new Date(Date.now() - 3 * 86400000).toISOString(), type: 'donor_to_student', read: true },
+            { message_id: 'm6', sender_id: 'student-2', sender_name: 'Mehmet Kaya', content: 'Staj başvurum kabul edildi! Google\'da staj yapacağım.', created_at: new Date(Date.now() - 172800000).toISOString(), type: 'student_to_donor', read: true },
+          ]
+        },
+      ]);
+      setMessagesLoading(false);
+      return;
     }
 
-    if (!isPreviewMode && !session?.user) {
-        return null;
+    if (session?.user) {
+      fetch('/api/verification')
+        .then(res => res.json())
+        .then(data => { if (data.verification) setVerification(data.verification); })
+        .catch(console.error)
+        .finally(() => setVerificationLoading(false));
+
+      fetchDonations(1);
+    }
+  }, [session, isPreviewMode, previewTier, fetchDonations]);
+
+  // Load conversations after donations
+  useEffect(() => {
+    if (!isPreviewMode && donations.length > 0 && session?.user) {
+      buildConversationThreads(donations);
+    }
+  }, [donations, isPreviewMode, session?.user, buildConversationThreads]);
+
+  // ── Send message ──
+  const handleSendMessage = async () => {
+    if (!newMessage.trim() || !selectedConversation || sendingMessage) return;
+    setSendingMessage(true);
+
+    if (isPreviewMode) {
+      // Demo mode: just add locally
+      const msg: Message = {
+        message_id: `msg-${Date.now()}`,
+        sender_id: 'demo-user',
+        sender_name: 'Demo User',
+        content: newMessage.trim(),
+        created_at: new Date().toISOString(),
+        type: 'donor_to_student',
+        read: true,
+      };
+      setSelectedConversation(prev => prev ? {
+        ...prev,
+        messages: [...prev.messages, msg],
+        last_message: msg.content,
+        last_message_date: msg.created_at,
+      } : null);
+      setConversations(prev => prev.map(c =>
+        c.campaign_id === selectedConversation.campaign_id
+          ? { ...c, last_message: msg.content, last_message_date: msg.created_at, messages: [...c.messages, msg] }
+          : c
+      ));
+      setNewMessage('');
+      setSendingMessage(false);
+      return;
     }
 
-    // Mock user for preview mode
-    const user = isPreviewMode
-        ? { name: 'Demo User', email: 'demo@university.edu', image: null as string | null }
-        : session?.user;
-
-    if (!user) return null;
-
-    const isAdmin = !isPreviewMode && (session?.user as any)?.role === 'admin';
-
-    // Get tier info for display
-    const getTierBadge = () => {
-        if (!verification || verification.status !== 'APPROVED') return null;
-
-        const tier = verification.tier_approved ?? verification.tier_requested ?? 0;
-
-        const tierConfig: Record<number, { label: string; color: string; bgColor: string }> = {
-            0: { label: 'Email Verified', color: 'text-blue-700', bgColor: 'bg-blue-100' },
-            1: { label: 'Tier 1 - Verified', color: 'text-orange-700', bgColor: 'bg-orange-100' },
-            2: { label: 'Tier 2 - High Trust', color: 'text-green-700', bgColor: 'bg-green-100' },
-            3: { label: 'Tier 3 - Partner', color: 'text-purple-700', bgColor: 'bg-purple-100' },
+    try {
+      const res = await fetch('/api/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          campaign_id: selectedConversation.campaign_id,
+          content: newMessage.trim(),
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const msg: Message = {
+          message_id: data.data?.message_id || `msg-${Date.now()}`,
+          sender_id: (session?.user as any)?.id || 'me',
+          sender_name: session?.user?.name || 'Ben',
+          content: newMessage.trim(),
+          created_at: new Date().toISOString(),
+          type: 'donor_to_student',
+          read: true,
         };
+        setSelectedConversation(prev => prev ? {
+          ...prev,
+          messages: [...prev.messages, msg],
+          last_message: msg.content,
+          last_message_date: msg.created_at,
+        } : null);
+        setConversations(prev => prev.map(c =>
+          c.campaign_id === selectedConversation.campaign_id
+            ? { ...c, last_message: msg.content, last_message_date: msg.created_at, messages: [...c.messages, msg] }
+            : c
+        ));
+        setNewMessage('');
+      }
+    } catch (err) {
+      console.error('Failed to send message:', err);
+    } finally {
+      setSendingMessage(false);
+    }
+  };
 
-        return tierConfig[tier] || tierConfig[0];
-    };
+  // ── Personal info handlers ──
+  const handlePersonalInfoChange = (field: string, value: string | boolean) => {
+    setPersonalInfo(prev => ({ ...prev, [field]: value }));
+    setSaved(false);
+  };
 
-    const tierBadge = getTierBadge();
+  const handleSavePersonalInfo = async () => {
+    setSaving(true);
+    await new Promise(resolve => setTimeout(resolve, 800));
+    setSaving(false);
+    setSaved(true);
+    setTimeout(() => setSaved(false), 3000);
+  };
 
-    // Demo data - values are zero until real data is available
-    const mockDonations: { id: number; campaignName: string; amount: number; date: string; status: string }[] = [];
-
-    const mockCampaigns: { id: number; title: string; goal: number; raised: number; status: string; donors: number }[] = [];
-
-    const stats = {
-        totalDonated: mockDonations.reduce((sum, d) => sum + d.amount, 0),
-        donationCount: mockDonations.length,
-        campaignCount: mockCampaigns.length,
-        totalRaised: mockCampaigns.reduce((sum, c) => sum + c.raised, 0),
-    };
-
+  // ── Loading & auth gates ──
+  if (status === 'loading' && !isPreviewMode) {
     return (
-        <div className="min-h-screen flex flex-col bg-gray-50">
-            <Navbar />
-            <main className="flex-grow">
-                {/* Profile Header */}
-                <div className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white py-12">
-                    <div className="max-w-5xl mx-auto px-4">
-                        <div className="flex items-center justify-between">
-                            <div className="flex items-center space-x-6">
-                                {user.image ? (
-                                    <div className="relative w-24 h-24">
-                                        <Image
-                                            src={user.image}
-                                            alt={user.name || 'User'}
-                                            fill
-                                            className="rounded-full border-4 border-white shadow-lg object-cover"
-                                        />
-                                    </div>
-                                ) : (
-                                    <div className="w-24 h-24 rounded-full bg-white/20 flex items-center justify-center text-4xl font-bold">
-                                        {user.name?.charAt(0) || user.email?.charAt(0) || 'U'}
-                                    </div>
-                                )}
-                                <div>
-                                    <h1 className="text-3xl font-bold">{user.name}</h1>
-                                    <p className="text-blue-200 flex items-center mt-1">
-                                        <Mail className="h-4 w-4 mr-2" />
-                                        {user.email}
-                                    </p>
-                                    <div className="flex items-center gap-2 mt-2">
-                                        {isAdmin && (
-                                            <span className="inline-flex items-center px-3 py-1 bg-purple-500 text-white text-sm rounded-full">
-                                                <Shield className="h-4 w-4 mr-1" />
-                                                Admin
-                                            </span>
-                                        )}
-                                        {/* Verification Tier Badge */}
-                                        {tierBadge ? (
-                                            <span className={`inline-flex items-center px-3 py-1 ${tierBadge.bgColor} ${tierBadge.color} text-sm rounded-full font-medium`}>
-                                                <BadgeCheck className="h-4 w-4 mr-1" />
-                                                {tierBadge.label}
-                                            </span>
-                                        ) : verification?.status === 'PENDING_REVIEW' ? (
-                                            <span className="inline-flex items-center px-3 py-1 bg-yellow-100 text-yellow-700 text-sm rounded-full font-medium">
-                                                <BadgeCheck className="h-4 w-4 mr-1" />
-                                                {t('verification.statusLabels.pending_review') || 'Pending Review'}
-                                            </span>
-                                        ) : null}
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Verification Button */}
-                            <div className="hidden md:block">
-                                {verification?.status === 'APPROVED' ? (
-                                    <Button
-                                        variant="outline"
-                                        onClick={() => router.push(`/verify/status?id=${verification.verification_id}`)}
-                                        className="bg-white/10 border-white/30 text-white hover:bg-white/20"
-                                    >
-                                        <BadgeCheck className="h-4 w-4 mr-2" />
-                                        {t('verification.viewStatus') || 'View Verification'}
-                                    </Button>
-                                ) : verification?.status === 'PENDING_REVIEW' ? (
-                                    <Button
-                                        variant="outline"
-                                        onClick={() => router.push(`/verify/status?id=${verification.verification_id}`)}
-                                        className="bg-white/10 border-white/30 text-white hover:bg-white/20"
-                                    >
-                                        <BadgeCheck className="h-4 w-4 mr-2" />
-                                        {t('verification.checkStatus') || 'Check Status'}
-                                    </Button>
-                                ) : (
-                                    <Button
-                                        onClick={() => router.push('/verify')}
-                                        className="bg-emerald-500 hover:bg-emerald-600 text-white"
-                                    >
-                                        <BadgeCheck className="h-4 w-4 mr-2" />
-                                        {t('verification.getVerified') || 'Get Verified'}
-                                        <ArrowRight className="h-4 w-4 ml-2" />
-                                    </Button>
-                                )}
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Stats Cards */}
-                <div className="max-w-5xl mx-auto px-4 -mt-8">
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                        <div className="bg-white rounded-xl shadow-lg p-6 text-center">
-                            <Heart className="h-8 w-8 mx-auto mb-2 text-red-500" />
-                            <div className="text-2xl font-bold text-gray-900">${stats.totalDonated}</div>
-                            <div className="text-sm text-gray-500">{t('dashboard.totalDonated')}</div>
-                        </div>
-                        <div className="bg-white rounded-xl shadow-lg p-6 text-center">
-                            <Target className="h-8 w-8 mx-auto mb-2 text-blue-500" />
-                            <div className="text-2xl font-bold text-gray-900">{stats.donationCount}</div>
-                            <div className="text-sm text-gray-500">{t('campaign.donors')}</div>
-                        </div>
-                        <div className="bg-white rounded-xl shadow-lg p-6 text-center">
-                            <Calendar className="h-8 w-8 mx-auto mb-2 text-green-500" />
-                            <div className="text-2xl font-bold text-gray-900">{stats.campaignCount}</div>
-                            <div className="text-sm text-gray-500">{t('nav.campaigns')}</div>
-                        </div>
-                        <div className="bg-white rounded-xl shadow-lg p-6 text-center">
-                            <TrendingUp className="h-8 w-8 mx-auto mb-2 text-purple-500" />
-                            <div className="text-2xl font-bold text-gray-900">${stats.totalRaised}</div>
-                            <div className="text-sm text-gray-500">{t('dashboard.totalRaised')}</div>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Tabs */}
-                <div className="max-w-5xl mx-auto px-4 mt-8">
-                    <div className="bg-white rounded-xl shadow-lg overflow-hidden">
-                        {/* Tab Headers */}
-                        <div className="flex border-b border-gray-200">
-                            <button
-                                onClick={() => setActiveTab('overview')}
-                                className={`flex-1 px-6 py-4 text-center font-medium transition-colors ${activeTab === 'overview'
-                                    ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
-                                    : 'text-gray-500 hover:text-gray-700'
-                                    }`}
-                            >
-                                {t('dashboard.title')}
-                            </button>
-                            <button
-                                onClick={() => setActiveTab('donations')}
-                                className={`flex-1 px-6 py-4 text-center font-medium transition-colors ${activeTab === 'donations'
-                                    ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
-                                    : 'text-gray-500 hover:text-gray-700'
-                                    }`}
-                            >
-                                {t('dashboard.myDonations')}
-                            </button>
-                            <button
-                                onClick={() => setActiveTab('campaigns')}
-                                className={`flex-1 px-6 py-4 text-center font-medium transition-colors ${activeTab === 'campaigns'
-                                    ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
-                                    : 'text-gray-500 hover:text-gray-700'
-                                    }`}
-                            >
-                                {t('dashboard.myCampaigns')}
-                            </button>
-                            <button
-                                onClick={() => setActiveTab('personalInfo')}
-                                className={`flex-1 px-6 py-4 text-center font-medium transition-colors ${activeTab === 'personalInfo'
-                                    ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50'
-                                    : 'text-gray-500 hover:text-gray-700'
-                                    }`}
-                            >
-                                {t('personalInfo.title')}
-                            </button>
-                        </div>
-
-                        {/* Tab Content */}
-                        <div className="p-6">
-                            {activeTab === 'overview' && (
-                                <div className="space-y-6">
-                                    <h3 className="text-xl font-semibold text-gray-900">{t('dashboard.welcome')}, {user.name?.split(' ')[0]}!</h3>
-                                    <p className="text-gray-600">{t('home.hero.subtitle')}</p>
-
-                                    <div className="grid md:grid-cols-2 gap-6 mt-6">
-                                        <div className="bg-gradient-to-br from-red-50 to-pink-50 rounded-lg p-6">
-                                            <h4 className="font-semibold text-gray-900 mb-2">{t('dashboard.myDonations')}</h4>
-                                            <p className="text-3xl font-bold text-red-600">${stats.totalDonated}</p>
-                                            <p className="text-sm text-gray-500 mt-1">{stats.donationCount} {t('campaign.donors')}</p>
-                                        </div>
-                                        <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-lg p-6">
-                                            <h4 className="font-semibold text-gray-900 mb-2">{t('dashboard.myCampaigns')}</h4>
-                                            <p className="text-3xl font-bold text-blue-600">{stats.campaignCount}</p>
-                                            <p className="text-sm text-gray-500 mt-1">${stats.totalRaised} {t('campaign.raised')}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-
-                            {activeTab === 'donations' && (
-                                <div>
-                                    <h3 className="text-xl font-semibold text-gray-900 mb-4">{t('dashboard.myDonations')}</h3>
-                                    {mockDonations.length === 0 ? (
-                                        <p className="text-gray-500 text-center py-8">{t('common.none')}</p>
-                                    ) : (
-                                        <div className="overflow-x-auto">
-                                            <table className="w-full">
-                                                <thead>
-                                                    <tr className="border-b border-gray-200">
-                                                        <th className="text-left py-3 px-4 text-gray-600 font-medium">{t('nav.campaigns')}</th>
-                                                        <th className="text-left py-3 px-4 text-gray-600 font-medium">{t('donation.amount')}</th>
-                                                        <th className="text-left py-3 px-4 text-gray-600 font-medium">{t('campaign.createdAt')}</th>
-                                                        <th className="text-left py-3 px-4 text-gray-600 font-medium">Status</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {mockDonations.map((donation) => (
-                                                        <tr key={donation.id} className="border-b border-gray-100 hover:bg-gray-50">
-                                                            <td className="py-3 px-4 font-medium text-gray-900">{donation.campaignName}</td>
-                                                            <td className="py-3 px-4 text-green-600 font-medium">${donation.amount}</td>
-                                                            <td className="py-3 px-4 text-gray-500">{donation.date}</td>
-                                                            <td className="py-3 px-4">
-                                                                <span className="px-2 py-1 bg-green-100 text-green-700 text-xs rounded-full">
-                                                                    {t('common.success')}
-                                                                </span>
-                                                            </td>
-                                                        </tr>
-                                                    ))}
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-
-                            {activeTab === 'campaigns' && (
-                                <div>
-                                    <h3 className="text-xl font-semibold text-gray-900 mb-4">{t('dashboard.myCampaigns')}</h3>
-                                    {mockCampaigns.length === 0 ? (
-                                        <div className="text-center py-8">
-                                            <p className="text-gray-500 mb-4">{t('common.none')}</p>
-                                            <button
-                                                onClick={() => router.push('/campaigns/new')}
-                                                className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                                            >
-                                                {t('campaign.createCampaign')}
-                                            </button>
-                                        </div>
-                                    ) : (
-                                        <div className="space-y-4">
-                                            {mockCampaigns.map((campaign) => (
-                                                <div key={campaign.id} className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
-                                                    <div className="flex justify-between items-start">
-                                                        <div>
-                                                            <h4 className="font-semibold text-gray-900">{campaign.title}</h4>
-                                                            <p className="text-sm text-gray-500 mt-1">
-                                                                {campaign.donors} {t('campaign.donors')}
-                                                            </p>
-                                                        </div>
-                                                        <span className={`px-3 py-1 rounded-full text-sm ${campaign.status === 'active'
-                                                            ? 'bg-green-100 text-green-700'
-                                                            : 'bg-gray-100 text-gray-700'
-                                                            }`}>
-                                                            {campaign.status}
-                                                        </span>
-                                                    </div>
-                                                    <div className="mt-4">
-                                                        <div className="flex justify-between text-sm text-gray-600 mb-2">
-                                                            <span>${campaign.raised} {t('campaign.raised')}</span>
-                                                            <span>{t('campaign.goal')}: ${campaign.goal}</span>
-                                                        </div>
-                                                        <div className="w-full bg-gray-200 rounded-full h-2">
-                                                            <div
-                                                                className="bg-blue-600 h-2 rounded-full transition-all"
-                                                                style={{ width: `${Math.min((campaign.raised / campaign.goal) * 100, 100)}%` }}
-                                                            />
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    )}
-                                </div>
-                            )}
-
-                            {activeTab === 'personalInfo' && (
-                                <div>
-                                    <div className="flex items-center justify-between mb-6">
-                                        <h3 className="text-xl font-semibold text-gray-900">{t('personalInfo.title')}</h3>
-                                        {saved && (
-                                            <span className="flex items-center text-green-600 text-sm font-medium">
-                                                <CheckCircle2 className="h-4 w-4 mr-1" />
-                                                {t('personalInfo.saved')}
-                                            </span>
-                                        )}
-                                    </div>
-
-                                    <div className="space-y-8">
-                                        {/* Contact Information */}
-                                        <div>
-                                            <h4 className="text-md font-semibold text-gray-700 mb-4 flex items-center">
-                                                <Phone className="h-5 w-5 mr-2 text-blue-500" />
-                                                {t('personalInfo.contactInfo')}
-                                            </h4>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                <div>
-                                                    <label className="block text-sm font-medium text-gray-600 mb-1">{t('personalInfo.phone')}</label>
-                                                    <div className="flex gap-2">
-                                                        <select
-                                                            value={personalInfo.phoneCountryCode}
-                                                            onChange={(e) => handlePersonalInfoChange('phoneCountryCode', e.target.value)}
-                                                            className="w-28 px-3 py-2 border border-gray-300 rounded-md bg-white text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                                                        >
-                                                            {COUNTRY_CODES.map((c) => (
-                                                                <option key={c.code} value={c.code}>{c.label}</option>
-                                                            ))}
-                                                        </select>
-                                                        <Input
-                                                            type="tel"
-                                                            placeholder="5XX XXX XX XX"
-                                                            value={personalInfo.phone}
-                                                            onChange={(e) => handlePersonalInfoChange('phone', e.target.value)}
-                                                            className="flex-1"
-                                                        />
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <label className="block text-sm font-medium text-gray-600 mb-1">{t('personalInfo.backupEmail')}</label>
-                                                    <Input
-                                                        type="email"
-                                                        placeholder={t('personalInfo.backupEmailPlaceholder')}
-                                                        value={personalInfo.backupEmail}
-                                                        onChange={(e) => handlePersonalInfoChange('backupEmail', e.target.value)}
-                                                        className="w-full"
-                                                    />
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {/* Personal Details */}
-                                        <div>
-                                            <h4 className="text-md font-semibold text-gray-700 mb-4 flex items-center">
-                                                <User className="h-5 w-5 mr-2 text-blue-500" />
-                                                {t('personalInfo.personalDetails')}
-                                            </h4>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                <div>
-                                                    <label className="block text-sm font-medium text-gray-600 mb-1">{t('personalInfo.gender')}</label>
-                                                    <select
-                                                        value={personalInfo.gender}
-                                                        onChange={(e) => handlePersonalInfoChange('gender', e.target.value)}
-                                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
-                                                    >
-                                                        <option value="">{t('personalInfo.selectGender')}</option>
-                                                        <option value="male">{t('personalInfo.male')}</option>
-                                                        <option value="female">{t('personalInfo.female')}</option>
-                                                        <option value="other">{t('personalInfo.other')}</option>
-                                                        <option value="preferNotToSay">{t('personalInfo.preferNotToSay')}</option>
-                                                    </select>
-                                                </div>
-                                                <div>
-                                                    <label className="block text-sm font-medium text-gray-600 mb-1">{t('personalInfo.dateOfBirth')}</label>
-                                                    <Input
-                                                        type="date"
-                                                        value={personalInfo.dateOfBirth}
-                                                        onChange={(e) => handlePersonalInfoChange('dateOfBirth', e.target.value)}
-                                                        className="w-full"
-                                                    />
-                                                </div>
-                                                <div>
-                                                    <label className="block text-sm font-medium text-gray-600 mb-1">{t('personalInfo.country')}</label>
-                                                    <select
-                                                        value={personalInfo.country}
-                                                        onChange={(e) => handlePersonalInfoChange('country', e.target.value)}
-                                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
-                                                    >
-                                                        <option value="">{t('personalInfo.selectCountry')}</option>
-                                                        <option value="TR">{t('personalInfo.countries.turkey')}</option>
-                                                        <option value="US">{t('personalInfo.countries.usa')}</option>
-                                                        <option value="GB">{t('personalInfo.countries.uk')}</option>
-                                                        <option value="DE">{t('personalInfo.countries.germany')}</option>
-                                                        <option value="FR">{t('personalInfo.countries.france')}</option>
-                                                        <option value="SA">{t('personalInfo.countries.saudiArabia')}</option>
-                                                        <option value="AE">{t('personalInfo.countries.uae')}</option>
-                                                        <option value="CN">{t('personalInfo.countries.china')}</option>
-                                                        <option value="RU">{t('personalInfo.countries.russia')}</option>
-                                                        <option value="ES">{t('personalInfo.countries.spain')}</option>
-                                                        <option value="OTHER">{t('personalInfo.countries.other')}</option>
-                                                    </select>
-                                                </div>
-                                                <div>
-                                                    <label className="block text-sm font-medium text-gray-600 mb-1">{t('personalInfo.language')}</label>
-                                                    <select
-                                                        value={personalInfo.language}
-                                                        onChange={(e) => handlePersonalInfoChange('language', e.target.value)}
-                                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
-                                                    >
-                                                        <option value="tr">Türkçe</option>
-                                                        <option value="en">English</option>
-                                                        <option value="de">Deutsch</option>
-                                                        <option value="fr">Français</option>
-                                                        <option value="es">Español</option>
-                                                        <option value="ar">العربية</option>
-                                                        <option value="zh">中文</option>
-                                                        <option value="ru">Русский</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        {/* Security */}
-                                        <div>
-                                            <h4 className="text-md font-semibold text-gray-700 mb-4 flex items-center">
-                                                <Lock className="h-5 w-5 mr-2 text-blue-500" />
-                                                {t('personalInfo.security')}
-                                            </h4>
-                                            <div className="bg-gray-50 rounded-lg p-4">
-                                                <div className="flex items-center justify-between">
-                                                    <div>
-                                                        <p className="font-medium text-gray-900">{t('personalInfo.twoFactor')}</p>
-                                                        <p className="text-sm text-gray-500 mt-1">{t('personalInfo.twoFactorDesc')}</p>
-                                                    </div>
-                                                    <button
-                                                        onClick={() => handlePersonalInfoChange('twoFactorEnabled', !personalInfo.twoFactorEnabled)}
-                                                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${personalInfo.twoFactorEnabled ? 'bg-blue-600' : 'bg-gray-300'
-                                                            }`}
-                                                    >
-                                                        <span
-                                                            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${personalInfo.twoFactorEnabled ? 'translate-x-6' : 'translate-x-1'
-                                                                }`}
-                                                        />
-                                                    </button>
-                                                </div>
-                                                {personalInfo.twoFactorEnabled && (
-                                                    <div className="mt-3 p-3 bg-blue-50 border border-blue-200 rounded-md">
-                                                        <p className="text-sm text-blue-700">{t('personalInfo.twoFactorComingSoon')}</p>
-                                                    </div>
-                                                )}
-                                            </div>
-                                        </div>
-
-                                        {/* Save Button */}
-                                        <div className="flex justify-end pt-4 border-t border-gray-200">
-                                            <Button
-                                                onClick={handleSavePersonalInfo}
-                                                disabled={saving}
-                                                className="bg-blue-600 hover:bg-blue-700 text-white px-8"
-                                            >
-                                                {saving ? (
-                                                    <div className="flex items-center">
-                                                        <div className="h-4 w-4 animate-spin border-2 border-white border-t-transparent rounded-full mr-2" />
-                                                        {t('personalInfo.saving')}
-                                                    </div>
-                                                ) : (
-                                                    <div className="flex items-center">
-                                                        <Save className="h-4 w-4 mr-2" />
-                                                        {t('personalInfo.save')}
-                                                    </div>
-                                                )}
-                                            </Button>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            </main>
-            <Footer />
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="h-12 w-12 animate-spin mx-auto text-blue-600 mb-4 border-4 border-blue-200 border-t-blue-600 rounded-full" />
+          <p className="text-gray-500 animate-pulse">Yükleniyor...</p>
         </div>
+      </div>
     );
+  }
+
+  if (!isPreviewMode && !session?.user) return null;
+
+  const user = isPreviewMode
+    ? { name: 'Demo User', email: 'demo@university.edu', image: null as string | null, id: 'demo-user' }
+    : { ...session?.user, id: (session?.user as any)?.id };
+
+  if (!user) return null;
+
+  const isAdmin = !isPreviewMode && (session?.user as any)?.role === 'admin';
+
+  // Tier badge config
+  const getTierConfig = () => {
+    if (!verification || verification.status !== 'APPROVED') return null;
+    const tier = verification.tier_approved ?? verification.tier_requested ?? 0;
+    const configs: Record<number, { label: string; color: string; bgColor: string; icon: string }> = {
+      0: { label: 'Email Doğrulanmış', color: 'text-blue-700', bgColor: 'bg-blue-100', icon: '📧' },
+      1: { label: 'Seviye 1 - Doğrulanmış', color: 'text-orange-700', bgColor: 'bg-orange-100', icon: '🥉' },
+      2: { label: 'Seviye 2 - Güvenilir', color: 'text-green-700', bgColor: 'bg-green-100', icon: '🥈' },
+      3: { label: 'Seviye 3 - Partner', color: 'text-purple-700', bgColor: 'bg-purple-100', icon: '🥇' },
+    };
+    return configs[tier] || configs[0];
+  };
+
+  const tierConfig = getTierConfig();
+  const unreadTotal = conversations.reduce((sum, c) => sum + c.unread_count, 0);
+
+  // Tab switch helper (also closes mobile sidebar)
+  const switchTab = (tab: TabType) => {
+    setActiveTab(tab);
+    setMobileMenuOpen(false);
+    if (tab !== 'messages') setSelectedConversation(null);
+  };
+
+  // ═══════════════════════════════════════════════════
+  // ── RENDER ─────────────────────────────────────────
+  // ═══════════════════════════════════════════════════
+
+  return (
+    <div className="min-h-screen flex flex-col bg-[#f8f9fc]">
+      <Navbar />
+      <main className="flex-grow">
+        {/* ── Hero Header ── */}
+        <div className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 overflow-hidden">
+          {/* Decorative elements */}
+          <div className="absolute inset-0 pointer-events-none">
+            <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-white/[0.06]" />
+            <div className="absolute -bottom-32 -left-32 w-[500px] h-[500px] rounded-full bg-white/[0.04]" />
+            <div className="absolute top-1/3 right-1/4 w-2 h-2 rounded-full bg-white/30 animate-pulse" />
+            <div className="absolute top-2/3 right-1/3 w-1.5 h-1.5 rounded-full bg-white/20 animate-pulse" style={{ animationDelay: '0.5s' }} />
+          </div>
+
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-5">
+              {/* Avatar */}
+              <div className="relative flex-shrink-0">
+                {user.image ? (
+                  <div className="relative w-18 h-18 md:w-22 md:h-22">
+                    <Image
+                      src={user.image}
+                      alt={user.name || 'User'}
+                      width={88}
+                      height={88}
+                      className="rounded-2xl border-[3px] border-white/30 shadow-2xl object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-[72px] h-[72px] md:w-[88px] md:h-[88px] rounded-2xl bg-white/15 backdrop-blur-sm flex items-center justify-center text-3xl md:text-4xl font-bold text-white border-[3px] border-white/20 shadow-2xl">
+                    {user.name?.charAt(0) || user.email?.charAt(0) || 'U'}
+                  </div>
+                )}
+                {tierConfig && (
+                  <span className="absolute -bottom-1.5 -right-1.5 text-lg drop-shadow-sm">{tierConfig.icon}</span>
+                )}
+              </div>
+
+              {/* User Info */}
+              <div className="flex-1 min-w-0">
+                <div className="flex flex-wrap items-center gap-2.5 mb-1">
+                  <h1 className="text-xl md:text-2xl font-bold text-white truncate">
+                    Merhaba, {user.name?.split(' ')[0]}!
+                  </h1>
+                  {isAdmin && (
+                    <span className="inline-flex items-center px-2 py-0.5 bg-purple-500/70 text-white text-[10px] rounded-full font-medium backdrop-blur-sm">
+                      <Shield className="h-3 w-3 mr-0.5" />
+                      Admin
+                    </span>
+                  )}
+                </div>
+                <p className="text-blue-200 flex items-center gap-1.5 text-sm truncate">
+                  <Mail className="h-3.5 w-3.5 flex-shrink-0" />
+                  {user.email}
+                </p>
+                <div className="flex flex-wrap items-center gap-2 mt-2.5">
+                  {tierConfig && (
+                    <span className={`inline-flex items-center px-2.5 py-0.5 ${tierConfig.bgColor} ${tierConfig.color} text-[11px] rounded-full font-medium`}>
+                      <BadgeCheck className="h-3 w-3 mr-1" />
+                      {tierConfig.label}
+                    </span>
+                  )}
+                  {verification?.status === 'PENDING_REVIEW' && (
+                    <span className="inline-flex items-center px-2.5 py-0.5 bg-yellow-100 text-yellow-700 text-[11px] rounded-full font-medium">
+                      <Clock className="h-3 w-3 mr-1" />
+                      Doğrulama Bekliyor
+                    </span>
+                  )}
+                  {donationSummary.lastDonationDate && (
+                    <span className="text-[11px] text-blue-300/80 flex items-center gap-1">
+                      <Clock className="h-3 w-3" />
+                      Son bağış: {new Date(donationSummary.lastDonationDate).toLocaleDateString('tr-TR')}
+                    </span>
+                  )}
+                </div>
+              </div>
+
+              {/* Header Actions */}
+              <div className="flex gap-2 flex-shrink-0 self-start sm:self-center">
+                {!tierConfig && verification?.status !== 'PENDING_REVIEW' && (
+                  <Button
+                    onClick={() => router.push('/verify')}
+                    size="sm"
+                    className="bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-500/25 text-xs"
+                  >
+                    <BadgeCheck className="h-3.5 w-3.5 mr-1" />
+                    Doğrulanın
+                  </Button>
+                )}
+                <Button
+                  onClick={() => router.push('/browse')}
+                  size="sm"
+                  variant="outline"
+                  className="bg-white/10 border-white/25 text-white hover:bg-white/20 backdrop-blur-sm text-xs"
+                >
+                  <Heart className="h-3.5 w-3.5 mr-1" />
+                  Bağış Yap
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── Main Content ── */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
+          <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
+
+            {/* ── Mobile Tab Bar ── */}
+            <div className="lg:hidden flex gap-1 bg-white p-1.5 rounded-2xl border border-gray-200 shadow-sm overflow-x-auto">
+              {([
+                { key: 'overview' as TabType, icon: BarChart3, label: 'Genel Bakış' },
+                { key: 'donations' as TabType, icon: Heart, label: 'Bağışlarım', badge: donationSummary.totalDonations },
+                { key: 'messages' as TabType, icon: MessageCircle, label: 'Mesajlar', badge: unreadTotal },
+                { key: 'settings' as TabType, icon: Settings, label: 'Ayarlar' },
+              ]).map(tab => (
+                <button
+                  key={tab.key}
+                  onClick={() => switchTab(tab.key)}
+                  className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
+                    activeTab === tab.key
+                      ? 'bg-blue-600 text-white shadow-md'
+                      : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                  }`}
+                >
+                  <tab.icon className="h-3.5 w-3.5" />
+                  {tab.label}
+                  {tab.badge !== undefined && tab.badge > 0 && (
+                    <span className={`px-1.5 py-0.5 text-[10px] font-bold rounded-full leading-none ${
+                      activeTab === tab.key ? 'bg-white/25' : 'bg-red-100 text-red-600'
+                    }`}>
+                      {tab.badge}
+                    </span>
+                  )}
+                </button>
+              ))}
+            </div>
+
+            {/* ── Desktop Sidebar ── */}
+            <div className="hidden lg:block lg:w-56 flex-shrink-0">
+              <div className="sticky top-24 space-y-1.5">
+                <SidebarItem icon={BarChart3} label="Genel Bakış" active={activeTab === 'overview'} onClick={() => switchTab('overview')} />
+                <SidebarItem icon={Heart} label="Bağışlarım" active={activeTab === 'donations'} onClick={() => switchTab('donations')} badge={donationSummary.totalDonations} />
+                <SidebarItem icon={MessageCircle} label="Mesajlar" active={activeTab === 'messages'} onClick={() => switchTab('messages')} badge={unreadTotal} />
+                <SidebarItem icon={Settings} label="Ayarlar" active={activeTab === 'settings'} onClick={() => switchTab('settings')} />
+
+                {/* Quick Links */}
+                <div className="pt-4 mt-4 border-t border-gray-200">
+                  <p className="px-4 text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Hızlı Erişim</p>
+                  <Link href="/my-donations" className="flex items-center gap-2 px-4 py-2 text-xs text-gray-500 hover:text-gray-700 transition-colors rounded-lg hover:bg-gray-50">
+                    <FileText className="h-3.5 w-3.5" /> Detaylı Bağış Geçmişi
+                  </Link>
+                  <Link href="/browse" className="flex items-center gap-2 px-4 py-2 text-xs text-gray-500 hover:text-gray-700 transition-colors rounded-lg hover:bg-gray-50">
+                    <Search className="h-3.5 w-3.5" /> Kampanyaları Keşfet
+                  </Link>
+                  <Link href="/account/security" className="flex items-center gap-2 px-4 py-2 text-xs text-gray-500 hover:text-gray-700 transition-colors rounded-lg hover:bg-gray-50">
+                    <Shield className="h-3.5 w-3.5" /> Güvenlik
+                  </Link>
+                  {isAdmin && (
+                    <Link href="/admin" className="flex items-center gap-2 px-4 py-2 text-xs text-purple-500 hover:text-purple-700 transition-colors rounded-lg hover:bg-purple-50">
+                      <Shield className="h-3.5 w-3.5" /> Admin Paneli
+                    </Link>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            {/* ── Content Area ── */}
+            <div className="flex-1 min-w-0">
+
+              {/* ═══ OVERVIEW TAB ═══ */}
+              {activeTab === 'overview' && (
+                <div className="space-y-6 animate-in fade-in duration-300">
+                  {/* Stats Grid */}
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+                    <StatCard
+                      icon={Wallet}
+                      value={formatAmount(donationSummary.totalAmount)}
+                      label="Toplam Bağış"
+                      color="blue"
+                      onClick={() => switchTab('donations')}
+                    />
+                    <StatCard
+                      icon={Heart}
+                      value={String(donationSummary.totalDonations)}
+                      label="Bağış Sayısı"
+                      color="red"
+                      onClick={() => switchTab('donations')}
+                    />
+                    <StatCard
+                      icon={GraduationCap}
+                      value={String(donationSummary.supportedStudents)}
+                      label="Desteklenen Öğrenci"
+                      color="green"
+                    />
+                    <StatCard
+                      icon={MessageCircle}
+                      value={String(conversations.length)}
+                      label="Aktif Sohbet"
+                      color="purple"
+                      onClick={() => switchTab('messages')}
+                    />
+                  </div>
+
+                  {/* Quick Actions */}
+                  <div>
+                    <h3 className="text-sm font-semibold text-gray-900 mb-3">Hızlı İşlemler</h3>
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                      <QuickAction icon={Heart} label="Bağış Yap" href="/browse" color="red" />
+                      <QuickAction icon={Download} label="Bağış Raporu İndir" href="/my-donations" color="blue" />
+                      <QuickAction icon={GraduationCap} label="Öğrencileri Keşfet" href="/campaigns" color="green" />
+                      <QuickAction icon={Award} label="Rozetlerim" href="/badges" color="purple" />
+                    </div>
+                  </div>
+
+                  {/* Two Column Layout: Recent Donations + Messages */}
+                  <div className="grid lg:grid-cols-2 gap-6">
+                    {/* Recent Donations */}
+                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                      <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
+                        <h3 className="font-semibold text-gray-900 text-sm flex items-center gap-2">
+                          <Heart className="h-4 w-4 text-red-500" />
+                          Son Bağışlar
+                        </h3>
+                        <button
+                          onClick={() => switchTab('donations')}
+                          className="text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-0.5"
+                        >
+                          Tümünü Gör <ChevronRight className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                      <div className="divide-y divide-gray-50">
+                        {donationsLoading ? (
+                          <div className="p-10 text-center">
+                            <div className="h-8 w-8 animate-spin mx-auto text-blue-600 border-[3px] border-blue-200 border-t-blue-600 rounded-full" />
+                          </div>
+                        ) : donations.length === 0 ? (
+                          <div className="p-10 text-center">
+                            <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
+                              <Heart className="h-7 w-7 text-gray-300" />
+                            </div>
+                            <p className="text-gray-500 text-sm mb-1 font-medium">Henüz bağış yapmadınız</p>
+                            <p className="text-gray-400 text-xs mb-4">Bir öğrencinin hayatını değiştirin</p>
+                            <Button size="sm" onClick={() => router.push('/browse')} className="bg-blue-600 hover:bg-blue-700 text-xs">
+                              İlk Bağışınızı Yapın
+                            </Button>
+                          </div>
+                        ) : (
+                          donations.slice(0, 4).map(d => (
+                            <DonationRow key={d.donation_id} donation={d} formatAmount={formatAmount} />
+                          ))
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Recent Messages */}
+                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                      <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
+                        <h3 className="font-semibold text-gray-900 text-sm flex items-center gap-2">
+                          <MessageCircle className="h-4 w-4 text-indigo-500" />
+                          Son Mesajlar
+                          {unreadTotal > 0 && (
+                            <span className="px-1.5 py-0.5 text-[10px] font-bold bg-red-500 text-white rounded-full leading-none">
+                              {unreadTotal}
+                            </span>
+                          )}
+                        </h3>
+                        <button
+                          onClick={() => switchTab('messages')}
+                          className="text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-0.5"
+                        >
+                          Tümünü Gör <ChevronRight className="h-3.5 w-3.5" />
+                        </button>
+                      </div>
+                      <div className="divide-y divide-gray-50">
+                        {messagesLoading ? (
+                          <div className="p-10 text-center">
+                            <div className="h-8 w-8 animate-spin mx-auto text-blue-600 border-[3px] border-blue-200 border-t-blue-600 rounded-full" />
+                          </div>
+                        ) : conversations.length === 0 ? (
+                          <div className="p-10 text-center">
+                            <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
+                              <MessageCircle className="h-7 w-7 text-gray-300" />
+                            </div>
+                            <p className="text-gray-500 text-sm mb-1 font-medium">Henüz mesajınız yok</p>
+                            <p className="text-gray-400 text-xs">Bağış yaptığınız öğrencilerle sohbet edin</p>
+                          </div>
+                        ) : (
+                          conversations.slice(0, 3).map(c => (
+                            <ConversationPreview
+                              key={c.campaign_id}
+                              thread={c}
+                              onClick={() => { switchTab('messages'); setSelectedConversation(c); }}
+                            />
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Impact Banner */}
+                  {donationSummary.totalDonations > 0 && (
+                    <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 rounded-2xl p-5 md:p-6 text-white relative overflow-hidden">
+                      <div className="absolute inset-0 pointer-events-none">
+                        <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/10" />
+                        <div className="absolute -bottom-8 -left-8 w-28 h-28 rounded-full bg-white/[0.07]" />
+                      </div>
+                      <div className="relative">
+                        <h3 className="text-base font-bold mb-1.5 flex items-center gap-2">
+                          <Star className="h-5 w-5 text-yellow-300" />
+                          Etki Özetiniz
+                        </h3>
+                        <p className="text-blue-100 text-sm leading-relaxed mb-4">
+                          Toplamda <span className="font-bold text-white">{donationSummary.supportedStudents} öğrencinin</span> eğitim hayatına
+                          {' '}<span className="font-bold text-white">{formatAmount(donationSummary.totalAmount)}</span> katkıda bulundunuz. Teşekkürler!
+                        </p>
+                        <div className="flex flex-wrap gap-2.5">
+                          <Button
+                            size="sm"
+                            onClick={() => router.push('/browse')}
+                            className="bg-white text-blue-700 hover:bg-blue-50 text-xs shadow-lg"
+                          >
+                            <Heart className="h-3.5 w-3.5 mr-1" />
+                            Daha Fazla Destek Ol
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => router.push('/my-donations')}
+                            className="border-white/30 text-white hover:bg-white/10 text-xs"
+                          >
+                            <FileText className="h-3.5 w-3.5 mr-1" />
+                            Detaylı Rapor
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ═══ DONATIONS TAB ═══ */}
+              {activeTab === 'donations' && (
+                <div className="space-y-5 animate-in fade-in duration-300">
+                  {/* Summary Cards */}
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+                    <StatCard icon={Wallet} value={formatAmount(donationSummary.totalAmount)} label="Toplam Bağış" color="blue" />
+                    <StatCard icon={Heart} value={String(donationSummary.totalDonations)} label="Bağış Sayısı" color="red" />
+                    <StatCard icon={GraduationCap} value={String(donationSummary.supportedStudents)} label="Desteklenen Öğrenci" color="green" />
+                    <StatCard
+                      icon={Calendar}
+                      value={donationSummary.lastDonationDate
+                        ? new Date(donationSummary.lastDonationDate).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })
+                        : '-'}
+                      label="Son Bağış Tarihi"
+                      color="orange"
+                    />
+                  </div>
+
+                  {/* Donations List */}
+                  <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                    <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
+                      <h3 className="font-semibold text-gray-900 text-sm">Tüm Bağışlarım</h3>
+                      <div className="flex gap-2">
+                        <Link href="/my-donations">
+                          <Button size="sm" variant="outline" className="text-[11px] h-8">
+                            <ExternalLink className="h-3 w-3 mr-1" />
+                            Detaylı Görünüm
+                          </Button>
+                        </Link>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="text-[11px] h-8"
+                          onClick={() => window.open('/api/donations/my/export?format=csv', '_blank')}
+                        >
+                          <Download className="h-3 w-3 mr-1" />
+                          Dışa Aktar
+                        </Button>
+                      </div>
+                    </div>
+
+                    <div className="divide-y divide-gray-50">
+                      {donationsLoading ? (
+                        <div className="p-12 text-center">
+                          <div className="h-10 w-10 animate-spin mx-auto text-blue-600 mb-3 border-4 border-blue-200 border-t-blue-600 rounded-full" />
+                          <p className="text-gray-500 text-sm">Bağışlar yükleniyor...</p>
+                        </div>
+                      ) : donations.length === 0 ? (
+                        <div className="p-12 text-center">
+                          <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+                            <Heart className="h-8 w-8 text-gray-300" />
+                          </div>
+                          <h4 className="text-base font-semibold text-gray-700 mb-1.5">Henüz bağış yapmadınız</h4>
+                          <p className="text-gray-400 text-sm mb-5">Bir öğrencinin eğitim hayatını değiştirmek için ilk adımı atın.</p>
+                          <Button onClick={() => router.push('/browse')} className="bg-blue-600 hover:bg-blue-700">
+                            <Search className="h-4 w-4 mr-2" />
+                            Kampanyaları Keşfet
+                          </Button>
+                        </div>
+                      ) : (
+                        <>
+                          {donations.map(d => (
+                            <DonationRow key={d.donation_id} donation={d} formatAmount={formatAmount} />
+                          ))}
+
+                          {/* Pagination */}
+                          {donationTotalPages > 1 && (
+                            <div className="flex items-center justify-between px-5 py-3.5">
+                              <p className="text-xs text-gray-500">
+                                Toplam {donationTotal} bağış
+                              </p>
+                              <div className="flex gap-2">
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  className="text-xs h-8"
+                                  disabled={donationPage <= 1}
+                                  onClick={() => { const p = donationPage - 1; setDonationPage(p); fetchDonations(p); }}
+                                >
+                                  <ChevronLeft className="h-3.5 w-3.5" />
+                                </Button>
+                                <span className="text-xs text-gray-600 flex items-center px-2">
+                                  {donationPage} / {donationTotalPages}
+                                </span>
+                                <Button
+                                  size="sm"
+                                  variant="outline"
+                                  className="text-xs h-8"
+                                  disabled={donationPage >= donationTotalPages}
+                                  onClick={() => { const p = donationPage + 1; setDonationPage(p); fetchDonations(p); }}
+                                >
+                                  <ChevronRight className="h-3.5 w-3.5" />
+                                </Button>
+                              </div>
+                            </div>
+                          )}
+                        </>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* ═══ MESSAGES TAB ═══ */}
+              {activeTab === 'messages' && (
+                <div className="animate-in fade-in duration-300">
+                  {!selectedConversation ? (
+                    /* Conversation List */
+                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                      <div className="px-5 py-3.5 border-b border-gray-100">
+                        <h3 className="font-semibold text-gray-900 text-sm flex items-center gap-2">
+                          <MessageCircle className="h-4 w-4 text-indigo-500" />
+                          Sohbetlerim
+                          {unreadTotal > 0 && (
+                            <span className="px-1.5 py-0.5 text-[10px] font-bold bg-red-500 text-white rounded-full leading-none">{unreadTotal} yeni</span>
+                          )}
+                        </h3>
+                        <p className="text-[11px] text-gray-400 mt-0.5">Bağış yaptığınız öğrencilerle mesajlaşın</p>
+                      </div>
+
+                      <div className="divide-y divide-gray-50">
+                        {messagesLoading ? (
+                          <div className="p-12 text-center">
+                            <div className="h-10 w-10 animate-spin mx-auto text-blue-600 mb-3 border-4 border-blue-200 border-t-blue-600 rounded-full" />
+                            <p className="text-gray-500 text-sm">Mesajlar yükleniyor...</p>
+                          </div>
+                        ) : conversations.length === 0 ? (
+                          <div className="p-12 text-center">
+                            <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+                              <MessageCircle className="h-8 w-8 text-gray-300" />
+                            </div>
+                            <h4 className="text-base font-semibold text-gray-700 mb-1.5">Henüz mesajınız yok</h4>
+                            <p className="text-gray-400 text-sm mb-5">
+                              Bağış yaptığınız kampanyalardaki öğrencilere mesaj gönderebilirsiniz.
+                            </p>
+                            <Button onClick={() => router.push('/browse')} className="bg-blue-600 hover:bg-blue-700">
+                              <Heart className="h-4 w-4 mr-2" />
+                              Bağış Yaparak Başlayın
+                            </Button>
+                          </div>
+                        ) : (
+                          conversations.map(c => (
+                            <ConversationPreview
+                              key={c.campaign_id}
+                              thread={c}
+                              onClick={() => setSelectedConversation(c)}
+                            />
+                          ))
+                        )}
+                      </div>
+                    </div>
+                  ) : (
+                    /* Chat View */
+                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden flex flex-col" style={{ height: 'calc(100vh - 300px)', minHeight: '480px' }}>
+                      {/* Chat Header */}
+                      <div className="flex items-center gap-3 px-5 py-3 border-b border-gray-100 bg-white">
+                        <button
+                          onClick={() => setSelectedConversation(null)}
+                          className="p-1.5 rounded-lg hover:bg-gray-100 transition-colors"
+                        >
+                          <ChevronLeft className="h-5 w-5 text-gray-500" />
+                        </button>
+                        {selectedConversation.student_image ? (
+                          <Image
+                            src={selectedConversation.student_image}
+                            alt={selectedConversation.student_name}
+                            width={38}
+                            height={38}
+                            className="rounded-full ring-2 ring-gray-100"
+                          />
+                        ) : (
+                          <div className="w-[38px] h-[38px] rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white font-semibold text-sm">
+                            {selectedConversation.student_name.charAt(0)}
+                          </div>
+                        )}
+                        <div className="flex-1 min-w-0">
+                          <p className="font-semibold text-gray-900 text-sm truncate">{selectedConversation.student_name}</p>
+                          <p className="text-[11px] text-gray-500 truncate">{selectedConversation.campaign_title}</p>
+                        </div>
+                        <Link href={`/campaign/${selectedConversation.campaign_id}`}>
+                          <Button size="sm" variant="outline" className="text-[11px] h-8">
+                            <Eye className="h-3 w-3 mr-1" />
+                            Kampanya
+                          </Button>
+                        </Link>
+                      </div>
+
+                      {/* Messages */}
+                      <div className="flex-1 overflow-y-auto px-5 py-4 space-y-3 bg-gray-50/50">
+                        <div className="text-center mb-4">
+                          <span className="text-[10px] text-gray-400 bg-white px-3 py-1 rounded-full border border-gray-100">
+                            {selectedConversation.campaign_title}
+                          </span>
+                        </div>
+                        {selectedConversation.messages.map(msg => {
+                          const isMe = msg.type === 'donor_to_student' || msg.sender_id === user.id;
+                          return (
+                            <div key={msg.message_id} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
+                              {!isMe && (
+                                <div className="w-7 h-7 rounded-full bg-gradient-to-br from-indigo-400 to-purple-500 flex items-center justify-center text-white text-[10px] font-semibold mr-2 mt-auto mb-1 flex-shrink-0">
+                                  {msg.sender_name.charAt(0)}
+                                </div>
+                              )}
+                              <div className={`max-w-[75%] ${isMe ? '' : ''}`}>
+                                <div className={`px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${isMe
+                                    ? 'bg-blue-600 text-white rounded-br-lg'
+                                    : 'bg-white text-gray-800 rounded-bl-lg border border-gray-100 shadow-sm'
+                                  }`}>
+                                  <p>{msg.content}</p>
+                                </div>
+                                <p className={`text-[10px] mt-1 px-1 ${isMe ? 'text-right text-gray-400' : 'text-gray-400'}`}>
+                                  {new Date(msg.created_at).toLocaleString('tr-TR', {
+                                    day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit'
+                                  })}
+                                </p>
+                              </div>
+                            </div>
+                          );
+                        })}
+                        <div ref={chatEndRef} />
+                      </div>
+
+                      {/* Message Input */}
+                      <div className="px-5 py-3.5 border-t border-gray-100 bg-white">
+                        <div className="flex gap-2">
+                          <Input
+                            value={newMessage}
+                            onChange={e => setNewMessage(e.target.value)}
+                            placeholder="Mesajınızı yazın..."
+                            className="flex-1 text-sm"
+                            onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSendMessage(); } }}
+                            maxLength={1000}
+                          />
+                          <Button
+                            onClick={handleSendMessage}
+                            disabled={!newMessage.trim() || sendingMessage}
+                            className="bg-blue-600 hover:bg-blue-700 px-3.5"
+                            size="sm"
+                          >
+                            {sendingMessage ? (
+                              <RefreshCw className="h-4 w-4 animate-spin" />
+                            ) : (
+                              <Send className="h-4 w-4" />
+                            )}
+                          </Button>
+                        </div>
+                        <p className="text-[10px] text-gray-400 mt-1 text-right">{newMessage.length}/1000</p>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ═══ SETTINGS TAB ═══ */}
+              {activeTab === 'settings' && (
+                <div className="space-y-5 animate-in fade-in duration-300">
+                  <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                    <div className="px-5 py-3.5 border-b border-gray-100 flex items-center justify-between">
+                      <div>
+                        <h3 className="font-semibold text-gray-900 text-sm">Kişisel Bilgiler</h3>
+                        <p className="text-[11px] text-gray-400 mt-0.5">Hesap bilgilerinizi güncelleyin</p>
+                      </div>
+                      {saved && (
+                        <span className="flex items-center text-emerald-600 text-[11px] font-medium bg-emerald-50 px-2.5 py-1 rounded-full">
+                          <CheckCircle2 className="h-3 w-3 mr-1" />
+                          Kaydedildi
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="p-5 md:p-6 space-y-7">
+                      {/* Contact Information */}
+                      <div>
+                        <h4 className="text-xs font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                          <Phone className="h-4 w-4 text-blue-500" />
+                          İletişim Bilgileri
+                        </h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-[11px] font-medium text-gray-500 mb-1.5">Telefon Numarası</label>
+                            <div className="flex gap-2">
+                              <select
+                                value={personalInfo.phoneCountryCode}
+                                onChange={(e) => handlePersonalInfoChange('phoneCountryCode', e.target.value)}
+                                className="w-[88px] px-2 py-2 border border-gray-200 rounded-lg bg-white text-gray-900 text-xs focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                              >
+                                {COUNTRY_CODES.map((c) => (
+                                  <option key={c.code} value={c.code}>{c.label}</option>
+                                ))}
+                              </select>
+                              <Input
+                                type="tel"
+                                placeholder="5XX XXX XX XX"
+                                value={personalInfo.phone}
+                                onChange={(e) => handlePersonalInfoChange('phone', e.target.value)}
+                                className="flex-1"
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-medium text-gray-500 mb-1.5">Yedek E-posta</label>
+                            <Input
+                              type="email"
+                              placeholder="yedek@email.com"
+                              value={personalInfo.backupEmail}
+                              onChange={(e) => handlePersonalInfoChange('backupEmail', e.target.value)}
+                            />
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Personal Details */}
+                      <div>
+                        <h4 className="text-xs font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                          <User className="h-4 w-4 text-blue-500" />
+                          Kişisel Detaylar
+                        </h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-[11px] font-medium text-gray-500 mb-1.5">Cinsiyet</label>
+                            <select
+                              value={personalInfo.gender}
+                              onChange={(e) => handlePersonalInfoChange('gender', e.target.value)}
+                              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
+                            >
+                              <option value="">Seçiniz</option>
+                              <option value="male">Erkek</option>
+                              <option value="female">Kadın</option>
+                              <option value="other">Diğer</option>
+                              <option value="preferNotToSay">Belirtmek İstemiyorum</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-medium text-gray-500 mb-1.5">Doğum Tarihi</label>
+                            <Input
+                              type="date"
+                              value={personalInfo.dateOfBirth}
+                              onChange={(e) => handlePersonalInfoChange('dateOfBirth', e.target.value)}
+                            />
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-medium text-gray-500 mb-1.5">Ülke</label>
+                            <select
+                              value={personalInfo.country}
+                              onChange={(e) => handlePersonalInfoChange('country', e.target.value)}
+                              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
+                            >
+                              <option value="">Seçiniz</option>
+                              <option value="TR">Türkiye</option>
+                              <option value="US">ABD</option>
+                              <option value="GB">Birleşik Krallık</option>
+                              <option value="DE">Almanya</option>
+                              <option value="FR">Fransa</option>
+                              <option value="SA">Suudi Arabistan</option>
+                              <option value="AE">BAE</option>
+                              <option value="OTHER">Diğer</option>
+                            </select>
+                          </div>
+                          <div>
+                            <label className="block text-[11px] font-medium text-gray-500 mb-1.5">Dil</label>
+                            <select
+                              value={personalInfo.language}
+                              onChange={(e) => handlePersonalInfoChange('language', e.target.value)}
+                              className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
+                            >
+                              <option value="tr">Türkçe</option>
+                              <option value="en">English</option>
+                              <option value="de">Deutsch</option>
+                              <option value="fr">Français</option>
+                              <option value="es">Español</option>
+                              <option value="ar">العربية</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Security */}
+                      <div>
+                        <h4 className="text-xs font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                          <Lock className="h-4 w-4 text-blue-500" />
+                          Güvenlik
+                        </h4>
+                        <div className="bg-gray-50 rounded-xl p-4">
+                          <div className="flex items-center justify-between">
+                            <div>
+                              <p className="font-medium text-gray-900 text-sm">İki Faktörlü Doğrulama</p>
+                              <p className="text-[11px] text-gray-500 mt-0.5">Hesabınıza ekstra güvenlik katmanı ekleyin</p>
+                            </div>
+                            <button
+                              onClick={() => handlePersonalInfoChange('twoFactorEnabled', !personalInfo.twoFactorEnabled)}
+                              className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${personalInfo.twoFactorEnabled ? 'bg-blue-600' : 'bg-gray-300'}`}
+                            >
+                              <span className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform shadow-sm ${personalInfo.twoFactorEnabled ? 'translate-x-6' : 'translate-x-1'}`} />
+                            </button>
+                          </div>
+                          {personalInfo.twoFactorEnabled && (
+                            <div className="mt-3 p-3 bg-blue-50 border border-blue-100 rounded-lg">
+                              <p className="text-[11px] text-blue-700">İki faktörlü doğrulama yakında aktif olacak.</p>
+                            </div>
+                          )}
+                        </div>
+
+                        <Link
+                          href="/account/security"
+                          className="mt-3 flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-700 font-medium"
+                        >
+                          <Shield className="h-3.5 w-3.5" />
+                          Gelişmiş Güvenlik Ayarları
+                          <ChevronRight className="h-3 w-3" />
+                        </Link>
+                      </div>
+
+                      {/* Save */}
+                      <div className="flex justify-end pt-4 border-t border-gray-100">
+                        <Button
+                          onClick={handleSavePersonalInfo}
+                          disabled={saving}
+                          className="bg-blue-600 hover:bg-blue-700 text-white px-6"
+                          size="sm"
+                        >
+                          {saving ? (
+                            <span className="flex items-center gap-2 text-sm">
+                              <RefreshCw className="h-3.5 w-3.5 animate-spin" />
+                              Kaydediliyor...
+                            </span>
+                          ) : (
+                            <span className="flex items-center gap-2 text-sm">
+                              <Save className="h-3.5 w-3.5" />
+                              Kaydet
+                            </span>
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Verification Card */}
+                  <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+                    <h4 className="text-xs font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                      <BadgeCheck className="h-4 w-4 text-blue-500" />
+                      Doğrulama Durumu
+                    </h4>
+                    {tierConfig ? (
+                      <div className="flex items-center gap-3">
+                        <span className="text-2xl">{tierConfig.icon}</span>
+                        <div>
+                          <span className={`inline-flex items-center px-2.5 py-1 ${tierConfig.bgColor} ${tierConfig.color} text-xs rounded-full font-medium`}>
+                            <BadgeCheck className="h-3.5 w-3.5 mr-1" />
+                            {tierConfig.label}
+                          </span>
+                          <p className="text-[11px] text-gray-500 mt-1">Hesabınız doğrulanmıştır.</p>
+                        </div>
+                      </div>
+                    ) : verification?.status === 'PENDING_REVIEW' ? (
+                      <div className="flex items-center gap-3 bg-yellow-50 rounded-xl p-4">
+                        <Clock className="h-7 w-7 text-yellow-500 flex-shrink-0" />
+                        <div>
+                          <p className="font-medium text-yellow-800 text-sm">Doğrulama İnceleniyor</p>
+                          <p className="text-[11px] text-yellow-600 mt-0.5">Başvurunuz inceleme aşamasında.</p>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="flex items-center justify-between bg-gray-50 rounded-xl p-4">
+                        <div>
+                          <p className="font-medium text-gray-700 text-sm">Hesabınız henüz doğrulanmadı</p>
+                          <p className="text-[11px] text-gray-500 mt-0.5">Doğrulanmış hesaplar daha fazla özelliğe erişebilir.</p>
+                        </div>
+                        <Button size="sm" onClick={() => router.push('/verify')} className="bg-blue-600 hover:bg-blue-700 text-xs">
+                          <BadgeCheck className="h-3.5 w-3.5 mr-1" />
+                          Doğrula
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
 }
 
+// ── Export ──────────────────────────────────────────────
 export default function AccountPage() {
-    return (
-        <Suspense fallback={<div className="min-h-screen flex items-center justify-center bg-gray-50">
-            <div className="text-center">
-                <div className="h-12 w-12 animate-spin mx-auto text-blue-600 mb-4 border-4 border-blue-200 border-t-blue-600 rounded-full" />
-                <p className="text-gray-600">Loading...</p>
-            </div>
-        </div>}>
-            <AccountPageContent />
-        </Suspense>
-    );
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen flex items-center justify-center bg-gray-50">
+        <div className="text-center">
+          <div className="h-12 w-12 animate-spin mx-auto text-blue-600 mb-4 border-4 border-blue-200 border-t-blue-600 rounded-full" />
+          <p className="text-gray-500">Yükleniyor...</p>
+        </div>
+      </div>
+    }>
+      <AccountPageContent />
+    </Suspense>
+  );
 }

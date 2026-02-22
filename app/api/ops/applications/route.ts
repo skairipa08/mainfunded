@@ -92,6 +92,7 @@ export async function POST(request: NextRequest) {
             fullName: body.fullName,
             email: body.email,
             country: body.country,
+            gender: body.gender || null,
             educationLevel: body.educationLevel || null,
             needSummary: body.needSummary,
             documents: body.documents || [],

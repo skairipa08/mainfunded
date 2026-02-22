@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import {
   GraduationCap,
@@ -111,6 +111,7 @@ function NavDropdown({ label, icon: Icon, items }: NavDropdownProps) {
 
 export default function Navbar() {
   const router = useRouter();
+  const pathname = usePathname();
   const { t } = useTranslation();
   const { data: session, status } = useSession();
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -120,6 +121,11 @@ export default function Navbar() {
 
   const user = session?.user;
   const isAdmin = (user as any)?.role === 'admin';
+
+  // Detect if on a campaign page to make donate link campaign-aware
+  const campaignMatch = pathname.match(/^\/campaign\/([^\/]+)/);
+  const activeCampaignId = campaignMatch ? campaignMatch[1] : null;
+  const donateHref = activeCampaignId ? `/campaign/${activeCampaignId}/donate` : '/donate';
 
   // Close dropdown and mobile menu when clicking outside
   useEffect(() => {
@@ -171,7 +177,7 @@ export default function Navbar() {
   const donorFeatures: DropdownItem[] = [
     {
       label: t('nav.menu.donateNow'),
-      href: '/donate',
+      href: donateHref,
       icon: Heart,
       description: t('nav.menu.donateDesc'),
     },

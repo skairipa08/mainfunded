@@ -855,7 +855,7 @@
         "loading": "加载中...",
         "impactTitle": "您捐款的影响",
         "impactWith": "可以",
-        "impact25": "为一名学生提供1个月的笔记本和钢笔",
+        "impact25": "学生基本的笔记本和笔的需求",
         "impact50": "为一名学生提供书包用品",
         "impact100": "为一个孩子提供1年的学习用品",
         "impact250": "为一个教室提供数字教育材料",
@@ -880,8 +880,7 @@
         "emotionalNo": "不，也许以后",
         "intervalSelect": "间隔",
         "impact750": "为一名学生提供1学期的奖学金",
-        "impact2500": "翻新和配备一间教室",
-        "impact5000": "一所学校的完整实验室和技术基础设施"
+        "impact2500": "教室翻新"
     },
     "donationForm": {
         "oneTime": "One-Time",

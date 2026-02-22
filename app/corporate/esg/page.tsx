@@ -11,6 +11,7 @@ import {
     Heart,
     Target,
     BarChart3,
+    UserCircle,
 } from 'lucide-react';
 import CorporateHeader from '@/components/corporate/Header';
 import { Badge } from '@/components/ui/badge';
@@ -49,6 +50,16 @@ export default function ESGPage() {
         { name: 'SDG 5', value: 20, color: '#eab308' },
         { name: 'SDG 1', value: 15, color: '#22c55e' },
     ];
+
+    // Gender diversity data from supported students
+    const genderData = [
+        { name: t('corporate.esg.genderFemale') || 'Kadın', value: 58, color: '#ec4899' },
+        { name: t('corporate.esg.genderMale') || 'Erkek', value: 36, color: '#3b82f6' },
+        { name: t('corporate.esg.genderOther') || 'Diğer', value: 4, color: '#a855f7' },
+        { name: t('corporate.esg.genderNotSpecified') || 'Belirtilmemiş', value: 2, color: '#94a3b8' },
+    ];
+
+    const genderEqualityScore = 94; // Based on female+other representation
 
     const esgScore = 87;
 

@@ -855,7 +855,7 @@
         "loading": "Cargando...",
         "impactTitle": "El impacto de tu donación",
         "impactWith": "con",
-        "impact25": "1 mes de cuadernos y lápices para un estudiante",
+        "impact25": "Necesidades básicas de cuadernos y bolígrafos del estudiante",
         "impact50": "Suministros de mochila para un estudiante",
         "impact100": "1 año de útiles escolares para un niño",
         "impact250": "Material educativo digital para un aula",
@@ -880,8 +880,7 @@
         "emotionalNo": "No, tal vez más tarde",
         "intervalSelect": "Intervalo",
         "impact750": "1 semestre de beca para un estudiante",
-        "impact2500": "Renovación y equipamiento de un aula",
-        "impact5000": "Laboratorio completo e infraestructura tecnológica para una escuela"
+        "impact2500": "Renovación del aula"
     },
     "donationForm": {
         "oneTime": "One-Time",

@@ -855,7 +855,7 @@
         "loading": "Wird geladen...",
         "impactTitle": "Die Wirkung Ihrer Spende",
         "impactWith": "mit",
-        "impact25": "1 Monat Hefte & Stifte für einen Studierenden",
+        "impact25": "Grundlegender Bedarf an Heften und Stiften für Schüler",
         "impact50": "Schulranzen-Bedarf für einen Studierenden",
         "impact100": "1 Jahr Schulmaterial für ein Kind",
         "impact250": "Digitales Lehrmaterial für ein Klassenzimmer",
@@ -880,8 +880,7 @@
         "emotionalNo": "Nein, vielleicht später",
         "intervalSelect": "Intervall",
         "impact750": "1 Semester Stipendium für einen Studierenden",
-        "impact2500": "Renovierung & Ausstattung eines Klassenzimmers",
-        "impact5000": "Vollständiges Labor und Technologie-Infrastruktur für eine Schule"
+        "impact2500": "Klassenzimmer-Renovierung"
     },
     "donationForm": {
         "oneTime": "One-Time",

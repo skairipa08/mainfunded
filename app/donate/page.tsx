@@ -20,6 +20,8 @@ import { validateAmount, sanitizeInput, validateEmail } from '@/lib/validation';
 import { toast } from 'sonner';
 import { useTranslation } from '@/lib/i18n';
 import { useCurrency } from '@/lib/currency-context';
+import { getCampaign } from '@/lib/api';
+import { censorSurname } from '@/lib/privacy';
 import {
   Heart,
   Shield,
@@ -35,6 +37,8 @@ import {
   TrendingUp,
   Gift,
   Clock,
+  Loader2,
+  ArrowLeft,
 } from 'lucide-react';
 
 function DonatePageContent() {
@@ -54,6 +58,24 @@ function DonatePageContent() {
     donorEmail: '',
   });
 
+  // Campaign-specific state
+  const [campaignData, setCampaignData] = useState<any>(null);
+  const [campaignLoading, setCampaignLoading] = useState(false);
+  const campaignId = searchParams.get('campaign_id');
+
+  // Platform tip state
+  const [platformTipPercent, setPlatformTipPercent] = useState(2);
+  const [customTip, setCustomTip] = useState('');
+  const [useCustomTip, setUseCustomTip] = useState(false);
+
+  // Computed tip values
+  const donationAmount = parseFloat(formData.amount) || 0;
+  const effectiveTipPercent = useCustomTip
+    ? Math.max(2, parseFloat(customTip) || 2)
+    : Math.max(2, platformTipPercent);
+  const tipAmount = parseFloat(((donationAmount * effectiveTipPercent) / 100).toFixed(2));
+  const totalCharge = parseFloat((donationAmount + tipAmount).toFixed(2));
+
   // Read URL params
   useEffect(() => {
     const amountParam = searchParams.get('amount');
@@ -69,6 +91,25 @@ function DonatePageContent() {
       setFormData(prev => ({ ...prev, target: 'General education fund' }));
     }
   }, [searchParams]);
+
+  // Fetch campaign data if campaign_id is provided
+  useEffect(() => {
+    if (!campaignId) return;
+    const loadCampaign = async () => {
+      setCampaignLoading(true);
+      try {
+        const response = await getCampaign(campaignId);
+        if (response.success) {
+          setCampaignData(response.data);
+        }
+      } catch {
+        // Campaign not found, continue with general donation
+      } finally {
+        setCampaignLoading(false);
+      }
+    };
+    loadCampaign();
+  }, [campaignId]);
 
   const handleQuickAmount = (amount: number) => {
     setSelectedQuickAmount(amount);
@@ -91,6 +132,10 @@ function DonatePageContent() {
       newErrors.amount = amountValidation.error || t('common.error');
     }
 
+    if (effectiveTipPercent < 2) {
+      newErrors.amount = 'Platform desteği en az %2 olmalıdır.';
+    }
+
     if (formData.donorEmail && !validateEmail(formData.donorEmail)) {
       newErrors.donorEmail = t('donation.invalidEmail');
     }
@@ -105,20 +150,23 @@ function DonatePageContent() {
     setSubmitted(true);
 
     try {
-      // Convert to USD if user is in TRY mode
-      const amountUSD = currency === 'TRY' ? toUSD(amount) : amount;
+      // Calculate tip in USD
+      const tipAmountUSD = currency === 'TRY' ? toUSD(tipAmount) : tipAmount;
+      const totalChargeUSD = currency === 'TRY' ? toUSD(totalCharge) : totalCharge;
 
       // Use real API endpoint for donation
       const res = await fetch('/api/donations/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          campaign_id: searchParams.get('campaign') || 'general',
-          amount: Math.round(amountUSD * 100) / 100,
+          campaign_id: campaignId || searchParams.get('campaign') || 'general',
+          amount: Math.round(totalChargeUSD * 100) / 100,
           donor_name: formData.donorName ? sanitizeInput(formData.donorName) : 'Anonymous',
           donor_email: formData.donorEmail ? formData.donorEmail.trim().toLowerCase() : undefined,
           anonymous: !formData.donorName,
           interval: interval !== 'one-time' ? interval : undefined,
+          platform_tip_percent: effectiveTipPercent,
+          platform_tip_amount: Math.round(tipAmountUSD * 100) / 100,
         }),
       });
 
@@ -191,6 +239,44 @@ function DonatePageContent() {
 
             {/* ─── LEFT: Donation Form ─── */}
             <div className="lg:col-span-3">
+
+              {/* Campaign Info Card - shown when campaign_id is provided */}
+              {campaignLoading && (
+                <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 p-6 mb-6 flex items-center justify-center">
+                  <Loader2 className="h-6 w-6 animate-spin text-blue-600" />
+                </div>
+              )}
+              {campaignData && (
+                <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 p-6 mb-6">
+                  <Button variant="ghost" size="sm" onClick={() => router.push(`/campaign/${campaignId}`)} className="mb-4 -ml-2 gap-2">
+                    <ArrowLeft className="h-4 w-4" /> Kampanyaya Dön
+                  </Button>
+                  <div className="flex items-center gap-4">
+                    <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xl shrink-0">
+                      {censorSurname(campaignData.student?.name || campaignData.studentName || 'Öğrenci').charAt(0)}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <h2 className="text-lg font-bold text-gray-900 truncate">{campaignData.title}</h2>
+                      <p className="text-sm text-gray-500">
+                        {censorSurname(campaignData.student?.name || campaignData.studentName || 'Öğrenci')}
+                        {(campaignData.country || campaignData.student?.country) && ` · ${campaignData.country || campaignData.student?.country}`}
+                      </p>
+                    </div>
+                    <div className="text-right shrink-0">
+                      <p className="text-lg font-bold text-gray-900">{formatAmount(campaignData.raised_amount || 0)}</p>
+                      <p className="text-xs text-gray-500">/ {formatAmount(campaignData.goal_amount || 0)} hedef</p>
+                    </div>
+                  </div>
+                  {/* Mini progress */}
+                  <div className="mt-4 h-2 bg-gray-100 rounded-full overflow-hidden">
+                    <div
+                      className="h-full bg-blue-600 rounded-full transition-all"
+                      style={{ width: `${Math.min((campaignData.raised_amount / (campaignData.goal_amount || 1)) * 100, 100)}%` }}
+                    />
+                  </div>
+                </div>
+              )}
+
               <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 overflow-hidden">
 
                 {/* Quick Amount Selection */}
@@ -253,44 +339,46 @@ function DonatePageContent() {
                 <form onSubmit={handleSubmit}>
                   <div className="p-6 sm:p-8 space-y-6">
 
-                    {/* Category */}
-                    <div className="space-y-2">
-                      <Label htmlFor="target" className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-                        <Gift className="h-4 w-4 text-slate-400" />
-                        {t('donation.category')}
-                      </Label>
-                      <Select
-                        required
-                        value={formData.target}
-                        onValueChange={(value: 'Support a verified student' | 'General education fund') =>
-                          setFormData({ ...formData, target: value })
-                        }
-                      >
-                        <SelectTrigger id="target" className="h-12 rounded-xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-blue-500 transition-colors">
-                          <SelectValue placeholder={t('donation.categoryPlaceholder')} />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="Support a verified student">
-                            <div className="flex items-center gap-2">
-                              <GraduationCap className="h-4 w-4 text-blue-500" />
-                              <span>{t('donation.verifiedStudent')}</span>
-                            </div>
-                          </SelectItem>
-                          <SelectItem value="Monthly student scholarship">
-                            <div className="flex items-center gap-2">
-                              <GraduationCap className="h-4 w-4 text-purple-500" />
-                              <span>{t('donation.monthlyScholarship')}</span>
-                            </div>
-                          </SelectItem>
-                          <SelectItem value="General education fund">
-                            <div className="flex items-center gap-2">
-                              <Globe className="h-4 w-4 text-emerald-500" />
-                              <span>{t('donation.generalFund')}</span>
-                            </div>
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
+                    {/* Category - hidden when donating to a specific campaign */}
+                    {!campaignData && (
+                      <div className="space-y-2">
+                        <Label htmlFor="target" className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                          <Gift className="h-4 w-4 text-slate-400" />
+                          {t('donation.category')}
+                        </Label>
+                        <Select
+                          required
+                          value={formData.target}
+                          onValueChange={(value: 'Support a verified student' | 'General education fund') =>
+                            setFormData({ ...formData, target: value })
+                          }
+                        >
+                          <SelectTrigger id="target" className="h-12 rounded-xl border-2 border-slate-100 bg-slate-50 focus:bg-white focus:border-blue-500 transition-colors">
+                            <SelectValue placeholder={t('donation.categoryPlaceholder')} />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="Support a verified student">
+                              <div className="flex items-center gap-2">
+                                <GraduationCap className="h-4 w-4 text-blue-500" />
+                                <span>{t('donation.verifiedStudent')}</span>
+                              </div>
+                            </SelectItem>
+                            <SelectItem value="Monthly student scholarship">
+                              <div className="flex items-center gap-2">
+                                <GraduationCap className="h-4 w-4 text-purple-500" />
+                                <span>{t('donation.monthlyScholarship')}</span>
+                              </div>
+                            </SelectItem>
+                            <SelectItem value="General education fund">
+                              <div className="flex items-center gap-2">
+                                <Globe className="h-4 w-4 text-emerald-500" />
+                                <span>{t('donation.generalFund')}</span>
+                              </div>
+                            </SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    )}
 
                     {/* Recurring donation prompt & interval selector */}
                     {formData.target === 'General education fund' && (
@@ -406,6 +494,71 @@ function DonatePageContent() {
                       )}
                     </div>
 
+                    {/* Platform Support (Tip) */}
+                    <div className="bg-blue-50/80 border border-blue-100 rounded-2xl p-5 space-y-3">
+                      <div className="flex items-center gap-2">
+                        <Heart className="h-5 w-5 text-blue-600" />
+                        <span className="font-semibold text-gray-900 text-sm">FundEd&apos;e Platform Desteği</span>
+                      </div>
+                      <p className="text-xs text-gray-600 leading-relaxed">
+                        Platform desteğiniz, FundEd&apos;in öğrenci doğrulama, güvenli ödeme altyapısı ve operasyon giderlerini karşılamasına yardımcı olur.
+                        Minimum oran <strong>%2</strong>&apos;dir.
+                      </p>
+
+                      {!useCustomTip ? (
+                        <div className="grid grid-cols-4 gap-2">
+                          {[2, 5, 10, 15].map((p) => (
+                            <button
+                              key={p}
+                              type="button"
+                              onClick={() => { setPlatformTipPercent(p); setUseCustomTip(false); }}
+                              className={`py-2.5 text-sm font-medium border rounded-xl transition-colors ${platformTipPercent === p && !useCustomTip
+                                ? 'bg-blue-600 text-white border-blue-600'
+                                : 'bg-white text-gray-700 hover:border-blue-300'
+                                }`}
+                            >
+                              %{p}
+                            </button>
+                          ))}
+                        </div>
+                      ) : (
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm text-gray-600">%</span>
+                          <Input
+                            type="number"
+                            min="2"
+                            step="1"
+                            value={customTip}
+                            onChange={(e) => setCustomTip(e.target.value)}
+                            className="w-24 h-9 rounded-lg"
+                            placeholder="2"
+                          />
+                          <span className="text-xs text-gray-500">(min %2)</span>
+                        </div>
+                      )}
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setUseCustomTip(!useCustomTip);
+                          if (!useCustomTip) setCustomTip(platformTipPercent.toString());
+                        }}
+                        className="text-xs text-blue-600 hover:underline font-medium"
+                      >
+                        {useCustomTip ? 'Hazır oranlardan seç' : 'Özel oran gir'}
+                      </button>
+
+                      {donationAmount > 0 && (
+                        <div className="text-sm text-gray-700 bg-white rounded-xl px-4 py-3 border border-blue-100">
+                          Öğrenciye: <strong>{currencySymbol}{donationAmount.toFixed(2)}</strong>
+                          {currency === 'TRY' && <span className="text-xs text-gray-400"> (≈${Math.round(toUSD(donationAmount))})</span>}
+                          {' '}· Platform desteği: <strong>{currencySymbol}{tipAmount.toFixed(2)}</strong>
+                          {' '}· Toplam: <strong>{currencySymbol}{totalCharge.toFixed(2)}</strong>
+                          {currency === 'TRY' && <span className="text-xs text-gray-400"> (≈${Math.round(toUSD(totalCharge))})</span>}
+                        </div>
+                      )}
+                    </div>
+
                     {/* Info box */}
                     <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl p-5">
                       <div className="flex items-start gap-3">
@@ -442,7 +595,7 @@ function DonatePageContent() {
                       ) : (
                         <div className="flex items-center gap-2">
                           <Heart className="h-5 w-5" />
-                          {formData.amount ? `${currencySymbol}${parseFloat(formData.amount).toLocaleString()} ${t('donation.submitDonateWithAmount')}` : t('donation.submitDonate')}
+                          {formData.amount ? `${currencySymbol}${totalCharge > 0 ? totalCharge.toFixed(2) : parseFloat(formData.amount).toLocaleString()} ${t('donation.submitDonateWithAmount')}` : t('donation.submitDonate')}
                           <ArrowRight className="h-5 w-5" />
                         </div>
                       )}
@@ -475,8 +628,7 @@ function DonatePageContent() {
                     { amount: formatAmount(100), desc: t('donation.impact100'), icon: '📚' },
                     { amount: formatAmount(250), desc: t('donation.impact250'), icon: '💻' },
                     { amount: formatAmount(750), desc: t('donation.impact750'), icon: '🎓' },
-                    { amount: formatAmount(2500), desc: t('donation.impact2500'), icon: '🏫' },
-                    { amount: formatAmount(5000), desc: t('donation.impact5000'), icon: '🏛️' },
+                    { amount: `${formatAmount(2500)} - ${formatAmount(5000)}`, desc: t('donation.impact2500'), icon: '🏫' },
                   ].map((item, i) => (
                     <div
                       key={i}

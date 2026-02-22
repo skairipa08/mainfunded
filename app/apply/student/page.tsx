@@ -51,6 +51,7 @@ import {
   GripVertical,
   ChevronUp,
   ChevronDown,
+  UserCircle,
 } from 'lucide-react';
 
 type DocStatus = 'ready' | 'uploading' | 'uploaded' | 'failed';
@@ -151,6 +152,7 @@ export default function ApplyPage() {
     fullName: '',
     email: '',
     country: '',
+    gender: '',
     educationLevel: '',
     needSummary: '',
     targetAmount: '',
@@ -159,6 +161,13 @@ export default function ApplyPage() {
     department: '',
     campaignTitle: '',
   });
+
+  const GENDER_OPTIONS = [
+    { value: 'female', labelKey: 'apply.options.gender.female' },
+    { value: 'male', labelKey: 'apply.options.gender.male' },
+    { value: 'other', labelKey: 'apply.options.gender.other' },
+    { value: 'prefer_not_to_say', labelKey: 'apply.options.gender.preferNotToSay' },
+  ];
 
   // Document State
   const [documentNameInput, setDocumentNameInput] = useState('');
@@ -193,6 +202,10 @@ export default function ApplyPage() {
 
     if (!formData.country.trim()) {
       newErrors.country = t('apply.validation.country');
+    }
+
+    if (!formData.gender) {
+      newErrors.gender = t('apply.validation.gender');
     }
 
     if (!formData.educationLevel) {
@@ -238,6 +251,7 @@ export default function ApplyPage() {
       if (!formData.email.trim()) newErrors.email = t('apply.validation.email');
       else if (!validateEmail(formData.email)) newErrors.email = t('apply.validation.invalidEmail');
       if (!formData.country.trim()) newErrors.country = t('apply.validation.country');
+      if (!formData.gender) newErrors.gender = t('apply.validation.gender');
     }
 
     if (currentStep === 2) {
@@ -521,6 +535,7 @@ export default function ApplyPage() {
           fullName: sanitizeInput(formData.fullName),
           email: formData.email.trim().toLowerCase(),
           country: sanitizeInput(formData.country),
+          gender: formData.gender,
           educationLevel: formData.educationLevel,
           needSummary: sanitizeInput(formData.needSummary),
           documents: documentData,
@@ -723,21 +738,40 @@ export default function ApplyPage() {
                           />
                         </FieldWrapper>
 
-                        <div className="md:col-span-2">
-                          <FieldWrapper id="country" label={t('apply.labels.country')} icon={Globe} error={errors.country}>
-                            <Input
-                              id="country"
-                              type="text"
-                              value={formData.country}
-                              onChange={(e) => {
-                                setFormData({ ...formData, country: e.target.value });
-                                if (errors.country) setErrors({ ...errors, country: '' });
-                              }}
-                              placeholder={t('apply.placeholders.country')}
-                              className={inputClass(!!errors.country)}
-                            />
-                          </FieldWrapper>
-                        </div>
+                        <FieldWrapper id="country" label={t('apply.labels.country')} icon={Globe} error={errors.country}>
+                          <Input
+                            id="country"
+                            type="text"
+                            value={formData.country}
+                            onChange={(e) => {
+                              setFormData({ ...formData, country: e.target.value });
+                              if (errors.country) setErrors({ ...errors, country: '' });
+                            }}
+                            placeholder={t('apply.placeholders.country')}
+                            className={inputClass(!!errors.country)}
+                          />
+                        </FieldWrapper>
+
+                        <FieldWrapper id="gender" label={t('apply.labels.gender')} icon={UserCircle} error={errors.gender}>
+                          <Select
+                            value={formData.gender}
+                            onValueChange={(value) => {
+                              setFormData({ ...formData, gender: value });
+                              if (errors.gender) setErrors({ ...errors, gender: '' });
+                            }}
+                          >
+                            <SelectTrigger id="gender" className={selectTriggerClass(!!errors.gender)}>
+                              <SelectValue placeholder={t('apply.placeholders.selectGender')} />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {GENDER_OPTIONS.map((opt) => (
+                                <SelectItem key={opt.value} value={opt.value}>
+                                  {t(opt.labelKey)}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                        </FieldWrapper>
                       </div>
                     </div>
                   )}

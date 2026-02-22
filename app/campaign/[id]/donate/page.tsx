@@ -330,7 +330,7 @@ function CampaignDonateContent() {
 
             {/* AMOUNT */}
             <div>
-              <Label htmlFor="amount" className="text-base font-semibold text-gray-900">Bağış Tutarı ($) {interval !== 'one-time' ? `(${interval === 'month' ? 'Aylık' : 'Haftalık'})` : ''}</Label>
+              <Label htmlFor="amount" className="text-base font-semibold text-gray-900">Bağış Tutarı ({currencySymbol}) {interval !== 'one-time' ? `(${interval === 'month' ? 'Aylık' : 'Haftalık'})` : ''}</Label>
               <Input
                 id="amount"
                 type="number"

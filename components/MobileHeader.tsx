@@ -2,7 +2,7 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
 import {
     ArrowLeft,
@@ -46,6 +46,7 @@ export default function MobileHeader({
     transparent = false
 }: MobileHeaderProps) {
     const router = useRouter();
+    const pathname = usePathname();
     const { t } = useTranslation();
     const { data: session, status } = useSession();
     const [menuOpen, setMenuOpen] = useState(false);
@@ -53,6 +54,11 @@ export default function MobileHeader({
 
     const user = session?.user;
     const isAdmin = (user as any)?.role === 'admin';
+
+    // Detect if on a campaign page to make donate link campaign-aware
+    const campaignMatch = pathname.match(/^\/campaign\/([^\/]+)/);
+    const activeCampaignId = campaignMatch ? campaignMatch[1] : null;
+    const donateHref = activeCampaignId ? `/campaign/${activeCampaignId}/donate` : '/donate';
 
     // Close menu when clicking outside
     useEffect(() => {
@@ -113,7 +119,7 @@ export default function MobileHeader({
     ];
 
     const donorFeatures: MenuItem[] = [
-        { label: t('nav.menu.donateNow'), href: '/donate', icon: Heart },
+        { label: t('nav.menu.donateNow'), href: donateHref, icon: Heart },
         { label: t('nav.menu.becomeMentor'), href: '/mentors', icon: Users },
     ];
 

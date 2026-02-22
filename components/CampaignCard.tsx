@@ -3,7 +3,7 @@
 import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { MapPin, GraduationCap, CheckCircle2, Clock, TrendingUp } from 'lucide-react';
+import { MapPin, GraduationCap, CheckCircle2, Clock, TrendingUp, Heart } from 'lucide-react';
 import { Card, CardContent } from './ui/card';
 import { Badge } from './ui/badge';
 import { Progress } from './ui/progress';
@@ -12,6 +12,8 @@ import { VerificationBadgeCompact } from './VerificationBadge';
 import { useTranslation } from '@/lib/i18n';
 import { useCurrency } from '@/lib/currency-context';
 
+import { useRouter } from 'next/navigation';
+
 interface CampaignCardProps {
   campaign: any;
 }
@@ -19,6 +21,7 @@ interface CampaignCardProps {
 export default function CampaignCard({ campaign }: CampaignCardProps) {
   const { t } = useTranslation();
   const { formatAmount } = useCurrency();
+  const router = useRouter();
   const progress = campaign.goal_amount > 0
     ? (campaign.raised_amount / campaign.goal_amount) * 100
     : 0;
@@ -113,6 +116,19 @@ export default function CampaignCard({ campaign }: CampaignCardProps) {
                 {t('campaignCard.funded', { percent: progress.toFixed(0) })}
               </span>
             </div>
+
+            {/* Donate Button */}
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                router.push(`/campaign/${campaign.campaign_id}/donate`);
+              }}
+              className="w-full mt-2 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
+            >
+              <Heart className="h-4 w-4" />
+              Bağış Yap
+            </button>
           </div>
         </CardContent>
       </Card>
