@@ -143,7 +143,7 @@ function DonatePageContent() {
     }
   };
 
-  const quickAmounts = presetAmounts.slice(0, 6);
+  const quickAmounts = presetAmounts;
 
   return (
     <div className="min-h-screen flex flex-col bg-gradient-to-b from-slate-50 to-white">
@@ -205,13 +205,13 @@ function DonatePageContent() {
                     </div>
                   </div>
 
-                  <div className="grid grid-cols-3 sm:grid-cols-6 gap-2.5 mb-5">
+                  <div className="flex flex-wrap gap-2.5 mb-5">
                     {quickAmounts.map((amount) => (
                       <button
                         key={amount}
                         type="button"
                         onClick={() => handleQuickAmount(amount)}
-                        className={`relative py-3.5 rounded-xl font-bold text-base transition-all duration-200 border-2 ${selectedQuickAmount === amount
+                        className={`flex-1 min-w-[75px] sm:min-w-[85px] relative py-3.5 px-1 rounded-xl font-bold text-sm sm:text-base transition-all duration-200 border-2 ${selectedQuickAmount === amount
                           ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-500/30 scale-[1.02]'
                           : 'bg-slate-50 text-slate-700 border-slate-100 hover:border-blue-300 hover:bg-blue-50'
                           }`}

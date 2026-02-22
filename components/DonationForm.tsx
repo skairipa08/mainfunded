@@ -178,13 +178,18 @@ export function DonationForm({
                                 setCustomAmount('');
                             }}
                             className={cn(
-                                'py-3 rounded-lg border-2 font-medium transition-all',
+                                'py-3 px-2 rounded-lg border-2 font-medium transition-all flex flex-col items-center justify-center',
                                 amount === preset && !customAmount
                                     ? 'border-blue-500 bg-blue-50 text-blue-700'
                                     : 'border-gray-200 hover:border-gray-300'
                             )}
                         >
-                            {currencySymbol}{preset.toLocaleString()}
+                            <span>{currencySymbol}{preset.toLocaleString()}</span>
+                            {currency === 'TRY' && (
+                                <span className="text-[10px] text-gray-400 font-normal mt-0.5">
+                                    (${Math.round(toUSD(preset)).toLocaleString('en-US')})
+                                </span>
+                            )}
                         </button>
                     ))}
                 </div>
@@ -197,6 +202,11 @@ export function DonationForm({
                         onChange={(e) => setCustomAmount(e.target.value)}
                         className="pl-7"
                     />
+                    {currency === 'TRY' && customAmount && parseFloat(customAmount) > 0 && (
+                        <p className="text-xs text-gray-400 mt-1 text-right">
+                            ≈ ${Math.round(toUSD(parseFloat(customAmount))).toLocaleString('en-US')} USD
+                        </p>
+                    )}
                 </div>
             </div>
 

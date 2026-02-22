@@ -46,11 +46,11 @@ export function convertToUSD(amountTRY: number, rate: number): number {
  */
 export function getPresetAmounts(currency: CurrencyCode, rate: number = 1): number[] {
   if (currency === 'USD') {
-    return [25, 50, 100, 250, 500, 1000];
+    return [25, 50, 100, 250, 750, 2500, 5000];
   }
 
   // TRY — generate user-friendly round numbers
-  const usdPresets = [25, 50, 100, 250, 500, 1000];
+  const usdPresets = [25, 50, 100, 250, 750, 2500, 5000];
   return usdPresets.map((usd) => {
     const raw = usd * rate;
     // Round to nearest "nice" number

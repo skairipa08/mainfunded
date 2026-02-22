@@ -16,6 +16,7 @@ import { getCampaign, createCheckout, getPaymentStatus } from '@/lib/api';
 import { toast } from 'sonner';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useCurrency } from '@/lib/currency-context';
 import { censorSurname } from '@/lib/privacy';
 
 function CampaignDonateContent() {
@@ -23,7 +24,9 @@ function CampaignDonateContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: session } = useSession();
+  const { presetAmounts, currencySymbol } = useCurrency();
   const campaignId = params.id as string;
+  const { currency, currencySymbol, toUSD, presetAmounts, formatAmount } = useCurrency();
 
   const [campaign, setCampaign] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -277,8 +280,8 @@ function CampaignDonateContent() {
                 <p className="text-sm text-gray-500">{studentName} · {campaign.country || student.country || ''}</p>
               </div>
               <div className="text-right shrink-0">
-                <p className="text-lg font-bold text-gray-900">${(campaign.raised_amount || 0).toLocaleString()}</p>
-                <p className="text-xs text-gray-500">/ ${(campaign.goal_amount || 0).toLocaleString()} hedef</p>
+                <p className="text-lg font-bold text-gray-900">{formatAmount(campaign.raised_amount || 0)}</p>
+                <p className="text-xs text-gray-500">/ {formatAmount(campaign.goal_amount || 0)} hedef</p>
               </div>
             </div>
             {/* Mini progress */}
@@ -297,8 +300,8 @@ function CampaignDonateContent() {
                   type="button"
                   onClick={() => setInterval('one-time')}
                   className={`flex-1 py-2.5 px-3 text-sm font-medium rounded-lg transition-colors ${interval === 'one-time'
-                      ? 'bg-white text-gray-900 shadow-sm ring-1 ring-gray-900/5'
-                      : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
+                    ? 'bg-white text-gray-900 shadow-sm ring-1 ring-gray-900/5'
+                    : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
                     }`}
                 >
                   Tek Seferlik
@@ -307,8 +310,8 @@ function CampaignDonateContent() {
                   type="button"
                   onClick={() => setInterval('month')}
                   className={`flex-1 py-2.5 px-3 text-sm font-medium rounded-lg transition-colors ${interval === 'month'
-                      ? 'bg-blue-600 text-white shadow-sm hover:bg-blue-700'
-                      : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
+                    ? 'bg-blue-600 text-white shadow-sm hover:bg-blue-700'
+                    : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
                     }`}
                 >
                   Aylık
@@ -317,8 +320,8 @@ function CampaignDonateContent() {
                   type="button"
                   onClick={() => setInterval('week')}
                   className={`flex-1 py-2.5 px-3 text-sm font-medium rounded-lg transition-colors ${interval === 'week'
-                      ? 'bg-blue-600 text-white shadow-sm hover:bg-blue-700'
-                      : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
+                    ? 'bg-blue-600 text-white shadow-sm hover:bg-blue-700'
+                    : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
                     }`}
                 >
                   Haftalık
@@ -339,17 +342,17 @@ function CampaignDonateContent() {
                 onChange={(e) => { setDonationAmount(e.target.value); setDonationError(null); }}
                 className="mt-2 h-12 text-lg"
               />
-              <div className="grid grid-cols-4 gap-2 mt-3">
-                {[25, 50, 100, 250].map((a) => (
+              <div className="flex flex-wrap gap-2 mt-3">
+                {presetAmounts.map((a) => (
                   <button
                     key={a}
                     onClick={() => setDonationAmount(a.toString())}
-                    className={`py-2.5 text-sm font-medium border rounded-lg transition-colors ${donationAmount === a.toString()
+                    className={`flex-1 min-w-[75px] py-2.5 px-1 text-sm font-medium border rounded-lg transition-colors ${donationAmount === a.toString()
                       ? 'bg-blue-600 text-white border-blue-600'
                       : 'bg-white text-gray-700 hover:border-blue-300'
                       }`}
                   >
-                    ${a}
+                    {currencySymbol}{a.toLocaleString()}
                   </button>
                 ))}
               </div>
@@ -409,7 +412,7 @@ function CampaignDonateContent() {
 
               {amount > 0 && (
                 <div className="text-sm text-gray-700 bg-white rounded-lg px-3 py-2 border border-blue-100">
-                  Öğrenciye: <strong>${amount.toFixed(2)}</strong> · Platform desteği: <strong>${tipAmount.toFixed(2)}</strong> · Toplam: <strong>${totalCharge.toFixed(2)}</strong>
+                  Öğrenciye: <strong>{currencySymbol}{amount.toFixed(2)}</strong>{currency === 'TRY' && <span className="text-xs text-gray-400"> (≈${Math.round(toUSD(amount))})</span>} · Platform desteği: <strong>{currencySymbol}{tipAmount.toFixed(2)}</strong> · Toplam: <strong>{currencySymbol}{totalCharge.toFixed(2)}</strong>{currency === 'TRY' && <span className="text-xs text-gray-400"> (≈${Math.round(toUSD(totalCharge))})</span>}
                 </div>
               )}
             </div>
@@ -474,7 +477,7 @@ function CampaignDonateContent() {
               {processingPayment ? (
                 <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> İşleniyor…</>
               ) : (
-                <><Heart className="h-5 w-5 mr-2" /> ${totalCharge > 0 ? totalCharge.toFixed(2) : '0'} Bağış Yap</>
+                <><Heart className="h-5 w-5 mr-2" /> {currencySymbol}{totalCharge > 0 ? totalCharge.toFixed(2) : '0'} Bağış Yap</>
               )}
             </Button>
 
