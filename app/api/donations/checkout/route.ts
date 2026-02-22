@@ -1,15 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
-import Stripe from 'stripe';
 import crypto from 'crypto';
 import { withRateLimit, RATE_LIMITS } from '@/lib/rate-limit';
 import { successResponse, errorResponse, handleRouteError } from '@/lib/api-response';
 import { calculateTotalWithFees } from '@/lib/fees';
 import { createCheckoutSchema } from '@/lib/validators/donation';
-
-const stripe = new Stripe(process.env.STRIPE_API_KEY || '', {
-  apiVersion: '2023-10-16',
-});
+import { createIyzicoCheckoutForm } from '@/lib/iyzico';
 
 export async function POST(request: NextRequest) {
   // Rate limiting
@@ -19,7 +15,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    if (!process.env.STRIPE_API_KEY) {
+    if (!process.env.IYZICO_API_KEY || !process.env.IYZICO_SECRET_KEY) {
       return NextResponse.json(
         { error: 'Payment service not configured' },
         { status: 503 }
@@ -57,13 +53,13 @@ export async function POST(request: NextRequest) {
 
     // Fee calculation
     let amount: number;
-    let stripeFee = 0;
+    let iyzicoFee = 0;
     let platformFee = 0;
 
     if (coverFees) {
       const fees = calculateTotalWithFees(baseAmount);
       amount = fees.totalCharge;
-      stripeFee = fees.stripeFee;
+      iyzicoFee = fees.iyzicoFee;
       platformFee = fees.platformFee;
     } else {
       amount = baseAmount;
@@ -135,114 +131,57 @@ export async function POST(request: NextRequest) {
       const user = await getSessionUser();
       donorId = user?.id || null;
       if (user && !finalDonorEmail) {
-        // Use email from session user (already available in getSessionUser)
         finalDonorEmail = user.email;
       }
     } catch (error) {
       // Anonymous donation - no user session
     }
 
-    const successUrl = `${originUrl}/campaign/${campaignId}/donate?session_id={CHECKOUT_SESSION_ID}`;
-    const cancelUrl = `${originUrl}/campaign/${campaignId}/donate`;
+    const conversationId = `conv_${crypto.randomBytes(8).toString('hex')}`;
+    const basketId = `basket_${crypto.randomBytes(6).toString('hex')}`;
 
     try {
       const isSubscription = interval === 'week' || interval === 'month';
+      const callbackUrl = `${originUrl}/api/iyzico/callback`;
 
-      // FETCH OWNER STRIPE CONNECT ACCOUNT ID
-      const ownerProfile = await db.collection('users').findOne(
-        { id: campaign.owner_id },
-        { projection: { stripe_account_id: 1, stripe_onboarding_complete: 1 } }
-      );
+      // Create iyzico checkout form
+      const iyzicoResult = await createIyzicoCheckoutForm({
+        conversationId,
+        price: amount.toFixed(2),
+        paidPrice: amount.toFixed(2),
+        basketId,
+        callbackUrl,
+        buyerName: donorName || 'Anonymous',
+        buyerEmail: finalDonorEmail || 'anonymous@funded.org',
+        buyerId: donorId || `guest_${crypto.randomBytes(4).toString('hex')}`,
+        campaignTitle: campaign.title?.substring(0, 50) || 'Campaign',
+        campaignId,
+      });
 
-      const destinationAccountId = ownerProfile?.stripe_account_id && ownerProfile?.stripe_onboarding_complete
-        ? ownerProfile.stripe_account_id
-        : undefined;
-
-      const lineItemPriceData: Stripe.Checkout.SessionCreateParams.LineItem.PriceData = {
-        currency: 'usd',
-        product_data: {
-          name: `Donation: ${campaign.title?.substring(0, 50) || 'Campaign'}`,
-          description: coverFees
-            ? `Net öğrenci desteği: $${baseAmount.toFixed(2)}${isSubscription ? ` (${interval}ly)` : ''}`
-            : `Supporting education${isSubscription ? ` (${interval}ly)` : ''}`,
-        },
-        unit_amount: Math.round(amount * 100),
-      };
-
-      if (isSubscription) {
-        lineItemPriceData.recurring = {
-          interval: interval as 'week' | 'month',
-        };
+      if (iyzicoResult.status !== 'success') {
+        return errorResponse(
+          { code: 'PAYMENT_ERROR', message: 'Unable to create payment form. Please try again later.' },
+          500
+        );
       }
-
-      const sessionConfig: Stripe.Checkout.SessionCreateParams = {
-        payment_method_types: ['card'],
-        line_items: [{
-          price_data: lineItemPriceData,
-          quantity: 1,
-        }],
-        mode: isSubscription ? 'subscription' : 'payment',
-        success_url: successUrl,
-        cancel_url: cancelUrl,
-        customer_email: finalDonorEmail || undefined,
-        metadata: {
-          campaign_id: campaignId,
-          donor_id: donorId || '',
-          donor_name: donorName,
-          anonymous: String(anonymous),
-          idempotency_key: idempotencyKey,
-          base_amount: String(baseAmount),
-          platform_fee: String(platformFee),
-          stripe_fee: String(stripeFee),
-          cover_fees: String(coverFees),
-          note_to_student: noteToStudent.substring(0, 450),
-          platform_tip_percent: String(platformTipPercent),
-          platform_tip_amount: String(platformTipAmount),
-          interval: interval || 'one-time',
-          is_recurring: String(isSubscription),
-        },
-      };
-
-      // Add Stripe Connect Transfer Data if owner is onboarded
-      if (destinationAccountId) {
-        if (isSubscription) {
-          sessionConfig.subscription_data = {
-            transfer_data: {
-              destination: destinationAccountId,
-              amount_percent: 95.0, // Platform keeps 5% flat
-            }
-          };
-        } else {
-          sessionConfig.payment_intent_data = {
-            transfer_data: {
-              destination: destinationAccountId,
-            },
-            application_fee_amount: Math.round((amount * 0.05) * 100), // Platform keeps 5% mathematically
-          };
-        }
-      }
-
-      const session = await stripe.checkout.sessions.create(
-        sessionConfig,
-        {
-          idempotencyKey: idempotencyKey,
-        }
-      );
 
       // Create transaction record
+      const sessionId = iyzicoResult.token;
       const transaction = {
         transaction_id: `txn_${crypto.randomBytes(6).toString('hex')}`,
-        session_id: session.id,
+        session_id: sessionId,
+        conversation_id: conversationId,
+        basket_id: basketId,
         campaign_id: campaignId,
         donor_id: donorId,
         donor_name: donorName,
         donor_email: finalDonorEmail || null,
         amount: amount,
         base_amount: baseAmount,
-        stripe_fee: stripeFee,
+        iyzico_fee: iyzicoFee,
         platform_fee: platformFee,
         cover_fees: coverFees,
-        currency: 'usd',
+        currency: 'TRY',
         anonymous: anonymous,
         note_to_student: noteToStudent,
         platform_tip_percent: platformTipPercent,
@@ -251,7 +190,7 @@ export async function POST(request: NextRequest) {
         is_recurring: isSubscription,
         payment_status: 'initiated',
         idempotency_key: idempotencyKey,
-        checkout_url: session.url,
+        checkout_url: iyzicoResult.paymentPageUrl,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       };
@@ -259,12 +198,11 @@ export async function POST(request: NextRequest) {
       await db.collection('payment_transactions').insertOne(transaction);
 
       return successResponse({
-        url: session.url,
-        session_id: session.id,
+        url: iyzicoResult.paymentPageUrl,
+        session_id: sessionId,
+        checkoutFormContent: iyzicoResult.checkoutFormContent,
       });
     } catch (error: any) {
-      // Log error but don't expose sensitive details
-      const errorMessage = error?.message || 'Payment processing failed';
       return errorResponse(
         { code: 'PAYMENT_ERROR', message: 'Unable to process payment. Please try again later.' },
         500

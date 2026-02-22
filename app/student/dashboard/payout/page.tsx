@@ -19,7 +19,7 @@ import {
 import Link from 'next/link';
 
 interface PayoutMethod {
-  type: 'stripe' | 'paypal' | 'wise' | 'papara';
+  type: 'iyzico' | 'paypal' | 'wise' | 'papara';
   details: Record<string, string>;
   is_default: boolean;
   created_at: string;
@@ -33,7 +33,7 @@ export default function PayoutMethodsPage() {
   const [methods, setMethods] = useState<PayoutMethod[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [activeTab, setActiveTab] = useState('stripe');
+  const [activeTab, setActiveTab] = useState('papara');
 
   // Form fields
   const [paypalEmail, setPaypalEmail] = useState('');
@@ -62,28 +62,6 @@ export default function PayoutMethodsPage() {
     }
     fetchMethods();
   }, [session, authStatus, router, fetchMethods]);
-
-  const handleStripeConnect = async () => {
-    setSaving(true);
-    try {
-      const res = await fetch('/api/student/stripe-connect');
-      const data = await res.json();
-
-      if (!res.ok) {
-        throw new Error(data.error?.message || 'Stripe Connect bağlantısı başlatılamadı');
-      }
-
-      if (data.success && data.data?.url) {
-        window.location.href = data.data.url;
-      } else {
-        throw new Error('Geçersiz yönlendirme bağlantısı');
-      }
-    } catch (err: unknown) {
-      toast.error(err instanceof Error ? err.message : 'Stripe hatası');
-    } finally {
-      setSaving(false);
-    }
-  };
 
   const handleSaveMethod = async (type: string, details: Record<string, string>) => {
     setSaving(true);
@@ -173,53 +151,20 @@ export default function PayoutMethodsPage() {
               {methods.length > 0 ? 'Yeni Yöntem Ekle' : 'Ödeme Yöntemi Ekle'}
             </h2>
 
-            <div className="grid grid-cols-4 gap-2 mb-6">
-              {['stripe', 'paypal', 'wise', 'papara'].map((key) => (
+            <div className="grid grid-cols-3 gap-2 mb-6">
+              {['paypal', 'wise', 'papara'].map((key) => (
                 <Button
                   key={key}
                   variant={activeTab === key ? 'default' : 'outline'}
                   className="w-full"
                   onClick={() => setActiveTab(key)}
                 >
-                  {key === 'stripe' && 'Stripe'}
                   {key === 'paypal' && 'PayPal'}
                   {key === 'wise' && 'Wise'}
                   {key === 'papara' && 'Papara'}
                 </Button>
               ))}
             </div>
-
-            {activeTab === 'stripe' && (
-              <div className="space-y-4">
-                <div className="flex items-start gap-3 p-4 bg-blue-50 rounded-lg">
-                  <Shield className="h-5 w-5 text-blue-600 mt-0.5" />
-                  <div>
-                    <p className="text-sm font-medium text-blue-900">Stripe Connect</p>
-                    <p className="text-sm text-blue-700 mt-1">
-                      Stripe Connect ile güvenli bir şekilde doğrudan banka hesabınıza ödeme alın.
-                      Stripe hesabınızı bağladığınızda ödemeler otomatik olarak aktarılır.
-                    </p>
-                  </div>
-                </div>
-                {hasMethod('stripe') ? (
-                  <div className="flex flex-col gap-3 p-4 border border-green-100 bg-green-50 rounded-lg">
-                    <div className="flex items-center gap-2 text-green-700">
-                      <Check className="h-5 w-5" />
-                      <span className="font-medium">Stripe hesabınız bağlı ve aktif.</span>
-                    </div>
-                    <Button onClick={handleStripeConnect} disabled={saving} variant="outline" className="w-full bg-white text-green-700 border-green-200 hover:bg-green-100">
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      {saving ? 'Yükleniyor...' : 'Stripe Paneline Git'}
-                    </Button>
-                  </div>
-                ) : (
-                  <Button onClick={handleStripeConnect} disabled={saving} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white">
-                    <ExternalLink className="h-4 w-4 mr-2" />
-                    {saving ? 'Bağlanıyor...' : 'Stripe Hesabını Bağla'}
-                  </Button>
-                )}
-              </div>
-            )}
 
             {activeTab === 'paypal' && (
               <div className="space-y-4">
@@ -322,8 +267,8 @@ export default function PayoutMethodsPage() {
 function MethodIcon({ type }: { type: string }) {
   const cls = 'h-8 w-8 rounded-full flex items-center justify-center text-white text-xs font-bold';
   switch (type) {
-    case 'stripe':
-      return <div className={`${cls} bg-indigo-600`}>S</div>;
+    case 'iyzico':
+      return <div className={`${cls} bg-indigo-600`}>iy</div>;
     case 'paypal':
       return <div className={`${cls} bg-blue-500`}>P</div>;
     case 'wise':

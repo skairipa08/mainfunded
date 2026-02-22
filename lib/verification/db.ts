@@ -13,7 +13,7 @@ import {
     VerificationDoc,
     VerificationEvent,
     VerificationAuditLog,
-    StripeEventRecord,
+    IyzicoEventRecord,
     InternalNote,
     VerificationStatusType,
     VerificationTier,
@@ -606,29 +606,29 @@ async function logVerificationEvent(
 }
 
 // =======================================
-// Stripe Event (Idempotency)
+// iyzico Event (Idempotency)
 // =======================================
 
 /**
- * Check if Stripe event already processed
+ * Check if iyzico event already processed
  */
-export async function isStripeEventProcessed(eventId: string): Promise<boolean> {
+export async function isIyzicoEventProcessed(eventId: string): Promise<boolean> {
     const db = await getDb();
-    const existing = await db.collection('stripe_events').findOne({ event_id: eventId });
+    const existing = await db.collection('iyzico_events').findOne({ event_id: eventId });
     return !!existing;
 }
 
 /**
- * Record Stripe event for idempotency
+ * Record iyzico event for idempotency
  */
-export async function recordStripeEvent(
+export async function recordIyzicoEvent(
     eventId: string,
     eventType: string,
     payload: Record<string, any>
-): Promise<StripeEventRecord> {
+): Promise<IyzicoEventRecord> {
     const db = await getDb();
 
-    const record: StripeEventRecord = {
+    const record: IyzicoEventRecord = {
         event_id: eventId,
         event_type: eventType,
         received_at: now(),
@@ -637,14 +637,14 @@ export async function recordStripeEvent(
         retry_count: 0
     };
 
-    await db.collection('stripe_events').insertOne(record);
+    await db.collection('iyzico_events').insertOne(record);
     return record;
 }
 
 /**
- * Update Stripe event status
+ * Update iyzico event status
  */
-export async function updateStripeEventStatus(
+export async function updateIyzicoEventStatus(
     eventId: string,
     status: 'PROCESSING' | 'PROCESSED' | 'FAILED',
     errorMessage?: string
@@ -664,7 +664,7 @@ export async function updateStripeEventStatus(
         update.$inc = { retry_count: 1 };
     }
 
-    await db.collection('stripe_events').updateOne(
+    await db.collection('iyzico_events').updateOne(
         { event_id: eventId },
         { $set: update }
     );

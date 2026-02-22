@@ -5,7 +5,7 @@ import type { PayoutMethodType } from '@/types';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const PAPARA_RE = /^\d{10}$/;
-const STRIPE_ACCT_RE = /^acct_[a-zA-Z0-9]+$/;
+const IYZICO_SUBMERCHANT_RE = /^[a-zA-Z0-9]+$/;
 
 function sanitize(input: string): string {
   return input.replace(/[<>"'&]/g, '').trim();
@@ -21,15 +21,15 @@ function maskPapara(num: string): string {
   return `${num.slice(0, 2)}***${num.slice(-2)}`;
 }
 
-function maskStripe(id: string): string {
-  return `${id.slice(0, 8)}...${id.slice(-4)}`;
+function maskIyzico(id: string): string {
+  return `${id.slice(0, 4)}...${id.slice(-4)}`;
 }
 
 function validatePayoutMethod(type: PayoutMethodType, body: Record<string, unknown>): string | null {
   switch (type) {
-    case 'stripe_connect': {
-      const accountId = String(body.stripeAccountId ?? '');
-      if (!STRIPE_ACCT_RE.test(accountId)) return 'Stripe Account ID acct_ ile başlamalıdır';
+    case 'iyzico': {
+      const accountId = String(body.iyzicoSubMerchantKey ?? '');
+      if (!IYZICO_SUBMERCHANT_RE.test(accountId)) return 'Geçerli bir iyzico alt bayi anahtarı giriniz';
       return null;
     }
     case 'paypal': {
@@ -60,7 +60,7 @@ export async function GET() {
     const user = await requireUser();
     const db = await getDb();
 
-    // Get the base user record to check for new Stripe Express accounts
+    // Get the base user record to check for iyzico sub-merchant accounts
     const baseUser = await db.collection('users').findOne({ id: user.id });
 
     const profile = await db.collection('student_profiles').findOne(
@@ -68,8 +68,8 @@ export async function GET() {
       { projection: { _id: 0, payoutMethods: 1 } },
     );
 
-    // Filter out old stripe_connect methods from the profile array
-    const legacyMethods = (profile?.payoutMethods ?? []).filter((m: any) => m.type !== 'stripe_connect');
+    // Filter out old payout methods from the profile array
+    const legacyMethods = (profile?.payoutMethods ?? []).filter((m: any) => m.type !== 'iyzico');
 
     const methods: Record<string, unknown>[] = legacyMethods.map((m: Record<string, unknown>) => {
       const masked: Record<string, unknown> = {
@@ -96,18 +96,18 @@ export async function GET() {
       return masked;
     });
 
-    // Dynamically inject the Stripe Express Account native to the base user collection
-    if (baseUser?.stripe_account_id) {
+    // Dynamically inject the iyzico account native to the base user collection
+    if (baseUser?.iyzico_submerchant_key) {
       methods.push({
-        type: 'stripe',
-        isVerified: baseUser.stripe_onboarding_complete || false,
+        type: 'iyzico',
+        isVerified: baseUser.iyzico_onboarding_complete || false,
         addedAt: baseUser.created_at || new Date().toISOString(),
         lastPayoutAt: null,
         isDefault: true,
-        stripeAccountId: maskStripe(baseUser.stripe_account_id),
-        stripeAccountStatus: baseUser.stripe_onboarding_complete ? 'active' : 'pending',
+        iyzicoSubMerchantKey: maskIyzico(baseUser.iyzico_submerchant_key),
+        iyzicoSubMerchantStatus: baseUser.iyzico_onboarding_complete ? 'active' : 'pending',
         details: {
-          id: maskStripe(baseUser.stripe_account_id)
+          id: maskIyzico(baseUser.iyzico_submerchant_key)
         }
       });
     }

@@ -5,7 +5,7 @@
 **Prerequisites**:
 - MongoDB running and accessible
 - `.env.local` configured with all required variables
-- Stripe test mode API keys configured
+- iyzico sandbox API keys configured
 - Cloudinary configured (optional, for file uploads)
 - Resend API key configured (optional, for emails)
 
@@ -134,12 +134,11 @@ npm run doctor
 7. Enter name and email (or leave blank for anonymous)
 8. Click "Donate Now"
 9. **Expected**: 
-   - Redirected to Stripe Checkout
-   - Stripe test payment page loads
-10. Use Stripe test card: `4242 4242 4242 4242`
-    - Expiry: Any future date
-    - CVC: Any 3 digits
-    - ZIP: Any 5 digits
+   - Redirected to iyzico Checkout Form
+   - iyzico test payment page loads
+10. Use iyzico test card: `5528790000000008`
+    - Expiry: 12/30
+    - CVC: 123
 11. Complete payment
 12. **Expected**: 
     - Redirected back to campaign page
@@ -149,43 +148,35 @@ npm run doctor
     - Email sent to donor (if Resend configured, not anonymous)
 
 **Failure Points**:
-- Checkout fails → Check Stripe API key
-- Payment doesn't process → Check webhook configuration
-- Amount not updated → Check webhook received and processed
+- Checkout fails → Check iyzico API key and secret key
+- Payment doesn't process → Check callback configuration
+- Amount not updated → Check callback received and processed
 
 ---
 
-## Test Flow 6: Stripe Webhook Verification
+## Test Flow 6: iyzico Callback Verification
 
 ### Steps:
-1. Install Stripe CLI: https://stripe.com/docs/stripe-cli
-2. Login to Stripe CLI:
-   ```bash
-   stripe login
+1. Ensure iyzico sandbox credentials are set in `.env.local`:
    ```
-3. Forward webhooks to local server:
-   ```bash
-   stripe listen --forward-to localhost:3000/api/stripe/webhook
+   IYZICO_API_KEY=sandbox-...
+   IYZICO_SECRET_KEY=sandbox-...
+   IYZICO_BASE_URL=https://sandbox-api.iyzipay.com
    ```
-4. **Expected**: CLI shows webhook secret (starts with `whsec_`)
-5. Update `.env.local` with the webhook secret:
-   ```
-   STRIPE_WEBHOOK_SECRET=whsec_...
-   ```
-6. Trigger test event:
-   ```bash
-   stripe trigger checkout.session.completed
-   ```
-7. **Expected**: 
-   - Webhook received by server
-   - Payment processed
+2. Start the dev server: `npm run dev`
+3. Go through the donation flow from Test Flow 5
+4. After completing payment on iyzico checkout page:
+   **Expected**:
+   - iyzico sends POST callback to `/api/iyzico/callback`
+   - Payment verified via iyzico API
    - Donation created in database
    - Campaign amounts updated
+   - User redirected to campaign page
 
 **Failure Points**:
-- Webhook not received → Check webhook URL and port
-- Signature verification fails → Check `STRIPE_WEBHOOK_SECRET` matches CLI output
-- Payment not processed → Check webhook route logs
+- Callback not received → Check `IYZICO_BASE_URL` is set to sandbox
+- Payment verification fails → Check `IYZICO_API_KEY` and `IYZICO_SECRET_KEY`
+- Payment not processed → Check `/api/iyzico/callback` route logs
 
 ---
 
@@ -224,7 +215,7 @@ After completing all flows, verify:
 - [ ] No 500 errors in server logs
 - [ ] All emails sent (if Resend configured)
 - [ ] All file uploads work (if Cloudinary configured)
-- [ ] Webhook processing works (if Stripe configured)
+- [ ] Callback processing works (if iyzico configured)
 - [ ] Database data is consistent (no orphaned records)
 - [ ] All pages load without errors
 - [ ] Navigation works correctly
@@ -237,7 +228,7 @@ After completing all flows, verify:
 1. **Sentry**: Optional - build will succeed without it
 2. **Cloudinary**: Optional - file uploads return 503 if not configured
 3. **Resend**: Optional - emails fail silently if not configured
-4. **Stripe**: Required for donations - test mode keys work
+4. **iyzico**: Required for donations - sandbox keys work
 
 ---
 
@@ -253,10 +244,10 @@ After completing all flows, verify:
 - Check MongoDB is running
 - Verify network access
 
-### Stripe Webhook Fails
-- Verify `STRIPE_WEBHOOK_SECRET` matches Stripe CLI output
-- Check webhook URL is accessible
-- Verify webhook route uses `runtime = 'nodejs'`
+### iyzico Callback Fails
+- Verify `IYZICO_API_KEY` and `IYZICO_SECRET_KEY` are correct
+- Check `IYZICO_BASE_URL` is set correctly (sandbox vs production)
+- Verify callback route (`/api/iyzico/callback`) is accessible
 
 ### Authentication Fails
 - Verify Google OAuth credentials

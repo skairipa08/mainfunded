@@ -144,7 +144,7 @@ const CampaignDetail = () => {
       });
 
       if (response.success && response.data.url) {
-        // Redirect to Stripe checkout
+        // Redirect to iyzico checkout
         window.location.href = response.data.url;
       } else {
         throw new Error('Failed to create checkout session');

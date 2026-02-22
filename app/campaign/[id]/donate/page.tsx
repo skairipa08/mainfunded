@@ -127,7 +127,7 @@ function CampaignDonateContent() {
       const originUrl = window.location.origin;
       const response = await createCheckout({
         campaign_id: campaignId,
-        amount: totalCharge, // dollars — server converts to cents for Stripe
+        amount: totalCharge, // TRY — server sends to iyzico
         donor_name: isAnonymous ? undefined : (donorName || session?.user?.name),
         donor_email: isAnonymous ? undefined : (donorEmail || session?.user?.email),
         anonymous: isAnonymous,
@@ -481,7 +481,7 @@ function CampaignDonateContent() {
             {/* Trust badges */}
             <div className="flex items-center justify-center gap-4 text-xs text-gray-400 pt-2">
               <span className="flex items-center gap-1"><Lock className="h-3.5 w-3.5" /> Güvenli Ödeme</span>
-              <span className="flex items-center gap-1"><Shield className="h-3.5 w-3.5" /> Stripe Koruması</span>
+              <span className="flex items-center gap-1"><Shield className="h-3.5 w-3.5" /> iyzico Koruması</span>
             </div>
           </div>
         </div>

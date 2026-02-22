@@ -62,7 +62,7 @@ export async function fetchCampaignData(campaignId: string): Promise<CampaignDat
         const [user, studentProfile, raisedAgg, donations, recurringDonation] = await Promise.all([
             db.collection('users').findOne(
                 { _id: new ObjectId(ownerId) },
-                { projection: { _id: 1, name: 1, image: 1, stripe_onboarding_complete: 1 } }
+                { projection: { _id: 1, name: 1, image: 1, iyzico_onboarding_complete: 1 } }
             ),
             db.collection('student_profiles').findOne(
                 { user_id: ownerId },
@@ -120,7 +120,7 @@ export async function fetchCampaignData(campaignId: string): Promise<CampaignDat
             documentStatuses: campaign.documentStatuses || [],
             tier_approved: campaign.tier_approved,
             has_recurring: !!recurringDonation,
-            is_saas_connected: !!user?.stripe_onboarding_complete,
+            is_saas_connected: !!user?.iyzico_onboarding_complete,
             student: {
                 user_id: ownerId,
                 name: user?.name || 'Unknown',

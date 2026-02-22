@@ -52,7 +52,7 @@ export async function GET() {
 
     // Group by method type
     const grouped: Record<string, unknown[]> = {
-      stripe_connect: [],
+      iyzico: [],
       paypal: [],
       wise: [],
       papara: [],
@@ -125,9 +125,9 @@ export async function POST(request: NextRequest) {
     }
 
     const payoutId = `payout_${crypto.randomBytes(6).toString('hex')}`;
-    const isAutomatic = method_type === 'stripe_connect';
+    const isAutomatic = method_type === 'iyzico';
     const transferNote = isAutomatic
-      ? 'Stripe Connect ile otomatik transfer edildi'
+      ? 'iyzico ile otomatik transfer edildi'
       : 'Manuel transfer yapıldı';
 
     // Decrease available, increase totalWithdrawn

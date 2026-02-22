@@ -73,7 +73,7 @@ export default function PrivacyPolicyPage() {
               </tr>
               <tr>
                 <td className="px-4 py-2 font-medium">Finansal Bilgiler</td>
-                <td className="px-4 py-2">Ödeme kartı bilgileri (Stripe aracılığıyla)</td>
+                <td className="px-4 py-2">Ödeme kartı bilgileri (iyzico aracılığıyla)</td>
                 <td className="px-4 py-2">Bağış işlemlerinin gerçekleştirilmesi</td>
               </tr>
               <tr>
@@ -169,7 +169,7 @@ export default function PrivacyPolicyPage() {
         </p>
         <ul>
           <li>
-            <strong>Stripe Inc.</strong> — Ödeme işlemleri (ABD merkezli; KVKK m.9 kapsamında
+            <strong>iyzico</strong> — Ödeme işlemleri (Türkiye merkezli; KVKK m.9 kapsamında
             yeterli önlemler alınmıştır)
           </li>
           <li>
@@ -230,7 +230,7 @@ export default function PrivacyPolicyPage() {
         </p>
         <ul>
           <li>SSL/TLS ile şifreli veri iletimi</li>
-          <li>Ödeme bilgilerinin Stripe PCI-DSS sertifikalı altyapısında işlenmesi</li>
+          <li>Ödeme bilgilerinin iyzico PCI-DSS sertifikalı altyapısında işlenmesi</li>
           <li>Erişim kontrolleri ve yetkilendirme mekanizmaları</li>
           <li>Düzenli güvenlik denetimleri ve log izleme</li>
           <li>Veri minimizasyonu ilkesi</li>

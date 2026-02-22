@@ -52,7 +52,7 @@ export default function DisclaimerPage() {
                 tone: 'bg-white/10 border-white/15'
               }, {
                 title: 'Güvenli Ödeme',
-                desc: 'Ödemeler Stripe altyapısıyla işlenir; kart bilgileri bizde tutulmaz.',
+                desc: 'Ödemeler iyzico altyapısıyla işlenir; kart bilgileri bizde tutulmaz.',
                 tone: 'bg-white/5 border-white/10'
               }, {
                 title: 'Net Sınırlar',
@@ -142,7 +142,7 @@ export default function DisclaimerPage() {
                 tone: 'bg-white border-slate-100'
               }, {
                 title: 'Güvenli Ödeme',
-                desc: 'Stripe ile şifreli işlem, kart verisi FundEd sistemlerine girmez.',
+                desc: 'iyzico ile şifreli işlem, kart verisi FundEd sistemlerine girmez.',
                 tone: 'bg-white border-slate-100'
               }, {
                 title: 'Güncelleme Takibi',
@@ -173,7 +173,7 @@ export default function DisclaimerPage() {
               <h2 className="text-2xl font-bold">Yasal Çerçeve ve Sınırlar</h2>
               <p className="text-slate-700 leading-relaxed">
                 Yürürlükteki hukuk çerçevesinde, FundEd dolaylı, tesadüfi, özel veya sonucu kayıplarından sorumlu tutulamaz.
-                Üçüncü taraf servis sağlayıcılarının (Stripe, Cloudinary, kimlik doğrulama sağlayıcıları) politika ve güvenlik
+                Üçüncü taraf servis sağlayıcılarının (iyzico, Cloudinary, kimlik doğrulama sağlayıcıları) politika ve güvenlik
                 uygulamalarından sorumluluk kabul etmeyiz; fakat güvenli entegrasyon ve sözleşmesel tedbirleri uygularız.
               </p>
             </div>

@@ -872,7 +872,15 @@
         "trustTransparentDesc": "Her işlem kayıt altında",
         "equalityCampaign": "Eğitimde Eşitlik Kampanyası",
         "equalityDesc": "Dünya genelinde eğitime erişemeyen çocuklara destek olmak için kampanyamızı inceleyin.",
-        "viewCampaign": "Kampanyayı Gör"
+        "viewCampaign": "Kampanyayı Gör",
+        "monthlyScholarship": "Aylık Öğrenci Bursu",
+        "recurringPrompt": "Bağışınıza düzenli periyotlarla otomatik olarak devam ederek daha fazla hayata dokunmak ister misiniz?",
+        "intervalOneTime": "Tek Seferlik",
+        "intervalMonthly": "Aylık",
+        "intervalWeekly": "Haftalık",
+        "emotionalYes": "Evet, düzenli destekçi olmak istiyorum",
+        "emotionalNo": "Hayır, tek seferlik yapmak istiyorum",
+        "intervalSelect": "İşlem Sıklığı"
     },
     "donationForm": {
         "oneTime": "Tek Seferlik",
@@ -904,7 +912,7 @@
         "every3Months": "3 Ayda Bir",
         "submitRecurring": "Aylık Bağış Başlat",
         "submitOneTime": "Bağış Yap",
-        "securePayment": "Ödemeniz güvenli bir şekilde Stripe üzerinden işlenecektir."
+        "securePayment": "Ödemeniz güvenli bir şekilde iyzico üzerinden işlenecektir."
     },
     "dashboard": {
         "title": "Panel",
@@ -1086,7 +1094,7 @@
             },
             "payment": {
                 "title": "6. Payment Processing",
-                "content": "Payments are processed through Stripe. FundEd does not store credit card information. All payment disputes should be directed to Stripe or your financial institution."
+                "content": "Payments are processed through iyzico. FundEd does not store credit card information. All payment disputes should be directed to iyzico or your financial institution."
             },
             "prohibited": {
                 "title": "7. Prohibited Activities",
@@ -1124,7 +1132,7 @@
                     "Account information (name, email address) when you sign up",
                     "Student profile information (university, field of study, country) for verification",
                     "Campaign information (title, description, funding goals)",
-                    "Payment information processed securely through Stripe",
+                    "Payment information processed securely through iyzico",
                     "Verification documents submitted for student verification"
                 ]
             },
@@ -1144,7 +1152,7 @@
                 "title": "3. Information Sharing",
                 "content": "We do not sell your personal information. We may share your information only in the following circumstances:",
                 "items": [
-                    "With payment processors (Stripe) to process donations",
+                    "With payment processors (iyzico) to process donations",
                     "With service providers who assist in operating our platform",
                     "When required by law or to protect our rights",
                     "Public campaign information (name, campaign details) as displayed on campaign pages"
@@ -1212,7 +1220,7 @@
                 "title": "Third-Party Services",
                 "content": "FundEd uses third-party services including:",
                 "items": [
-                    "Stripe for payment processing",
+                    "iyzico for payment processing",
                     "Cloudinary for file storage",
                     "Google OAuth for authentication"
                 ],
@@ -2742,7 +2750,7 @@
         "title": "Ücret Dağılımı",
         "toStudent": "Öğrenciye",
         "platformFee": "Platform Ücreti (%5)",
-        "stripeFee": "Stripe Ücreti (%2.9 + $0.30)",
+        "iyzicoFee": "iyzico Ücreti (%3.54 + ₺0.25)",
         "total": "Toplam Tutar"
     },
     "currency": {

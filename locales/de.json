@@ -872,7 +872,15 @@
         "trustTransparentDesc": "Jede Transaktion wird aufgezeichnet",
         "equalityCampaign": "Kampagne für Bildungsgleichheit",
         "equalityDesc": "Entdecken Sie unsere Kampagne zur Unterstützung von Kindern weltweit, die keinen Zugang zu Bildung haben.",
-        "viewCampaign": "Kampagne ansehen"
+        "viewCampaign": "Kampagne ansehen",
+        "monthlyScholarship": "Monatliches Studenten-Stipendium",
+        "recurringPrompt": "Möchten Sie mehr Leben berühren, indem Sie Ihre Spende automatisch in regelmäßigen Abständen fortsetzen?",
+        "intervalOneTime": "Einmalig",
+        "intervalMonthly": "Monatlich",
+        "intervalWeekly": "Wöchentlich",
+        "emotionalYes": "Ja, ich möchte regelmäßiger Unterstützer werden",
+        "emotionalNo": "Nein, vielleicht später",
+        "intervalSelect": "Intervall"
     },
     "donationForm": {
         "oneTime": "One-Time",
@@ -904,7 +912,7 @@
         "every3Months": "Every 3 Months",
         "submitRecurring": "Start Monthly Donation",
         "submitOneTime": "Donate Now",
-        "securePayment": "Your payment will be processed securely via Stripe."
+        "securePayment": "Your payment will be processed securely via iyzico."
     },
     "dashboard": {
         "title": "Dashboard",
@@ -993,7 +1001,7 @@
             },
             "payment": {
                 "title": "6. Zahlungsabwicklung",
-                "content": "Zahlungen werden über Stripe abgewickelt. FundEd speichert keine Kreditkarteninformationen. Alle Zahlungsstreitigkeiten sollten an Stripe oder Ihr Finanzinstitut gerichtet werden."
+                "content": "Zahlungen werden über iyzico abgewickelt. FundEd speichert keine Kreditkarteninformationen. Alle Zahlungsstreitigkeiten sollten an iyzico oder Ihr Finanzinstitut gerichtet werden."
             },
             "prohibited": {
                 "title": "7. Verbotene Aktivitäten",
@@ -1031,7 +1039,7 @@
                     "Kontoinformationen (Name, E-Mail-Adresse) bei der Registrierung",
                     "Studentenprofilinformationen (Universität, Studienrichtung, Land) zur Verifizierung",
                     "Kampagneninformationen (Titel, Beschreibung, Finanzierungsziele)",
-                    "Zahlungsinformationen, die sicher über Stripe verarbeitet werden",
+                    "Zahlungsinformationen, die sicher über iyzico verarbeitet werden",
                     "Verifizierungsdokumente, die zur Studentenverifizierung eingereicht werden"
                 ]
             },
@@ -1051,7 +1059,7 @@
                 "title": "3. Weitergabe von Informationen",
                 "content": "Wir verkaufen Ihre persönlichen Daten nicht. Wir geben Ihre Informationen nur unter folgenden Umständen weiter:",
                 "items": [
-                    "An Zahlungsdienstleister (Stripe) zur Verarbeitung von Spenden",
+                    "An Zahlungsdienstleister (iyzico) zur Verarbeitung von Spenden",
                     "An Dienstleister, die beim Betrieb unserer Plattform helfen",
                     "Wenn dies gesetzlich vorgeschrieben ist oder zum Schutz unserer Rechte",
                     "Öffentliche Kampagneninformationen (Name, Kampagnendetails) wie auf den Kampagnenseiten angezeigt"
@@ -1119,7 +1127,7 @@
                 "title": "Drittanbieterdienste",
                 "content": "FundEd nutzt Drittanbieterdienste, darunter:",
                 "items": [
-                    "Stripe für die Zahlungsabwicklung",
+                    "iyzico für die Zahlungsabwicklung",
                     "Cloudinary für die Dateispeicherung",
                     "Google OAuth für die Authentifizierung"
                 ],
@@ -2742,7 +2750,7 @@
         "title": "Gebührenaufschlüsselung",
         "toStudent": "An Studenten",
         "platformFee": "Plattformgebühr (5%)",
-        "stripeFee": "Stripe-Gebühr (2,9% + 0,30$)",
+        "iyzicoFee": "iyzico-Gebühr (3,54% + 0,25₺)",
         "total": "Gesamtbetrag"
     },
     "currency": {

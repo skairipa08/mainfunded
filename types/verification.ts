@@ -245,10 +245,10 @@ export interface VerificationEvent {
 }
 
 // =======================================
-// Stripe Event (Webhook Idempotency)
+// iyzico Event (Payment Idempotency)
 // =======================================
 
-export interface StripeEventRecord {
+export interface IyzicoEventRecord {
   event_id: string;
   event_type: string;
   received_at: string;

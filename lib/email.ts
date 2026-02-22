@@ -410,14 +410,14 @@ function formatUSD(amount: number): string {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
 }
 
-export function renderStripePayoutNotification(data: PayoutEmailData): string {
-  return payoutEmailWrapper('💳 Stripe Ödeme Bildirimi', '#635bff', `
+export function renderIyzicoPayoutNotification(data: PayoutEmailData): string {
+  return payoutEmailWrapper('💳 iyzico Ödeme Bildirimi', '#1a1a2e', `
     <p>Merhaba ${escapeHtml(data.studentName)},</p>
-    <p><strong>${formatUSD(data.amount)}</strong> tutarındaki ödemeniz Stripe Connect hesabınıza otomatik olarak aktarılmıştır.</p>
-    <div style="background: #f0f9ff; border-left: 4px solid #635bff; padding: 15px; margin: 20px 0;">
+    <p><strong>${formatUSD(data.amount)}</strong> tutarındaki ödemeniz iyzico hesabınıza otomatik olarak aktarılmıştır.</p>
+    <div style="background: #f0f9ff; border-left: 4px solid #1a1a2e; padding: 15px; margin: 20px 0;">
       <p style="margin: 0; font-size: 14px;"><strong>Referans:</strong> ${escapeHtml(data.referenceCode)}</p>
     </div>
-    <p style="font-size: 14px; color: #6b7280;">Transfer genellikle 1-2 iş günü içinde Stripe hesabınıza yansır.</p>
+    <p style="font-size: 14px; color: #6b7280;">Transfer genellikle 1-2 iş günü içinde hesabınıza yansır.</p>
   `);
 }
 

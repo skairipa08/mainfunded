@@ -29,7 +29,7 @@ export default function FeeCalculator({ baseAmount }: FeeCalculatorProps) {
   const rows = [
     { label: t('feeCalculator.toStudent'), value: breakdown.baseAmount, highlight: true },
     { label: t('feeCalculator.platformFee'), value: breakdown.platformFee, highlight: false },
-    { label: t('feeCalculator.stripeFee'), value: breakdown.stripeFee, highlight: false },
+    { label: t('feeCalculator.iyzicoFee'), value: breakdown.iyzicoFee, highlight: false },
   ];
 
   return (

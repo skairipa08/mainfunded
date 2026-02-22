@@ -1,11 +1,11 @@
 # FundEd - Educational Crowdfunding Platform
 
-FundEd is a self-hostable crowdfunding platform for verified students to raise funds for educational needs. Built with Next.js (App Router), MongoDB, NextAuth.js, and Stripe.
+FundEd is a self-hostable crowdfunding platform for verified students to raise funds for educational needs. Built with Next.js (App Router), MongoDB, NextAuth.js, and iyzico.
 
 ## Features
 
 - 🎓 **Student Verification** - Admin-verified student profiles ensure authenticity
-- 💳 **Stripe Payments** - Secure donation processing with webhooks
+- 💳 **iyzico Payments** - Secure donation processing with callback verification
 - 🔐 **Google OAuth** - NextAuth.js with Google provider
 - 📊 **Admin Dashboard** - Verify students, manage users, view statistics
 - 🌍 **Campaign Filters** - Browse by category, country, field of study
@@ -18,7 +18,7 @@ FundEd is a self-hostable crowdfunding platform for verified students to raise f
 - **Frontend & Backend**: Next.js 14 (App Router)
 - **Database**: MongoDB
 - **Authentication**: NextAuth.js v5 (Google OAuth, database sessions)
-- **Payments**: Stripe (with webhook signature verification)
+- **Payments**: iyzico (with callback verification)
 - **Storage**: Cloudinary
 - **Deployment**: Vercel (recommended) 
 
@@ -31,7 +31,7 @@ FundEd is a self-hostable crowdfunding platform for verified students to raise f
 - Node.js 18+ with npm/yarn
 - MongoDB (local or MongoDB Atlas)
 - Google Cloud Console account (for OAuth)
-- Stripe account (for payments)
+- iyzico account (for payments)
 - Cloudinary account (for file uploads - optional)
 
 ### Setup
@@ -80,15 +80,15 @@ FundEd is a self-hostable crowdfunding platform for verified students to raise f
 
 ## Run Locally (Development Setup)
 
-This guide will help you set up the FundEd project for local development, including the Admin Panel with NextAuth, MongoDB, Google OAuth, and Stripe webhook testing.
+This guide will help you set up the FundEd project for local development, including the Admin Panel with NextAuth, MongoDB, Google OAuth, and iyzico payment testing.
 
 ### Prerequisites
 
 - **Node.js 18+** (with npm) - [Download Node.js](https://nodejs.org/)
 - **MongoDB** - Local installation or MongoDB Atlas account
 - **Google Cloud Console account** - For OAuth setup
-- **Stripe account** - For payment testing (test mode)
-- **Stripe CLI** (optional) - For local webhook testing
+- **iyzico account** - For payment testing (sandbox mode)
+
 
 ### Step-by-Step Setup
 
@@ -137,9 +137,11 @@ Open `.env.local` and fill in the required values:
 
 - `GOOGLE_CLIENT_SECRET` - From Google Cloud Console
 
-- `STRIPE_API_KEY` - Stripe test API key (starts with `sk_test_`)
+- `IYZICO_API_KEY` - iyzico API key (from iyzico merchant panel)
 
-- `STRIPE_WEBHOOK_SECRET` - For local testing, use the secret from `stripe listen` (see Stripe Webhook Testing below)
+- `IYZICO_SECRET_KEY` - iyzico secret key (from iyzico merchant panel)
+
+- `IYZICO_BASE_URL` - Use `https://sandbox-api.iyzipay.com` for testing, `https://api.iyzipay.com` for production
 
 - `ADMIN_EMAILS` - Comma-separated list of admin email addresses
   - Example: `admin@example.com,admin2@example.com`
@@ -219,33 +221,27 @@ The server will start at [http://localhost:3000](http://localhost:3000)
 - You to be signed in with Google OAuth
 - The email you sign in with must match an email in `ADMIN_EMAILS`
 
-### Stripe Webhook Testing (Local Development)
+### iyzico Payment Testing (Local Development)
 
-To test Stripe webhooks locally:
+iyzico sandbox mod kullanılarak yerel test yapılabilir:
 
-1. **Install Stripe CLI** (if not already installed):
-   - macOS: `brew install stripe/stripe-cli/stripe`
-   - Windows: Download from [stripe.com/docs/stripe-cli](https://stripe.com/docs/stripe-cli)
-   - Linux: See [stripe.com/docs/stripe-cli](https://stripe.com/docs/stripe-cli)
+1. **iyzico Sandbox hesabı oluşturun**: [sandbox-merchant.iyzipay.com](https://sandbox-merchant.iyzipay.com) adresinden kayıt olun
 
-2. **Login to Stripe CLI**:
-   ```bash
-   stripe login
+2. **API anahtarlarını alın**: Merchant panelinizden API Key ve Secret Key değerlerini kopyalayın
+
+3. **.env.local dosyanızı güncelleyin**:
+   ```env
+   IYZICO_API_KEY=your_sandbox_api_key
+   IYZICO_SECRET_KEY=your_sandbox_secret_key
+   IYZICO_BASE_URL=https://sandbox-api.iyzipay.com
    ```
 
-3. **Forward webhooks to local server**:
-   ```bash
-   stripe listen --forward-to localhost:3000/api/stripe/webhook
-   ```
+4. **Test kart bilgileri** (sandbox):
+   - Kart No: `5528790000000008`
+   - Son Kullanma: `12/2030`
+   - CVV: `123`
 
-4. **Copy the webhook signing secret** from the output (starts with `whsec_`) and update `STRIPE_WEBHOOK_SECRET` in your `.env.local` file
-
-5. **Trigger test events** (in a new terminal):
-   ```bash
-   stripe trigger checkout.session.completed
-   ```
-
-**Important**: The `STRIPE_WEBHOOK_SECRET` in your `.env.local` must match the secret shown when you run `stripe listen`.
+**Önemli**: Sandbox modda yapılan ödemeler gerçek para çekmez.
 
 ### Useful Scripts
 
@@ -301,28 +297,24 @@ Use this checklist to verify the core functionality works end-to-end:
 #### 4. Checkout Donation
 - [ ] Navigate to a published campaign page
 - [ ] Fill in donation form (amount, donor name, email)
-- [ ] Click "Donate" button - should redirect to Stripe Checkout
-- [ ] Complete payment in Stripe test mode (use test card: `4242 4242 4242 4242`)
+- [ ] Click "Donate" button - should redirect to iyzico Checkout
+- [ ] Complete payment in iyzico sandbox mode (use test card: `5528790000000008`)
 - [ ] Verify redirect to success page
 - [ ] Check campaign page - raised amount should increase
 - [ ] Check donor count should increment
 
-#### 5. Webhook Test Steps
-- [ ] Ensure Stripe CLI is installed (`stripe --version`)
-- [ ] Login to Stripe CLI: `stripe login`
-- [ ] Forward webhooks: `stripe listen --forward-to localhost:3000/api/stripe/webhook`
-- [ ] Copy webhook secret (starts with `whsec_`) from output
-- [ ] Update `STRIPE_WEBHOOK_SECRET` in `.env.local` with the secret
-- [ ] Restart dev server
-- [ ] In a new terminal, trigger test event: `stripe trigger checkout.session.completed`
-- [ ] Check dev server logs - should see webhook received and processed
+#### 5. Payment Callback Test Steps
+- [ ] Ensure iyzico sandbox API keys are set in `.env.local`
+- [ ] Make a test donation through the UI
+- [ ] iyzico will redirect to `/api/iyzico/callback` after payment
+- [ ] Check dev server logs - should see callback received and processed
 - [ ] Verify donation record created in database
 - [ ] Verify campaign totals updated
 
-**Troubleshooting Webhooks:**
-- If webhook fails: Check `STRIPE_WEBHOOK_SECRET` matches `stripe listen` output
-- If signature verification fails: Restart both `stripe listen` and dev server after updating secret
-- If webhook not received: Verify `stripe listen` is running and forwarding to correct URL
+**Troubleshooting Payments:**
+- If payment callback fails: Check `IYZICO_API_KEY` and `IYZICO_SECRET_KEY` are set correctly
+- If payment form doesn't load: Verify `IYZICO_BASE_URL` is correct (`https://sandbox-api.iyzipay.com` for testing)
+- If callback not received: Verify `AUTH_URL` is set correctly for redirect URLs
 
 ### Troubleshooting
 
@@ -343,10 +335,10 @@ Use this checklist to verify the core functionality works end-to-end:
 - Sign out and sign in again to refresh your session
 - Check browser console for errors
 
-**Stripe Webhook Issues:**
-- Make sure `stripe listen` is running
-- Verify `STRIPE_WEBHOOK_SECRET` matches the secret from `stripe listen`
-- Check that the webhook URL is correct: `localhost:3000/api/stripe/webhook`
+**iyzico Payment Issues:**
+- Make sure `IYZICO_API_KEY` and `IYZICO_SECRET_KEY` are set in `.env.local`
+- Verify `IYZICO_BASE_URL` is correct (use `https://sandbox-api.iyzipay.com` for testing)
+- Check that the callback URL is accessible: `localhost:3000/api/iyzico/callback`
 
 ---
 
@@ -367,9 +359,10 @@ AUTH_URL=http://localhost:3000
 GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
 GOOGLE_CLIENT_SECRET=your-client-secret
 
-# Stripe (required for payments)
-STRIPE_API_KEY=sk_test_your_stripe_key
-STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret
+# iyzico (ödemeler için gerekli)
+IYZICO_API_KEY=your_sandbox_api_key
+IYZICO_SECRET_KEY=your_sandbox_secret_key
+IYZICO_BASE_URL=https://sandbox-api.iyzipay.com
 
 # Cloudinary (optional, for file uploads)
 CLOUDINARY_CLOUD_NAME=your-cloud-name
@@ -462,32 +455,28 @@ openssl rand -base64 32
 
 ---
 
-## Stripe Setup
+## iyzico Setup
 
-1. Create account at [stripe.com](https://stripe.com)
-2. Go to **Developers** > **API keys**
-3. Copy **Secret key** (starts with `sk_test_`)
-4. Add to `.env.local`
+1. [sandbox-merchant.iyzipay.com](https://sandbox-merchant.iyzipay.com) adresinden sandbox hesabı oluşturun
+2. Merchant panelinden **API Key** ve **Secret Key** değerlerini alın
+3. `.env.local` dosyanıza ekleyin:
+   ```env
+   IYZICO_API_KEY=your_sandbox_api_key
+   IYZICO_SECRET_KEY=your_sandbox_secret_key
+   IYZICO_BASE_URL=https://sandbox-api.iyzipay.com
+   ```
 
-**Webhook Setup (for payment verification):**
-1. Go to **Developers** > **Webhooks**
-2. Click **Add endpoint**
-3. Enter URL: `https://yourdomain.com/api/stripe/webhook`
-4. Select events:
-   - `checkout.session.completed`
-   - `checkout.session.expired`
-   - `checkout.session.async_payment_succeeded`
-   - `checkout.session.async_payment_failed`
-   - `charge.refunded`
-5. Copy **Signing secret** (starts with `whsec_`)
-6. Add to `.env.local` as `STRIPE_WEBHOOK_SECRET`
+**Production için:**
+1. [merchant.iyzipay.com](https://merchant.iyzipay.com) adresinden gerçek hesap oluşturun
+2. `IYZICO_BASE_URL` değerini `https://api.iyzipay.com` olarak güncelleyin
 
-**Important**: `STRIPE_WEBHOOK_SECRET` is **required** for webhook signature verification. The webhook route will reject requests without valid signatures.
+**Önemli**: iyzico, ödeme tamamlandıktan sonra `/api/iyzico/callback` adresine POST isteği gönderir. Bu endpoint otomatik olarak ödeme doğrulaması yapar.
 
-**Test Cards:**
-- Success: `4242 4242 4242 4242`
-- Decline: `4000 0000 0000 0002`
-- Use any future date and any CVC
+**Test Kartları (Sandbox):**
+- Başarılı: `5528790000000008` (Mastercard)
+- Başarılı: `4603450000000000` (Visa)
+- Son Kullanma: `12/2030`
+- CVV: `123`
 
 ---
 
@@ -505,7 +494,7 @@ openssl rand -base64 32
 ### Prerequisites
 - Vercel account (free tier available)
 - MongoDB Atlas (free tier available) or self-hosted MongoDB
-- All service accounts (Google, Stripe, Cloudinary) configured
+- All service accounts (Google, iyzico, Cloudinary) configured
 
 ### Deployment Steps
 
@@ -528,14 +517,15 @@ openssl rand -base64 32
      - `AUTH_URL` (your Vercel domain, e.g., `https://your-app.vercel.app`)
      - `GOOGLE_CLIENT_ID`
      - `GOOGLE_CLIENT_SECRET`
-     - `STRIPE_API_KEY` (use live key in production)
-     - `STRIPE_WEBHOOK_SECRET` (from Stripe webhook)
+     - `IYZICO_API_KEY` (use live key in production)
+     - `IYZICO_SECRET_KEY` (from iyzico merchant panel)
+     - `IYZICO_BASE_URL` (`https://api.iyzipay.com` for production)
      - `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
      - `ADMIN_EMAILS` (comma-separated)
 
 4. **Update OAuth Redirect URIs**
    - Update Google OAuth redirect URI to: `https://your-app.vercel.app/api/auth/callback/google`
-   - Update Stripe webhook URL to: `https://your-app.vercel.app/api/stripe/webhook`
+   - Set iyzico callback URL to: `https://your-app.vercel.app/api/iyzico/callback`
 
 5. **Deploy**
    - Click "Deploy"
@@ -550,21 +540,20 @@ openssl rand -base64 32
 - [ ] `MONGO_URL` points to MongoDB Atlas (or accessible database)
 - [ ] `ADMIN_EMAILS` set with admin email addresses
 - [ ] Google OAuth redirect URI updated to production domain
-- [ ] Stripe webhook URL updated to production domain
-- [ ] Stripe webhook events configured
-- [ ] `STRIPE_WEBHOOK_SECRET` added (required)
+- [ ] iyzico callback URL set to production domain
+- [ ] `IYZICO_API_KEY` added (required)
+- [ ] `IYZICO_SECRET_KEY` added (required)
+- [ ] `IYZICO_BASE_URL` set to `https://api.iyzipay.com`
 - [ ] Build passes: `npm run build`
 - [ ] Test authentication flow
 - [ ] Test donation flow
-- [ ] Test webhook (use Stripe CLI for local testing)
+- [ ] Test donation flow with iyzico sandbox
 
-### Local Webhook Testing
+### Local Payment Testing
 
-Use Stripe CLI to forward webhooks to local server:
-
-```bash
-stripe listen --forward-to localhost:3000/api/stripe/webhook
-```
+iyzico uses callback-based payment flow. No CLI tool is needed.
+Use iyzico sandbox test card: `5528790000000008` (Exp: 12/30, CVC: 123).
+Callback endpoint: `POST /api/iyzico/callback`
 
 ---
 
@@ -585,7 +574,7 @@ stripe listen --forward-to localhost:3000/api/stripe/webhook
 - `GET /api/campaigns/my` - Get my campaigns (students/admins)
 
 ### Donations
-- `POST /api/donations/checkout` - Create Stripe checkout session
+- `POST /api/donations/checkout` - Create iyzico checkout form
 - `GET /api/donations/status/:session_id` - Get payment status
 - `GET /api/donations/my` - Get my donations (authenticated users)
 
@@ -602,8 +591,8 @@ stripe listen --forward-to localhost:3000/api/stripe/webhook
 - `DELETE /api/admin/users/:id` - Delete user (admin only)
 - `GET /api/admin/stats` - Platform statistics (admin only)
 
-### Webhook
-- `POST /api/stripe/webhook` - Stripe webhook handler (requires signature verification via STRIPE_WEBHOOK_SECRET)
+### Payment Callback
+- `POST /api/iyzico/callback` - iyzico payment callback handler (verifies payment via iyzico API)
 
 ### Static Data
 - `GET /api/static/categories` - Campaign categories
@@ -624,7 +613,7 @@ funded/
 │   │   ├── campaigns/    # Campaign routes
 │   │   ├── donations/    # Donation routes
 │   │   ├── admin/        # Admin routes
-│   │   ├── stripe/       # Stripe webhook
+│   │   ├── iyzico/       # iyzico payment callback
 │   │   └── static/       # Static data
 │   ├── page.tsx          # Home page
 │   └── layout.tsx        # Root layout

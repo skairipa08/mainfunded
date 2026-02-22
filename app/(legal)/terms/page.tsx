@@ -67,7 +67,7 @@ export default function TermsOfServicePage() {
                 <td className="px-4 py-2 font-medium">Ödeme İşlem Bedeli</td>
                 <td className="px-4 py-2">%3,2</td>
                 <td className="px-4 py-2">
-                  Stripe ödeme altyapısı tarafından tahsil edilen işlem ücreti
+                  iyzico ödeme altyapısı tarafından tahsil edilen işlem ücreti
                 </td>
               </tr>
             </tbody>
@@ -85,7 +85,7 @@ export default function TermsOfServicePage() {
         <h2 className="text-xl font-semibold text-blue-800">4. Ödeme ve Transfer Süreci</h2>
         <ul>
           <li>
-            Bağışlar, Stripe güvenli ödeme altyapısı aracılığıyla işlenir.
+            Bağışlar, iyzico güvenli ödeme altyapısı aracılığıyla işlenir.
           </li>
           <li>
             Başarılı bir bağış sonrası fonlar, kampanya sahibinin hesabına{' '}
@@ -196,7 +196,7 @@ export default function TermsOfServicePage() {
               taraf değildir.
             </li>
             <li>
-              Üçüncü taraf hizmet sağlayıcılarından (Stripe, hosting vb.) kaynaklanan
+              Üçüncü taraf hizmet sağlayıcılarından (iyzico, hosting vb.) kaynaklanan
               aksaklıklardan Platform sorumlu tutulamaz.
             </li>
             <li>

@@ -6,33 +6,34 @@
  * are deducted.
  *
  * Fee breakdown:
- *   - Stripe processing fee : 3.2 %
+ *   - iyzico processing fee : 3.54 % (+ 0.25 TRY)
  *   - Platform fee          : 2.0 %
- *   - Total fee rate        : 5.2 %
- *   - Net retention rate    : 94.8 % (1 − 0.052)
+ *   - Total fee rate        : 5.54 %
+ *   - Net retention rate    : 94.46 % (1 − 0.0554)
  *
- * Formula:  totalCharge = netAmount / 0.948
+ * Formula:  totalCharge = (netAmount + 0.25) / 0.9446
  */
 
 export interface FeeBreakdown {
   /** The amount the student will receive (net). */
   baseAmount: number;
-  /** Estimated Stripe processing fee (3.2 %). */
-  stripeFee: number;
+  /** Estimated iyzico processing fee (3.54 % + 0.25 TRY). */
+  iyzicoFee: number;
   /** Platform fee (2.0 %). */
   platformFee: number;
   /** Total amount charged to the donor. */
   totalCharge: number;
 }
 
-const STRIPE_FEE_RATE = 0.032;
+const IYZICO_FEE_RATE = 0.0354;
+const IYZICO_FIXED_FEE = 0.25; // TRY
 const PLATFORM_FEE_RATE = 0.02;
-const TOTAL_FEE_RATE = STRIPE_FEE_RATE + PLATFORM_FEE_RATE; // 0.052
-const NET_RATE = 1 - TOTAL_FEE_RATE; // 0.948
+const TOTAL_FEE_RATE = IYZICO_FEE_RATE + PLATFORM_FEE_RATE; // 0.0554
+const NET_RATE = 1 - TOTAL_FEE_RATE; // 0.9446
 
 /**
  * Calculate the total charge needed so that `netAmount` reaches the student
- * after Stripe and platform fees are deducted.
+ * after iyzico and platform fees are deducted.
  *
  * @param netAmount - The desired net donation amount (must be > 0).
  * @returns A `FeeBreakdown` with all amounts rounded to two decimals.
@@ -43,13 +44,13 @@ export function calculateTotalWithFees(netAmount: number): FeeBreakdown {
     throw new Error('netAmount must be a positive number');
   }
 
-  const totalCharge = parseFloat((netAmount / NET_RATE).toFixed(2));
-  const stripeFee = parseFloat((totalCharge * STRIPE_FEE_RATE).toFixed(2));
+  const totalCharge = parseFloat(((netAmount + IYZICO_FIXED_FEE) / NET_RATE).toFixed(2));
+  const iyzicoFee = parseFloat((totalCharge * IYZICO_FEE_RATE + IYZICO_FIXED_FEE).toFixed(2));
   const platformFee = parseFloat((totalCharge * PLATFORM_FEE_RATE).toFixed(2));
 
   return {
     baseAmount: parseFloat(netAmount.toFixed(2)),
-    stripeFee,
+    iyzicoFee,
     platformFee,
     totalCharge,
   };

@@ -14,8 +14,9 @@ const required = [
   'AUTH_SECRET',
   'GOOGLE_CLIENT_ID',
   'GOOGLE_CLIENT_SECRET',
-  'STRIPE_API_KEY',
-  'STRIPE_WEBHOOK_SECRET',
+  'IYZICO_API_KEY',
+  'IYZICO_SECRET_KEY',
+  'IYZICO_BASE_URL',
 ] as const;
 
 // Optional but recommended

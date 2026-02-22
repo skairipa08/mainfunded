@@ -46,7 +46,7 @@ const securityFeatures = [
     {
         icon: CreditCard,
         title: 'PCI DSS Uyumu',
-        description: 'Odeme islemleri PCI DSS standartlarinda islem goren Stripe altyapisi ile yapilir.',
+        description: 'Odeme islemleri PCI DSS standartlarinda islem goren iyzico altyapisi ile yapilir.',
         color: 'pink',
     },
     {

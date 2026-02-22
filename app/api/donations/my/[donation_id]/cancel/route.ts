@@ -1,12 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
 import { requireUser } from '@/lib/authz';
-import Stripe from 'stripe';
+import { cancelIyzicoPayment } from '@/lib/iyzico';
 import { errorResponse, handleRouteError, successResponse } from '@/lib/api-response';
-
-const stripe = new Stripe(process.env.STRIPE_API_KEY || '', {
-    apiVersion: '2023-10-16',
-});
 
 // POST /api/donations/my/[donation_id]/cancel
 export async function POST(
@@ -18,7 +14,7 @@ export async function POST(
         const user = await requireUser();
         const donationId = params.donation_id;
 
-        if (!process.env.STRIPE_API_KEY) {
+        if (!process.env.IYZICO_API_KEY || !process.env.IYZICO_SECRET_KEY) {
             return errorResponse({ code: 'CONFIG_ERROR', message: 'Payment service not configured' }, 503);
         }
 
@@ -32,42 +28,43 @@ export async function POST(
             return errorResponse({ code: 'NOT_FOUND', message: 'Donation not found or unauthorized' }, 404);
         }
 
-        if (!donation.is_recurring || !donation.stripe_subscription_id) {
-            return errorResponse({ code: 'INVALID_REQUEST', message: 'This is not an active recurring donation' }, 400);
+        if (donation.status === 'refunded' || donation.status === 'canceled') {
+            return errorResponse({ code: 'ALREADY_CANCELED', message: 'This donation is already canceled or refunded' }, 400);
         }
 
-        if (donation.subscription_status === 'canceled') {
-            return errorResponse({ code: 'ALREADY_CANCELED', message: 'This subscription is already canceled' }, 400);
-        }
+        // Cancel the payment via iyzico
+        const cancelResult = await cancelIyzicoPayment(donation.iyzico_payment_id);
 
-        // Cancel the subscription in Stripe
-        const canceledSubscription = await stripe.subscriptions.cancel(donation.stripe_subscription_id);
+        if (cancelResult.status !== 'success') {
+            return errorResponse({ code: 'CANCEL_FAILED', message: cancelResult.errorMessage || 'Cancellation failed' }, 500);
+        }
 
         // Update local database
-        await db.collection('donations').updateMany(
-            { stripe_subscription_id: donation.stripe_subscription_id },
+        await db.collection('donations').updateOne(
+            { donation_id: donationId },
             {
                 $set: {
-                    subscription_status: canceledSubscription.status,
+                    status: 'canceled',
                     updated_at: new Date().toISOString()
                 }
             }
         );
 
-        // Also update transaction status
-        await db.collection('payment_transactions').updateMany(
-            { stripe_subscription_id: donation.stripe_subscription_id },
+        // Update campaign stats
+        await db.collection('campaigns').updateOne(
+            { campaign_id: donation.campaign_id },
             {
-                $set: {
-                    subscription_status: canceledSubscription.status,
-                    updated_at: new Date().toISOString()
-                }
+                $inc: {
+                    raised_amount: -(donation.amount || 0),
+                    donor_count: -1,
+                },
+                $set: { updated_at: new Date().toISOString() }
             }
         );
 
         return successResponse({
-            message: 'Subscription successfully canceled',
-            status: canceledSubscription.status
+            message: 'Donation successfully canceled',
+            status: 'canceled'
         });
 
     } catch (error) {

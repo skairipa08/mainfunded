@@ -72,7 +72,7 @@ export async function createIndexes() {
     await db.collection('donations').createIndex('donation_id', { unique: true });
     await db.collection('donations').createIndex('campaign_id');
     await db.collection('donations').createIndex('donor_id');
-    await db.collection('donations').createIndex('stripe_session_id', { unique: true, sparse: true });
+    await db.collection('donations').createIndex('iyzico_token', { unique: true, sparse: true });
     await db.collection('donations').createIndex('status');
 
     await db.collection('payment_transactions').createIndex('session_id', { unique: true });
@@ -115,8 +115,8 @@ export async function createIndexes() {
     await db.collection('verification_notes').createIndex('note_id', { unique: true });
     await db.collection('verification_notes').createIndex('verification_id');
 
-    await db.collection('stripe_events').createIndex('event_id', { unique: true });
-    await db.collection('stripe_events').createIndex('processing_status');
+    await db.collection('iyzico_events').createIndex('event_id', { unique: true });
+    await db.collection('iyzico_events').createIndex('processing_status');
 
     // Campaign Updates indexes
     await db.collection('campaign_updates').createIndex('campaign_id');

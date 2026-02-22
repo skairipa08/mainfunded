@@ -34,6 +34,7 @@ import {
   Globe,
   TrendingUp,
   Gift,
+  Clock,
 } from 'lucide-react';
 
 function DonatePageContent() {
@@ -45,9 +46,10 @@ function DonatePageContent() {
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [selectedQuickAmount, setSelectedQuickAmount] = useState<number | null>(null);
+  const [interval, setInterval] = useState<'one-time' | 'month' | 'week'>('one-time');
   const [formData, setFormData] = useState({
     amount: '',
-    target: 'Support a verified student' as 'Support a verified student' | 'General education fund',
+    target: 'Support a verified student' as 'Support a verified student' | 'General education fund' | 'Monthly student scholarship',
     donorName: '',
     donorEmail: '',
   });
@@ -116,6 +118,7 @@ function DonatePageContent() {
           donor_name: formData.donorName ? sanitizeInput(formData.donorName) : 'Anonymous',
           donor_email: formData.donorEmail ? formData.donorEmail.trim().toLowerCase() : undefined,
           anonymous: !formData.donorName,
+          interval: interval !== 'one-time' ? interval : undefined,
         }),
       });
 
@@ -125,7 +128,7 @@ function DonatePageContent() {
         toast.success(t('donation.success'));
         window.location.href = data.data.url;
       } else {
-        // Fallback: if Stripe is not configured, redirect to donor dashboard
+        // Fallback: if iyzico is not configured, redirect to donor dashboard
         toast.success(t('donation.success'));
         setTimeout(() => {
           router.push('/donor/dashboard');
@@ -209,8 +212,8 @@ function DonatePageContent() {
                         type="button"
                         onClick={() => handleQuickAmount(amount)}
                         className={`relative py-3.5 rounded-xl font-bold text-base transition-all duration-200 border-2 ${selectedQuickAmount === amount
-                            ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-500/30 scale-[1.02]'
-                            : 'bg-slate-50 text-slate-700 border-slate-100 hover:border-blue-300 hover:bg-blue-50'
+                          ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-500/30 scale-[1.02]'
+                          : 'bg-slate-50 text-slate-700 border-slate-100 hover:border-blue-300 hover:bg-blue-50'
                           }`}
                       >
                         {currencySymbol}{amount.toLocaleString()}
@@ -273,6 +276,12 @@ function DonatePageContent() {
                               <span>{t('donation.verifiedStudent')}</span>
                             </div>
                           </SelectItem>
+                          <SelectItem value="Monthly student scholarship">
+                            <div className="flex items-center gap-2">
+                              <GraduationCap className="h-4 w-4 text-purple-500" />
+                              <span>{t('donation.monthlyScholarship')}</span>
+                            </div>
+                          </SelectItem>
                           <SelectItem value="General education fund">
                             <div className="flex items-center gap-2">
                               <Globe className="h-4 w-4 text-emerald-500" />
@@ -282,6 +291,66 @@ function DonatePageContent() {
                         </SelectContent>
                       </Select>
                     </div>
+
+                    {/* Recurring donation prompt & interval selector */}
+                    {formData.target === 'General education fund' && (
+                      <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-5 space-y-4">
+                        <div className="flex gap-3">
+                          <Heart className="h-5 w-5 text-blue-500 mt-0.5" />
+                          <div>
+                            <p className="text-sm font-semibold text-blue-900 leading-snug">
+                              {t('donation.recurringPrompt')}
+                            </p>
+                          </div>
+                        </div>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                          <button
+                            type="button"
+                            onClick={() => setInterval('month')}
+                            className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${interval !== 'one-time'
+                              ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20 border-2 border-blue-600'
+                              : 'bg-white text-slate-600 border-2 border-slate-200 hover:border-blue-300'
+                              }`}
+                          >
+                            {t('donation.emotionalYes')}
+                          </button>
+                          <button
+                            type="button"
+                            onClick={() => setInterval('one-time')}
+                            className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${interval === 'one-time'
+                              ? 'bg-white text-slate-800 border-2 border-blue-600 shadow-sm'
+                              : 'bg-white text-slate-600 border-2 border-slate-200 hover:border-blue-300'
+                              }`}
+                          >
+                            {t('donation.emotionalNo')}
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
+                    {(formData.target === 'Monthly student scholarship' || (formData.target === 'General education fund' && interval !== 'one-time')) && (
+                      <div className="space-y-3">
+                        <Label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                          <Clock className="h-4 w-4 text-slate-400" />
+                          {t('donation.intervalSelect')}
+                        </Label>
+                        <div className="flex p-1 bg-slate-100/80 rounded-2xl">
+                          {(['one-time', 'week', 'month'] as const).map((opt) => (
+                            <button
+                              key={opt}
+                              type="button"
+                              onClick={() => setInterval(opt)}
+                              className={`flex-1 py-3 text-sm font-semibold rounded-xl transition-all duration-300 ${interval === opt
+                                ? 'bg-white text-slate-900 shadow-sm'
+                                : 'text-slate-500 hover:text-slate-700 hover:bg-white/50'
+                                }`}
+                            >
+                              {opt === 'one-time' ? t('donation.intervalOneTime') : opt === 'week' ? t('donation.intervalWeekly') : t('donation.intervalMonthly')}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
+                    )}
 
                     {/* Divider */}
                     <div className="relative">

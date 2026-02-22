@@ -872,7 +872,15 @@
         "trustTransparentDesc": "Chaque transaction est enregistrée",
         "equalityCampaign": "Campagne pour l'égalité éducative",
         "equalityDesc": "Découvrez notre campagne pour soutenir les enfants du monde entier qui n'ont pas accès à l'éducation.",
-        "viewCampaign": "Voir la campagne"
+        "viewCampaign": "Voir la campagne",
+        "monthlyScholarship": "Bourse d'Études Mensuelle",
+        "recurringPrompt": "Souhaitez-vous toucher plus de vies en poursuivant automatiquement votre don à des intervalles réguliers?",
+        "intervalOneTime": "Une fois",
+        "intervalMonthly": "Mensuel",
+        "intervalWeekly": "Hebdomadaire",
+        "emotionalYes": "Oui, je veux être un supporter régulier",
+        "emotionalNo": "Non, peut-être plus tard",
+        "intervalSelect": "Intervalle"
     },
     "donationForm": {
         "oneTime": "One-Time",
@@ -904,7 +912,7 @@
         "every3Months": "Every 3 Months",
         "submitRecurring": "Start Monthly Donation",
         "submitOneTime": "Donate Now",
-        "securePayment": "Your payment will be processed securely via Stripe."
+        "securePayment": "Your payment will be processed securely via iyzico."
     },
     "dashboard": {
         "title": "Tableau de bord",
@@ -993,7 +1001,7 @@
             },
             "payment": {
                 "title": "6. Traitement des paiements",
-                "content": "Les paiements sont traités via Stripe. FundEd ne stocke pas les informations de carte de crédit. Tous les litiges de paiement doivent être adressés à Stripe ou à votre institution financière."
+                "content": "Les paiements sont traités via iyzico. FundEd ne stocke pas les informations de carte de crédit. Tous les litiges de paiement doivent être adressés à iyzico ou à votre institution financière."
             },
             "prohibited": {
                 "title": "7. Activités interdites",
@@ -1031,7 +1039,7 @@
                     "Les informations de compte (nom, adresse e-mail) lors de votre inscription",
                     "Les informations du profil étudiant (université, domaine d'études, pays) pour la vérification",
                     "Les informations de campagne (titre, description, objectifs de financement)",
-                    "Les informations de paiement traitées en toute sécurité via Stripe",
+                    "Les informations de paiement traitées en toute sécurité via iyzico",
                     "Les documents de vérification soumis pour la vérification étudiante"
                 ]
             },
@@ -1051,7 +1059,7 @@
                 "title": "3. Partage des informations",
                 "content": "Nous ne vendons pas vos informations personnelles. Nous pouvons partager vos informations uniquement dans les circonstances suivantes :",
                 "items": [
-                    "Avec les processeurs de paiement (Stripe) pour traiter les dons",
+                    "Avec les processeurs de paiement (iyzico) pour traiter les dons",
                     "Avec les prestataires de services qui aident au fonctionnement de notre plateforme",
                     "Lorsque la loi l'exige ou pour protéger nos droits",
                     "Les informations publiques de campagne (nom, détails de campagne) telles qu'affichées sur les pages de campagne"
@@ -1119,7 +1127,7 @@
                 "title": "Services tiers",
                 "content": "FundEd utilise des services tiers, notamment :",
                 "items": [
-                    "Stripe pour le traitement des paiements",
+                    "iyzico pour le traitement des paiements",
                     "Cloudinary pour le stockage de fichiers",
                     "Google OAuth pour l'authentification"
                 ],
@@ -2742,7 +2750,7 @@
         "title": "Détail des frais",
         "toStudent": "À l'étudiant",
         "platformFee": "Frais de plateforme (5%)",
-        "stripeFee": "Frais Stripe (2,9% + 0,30$)",
+        "iyzicoFee": "Frais iyzico (3,54% + 0,25₺)",
         "total": "Total facturé"
     },
     "currency": {

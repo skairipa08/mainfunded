@@ -113,8 +113,8 @@ export interface Donation {
   donor_email?: string;
   amount: number;
   anonymous: boolean;
-  stripe_session_id?: string;
-  stripe_payment_intent?: string;
+  iyzico_token?: string;
+  iyzico_payment_id?: string;
   payment_status: PaymentStatus;
   created_at: string;
   refund_amount?: number;
@@ -175,12 +175,12 @@ export interface SimpleDonation {
 }
 
 // Payout Method Types
-export type PayoutMethodType = 'stripe_connect' | 'paypal' | 'wise' | 'papara';
+export type PayoutMethodType = 'iyzico' | 'paypal' | 'wise' | 'papara';
 
 export interface PayoutMethod {
   type: PayoutMethodType;
-  stripeAccountId?: string;
-  stripeAccountStatus?: 'pending' | 'active' | 'restricted';
+  iyzicoSubMerchantKey?: string;
+  iyzicoSubMerchantStatus?: 'pending' | 'active' | 'restricted';
   paypalEmail?: string;
   wiseEmail?: string;
   wiseCurrency?: 'USD' | 'EUR' | 'GBP';

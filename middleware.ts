@@ -27,7 +27,7 @@ interface RateTier {
 const RATE_TIERS: { pattern: RegExp; tier: RateTier }[] = [
   // Auth / Login — 20 req/min
   { pattern: /^\/(api\/auth|login)/, tier: { windowMs: 60_000, max: 20 } },
-  // Stripe checkout — 10 req/min
+  // iyzico checkout — 10 req/min
   { pattern: /^\/api\/checkout/, tier: { windowMs: 60_000, max: 10 } },
   // Verification submit — 5 req/min
   { pattern: /^\/api\/verification\/submit/, tier: { windowMs: 60_000, max: 5 } },
@@ -244,12 +244,12 @@ export default async function middleware(request: NextRequest) {
   const isDev = process.env.NODE_ENV === 'development';
   const csp = [
     "default-src 'self'",
-    `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://accounts.google.com https://apis.google.com https://js.stripe.com`,
+    `script-src 'self' 'unsafe-inline'${isDev ? " 'unsafe-eval'" : ''} https://accounts.google.com https://apis.google.com`,
     "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
     "img-src 'self' data: blob: https://lh3.googleusercontent.com https://res.cloudinary.com https://picsum.photos https://images.unsplash.com",
     "font-src 'self' https://fonts.gstatic.com",
-    "connect-src 'self' https://accounts.google.com https://www.googleapis.com https://api.stripe.com https://vitals.vercel-insights.com",
-    "frame-src 'self' https://accounts.google.com https://js.stripe.com",
+    "connect-src 'self' https://accounts.google.com https://www.googleapis.com https://api.iyzipay.com https://sandbox-api.iyzipay.com https://vitals.vercel-insights.com",
+    "frame-src 'self' https://accounts.google.com",
     "object-src 'none'",
     "base-uri 'self'",
     "form-action 'self' https://accounts.google.com",

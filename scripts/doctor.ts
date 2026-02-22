@@ -32,8 +32,9 @@ async function main() {
     'AUTH_SECRET',
     'GOOGLE_CLIENT_ID',
     'GOOGLE_CLIENT_SECRET',
-    'STRIPE_API_KEY',
-    'STRIPE_WEBHOOK_SECRET',
+    'IYZICO_API_KEY',
+    'IYZICO_SECRET_KEY',
+    'IYZICO_BASE_URL',
   ];
 
   let envOk = true;
@@ -103,17 +104,18 @@ async function main() {
     console.log('   ⚠️  Admin emails: NOT SET (admin panel will not be accessible)');
   }
 
-  // 5. Stripe webhook info
-  console.log('\n5️⃣  Stripe Webhook Testing...\n');
+  // 5. iyzico payment info
+  console.log('\n5️⃣  iyzico Payment Integration...\n');
   
-  if (process.env.STRIPE_WEBHOOK_SECRET) {
-    console.log('   ✅ STRIPE_WEBHOOK_SECRET is set');
-    console.log('\n   💡 To test webhooks locally, run:');
-    console.log('      stripe listen --forward-to localhost:3000/api/stripe/webhook');
-    console.log('      stripe trigger checkout.session.completed');
-    console.log('\n   ⚠️  Make sure STRIPE_WEBHOOK_SECRET matches the output from "stripe listen"');
+  if (process.env.IYZICO_API_KEY && process.env.IYZICO_SECRET_KEY) {
+    console.log('   ✅ IYZICO_API_KEY is set');
+    console.log('   ✅ IYZICO_SECRET_KEY is set');
+    console.log(`   🌐 Base URL: ${process.env.IYZICO_BASE_URL || 'https://sandbox-api.iyzipay.com'}`);
+    console.log('\n   💡 iyzico uses callback-based flow (no CLI needed).');
+    console.log('      Callback URL: /api/iyzico/callback');
+    console.log('      Test card: 5528790000000008');
   } else {
-    console.log('   ❌ STRIPE_WEBHOOK_SECRET is not set');
+    console.log('   ❌ IYZICO_API_KEY or IYZICO_SECRET_KEY is not set');
   }
 
   // Summary
