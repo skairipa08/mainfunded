@@ -20,7 +20,7 @@ FundEd is a self-hostable crowdfunding platform for verified students to raise f
 - **Authentication**: NextAuth.js v5 (Google OAuth, database sessions)
 - **Payments**: Stripe (with webhook signature verification)
 - **Storage**: Cloudinary
-- **Deployment**: Vercel (recommended)
+- **Deployment**: Vercel (recommended) 
 
 ---
 
