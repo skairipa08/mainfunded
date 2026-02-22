@@ -148,6 +148,16 @@ export async function POST(request: NextRequest) {
     try {
       const isSubscription = interval === 'week' || interval === 'month';
 
+      // FETCH OWNER STRIPE CONNECT ACCOUNT ID
+      const ownerProfile = await db.collection('users').findOne(
+        { id: campaign.owner_id },
+        { projection: { stripe_account_id: 1, stripe_onboarding_complete: 1 } }
+      );
+
+      const destinationAccountId = ownerProfile?.stripe_account_id && ownerProfile?.stripe_onboarding_complete
+        ? ownerProfile.stripe_account_id
+        : undefined;
+
       const lineItemPriceData: Stripe.Checkout.SessionCreateParams.LineItem.PriceData = {
         currency: 'usd',
         product_data: {
@@ -165,34 +175,55 @@ export async function POST(request: NextRequest) {
         };
       }
 
-      const session = await stripe.checkout.sessions.create(
-        {
-          payment_method_types: ['card'],
-          line_items: [{
-            price_data: lineItemPriceData,
-            quantity: 1,
-          }],
-          mode: isSubscription ? 'subscription' : 'payment',
-          success_url: successUrl,
-          cancel_url: cancelUrl,
-          customer_email: finalDonorEmail || undefined,
-          metadata: {
-            campaign_id: campaignId,
-            donor_id: donorId || '',
-            donor_name: donorName,
-            anonymous: String(anonymous),
-            idempotency_key: idempotencyKey,
-            base_amount: String(baseAmount),
-            platform_fee: String(platformFee),
-            stripe_fee: String(stripeFee),
-            cover_fees: String(coverFees),
-            note_to_student: noteToStudent.substring(0, 450),
-            platform_tip_percent: String(platformTipPercent),
-            platform_tip_amount: String(platformTipAmount),
-            interval: interval || 'one-time',
-            is_recurring: String(isSubscription),
-          },
+      const sessionConfig: Stripe.Checkout.SessionCreateParams = {
+        payment_method_types: ['card'],
+        line_items: [{
+          price_data: lineItemPriceData,
+          quantity: 1,
+        }],
+        mode: isSubscription ? 'subscription' : 'payment',
+        success_url: successUrl,
+        cancel_url: cancelUrl,
+        customer_email: finalDonorEmail || undefined,
+        metadata: {
+          campaign_id: campaignId,
+          donor_id: donorId || '',
+          donor_name: donorName,
+          anonymous: String(anonymous),
+          idempotency_key: idempotencyKey,
+          base_amount: String(baseAmount),
+          platform_fee: String(platformFee),
+          stripe_fee: String(stripeFee),
+          cover_fees: String(coverFees),
+          note_to_student: noteToStudent.substring(0, 450),
+          platform_tip_percent: String(platformTipPercent),
+          platform_tip_amount: String(platformTipAmount),
+          interval: interval || 'one-time',
+          is_recurring: String(isSubscription),
         },
+      };
+
+      // Add Stripe Connect Transfer Data if owner is onboarded
+      if (destinationAccountId) {
+        if (isSubscription) {
+          sessionConfig.subscription_data = {
+            transfer_data: {
+              destination: destinationAccountId,
+              amount_percent: 95.0, // Platform keeps 5% flat
+            }
+          };
+        } else {
+          sessionConfig.payment_intent_data = {
+            transfer_data: {
+              destination: destinationAccountId,
+            },
+            application_fee_amount: Math.round((amount * 0.05) * 100), // Platform keeps 5% mathematically
+          };
+        }
+      }
+
+      const session = await stripe.checkout.sessions.create(
+        sessionConfig,
         {
           idempotencyKey: idempotencyKey,
         }

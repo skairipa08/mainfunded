@@ -191,7 +191,6 @@ async function processRecurringPayment(db: any, invoice: Stripe.Invoice) {
   }
   );
 
-  // If we can't find it directly by subscription id, let's try finding it by customer email + amount or look up the subscription metadata
   let transactionContext = initialTransaction;
 
   if (!transactionContext) {
@@ -210,6 +209,8 @@ async function processRecurringPayment(db: any, invoice: Stripe.Invoice) {
         amount: invoice.amount_paid / 100, // Amount in cents
         currency: invoice.currency,
         cover_fees: subscription.metadata.cover_fees === 'true',
+        platform_fee: parseFloat(subscription.metadata.platform_fee || '0'),
+        stripe_fee: parseFloat(subscription.metadata.stripe_fee || '0'),
       };
 
       // Retroactively bind the subscription to the original transaction if we can find it via idempotency key
@@ -249,6 +250,24 @@ async function processRecurringPayment(db: any, invoice: Stripe.Invoice) {
   };
 
   await db.collection('donations').insertOne(donation);
+
+  // Record platform fee if fees were covered or if we routed via Stripe Connect 
+  // (We use transactionContext.platform_fee mapped earlier)
+  if (transactionContext.platform_fee > 0) {
+    try {
+      await db.collection('platform_fees').insertOne({
+        fee_id: `fee_${crypto.randomBytes(6).toString('hex')}`,
+        donation_id: donation.donation_id,
+        campaign_id: transactionContext.campaign_id,
+        base_amount: transactionContext.base_amount ?? transactionContext.amount,
+        platform_fee: transactionContext.platform_fee,
+        stripe_fee: transactionContext.stripe_fee || 0,
+        created_at: new Date().toISOString(),
+      });
+    } catch {
+      // Non-critical: fee record failed but donation is still valid
+    }
+  }
 
   await db.collection('campaigns').updateOne(
     { campaign_id: transactionContext.campaign_id },

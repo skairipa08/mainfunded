@@ -2,95 +2,77 @@ import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
 import { requireUser } from '@/lib/authz';
 import Stripe from 'stripe';
+import { errorResponse, successResponse } from '@/lib/api-response';
 
 const stripe = new Stripe(process.env.STRIPE_API_KEY || '', {
   apiVersion: '2023-10-16',
 });
 
-// GET — generate Stripe Connect OAuth URL
-export async function GET() {
-  try {
-    const user = await requireUser();
-
-    if (!process.env.STRIPE_API_KEY || !process.env.STRIPE_CONNECT_CLIENT_ID) {
-      return NextResponse.json(
-        { error: { code: 'CONFIG_ERROR', message: 'Stripe Connect yapılandırılmamış' } },
-        { status: 503 },
-      );
-    }
-
-    const baseUrl = process.env.AUTH_URL || 'http://localhost:3000';
-    const state = Buffer.from(JSON.stringify({ user_id: user.id })).toString('base64url');
-
-    const url = `https://connect.stripe.com/oauth/authorize?response_type=code&client_id=${process.env.STRIPE_CONNECT_CLIENT_ID}&scope=read_write&redirect_uri=${encodeURIComponent(`${baseUrl}/api/student/stripe-connect/callback`)}&state=${state}`;
-
-    return NextResponse.json({ success: true, data: { url } });
-  } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Server error';
-    const status = message === 'Unauthorized' ? 401 : 500;
-    return NextResponse.json({ error: { code: 'ERROR', message } }, { status });
-  }
-}
-
-// POST — handle callback code, exchange for accountId
-export async function POST(request: NextRequest) {
+// GET — generate Stripe Connect Express Onboarding URL or Dashboard URL
+export async function GET(request: NextRequest) {
   try {
     const user = await requireUser();
     const db = await getDb();
-    const body = await request.json();
-    const code = body.code as string | undefined;
 
-    if (!code) {
-      return NextResponse.json(
-        { error: { code: 'VALIDATION_ERROR', message: 'Authorization code gereklidir' } },
-        { status: 400 },
+    if (!process.env.STRIPE_API_KEY) {
+      return errorResponse({ code: 'CONFIG_ERROR', message: 'Stripe Connect yapılandırılmamış' }, 503);
+    }
+
+    const baseUrl = process.env.AUTH_URL || 'http://localhost:3000';
+    const returnUrl = `${baseUrl}/student/dashboard/payout?refresh=true`;
+
+    // Fetch the user's current record
+    const userRecord = await db.collection('users').findOne({ id: user.id });
+
+    let accountId = userRecord?.stripe_account_id;
+
+    // Create a new Stripe Connect Express account if they don't have one
+    if (!accountId) {
+      const account = await stripe.accounts.create({
+        type: 'express',
+        country: 'US', // Default to US, Stripe handles country selection later
+        email: user.email,
+        capabilities: {
+          card_payments: { requested: true },
+          transfers: { requested: true },
+        },
+      });
+      accountId = account.id;
+
+      // Save the ID so we don't recreate it
+      await db.collection('users').updateOne(
+        { id: user.id },
+        { $set: { stripe_account_id: accountId, stripe_onboarding_complete: false } }
       );
     }
 
-    // Exchange code for connected account
-    const response = await stripe.oauth.token({
-      grant_type: 'authorization_code',
-      code,
-    });
+    // Checking if Onboarding is complete
+    const accountStatus = await stripe.accounts.retrieve(accountId);
 
-    const stripeAccountId = response.stripe_user_id;
-    if (!stripeAccountId) {
-      return NextResponse.json(
-        { error: { code: 'STRIPE_ERROR', message: 'Stripe hesap bağlantısı başarısız' } },
-        { status: 500 },
+    if (accountStatus.details_submitted) {
+      // Onboarding is complete, record it
+      await db.collection('users').updateOne(
+        { id: user.id },
+        { $set: { stripe_onboarding_complete: true } }
       );
+
+      // Generate a login link to their Stripe Dashboard
+      const loginLink = await stripe.accounts.createLoginLink(accountId);
+      return successResponse({ url: loginLink.url });
     }
 
-    // Remove old stripe_connect, add new
-    await db.collection('student_profiles').updateOne(
-      { user_id: user.id },
-      { $pull: { payoutMethods: { type: 'stripe_connect' } } as any },
-    );
-
-    await db.collection('student_profiles').updateOne(
-      { user_id: user.id },
-      {
-        $push: {
-          payoutMethods: {
-            type: 'stripe_connect',
-            stripeAccountId,
-            stripeAccountStatus: 'active',
-            isVerified: true,
-            addedAt: new Date().toISOString(),
-            isDefault: false,
-          },
-        } as any,
-      },
-    );
-
-    return NextResponse.json({
-      success: true,
-      message: 'Stripe Connect hesabı başarıyla bağlandı',
-      data: { stripeAccountId },
+    // Onboarding is NOT complete, generate an account link
+    const accountLink = await stripe.accountLinks.create({
+      account: accountId,
+      refresh_url: returnUrl,
+      return_url: returnUrl,
+      type: 'account_onboarding',
     });
-  } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : 'Stripe bağlantı hatası';
-    const status = message === 'Unauthorized' ? 401 : 500;
-    return NextResponse.json({ error: { code: 'ERROR', message } }, { status });
+
+    return successResponse({ url: accountLink.url });
+
+  } catch (error: any) {
+    const message = error.message || 'Server error';
+    return errorResponse({ code: 'STRIPE_ERROR', message }, 500);
   }
 }

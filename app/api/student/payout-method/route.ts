@@ -60,12 +60,18 @@ export async function GET() {
     const user = await requireUser();
     const db = await getDb();
 
+    // Get the base user record to check for new Stripe Express accounts
+    const baseUser = await db.collection('users').findOne({ id: user.id });
+
     const profile = await db.collection('student_profiles').findOne(
       { user_id: user.id },
       { projection: { _id: 0, payoutMethods: 1 } },
     );
 
-    const methods: Record<string, unknown>[] = (profile?.payoutMethods ?? []).map((m: Record<string, unknown>) => {
+    // Filter out old stripe_connect methods from the profile array
+    const legacyMethods = (profile?.payoutMethods ?? []).filter((m: any) => m.type !== 'stripe_connect');
+
+    const methods: Record<string, unknown>[] = legacyMethods.map((m: Record<string, unknown>) => {
       const masked: Record<string, unknown> = {
         type: m.type,
         isVerified: m.isVerified,
@@ -75,10 +81,6 @@ export async function GET() {
       };
 
       switch (m.type) {
-        case 'stripe_connect':
-          masked.stripeAccountId = maskStripe(String(m.stripeAccountId ?? ''));
-          masked.stripeAccountStatus = m.stripeAccountStatus;
-          break;
         case 'paypal':
           masked.paypalEmail = maskEmail(String(m.paypalEmail ?? ''));
           break;
@@ -93,6 +95,22 @@ export async function GET() {
 
       return masked;
     });
+
+    // Dynamically inject the Stripe Express Account native to the base user collection
+    if (baseUser?.stripe_account_id) {
+      methods.push({
+        type: 'stripe',
+        isVerified: baseUser.stripe_onboarding_complete || false,
+        addedAt: baseUser.created_at || new Date().toISOString(),
+        lastPayoutAt: null,
+        isDefault: true,
+        stripeAccountId: maskStripe(baseUser.stripe_account_id),
+        stripeAccountStatus: baseUser.stripe_onboarding_complete ? 'active' : 'pending',
+        details: {
+          id: maskStripe(baseUser.stripe_account_id)
+        }
+      });
+    }
 
     return NextResponse.json({ success: true, data: methods });
   } catch (error: unknown) {
@@ -110,7 +128,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
 
     const type = body.type as PayoutMethodType;
-    if (!['stripe_connect', 'paypal', 'wise', 'papara'].includes(type)) {
+    if (!['paypal', 'wise', 'papara'].includes(type)) {
       return NextResponse.json(
         { error: { code: 'VALIDATION_ERROR', message: 'Geçersiz ödeme yöntemi' } },
         { status: 400 },
@@ -127,16 +145,12 @@ export async function POST(request: NextRequest) {
 
     const method: Record<string, unknown> = {
       type,
-      isVerified: type === 'stripe_connect' ? false : true, // stripe needs OAuth
+      isVerified: true,
       addedAt: new Date().toISOString(),
       isDefault: body.isDefault ?? false,
     };
 
     switch (type) {
-      case 'stripe_connect':
-        method.stripeAccountId = sanitize(String(body.stripeAccountId));
-        method.stripeAccountStatus = 'pending';
-        break;
       case 'paypal':
         method.paypalEmail = sanitize(String(body.paypalEmail));
         break;

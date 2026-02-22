@@ -67,10 +67,16 @@ export default function PayoutMethodsPage() {
     setSaving(true);
     try {
       const res = await fetch('/api/student/stripe-connect');
-      if (!res.ok) throw new Error('Stripe Connect bağlantısı başlatılamadı');
       const data = await res.json();
-      if (data.data?.url) {
+
+      if (!res.ok) {
+        throw new Error(data.error?.message || 'Stripe Connect bağlantısı başlatılamadı');
+      }
+
+      if (data.success && data.data?.url) {
         window.location.href = data.data.url;
+      } else {
+        throw new Error('Geçersiz yönlendirme bağlantısı');
       }
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : 'Stripe hatası');
@@ -196,12 +202,18 @@ export default function PayoutMethodsPage() {
                   </div>
                 </div>
                 {hasMethod('stripe') ? (
-                  <div className="flex items-center gap-2 text-green-600">
-                    <Check className="h-5 w-5" />
-                    <span className="font-medium">Stripe hesabınız bağlı</span>
+                  <div className="flex flex-col gap-3 p-4 border border-green-100 bg-green-50 rounded-lg">
+                    <div className="flex items-center gap-2 text-green-700">
+                      <Check className="h-5 w-5" />
+                      <span className="font-medium">Stripe hesabınız bağlı ve aktif.</span>
+                    </div>
+                    <Button onClick={handleStripeConnect} disabled={saving} variant="outline" className="w-full bg-white text-green-700 border-green-200 hover:bg-green-100">
+                      <ExternalLink className="h-4 w-4 mr-2" />
+                      {saving ? 'Yükleniyor...' : 'Stripe Paneline Git'}
+                    </Button>
                   </div>
                 ) : (
-                  <Button onClick={handleStripeConnect} disabled={saving} className="w-full">
+                  <Button onClick={handleStripeConnect} disabled={saving} className="w-full bg-indigo-600 hover:bg-indigo-700 text-white">
                     <ExternalLink className="h-4 w-4 mr-2" />
                     {saving ? 'Bağlanıyor...' : 'Stripe Hesabını Bağla'}
                   </Button>
