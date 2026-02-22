@@ -817,7 +817,9 @@
             "approved": "Approved",
             "rejected": "Rejected",
             "pending": "Pending"
-        }
+        },
+        "saasFeeNote": "95% of your donations are transferred directly to the student. A 5% platform fee is applied.",
+        "recurringNote": "This campaign is supported by regular (monthly/weekly) donors."
     },
     "donation": {
         "title": "Make a Donation",

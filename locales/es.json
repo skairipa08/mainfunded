@@ -817,7 +817,9 @@
             "approved": "Approved",
             "rejected": "Rejected",
             "pending": "Pending"
-        }
+        },
+        "saasFeeNote": "El 95% de sus donaciones se transfieren directamente al estudiante. Se aplica una tarifa de plataforma del 5%.",
+        "recurringNote": "Esta campaña cuenta con el apoyo de donantes habituales."
     },
     "donation": {
         "title": "Hacer una donación",

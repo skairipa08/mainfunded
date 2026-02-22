@@ -817,7 +817,9 @@
             "approved": "Approved",
             "rejected": "Rejected",
             "pending": "Pending"
-        }
+        },
+        "saasFeeNote": "您的捐款的95％直接转给学生。收取5％的平台费。",
+        "recurringNote": "这项活动得到了定期捐助者的支持。"
     },
     "donation": {
         "title": "捐款",

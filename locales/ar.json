@@ -817,7 +817,9 @@
             "approved": "Approved",
             "rejected": "Rejected",
             "pending": "Pending"
-        }
+        },
+        "saasFeeNote": "يتم تحويل 95% من تبرعاتك مباشرة إلى الطالب. يتم تطبيق رسوم منصة بنسبة 5%.",
+        "recurringNote": "يتم دعم هذه الحملة من قبل متبرعين منتظمين (شهريًا/أسبوعيًا)."
     },
     "donation": {
         "title": "قدم تبرعاً",

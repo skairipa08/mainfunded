@@ -817,7 +817,9 @@
             "approved": "Approved",
             "rejected": "Rejected",
             "pending": "Pending"
-        }
+        },
+        "saasFeeNote": "95 % de vos dons sont transférés directement à l'étudiant. Des frais de plateforme de 5 % sont appliqués.",
+        "recurringNote": "Cette campagne est soutenue par des donateurs réguliers."
     },
     "donation": {
         "title": "Faire un don",

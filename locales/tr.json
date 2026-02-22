@@ -758,11 +758,11 @@
         "viewStatus": "Durumu Goruntule"
     },
     "campaignCard": {
-        "approved": "Onayland\u0131",
-        "raised": "{amount} topland\u0131",
+        "approved": "Onaylandı",
+        "raised": "{amount} toplandı",
         "goal": "{amount} hedef",
-        "donorCount": "{count} ba\u011f\u0131\u015f\u00e7\u0131",
-        "funded": "%{percent} fonland\u0131"
+        "donorCount": "{count} bağışçı",
+        "funded": "%{percent} fonlandı"
     },
     "campaign": {
         "createCampaign": "Kampanya Olustur",
@@ -817,7 +817,9 @@
             "approved": "Onaylandı",
             "rejected": "Reddedildi",
             "pending": "Beklemede"
-        }
+        },
+        "saasFeeNote": "Bağışlarınızın %95'i doğrudan öğrenciye aktarılır. %5 platform kesintisi uygulanır.",
+        "recurringNote": "Bu kampanyaya düzenli (aylık/haftalık) destekçiler katkı sağlamaktadır."
     },
     "donation": {
         "title": "Bağış Yap",

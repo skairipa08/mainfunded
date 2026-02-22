@@ -522,6 +522,23 @@ export default function CampaignDetailClient({ initialCampaign }: CampaignDetail
                                     </div>
                                 </div>
 
+                                {(campaign.has_recurring || campaign.is_saas_connected) && (
+                                    <div className="flex flex-col gap-2 mb-4 p-3 bg-gray-50 rounded-lg text-xs text-gray-600">
+                                        {campaign.is_saas_connected && (
+                                            <div className="flex items-start gap-2">
+                                                <Shield className="h-4 w-4 text-green-600 mt-0.5 shrink-0" />
+                                                <p>{t('campaign.saasFeeNote')}</p>
+                                            </div>
+                                        )}
+                                        {campaign.has_recurring && (
+                                            <div className="flex items-start gap-2">
+                                                <Clock className="h-4 w-4 text-blue-600 mt-0.5 shrink-0" />
+                                                <p>{t('campaign.recurringNote')}</p>
+                                            </div>
+                                        )}
+                                    </div>
+                                )}
+
                                 <Button
                                     className="w-full h-12 text-base font-semibold bg-blue-600 hover:bg-blue-700 mb-3"
                                     onClick={() => router.push(`/campaign/${campaignId}/donate`)}

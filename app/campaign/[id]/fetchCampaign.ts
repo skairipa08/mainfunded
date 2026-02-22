@@ -20,6 +20,8 @@ export interface CampaignData {
     documentTypes?: string[];
     documentStatuses?: string[];
     tier_approved?: number;
+    has_recurring?: boolean;
+    is_saas_connected?: boolean;
     student: {
         user_id: string;
         name: string;
@@ -57,10 +59,10 @@ export async function fetchCampaignData(campaignId: string): Promise<CampaignDat
         const ownerId = campaign.owner_id;
 
         // Fetch user, student profile, donations in parallel
-        const [user, studentProfile, raisedAgg, donations] = await Promise.all([
+        const [user, studentProfile, raisedAgg, donations, recurringDonation] = await Promise.all([
             db.collection('users').findOne(
                 { _id: new ObjectId(ownerId) },
-                { projection: { _id: 1, name: 1, image: 1 } }
+                { projection: { _id: 1, name: 1, image: 1, stripe_onboarding_complete: 1 } }
             ),
             db.collection('student_profiles').findOne(
                 { user_id: ownerId },
@@ -84,6 +86,10 @@ export async function fetchCampaignData(campaignId: string): Promise<CampaignDat
                 .sort({ created_at: -1 })
                 .limit(50)
                 .toArray(),
+            db.collection('donations').findOne(
+                { campaign_id: campaignId, status: 'paid', is_recurring: true },
+                { projection: { _id: 1 } }
+            )
         ]);
 
         const agg = raisedAgg[0];
@@ -113,6 +119,8 @@ export async function fetchCampaignData(campaignId: string): Promise<CampaignDat
             documentTypes: campaign.documentTypes || [],
             documentStatuses: campaign.documentStatuses || [],
             tier_approved: campaign.tier_approved,
+            has_recurring: !!recurringDonation,
+            is_saas_connected: !!user?.stripe_onboarding_complete,
             student: {
                 user_id: ownerId,
                 name: user?.name || 'Unknown',
