@@ -855,12 +855,10 @@
         "loading": "Chargement...",
         "impactTitle": "L'impact de votre don",
         "impactWith": "avec",
-        "impact10": "1 mois de cahiers & stylos pour un étudiant",
-        "impact25": "Fournitures de sac à dos pour un étudiant",
-        "impact50": "1 an de fournitures scolaires pour un enfant",
-        "impact100": "Matériel éducatif numérique pour une classe",
-        "impact250": "1 semestre de bourse pour un étudiant",
-        "impact500": "Rénovation & équipement d'une classe",
+        "impact25": "1 mois de cahiers & stylos pour un étudiant",
+        "impact50": "Fournitures de sac à dos pour un étudiant",
+        "impact100": "1 an de fournitures scolaires pour un enfant",
+        "impact250": "Matériel éducatif numérique pour une classe",
         "trustTitle": "Sécurité & Transparence",
         "trustVerified": "Étudiants vérifiés",
         "trustVerifiedDesc": "Tous les étudiants passent une vérification d'identité",
@@ -880,7 +878,10 @@
         "intervalWeekly": "Hebdomadaire",
         "emotionalYes": "Oui, je veux être un supporter régulier",
         "emotionalNo": "Non, peut-être plus tard",
-        "intervalSelect": "Intervalle"
+        "intervalSelect": "Intervalle",
+        "impact750": "1 semestre de bourse pour un étudiant",
+        "impact2500": "Rénovation & équipement d'une classe",
+        "impact5000": "Laboratoire complet et infrastructure technologique pour une école"
     },
     "donationForm": {
         "oneTime": "One-Time",

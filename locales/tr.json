@@ -855,12 +855,10 @@
         "loading": "Yükleniyor...",
         "impactTitle": "Bağışınızın Etkisi",
         "impactWith": "ile",
-        "impact10": "Bir öğrenciye 1 aylık defter & kalem",
-        "impact25": "Bir öğrencinin okul çantası ihtiyacı",
-        "impact50": "Bir çocuğun 1 yıllık okul malzemesi",
-        "impact100": "Bir sınıfa dijital eğitim materyali",
-        "impact250": "Bir öğrencinin 1 dönemlik bursu",
-        "impact500": "Bir sınıfın yenilenmesi & donatılması",
+        "impact25": "Bir öğrenciye 1 aylık defter & kalem",
+        "impact50": "Bir öğrencinin okul çantası ihtiyacı",
+        "impact100": "Bir çocuğun 1 yıllık okul malzemesi",
+        "impact250": "Bir sınıfa dijital eğitim materyali",
         "trustTitle": "Güvenlik & Şeffaflık",
         "trustVerified": "Doğrulanmış Öğrenciler",
         "trustVerifiedDesc": "Tüm öğrenciler kimlik doğrulamasından geçer",
@@ -880,7 +878,10 @@
         "intervalWeekly": "Haftalık",
         "emotionalYes": "Evet, düzenli destekçi olmak istiyorum",
         "emotionalNo": "Hayır, tek seferlik yapmak istiyorum",
-        "intervalSelect": "İşlem Sıklığı"
+        "intervalSelect": "İşlem Sıklığı",
+        "impact750": "Bir öğrencinin 1 dönemlik bursu",
+        "impact2500": "Bir sınıfın yenilenmesi & donatılması",
+        "impact5000": "Bir okulun tam donanımlı laboratuvar ve teknoloji altyapısı"
     },
     "donationForm": {
         "oneTime": "Tek Seferlik",

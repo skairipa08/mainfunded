@@ -855,12 +855,10 @@
         "loading": "加载中...",
         "impactTitle": "您捐款的影响",
         "impactWith": "可以",
-        "impact10": "为一名学生提供1个月的笔记本和钢笔",
-        "impact25": "为一名学生提供书包用品",
-        "impact50": "为一个孩子提供1年的学习用品",
-        "impact100": "为一个教室提供数字教育材料",
-        "impact250": "为一名学生提供1学期的奖学金",
-        "impact500": "翻新和配备一间教室",
+        "impact25": "为一名学生提供1个月的笔记本和钢笔",
+        "impact50": "为一名学生提供书包用品",
+        "impact100": "为一个孩子提供1年的学习用品",
+        "impact250": "为一个教室提供数字教育材料",
         "trustTitle": "安全与透明",
         "trustVerified": "已验证学生",
         "trustVerifiedDesc": "所有学生均经过身份验证",
@@ -880,7 +878,10 @@
         "intervalWeekly": "每周",
         "emotionalYes": "是的，我想成为定期的支持者",
         "emotionalNo": "不，也许以后",
-        "intervalSelect": "间隔"
+        "intervalSelect": "间隔",
+        "impact750": "为一名学生提供1学期的奖学金",
+        "impact2500": "翻新和配备一间教室",
+        "impact5000": "一所学校的完整实验室和技术基础设施"
     },
     "donationForm": {
         "oneTime": "One-Time",

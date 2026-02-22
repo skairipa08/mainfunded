@@ -85,13 +85,13 @@ export default function SponsorsPage() {
             <Navbar />
             <main className="flex-grow">
                 {/* Hero Section */}
-                <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white py-16 px-4">
+                <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white py-20 px-4">
                     <div className="max-w-4xl mx-auto text-center">
                         <h1 className="text-4xl md:text-5xl font-bold mb-6">
                             Sponsorlarimiz
                         </h1>
-                        <p className="text-xl text-blue-100 max-w-2xl mx-auto">
-                            Ogrencilerin egitim hayallerini gerceklestirmelerine yardimci olan degerli is ortaklarimiz
+                        <p className="text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
+                            FundEd&apos;e inanan ve platformumuzu destekleyerek egitimde esitlik icin birlikte yol yuruten degerli is ortaklarimiz.
                         </p>
                     </div>
                 </section>
@@ -101,24 +101,30 @@ export default function SponsorsPage() {
                     <div className="max-w-4xl mx-auto">
                         <div className="bg-blue-50 border-l-4 border-blue-600 p-6 rounded-r-lg mb-12">
                             <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                                Sponsorluk Neden Onemli?
+                                Neden FundEd&apos;i Destekliyorlar?
                             </h2>
-                            <p className="text-gray-700 leading-relaxed">
-                                Sponsorlarımız sayesinde öğrenciler eğitim burslarından faydalanabilecek.
-                                Her bir sponsor, bir ogrencinin gelecegine yatirim yapiyor. Sponsorlarimizin
-                                destekleriyle ogrenciler kitap, okul malzemesi, barinma ve ulasim gibi temel
-                                ihtiyaclarini karsilayabiliyor ve egitimlerine odaklanabiliyor.
+                            <p className="text-gray-700 leading-relaxed text-lg italic">
+                                &ldquo;FundEd&apos;i destekliyoruz cunku her ogrencinin esit ve daha iyi bir egitim hayati olmasi gerektigine inaniyoruz.&rdquo;
                             </p>
                             <p className="text-gray-700 leading-relaxed mt-4">
-                                Siz de sponsor olarak bu anlamli harekete katilabilir ve bir ogrencinin
-                                hayatina dokunabilirsiniz.
+                                Sponsorlarimiz, FundEd platformunun surekliligini ve buyumesini destekleyerek
+                                egitimde firsat esitligi vizyonumuzu gercege donusturmemize yardimci oluyor.
+                                Platformumuza verdikleri destek sayesinde daha fazla ogrenciye ulasabiliyor,
+                                teknolojimizi gelistirebiliyor ve egitim ekosistemini guclendiriyoruz.
+                            </p>
+                            <p className="text-gray-700 leading-relaxed mt-4">
+                                Siz de FundEd&apos;in arkasindaki gucu buyutmek ve egitimde adaleti saglamak icin
+                                sponsor olabilirsiniz.
                             </p>
                         </div>
 
                         {/* Sponsors Grid */}
-                        <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
-                            Degerli Sponsorlarimiz
+                        <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">
+                            FundEd&apos;e Inanan Sirketler
                         </h2>
+                        <p className="text-gray-500 text-center mb-8">
+                            Platformumuzu destekleyerek egitimde esitlik icin birlikte calisan kurumlar
+                        </p>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                             {sponsors.map((sponsor, index) => (
                                 <div
@@ -150,10 +156,10 @@ export default function SponsorsPage() {
                 <section className="bg-gray-100 py-12 px-4">
                     <div className="max-w-2xl mx-auto text-center">
                         <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                            Sponsor Olmak Ister misiniz?
+                            Siz de FundEd&apos;i Destekleyin
                         </h2>
                         <p className="text-gray-600 mb-6">
-                            Ogrencilerin egitim hayallerine destek olmak icin bizimle iletisime gecin.
+                            Egitimde esitlik icin platformumuzu buyutmemize yardimci olun. Birlikte daha fazla ogrenciye ulasalim.
                         </p>
                         <button
                             onClick={() => setShowForm(true)}

@@ -855,12 +855,10 @@
         "loading": "Loading...",
         "impactTitle": "Your Donation's Impact",
         "impactWith": "with",
-        "impact10": "1 month of notebooks & pens for a student",
-        "impact25": "School bag supplies for a student",
-        "impact50": "1 year of school supplies for a child",
-        "impact100": "Digital education materials for a classroom",
-        "impact250": "1 semester scholarship for a student",
-        "impact500": "Classroom renovation & furnishing",
+        "impact25": "1 month of notebooks & pens for a student",
+        "impact50": "School bag supplies for a student",
+        "impact100": "1 year of school supplies for a child",
+        "impact250": "Digital education materials for a classroom",
         "trustTitle": "Security & Transparency",
         "trustVerified": "Verified Students",
         "trustVerifiedDesc": "All students go through identity verification",
@@ -880,7 +878,10 @@
         "intervalWeekly": "Weekly",
         "emotionalYes": "Yes, I want to be a regular supporter",
         "emotionalNo": "No, maybe later",
-        "intervalSelect": "Interval"
+        "intervalSelect": "Interval",
+        "impact750": "1 semester scholarship for a student",
+        "impact2500": "Classroom renovation & furnishing",
+        "impact5000": "Full laboratory & technology infrastructure for a school"
     },
     "donationForm": {
         "oneTime": "One-Time",

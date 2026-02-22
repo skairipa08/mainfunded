@@ -470,12 +470,13 @@ function DonatePageContent() {
 
                 <div className="space-y-4">
                   {[
-                    { amount: formatAmount(10), desc: t('donation.impact10'), icon: '📝' },
-                    { amount: formatAmount(25), desc: t('donation.impact25'), icon: '🎒' },
-                    { amount: formatAmount(50), desc: t('donation.impact50'), icon: '📚' },
-                    { amount: formatAmount(100), desc: t('donation.impact100'), icon: '💻' },
-                    { amount: formatAmount(250), desc: t('donation.impact250'), icon: '🎓' },
-                    { amount: formatAmount(500), desc: t('donation.impact500'), icon: '🏫' },
+                    { amount: formatAmount(25), desc: t('donation.impact25'), icon: '📝' },
+                    { amount: formatAmount(50), desc: t('donation.impact50'), icon: '🎒' },
+                    { amount: formatAmount(100), desc: t('donation.impact100'), icon: '📚' },
+                    { amount: formatAmount(250), desc: t('donation.impact250'), icon: '💻' },
+                    { amount: formatAmount(750), desc: t('donation.impact750'), icon: '🎓' },
+                    { amount: formatAmount(2500), desc: t('donation.impact2500'), icon: '🏫' },
+                    { amount: formatAmount(5000), desc: t('donation.impact5000'), icon: '🏛️' },
                   ].map((item, i) => (
                     <div
                       key={i}
