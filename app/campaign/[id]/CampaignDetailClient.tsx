@@ -15,6 +15,7 @@ import { verificationStatuses } from '@/lib/verification-statuses';
 import { toast } from 'sonner';
 import { censorSurname } from '@/lib/privacy';
 import { useTranslation } from '@/lib/i18n';
+import { useCurrency } from '@/lib/currency-context';
 import type { CampaignData } from './fetchCampaign';
 
 // Progress Circle Component
@@ -52,6 +53,7 @@ export default function CampaignDetailClient({ initialCampaign }: CampaignDetail
     const searchParams = useSearchParams();
     const { data: session } = useSession();
     const { t } = useTranslation();
+    const { currency, currencySymbol, formatAmount, toUSD } = useCurrency();
     const campaignId = initialCampaign.campaign_id;
 
     const [campaign, setCampaign] = useState<CampaignData>(initialCampaign);
@@ -302,7 +304,7 @@ export default function CampaignDetailClient({ initialCampaign }: CampaignDetail
                                         <div className="flex-1">
                                             <p className="font-medium text-gray-900">{donor.name}</p>
                                             <p className="text-sm text-gray-500">
-                                                <span className="font-semibold text-gray-700">${donor.amount}</span>
+                                                <span className="font-semibold text-gray-700">{formatAmount(donor.amount)}</span>
                                             </p>
                                         </div>
                                     </div>
@@ -514,7 +516,7 @@ export default function CampaignDetailClient({ initialCampaign }: CampaignDetail
                                     <ProgressCircle percentage={progress} />
                                     <div>
                                         <p className="text-2xl font-bold text-gray-900">
-                                            {t('campaign.raisedOf', { raised: `$${(campaign.raised_amount || 0).toLocaleString()}`, goal: `$${(campaign.goal_amount || 0).toLocaleString()}` })}
+                                            {t('campaign.raisedOf', { raised: formatAmount(campaign.raised_amount || 0), goal: formatAmount(campaign.goal_amount || 0) })}
                                         </p>
                                         <p className="text-sm text-gray-500">
                                             {t('campaign.donationCount', { count: campaign.donor_count || 0 })}
@@ -572,7 +574,7 @@ export default function CampaignDetailClient({ initialCampaign }: CampaignDetail
                                                 <div className="flex-1 min-w-0">
                                                     <p className="font-medium text-gray-900 text-sm truncate">{donor.name}</p>
                                                     <p className="text-xs text-gray-500">
-                                                        <span className="font-semibold text-gray-700">${donor.amount}</span>
+                                                        <span className="font-semibold text-gray-700">{formatAmount(donor.amount)}</span>
                                                     </p>
                                                 </div>
                                             </div>

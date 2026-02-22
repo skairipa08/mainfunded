@@ -144,6 +144,15 @@ function AdminLayoutContent({
                 <span className="ml-2 bg-pink-100 text-pink-800 text-xs px-2 py-0.5 rounded-full">Queue</span>
               </span>
             </Link>
+            <Link
+              href="/admin/sponsor-applications"
+              className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100"
+            >
+              <span className="flex items-center">
+                Sponsor Basvurulari
+                <span className="ml-2 bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded-full">Yeni</span>
+              </span>
+            </Link>
             <div className="border-t border-gray-200 my-4"></div>
             <button
               onClick={async () => {

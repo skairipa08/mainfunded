@@ -37,6 +37,8 @@ export default function SponsorsPage() {
     const { t } = useTranslation();
     const [showForm, setShowForm] = useState(false);
     const [submitted, setSubmitted] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
+    const [submitError, setSubmitError] = useState('');
     const [formData, setFormData] = useState({
         companyName: '',
         contactName: '',
@@ -45,10 +47,26 @@ export default function SponsorsPage() {
         message: '',
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Sponsor application:', formData);
-        setSubmitted(true);
+        setSubmitting(true);
+        setSubmitError('');
+        try {
+            const res = await fetch('/api/sponsor-applications', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(formData),
+            });
+            if (!res.ok) {
+                const data = await res.json();
+                throw new Error(data?.error?.message || 'Bir hata olustu.');
+            }
+            setSubmitted(true);
+        } catch (err: any) {
+            setSubmitError(err.message || 'Bir hata olustu. Lutfen tekrar deneyin.');
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -58,6 +76,7 @@ export default function SponsorsPage() {
     const resetForm = () => {
         setFormData({ companyName: '', contactName: '', email: '', phone: '', message: '' });
         setSubmitted(false);
+        setSubmitError('');
         setShowForm(false);
     };
 
@@ -247,12 +266,18 @@ export default function SponsorsPage() {
                                         <p>📧 Basvurunuz bize ulaştiktan sonra en gec 2 is gunu icinde sizinle iletisime gececegiz.</p>
                                     </div>
 
+                                    {submitError && (
+                                        <div className="bg-red-50 border border-red-200 rounded-lg p-3 text-sm text-red-700">
+                                            {submitError}
+                                        </div>
+                                    )}
+
                                     <div className="flex gap-3 pt-2">
-                                        <Button type="button" variant="outline" onClick={() => setShowForm(false)} className="flex-1">
+                                        <Button type="button" variant="outline" onClick={() => setShowForm(false)} className="flex-1" disabled={submitting}>
                                             Iptal
                                         </Button>
-                                        <Button type="submit" className="flex-1 bg-blue-600 hover:bg-blue-700">
-                                            Basvuru Gonder
+                                        <Button type="submit" className="flex-1 bg-blue-600 hover:bg-blue-700" disabled={submitting}>
+                                            {submitting ? 'Gonderiliyor...' : 'Basvuru Gonder'}
                                         </Button>
                                     </div>
                                 </form>

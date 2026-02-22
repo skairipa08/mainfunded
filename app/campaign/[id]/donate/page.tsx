@@ -24,7 +24,6 @@ function CampaignDonateContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: session } = useSession();
-  const { presetAmounts, currencySymbol } = useCurrency();
   const campaignId = params.id as string;
   const { currency, currencySymbol, toUSD, presetAmounts, formatAmount } = useCurrency();
 
