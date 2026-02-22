@@ -585,8 +585,13 @@ function MyDonationsContent() {
                                 <Heart className="h-4 w-4 text-blue-600" />
                               </div>
                               <div>
-                                <p className="font-medium text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-1">
+                                <p className="font-medium text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-1 flex items-center gap-2">
                                   {donation.campaign?.title || t('myDonationsPage.campaign')}
+                                  {(donation as any).is_recurring && (
+                                    <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 bg-purple-50 text-purple-700 border-purple-200">
+                                      {(donation as any).interval === 'week' ? 'Haftalık' : 'Aylık'}
+                                    </Badge>
+                                  )}
                                 </p>
                                 <p className="text-xs text-gray-500">
                                   {donation.campaign?.category || ''}
@@ -645,6 +650,11 @@ function MyDonationsContent() {
                         <div className="flex-1 mr-3">
                           <p className="font-medium text-gray-900 line-clamp-1">
                             {donation.campaign?.title || t('myDonationsPage.campaign')}
+                            {(donation as any).is_recurring && (
+                              <Badge variant="outline" className="ml-2 text-[10px] px-1.5 py-0 h-4 bg-purple-50 text-purple-700 border-purple-200">
+                                {(donation as any).interval === 'week' ? 'Haftalık' : 'Aylık'}
+                              </Badge>
+                            )}
                           </p>
                           <p className="text-sm text-gray-500">{donation.student?.name || '-'}</p>
                         </div>

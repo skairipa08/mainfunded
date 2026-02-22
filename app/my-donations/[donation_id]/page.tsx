@@ -434,8 +434,8 @@ function DonationDetailContent() {
             <button
               onClick={() => setActiveTab('overview')}
               className={`flex-1 px-6 py-3.5 text-center text-sm font-medium transition-colors ${activeTab === 'overview'
-                  ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/50'
-                  : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/50'
+                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
                 }`}
             >
               <DollarSign className="h-4 w-4 inline mr-2" />
@@ -444,8 +444,8 @@ function DonationDetailContent() {
             <button
               onClick={() => setActiveTab('updates')}
               className={`flex-1 px-6 py-3.5 text-center text-sm font-medium transition-colors ${activeTab === 'updates'
-                  ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/50'
-                  : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/50'
+                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
                 }`}
             >
               <FileText className="h-4 w-4 inline mr-2" />
@@ -459,8 +459,8 @@ function DonationDetailContent() {
             <button
               onClick={() => setActiveTab('messages')}
               className={`flex-1 px-6 py-3.5 text-center text-sm font-medium transition-colors ${activeTab === 'messages'
-                  ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/50'
-                  : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                ? 'text-blue-600 border-b-2 border-blue-600 bg-blue-50/50'
+                : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
                 }`}
             >
               <MessageSquare className="h-4 w-4 inline mr-2" />
@@ -595,9 +595,17 @@ function DonationDetailContent() {
                       <span className="text-sm text-gray-500">{t('myDonationsPage.detail.donationId')}</span>
                       <span className="text-sm font-mono text-gray-700">{donation.donation_id}</span>
                     </div>
+
                     <div className="flex items-center justify-between py-2 border-b border-gray-100">
                       <span className="text-sm text-gray-500">{t('myDonationsPage.amount')}</span>
-                      <span className="text-lg font-bold text-gray-900">${donation.amount?.toLocaleString()}</span>
+                      <span className="text-lg font-bold text-gray-900 flex items-center gap-2">
+                        ${donation.amount?.toLocaleString()}
+                        {(donation as any).is_recurring && (
+                          <Badge variant="outline" className="text-[10px] px-1.5 py-0 h-4 bg-purple-50 text-purple-700 border-purple-200">
+                            {(donation as any).interval === 'week' ? 'Haftalık' : 'Aylık'}
+                          </Badge>
+                        )}
+                      </span>
                     </div>
                     <div className="flex items-center justify-between py-2 border-b border-gray-100">
                       <span className="text-sm text-gray-500">{t('myDonationsPage.date')}</span>
@@ -605,16 +613,23 @@ function DonationDetailContent() {
                     </div>
                     <div className="flex items-center justify-between py-2 border-b border-gray-100">
                       <span className="text-sm text-gray-500">{t('myDonationsPage.status')}</span>
-                      {donation.payment_status === 'paid' || donation.payment_status === 'completed' ? (
-                        <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200">
-                          <CheckCircle className="h-3.5 w-3.5 mr-1" />
-                          {t('myDonationsPage.completed')}
-                        </Badge>
-                      ) : (
-                        <Badge className="bg-amber-100 text-amber-700 border-amber-200">{t('myDonationsPage.pending')}</Badge>
-                      )}
+                      <div className="flex flex-col items-end gap-1">
+                        {donation.payment_status === 'paid' || donation.payment_status === 'completed' ? (
+                          <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200">
+                            <CheckCircle className="h-3.5 w-3.5 mr-1" />
+                            {t('myDonationsPage.completed')}
+                          </Badge>
+                        ) : (
+                          <Badge className="bg-amber-100 text-amber-700 border-amber-200">{t('myDonationsPage.pending')}</Badge>
+                        )}
+                        {(donation as any).is_recurring && (
+                          <Badge className={(donation as any).subscription_status === 'canceled' ? "bg-gray-100 text-gray-700 border-gray-200" : "bg-purple-100 text-purple-700 border-purple-200"}>
+                            {(donation as any).subscription_status === 'canceled' ? 'İptal Edildi' : 'Aktif Abonelik'}
+                          </Badge>
+                        )}
+                      </div>
                     </div>
-                    <div className="flex items-center justify-between py-2">
+                    <div className="flex items-center justify-between py-2 border-b border-gray-100">
                       <span className="text-sm text-gray-500">{t('myDonationsPage.detail.campaignStatus')}</span>
                       <Badge className={
                         campaign?.status === 'published'
@@ -655,6 +670,28 @@ function DonationDetailContent() {
                       <MessageSquare className="h-4 w-4 mr-3 text-purple-600" />
                       {t('myDonationsPage.detail.sendMessage')}
                     </Button>
+                    {(donation as any).is_recurring && (donation as any).subscription_status !== 'canceled' && (
+                      <Button
+                        variant="outline"
+                        className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+                        onClick={async () => {
+                          if (!confirm('Aboneliğinizi iptal etmek istediğinize emin misiniz?')) return;
+                          try {
+                            const res = await fetch(`/api/donations/my/${donation.donation_id}/cancel`, { method: 'POST' });
+                            if (res.ok) {
+                              fetchDonationDetail();
+                            } else {
+                              alert('Abonelik iptal edilemedi.');
+                            }
+                          } catch (e) {
+                            alert('Abonelik iptal edilemedi.');
+                          }
+                        }}
+                      >
+                        <AlertCircle className="h-4 w-4 mr-3" />
+                        Aboneliği İptal Et
+                      </Button>
+                    )}
                   </div>
                 </div>
 
@@ -722,8 +759,8 @@ function DonationDetailContent() {
                       <div className="flex items-start gap-4">
                         <div className="flex-shrink-0 mt-1">
                           <div className={`p-2 rounded-full ${update.type === 'grade' ? 'bg-green-100' :
-                              update.type === 'thank_you' ? 'bg-pink-100' :
-                                'bg-blue-100'
+                            update.type === 'thank_you' ? 'bg-pink-100' :
+                              'bg-blue-100'
                             }`}>
                             {update.type === 'grade' ? (
                               <Award className="h-4 w-4 text-green-600" />
@@ -796,8 +833,8 @@ function DonationDetailContent() {
                       >
                         <div
                           className={`max-w-[75%] rounded-2xl px-4 py-3 ${isOwn
-                              ? 'bg-blue-600 text-white rounded-br-md'
-                              : 'bg-gray-100 text-gray-900 rounded-bl-md'
+                            ? 'bg-blue-600 text-white rounded-br-md'
+                            : 'bg-gray-100 text-gray-900 rounded-bl-md'
                             }`}
                         >
                           <p className="text-sm">{msg.content}</p>

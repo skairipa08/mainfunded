@@ -3,6 +3,7 @@ import { z } from 'zod';
 export const createCheckoutSchema = z.object({
   campaign_id: z.string().min(1, 'Campaign ID is required'),
   amount: z.coerce.number().min(0.01, 'Minimum donation is $0.01').max(100000, 'Maximum donation is $100,000'),
+  interval: z.enum(['one-time', 'week', 'month']).optional().default('one-time'),
   donor_name: z.string().max(200).optional().default('Anonymous'),
   donor_email: z.string().email('Invalid email format').optional(),
   anonymous: z.boolean().optional().default(false),
@@ -13,5 +14,6 @@ export const createCheckoutSchema = z.object({
   origin_url: z.string().url().optional(),
   idempotency_key: z.string().optional(),
 });
+
 
 export type CreateCheckoutInput = z.infer<typeof createCheckoutSchema>;

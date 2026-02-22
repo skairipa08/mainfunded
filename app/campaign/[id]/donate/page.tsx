@@ -30,6 +30,7 @@ function CampaignDonateContent() {
 
   // Form state
   const [donationAmount, setDonationAmount] = useState('');
+  const [interval, setInterval] = useState<'one-time' | 'week' | 'month'>('one-time');
   const [platformTipPercent, setPlatformTipPercent] = useState(2);
   const [customTip, setCustomTip] = useState('');
   const [useCustomTip, setUseCustomTip] = useState(false);
@@ -135,6 +136,7 @@ function CampaignDonateContent() {
         platform_tip_percent: effectiveTipPercent,
         platform_tip_amount: tipAmount,
         coverFees: false,
+        interval: interval
       });
 
       if (response.data?.checkout_url || response.data?.url) {
@@ -287,9 +289,46 @@ function CampaignDonateContent() {
 
           {/* Form */}
           <div className="bg-white border rounded-2xl p-6 shadow-sm space-y-6">
+            {/* FREQUENCY SELECTOR */}
+            <div>
+              <Label className="text-base font-semibold text-gray-900 block mb-3">Bağış Sıklığı</Label>
+              <div className="flex gap-2 p-1 bg-gray-100 rounded-xl">
+                <button
+                  type="button"
+                  onClick={() => setInterval('one-time')}
+                  className={`flex-1 py-2.5 px-3 text-sm font-medium rounded-lg transition-colors ${interval === 'one-time'
+                      ? 'bg-white text-gray-900 shadow-sm ring-1 ring-gray-900/5'
+                      : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
+                    }`}
+                >
+                  Tek Seferlik
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setInterval('month')}
+                  className={`flex-1 py-2.5 px-3 text-sm font-medium rounded-lg transition-colors ${interval === 'month'
+                      ? 'bg-blue-600 text-white shadow-sm hover:bg-blue-700'
+                      : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
+                    }`}
+                >
+                  Aylık
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setInterval('week')}
+                  className={`flex-1 py-2.5 px-3 text-sm font-medium rounded-lg transition-colors ${interval === 'week'
+                      ? 'bg-blue-600 text-white shadow-sm hover:bg-blue-700'
+                      : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
+                    }`}
+                >
+                  Haftalık
+                </button>
+              </div>
+            </div>
+
             {/* AMOUNT */}
             <div>
-              <Label htmlFor="amount" className="text-base font-semibold text-gray-900">Bağış Tutarı ($)</Label>
+              <Label htmlFor="amount" className="text-base font-semibold text-gray-900">Bağış Tutarı ($) {interval !== 'one-time' ? `(${interval === 'month' ? 'Aylık' : 'Haftalık'})` : ''}</Label>
               <Input
                 id="amount"
                 type="number"
@@ -305,11 +344,10 @@ function CampaignDonateContent() {
                   <button
                     key={a}
                     onClick={() => setDonationAmount(a.toString())}
-                    className={`py-2.5 text-sm font-medium border rounded-lg transition-colors ${
-                      donationAmount === a.toString()
-                        ? 'bg-blue-600 text-white border-blue-600'
-                        : 'bg-white text-gray-700 hover:border-blue-300'
-                    }`}
+                    className={`py-2.5 text-sm font-medium border rounded-lg transition-colors ${donationAmount === a.toString()
+                      ? 'bg-blue-600 text-white border-blue-600'
+                      : 'bg-white text-gray-700 hover:border-blue-300'
+                      }`}
                   >
                     ${a}
                   </button>
@@ -334,11 +372,10 @@ function CampaignDonateContent() {
                     <button
                       key={p}
                       onClick={() => { setPlatformTipPercent(p); setUseCustomTip(false); }}
-                      className={`py-2 text-sm font-medium border rounded-lg transition-colors ${
-                        platformTipPercent === p && !useCustomTip
-                          ? 'bg-blue-600 text-white border-blue-600'
-                          : 'bg-white text-gray-700 hover:border-blue-300'
-                      }`}
+                      className={`py-2 text-sm font-medium border rounded-lg transition-colors ${platformTipPercent === p && !useCustomTip
+                        ? 'bg-blue-600 text-white border-blue-600'
+                        : 'bg-white text-gray-700 hover:border-blue-300'
+                        }`}
                     >
                       %{p}
                     </button>

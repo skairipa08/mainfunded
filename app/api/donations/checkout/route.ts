@@ -48,6 +48,7 @@ export async function POST(request: NextRequest) {
       note_to_student,
       platform_tip_percent: platformTipPercent,
       platform_tip_amount: platformTipAmount,
+      interval,
     } = parsed.data;
 
     const noteToStudent = note_to_student?.trim() || '';
@@ -86,7 +87,7 @@ export async function POST(request: NextRequest) {
 
     // Generate idempotency key if not provided
     if (!idempotencyKey) {
-      idempotencyKey = `${campaignId}_${amount}_${crypto.randomBytes(8).toString('hex')}`;
+      idempotencyKey = `${campaignId}_${amount}_${interval}_${crypto.randomBytes(8).toString('hex')}`;
     }
 
     // Check for existing transaction with same idempotency key
@@ -145,23 +146,33 @@ export async function POST(request: NextRequest) {
     const cancelUrl = `${originUrl}/campaign/${campaignId}/donate`;
 
     try {
+      const isSubscription = interval === 'week' || interval === 'month';
+
+      const lineItemPriceData: Stripe.Checkout.SessionCreateParams.LineItem.PriceData = {
+        currency: 'usd',
+        product_data: {
+          name: `Donation: ${campaign.title?.substring(0, 50) || 'Campaign'}`,
+          description: coverFees
+            ? `Net öğrenci desteği: $${baseAmount.toFixed(2)}${isSubscription ? ` (${interval}ly)` : ''}`
+            : `Supporting education${isSubscription ? ` (${interval}ly)` : ''}`,
+        },
+        unit_amount: Math.round(amount * 100),
+      };
+
+      if (isSubscription) {
+        lineItemPriceData.recurring = {
+          interval: interval as 'week' | 'month',
+        };
+      }
+
       const session = await stripe.checkout.sessions.create(
         {
           payment_method_types: ['card'],
           line_items: [{
-            price_data: {
-              currency: 'usd',
-              product_data: {
-                name: `Donation: ${campaign.title?.substring(0, 50) || 'Campaign'}`,
-                description: coverFees
-                  ? `Net öğrenci desteği: $${baseAmount.toFixed(2)}`
-                  : 'Supporting education',
-              },
-              unit_amount: Math.round(amount * 100),
-            },
+            price_data: lineItemPriceData,
             quantity: 1,
           }],
-          mode: 'payment',
+          mode: isSubscription ? 'subscription' : 'payment',
           success_url: successUrl,
           cancel_url: cancelUrl,
           customer_email: finalDonorEmail || undefined,
@@ -178,6 +189,8 @@ export async function POST(request: NextRequest) {
             note_to_student: noteToStudent.substring(0, 450),
             platform_tip_percent: String(platformTipPercent),
             platform_tip_amount: String(platformTipAmount),
+            interval: interval || 'one-time',
+            is_recurring: String(isSubscription),
           },
         },
         {
@@ -203,6 +216,8 @@ export async function POST(request: NextRequest) {
         note_to_student: noteToStudent,
         platform_tip_percent: platformTipPercent,
         platform_tip_amount: platformTipAmount,
+        interval: interval || 'one-time',
+        is_recurring: isSubscription,
         payment_status: 'initiated',
         idempotency_key: idempotencyKey,
         checkout_url: session.url,
