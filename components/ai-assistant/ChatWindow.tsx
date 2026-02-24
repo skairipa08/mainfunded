@@ -42,7 +42,7 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
     if (messages.length === 0) {
       setMessages([getWelcomeMessage()]);
     }
-  }, []);
+  }, [messages.length]);
 
   // Auto-scroll to bottom
   useEffect(() => {

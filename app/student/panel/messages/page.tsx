@@ -93,6 +93,7 @@ export default function StudentMessagesPage() {
     } finally {
       setLoading(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [preselectedDonor, preselectedCampaign]);
 
   useEffect(() => {
@@ -249,9 +250,8 @@ export default function StudentMessagesPage() {
                     <button
                       key={`${thread.donor_id}-${thread.campaign_id}`}
                       onClick={() => openThread(thread)}
-                      className={`w-full p-4 text-left flex items-center gap-3 border-b hover:bg-gray-50 transition-colors ${
-                        isActive ? 'bg-blue-50' : ''
-                      }`}
+                      className={`w-full p-4 text-left flex items-center gap-3 border-b hover:bg-gray-50 transition-colors ${isActive ? 'bg-blue-50' : ''
+                        }`}
                     >
                       <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600 font-medium flex-shrink-0">
                         {thread.anonymous ? '?' : thread.donor_name.charAt(0).toUpperCase()}
@@ -353,17 +353,15 @@ export default function StudentMessagesPage() {
                           className={`flex ${isOwn ? 'justify-end' : 'justify-start'}`}
                         >
                           <div
-                            className={`max-w-[70%] rounded-lg px-4 py-2 ${
-                              isOwn
+                            className={`max-w-[70%] rounded-lg px-4 py-2 ${isOwn
                                 ? 'bg-blue-600 text-white'
                                 : 'bg-gray-100 text-gray-900'
-                            }`}
+                              }`}
                           >
                             <p className="text-sm whitespace-pre-wrap">{msg.content}</p>
                             <p
-                              className={`text-xs mt-1 ${
-                                isOwn ? 'text-blue-200' : 'text-gray-400'
-                              }`}
+                              className={`text-xs mt-1 ${isOwn ? 'text-blue-200' : 'text-gray-400'
+                                }`}
                             >
                               {new Date(msg.created_at).toLocaleTimeString('tr-TR', {
                                 hour: '2-digit',

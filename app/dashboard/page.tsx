@@ -80,6 +80,13 @@ export default function DashboardPage() {
     loadData();
   }, [session, status, router]);
 
+  // Redirect students to the dedicated student panel
+  useEffect(() => {
+    if (userData?.accountType === 'student' || (!userData?.accountType && userData?.student_profile)) {
+      router.replace('/student/panel');
+    }
+  }, [userData, router]);
+
   if (status === 'loading' || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -91,13 +98,6 @@ export default function DashboardPage() {
   if (!session) {
     return null;
   }
-
-  // Redirect students to the dedicated student panel
-  useEffect(() => {
-    if (userData?.accountType === 'student' || (!userData?.accountType && userData?.student_profile)) {
-      router.replace('/student/panel');
-    }
-  }, [userData, router]);
 
   const verificationStatus = userData?.student_profile?.verificationStatus || 'none';
   const isVerified = verificationStatus === 'verified';
