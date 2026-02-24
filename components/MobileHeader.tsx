@@ -21,6 +21,8 @@ import {
     Gift,
     Shield,
     MessageSquare,
+    Info,
+    FileText,
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { useTranslation } from '@/lib/i18n';
@@ -106,8 +108,6 @@ export default function MobileHeader({
     // Menu items
     const mainLinks: MenuItem[] = [
         { label: t('nav.home'), href: '/', icon: Home },
-        { label: 'Mission & Vision', href: '/mission-vision', icon: Sparkles },
-        { label: t('nav.aboutUs'), href: '/who-we-are', icon: Users },
         { label: t('nav.apply'), href: '/apply', icon: GraduationCap },
     ];
 
@@ -116,6 +116,7 @@ export default function MobileHeader({
         { label: t('nav.menu.badges'), href: '/badges', icon: Award },
         { label: t('nav.menu.studentUpdates'), href: '/updates', icon: Share2 },
         { label: t('nav.menu.alumni'), href: '/alumni', icon: Users },
+        { label: t('nav.menu.stories'), href: '/stories', icon: MessageSquare },
     ];
 
     const donorFeatures: MenuItem[] = [
@@ -124,11 +125,11 @@ export default function MobileHeader({
     ];
 
     const transparencyFeatures: MenuItem[] = [
-        { label: t('nav.menu.howItWorks'), href: '/how-it-works', icon: Sparkles },
-        { label: t('nav.menu.progressReports'), href: '/reports', icon: Shield },
+        { label: t('nav.menu.missionVision'), href: '/mission-vision', icon: Sparkles },
+        { label: t('nav.menu.aboutUs'), href: '/who-we-are', icon: Info },
+        { label: t('nav.menu.howItWorks'), href: '/how-it-works', icon: GraduationCap },
         { label: t('nav.menu.donationGuarantee'), href: '/guarantee', icon: Shield },
         { label: t('nav.menu.transparency'), href: '/transparency', icon: Shield },
-        { label: t('nav.menu.stories'), href: '/stories', icon: MessageSquare },
     ];
 
     return (
@@ -249,6 +250,24 @@ export default function MobileHeader({
                                 ))}
                             </div>
 
+                            {/* Hakkında Section */}
+                            <div className="border-t border-gray-100 pt-4">
+                                <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">{t('nav.menu.about')}</p>
+                                <div className="space-y-1">
+                                    {transparencyFeatures.map((item) => (
+                                        <Link
+                                            key={item.href}
+                                            href={item.href}
+                                            onClick={() => setMenuOpen(false)}
+                                            className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+                                        >
+                                            <item.icon className="h-5 w-5 text-blue-600" />
+                                            <span>{item.label}</span>
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+
                             {/* Sosyal Section */}
                             <div className="border-t border-gray-100 pt-4">
                                 <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">{t('nav.menu.social')}</p>
@@ -272,24 +291,6 @@ export default function MobileHeader({
                                 <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">{t('nav.menu.donation')}</p>
                                 <div className="space-y-1">
                                     {donorFeatures.map((item) => (
-                                        <Link
-                                            key={item.href}
-                                            href={item.href}
-                                            onClick={() => setMenuOpen(false)}
-                                            className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
-                                        >
-                                            <item.icon className="h-5 w-5 text-blue-600" />
-                                            <span>{item.label}</span>
-                                        </Link>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Hakkında Section */}
-                            <div className="border-t border-gray-100 pt-4">
-                                <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">{t('nav.menu.about')}</p>
-                                <div className="space-y-1">
-                                    {transparencyFeatures.map((item) => (
                                         <Link
                                             key={item.href}
                                             href={item.href}

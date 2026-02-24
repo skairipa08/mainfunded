@@ -133,6 +133,13 @@ export async function createIndexes() {
     // Exchange Rates indexes
     await db.collection('exchange_rates').createIndex({ from: 1, to: 1 }, { unique: true });
     await db.collection('exchange_rates').createIndex('updatedAt');
+
+    // Notification indexes
+    await db.collection('notifications').createIndex('id', { unique: true });
+    await db.collection('notifications').createIndex('userId');
+    await db.collection('notifications').createIndex({ userId: 1, read: 1 });
+    await db.collection('notifications').createIndex({ userId: 1, timestamp: -1 });
+    await db.collection('notifications').createIndex('type');
   } catch (error: any) {
     if (error.code !== 85 && error.codeName !== 'IndexOptionsConflict') {
       console.error('Error creating indexes:', error);

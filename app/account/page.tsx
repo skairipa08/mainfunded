@@ -286,10 +286,10 @@ function QuickAction({ icon: Icon, label, href, color }: { icon: any; label: str
 // ── Main Account Page ─────────────────────────────────
 // ══════════════════════════════════════════════════════
 
-type TabType = 'overview' | 'donations' | 'messages' | 'settings';
+type TabType = 'overview' | 'donations' | 'messages' | 'reports' | 'settings';
 
 function AccountPageContent() {
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
   const { t } = useTranslation();
@@ -319,6 +319,7 @@ function AccountPageContent() {
 
   // Personal info state
   const [personalInfo, setPersonalInfo] = useState({
+    name: '',
     phoneCountryCode: '+90',
     phone: '',
     backupEmail: '',
@@ -330,6 +331,8 @@ function AccountPageContent() {
   });
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [editingName, setEditingName] = useState(false);
+  const [userAccountType, setUserAccountType] = useState<string>('student');
 
   // Mobile sidebar
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -508,6 +511,21 @@ function AccountPageContent() {
         .catch(console.error)
         .finally(() => setVerificationLoading(false));
 
+      // Load saved personal info from database
+      fetch('/api/profile')
+        .then(res => res.json())
+        .then(data => {
+          if (data.success && data.data) {
+            const { accountType: acType, ...profileData } = data.data;
+            setPersonalInfo(prev => ({
+              ...prev,
+              ...profileData,
+            }));
+            if (acType) setUserAccountType(acType);
+          }
+        })
+        .catch(err => console.error('Failed to load profile:', err));
+
       fetchDonations(1);
     }
   }, [session, isPreviewMode, previewTier, fetchDonations]);
@@ -599,10 +617,28 @@ function AccountPageContent() {
 
   const handleSavePersonalInfo = async () => {
     setSaving(true);
-    await new Promise(resolve => setTimeout(resolve, 800));
-    setSaving(false);
-    setSaved(true);
-    setTimeout(() => setSaved(false), 3000);
+    try {
+      const res = await fetch('/api/profile', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(personalInfo),
+      });
+      if (res.ok) {
+        setSaved(true);
+        setTimeout(() => setSaved(false), 3000);
+        // Refresh the session so the name and other data are up to date
+        await update();
+      } else {
+        const data = await res.json();
+        console.error('Profile save error:', data.error?.message);
+        alert(data.error?.message || 'Kaydetme başarısız oldu');
+      }
+    } catch (err) {
+      console.error('Profile save error:', err);
+      alert('Bir hata oluştu, lütfen tekrar deneyin');
+    } finally {
+      setSaving(false);
+    }
   };
 
   // ── Loading & auth gates ──
@@ -642,6 +678,7 @@ function AccountPageContent() {
 
   const tierConfig = getTierConfig();
   const unreadTotal = conversations.reduce((sum, c) => sum + c.unread_count, 0);
+  const isStudent = userAccountType === 'student';
 
   // Tab switch helper (also closes mobile sidebar)
   const switchTab = (tab: TabType) => {
@@ -687,7 +724,7 @@ function AccountPageContent() {
                     {user.name?.charAt(0) || user.email?.charAt(0) || 'U'}
                   </div>
                 )}
-                {tierConfig && (
+                {userAccountType === 'student' && tierConfig && (
                   <span className="absolute -bottom-1.5 -right-1.5 text-lg drop-shadow-sm">{tierConfig.icon}</span>
                 )}
               </div>
@@ -696,7 +733,7 @@ function AccountPageContent() {
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2.5 mb-1">
                   <h1 className="text-xl md:text-2xl font-bold text-white truncate">
-                    Merhaba, {user.name?.split(' ')[0]}!
+                    Merhaba, {(personalInfo.name || user.name)?.split(' ')[0]}!
                   </h1>
                   {isAdmin && (
                     <span className="inline-flex items-center px-2 py-0.5 bg-purple-500/70 text-white text-[10px] rounded-full font-medium backdrop-blur-sm">
@@ -710,19 +747,19 @@ function AccountPageContent() {
                   {user.email}
                 </p>
                 <div className="flex flex-wrap items-center gap-2 mt-2.5">
-                  {tierConfig && (
+                  {userAccountType === 'student' && tierConfig && (
                     <span className={`inline-flex items-center px-2.5 py-0.5 ${tierConfig.bgColor} ${tierConfig.color} text-[11px] rounded-full font-medium`}>
                       <BadgeCheck className="h-3 w-3 mr-1" />
                       {tierConfig.label}
                     </span>
                   )}
-                  {verification?.status === 'PENDING_REVIEW' && (
+                  {userAccountType === 'student' && verification?.status === 'PENDING_REVIEW' && (
                     <span className="inline-flex items-center px-2.5 py-0.5 bg-yellow-100 text-yellow-700 text-[11px] rounded-full font-medium">
                       <Clock className="h-3 w-3 mr-1" />
                       Doğrulama Bekliyor
                     </span>
                   )}
-                  {donationSummary.lastDonationDate && (
+                  {!isStudent && donationSummary.lastDonationDate && (
                     <span className="text-[11px] text-blue-300/80 flex items-center gap-1">
                       <Clock className="h-3 w-3" />
                       Son bağış: {new Date(donationSummary.lastDonationDate).toLocaleDateString('tr-TR')}
@@ -733,7 +770,7 @@ function AccountPageContent() {
 
               {/* Header Actions */}
               <div className="flex gap-2 flex-shrink-0 self-start sm:self-center">
-                {!tierConfig && verification?.status !== 'PENDING_REVIEW' && (
+                {isStudent && !tierConfig && verification?.status !== 'PENDING_REVIEW' && (
                   <Button
                     onClick={() => router.push('/verify')}
                     size="sm"
@@ -743,15 +780,27 @@ function AccountPageContent() {
                     Doğrulanın
                   </Button>
                 )}
-                <Button
-                  onClick={() => router.push('/browse')}
-                  size="sm"
-                  variant="outline"
-                  className="bg-white/10 border-white/25 text-white hover:bg-white/20 backdrop-blur-sm text-xs"
-                >
-                  <Heart className="h-3.5 w-3.5 mr-1" />
-                  Bağış Yap
-                </Button>
+                {isStudent ? (
+                  <Button
+                    onClick={() => router.push('/apply')}
+                    size="sm"
+                    variant="outline"
+                    className="bg-white/10 border-white/25 text-white hover:bg-white/20 backdrop-blur-sm text-xs"
+                  >
+                    <Target className="h-3.5 w-3.5 mr-1" />
+                    Kampanya Oluştur
+                  </Button>
+                ) : (
+                  <Button
+                    onClick={() => router.push('/browse')}
+                    size="sm"
+                    variant="outline"
+                    className="bg-white/10 border-white/25 text-white hover:bg-white/20 backdrop-blur-sm text-xs"
+                  >
+                    <Heart className="h-3.5 w-3.5 mr-1" />
+                    Bağış Yap
+                  </Button>
+                )}
               </div>
             </div>
           </div>
@@ -763,10 +812,17 @@ function AccountPageContent() {
 
             {/* ── Mobile Tab Bar ── */}
             <div className="lg:hidden flex gap-1 bg-white p-1.5 rounded-2xl border border-gray-200 shadow-sm overflow-x-auto">
-              {([
+              {(isStudent ? [
+                { key: 'overview' as TabType, icon: BarChart3, label: 'Genel Bakış' },
+                { key: 'donations' as TabType, icon: Target, label: 'Kampanyalarım' },
+                { key: 'messages' as TabType, icon: MessageCircle, label: 'Mesajlar', badge: unreadTotal },
+                { key: 'reports' as TabType, icon: FileText, label: 'Raporlar' },
+                { key: 'settings' as TabType, icon: Settings, label: 'Ayarlar' },
+              ] : [
                 { key: 'overview' as TabType, icon: BarChart3, label: 'Genel Bakış' },
                 { key: 'donations' as TabType, icon: Heart, label: 'Bağışlarım', badge: donationSummary.totalDonations },
                 { key: 'messages' as TabType, icon: MessageCircle, label: 'Mesajlar', badge: unreadTotal },
+                { key: 'reports' as TabType, icon: FileText, label: 'Raporlar' },
                 { key: 'settings' as TabType, icon: Settings, label: 'Ayarlar' },
               ]).map(tab => (
                 <button
@@ -795,19 +851,37 @@ function AccountPageContent() {
             <div className="hidden lg:block lg:w-56 flex-shrink-0">
               <div className="sticky top-24 space-y-1.5">
                 <SidebarItem icon={BarChart3} label="Genel Bakış" active={activeTab === 'overview'} onClick={() => switchTab('overview')} />
-                <SidebarItem icon={Heart} label="Bağışlarım" active={activeTab === 'donations'} onClick={() => switchTab('donations')} badge={donationSummary.totalDonations} />
+                {isStudent ? (
+                  <SidebarItem icon={Target} label="Kampanyalarım" active={activeTab === 'donations'} onClick={() => switchTab('donations')} />
+                ) : (
+                  <SidebarItem icon={Heart} label="Bağışlarım" active={activeTab === 'donations'} onClick={() => switchTab('donations')} badge={donationSummary.totalDonations} />
+                )}
                 <SidebarItem icon={MessageCircle} label="Mesajlar" active={activeTab === 'messages'} onClick={() => switchTab('messages')} badge={unreadTotal} />
+                <SidebarItem icon={FileText} label="İlerleme Raporları" active={activeTab === 'reports'} onClick={() => switchTab('reports')} />
                 <SidebarItem icon={Settings} label="Ayarlar" active={activeTab === 'settings'} onClick={() => switchTab('settings')} />
 
                 {/* Quick Links */}
                 <div className="pt-4 mt-4 border-t border-gray-200">
                   <p className="px-4 text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Hızlı Erişim</p>
-                  <Link href="/my-donations" className="flex items-center gap-2 px-4 py-2 text-xs text-gray-500 hover:text-gray-700 transition-colors rounded-lg hover:bg-gray-50">
-                    <FileText className="h-3.5 w-3.5" /> Detaylı Bağış Geçmişi
-                  </Link>
-                  <Link href="/browse" className="flex items-center gap-2 px-4 py-2 text-xs text-gray-500 hover:text-gray-700 transition-colors rounded-lg hover:bg-gray-50">
-                    <Search className="h-3.5 w-3.5" /> Kampanyaları Keşfet
-                  </Link>
+                  {isStudent ? (
+                    <>
+                      <Link href="/apply" className="flex items-center gap-2 px-4 py-2 text-xs text-gray-500 hover:text-gray-700 transition-colors rounded-lg hover:bg-gray-50">
+                        <Target className="h-3.5 w-3.5" /> Kampanya Oluştur
+                      </Link>
+                      <Link href="/campaigns" className="flex items-center gap-2 px-4 py-2 text-xs text-gray-500 hover:text-gray-700 transition-colors rounded-lg hover:bg-gray-50">
+                        <Search className="h-3.5 w-3.5" /> Kampanyaları Keşfet
+                      </Link>
+                    </>
+                  ) : (
+                    <>
+                      <Link href="/my-donations" className="flex items-center gap-2 px-4 py-2 text-xs text-gray-500 hover:text-gray-700 transition-colors rounded-lg hover:bg-gray-50">
+                        <FileText className="h-3.5 w-3.5" /> Detaylı Bağış Geçmişi
+                      </Link>
+                      <Link href="/browse" className="flex items-center gap-2 px-4 py-2 text-xs text-gray-500 hover:text-gray-700 transition-colors rounded-lg hover:bg-gray-50">
+                        <Search className="h-3.5 w-3.5" /> Kampanyaları Keşfet
+                      </Link>
+                    </>
+                  )}
                   <Link href="/account/security" className="flex items-center gap-2 px-4 py-2 text-xs text-gray-500 hover:text-gray-700 transition-colors rounded-lg hover:bg-gray-50">
                     <Shield className="h-3.5 w-3.5" /> Güvenlik
                   </Link>
@@ -827,55 +901,99 @@ function AccountPageContent() {
               {activeTab === 'overview' && (
                 <div className="space-y-6 animate-in fade-in duration-300">
                   {/* Stats Grid */}
-                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-                    <StatCard
-                      icon={Wallet}
-                      value={formatAmount(donationSummary.totalAmount)}
-                      label="Toplam Bağış"
-                      color="blue"
-                      onClick={() => switchTab('donations')}
-                    />
-                    <StatCard
-                      icon={Heart}
-                      value={String(donationSummary.totalDonations)}
-                      label="Bağış Sayısı"
-                      color="red"
-                      onClick={() => switchTab('donations')}
-                    />
-                    <StatCard
-                      icon={GraduationCap}
-                      value={String(donationSummary.supportedStudents)}
-                      label="Desteklenen Öğrenci"
-                      color="green"
-                    />
-                    <StatCard
-                      icon={MessageCircle}
-                      value={String(conversations.length)}
-                      label="Aktif Sohbet"
-                      color="purple"
-                      onClick={() => switchTab('messages')}
-                    />
-                  </div>
+                  {isStudent ? (
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+                      <StatCard
+                        icon={Wallet}
+                        value={formatAmount(donationSummary.totalAmount)}
+                        label="Toplam Alınan Bağış"
+                        color="blue"
+                        onClick={() => switchTab('donations')}
+                      />
+                      <StatCard
+                        icon={Target}
+                        value={String(donationSummary.totalDonations)}
+                        label="Kampanya Sayısı"
+                        color="orange"
+                        onClick={() => switchTab('donations')}
+                      />
+                      <StatCard
+                        icon={Heart}
+                        value={String(donationSummary.supportedStudents)}
+                        label="Destekçi Sayısı"
+                        color="red"
+                      />
+                      <StatCard
+                        icon={MessageCircle}
+                        value={String(conversations.length)}
+                        label="Mesajlar"
+                        color="purple"
+                        onClick={() => switchTab('messages')}
+                      />
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+                      <StatCard
+                        icon={Wallet}
+                        value={formatAmount(donationSummary.totalAmount)}
+                        label="Toplam Bağış"
+                        color="blue"
+                        onClick={() => switchTab('donations')}
+                      />
+                      <StatCard
+                        icon={Heart}
+                        value={String(donationSummary.totalDonations)}
+                        label="Bağış Sayısı"
+                        color="red"
+                        onClick={() => switchTab('donations')}
+                      />
+                      <StatCard
+                        icon={GraduationCap}
+                        value={String(donationSummary.supportedStudents)}
+                        label="Desteklenen Öğrenci"
+                        color="green"
+                      />
+                      <StatCard
+                        icon={MessageCircle}
+                        value={String(conversations.length)}
+                        label="Aktif Sohbet"
+                        color="purple"
+                        onClick={() => switchTab('messages')}
+                      />
+                    </div>
+                  )}
 
                   {/* Quick Actions */}
                   <div>
                     <h3 className="text-sm font-semibold text-gray-900 mb-3">Hızlı İşlemler</h3>
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                      <QuickAction icon={Heart} label="Bağış Yap" href="/browse" color="red" />
-                      <QuickAction icon={Download} label="Bağış Raporu İndir" href="/my-donations" color="blue" />
-                      <QuickAction icon={GraduationCap} label="Öğrencileri Keşfet" href="/campaigns" color="green" />
-                      <QuickAction icon={Award} label="Rozetlerim" href="/badges" color="purple" />
-                    </div>
+                    {isStudent ? (
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <QuickAction icon={Target} label="Kampanya Oluştur" href="/apply" color="blue" />
+                        <QuickAction icon={FileText} label="İlerleme Raporu Paylaş" href="/reports" color="green" />
+                        <QuickAction icon={MessageCircle} label="Mesajlarım" href="#" color="purple" />
+                        <QuickAction icon={Award} label="Rozetlerim" href="/badges" color="orange" />
+                      </div>
+                    ) : (
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                        <QuickAction icon={Heart} label="Bağış Yap" href="/browse" color="red" />
+                        <QuickAction icon={Download} label="Bağış Raporu İndir" href="/my-donations" color="blue" />
+                        <QuickAction icon={GraduationCap} label="Öğrencileri Keşfet" href="/campaigns" color="green" />
+                        <QuickAction icon={Award} label="Rozetlerim" href="/badges" color="purple" />
+                      </div>
+                    )}
                   </div>
 
                   {/* Two Column Layout: Recent Donations + Messages */}
                   <div className="grid lg:grid-cols-2 gap-6">
-                    {/* Recent Donations */}
+                    {/* Recent Donations / Campaigns */}
                     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
                       <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
                         <h3 className="font-semibold text-gray-900 text-sm flex items-center gap-2">
-                          <Heart className="h-4 w-4 text-red-500" />
-                          Son Bağışlar
+                          {isStudent ? (
+                            <><Target className="h-4 w-4 text-blue-500" /> Gelen Bağışlar</>
+                          ) : (
+                            <><Heart className="h-4 w-4 text-red-500" /> Son Bağışlar</>
+                          )}
                         </h3>
                         <button
                           onClick={() => switchTab('donations')}
@@ -892,13 +1010,25 @@ function AccountPageContent() {
                         ) : donations.length === 0 ? (
                           <div className="p-10 text-center">
                             <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
-                              <Heart className="h-7 w-7 text-gray-300" />
+                              {isStudent ? <Target className="h-7 w-7 text-gray-300" /> : <Heart className="h-7 w-7 text-gray-300" />}
                             </div>
-                            <p className="text-gray-500 text-sm mb-1 font-medium">Henüz bağış yapmadınız</p>
-                            <p className="text-gray-400 text-xs mb-4">Bir öğrencinin hayatını değiştirin</p>
-                            <Button size="sm" onClick={() => router.push('/browse')} className="bg-blue-600 hover:bg-blue-700 text-xs">
-                              İlk Bağışınızı Yapın
-                            </Button>
+                            {isStudent ? (
+                              <>
+                                <p className="text-gray-500 text-sm mb-1 font-medium">Henüz gelen bağış yok</p>
+                                <p className="text-gray-400 text-xs mb-4">Kampanya oluşturarak bağış almaya başlayın</p>
+                                <Button size="sm" onClick={() => router.push('/apply')} className="bg-blue-600 hover:bg-blue-700 text-xs">
+                                  Kampanya Oluştur
+                                </Button>
+                              </>
+                            ) : (
+                              <>
+                                <p className="text-gray-500 text-sm mb-1 font-medium">Henüz bağış yapmadınız</p>
+                                <p className="text-gray-400 text-xs mb-4">Bir öğrencinin hayatını değiştirin</p>
+                                <Button size="sm" onClick={() => router.push('/browse')} className="bg-blue-600 hover:bg-blue-700 text-xs">
+                                  İlk Bağışınızı Yapın
+                                </Button>
+                              </>
+                            )}
                           </div>
                         ) : (
                           donations.slice(0, 4).map(d => (
@@ -913,7 +1043,7 @@ function AccountPageContent() {
                       <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
                         <h3 className="font-semibold text-gray-900 text-sm flex items-center gap-2">
                           <MessageCircle className="h-4 w-4 text-indigo-500" />
-                          Son Mesajlar
+                          {isStudent ? 'Destekçi Mesajları' : 'Son Mesajlar'}
                           {unreadTotal > 0 && (
                             <span className="px-1.5 py-0.5 text-[10px] font-bold bg-red-500 text-white rounded-full leading-none">
                               {unreadTotal}
@@ -938,7 +1068,7 @@ function AccountPageContent() {
                               <MessageCircle className="h-7 w-7 text-gray-300" />
                             </div>
                             <p className="text-gray-500 text-sm mb-1 font-medium">Henüz mesajınız yok</p>
-                            <p className="text-gray-400 text-xs">Bağış yaptığınız öğrencilerle sohbet edin</p>
+                            <p className="text-gray-400 text-xs">{isStudent ? 'Destekçilerinizden gelen mesajlar burada görünecek' : 'Bağış yaptığınız öğrencilerle sohbet edin'}</p>
                           </div>
                         ) : (
                           conversations.slice(0, 3).map(c => (
@@ -954,7 +1084,7 @@ function AccountPageContent() {
                   </div>
 
                   {/* Impact Banner */}
-                  {donationSummary.totalDonations > 0 && (
+                  {!isStudent && donationSummary.totalDonations > 0 && (
                     <div className="bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 rounded-2xl p-5 md:p-6 text-white relative overflow-hidden">
                       <div className="absolute inset-0 pointer-events-none">
                         <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-white/10" />
@@ -998,60 +1128,91 @@ function AccountPageContent() {
               {activeTab === 'donations' && (
                 <div className="space-y-5 animate-in fade-in duration-300">
                   {/* Summary Cards */}
-                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-                    <StatCard icon={Wallet} value={formatAmount(donationSummary.totalAmount)} label="Toplam Bağış" color="blue" />
-                    <StatCard icon={Heart} value={String(donationSummary.totalDonations)} label="Bağış Sayısı" color="red" />
-                    <StatCard icon={GraduationCap} value={String(donationSummary.supportedStudents)} label="Desteklenen Öğrenci" color="green" />
-                    <StatCard
-                      icon={Calendar}
-                      value={donationSummary.lastDonationDate
-                        ? new Date(donationSummary.lastDonationDate).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })
-                        : '-'}
-                      label="Son Bağış Tarihi"
-                      color="orange"
-                    />
-                  </div>
+                  {isStudent ? (
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+                      <StatCard icon={Wallet} value={formatAmount(donationSummary.totalAmount)} label="Toplam Alınan Bağış" color="blue" />
+                      <StatCard icon={Target} value={String(donationSummary.totalDonations)} label="Kampanya Sayısı" color="orange" />
+                      <StatCard icon={Heart} value={String(donationSummary.supportedStudents)} label="Destekçi Sayısı" color="red" />
+                      <StatCard
+                        icon={Calendar}
+                        value={donationSummary.lastDonationDate
+                          ? new Date(donationSummary.lastDonationDate).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })
+                          : '-'}
+                        label="Son Bağış Tarihi"
+                        color="green"
+                      />
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+                      <StatCard icon={Wallet} value={formatAmount(donationSummary.totalAmount)} label="Toplam Bağış" color="blue" />
+                      <StatCard icon={Heart} value={String(donationSummary.totalDonations)} label="Bağış Sayısı" color="red" />
+                      <StatCard icon={GraduationCap} value={String(donationSummary.supportedStudents)} label="Desteklenen Öğrenci" color="green" />
+                      <StatCard
+                        icon={Calendar}
+                        value={donationSummary.lastDonationDate
+                          ? new Date(donationSummary.lastDonationDate).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })
+                          : '-'}
+                        label="Son Bağış Tarihi"
+                        color="orange"
+                      />
+                    </div>
+                  )}
 
-                  {/* Donations List */}
+                  {/* Donations / Campaigns List */}
                   <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
                     <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
-                      <h3 className="font-semibold text-gray-900 text-sm">Tüm Bağışlarım</h3>
-                      <div className="flex gap-2">
-                        <Link href="/my-donations">
-                          <Button size="sm" variant="outline" className="text-[11px] h-8">
-                            <ExternalLink className="h-3 w-3 mr-1" />
-                            Detaylı Görünüm
+                      <h3 className="font-semibold text-gray-900 text-sm">{isStudent ? 'Kampanyalarım & Gelen Bağışlar' : 'Tüm Bağışlarım'}</h3>
+                      {!isStudent && (
+                        <div className="flex gap-2">
+                          <Link href="/my-donations">
+                            <Button size="sm" variant="outline" className="text-[11px] h-8">
+                              <ExternalLink className="h-3 w-3 mr-1" />
+                              Detaylı Görünüm
+                            </Button>
+                          </Link>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="text-[11px] h-8"
+                            onClick={() => window.open('/api/donations/my/export?format=csv', '_blank')}
+                          >
+                            <Download className="h-3 w-3 mr-1" />
+                            Dışa Aktar
                           </Button>
-                        </Link>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          className="text-[11px] h-8"
-                          onClick={() => window.open('/api/donations/my/export?format=csv', '_blank')}
-                        >
-                          <Download className="h-3 w-3 mr-1" />
-                          Dışa Aktar
-                        </Button>
-                      </div>
+                        </div>
+                      )}
                     </div>
 
                     <div className="divide-y divide-gray-50">
                       {donationsLoading ? (
                         <div className="p-12 text-center">
                           <div className="h-10 w-10 animate-spin mx-auto text-blue-600 mb-3 border-4 border-blue-200 border-t-blue-600 rounded-full" />
-                          <p className="text-gray-500 text-sm">Bağışlar yükleniyor...</p>
+                          <p className="text-gray-500 text-sm">{isStudent ? 'Kampanyalar yükleniyor...' : 'Bağışlar yükleniyor...'}</p>
                         </div>
                       ) : donations.length === 0 ? (
                         <div className="p-12 text-center">
                           <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
-                            <Heart className="h-8 w-8 text-gray-300" />
+                            {isStudent ? <Target className="h-8 w-8 text-gray-300" /> : <Heart className="h-8 w-8 text-gray-300" />}
                           </div>
-                          <h4 className="text-base font-semibold text-gray-700 mb-1.5">Henüz bağış yapmadınız</h4>
-                          <p className="text-gray-400 text-sm mb-5">Bir öğrencinin eğitim hayatını değiştirmek için ilk adımı atın.</p>
-                          <Button onClick={() => router.push('/browse')} className="bg-blue-600 hover:bg-blue-700">
-                            <Search className="h-4 w-4 mr-2" />
-                            Kampanyaları Keşfet
-                          </Button>
+                          {isStudent ? (
+                            <>
+                              <h4 className="text-base font-semibold text-gray-700 mb-1.5">Henüz kampanyanız yok</h4>
+                              <p className="text-gray-400 text-sm mb-5">İlk kampanyanızı oluşturarak bağış almaya başlayın.</p>
+                              <Button onClick={() => router.push('/apply')} className="bg-blue-600 hover:bg-blue-700">
+                                <Target className="h-4 w-4 mr-2" />
+                                Kampanya Oluştur
+                              </Button>
+                            </>
+                          ) : (
+                            <>
+                              <h4 className="text-base font-semibold text-gray-700 mb-1.5">Henüz bağış yapmadınız</h4>
+                              <p className="text-gray-400 text-sm mb-5">Bir öğrencinin eğitim hayatını değiştirmek için ilk adımı atın.</p>
+                              <Button onClick={() => router.push('/browse')} className="bg-blue-600 hover:bg-blue-700">
+                                <Search className="h-4 w-4 mr-2" />
+                                Kampanyaları Keşfet
+                              </Button>
+                            </>
+                          )}
                         </div>
                       ) : (
                         <>
@@ -1247,6 +1408,85 @@ function AccountPageContent() {
                 </div>
               )}
 
+              {/* ═══ REPORTS TAB ═══ */}
+              {activeTab === 'reports' && (
+                <div className="space-y-5 animate-in fade-in duration-300">
+                  <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
+                    <div className="px-5 py-4 border-b border-gray-100">
+                      <h3 className="font-semibold text-gray-900 text-sm">
+                        {isStudent ? 'Akademik İlerleme Raporlarım' : 'İlerleme Raporları'}
+                      </h3>
+                      <p className="text-[11px] text-gray-400 mt-0.5">
+                        {isStudent
+                          ? 'Akademik notlarınızı, başarılarınızı ve ilerleme durumunuzu destekçilerinizle paylaşın'
+                          : 'Desteklediğiniz öğrencilerin 3 aylık ilerleme raporlarını görüntüleyin'}
+                      </p>
+                    </div>
+                    <div className="p-6">
+                      {isStudent ? (
+                        <div className="space-y-6">
+                          {/* Student report summary cards */}
+                          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                            <div className="bg-blue-50 rounded-xl p-4 text-center">
+                              <GraduationCap className="h-6 w-6 text-blue-600 mx-auto mb-2" />
+                              <p className="text-lg font-bold text-gray-900">—</p>
+                              <p className="text-xs text-gray-500">Not Ortalaması</p>
+                            </div>
+                            <div className="bg-emerald-50 rounded-xl p-4 text-center">
+                              <TrendingUp className="h-6 w-6 text-emerald-600 mx-auto mb-2" />
+                              <p className="text-lg font-bold text-gray-900">—</p>
+                              <p className="text-xs text-gray-500">Paylaşılan Rapor</p>
+                            </div>
+                            <div className="bg-purple-50 rounded-xl p-4 text-center col-span-2 sm:col-span-1">
+                              <Star className="h-6 w-6 text-purple-600 mx-auto mb-2" />
+                              <p className="text-lg font-bold text-gray-900">—</p>
+                              <p className="text-xs text-gray-500">Başarı</p>
+                            </div>
+                          </div>
+
+                          {/* Empty state for student */}
+                          <div className="text-center py-8 border border-dashed border-gray-200 rounded-xl">
+                            <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-emerald-50 mb-3">
+                              <FileText className="h-7 w-7 text-emerald-500" />
+                            </div>
+                            <h4 className="text-base font-semibold text-gray-900 mb-1.5">Henüz rapor paylaşmadınız</h4>
+                            <p className="text-sm text-gray-500 max-w-sm mx-auto mb-5">
+                              Akademik ilerlemenizi ve başarılarınızı paylaşarak destekçilerinize teşekkür edin.
+                            </p>
+                            <Link
+                              href="/reports"
+                              className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white text-sm font-medium rounded-xl hover:bg-emerald-700 transition-colors shadow-sm"
+                            >
+                              <FileText className="h-4 w-4" />
+                              Rapor Paylaş
+                              <ArrowRight className="h-4 w-4" />
+                            </Link>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="text-center py-10">
+                          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-50 mb-4">
+                            <FileText className="h-8 w-8 text-blue-500" />
+                          </div>
+                          <h4 className="text-base font-semibold text-gray-900 mb-2">İlerleme Raporları</h4>
+                          <p className="text-sm text-gray-500 max-w-md mx-auto mb-6">
+                            Desteklediğiniz öğrencilerin akademik ilerleme raporlarını, not ortalamalarını ve başarı hikayelerini buradan takip edebilirsiniz.
+                          </p>
+                          <Link
+                            href="/reports"
+                            className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-xl hover:bg-blue-700 transition-colors shadow-sm"
+                          >
+                            <FileText className="h-4 w-4" />
+                            Raporları Görüntüle
+                            <ArrowRight className="h-4 w-4" />
+                          </Link>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* ═══ SETTINGS TAB ═══ */}
               {activeTab === 'settings' && (
                 <div className="space-y-5 animate-in fade-in duration-300">
@@ -1265,6 +1505,63 @@ function AccountPageContent() {
                     </div>
 
                     <div className="p-5 md:p-6 space-y-7">
+                      {/* Username / Display Name */}
+                      <div>
+                        <h4 className="text-xs font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                          <User className="h-4 w-4 text-blue-500" />
+                          Kullanıcı Adı
+                        </h4>
+                        <div className="flex items-center gap-3">
+                          {editingName ? (
+                            <div className="flex items-center gap-2 flex-1">
+                              <Input
+                                type="text"
+                                placeholder="Adınızı girin"
+                                value={personalInfo.name}
+                                onChange={(e) => handlePersonalInfoChange('name', e.target.value)}
+                                className="flex-1"
+                                autoFocus
+                              />
+                              <Button
+                                size="sm"
+                                onClick={() => setEditingName(false)}
+                                className="bg-blue-600 hover:bg-blue-700 text-white text-xs"
+                              >
+                                Tamam
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => {
+                                  setPersonalInfo(prev => ({ ...prev, name: user.name || '' }));
+                                  setEditingName(false);
+                                }}
+                                className="text-xs"
+                              >
+                                İptal
+                              </Button>
+                            </div>
+                          ) : (
+                            <div className="flex items-center gap-3 flex-1">
+                              <div className="flex-1 px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg text-sm text-gray-900">
+                                {personalInfo.name || user.name || 'İsim belirtilmemiş'}
+                              </div>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                onClick={() => {
+                                  setPersonalInfo(prev => ({ ...prev, name: prev.name || user.name as string || '' }));
+                                  setEditingName(true);
+                                }}
+                                className="text-xs"
+                              >
+                                Değiştir
+                              </Button>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+
                       {/* Contact Information */}
                       <div>
                         <h4 className="text-xs font-semibold text-gray-700 mb-3 flex items-center gap-2">
@@ -1430,11 +1727,12 @@ function AccountPageContent() {
                     </div>
                   </div>
 
-                  {/* Verification Card */}
+                  {/* Verification Card - Only for students */}
+                  {userAccountType === 'student' && (
                   <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
                     <h4 className="text-xs font-semibold text-gray-700 mb-3 flex items-center gap-2">
                       <BadgeCheck className="h-4 w-4 text-blue-500" />
-                      Doğrulama Durumu
+                      Öğrenci Doğrulama Durumu
                     </h4>
                     {tierConfig ? (
                       <div className="flex items-center gap-3">
@@ -1468,6 +1766,7 @@ function AccountPageContent() {
                       </div>
                     )}
                   </div>
+                  )}
                 </div>
               )}
             </div>

@@ -25,7 +25,7 @@ interface MilestoneCardProps {
 const milestoneConfig = {
     first_donation: {
         icon: TrendingUp,
-        title: 'Ilk Bagis!',
+        title: 'Ilk Bağış!',
         color: 'from-green-500 to-emerald-600',
         emoji: '🎉',
     },

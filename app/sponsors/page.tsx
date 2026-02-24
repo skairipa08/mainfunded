@@ -22,9 +22,9 @@ const sponsors = [
         description: 'Finansal danismanlik'
     },
     {
-        name: 'Z Egitim',
+        name: 'Z Eğitim',
         logo: '/sponsors/sponsor-z.png',
-        description: 'Egitim platformu'
+        description: 'Eğitim platformu'
     },
     {
         name: 'T Saglik',
@@ -63,7 +63,7 @@ export default function SponsorsPage() {
             }
             setSubmitted(true);
         } catch (err: any) {
-            setSubmitError(err.message || 'Bir hata olustu. Lutfen tekrar deneyin.');
+            setSubmitError(err.message || 'Bir hata oluştu. Lütfen tekrar deneyin.');
         } finally {
             setSubmitting(false);
         }
@@ -91,7 +91,7 @@ export default function SponsorsPage() {
                             Sponsorlarimiz
                         </h1>
                         <p className="text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
-                            FundEd&apos;e inanan ve platformumuzu destekleyerek egitimde esitlik icin birlikte yol yuruten degerli is ortaklarimiz.
+                            FundEd&apos;e inanan ve platformumuzu destekleyerek eğitimde eşitlik için birlikte yol yürüten değerli iş ortaklarımız.
                         </p>
                     </div>
                 </section>
@@ -104,16 +104,16 @@ export default function SponsorsPage() {
                                 Neden FundEd&apos;i Destekliyorlar?
                             </h2>
                             <p className="text-gray-700 leading-relaxed text-lg italic">
-                                &ldquo;FundEd&apos;i destekliyoruz cunku her ogrencinin esit ve daha iyi bir egitim hayati olmasi gerektigine inaniyoruz.&rdquo;
+                                &ldquo;FundEd&apos;i destekliyoruz cunku her öğrencinin eşit ve daha iyi bir eğitim hayatı olması gerektiğine inanıyoruz.&rdquo;
                             </p>
                             <p className="text-gray-700 leading-relaxed mt-4">
                                 Sponsorlarimiz, FundEd platformunun surekliligini ve buyumesini destekleyerek
-                                egitimde firsat esitligi vizyonumuzu gercege donusturmemize yardimci oluyor.
+                                eğitimde fırsat eşitliği vizyonumuzu gerçeğe dönüştürmemize yardımcı oluyor.
                                 Platformumuza verdikleri destek sayesinde daha fazla ogrenciye ulasabiliyor,
-                                teknolojimizi gelistirebiliyor ve egitim ekosistemini guclendiriyoruz.
+                                teknolojimizi geliştirebiliyor ve eğitim ekosistemini güçlendiriyoruz.
                             </p>
                             <p className="text-gray-700 leading-relaxed mt-4">
-                                Siz de FundEd&apos;in arkasindaki gucu buyutmek ve egitimde adaleti saglamak icin
+                                Siz de FundEd&apos;in arkasindaki gücü büyütmek ve eğitimde adaleti sağlamak için
                                 sponsor olabilirsiniz.
                             </p>
                         </div>
@@ -123,7 +123,7 @@ export default function SponsorsPage() {
                             FundEd&apos;e Inanan Sirketler
                         </h2>
                         <p className="text-gray-500 text-center mb-8">
-                            Platformumuzu destekleyerek egitimde esitlik icin birlikte calisan kurumlar
+                            Platformumuzu destekleyerek eğitimde eşitlik için birlikte çalışan kurumlar
                         </p>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                             {sponsors.map((sponsor, index) => (
@@ -159,7 +159,7 @@ export default function SponsorsPage() {
                             Siz de FundEd&apos;i Destekleyin
                         </h2>
                         <p className="text-gray-600 mb-6">
-                            Egitimde esitlik icin platformumuzu buyutmemize yardimci olun. Birlikte daha fazla ogrenciye ulasalim.
+                            Eğitimde eşitlik için platformumuzu büyütmemize yardımcı olun. Birlikte daha fazla öğrenciye ulaşalım.
                         </p>
                         <button
                             onClick={() => setShowForm(true)}
@@ -180,7 +180,7 @@ export default function SponsorsPage() {
                             <>
                                 <div className="p-6 border-b flex items-center justify-between">
                                     <div>
-                                        <h3 className="text-xl font-bold text-gray-900">Sponsor Basvuru Formu</h3>
+                                        <h3 className="text-xl font-bold text-gray-900">Sponsor Başvuru Formu</h3>
                                         <p className="text-sm text-gray-500">Bilgilerinizi doldurun, sizinle iletisime gecelim</p>
                                     </div>
                                     <button onClick={() => setShowForm(false)} className="p-2 hover:bg-gray-100 rounded-lg">
@@ -200,14 +200,14 @@ export default function SponsorsPage() {
                                             required
                                             value={formData.companyName}
                                             onChange={handleInputChange}
-                                            placeholder="Ornek A.S."
+                                            placeholder="Örnek A.Ş."
                                         />
                                     </div>
 
                                     <div>
                                         <Label htmlFor="contactName" className="flex items-center gap-2 mb-2">
                                             <User className="h-4 w-4 text-gray-500" />
-                                            Yetkili Adi Soyadi *
+                                            Yetkili Adı Soyadı *
                                         </Label>
                                         <Input
                                             id="contactName"
@@ -215,7 +215,7 @@ export default function SponsorsPage() {
                                             required
                                             value={formData.contactName}
                                             onChange={handleInputChange}
-                                            placeholder="Ahmet Yilmaz"
+                                            placeholder="Ahmet Yılmaz"
                                         />
                                     </div>
 
@@ -283,7 +283,7 @@ export default function SponsorsPage() {
                                             Iptal
                                         </Button>
                                         <Button type="submit" className="flex-1 bg-blue-600 hover:bg-blue-700" disabled={submitting}>
-                                            {submitting ? 'Gonderiliyor...' : 'Basvuru Gonder'}
+                                            {submitting ? 'Gönderiliyor...' : 'Başvuru Gönder'}
                                         </Button>
                                     </div>
                                 </form>

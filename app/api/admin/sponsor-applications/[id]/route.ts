@@ -19,7 +19,7 @@ export async function PATCH(
 
     const { id } = params;
     if (!ObjectId.isValid(id)) {
-      return errorResponse({ code: 'INVALID_ID', message: 'Gecersiz basvuru ID.' }, 400);
+      return errorResponse({ code: 'INVALID_ID', message: 'Geçersiz başvuru ID.' }, 400);
     }
 
     const body = await request.json();
@@ -29,7 +29,7 @@ export async function PATCH(
     if (status && !allowedStatuses.includes(status)) {
       return errorResponse({
         code: 'VALIDATION_ERROR',
-        message: `Gecersiz durum. Gecerli degerler: ${allowedStatuses.join(', ')}`,
+        message: `Geçersiz durum. Geçerli değerler: ${allowedStatuses.join(', ')}`,
       }, 400);
     }
 
@@ -45,10 +45,10 @@ export async function PATCH(
     );
 
     if (result.matchedCount === 0) {
-      return errorResponse({ code: 'NOT_FOUND', message: 'Basvuru bulunamadi.' }, 404);
+      return errorResponse({ code: 'NOT_FOUND', message: 'Başvuru bulunamadı.' }, 404);
     }
 
-    return successResponse({ message: 'Basvuru guncellendi.' });
+    return successResponse({ message: 'Başvuru güncellendi.' });
   } catch (error) {
     return handleRouteError(error);
   }
@@ -67,7 +67,7 @@ export async function DELETE(
 
     const { id } = params;
     if (!ObjectId.isValid(id)) {
-      return errorResponse({ code: 'INVALID_ID', message: 'Gecersiz basvuru ID.' }, 400);
+      return errorResponse({ code: 'INVALID_ID', message: 'Geçersiz başvuru ID.' }, 400);
     }
 
     const db = await getDb();
@@ -76,10 +76,10 @@ export async function DELETE(
     });
 
     if (result.deletedCount === 0) {
-      return errorResponse({ code: 'NOT_FOUND', message: 'Basvuru bulunamadi.' }, 404);
+      return errorResponse({ code: 'NOT_FOUND', message: 'Başvuru bulunamadı.' }, 404);
     }
 
-    return successResponse({ message: 'Basvuru silindi.' });
+    return successResponse({ message: 'Başvuru silindi.' });
   } catch (error) {
     return handleRouteError(error);
   }

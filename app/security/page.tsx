@@ -46,7 +46,7 @@ const securityFeatures = [
     {
         icon: CreditCard,
         title: 'PCI DSS Uyumu',
-        description: 'Odeme islemleri PCI DSS standartlarinda islem goren iyzico altyapisi ile yapilir.',
+        description: 'Ödeme işlemleri PCI DSS standartlarında işlem gören iyzico altyapısı ile yapılır.',
         color: 'pink',
     },
     {
@@ -63,8 +63,8 @@ const securityFeatures = [
     },
     {
         icon: FileCheck,
-        title: 'Guvenlik Denetimleri',
-        description: 'Duzenli guvenlik taramalari ve penetrasyon testleri ile sistemimiz surekli izlenir.',
+        title: 'Güvenlik Denetimleri',
+        description: 'Düzenli güvenlik taramaları ve penetrasyon testleri ile sistemimiz sürekli izlenir.',
         color: 'teal',
     },
 ];
@@ -95,7 +95,7 @@ export default function SecurityPage() {
                             Guvenliginiz Bizim Oncelligimiz
                         </h1>
                         <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-                            FundEd olarak, kullanicilarimizin ve ogrencilerin verilerini en yuksek guvenlik standartlariyla koruyoruz.
+                            FundEd olarak, kullanıcılarımızın ve öğrencilerin verilerini en yüksek güvenlik standartlarıyla koruyoruz.
                         </p>
                     </div>
                 </section>
@@ -128,7 +128,7 @@ export default function SecurityPage() {
                 <section className="py-16 px-4">
                     <div className="max-w-6xl mx-auto">
                         <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-                            Guvenlik Onlemlerimiz
+                            Güvenlik Önlemlerimiz
                         </h2>
                         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                             {securityFeatures.map((feature, index) => (
@@ -151,7 +151,7 @@ export default function SecurityPage() {
                 <section className="bg-gray-50 py-16 px-4">
                     <div className="max-w-4xl mx-auto">
                         <h2 className="text-2xl font-bold text-center text-gray-900 mb-8">
-                            Uygulanan Guvenlik Basliklari
+                            Uygulanan Güvenlik Başlıkları
                         </h2>
                         <div className="bg-white rounded-xl border overflow-hidden">
                             <div className="bg-gray-800 text-white p-4">
@@ -186,9 +186,9 @@ export default function SecurityPage() {
                                     <Users className="h-6 w-6 text-blue-600" />
                                 </div>
                                 <div>
-                                    <h3 className="font-semibold text-gray-900 mb-2">Kimlik Dogrulama</h3>
+                                    <h3 className="font-semibold text-gray-900 mb-2">Kimlik Doğrulama</h3>
                                     <p className="text-gray-600">
-                                        Guclu sifre politikalari, iki faktorlu dogrulama (2FA) ve oturum yonetimi ile hesabiniz guvendedir.
+                                        Güçlü şifre politikaları, iki faktörlü doğrulama (2FA) ve oturum yönetimi ile hesabınız güvendedir.
                                         Tum sifreler bcrypt ile hashlenir ve asla duz metin olarak saklanmaz.
                                     </p>
                                 </div>
@@ -199,7 +199,7 @@ export default function SecurityPage() {
                                     <Database className="h-6 w-6 text-green-600" />
                                 </div>
                                 <div>
-                                    <h3 className="font-semibold text-gray-900 mb-2">Veri Sifreleme</h3>
+                                    <h3 className="font-semibold text-gray-900 mb-2">Veri Şifreleme</h3>
                                     <p className="text-gray-600">
                                         Hassas veriler AES-256 sifreleme ile korunur. Veritabani baglantilari
                                         SSL/TLS ile sifrelenir. Yedeklemeler de sifrelenmis olarak saklanir.
@@ -227,8 +227,8 @@ export default function SecurityPage() {
                                 <div>
                                     <h3 className="font-semibold text-gray-900 mb-2">Surekli Izleme</h3>
                                     <p className="text-gray-600">
-                                        7/24 guvenlik izleme, anormal aktivite tespiti, otomatik uyarilar ve
-                                        detayli guvenlik loglar ile sistemimiz surekli gozlem altindadir.
+                                        7/24 güvenlik izleme, anormal aktivite tespiti, otomatik uyarılar ve
+                                        detaylı güvenlik logları ile sistemimiz sürekli gözlem altındadır.
                                     </p>
                                 </div>
                             </div>
@@ -241,11 +241,11 @@ export default function SecurityPage() {
                     <div className="max-w-2xl mx-auto text-center">
                         <AlertTriangle className="h-10 w-10 text-yellow-400 mx-auto mb-4" />
                         <h2 className="text-2xl font-bold mb-4">
-                            Guvenlik Acigi mi Buldunuz?
+                            Güvenlik Açığı mı Buldunuz?
                         </h2>
                         <p className="text-gray-300 mb-6">
-                            Platformumuzda bir guvenlik acigi bulduysaniz, lutfen bize bildirin.
-                            Sorumlu aciklama politikamiz kapsaminda size tesekkur edecegiz.
+                            Platformumuzda bir güvenlik açığı bulduysanız, lütfen bize bildirin.
+                            Sorumlu açıklama politikamız kapsamında size teşekkür edeceğiz.
                         </p>
                         <a
                             href="mailto:security@fund-ed.com"

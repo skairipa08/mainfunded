@@ -47,7 +47,7 @@ const defaultBreakdown: BreakdownItem[] = [
         amount: 0,
         percentage: 0,
         color: 'bg-blue-500',
-        description: 'Universite harc ve ucretleri',
+        description: 'Üniversite harç ve ücretleri',
     },
     {
         category: 'Barinma',
@@ -113,14 +113,14 @@ export function TransparencyCard({
                 return (
                     <Badge className="bg-green-100 text-green-700 gap-1">
                         <Shield className="h-3 w-3" />
-                        Dogrulanmis
+                        Doğrulanmış
                     </Badge>
                 );
             case 'pending':
                 return (
                     <Badge className="bg-yellow-100 text-yellow-700 gap-1">
                         <Activity className="h-3 w-3" />
-                        Dogrulama Bekliyor
+                        Doğrulama Bekliyor
                     </Badge>
                 );
             default:
@@ -140,7 +140,7 @@ export function TransparencyCard({
                     {getVerificationBadge()}
                 </div>
                 <p className="text-sm text-gray-600">
-                    {studentName} icin toplanan fonlarin nasil kullanildigini gorun
+                    {studentName} için toplanan fonların nasıl kullanıldığını görün
                 </p>
             </div>
 
@@ -175,14 +175,14 @@ export function TransparencyCard({
                     <span className="text-xl font-bold text-gray-900">{formatCurrencyLocal(goalAmount)}</span>
                 </div>
                 <p className="text-xs text-gray-500 mt-1">
-                    Son guncelleme: {new Date(lastUpdated).toLocaleDateString('tr-TR')}
+                    Son güncelleme: {new Date(lastUpdated).toLocaleDateString('tr-TR')}
                 </p>
             </div>
 
             {/* Documents */}
             {documents && documents.length > 0 && (
                 <div className="p-4 border-t">
-                    <h4 className="text-sm font-medium text-gray-700 mb-2">Dogrulama Belgeleri</h4>
+                    <h4 className="text-sm font-medium text-gray-700 mb-2">Doğrulama Belgeleri</h4>
                     <div className="space-y-2">
                         {documents.map((doc) => (
                             <a
@@ -214,12 +214,12 @@ export function VerificationBadge({ status, size = 'md', className }: Verificati
     const configs = {
         verified: {
             icon: Shield,
-            label: 'Dogrulanmis',
+            label: 'Doğrulanmış',
             color: 'bg-green-100 text-green-700 border-green-200',
         },
         student_verified: {
             icon: GraduationCap,
-            label: 'Ogrenci Dogrulanmis',
+            label: 'Öğrenci Doğrulanmış',
             color: 'bg-blue-100 text-blue-700 border-blue-200',
         },
         institution_verified: {

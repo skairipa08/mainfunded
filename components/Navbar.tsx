@@ -22,11 +22,14 @@ import {
   Menu,
   X,
   Globe,
+  FileText,
+  Info,
 } from 'lucide-react';
 import { Button } from './ui/button';
 import { useTranslation } from '@/lib/i18n';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { useCurrency } from '@/lib/currency-context';
+import NotificationBell from '@/components/notifications/NotificationBell';
 
 interface DropdownItem {
   label: string;
@@ -172,6 +175,12 @@ export default function Navbar() {
       icon: Users,
       description: t('nav.menu.alumniDesc'),
     },
+    {
+      label: t('nav.menu.stories'),
+      href: '/stories',
+      icon: MessageSquare,
+      description: t('nav.menu.storiesDesc'),
+    },
   ];
 
   const donorFeatures: DropdownItem[] = [
@@ -203,16 +212,22 @@ export default function Navbar() {
 
   const transparencyFeatures: DropdownItem[] = [
     {
-      label: t('nav.menu.howItWorks'),
-      href: '/how-it-works',
+      label: t('nav.menu.missionVision'),
+      href: '/mission-vision',
       icon: Sparkles,
-      description: t('nav.menu.howItWorksDesc'),
+      description: t('nav.menu.missionVisionDesc'),
     },
     {
-      label: t('nav.menu.progressReports'),
-      href: '/reports',
-      icon: Shield,
-      description: t('nav.menu.progressReportsDesc'),
+      label: t('nav.menu.aboutUs'),
+      href: '/who-we-are',
+      icon: Info,
+      description: t('nav.menu.aboutUsDesc'),
+    },
+    {
+      label: t('nav.menu.howItWorks'),
+      href: '/how-it-works',
+      icon: GraduationCap,
+      description: t('nav.menu.howItWorksDesc'),
     },
     {
       label: t('nav.menu.donationGuarantee'),
@@ -225,12 +240,6 @@ export default function Navbar() {
       href: '/transparency',
       icon: Shield,
       description: t('nav.menu.transparencyDesc'),
-    },
-    {
-      label: t('nav.menu.stories'),
-      href: '/stories',
-      icon: MessageSquare,
-      description: t('nav.menu.storiesDesc'),
     },
   ];
 
@@ -250,17 +259,10 @@ export default function Navbar() {
 
           {/* Navigation Links */}
           <div className="hidden md:flex items-center space-x-2">
-            <Link href="/mission-vision" className="text-gray-600 hover:text-blue-600 transition-colors font-medium px-2 py-1">
-              Mission & Vision
-            </Link>
-            <Link href="/who-we-are" className="text-gray-600 hover:text-blue-600 transition-colors font-medium px-2 py-1">
-              {t('nav.aboutUs')}
-            </Link>
-
             {/* Dropdown Menus */}
+            <NavDropdown label={t('nav.menu.about')} icon={Info} items={transparencyFeatures} />
             <NavDropdown label={t('nav.menu.social')} icon={Trophy} items={socialFeatures} />
             <NavDropdown label={t('nav.menu.donation')} icon={Heart} items={donorFeatures} />
-            <NavDropdown label={t('nav.menu.about')} icon={Shield} items={transparencyFeatures} />
 
             <Link href="/apply" className="text-gray-600 hover:text-blue-600 transition-colors font-medium px-2 py-1">
               {t('nav.apply')}
@@ -286,6 +288,20 @@ export default function Navbar() {
               <CurrencySwitcherButton />
               <LanguageSwitcher variant="minimal" />
             </div>
+
+            {/* Calendar Link */}
+            {user && (
+              <Link
+                href="/calendar"
+                className="hidden sm:flex p-2 rounded-lg text-gray-600 hover:text-blue-600 hover:bg-gray-100 transition-colors"
+                aria-label="Bağış Takvimi"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+              </Link>
+            )}
+
+            {/* Notification Bell */}
+            {user && <NotificationBell />}
 
             {/* Mobile Menu Button */}
             <button
@@ -368,6 +384,22 @@ export default function Navbar() {
                       <Trophy className="h-4 w-4 mr-2" />
                       {t('nav.menu.leaderboard')}
                     </Link>
+                    <Link
+                      href="/reports"
+                      className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      <FileText className="h-4 w-4 mr-2" />
+                      {t('nav.menu.progressReports')}
+                    </Link>
+                    <Link
+                      href="/calendar"
+                      className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-50 transition-colors"
+                      onClick={() => setDropdownOpen(false)}
+                    >
+                      <Heart className="h-4 w-4 mr-2" />
+                      Bağış Takvimi
+                    </Link>
                     <div className="border-t border-gray-100 my-1" />
                     <button
                       onClick={handleLogout}
@@ -403,20 +435,6 @@ export default function Navbar() {
             {/* Main Navigation Links */}
             <div className="space-y-2">
               <Link
-                href="/mission-vision"
-                className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Mission & Vision
-              </Link>
-              <Link
-                href="/who-we-are"
-                className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg font-medium"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                {t('nav.aboutUs')}
-              </Link>
-              <Link
                 href="/apply"
                 className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg font-medium"
                 onClick={() => setMobileMenuOpen(false)}
@@ -425,9 +443,27 @@ export default function Navbar() {
               </Link>
             </div>
 
+            {/* Hakkında Section */}
+            <div className="border-t border-gray-100 pt-4">
+              <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">{t('nav.menu.about')}</p>
+              <div className="space-y-1">
+                {transparencyFeatures.map((item) => (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+                  >
+                    <item.icon className="h-5 w-5 text-blue-600" />
+                    <span>{item.label}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+
             {/* Sosyal Section */}
             <div className="border-t border-gray-100 pt-4">
-              <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Sosyal</p>
+              <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">{t('nav.menu.social')}</p>
               <div className="space-y-1">
                 {socialFeatures.map((item) => (
                   <Link
@@ -445,27 +481,9 @@ export default function Navbar() {
 
             {/* Bağış Section */}
             <div className="border-t border-gray-100 pt-4">
-              <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Bağış</p>
+              <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">{t('nav.menu.donation')}</p>
               <div className="space-y-1">
                 {donorFeatures.map((item) => (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
-                  >
-                    <item.icon className="h-5 w-5 text-blue-600" />
-                    <span>{item.label}</span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-
-            {/* Hakkında Section */}
-            <div className="border-t border-gray-100 pt-4">
-              <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Hakkında</p>
-              <div className="space-y-1">
-                {transparencyFeatures.map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
@@ -482,7 +500,7 @@ export default function Navbar() {
             {/* User Links (logged in) */}
             {user && (
               <div className="border-t border-gray-100 pt-4">
-                <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Hesabim</p>
+                <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">{t('dashboard.title')}</p>
                 <div className="space-y-1">
                   <Link
                     href="/account"
@@ -499,6 +517,22 @@ export default function Navbar() {
                   >
                     <Heart className="h-5 w-5 text-red-500" />
                     <span>{t('dashboard.myDonations')}</span>
+                  </Link>
+                  <Link
+                    href="/reports"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+                  >
+                    <FileText className="h-5 w-5 text-blue-600" />
+                    <span>{t('nav.menu.progressReports')}</span>
+                  </Link>
+                  <Link
+                    href="/calendar"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+                  >
+                    <Heart className="h-5 w-5 text-blue-600" />
+                    <span>Bağış Takvimi</span>
                   </Link>
                 </div>
               </div>

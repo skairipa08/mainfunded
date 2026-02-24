@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
     // Get user from adapter users collection (canonical ID)
     const userDoc = await db.collection('users').findOne(
       { _id: new ObjectId(user.id) },
-      { projection: { _id: 1, email: 1, name: 1, image: 1, role: 1 } }
+      { projection: { _id: 1, email: 1, name: 1, image: 1, role: 1, accountType: 1 } }
     );
 
     if (!userDoc) {
@@ -68,6 +68,7 @@ export async function GET(request: NextRequest) {
         name: userDoc.name,
         image: userDoc.image,
         role: userDoc.role || 'user',
+        accountType: userDoc.accountType || 'student',
         student_profile: studentProfile,
       },
     });

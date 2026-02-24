@@ -93,7 +93,7 @@ export default function AdminSponsorApplicationsPage() {
         if (selectedApp?._id === id) setSelectedApp(null);
       }
     } catch (error) {
-      console.error('Basvuru silinirken hata:', error);
+      console.error('Başvuru silinirken hata:', error);
     }
   };
 
@@ -176,7 +176,7 @@ export default function AdminSponsorApplicationsPage() {
           ) : applications.length === 0 ? (
             <div className="text-center py-20 bg-white rounded-xl border border-gray-200">
               <Search className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500">Henuz basvuru bulunmuyor.</p>
+              <p className="text-gray-500">Henüz başvuru bulunmuyor.</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -232,7 +232,7 @@ export default function AdminSponsorApplicationsPage() {
                     disabled={pagination.page <= 1}
                     className="px-3 py-1.5 rounded-lg border text-sm disabled:opacity-50"
                   >
-                    Onceki
+                    Önceki
                   </button>
                   <span className="text-sm text-gray-500">
                     {pagination.page} / {pagination.totalPages}
@@ -254,7 +254,7 @@ export default function AdminSponsorApplicationsPage() {
         {selectedApp && (
           <div className="w-96 bg-white rounded-xl border border-gray-200 p-6 h-fit sticky top-4">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-gray-900">Basvuru Detayi</h2>
+              <h2 className="text-lg font-bold text-gray-900">Başvuru Detayı</h2>
               <button onClick={() => setSelectedApp(null)} className="text-gray-400 hover:text-gray-600">
                 <XCircle className="h-5 w-5" />
               </button>
@@ -304,7 +304,7 @@ export default function AdminSponsorApplicationsPage() {
               )}
 
               <div>
-                <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">Basvuru Tarihi</div>
+                <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">Başvuru Tarihi</div>
                 <div className="text-gray-700 text-sm">{formatDate(selectedApp.createdAt)}</div>
               </div>
 
@@ -314,7 +314,7 @@ export default function AdminSponsorApplicationsPage() {
                 <textarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Bu basvuru hakkinda notlariniz..."
+                  placeholder="Bu başvuru hakkında notlarınız..."
                   rows={3}
                   className="w-full px-3 py-2 border rounded-lg resize-none text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />

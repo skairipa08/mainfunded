@@ -65,7 +65,7 @@ export function ThankYouCard({ message, onMarkRead, className }: ThankYouCardPro
                             </div>
                             <div>
                                 <p className="font-medium text-gray-900">{message.studentName}</p>
-                                <p className="text-sm text-gray-500">tesekkur ediyor</p>
+                                <p className="text-sm text-gray-500">teşekkür ediyor</p>
                             </div>
                         </div>
                         <Badge
@@ -136,7 +136,7 @@ export function ThankYouCard({ message, onMarkRead, className }: ThankYouCardPro
                 <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
                     <div className="bg-white rounded-xl max-w-3xl w-full overflow-hidden">
                         <div className="flex items-center justify-between p-4 border-b">
-                            <h3 className="font-semibold">{message.studentName} - Tesekkur Videosu</h3>
+                            <h3 className="font-semibold">{message.studentName} - Teşekkür Videosu</h3>
                             <Button variant="ghost" size="icon" onClick={() => setShowVideo(false)}>
                                 <X className="h-4 w-4" />
                             </Button>
@@ -186,7 +186,7 @@ export function SendThankYou({ donorName, donorId, onSend, className }: SendThan
         <div className={cn('bg-white rounded-xl shadow-sm border p-4', className)}>
             <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                 <Heart className="h-5 w-5 text-pink-500" />
-                {donorName} icin Tesekkur Mesaji
+                {donorName} için Teşekkür Mesajı
             </h3>
 
             {/* Type Toggle */}
@@ -220,7 +220,7 @@ export function SendThankYou({ donorName, donorId, onSend, className }: SendThan
             {/* Content Input */}
             {messageType === 'text' ? (
                 <textarea
-                    placeholder="Bagisci icin tesekkur mesajinizi yazin..."
+                    placeholder="Bağışçı için teşekkür mesajınızı yazın..."
                     value={textMessage}
                     onChange={(e) => setTextMessage(e.target.value)}
                     rows={4}
@@ -244,7 +244,7 @@ export function SendThankYou({ donorName, donorId, onSend, className }: SendThan
                     ) : (
                         <label className="cursor-pointer">
                             <Upload className="h-8 w-8 mx-auto text-gray-400 mb-2" />
-                            <p className="text-gray-600 mb-1">Video yuklemek icin tiklayin</p>
+                            <p className="text-gray-600 mb-1">Video yüklemek için tıklayın</p>
                             <p className="text-xs text-gray-400">MP4, max 100MB</p>
                             <input
                                 type="file"
@@ -263,7 +263,7 @@ export function SendThankYou({ donorName, donorId, onSend, className }: SendThan
                 disabled={messageType === 'text' ? !textMessage.trim() : !videoFile}
             >
                 <Send className="h-4 w-4 mr-2" />
-                Tesekkur Gonder
+                Teşekkür Gönder
             </Button>
         </div>
     );
@@ -291,7 +291,7 @@ export const mockThankYouMessages: ThankYouMessage[] = [
         donorId: 'donor-1',
         donorName: 'Ahmet Kaya',
         type: 'text',
-        content: 'Destekleriniz sayesinde hayallerime bir adim daha yaklastim. Universite harcliklami rahatca odeyebildim. Cok tesekkur ederim!',
+        content: 'Destekleriniz sayesinde hayallerime bir adim daha yaklastim. Üniversite harçlığımı rahatça ödeyebildim. Çok teşekkür ederim!',
         createdAt: '2026-01-25',
         isRead: true,
     },

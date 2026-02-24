@@ -21,10 +21,10 @@ export default function TransparencyPage() {
                 <div className="container mx-auto px-4 text-center">
                     <div className="flex items-center justify-center gap-3 mb-4">
                         <Shield className="h-10 w-10" />
-                        <h1 className="text-4xl font-bold">Seffaflik</h1>
+                        <h1 className="text-4xl font-bold">Şeffaflık</h1>
                     </div>
                     <p className="text-green-100 text-lg max-w-2xl mx-auto">
-                        Her bagis, dogrulanmis ogrencilere ulasir ve her harcama raporlanir
+                        Her bağış, doğrulanmış öğrencilere ulaşır ve her harcama raporlanır
                     </p>
                 </div>
             </div>
@@ -41,45 +41,45 @@ export default function TransparencyPage() {
                     <div className="bg-white rounded-xl p-6 shadow-sm border text-center">
                         <DollarSign className="h-8 w-8 text-green-600 mx-auto mb-2" />
                         <p className="text-3xl font-bold text-gray-900">{formatAmount(0)}</p>
-                        <p className="text-gray-600">Toplam Bagis</p>
+                        <p className="text-gray-600">Toplam Bağış</p>
                     </div>
                     <div className="bg-white rounded-xl p-6 shadow-sm border text-center">
                         <Users className="h-8 w-8 text-blue-600 mx-auto mb-2" />
                         <p className="text-3xl font-bold text-gray-900">0</p>
-                        <p className="text-gray-600">Desteklenen Ogrenci</p>
+                        <p className="text-gray-600">Desteklenen Öğrenci</p>
                     </div>
                     <div className="bg-white rounded-xl p-6 shadow-sm border text-center">
                         <FileCheck className="h-8 w-8 text-purple-600 mx-auto mb-2" />
                         <p className="text-3xl font-bold text-gray-900">0%</p>
-                        <p className="text-gray-600">Dogrulama Orani</p>
+                        <p className="text-gray-600">Doğrulama Oranı</p>
                     </div>
                     <div className="bg-white rounded-xl p-6 shadow-sm border text-center">
                         <PieChart className="h-8 w-8 text-orange-600 mx-auto mb-2" />
                         <p className="text-3xl font-bold text-gray-900">0%</p>
-                        <p className="text-gray-600">Ogrenciye Ulasan</p>
+                        <p className="text-gray-600">Öğrenciye Ulaşan</p>
                     </div>
                 </div>
 
                 {/* Verification Badges */}
                 <div className="mb-12">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-6">Dogrulama Sistemi</h2>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-6">Doğrulama Sistemi</h2>
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
                         <div className="bg-white rounded-xl p-4 shadow-sm border">
                             <VerificationBadge status="verified" size="lg" className="mb-3" />
                             <p className="text-sm text-gray-600">
-                                Kimlik ve ogrencilik durumu tam dogrulandi
+                                Kimlik ve öğrencilik durumu tam doğrulandı
                             </p>
                         </div>
                         <div className="bg-white rounded-xl p-4 shadow-sm border">
                             <VerificationBadge status="student_verified" size="lg" className="mb-3" />
                             <p className="text-sm text-gray-600">
-                                Ogrenci belgesi incelendi ve onaylandi
+                                Öğrenci belgesi incelendi ve onaylandı
                             </p>
                         </div>
                         <div className="bg-white rounded-xl p-4 shadow-sm border">
                             <VerificationBadge status="institution_verified" size="lg" className="mb-3" />
                             <p className="text-sm text-gray-600">
-                                Universite tarafindan teyit edildi
+                                Üniversite tarafından teyit edildi
                             </p>
                         </div>
                         <div className="bg-white rounded-xl p-4 shadow-sm border">
@@ -93,15 +93,15 @@ export default function TransparencyPage() {
 
                 {/* Example Breakdown */}
                 <div className="max-w-xl mx-auto">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Ornek Harcama Dokumu</h2>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Örnek Harcama Dökümü</h2>
                     <TransparencyCard
-                        studentName="Ornek Ogrenci"
+                        studentName="Örnek Öğrenci"
                         totalRaised={0}
                         goalAmount={0}
                         lastUpdated="2026-01-15"
                         verificationStatus="verified"
                         documents={[
-                            { name: 'Ogrenci Belgesi', url: '#' },
+                            { name: 'Öğrenci Belgesi', url: '#' },
                             { name: 'Transkript', url: '#' },
                         ]}
                     />

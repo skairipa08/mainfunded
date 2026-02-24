@@ -30,7 +30,7 @@ export function SocialShare({
     title,
     description = '',
     image,
-    hashtags = ['FundEd', 'EgitimeDestek'],
+    hashtags = ['FundEd', 'EğitimeDestek'],
     className,
     compact = false,
 }: SocialShareProps) {
@@ -198,7 +198,7 @@ export function ShareCard({
 
             <div className="bg-white/20 rounded-xl p-4 mb-4">
                 <div className="flex justify-between text-sm mb-2">
-                    <span>Ilerleme</span>
+                    <span>İlerleme</span>
                     <span className="font-bold">{progress}%</span>
                 </div>
                 <div className="h-3 bg-white/30 rounded-full overflow-hidden">
@@ -214,7 +214,7 @@ export function ShareCard({
             </div>
 
             <div className="text-center">
-                <p className="text-sm text-white/90 mb-2">Egitim hayallerine destek ol!</p>
+                <p className="text-sm text-white/90 mb-2">Eğitim hayallerine destek ol!</p>
                 <div className="bg-white text-blue-600 font-bold py-2 px-4 rounded-lg text-sm">
                     funded.com
                 </div>

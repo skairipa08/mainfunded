@@ -148,7 +148,7 @@ export default function CorporateGatewayPage() {
     // Mock discount codes
     const DISCOUNT_CODES: Record<string, { percent: number; message: string }> = {
         'FUNDED10': { percent: 10, message: '%10 indirim uygulandı!' },
-        'EGITIM20': { percent: 20, message: '%20 indirim uygulandı!' },
+        'EĞİTİM20': { percent: 20, message: '%20 indirim uygulandı!' },
         'WELCOME25': { percent: 25, message: '%25 hoş geldin indirimi!' },
         'STARTUP30': { percent: 30, message: '%30 startup indirimi!' },
         'ENTERPRISE50': { percent: 50, message: '%50 özel kurumsal indirim!' },

@@ -92,11 +92,11 @@ function exportReportToPDF(report: QuarterlyReportData) {
             </head>
             <body>
                 <div class="header">
-                    <h1>📊 ${report.quarter} Ilerleme Raporu</h1>
+                    <h1>📊 ${report.quarter} İlerleme Raporu</h1>
                     <p>${report.studentName} • ${formatDate(report.period.start)} - ${formatDate(report.period.end)}</p>
                 </div>
                 
-                <h2>📚 Akademik Ilerleme</h2>
+                <h2>📚 Akademik İlerleme</h2>
                 <div class="stats">
                     <div class="stat">
                         <div class="stat-value">${report.academicProgress.gpa.toFixed(2)}</div>
@@ -112,10 +112,10 @@ function exportReportToPDF(report: QuarterlyReportData) {
                     </div>
                 </div>
                 
-                <h2>💰 Finansal Ozet</h2>
+                <h2>💰 Finansal Özet</h2>
                 <div class="financial">
                     <div class="financial-row">
-                        <span>Alinan Bagis</span>
+                        <span>Alınan Bağış</span>
                         <span style="color: #16A34A; font-weight: 600;">${formatCurrency(report.financialSummary.received)}</span>
                     </div>
                     <div class="financial-row">
@@ -263,11 +263,11 @@ export function QuarterlyReport({
             <div className="p-6 border-b">
                 <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                     <TrendingUp className="h-5 w-5 text-green-600" />
-                    Finansal Ozet
+                    Finansal Özet
                 </h3>
                 <div className="space-y-3">
                     <div className="flex justify-between items-center">
-                        <span className="text-gray-600">Alinan Bagis</span>
+                        <span className="text-gray-600">Alınan Bağış</span>
                         <span className="font-semibold text-green-600">{formatCurrency(financialSummary.received)}</span>
                     </div>
                     <div className="flex justify-between items-center">
@@ -362,7 +362,7 @@ export function ProgressReportsList({ reports, className }: ProgressReportsListP
                 academicProgress: { gpa: 0, credits: 0, coursesCompleted: 0 },
                 financialSummary: { received: 0, spent: 0, remaining: 0 },
                 updates: [
-                    { id: '1', date: '2025-12-15', type: 'general', title: 'Demo Guncelleme', description: 'Bu bir demo guncellemesidir.' },
+                    { id: '1', date: '2025-12-15', type: 'general', title: 'Demo Güncelleme', description: 'Bu bir demo güncellemesidir.' },
                 ],
                 nextMilestone: 'Platform aktif oldugunda guncellenecektir.',
             },
@@ -374,7 +374,7 @@ export function ProgressReportsList({ reports, className }: ProgressReportsListP
                 academicProgress: { gpa: 0, credits: 0, coursesCompleted: 0 },
                 financialSummary: { received: 0, spent: 0, remaining: 0 },
                 updates: [
-                    { id: '1', date: '2025-09-15', type: 'general', title: 'Demo Guncelleme', description: 'Bu bir demo guncellemesidir.' },
+                    { id: '1', date: '2025-09-15', type: 'general', title: 'Demo Güncelleme', description: 'Bu bir demo güncellemesidir.' },
                 ],
                 nextMilestone: 'Platform aktif oldugunda guncellenecektir.',
             },
@@ -386,7 +386,7 @@ export function ProgressReportsList({ reports, className }: ProgressReportsListP
                 academicProgress: { gpa: 0, credits: 0, coursesCompleted: 0 },
                 financialSummary: { received: 0, spent: 0, remaining: 0 },
                 updates: [
-                    { id: '1', date: '2025-06-15', type: 'general', title: 'Demo Guncelleme', description: 'Bu bir demo guncellemesidir.' },
+                    { id: '1', date: '2025-06-15', type: 'general', title: 'Demo Güncelleme', description: 'Bu bir demo güncellemesidir.' },
                 ],
                 nextMilestone: 'Platform aktif oldugunda guncellenecektir.',
             },
@@ -476,7 +476,7 @@ export function ProgressReportsList({ reports, className }: ProgressReportsListP
 // Mock data
 // Demo data - all financial values zero
 export const mockQuarterlyReport: QuarterlyReportData = {
-    studentName: 'Demo Ogrenci',
+    studentName: 'Demo Öğrenci',
     studentId: 'demo-1',
     quarter: 'Q4 2025',
     period: { start: '2025-10-01', end: '2025-12-31' },
@@ -495,8 +495,8 @@ export const mockQuarterlyReport: QuarterlyReportData = {
             id: '1',
             date: '2025-12-15',
             type: 'general',
-            title: 'Demo Guncelleme',
-            description: 'Bu bir demo guncellemesidir. Gercek veriler platform aktif oldugunda gorunecektir.',
+            title: 'Demo Güncelleme',
+            description: 'Bu bir demo güncellemesidir. Gercek veriler platform aktif oldugunda gorunecektir.',
         },
     ],
     nextMilestone: 'Platform aktif oldugunda guncellenecektir.',

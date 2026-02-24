@@ -43,7 +43,7 @@ const neededProducts: ProductItem[] = [
         name: 'Laptop',
         category: 'electronics',
         icon: Laptop,
-        description: 'Ogrenciler icin temel bilgisayar ihtiyaci',
+        description: 'Öğrenciler için temel bilgisayar ihtiyacı',
         estimatedValue: 800,
         inNeed: 15,
     },
@@ -52,7 +52,7 @@ const neededProducts: ProductItem[] = [
         name: 'Tablet',
         category: 'electronics',
         icon: Smartphone,
-        description: 'Ders takibi ve notlar icin',
+        description: 'Ders takibi ve notlar için',
         estimatedValue: 300,
         inNeed: 8,
     },
@@ -61,7 +61,7 @@ const neededProducts: ProductItem[] = [
         name: 'Kulaklik',
         category: 'electronics',
         icon: Headphones,
-        description: 'Online dersler icin kaliteli kulaklik',
+        description: 'Online dersler için kaliteli kulaklık',
         estimatedValue: 50,
         inNeed: 25,
     },
@@ -70,7 +70,7 @@ const neededProducts: ProductItem[] = [
         name: 'Ders Kitaplari',
         category: 'books',
         icon: BookOpen,
-        description: 'Universite ders kitaplari',
+        description: 'Üniversite ders kitapları',
         estimatedValue: 150,
         inNeed: 40,
     },
@@ -149,9 +149,9 @@ export function ProductDonationForm({
                         <Gift className="h-6 w-6 text-orange-600" />
                     </div>
                     <div>
-                        <h3 className="font-semibold text-gray-900">Urun Bagisi</h3>
+                        <h3 className="font-semibold text-gray-900">Urun Bağışi</h3>
                         <p className="text-sm text-gray-600">
-                            {studentName ? `${studentName} icin` : 'Ogrencilere'} ihtiyac duydugu urunleri bagisin
+                            {studentName ? `${studentName} icin` : 'Öğrencilere'} ihtiyac duydugu urunleri bağışın
                         </p>
                     </div>
                 </div>
@@ -159,7 +159,7 @@ export function ProductDonationForm({
 
             {/* Product Selection */}
             <div>
-                <Label className="mb-3 block">Bagislamak Istediginiz Urun</Label>
+                <Label className="mb-3 block">Bağışlamak Istediginiz Urun</Label>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                     {neededProducts.map((product) => (
                         <button
@@ -175,7 +175,7 @@ export function ProductDonationForm({
                         >
                             <product.icon className="h-6 w-6 text-orange-600 mb-2" />
                             <p className="font-medium text-gray-900">{product.name}</p>
-                            <p className="text-xs text-gray-500">{product.inNeed} ogrenci bekliyor</p>
+                            <p className="text-xs text-gray-500">{product.inNeed} öğrenci bekliyor</p>
                         </button>
                     ))}
                 </div>
@@ -238,7 +238,7 @@ export function ProductDonationForm({
                             >
                                 <Truck className="h-5 w-5 text-orange-600" />
                                 <div>
-                                    <p className="font-medium">Kargo ile Gonder</p>
+                                    <p className="font-medium">Kargo ile Gönder</p>
                                     <p className="text-xs text-gray-500">Adresinizden alinir</p>
                                 </div>
                             </button>
@@ -285,7 +285,7 @@ export function ProductDonationForm({
                                 id="address"
                                 value={address}
                                 onChange={(e) => setAddress(e.target.value)}
-                                placeholder="Kargo/kurye icin adresiniz"
+                                placeholder="Kargo/kurye için adresiniz"
                                 rows={2}
                                 className="mt-1 w-full px-3 py-2 border rounded-lg resize-none"
                             />
@@ -332,7 +332,7 @@ export function ProductDonationForm({
 
                     {/* Summary */}
                     <div className="bg-gray-50 rounded-xl p-4">
-                        <h4 className="font-medium text-gray-900 mb-2">Bagis Ozeti</h4>
+                        <h4 className="font-medium text-gray-900 mb-2">Bağış Ozeti</h4>
                         <div className="space-y-1 text-sm">
                             <div className="flex justify-between">
                                 <span className="text-gray-600">Urun</span>
@@ -353,7 +353,7 @@ export function ProductDonationForm({
 
                     <Button type="submit" className="w-full gap-2 bg-orange-600 hover:bg-orange-700">
                         <Gift className="h-5 w-5" />
-                        Urun Bagisi Yap
+                        Urun Bağışi Yap
                     </Button>
                 </>
             )}

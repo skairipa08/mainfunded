@@ -43,7 +43,7 @@ export async function GET(request: NextRequest) {
     }));
 
     if (format === 'csv') {
-      const headers = ['Bagis ID', 'Kampanya', 'Tutar', 'Para Birimi', 'Tarih', 'Durum', 'Bagisci Adi', 'E-posta'];
+      const headers = ['Bağış ID', 'Kampanya', 'Tutar', 'Para Birimi', 'Tarih', 'Durum', 'Bağışçı Adı', 'E-posta'];
       const rows = enriched.map(d => [
         d.donation_id,
         `"${d.campaign_title.replace(/"/g, '""')}"`,

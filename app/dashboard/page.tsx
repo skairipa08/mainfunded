@@ -16,6 +16,7 @@ interface UserData {
   email: string;
   name: string;
   role: string;
+  accountType?: string;
   student_profile?: {
     verificationStatus: string;
     country?: string;
@@ -91,10 +92,29 @@ export default function DashboardPage() {
     return null;
   }
 
+  // Redirect students to the dedicated student panel
+  useEffect(() => {
+    if (userData?.accountType === 'student' || (!userData?.accountType && userData?.student_profile)) {
+      router.replace('/student/panel');
+    }
+  }, [userData, router]);
+
   const verificationStatus = userData?.student_profile?.verificationStatus || 'none';
   const isVerified = verificationStatus === 'verified';
   const isPending = verificationStatus === 'pending';
   const isRejected = verificationStatus === 'rejected';
+
+  const accountTypeLabels: Record<string, { label: string; icon: string; color: string }> = {
+    student: { label: 'Öğrenci / Student', icon: '🎓', color: 'bg-blue-100 text-blue-800 border-blue-200' },
+    donor: { label: 'Bağışçı / Donor', icon: '💝', color: 'bg-pink-100 text-pink-800 border-pink-200' },
+    mentor: { label: 'Mentör / Mentor', icon: '🧭', color: 'bg-purple-100 text-purple-800 border-purple-200' },
+    parent: { label: 'Veli / Parent', icon: '👨‍👩‍👧', color: 'bg-amber-100 text-amber-800 border-amber-200' },
+    teacher: { label: 'Öğretmen / Teacher', icon: '📚', color: 'bg-green-100 text-green-800 border-green-200' },
+    school: { label: 'Okul / School', icon: '🏫', color: 'bg-indigo-100 text-indigo-800 border-indigo-200' },
+  };
+
+  const currentAccountType = userData?.accountType || 'student';
+  const accountInfo = accountTypeLabels[currentAccountType] || accountTypeLabels.student;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -102,7 +122,13 @@ export default function DashboardPage() {
       <main className="flex-grow bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
+            <div className="flex items-center gap-3 mb-2">
+              <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+              <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium border ${accountInfo.color}`}>
+                <span>{accountInfo.icon}</span>
+                {accountInfo.label}
+              </span>
+            </div>
             <p className="text-gray-600">Manage your profile and campaigns</p>
           </div>
 

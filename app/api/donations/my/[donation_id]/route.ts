@@ -50,7 +50,7 @@ export async function GET(
       }
 
       student = {
-        name: studentUser?.name || 'Ogrenci',
+        name: studentUser?.name || 'Öğrenci',
         image: studentUser?.image || null,
         university: studentProfile?.university || '',
         department: studentProfile?.department || studentProfile?.fieldOfStudy || studentProfile?.field_of_study || '',

@@ -9,7 +9,7 @@ export const DEMO_CAMPAIGNS = [
 
 ---
 [Turkish / Türkçe]
-Merhaba, ben Baran. Duzce Universitesi Elektrik Elektronik Muhendisligi ogrencisiyim. Bu donem bitirme projem ve laboratuvar calismalarim icin elektronik komponentler, sensorler ve PCB uretimi gibi temel kalemlere ihtiyacim var. Ayrica test/olcum icin gerekli bazi araclar ve proje surecinde kullanacagim yazilim/lisans maliyetleri bulunuyor. Donem takvimi sikisik oldugu icin bu destek, projemi zamaninda tamamlamam icin kritik. Surec boyunca gelismeleri ve harcama kalemlerini duzenli paylasacagim. Desteginiz benim icin dogrudan “calisabilme imkani” demek.
+Merhaba, ben Baran. Düzce Üniversitesi Elektrik Elektronik Mühendisliği öğrencisiyim. Bu dönem bitirme projem ve laboratuvar çalışmalarım için elektronik komponentler, sensörler ve PCB üretimi gibi temel kalemlere ihtiyacım var. Ayrıca test/ölçüm için gerekli bazı araçlar ve proje sürecinde kullanacağım yazılım/lisans maliyetleri bulunuyor. Dönem takvimi sıkışık olduğu için bu destek, projemi zamanında tamamlamam için kritik. Süreç boyunca gelişmeleri ve harcama kalemlerini düzenli paylaşacağım. Desteğiniz benim için doğrudan "çalışabilme imkanı" demek.
 
 **Use of Funds:**
 - $350 components & sensors
@@ -32,7 +32,7 @@ Merhaba, ben Baran. Duzce Universitesi Elektrik Elektronik Muhendisligi ogrencis
             picture: null, // Placeholder
             country: 'Turkey',
             field_of_study: 'Electrical & Electronics Engineering',
-            university: 'Duzce University',
+            university: 'Düzce University',
             verification_status: 'verified', // Tier 1/2 equivalent
         }
     },
@@ -40,12 +40,12 @@ Merhaba, ben Baran. Duzce Universitesi Elektrik Elektronik Muhendisligi ogrencis
         _id: 'demo_campaign_2',
         campaign_id: 'campaign_demo_002',
         owner_id: 'demo_user_ozge',
-        title: "Monthly Scholarship for Ozge: Transportation & Study Resources",
+        title: "Monthly Scholarship for Özge: Transportation & Study Resources",
         story: `Hi, I’m Ozge, a Materials & Metallurgy Engineering student at Sakarya University. Student life isn’t only about classes—transportation, lab work, printing, and study materials create ongoing monthly costs. That’s why a stable monthly scholarship makes more sense for me than a one-time donation. My goal is to cover transportation, essential resources, and small lab-related expenses so I can stay consistent with coursework and lab practice. I’ll share short monthly updates and a term-end summary of progress. Your support helps me keep going without interruptions.
 
 ---
 [Turkish / Türkçe]
-Merhaba, ben Ozge. Sakarya Universitesi Malzeme Metalurji Muhendisligi ogrencisiyim. Universite hayati sadece derslerden ibaret degil; ulasim, laboratuvar calismalari, yazdirma ve kaynak/kitap gibi masraflar her ay duzenli devam ediyor. Bu nedenle tek seferlik bir destekten cok, daha stabil bir sekilde aylik burs destegi benim icin daha anlamli. Aylik hedefim; okula ulasim, gerekli ders kaynaklari ve laboratuvarla ilgili kucuk giderleri karsilamak. Her ay kisa bir ilerleme notu ve donem sonunda genel bir durum ozeti paylasacagim. Amacim, derslere ve laboratuvar calismalarina kesintisiz devam edebilmek.
+Merhaba, ben Özge. Sakarya Üniversitesi Malzeme Metalürji Mühendisliği öğrencisiyim. Üniversite hayatı sadece derslerden ibaret değil; ulaşım, laboratuvar çalışmaları, yazdırma ve kaynak/kitap gibi masraflar her ay düzenli devam ediyor. Bu nedenle tek seferlik bir destekten çok, daha stabil bir şekilde aylık burs desteği benim için daha anlamlı. Aylık hedefim; okula ulaşım, gerekli ders kaynakları ve laboratuvarla ilgili küçük giderleri karşılamak. Her ay kısa bir ilerleme notu ve dönem sonunda genel bir durum özeti paylaşacağım. Amacım, derslere ve laboratuvar çalışmalarına kesintisiz devam edebilmek.
 
 **Monthly Breakdown:**
 - $85 transportation
@@ -64,7 +64,7 @@ Merhaba, ben Ozge. Sakarya Universitesi Malzeme Metalurji Muhendisligi ogrencisi
         updated_at: new Date().toISOString(),
         // Enriched student data
         student: {
-            name: 'Ozge Karabas',
+            name: 'Özge Karabaş',
             picture: null,
             country: 'Turkey',
             field_of_study: 'Materials & Metallurgy Engineering',

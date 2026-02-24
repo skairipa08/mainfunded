@@ -86,7 +86,7 @@ export const mockCorporateUser: CorporateUser = {
     id: 'user_001',
     corporate_account_id: 'corp_001',
     email: 'admin@techventures.com',
-    name: 'Ahmet Yilmaz',
+    name: 'Ahmet Yılmaz',
     role: 'payment_admin',
     avatar_url: '/api/placeholder/40/40',
 };
@@ -125,9 +125,9 @@ export const mockStudents: SupportedStudent[] = [
     },
     {
         id: 'std_003',
-        name: 'Ayse Ozturk',
+        name: 'Ayşe Öztürk',
         photo_url: '/api/placeholder/100/100',
-        university: 'Bogazici University',
+        university: 'Boğaziçi University',
         faculty: 'Medicine',
         department: 'Medical School',
         country: 'Turkey',
@@ -140,7 +140,7 @@ export const mockStudents: SupportedStudent[] = [
     },
     {
         id: 'std_004',
-        name: 'Ali Yildiz',
+        name: 'Ali Yıldız',
         photo_url: '/api/placeholder/100/100',
         university: 'Ankara University',
         faculty: 'Law',
@@ -175,8 +175,8 @@ export const mockStudents: SupportedStudent[] = [
 export const mockCampaigns: Campaign[] = [
     {
         id: 'camp_001',
-        title: 'STEM Egitimi Destegi',
-        description: 'Muhendislik ve bilim ogrencilerine burs destegi',
+        title: 'STEM Eğitimi Desteği',
+        description: 'Mühendislik ve bilim öğrencilerine burs desteği',
         category: 'STEM',
         goal_amount: 0,
         raised_amount: 0,
@@ -186,8 +186,8 @@ export const mockCampaigns: Campaign[] = [
     },
     {
         id: 'camp_002',
-        title: 'Tip Fakultesi Bursu',
-        description: 'Gelecek doktorlara egitim destegi',
+        title: 'Tıp Fakültesi Bursu',
+        description: 'Gelecek doktorlara eğitim desteği',
         category: 'Medicine',
         goal_amount: 0,
         raised_amount: 0,
@@ -202,8 +202,8 @@ export const mockNotifications: Notification[] = [
     {
         id: 'notif_001',
         type: 'thank_you',
-        title: 'Zeynep\'ten Tesekkur Mesaji',
-        message: 'Zeynep Kaya size bir tesekkur videosu gonderdi.',
+        title: 'Zeynep\'ten Teşekkür Mesajı',
+        message: 'Zeynep Kaya size bir teşekkür videosu gönderdi.',
         date: '2026-02-03T10:00:00Z',
         read: false,
         student_id: 'std_001',
@@ -211,8 +211,8 @@ export const mockNotifications: Notification[] = [
     {
         id: 'notif_002',
         type: 'milestone',
-        title: 'Ogrenci Basarisi',
-        message: 'Mehmet Demir CERN programina kabul edildi!',
+        title: 'Öğrenci Başarısı',
+        message: 'Mehmet Demir CERN programına kabul edildi!',
         date: '2026-01-20T14:30:00Z',
         read: false,
         student_id: 'std_002',
@@ -221,7 +221,7 @@ export const mockNotifications: Notification[] = [
         id: 'notif_003',
         type: 'campaign',
         title: 'Yeni Kampanya',
-        message: 'Yeni "Yapay Zeka Burslari" kampanyasi basladi.',
+        message: 'Yeni "Yapay Zeka Bursları" kampanyası başladı.',
         date: '2026-01-18T09:00:00Z',
         read: true,
         campaign_id: 'camp_005',
@@ -229,8 +229,8 @@ export const mockNotifications: Notification[] = [
     {
         id: 'notif_004',
         type: 'update',
-        title: 'Ogrenci Guncellemesi',
-        message: 'Zeynep Kaya yeni bir guncelleme paylasti.',
+        title: 'Öğrenci Güncellemesi',
+        message: 'Zeynep Kaya yeni bir güncelleme paylaştı.',
         date: '2026-01-15T16:00:00Z',
         read: true,
         student_id: 'std_001',
@@ -259,7 +259,7 @@ export const mockDonationTrend = [
     { month: 'May', amount: 0 },
     { month: 'Haz', amount: 0 },
     { month: 'Tem', amount: 0 },
-    { month: 'Agu', amount: 0 },
+    { month: 'Ağu', amount: 0 },
     { month: 'Eyl', amount: 0 },
     { month: 'Eki', amount: 0 },
     { month: 'Kas', amount: 0 },
@@ -268,20 +268,20 @@ export const mockDonationTrend = [
 
 // Faculty Distribution
 export const mockFacultyDistribution = [
-    { name: 'Muhendislik', value: 35 },
-    { name: 'Tip', value: 20 },
+    { name: 'Mühendislik', value: 35 },
+    { name: 'Tıp', value: 20 },
     { name: 'Hukuk', value: 15 },
     { name: 'Fen', value: 15 },
-    { name: 'Diger', value: 15 },
+    { name: 'Diğer', value: 15 },
 ];
 
 // Country Distribution
 export const mockCountryDistribution = [
-    { name: 'Turkiye', value: 60 },
+    { name: 'Türkiye', value: 60 },
     { name: 'Almanya', value: 15 },
     { name: 'ABD', value: 10 },
-    { name: 'Ingiltere', value: 8 },
-    { name: 'Diger', value: 7 },
+    { name: 'İngiltere', value: 8 },
+    { name: 'Diğer', value: 7 },
 ];
 
 // ESG Metrics (Demo)

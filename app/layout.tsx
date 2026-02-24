@@ -4,6 +4,7 @@ import './globals.css';
 import { Providers } from './providers';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { Toaster } from '@/components/ui/sonner';
+import { AiAssistantLoader } from '@/components/ai-assistant/AiAssistantLoader';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -50,6 +51,7 @@ export default function RootLayout({
           <Providers>
             {children}
             <Toaster />
+            <AiAssistantLoader />
           </Providers>
         </ErrorBoundary>
       </body>

@@ -24,7 +24,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 
-const ALL_TAGS = ['all', 'tesekkur', 'basari', 'finals', 'staj', 'kariyer', 'google', 'yenidonem', 'universite'];
+const ALL_TAGS = ['all', 'teşekkür', 'başarı', 'finals', 'staj', 'kariyer', 'google', 'yenidönem', 'üniversite'];
 
 function AnimatedCounter({ value, className }: { value: number; className?: string }) {
     const [displayed, setDisplayed] = React.useState(0);
@@ -182,7 +182,7 @@ export default function StudentUpdatesPage() {
                                 <Hash className="h-3 w-3 inline mr-0.5" />
                                 {t('pages.updates.popularTags') || 'Popüler:'}
                             </span>
-                            {['basari', 'tesekkur', 'kariyer', 'staj'].map((tag) => (
+                            {['başarı', 'teşekkür', 'kariyer', 'staj'].map((tag) => (
                                 <button
                                     key={tag}
                                     onClick={() => setSelectedTag(tag)}

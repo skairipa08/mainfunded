@@ -104,7 +104,7 @@ function DocumentsUploadStep({ tierRequested, t }: { tierRequested: number; t: (
 
     const validateFile = (file: File): string | null => {
         if (!ALLOWED_FILE_TYPES.includes(file.type)) {
-            return `Gecersiz dosya turu. Izin verilen: ${ALLOWED_EXTENSIONS.join(', ')}`;
+            return `Geçersiz dosya türü. İzin verilen: ${ALLOWED_EXTENSIONS.join(', ')}`;
         }
         if (file.size > MAX_FILE_SIZE) {
             return 'Dosya cok buyuk. Maksimum: 10MB';
@@ -160,7 +160,7 @@ function DocumentsUploadStep({ tierRequested, t }: { tierRequested: number; t: (
                     </div>
                     <div>
                         <h4 className="font-semibold text-amber-900 mb-2">
-                            {t('verification.documentGuidance') || 'Belgeler okunakli, tam kadraj ve guncel olmali.'}
+                            {t('verification.documentGuidance') || 'Belgeler okunaklı, tam kadraj ve güncel olmalı.'}
                         </h4>
                         <p className="text-sm text-amber-700 mb-3">
                             {t('verification.documentMaskingHint') || 'Gerekli olmayan hassas bilgileri kapatabilirsin.'}
@@ -168,11 +168,11 @@ function DocumentsUploadStep({ tierRequested, t }: { tierRequested: number; t: (
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             <div className="flex items-center gap-2 text-sm text-amber-800">
                                 <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                                {t('verification.acceptedDocs.enrollment') || 'Ogrenci belgesi / Kayit belgesi'}
+                                {t('verification.acceptedDocs.enrollment') || 'Öğrenci belgesi / Kayıt belgesi'}
                             </div>
                             <div className="flex items-center gap-2 text-sm text-amber-800">
                                 <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                                {t('verification.acceptedDocs.studentId') || 'Ogrenci kimligi'}
+                                {t('verification.acceptedDocs.studentId') || 'Öğrenci kimliği'}
                             </div>
                             <div className="flex items-center gap-2 text-sm text-amber-800">
                                 <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
@@ -181,7 +181,7 @@ function DocumentsUploadStep({ tierRequested, t }: { tierRequested: number; t: (
                             {tierRequested >= 2 && (
                                 <div className="flex items-center gap-2 text-sm text-amber-800">
                                     <CheckCircle2 className="w-4 h-4 text-emerald-600 flex-shrink-0" />
-                                    {t('verification.acceptedDocs.portalScreenshot') || 'Okul portali ekran goruntusu'}
+                                    {t('verification.acceptedDocs.portalScreenshot') || 'Okul portalı ekran görüntüsü'}
                                 </div>
                             )}
                         </div>
@@ -213,14 +213,14 @@ function DocumentsUploadStep({ tierRequested, t }: { tierRequested: number; t: (
                     <Upload className={`w-8 h-8 transition-colors ${dragActive ? 'text-emerald-600' : 'text-gray-400 group-hover:text-emerald-500'}`} />
                 </div>
                 <p className="text-gray-700 font-medium mb-1">
-                    {t('verification.dragDrop') || 'Surukle birak veya dosya sec'}
+                    {t('verification.dragDrop') || 'Sürükle bırak veya dosya seç'}
                 </p>
                 <p className="text-sm text-gray-500 mb-4">
                     {t('verification.fileTypes') || 'PDF, JPG, PNG (max 10MB)'}
                 </p>
                 <Button type="button" variant="outline" size="sm" className="pointer-events-none">
                     <Upload className="w-4 h-4 mr-2" />
-                    {t('verification.form.uploadDocuments') || 'Belgeleri Yukle'}
+                    {t('verification.form.uploadDocuments') || 'Belgeleri Yükle'}
                 </Button>
             </div>
 
@@ -228,7 +228,7 @@ function DocumentsUploadStep({ tierRequested, t }: { tierRequested: number; t: (
                 <div className="space-y-3">
                     <h4 className="font-medium text-gray-900 flex items-center gap-2">
                         <FileText className="w-4 h-4 text-gray-500" />
-                        {t('verification.selectedFiles') || 'Secilen Dosyalar'} ({files.length})
+                        {t('verification.selectedFiles') || 'Seçilen Dosyalar'} ({files.length})
                     </h4>
                     <div className="space-y-2">
                         {files.map((uploadedFile, index) => (
@@ -277,7 +277,7 @@ function DocumentsUploadStep({ tierRequested, t }: { tierRequested: number; t: (
 
             <p className="text-sm text-gray-500 text-center flex items-center justify-center gap-2">
                 <Shield className="w-4 h-4" />
-                {t('verification.documentsNote') || 'Belgeler sadece dogrulama icin kullanilir ve guvenli sekilde saklanir.'}
+                {t('verification.documentsNote') || 'Belgeler sadece doğrulama için kullanılır ve güvenli şekilde saklanır.'}
             </p>
         </div>
     );
@@ -316,11 +316,11 @@ function VerifyPageContent() {
     }, [session]);
 
     const steps: { id: FormStep; title: string; shortTitle: string }[] = [
-        { id: 'tier-select', title: t('verification.steps.tierSelect') || 'Dogrulama Seviyesi Secin', shortTitle: 'Seviye' },
-        { id: 'personal-info', title: t('verification.steps.personalInfo') || 'Kisisel Bilgiler', shortTitle: 'Kisisel' },
-        { id: 'education-info', title: t('verification.steps.educationInfo') || 'Egitim Bilgileri', shortTitle: 'Egitim' },
-        { id: 'documents', title: t('verification.steps.documents') || 'Belge Yukle', shortTitle: 'Belgeler' },
-        { id: 'review', title: t('verification.steps.review') || 'Incele ve Gonder', shortTitle: 'Gonder' },
+        { id: 'tier-select', title: t('verification.steps.tierSelect') || 'Doğrulama Seviyesi Seçin', shortTitle: 'Seviye' },
+        { id: 'personal-info', title: t('verification.steps.personalInfo') || 'Kişisel Bilgiler', shortTitle: 'Kisisel' },
+        { id: 'education-info', title: t('verification.steps.educationInfo') || 'Eğitim Bilgileri', shortTitle: 'Eğitim' },
+        { id: 'documents', title: t('verification.steps.documents') || 'Belge Yükle', shortTitle: 'Belgeler' },
+        { id: 'review', title: t('verification.steps.review') || 'İncele ve Gönder', shortTitle: 'Gönder' },
     ];
 
     const currentStepIndex = steps.findIndex(s => s.id === currentStep);
@@ -331,20 +331,20 @@ function VerifyPageContent() {
         if (currentStep === 'personal-info') {
             if (!formData.firstName.trim()) newErrors.firstName = 'Ad zorunludur';
             if (!formData.lastName.trim()) newErrors.lastName = 'Soyad zorunludur';
-            if (!formData.dateOfBirth) newErrors.dateOfBirth = 'Dogum tarihi zorunludur';
+            if (!formData.dateOfBirth) newErrors.dateOfBirth = 'Doğum tarihi zorunludur';
             if (!formData.phone.trim()) newErrors.phone = 'Telefon zorunludur';
-            if (!formData.country.trim()) newErrors.country = 'Ulke zorunludur';
+            if (!formData.country.trim()) newErrors.country = 'Ülke zorunludur';
         }
 
         if (currentStep === 'education-info') {
-            if (!formData.institutionName.trim()) newErrors.institutionName = 'Kurum adi zorunludur';
-            if (!formData.institutionCountry.trim()) newErrors.institutionCountry = 'Kurum ulkesi zorunludur';
-            if (!formData.degreeProgram.trim()) newErrors.degreeProgram = 'Bolum zorunludur';
+            if (!formData.institutionName.trim()) newErrors.institutionName = 'Kurum adı zorunludur';
+            if (!formData.institutionCountry.trim()) newErrors.institutionCountry = 'Kurum ülkesi zorunludur';
+            if (!formData.degreeProgram.trim()) newErrors.degreeProgram = 'Bölüm zorunludur';
         }
 
         setErrors(newErrors);
         if (Object.keys(newErrors).length > 0) {
-            toast.error('Lutfen zorunlu alanlari doldurun');
+            toast.error('Lütfen zorunlu alanları doldurun');
             return false;
         }
         return true;
@@ -406,11 +406,11 @@ function VerifyPageContent() {
             if (!response.ok) throw new Error('Failed to submit verification');
 
             const data = await response.json();
-            toast.success(t('verification.submitSuccess') || 'Dogrulama basvurusu basariyla gonderildi!');
+            toast.success(t('verification.submitSuccess') || 'Doğrulama başvurusu başarıyla gönderildi!');
             router.push(`/verify/status?id=${data.verification.verification_id}`);
         } catch (error) {
             console.error('Verification error:', error);
-            toast.error(t('verification.submitError') || 'Basvuru gonderilemedi. Lutfen tekrar deneyin.');
+            toast.error(t('verification.submitError') || 'Başvuru gönderilemedi. Lütfen tekrar deneyin.');
         } finally {
             setLoading(false);
         }
@@ -427,17 +427,17 @@ function VerifyPageContent() {
                             <ShieldCheck className="w-10 h-10 text-white" />
                         </div>
                         <h2 className="text-2xl font-bold text-gray-900 mb-2">
-                            {t('verification.alreadySubmitted') || 'Basvuru Zaten Gonderildi'}
+                            {t('verification.alreadySubmitted') || 'Başvuru Zaten Gönderildi'}
                         </h2>
                         <p className="text-gray-600 mb-6">
-                            {t('verification.checkStatus') || 'Dogrulama durumunuzu kontrol edin.'}
+                            {t('verification.checkStatus') || 'Doğrulama durumunuzu kontrol edin.'}
                         </p>
                         <Button
                             onClick={() => router.push(`/verify/status?id=${existingVerification.verification_id}`)}
                             className="bg-emerald-600 hover:bg-emerald-700 w-full"
                             size="lg"
                         >
-                            {t('verification.viewStatus') || 'Durumu Goruntule'}
+                            {t('verification.viewStatus') || 'Durumu Görüntüle'}
                             <ChevronRight className="w-4 h-4 ml-2" />
                         </Button>
                     </div>
@@ -469,10 +469,10 @@ function VerifyPageContent() {
                             <ShieldCheck className="w-8 h-8 text-white" />
                         </div>
                         <h1 className="text-3xl md:text-4xl font-bold mb-3">
-                            {t('verification.title') || 'Ogrenci Dogrulamasi'}
+                            {t('verification.title') || 'Öğrenci Doğrulaması'}
                         </h1>
                         <p className="text-emerald-100 text-lg max-w-xl mx-auto">
-                            {t('verification.subtitle') || 'Bagiscilarin guvenini artirmak icin dogrulama seviyeni sec ve gerekli belgeleri yukle.'}
+                            {t('verification.subtitle') || 'Bağışçıların güvenini artırmak için doğrulama seviyeni seç ve gerekli belgeleri yükle.'}
                         </p>
                     </div>
                 </div>
@@ -552,23 +552,23 @@ function VerifyPageContent() {
                             {currentStep === 'tier-select' && (
                                 <div className="space-y-5">
                                     <p className="text-gray-600">
-                                        {t('verification.tierSelectDescription') || 'Daha yuksek seviye = daha yuksek guven. Seviye arttikca ek kanit istenebilir.'}
+                                        {t('verification.tierSelectDescription') || 'Daha yüksek seviye = daha yüksek güven. Seviye arttıkça ek kanıt istenebilir.'}
                                     </p>
 
                                     <div className="space-y-4">
                                         {TIER_CONFIG.filter(tier => tier.tier >= 1 && tier.tier <= 2).map((tier) => {
                                             const isSelected = formData.tierRequested === tier.tier;
                                             const tierNames: Record<number, string> = {
-                                                1: t('verification.tiers.tier1.name') || 'Belge ile Dogrulama',
-                                                2: t('verification.tiers.tier2.name') || 'Yuksek Guven',
+                                                1: t('verification.tiers.tier1.name') || 'Belge ile Doğrulama',
+                                                2: t('verification.tiers.tier2.name') || 'Yüksek Güven',
                                             };
                                             const tierDescs: Record<number, string> = {
-                                                1: t('verification.tiers.tier1.description') || 'Ogrenci belgesi veya kayit belgesi yukleyerek dogrula.',
-                                                2: t('verification.tiers.tier2.description') || 'Belge + okul portali ekran goruntusu ile dogrula.',
+                                                1: t('verification.tiers.tier1.description') || 'Öğrenci belgesi veya kayıt belgesi yükleyerek doğrula.',
+                                                2: t('verification.tiers.tier2.description') || 'Belge + okul portalı ekran görüntüsü ile doğrula.',
                                             };
                                             const tierReqs: Record<number, string> = {
-                                                1: t('verification.tiers.tier1.subtext') || 'Gerekli: Ogrenci belgesi',
-                                                2: t('verification.tiers.tier2.subtext') || 'Gerekli: Ogrenci belgesi, Portal ekran goruntusu',
+                                                1: t('verification.tiers.tier1.subtext') || 'Gerekli: Öğrenci belgesi',
+                                                2: t('verification.tiers.tier2.subtext') || 'Gerekli: Öğrenci belgesi, Portal ekran görüntüsü',
                                             };
 
                                             return (
@@ -633,24 +633,24 @@ function VerifyPageContent() {
                                             </div>
                                             <div>
                                                 <h4 className="font-semibold text-blue-900">
-                                                    {t('verification.tier0Option') || 'Okul E-postasi ile Hizli Dogrulama'}
+                                                    {t('verification.tier0Option') || 'Okul E-postası ile Hızlı Doğrulama'}
                                                 </h4>
                                                 <p className="text-sm text-blue-700 mt-1">
-                                                    {t('verification.tier0Description') || 'Okul e-postaniza bir dogrulama baglantisi gondeririz.'}
+                                                    {t('verification.tier0Description') || 'Okul e-postanıza bir doğrulama bağlantısı göndeririz.'}
                                                 </p>
                                             </div>
                                         </div>
                                         <div className="flex gap-2 items-center">
                                             <Input
                                                 type="email"
-                                                placeholder="ogrenci@universite.edu.tr"
+                                                placeholder="öğrenci@universite.edu.tr"
                                                 value={formData.institutionEmail}
                                                 onChange={(e) => setFormData({ ...formData, institutionEmail: e.target.value })}
                                                 className="flex-1 bg-white"
                                             />
                                             {formData.institutionEmail && isEducationalEmail(formData.institutionEmail) && (
                                                 <span className="text-emerald-600 flex items-center gap-1 text-sm font-medium whitespace-nowrap">
-                                                    <CheckCircle2 className="w-4 h-4" /> Gecerli
+                                                    <CheckCircle2 className="w-4 h-4" /> Geçerli
                                                 </span>
                                             )}
                                         </div>
@@ -695,7 +695,7 @@ function VerifyPageContent() {
                                     <div className="space-y-2">
                                         <Label htmlFor="dateOfBirth" className="flex items-center gap-1.5">
                                             <Calendar className="w-3.5 h-3.5 text-gray-400" />
-                                            {t('verification.form.dateOfBirth') || 'Dogum Tarihi'} <span className="text-red-500">*</span>
+                                            {t('verification.form.dateOfBirth') || 'Doğum Tarihi'} <span className="text-red-500">*</span>
                                         </Label>
                                         <Input
                                             id="dateOfBirth"
@@ -710,7 +710,7 @@ function VerifyPageContent() {
                                     <div className="space-y-2">
                                         <Label htmlFor="phone" className="flex items-center gap-1.5">
                                             <Phone className="w-3.5 h-3.5 text-gray-400" />
-                                            {t('verification.form.phone') || 'Telefon Numarasi'} <span className="text-red-500">*</span>
+                                            {t('verification.form.phone') || 'Telefon Numarası'} <span className="text-red-500">*</span>
                                         </Label>
                                         <Input
                                             id="phone"
@@ -727,27 +727,27 @@ function VerifyPageContent() {
                                         <div className="space-y-2">
                                             <Label htmlFor="country" className="flex items-center gap-1.5">
                                                 <MapPin className="w-3.5 h-3.5 text-gray-400" />
-                                                {t('verification.form.country') || 'Ulke'} <span className="text-red-500">*</span>
+                                                {t('verification.form.country') || 'Ülke'} <span className="text-red-500">*</span>
                                             </Label>
                                             <Input
                                                 id="country"
                                                 value={formData.country}
                                                 onChange={(e) => { setFormData({ ...formData, country: e.target.value }); setErrors({ ...errors, country: '' }); }}
                                                 className={errors.country ? 'border-red-300 focus:border-red-400' : ''}
-                                                placeholder="Turkiye"
+                                                placeholder="Türkiye"
                                             />
                                             {errors.country && <p className="text-xs text-red-500">{errors.country}</p>}
                                         </div>
                                         <div className="space-y-2">
                                             <Label htmlFor="city" className="flex items-center gap-1.5">
                                                 <MapPin className="w-3.5 h-3.5 text-gray-400" />
-                                                {t('verification.form.city') || 'Sehir'}
+                                                {t('verification.form.city') || 'Şehir'}
                                             </Label>
                                             <Input
                                                 id="city"
                                                 value={formData.city}
                                                 onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                                                placeholder="Istanbul"
+                                                placeholder="İstanbul"
                                             />
                                         </div>
                                     </div>
@@ -760,14 +760,14 @@ function VerifyPageContent() {
                                     <div className="space-y-2">
                                         <Label htmlFor="institutionName" className="flex items-center gap-1.5">
                                             <Building2 className="w-3.5 h-3.5 text-gray-400" />
-                                            {t('verification.form.institution') || 'Kurum Adi'} <span className="text-red-500">*</span>
+                                            {t('verification.form.institution') || 'Kurum Adı'} <span className="text-red-500">*</span>
                                         </Label>
                                         <Input
                                             id="institutionName"
                                             value={formData.institutionName}
                                             onChange={(e) => { setFormData({ ...formData, institutionName: e.target.value }); setErrors({ ...errors, institutionName: '' }); }}
                                             className={errors.institutionName ? 'border-red-300 focus:border-red-400' : ''}
-                                            placeholder="Or: Bogazici Universitesi"
+                                            placeholder="Ör: Boğaziçi Üniversitesi"
                                         />
                                         {errors.institutionName && <p className="text-xs text-red-500">{errors.institutionName}</p>}
                                     </div>
@@ -776,21 +776,21 @@ function VerifyPageContent() {
                                         <div className="space-y-2">
                                             <Label htmlFor="institutionCountry" className="flex items-center gap-1.5">
                                                 <MapPin className="w-3.5 h-3.5 text-gray-400" />
-                                                {t('verification.form.institutionCountry') || 'Kurum Ulkesi'} <span className="text-red-500">*</span>
+                                                {t('verification.form.institutionCountry') || 'Kurum Ülkesi'} <span className="text-red-500">*</span>
                                             </Label>
                                             <Input
                                                 id="institutionCountry"
                                                 value={formData.institutionCountry}
                                                 onChange={(e) => { setFormData({ ...formData, institutionCountry: e.target.value }); setErrors({ ...errors, institutionCountry: '' }); }}
                                                 className={errors.institutionCountry ? 'border-red-300 focus:border-red-400' : ''}
-                                                placeholder="Turkiye"
+                                                placeholder="Türkiye"
                                             />
                                             {errors.institutionCountry && <p className="text-xs text-red-500">{errors.institutionCountry}</p>}
                                         </div>
                                         <div className="space-y-2">
                                             <Label htmlFor="institutionType" className="flex items-center gap-1.5">
                                                 <Building2 className="w-3.5 h-3.5 text-gray-400" />
-                                                {t('verification.form.institutionType') || 'Kurum Turu'} <span className="text-red-500">*</span>
+                                                {t('verification.form.institutionType') || 'Kurum Türü'} <span className="text-red-500">*</span>
                                             </Label>
                                             <Select
                                                 value={formData.institutionType}
@@ -800,9 +800,9 @@ function VerifyPageContent() {
                                                     <SelectValue />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="university">{t('verification.form.institutionTypes.university') || 'Universite'}</SelectItem>
-                                                    <SelectItem value="college">{t('verification.form.institutionTypes.college') || 'Yuksekokul'}</SelectItem>
-                                                    <SelectItem value="vocational">{t('verification.form.institutionTypes.vocational') || 'Meslek Yuksekokulu'}</SelectItem>
+                                                    <SelectItem value="university">{t('verification.form.institutionTypes.university') || 'Üniversite'}</SelectItem>
+                                                    <SelectItem value="college">{t('verification.form.institutionTypes.college') || 'Yüksekokul'}</SelectItem>
+                                                    <SelectItem value="vocational">{t('verification.form.institutionTypes.vocational') || 'Meslek Yüksekokulu'}</SelectItem>
                                                     <SelectItem value="high_school">{t('verification.form.institutionTypes.high_school') || 'Lise'}</SelectItem>
                                                 </SelectContent>
                                             </Select>
@@ -812,14 +812,14 @@ function VerifyPageContent() {
                                     <div className="space-y-2">
                                         <Label htmlFor="degreeProgram" className="flex items-center gap-1.5">
                                             <BookOpen className="w-3.5 h-3.5 text-gray-400" />
-                                            {t('verification.form.program') || 'Bolum'} <span className="text-red-500">*</span>
+                                            {t('verification.form.program') || 'Bölüm'} <span className="text-red-500">*</span>
                                         </Label>
                                         <Input
                                             id="degreeProgram"
                                             value={formData.degreeProgram}
                                             onChange={(e) => { setFormData({ ...formData, degreeProgram: e.target.value }); setErrors({ ...errors, degreeProgram: '' }); }}
                                             className={errors.degreeProgram ? 'border-red-300 focus:border-red-400' : ''}
-                                            placeholder="Or: Bilgisayar Muhendisligi"
+                                            placeholder="Ör: Bilgisayar Mühendisliği"
                                         />
                                         {errors.degreeProgram && <p className="text-xs text-red-500">{errors.degreeProgram}</p>}
                                     </div>
@@ -838,9 +838,9 @@ function VerifyPageContent() {
                                                     <SelectValue />
                                                 </SelectTrigger>
                                                 <SelectContent>
-                                                    <SelectItem value="associate">{t('verification.form.degreeLevels.associate') || 'On Lisans'}</SelectItem>
+                                                    <SelectItem value="associate">{t('verification.form.degreeLevels.associate') || 'Ön Lisans'}</SelectItem>
                                                     <SelectItem value="bachelor">{t('verification.form.degreeLevels.bachelor') || 'Lisans'}</SelectItem>
-                                                    <SelectItem value="master">{t('verification.form.degreeLevels.master') || 'Yuksek Lisans'}</SelectItem>
+                                                    <SelectItem value="master">{t('verification.form.degreeLevels.master') || 'Yüksek Lisans'}</SelectItem>
                                                     <SelectItem value="phd">{t('verification.form.degreeLevels.phd') || 'Doktora'}</SelectItem>
                                                     <SelectItem value="certificate">{t('verification.form.degreeLevels.certificate') || 'Sertifika'}</SelectItem>
                                                 </SelectContent>
@@ -849,7 +849,7 @@ function VerifyPageContent() {
                                         <div className="space-y-2">
                                             <Label htmlFor="studentId" className="flex items-center gap-1.5">
                                                 <GraduationCap className="w-3.5 h-3.5 text-gray-400" />
-                                                {t('verification.form.studentId') || 'Ogrenci No (Opsiyonel)'}
+                                                {t('verification.form.studentId') || 'Öğrenci No (Opsiyonel)'}
                                             </Label>
                                             <Input
                                                 id="studentId"
@@ -864,7 +864,7 @@ function VerifyPageContent() {
                                         <div className="space-y-2">
                                             <Label htmlFor="enrollmentYear" className="flex items-center gap-1.5">
                                                 <Calendar className="w-3.5 h-3.5 text-gray-400" />
-                                                {t('verification.form.enrollmentYear') || 'Kayit Yili'} <span className="text-red-500">*</span>
+                                                {t('verification.form.enrollmentYear') || 'Kayıt Yılı'} <span className="text-red-500">*</span>
                                             </Label>
                                             <Input
                                                 id="enrollmentYear"
@@ -900,8 +900,8 @@ function VerifyPageContent() {
                                             className="w-5 h-5 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
                                         />
                                         <div>
-                                            <span className="font-medium text-gray-900">{t('verification.form.fullTime') || 'Tam zamanli ogrenci'}</span>
-                                            <p className="text-xs text-gray-500 mt-0.5">Aktif olarak tam zamanli egitime devam ediyorum</p>
+                                            <span className="font-medium text-gray-900">{t('verification.form.fullTime') || 'Tam zamanlı öğrenci'}</span>
+                                            <p className="text-xs text-gray-500 mt-0.5">Aktif olarak tam zamanlı eğitime devam ediyorum</p>
                                         </div>
                                     </label>
                                 </div>
@@ -921,7 +921,7 @@ function VerifyPageContent() {
                                                 <ShieldCheck className="w-5 h-5 text-emerald-700" />
                                             </div>
                                             <div>
-                                                <p className="text-sm text-emerald-600 font-medium">{t('verification.review.tier') || 'Secilen Seviye'}</p>
+                                                <p className="text-sm text-emerald-600 font-medium">{t('verification.review.tier') || 'Seçilen Seviye'}</p>
                                                 <p className="font-semibold text-gray-900">Tier {formData.tierRequested} - {TIER_CONFIG[formData.tierRequested]?.name}</p>
                                             </div>
                                         </div>
@@ -930,16 +930,16 @@ function VerifyPageContent() {
                                     <div className="p-5 bg-gray-50 rounded-xl border border-gray-200">
                                         <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
                                             <User className="w-4 h-4 text-gray-500" />
-                                            {t('verification.review.personal') || 'Kisisel Bilgiler'}
+                                            {t('verification.review.personal') || 'Kişisel Bilgiler'}
                                         </h4>
                                         <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
                                             <span className="text-gray-500">Ad Soyad</span>
                                             <span className="text-gray-900 font-medium">{formData.firstName} {formData.lastName}</span>
-                                            <span className="text-gray-500">Dogum Tarihi</span>
+                                            <span className="text-gray-500">Doğum Tarihi</span>
                                             <span className="text-gray-900 font-medium">{formData.dateOfBirth || '-'}</span>
                                             <span className="text-gray-500">Telefon</span>
                                             <span className="text-gray-900 font-medium">{formData.phone || '-'}</span>
-                                            <span className="text-gray-500">Ulke / Sehir</span>
+                                            <span className="text-gray-500">Ülke / Şehir</span>
                                             <span className="text-gray-900 font-medium">{formData.country}{formData.city ? `, ${formData.city}` : ''}</span>
                                         </div>
                                     </div>
@@ -947,19 +947,19 @@ function VerifyPageContent() {
                                     <div className="p-5 bg-gray-50 rounded-xl border border-gray-200">
                                         <h4 className="font-semibold text-gray-900 mb-3 flex items-center gap-2">
                                             <GraduationCap className="w-4 h-4 text-gray-500" />
-                                            {t('verification.review.education') || 'Egitim Bilgileri'}
+                                            {t('verification.review.education') || 'Eğitim Bilgileri'}
                                         </h4>
                                         <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
                                             <span className="text-gray-500">Kurum</span>
                                             <span className="text-gray-900 font-medium">{formData.institutionName}</span>
-                                            <span className="text-gray-500">Bolum</span>
+                                            <span className="text-gray-500">Bölüm</span>
                                             <span className="text-gray-900 font-medium">{formData.degreeProgram}</span>
                                             <span className="text-gray-500">Derece</span>
                                             <span className="text-gray-900 font-medium capitalize">{formData.degreeLevel}</span>
-                                            <span className="text-gray-500">Kayit / Mezuniyet</span>
+                                            <span className="text-gray-500">Kayıt / Mezuniyet</span>
                                             <span className="text-gray-900 font-medium">{formData.enrollmentYear} - {formData.expectedGraduation}</span>
                                             <span className="text-gray-500">Durum</span>
-                                            <span className="text-gray-900 font-medium">{formData.isFullTime ? 'Tam Zamanli' : 'Yari Zamanli'}</span>
+                                            <span className="text-gray-900 font-medium">{formData.isFullTime ? 'Tam Zamanlı' : 'Yarı Zamanlı'}</span>
                                         </div>
                                     </div>
 
@@ -970,7 +970,7 @@ function VerifyPageContent() {
                                         </Label>
                                         <Textarea
                                             id="financialNeedStatement"
-                                            placeholder={t('verification.review.notePlaceholder') || 'Varsa ek aciklama yazabilirsin.'}
+                                            placeholder={t('verification.review.notePlaceholder') || 'Varsa ek açıklama yazabilirsin.'}
                                             value={formData.financialNeedStatement}
                                             onChange={(e: any) => setFormData({ ...formData, financialNeedStatement: e.target.value })}
                                             className="h-24 resize-none"
@@ -981,7 +981,7 @@ function VerifyPageContent() {
                                         <div className="flex items-start gap-3">
                                             <CheckCircle2 className="w-5 h-5 text-emerald-600 flex-shrink-0 mt-0.5" />
                                             <p className="text-sm text-emerald-800">
-                                                {t('verification.reviewNote') || 'Gondererek, saglanan tum bilgilerin dogru oldugunu onaylayabilirsiniz. Ekibimiz basvurunuzu 1-3 is gunu icinde inceleyecektir.'}
+                                                {t('verification.reviewNote') || 'Göndererek, sağlanan tüm bilgilerin doğru olduğunu onaylayabilirsiniz. Ekibimiz başvurunuzu 1-3 iş günü içinde inceleyecektir.'}
                                             </p>
                                         </div>
                                     </div>
@@ -1015,18 +1015,18 @@ function VerifyPageContent() {
                                     {loading ? (
                                         <>
                                             <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                            Gonderiliyor...
+                                            Gönderiliyor...
                                         </>
                                     ) : (
                                         <>
-                                            {t('verification.form.submit') || 'Incelemeye Gonder'}
+                                            {t('verification.form.submit') || 'İncelemeye Gönder'}
                                             <ChevronRight className="w-4 h-4" />
                                         </>
                                     )}
                                 </Button>
                             ) : (
                                 <Button onClick={nextStep} className="bg-emerald-600 hover:bg-emerald-700 gap-2">
-                                    {t('common.next') || 'Ileri'}
+                                    {t('common.next') || 'İleri'}
                                     <ChevronRight className="w-4 h-4" />
                                 </Button>
                             )}

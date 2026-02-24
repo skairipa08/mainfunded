@@ -5,7 +5,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 // See VERCEL_MIDDLEWARE_FIX.md for details.
 
 // Routes that require authentication
-const protectedRoutes = ['/account', '/admin', '/dashboard', '/create-campaign', '/my-donations'];
+const protectedRoutes = ['/account', '/admin', '/dashboard', '/create-campaign', '/my-donations', '/student/panel'];
 
 // Routes that are only for admins (protected at API/page level, not middleware)
 const adminRoutes = ['/admin'];

@@ -98,7 +98,7 @@ export default function CorporateDashboard() {
                                     <XAxis dataKey="month" stroke="#9CA3AF" />
                                     <YAxis stroke="#9CA3AF" tickFormatter={(v) => `$${v / 1000}k`} />
                                     <Tooltip
-                                        formatter={(value) => [formatCurrency(Number(value)), 'Bagis']}
+                                        formatter={(value) => [formatCurrency(Number(value)), 'Bağış']}
                                         contentStyle={{
                                             backgroundColor: '#fff',
                                             border: '1px solid #E5E7EB',

@@ -16,10 +16,10 @@ export default function GuaranteePage() {
                 <div className="container mx-auto px-4 text-center">
                     <div className="flex items-center justify-center gap-3 mb-4">
                         <Shield className="h-10 w-10" />
-                        <h1 className="text-4xl font-bold">Bagis Guvencesi</h1>
+                        <h1 className="text-4xl font-bold">Bağış Güvencesi</h1>
                     </div>
                     <p className="text-green-100 text-lg max-w-2xl mx-auto">
-                        Bagisinizin dogru yere ulasacagindan %100 emin olun
+                        Bağışınızın doğru yere ulaşacağından %100 emin olun
                     </p>
                 </div>
             </div>
@@ -34,29 +34,29 @@ export default function GuaranteePage() {
                         <div className="space-y-4">
                             <details className="group">
                                 <summary className="cursor-pointer font-medium text-gray-700 hover:text-gray-900">
-                                    Bagisim nereye gidiyor?
+                                    Bağışım nereye gidiyor?
                                 </summary>
                                 <p className="mt-2 text-sm text-gray-600 pl-4">
-                                    Bagisiniz %100 dogrudan sectiginiz ogrenciye ulasir. Platform isletme giderleri
-                                    bagislarinizdan kesilmez, ayri kurumsal sponsorluklarla karsilanir.
+                                    Bağışınız %100 doğrudan seçtiğiniz öğrenciye ulaşır. Platform işletme giderleri
+                                    bağışlarınızdan kesilmez, ayrı kurumsal sponsorluklarla karşılanır.
                                 </p>
                             </details>
                             <details className="group">
                                 <summary className="cursor-pointer font-medium text-gray-700 hover:text-gray-900">
-                                    Ogrenci dogrulama sureci nasil isler?
+                                    Öğrenci doğrulama süreci nasıl işler?
                                 </summary>
                                 <p className="mt-2 text-sm text-gray-600 pl-4">
-                                    Tum ogrenciler kimlik belgesi, ogrenci belgesi ve transkript ile dogrulanir.
-                                    Ayrica universitelerle dogrudan iletisim kurarak bilgileri teyit ederiz.
+                                    Tüm öğrenciler kimlik belgesi, öğrenci belgesi ve transkript ile doğrulanır.
+                                    Ayrıca üniversitelerle doğrudan iletişim kurarak bilgileri teyit ederiz.
                                 </p>
                             </details>
                             <details className="group">
                                 <summary className="cursor-pointer font-medium text-gray-700 hover:text-gray-900">
-                                    Iade ne zaman yapilir?
+                                    İade ne zaman yapılır?
                                 </summary>
                                 <p className="mt-2 text-sm text-gray-600 pl-4">
-                                    Ogrenci dogrulanamazsa veya kampanya iptal edilirse, bagisiniz 5-7 is gunu
-                                    icinde otomatik olarak iade edilir.
+                                    Öğrenci doğrulanamazsa veya kampanya iptal edilirse, bağışınız 5-7 iş günü
+                                    içinde otomatik olarak iade edilir.
                                 </p>
                             </details>
                         </div>
@@ -66,7 +66,7 @@ export default function GuaranteePage() {
                     <div className="mt-8 bg-white rounded-xl p-6 shadow-sm border">
                         <h3 className="font-semibold text-gray-900 mb-4">Guven Rozetleri</h3>
                         <p className="text-sm text-gray-600 mb-4">
-                            Bu rozetleri tum kampanya ve odeme sayfalarinda gorebilirsiniz:
+                            Bu rozetleri tüm kampanya ve ödeme sayfalarında görebilirsiniz:
                         </p>
                         <div className="flex flex-wrap gap-3">
                             <TrustBadge />

@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     if (!emailRegex.test(email)) {
       return errorResponse({
         code: 'VALIDATION_ERROR',
-        message: 'Gecerli bir e-posta adresi giriniz.',
+        message: 'Geçerli bir e-posta adresi giriniz.',
       }, 400);
     }
 
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
 
     await db.collection('sponsor_applications').insertOne(application);
 
-    return successResponse({ message: 'Basvurunuz basariyla alindi.' }, 'Basvuru gonderildi', 201);
+    return successResponse({ message: 'Başvurunuz başarıyla alındı.' }, 'Başvuru gönderildi', 201);
   } catch (error) {
     return handleRouteError(error);
   }

@@ -452,7 +452,7 @@ export function WriteBlogPost({ onSubmit, className }: WriteBlogPostProps) {
         <form onSubmit={handleSubmit} className={cn('bg-white rounded-xl shadow-sm border p-4', className)}>
             <div className="flex items-center gap-2 mb-4">
                 <BookOpen className="h-5 w-5 text-blue-600" />
-                <h3 className="font-semibold text-gray-900">Yeni Gonderi</h3>
+                <h3 className="font-semibold text-gray-900">Yeni Gönderi</h3>
             </div>
 
             <div className="space-y-4">
@@ -467,7 +467,7 @@ export function WriteBlogPost({ onSubmit, className }: WriteBlogPostProps) {
                 <textarea
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    placeholder="Bagisclarinla paylasacagin bir guncelleme yaz..."
+                    placeholder="Bağışçılarınla paylaşacağın bir güncelleme yaz..."
                     rows={4}
                     className="w-full px-3 py-2 border rounded-lg resize-none"
                     required
@@ -492,7 +492,7 @@ export function WriteBlogPost({ onSubmit, className }: WriteBlogPostProps) {
                 />
                 <label htmlFor="censorName" className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
                     <EyeOff className="h-4 w-4 text-gray-500" />
-                    Soyadimi sansurle (Ornek: Ayse Y***)
+                    Soyadımı sansürle (Örnek: Ayşe Y***)
                 </label>
             </div>
 
@@ -518,10 +518,10 @@ export const mockBlogPosts: BlogPost[] = [
         studentName: 'Elif Yilmaz',
         date: '2026-02-20',
         title: 'Final Sinavlarini Bitirdim! 🎉',
-        content: 'Bu donem cok yogun gecti ama sonunda finalleri bitirdim. Sizin destekleriniz olmasa bu kadar odaklanamzdim. Ozellikle laptop bagisi yapan Ahmet Bey\'e cok tesekkurler! Artik yaz staji icin hazirlanmaya baslayabilirim.',
+        content: 'Bu dönem çok yoğun geçti ama sonunda finalleri bitirdim. Sizin destekleriniz olmasa bu kadar odaklanamzdim. Özellikle laptop bağışı yapan Ahmet Bey\'e cok teşekkürler! Artık yaz stajı icin hazırlanmaya başlayabilirim.',
         likes: 24,
         comments: 5,
-        tags: ['tesekkur', 'basari', 'finals'],
+        tags: ['teşekkür', 'başarı', 'finals'],
     },
     {
         id: '2',
@@ -529,7 +529,7 @@ export const mockBlogPosts: BlogPost[] = [
         studentName: 'Elif Yilmaz',
         date: '2026-02-15',
         title: 'Staj Haberleri 🚀',
-        content: 'Google\'a yaz staji icin basvurdum ve ilk mulakati gectim! Eger kabul edilirsem bu harika bir deneyim olacak. Dua edin 🤞\n\nTeknik mulakat icin algoritma calisiyorum. LeetCode ve HackerRank uzerinden pratik yapiyorum.',
+        content: 'Google\'a yaz stajı için başvurdum ve ilk mulakati gectim! Eger kabul edilirsem bu harika bir deneyim olacak. Dua edin 🤞\n\nTeknik mulakat icin algoritma çalışıyorum. LeetCode ve HackerRank uzerinden pratik yapiyorum.',
         likes: 45,
         comments: 12,
         tags: ['staj', 'kariyer', 'google'],
@@ -540,10 +540,10 @@ export const mockBlogPosts: BlogPost[] = [
         studentName: 'Mehmet Kaya',
         date: '2026-02-10',
         title: 'Yeni Donem Basliyor',
-        content: 'Bahar donemi icin kayit yaptirdim. Bu donem 6 ders alacagim. Heyecanli ve biraz da endiseli. Ama biliyorum ki arkamdaki destekle basaracagim!',
+        content: 'Bahar dönemi için kayıt yaptırdım. Bu donem 6 ders alacagim. Heyecanli ve biraz da endiseli. Ama biliyorum ki arkamdaki destekle basaracagim!',
         likes: 18,
         comments: 3,
-        tags: ['yenidonem', 'universite'],
+        tags: ['yenidönem', 'üniversite'],
     },
     {
         id: '4',
@@ -551,10 +551,10 @@ export const mockBlogPosts: BlogPost[] = [
         studentName: 'Zeynep Demir',
         date: '2026-02-05',
         title: 'Burs Haberi Geldi! 💫',
-        content: 'FundEd sayesinde aldıgım burs ile bu donem kitap ve materyal masraflarimi karsilayabildim. Bu destek olmasa derslerime bu kadar odaklanamazdim. Cok tesekkur ederim!',
+        content: 'FundEd sayesinde aldığım burs ile bu dönem kitap ve materyal masraflarimi karşılayabildim. Bu destek olmasa derslerime bu kadar odaklanamazdım. Çok teşekkür ederim!',
         likes: 67,
         comments: 8,
-        tags: ['tesekkur', 'basari'],
+        tags: ['teşekkür', 'başarı'],
     },
     {
         id: '5',
@@ -562,9 +562,9 @@ export const mockBlogPosts: BlogPost[] = [
         studentName: 'Ahmet Ozkan',
         date: '2026-01-28',
         title: 'Hackathon Birincisi Olduk! 🏆',
-        content: 'Universitemizin duzenledigı hackathon yarismasinda takimimla birinci olduk! Proje konumuz egitimde firsat esitligi uzerineydi - tam da FundEd\'in misyonu gibi. Bu basariyi sizlerle paylasmak istedim.',
+        content: 'Üniversitemizin düzenlediği hackathon yarışmasında takimimla birinci olduk! Proje konumuz eğitimde fırsat eşitliği üzerineydi - tam da FundEd\'in misyonu gibi. Bu başarıyı sizlerle paylasmak istedim.',
         likes: 89,
         comments: 15,
-        tags: ['basari', 'kariyer'],
+        tags: ['başarı', 'kariyer'],
     },
 ];
