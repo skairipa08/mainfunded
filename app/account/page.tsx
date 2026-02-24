@@ -357,7 +357,7 @@ function AccountPageContent() {
     if (selectedConversation && chatEndRef.current) {
       chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
-  }, [selectedConversation?.messages?.length]);
+  }, [selectedConversation, selectedConversation?.messages?.length]);
 
   // ── Fetch donations ──
   const fetchDonations = useCallback(async (page: number = 1) => {
@@ -828,18 +828,16 @@ function AccountPageContent() {
                 <button
                   key={tab.key}
                   onClick={() => switchTab(tab.key)}
-                  className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${
-                    activeTab === tab.key
+                  className={`flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-medium whitespace-nowrap transition-all ${activeTab === tab.key
                       ? 'bg-blue-600 text-white shadow-md'
                       : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
-                  }`}
+                    }`}
                 >
                   <tab.icon className="h-3.5 w-3.5" />
                   {tab.label}
                   {tab.badge !== undefined && tab.badge > 0 && (
-                    <span className={`px-1.5 py-0.5 text-[10px] font-bold rounded-full leading-none ${
-                      activeTab === tab.key ? 'bg-white/25' : 'bg-red-100 text-red-600'
-                    }`}>
+                    <span className={`px-1.5 py-0.5 text-[10px] font-bold rounded-full leading-none ${activeTab === tab.key ? 'bg-white/25' : 'bg-red-100 text-red-600'
+                      }`}>
                       {tab.badge}
                     </span>
                   )}
@@ -1360,8 +1358,8 @@ function AccountPageContent() {
                               )}
                               <div className={`max-w-[75%] ${isMe ? '' : ''}`}>
                                 <div className={`px-3.5 py-2.5 rounded-2xl text-sm leading-relaxed ${isMe
-                                    ? 'bg-blue-600 text-white rounded-br-lg'
-                                    : 'bg-white text-gray-800 rounded-bl-lg border border-gray-100 shadow-sm'
+                                  ? 'bg-blue-600 text-white rounded-br-lg'
+                                  : 'bg-white text-gray-800 rounded-bl-lg border border-gray-100 shadow-sm'
                                   }`}>
                                   <p>{msg.content}</p>
                                 </div>
@@ -1729,43 +1727,43 @@ function AccountPageContent() {
 
                   {/* Verification Card - Only for students */}
                   {userAccountType === 'student' && (
-                  <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
-                    <h4 className="text-xs font-semibold text-gray-700 mb-3 flex items-center gap-2">
-                      <BadgeCheck className="h-4 w-4 text-blue-500" />
-                      Öğrenci Doğrulama Durumu
-                    </h4>
-                    {tierConfig ? (
-                      <div className="flex items-center gap-3">
-                        <span className="text-2xl">{tierConfig.icon}</span>
-                        <div>
-                          <span className={`inline-flex items-center px-2.5 py-1 ${tierConfig.bgColor} ${tierConfig.color} text-xs rounded-full font-medium`}>
+                    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
+                      <h4 className="text-xs font-semibold text-gray-700 mb-3 flex items-center gap-2">
+                        <BadgeCheck className="h-4 w-4 text-blue-500" />
+                        Öğrenci Doğrulama Durumu
+                      </h4>
+                      {tierConfig ? (
+                        <div className="flex items-center gap-3">
+                          <span className="text-2xl">{tierConfig.icon}</span>
+                          <div>
+                            <span className={`inline-flex items-center px-2.5 py-1 ${tierConfig.bgColor} ${tierConfig.color} text-xs rounded-full font-medium`}>
+                              <BadgeCheck className="h-3.5 w-3.5 mr-1" />
+                              {tierConfig.label}
+                            </span>
+                            <p className="text-[11px] text-gray-500 mt-1">Hesabınız doğrulanmıştır.</p>
+                          </div>
+                        </div>
+                      ) : verification?.status === 'PENDING_REVIEW' ? (
+                        <div className="flex items-center gap-3 bg-yellow-50 rounded-xl p-4">
+                          <Clock className="h-7 w-7 text-yellow-500 flex-shrink-0" />
+                          <div>
+                            <p className="font-medium text-yellow-800 text-sm">Doğrulama İnceleniyor</p>
+                            <p className="text-[11px] text-yellow-600 mt-0.5">Başvurunuz inceleme aşamasında.</p>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex items-center justify-between bg-gray-50 rounded-xl p-4">
+                          <div>
+                            <p className="font-medium text-gray-700 text-sm">Hesabınız henüz doğrulanmadı</p>
+                            <p className="text-[11px] text-gray-500 mt-0.5">Doğrulanmış hesaplar daha fazla özelliğe erişebilir.</p>
+                          </div>
+                          <Button size="sm" onClick={() => router.push('/verify')} className="bg-blue-600 hover:bg-blue-700 text-xs">
                             <BadgeCheck className="h-3.5 w-3.5 mr-1" />
-                            {tierConfig.label}
-                          </span>
-                          <p className="text-[11px] text-gray-500 mt-1">Hesabınız doğrulanmıştır.</p>
+                            Doğrula
+                          </Button>
                         </div>
-                      </div>
-                    ) : verification?.status === 'PENDING_REVIEW' ? (
-                      <div className="flex items-center gap-3 bg-yellow-50 rounded-xl p-4">
-                        <Clock className="h-7 w-7 text-yellow-500 flex-shrink-0" />
-                        <div>
-                          <p className="font-medium text-yellow-800 text-sm">Doğrulama İnceleniyor</p>
-                          <p className="text-[11px] text-yellow-600 mt-0.5">Başvurunuz inceleme aşamasında.</p>
-                        </div>
-                      </div>
-                    ) : (
-                      <div className="flex items-center justify-between bg-gray-50 rounded-xl p-4">
-                        <div>
-                          <p className="font-medium text-gray-700 text-sm">Hesabınız henüz doğrulanmadı</p>
-                          <p className="text-[11px] text-gray-500 mt-0.5">Doğrulanmış hesaplar daha fazla özelliğe erişebilir.</p>
-                        </div>
-                        <Button size="sm" onClick={() => router.push('/verify')} className="bg-blue-600 hover:bg-blue-700 text-xs">
-                          <BadgeCheck className="h-3.5 w-3.5 mr-1" />
-                          Doğrula
-                        </Button>
-                      </div>
-                    )}
-                  </div>
+                      )}
+                    </div>
                   )}
                 </div>
               )}
