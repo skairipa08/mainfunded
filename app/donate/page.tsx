@@ -126,7 +126,7 @@ function DonatePageContent() {
 
     const newErrors: Record<string, string> = {};
     const amount = parseFloat(formData.amount);
-    const amountValidation = validateAmount(amount);
+    const amountValidation = validateAmount(amount, currency);
 
     if (!amountValidation.valid) {
       newErrors.amount = amountValidation.error || t('common.error');

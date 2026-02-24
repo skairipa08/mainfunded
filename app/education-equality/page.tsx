@@ -88,7 +88,7 @@ function AnimatedNumber({ target, prefix = '', suffix = '' }: { target: number; 
    ════════════════════════════════════════════ */
 export default function EducationEqualityPage() {
     const { t } = useTranslation();
-    const { formatAmount, currencySymbol } = useCurrency();
+    const { formatAmount, currencySymbol, currency } = useCurrency();
     const router = useRouter();
     const [donationAmount, setDonationAmount] = useState('');
     const [showAllStories, setShowAllStories] = useState(false);
@@ -96,6 +96,11 @@ export default function EducationEqualityPage() {
     const progressPercent = Math.round((CAMPAIGN_RAISED / CAMPAIGN_GOAL) * 100);
 
     const handleDonate = () => {
+        const minAmount = currency === 'TRY' ? 100 : 10;
+        if (donationAmount && Number(donationAmount) < minAmount) {
+            alert(`Lütfen en az ${minAmount} ${currencySymbol} tutarında bir bağış girin.`);
+            return;
+        }
         if (donationAmount) {
             router.push(`/donate?amount=${donationAmount}&campaign=education-equality`);
         } else {
@@ -433,10 +438,10 @@ export default function EducationEqualityPage() {
                                             <div className="w-full bg-slate-100 rounded-full h-2.5 overflow-hidden">
                                                 <div
                                                     className={`h-2.5 rounded-full transition-all duration-700 ${area.color.includes('blue') ? 'bg-blue-500' :
-                                                            area.color.includes('emerald') ? 'bg-emerald-500' :
-                                                                area.color.includes('amber') ? 'bg-amber-500' :
-                                                                    area.color.includes('purple') ? 'bg-purple-500' :
-                                                                        'bg-rose-500'
+                                                        area.color.includes('emerald') ? 'bg-emerald-500' :
+                                                            area.color.includes('amber') ? 'bg-amber-500' :
+                                                                area.color.includes('purple') ? 'bg-purple-500' :
+                                                                    'bg-rose-500'
                                                         }`}
                                                     style={{ width: `${percent}%` }}
                                                 />
@@ -614,8 +619,8 @@ export default function EducationEqualityPage() {
                                             key={amount}
                                             onClick={() => setDonationAmount(amount.toString())}
                                             className={`py-4 rounded-xl font-bold text-lg transition-all duration-200 ${donationAmount === amount.toString()
-                                                    ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-500/30 scale-105'
-                                                    : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
+                                                ? 'bg-gradient-to-r from-amber-500 to-orange-500 text-white shadow-lg shadow-amber-500/30 scale-105'
+                                                : 'bg-white/10 text-white hover:bg-white/20 border border-white/10'
                                                 }`}
                                         >
                                             {formatAmount(amount)}
@@ -633,7 +638,7 @@ export default function EducationEqualityPage() {
                                             value={donationAmount}
                                             onChange={(e) => setDonationAmount(e.target.value)}
                                             className="pl-8 h-14 bg-white/10 border-white/10 text-white placeholder:text-white/30 rounded-xl text-lg font-medium focus:border-amber-500/50"
-                                            min="1"
+                                            min={currency === 'TRY' ? 100 : 10}
                                         />
                                     </div>
                                     <Button

@@ -4,13 +4,13 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { MessageCircle, X } from 'lucide-react';
 import { ChatWindow } from './ChatWindow';
 import { useSmartTrigger } from './useSmartTrigger';
-import { getProactiveTriggerMessage } from '@/lib/ai-assistant/chat-flow';
 import type { TriggerType } from '@/types/ai-assistant';
 
 /**
  * AiAssistantWidget — The floating chat bubble and its window.
  * Renders on every page; the smart-trigger hook watches for user
  * inactivity / exit / scroll to proactively open the chat.
+ * Now uses the chat-engine API for proactive messages (knowledge-base aware).
  */
 export function AiAssistantWidget() {
   const [isOpen, setIsOpen] = useState(false);
@@ -28,11 +28,24 @@ export function AiAssistantWidget() {
     }
   }, []);
 
-  const handleTrigger = useCallback((type: TriggerType) => {
+  const handleTrigger = useCallback(async (_type: TriggerType) => {
     if (isOpen) return; // already open
-    const msg = getProactiveTriggerMessage(type);
-    setProactiveMsg(msg.text);
-    setShowPulse(true);
+    try {
+      const res = await fetch('/api/assistant/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'proactive' }),
+      });
+      const data = await res.json();
+      if (data.messages?.[0]?.text) {
+        setProactiveMsg(data.messages[0].text);
+        setShowPulse(true);
+      }
+    } catch {
+      // Fallback static message
+      setProactiveMsg('Kampanyaları incelediğinizi gördüm! 👀 Size uygun öğrenci bulayım mı?');
+      setShowPulse(true);
+    }
   }, [isOpen]);
 
   const { resetTrigger } = useSmartTrigger({

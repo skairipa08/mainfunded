@@ -8,18 +8,15 @@ import { QuickReplyButtons } from './QuickReplyButtons';
 import { RecommendationCard } from './RecommendationCard';
 import { TypingIndicator } from './TypingIndicator';
 import {
-  getWelcomeMessage,
   getStepMessage,
   getNextStep,
   getSearchingMessage,
   getNoResultsMessage,
-  getFaqPrompt,
-  getFaqNotFound,
   getAfterResultsMessage,
   userMessage,
   botMessage,
-  msgId,
 } from '@/lib/ai-assistant/chat-flow';
+import type { ChatEngineResponse } from '@/lib/ai-assistant/chat-engine';
 
 interface ChatWindowProps {
   isOpen: boolean;
@@ -37,10 +34,33 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Initialize with welcome message
+  // Initialize with welcome message from chat engine
   useEffect(() => {
     if (messages.length === 0) {
-      setMessages([getWelcomeMessage()]);
+      (async () => {
+        try {
+          const res = await fetch('/api/assistant/chat', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'welcome' }),
+          });
+          const data: ChatEngineResponse = await res.json();
+          const welcomeMessages = data.messages.map((m) => ({
+            ...m,
+            quickReplies: undefined,
+          }));
+          // Attach quick replies to the last welcome message
+          if (data.quickReplies && welcomeMessages.length > 0) {
+            welcomeMessages[welcomeMessages.length - 1].quickReplies = data.quickReplies;
+          }
+          setMessages(welcomeMessages);
+        } catch {
+          setMessages([botMessage('Merhaba! 👋 Size nasıl yardımcı olabilirim?', [
+            { id: 'find', label: '🎯 Öğrenci bul', value: 'find_student' },
+            { id: 'how', label: '❓ Nasıl çalışır?', value: 'ask_how' },
+          ])]);
+        }
+      })();
     }
   }, [messages.length]);
 
@@ -97,43 +117,68 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
     }
   };
 
-  /** Fetch FAQ answer */
-  const fetchFaqAnswer = async (query: string) => {
+  /** Fetch AI response from the chat engine (knowledge base powered) */
+  const fetchChatResponse = async (text: string) => {
     try {
-      const res = await fetch('/api/assistant/faq', {
+      const res = await fetch('/api/assistant/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ query }),
+        body: JSON.stringify({ action: 'chat', text, currentStep }),
       });
-      const data = await res.json();
-      if (data.success && data.data.answer) {
-        await addBotMessage(botMessage(data.data.answer), 600);
-        // Show related questions if any
-        if (data.data.relatedQuestions?.length > 0) {
-          const relatedMsg = botMessage(
-            'İlgili sorular:',
-            data.data.relatedQuestions.map((q: string) => ({
-              label: q,
-              value: `faq:${q}`,
-            }))
-          );
-          await addBotMessage(relatedMsg, 400);
+      const data: ChatEngineResponse = await res.json();
+
+      // If the chat engine says to start the find-student flow
+      if (data.nextStep && !['idle', 'welcome', 'faq', 'faq_answer'].includes(data.nextStep)) {
+        // Engine returned a step message (e.g. ask_field)
+        if (data.messages.length > 0) {
+          for (const msg of data.messages) {
+            await addBotMessage(msg, 500);
+          }
+          // Attach quick replies to the last message
+          if (data.quickReplies && data.quickReplies.length > 0) {
+            setMessages((prev) => {
+              const copy = [...prev];
+              copy[copy.length - 1] = {
+                ...copy[copy.length - 1],
+                quickReplies: data.quickReplies,
+              };
+              return copy;
+            });
+          }
+        } else {
+          // Fallback to local step message
+          await addBotMessage(getStepMessage(data.nextStep as ChatStep));
         }
-        // Show continue options
-        await addBotMessage(
-          botMessage('Başka nasıl yardımcı olabilirim?', [
-            { label: '🎓 Öğrenci bul', value: 'find_student' },
-            { label: '❓ Başka sorum var', value: 'ask_faq' },
-            { label: '👋 Teşekkürler', value: 'dismiss' },
-          ]),
-          300
-        );
+        setCurrentStep(data.nextStep as ChatStep);
+        return;
+      }
+
+      // Normal KB answer
+      if (data.messages.length > 0) {
+        for (let i = 0; i < data.messages.length; i++) {
+          const isLast = i === data.messages.length - 1;
+          const msg = { ...data.messages[i] };
+          // Attach quick replies only to the last message
+          if (isLast && data.quickReplies && data.quickReplies.length > 0) {
+            msg.quickReplies = data.quickReplies;
+          }
+          await addBotMessage(msg, i === 0 ? 600 : 400);
+        }
       } else {
-        await addBotMessage(getFaqNotFound(), 600);
+        await addBotMessage(
+          botMessage('Hmm, bunu tam anlayamadım 🤔 Başka türlü sormayı dener misiniz?', [
+            { id: 'find', label: '🎯 Öğrenci bul', value: 'find_student' },
+            { id: 'how', label: '❓ Nasıl çalışır?', value: 'ask_how' },
+          ]),
+          500,
+        );
       }
     } catch (error) {
-      console.error('FAQ fetch error:', error);
-      await addBotMessage(getFaqNotFound(), 500);
+      console.error('Chat engine error:', error);
+      await addBotMessage(
+        botMessage('Bir hata oluştu 😔 Lütfen tekrar deneyin.'),
+        500,
+      );
     }
   };
 
@@ -161,14 +206,40 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
 
     if (value === 'ask_faq') {
       setCurrentStep('faq');
-      await addBotMessage(getFaqPrompt());
+      await addBotMessage(botMessage('Sorunuzu yazabilirsiniz, size yardımcı olmaya çalışacağım! 🤓'));
+      return;
+    }
+
+    if (value === 'ask_how') {
+      await fetchChatResponse('FundEd nasıl çalışır?');
+      return;
+    }
+
+    if (value === 'ask_trust') {
+      await fetchChatResponse('FundEd güvenilir mi?');
+      return;
+    }
+
+    if (value === 'browse') {
+      await addBotMessage(botMessage('Kampanyalar sayfasına gidin: /campaigns\n\nOrada tüm aktif kampanyaları inceleyebilirsiniz! 📋'));
+      return;
+    }
+
+    if (value === 'home') {
+      // Reset to welcome state
+      handleReset();
+      return;
+    }
+
+    if (value === 'motivation') {
+      await fetchChatResponse('ilham ver');
       return;
     }
 
     if (value.startsWith('faq:')) {
-      const question = value.replace('faq:', '');
-      setMessages((prev) => [...prev, userMessage(question)]);
-      await fetchFaqAnswer(question);
+      const faqId = value.replace('faq:', '');
+      // Could be a knowledge base ID or a question text
+      await fetchChatResponse(faqId);
       return;
     }
 
@@ -209,7 +280,7 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
     }
   };
 
-  /** Handle free-text input (mainly for FAQ) */
+  /** Handle free-text input — routed through the chat engine */
   const handleSendMessage = async () => {
     const text = inputValue.trim();
     if (!text) return;
@@ -217,12 +288,8 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
     setInputValue('');
     setMessages((prev) => [...prev, userMessage(text)]);
 
-    if (currentStep === 'faq') {
-      await fetchFaqAnswer(text);
-    } else {
-      // Try FAQ if user types freely at any point
-      await fetchFaqAnswer(text);
-    }
+    // Always use the smart chat engine (knowledge base + intent detection)
+    await fetchChatResponse(text);
   };
 
   /** Handle Enter key */
@@ -235,7 +302,7 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
 
   /** Reset the conversation */
   const handleReset = () => {
-    setMessages([getWelcomeMessage()]);
+    setMessages([]);
     setCurrentStep('welcome');
     setPreferences({});
     setRecommendations([]);

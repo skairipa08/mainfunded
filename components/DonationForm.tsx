@@ -72,6 +72,13 @@ export function DonationForm({
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        const minAmount = currency === 'TRY' ? 100 : 10;
+        if (effectiveAmount < minAmount) {
+            alert(t?.('donationForm.errorMinAmount', { amount: `${currencySymbol}${minAmount}` }) || `Lütfen en az ${minAmount} ${currencySymbol} tutarında bir bağış girin.`);
+            return;
+        }
+
         if (onSubmit) {
             onSubmit({
                 amount: effectiveAmountUSD,

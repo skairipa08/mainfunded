@@ -113,8 +113,9 @@ function CampaignDonateContent() {
   const totalCharge = parseFloat((amount + tipAmount).toFixed(2));
 
   const handleDonate = async () => {
-    if (amount <= 0) {
-      setDonationError('Lütfen geçerli bir bağış tutarı girin.');
+    const minAmount = currency === 'TRY' ? 100 : 10;
+    if (amount < minAmount) {
+      setDonationError(`Lütfen en az ${minAmount} ${currencySymbol} tutarında bir bağış girin.`);
       return;
     }
     if (effectiveTipPercent < 2) {
@@ -334,7 +335,7 @@ function CampaignDonateContent() {
               <Input
                 id="amount"
                 type="number"
-                min="1"
+                min={currency === 'TRY' ? 100 : 10}
                 step="0.01"
                 placeholder="Tutar girin"
                 value={donationAmount}

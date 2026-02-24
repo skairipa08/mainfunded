@@ -12,15 +12,17 @@ export function sanitizeInput(input: string): string {
   return input.trim().replace(/[<>]/g, '');
 }
 
-export function validateAmount(amount: number): { valid: boolean; error?: string } {
+export function validateAmount(amount: number, currency: string = 'USD'): { valid: boolean; error?: string } {
   if (isNaN(amount) || amount <= 0) {
     return { valid: false, error: 'Amount must be greater than 0' };
   }
   if (amount > 1000000) {
-    return { valid: false, error: 'Amount cannot exceed $1,000,000' };
+    return { valid: false, error: 'Amount cannot exceed 1,000,000' };
   }
-  if (amount < 1) {
-    return { valid: false, error: 'Minimum donation amount is $1' };
+  const minAmount = currency === 'TRY' ? 100 : 10;
+  if (amount < minAmount) {
+    const symbol = currency === 'TRY' ? '₺' : '$';
+    return { valid: false, error: `Minimum donation amount is ${symbol}${minAmount}` };
   }
   return { valid: true };
 }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { searchFaq } from '@/lib/ai-assistant/faq-data';
+import { searchKnowledge, getFallbackResponse } from '@/lib/ai-assistant/knowledge-base';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -16,13 +16,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const { entry, related } = searchFaq(query);
+    const { entry, related } = searchKnowledge(query);
 
     if (!entry) {
       return NextResponse.json({
         success: true,
         data: {
-          answer: null,
+          answer: getFallbackResponse(),
+          followUp: null,
           relatedQuestions: related.map((r) => r.question),
         },
       });
@@ -32,6 +33,7 @@ export async function POST(request: NextRequest) {
       success: true,
       data: {
         answer: entry.answer,
+        followUp: entry.followUp ?? null,
         relatedQuestions: related.map((r) => r.question),
       },
     });
