@@ -45,7 +45,7 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
             body: JSON.stringify({ action: 'welcome' }),
           });
           const data: ChatEngineResponse = await res.json();
-          const welcomeMessages = data.messages.map((m) => ({
+          const welcomeMessages: ChatMessage[] = data.messages.map((m) => ({
             ...m,
             quickReplies: undefined,
           }));
@@ -56,8 +56,8 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
           setMessages(welcomeMessages);
         } catch {
           setMessages([botMessage('Merhaba! 👋 Size nasıl yardımcı olabilirim?', [
-            { id: 'find', label: '🎯 Öğrenci bul', value: 'find_student' },
-            { id: 'how', label: '❓ Nasıl çalışır?', value: 'ask_how' },
+            { label: '🎯 Öğrenci bul', value: 'find_student' },
+            { label: '❓ Nasıl çalışır?', value: 'ask_how' },
           ])]);
         }
       })();
@@ -167,8 +167,8 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
       } else {
         await addBotMessage(
           botMessage('Hmm, bunu tam anlayamadım 🤔 Başka türlü sormayı dener misiniz?', [
-            { id: 'find', label: '🎯 Öğrenci bul', value: 'find_student' },
-            { id: 'how', label: '❓ Nasıl çalışır?', value: 'ask_how' },
+            { label: '🎯 Öğrenci bul', value: 'find_student' },
+            { label: '❓ Nasıl çalışır?', value: 'ask_how' },
           ]),
           500,
         );
