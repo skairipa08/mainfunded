@@ -191,6 +191,12 @@ export default function Navbar() {
       description: t('nav.menu.donateDesc'),
     },
     {
+      label: 'Kampanyalara Göz At',
+      href: '/campaigns',
+      icon: Globe,
+      description: 'Tüm kampanyaları görüntüle',
+    },
+    {
       label: 'Eğitimde Eşitlik Bağışları',
       href: '/education-equality',
       icon: Globe,

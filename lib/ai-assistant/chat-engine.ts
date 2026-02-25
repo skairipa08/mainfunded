@@ -8,8 +8,10 @@ import {
   getFallbackResponse,
   getTimeBasedGreeting,
   getUpcomingSpecialDay,
+  getTodaySpecialDay,
   getRandomMotivation,
   type KnowledgeEntry,
+  type SpecialDayInfo,
 } from './knowledge-base';
 import { getStepMessage, getNextStep, botMessage } from './chat-flow';
 import type { ChatMessage, ChatStep, QuickReply, DonorPreferences } from '@/types/ai-assistant';
@@ -118,8 +120,10 @@ export function generateProactiveResponse(): ChatEngineResponse {
   const specialDay = getUpcomingSpecialDay();
 
   let text: string;
-  if (specialDay && specialDay.daysLeft <= 1) {
-    text = `${specialDay.emoji} Bugün ${specialDay.title}! Bu özel günde bir öğrenciye destek olmak ister misiniz?`;
+  if (specialDay && specialDay.daysLeft === 0) {
+    text = `${specialDay.emoji} Bugün ${specialDay.title}!\n\n💝 ${specialDay.description}\n\nBu anlamlı günde bir öğrenciye destek olmak ister misiniz?`;
+  } else if (specialDay && specialDay.daysLeft === 1) {
+    text = `${specialDay.emoji} Yarın ${specialDay.title}! ${specialDay.description} Bu özel günü bir bağışla kutlayın!`;
   } else {
     text =
       'Kampanyaları incelediğinizi gördüm! 👀 Size en uygun öğrenciyi bulmamı ister misiniz?';
@@ -128,8 +132,48 @@ export function generateProactiveResponse(): ChatEngineResponse {
   return {
     messages: [botMessage(text)],
     quickReplies: [
-      { label: '✅ Evet, öner!', value: 'find_student' },
+      { label: '💝 Bağış Yap', value: 'donate_now' },
+      { label: '🎯 Öğrenci Bul', value: 'find_student' },
       { label: '🙅 Hayır, teşekkürler', value: 'dismiss' },
+    ],
+  };
+}
+
+// ─── Özel gün banner mesajı (widget otomatik açılır) ─────────
+
+export interface SpecialDayBannerData {
+  isSpecialDay: boolean;
+  title: string;
+  emoji: string;
+  description: string;
+  link: string;
+  message: string;
+  quickReplies: QuickReply[];
+}
+
+export function generateSpecialDayBanner(): SpecialDayBannerData | null {
+  const today = getTodaySpecialDay();
+  if (!today) return null;
+
+  const ctaMessages = [
+    `${today.emoji} Bugün ${today.title}!\n\n${today.description}\n\n💝 Bu anlamlı günde bir öğrencinin eğitimine destek olarak fark yaratın!`,
+    `${today.emoji} Bugün özel bir gün: ${today.title}!\n\n${today.description}\n\n🌟 Bağışınızla bu günü daha da anlamlı kılın!`,
+    `${today.emoji} ${today.title} kutlu olsun!\n\n${today.description}\n\n💙 Bir bağış, bir hayatı değiştirebilir. Bugün harekete geçin!`,
+  ];
+
+  const message = ctaMessages[Math.floor(Math.random() * ctaMessages.length)];
+
+  return {
+    isSpecialDay: true,
+    title: today.title,
+    emoji: today.emoji,
+    description: today.description,
+    link: today.link,
+    message,
+    quickReplies: [
+      { label: '💝 Hemen Bağış Yap', value: 'donate_now' },
+      { label: '🎯 Öğrenci Bul', value: 'find_student' },
+      { label: '📋 Kampanyaları Gör', value: 'browse' },
     ],
   };
 }
@@ -223,15 +267,17 @@ function processKnowledgeQuery(query: string): ChatEngineResponse {
   }
 
   // İlgili sorulardan quick reply oluştur
-  const quickReplies: QuickReply[] = related.map((r) => ({
-    label: `💡 ${r.question}`,
-    value: `faq:${r.id}`,
-  }));
+  // Sadece gerçekten ilişkili ve farklı konudaki soruları göster
+  const quickReplies: QuickReply[] = related
+    .filter((r) => r.question !== entry.question) // aynı soruyu tekrar gösterme
+    .map((r) => ({
+      label: `💡 ${r.question}`,
+      value: `faq:${r.id}`,
+    }));
 
-  // Her zaman "Öğrenci bul" seçeneğini ekle
-  if (!quickReplies.some((q) => q.value === 'find_student')) {
-    quickReplies.push({ label: '🎯 Öğrenci bul', value: 'find_student' });
-  }
+  // Her zaman temel navigasyon seçeneklerini ekle
+  quickReplies.push({ label: '🎯 Öğrenci bul', value: 'find_student' });
+  quickReplies.push({ label: '🏠 Ana menü', value: 'home' });
 
   return {
     messages,
@@ -254,11 +300,23 @@ export function getKnowledgeById(id: string): ChatEngineResponse {
   const messages: ChatMessage[] = [botMessage(entry.answer)];
   if (entry.followUp) messages.push(botMessage(entry.followUp));
 
+  // Find related entries from the same category
+  const related = (KNOWLEDGE_BASE as KnowledgeEntry[])
+    .filter((e) => e.id !== id && e.category === entry.category)
+    .sort((a, b) => b.priority - a.priority)
+    .slice(0, 2);
+
+  const quickReplies: QuickReply[] = related.map((r) => ({
+    label: `💡 ${r.question}`,
+    value: `faq:${r.id}`,
+  }));
+
+  if (!quickReplies.some((q) => q.value === 'find_student')) {
+    quickReplies.push({ label: '🎯 Öğrenci bul', value: 'find_student' });
+  }
+
   return {
     messages,
-    quickReplies: [
-      { label: '🎯 Öğrenci bul', value: 'find_student' },
-      { label: '🏠 Ana menü', value: 'home' },
-    ],
+    quickReplies,
   };
 }

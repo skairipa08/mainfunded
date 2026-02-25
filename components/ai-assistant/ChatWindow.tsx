@@ -225,6 +225,14 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
       return;
     }
 
+    if (value === 'donate_now') {
+      await addBotMessage(botMessage('Harika! 💝 Sizi bağış sayfasına yönlendiriyorum...\n\nKampanyaları inceleyerek doğrudan destek olabilirsiniz!'));
+      setTimeout(() => {
+        window.location.href = '/campaigns';
+      }, 1500);
+      return;
+    }
+
     if (value === 'home') {
       // Reset to welcome state
       handleReset();
@@ -238,8 +246,29 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
 
     if (value.startsWith('faq:')) {
       const faqId = value.replace('faq:', '');
-      // Could be a knowledge base ID or a question text
-      await fetchChatResponse(faqId);
+      // Look up knowledge base entry by ID directly (not a text search)
+      try {
+        const res = await fetch('/api/assistant/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ action: 'knowledge', knowledgeId: faqId }),
+        });
+        const data: ChatEngineResponse = await res.json();
+        if (data.messages && data.messages.length > 0) {
+          for (let i = 0; i < data.messages.length; i++) {
+            const isLast = i === data.messages.length - 1;
+            const msg = { ...data.messages[i] };
+            if (isLast && data.quickReplies && data.quickReplies.length > 0) {
+              msg.quickReplies = data.quickReplies;
+            }
+            await addBotMessage(msg, i === 0 ? 600 : 400);
+          }
+        } else {
+          await fetchChatResponse(label); // Fallback: search by the button label text
+        }
+      } catch {
+        await fetchChatResponse(label); // Fallback: search by the button label text
+      }
       return;
     }
 

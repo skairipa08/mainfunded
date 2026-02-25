@@ -978,9 +978,33 @@ function normalizeText(text: string): string {
     .trim();
 }
 
+/** Birbiriyle ilişkili kategori grupları — aynı grup içindeki kategoriler related olabilir */
+const RELATED_CATEGORY_GROUPS: KnowledgeCategory[][] = [
+  ['about', 'how_it_works', 'impact'],
+  ['donation', 'payment'],
+  ['security', 'verification'],
+  ['student', 'campaign'],
+  ['donor', 'badges', 'calendar'],
+  ['mentor', 'alumni'],
+  ['corporate', 'sponsor'],
+  ['emotional'],
+  ['technical'],
+  ['legal'],
+  ['product_donation'],
+];
+
+/** Verilen kategori ile ilişkili kategorileri döndürür */
+function getRelatedCategories(category: KnowledgeCategory): KnowledgeCategory[] {
+  for (const group of RELATED_CATEGORY_GROUPS) {
+    if (group.includes(category)) return group;
+  }
+  return [category];
+}
+
 /**
  * Ana arama fonksiyonu — en iyi eşleşen entry'yi döndürür.
  * Hem keyword eşleşmesi hem de fuzzy matching kullanır.
+ * İlgili sorular aynı veya yakın kategoriden seçilir.
  */
 export function searchKnowledge(query: string): {
   entry: KnowledgeEntry | null;
@@ -991,10 +1015,11 @@ export function searchKnowledge(query: string): {
 
   if (queryWords.length === 0) return { entry: null, related: [] };
 
-  const scored: { entry: KnowledgeEntry; score: number }[] = [];
+  const scored: { entry: KnowledgeEntry; score: number; keywordHits: number }[] = [];
 
   for (const entry of KNOWLEDGE_BASE) {
     let score = 0;
+    let keywordHits = 0;
 
     // 1. Keyword eşleşme (en yüksek ağırlık)
     for (const keyword of entry.keywords) {
@@ -1003,14 +1028,24 @@ export function searchKnowledge(query: string): {
       // Tam içerme: "güvenilir mi" query'si "güvenilir" keyword'ünü içerir
       if (normalizedQuery.includes(nk)) {
         score += 10 * nk.length;
+        keywordHits++;
       }
 
-      // Kelime bazlı eşleşme
+      // Kelime bazlı eşleşme (tam kelime eşleşmeleri)
       for (const word of queryWords) {
-        if (nk.includes(word)) score += 3;
-        if (word.includes(nk)) score += 3;
-        // Kök eşleşme (ilk 3 harf)
-        if (word.length >= 3 && nk.length >= 3 && word.substring(0, 3) === nk.substring(0, 3)) {
+        if (nk === word) {
+          score += 8;  // tam kelime eşleşmesi
+          keywordHits++;
+        } else if (nk.includes(word) && word.length >= 4) {
+          score += 3;
+          keywordHits++;
+        } else if (word.includes(nk) && nk.length >= 4) {
+          score += 3;
+          keywordHits++;
+        }
+        // Kök eşleşme: sadece 4+ karakter ve çok kısa olmayan kelimeler
+        // (3 karakter kök eşleşmesi çok fazla yanlış pozitif üretiyor)
+        if (word.length >= 5 && nk.length >= 5 && word.substring(0, 4) === nk.substring(0, 4)) {
           score += 1;
         }
       }
@@ -1026,7 +1061,7 @@ export function searchKnowledge(query: string): {
     score += entry.priority * 0.5;
 
     if (score > 0) {
-      scored.push({ entry, score });
+      scored.push({ entry, score, keywordHits });
     }
   }
 
@@ -1036,11 +1071,38 @@ export function searchKnowledge(query: string): {
   const threshold = 5;
   const best = scored[0]?.score >= threshold ? scored[0].entry : null;
 
-  // İlgili sorular: sonraki en iyi 2 eşleşme
-  const related = scored
-    .filter((s) => s.score >= threshold && s.entry.id !== best?.id)
-    .slice(0, 2)
-    .map((s) => s.entry);
+  // İlgili sorular: aynı veya yakın kategoriden seçilir
+  // Farklı konudaki entry'ler önerilmez — bu sayede alakasız takip soruları engellenir
+  let related: KnowledgeEntry[] = [];
+  if (best) {
+    const relatedCategories = getRelatedCategories(best.category);
+    const relatedThreshold = threshold * 1.5; // related için daha yüksek eşik
+
+    // Önce aynı kategoriden eşleşmeleri bul
+    const sameCategoryEntries = scored.filter(
+      (s) =>
+        s.score >= relatedThreshold &&
+        s.entry.id !== best.id &&
+        s.entry.category === best.category &&
+        s.keywordHits >= 1, // en az 1 gerçek keyword eşleşmesi olmalı
+    );
+
+    // Sonra ilişkili kategorilerden eşleşmeleri bul
+    const relatedCategoryEntries = scored.filter(
+      (s) =>
+        s.score >= relatedThreshold &&
+        s.entry.id !== best.id &&
+        s.entry.category !== best.category &&
+        relatedCategories.includes(s.entry.category) &&
+        s.keywordHits >= 2, // farklı kategori için 2+ keyword eşleşmesi gerekli
+    );
+
+    // Aynı kategoriden 2'ye kadar, yoksa ilişkili kategoriden tamamla
+    related = [
+      ...sameCategoryEntries.slice(0, 2).map((s) => s.entry),
+      ...relatedCategoryEntries.slice(0, 2 - sameCategoryEntries.length).map((s) => s.entry),
+    ].slice(0, 2);
+  }
 
   return { entry: best, related };
 }
@@ -1071,35 +1133,55 @@ export function getTimeBasedGreeting(): string {
   return 'İyi akşamlar! 🌆';
 }
 
-/** Yaklaşan özel günü kontrol et (±3 gün) */
-export function getUpcomingSpecialDay(): { title: string; emoji: string; daysLeft: number } | null {
+/** Tüm özel günler — SPECIAL_DAYS (notifications.ts) ile senkronize, tam liste */
+import { SPECIAL_DAYS } from '@/types/notifications';
+
+export interface SpecialDayInfo {
+  title: string;
+  emoji: string;
+  description: string;
+  link: string;
+  daysLeft: number;
+}
+
+/** Bugün bir özel gün mü? Tam eşleşme (daysLeft === 0). */
+export function getTodaySpecialDay(): SpecialDayInfo | null {
+  const result = getUpcomingSpecialDay(0);
+  return result && result.daysLeft === 0 ? result : null;
+}
+
+/** Yaklaşan özel günü kontrol et (varsayılan ±3 gün, tam liste) */
+export function getUpcomingSpecialDay(maxDaysAhead = 3): SpecialDayInfo | null {
   const today = new Date();
+  today.setHours(0, 0, 0, 0);
   const currentYear = today.getFullYear();
 
-  const specialDays = [
-    { month: 1, day: 24, title: 'Uluslararası Eğitim Günü', emoji: '📖' },
-    { month: 2, day: 11, title: 'Kadınlar ve Kızlar Bilim Günü', emoji: '🔬' },
-    { month: 3, day: 8, title: 'Dünya Kadınlar Günü', emoji: '💜' },
-    { month: 4, day: 23, title: '23 Nisan Çocuk Bayramı', emoji: '🎈' },
-    { month: 5, day: 19, title: 'Gençlik ve Spor Bayramı', emoji: '🏃' },
-    { month: 6, day: 1, title: 'Uluslararası Çocuk Günü', emoji: '🧒' },
-    { month: 8, day: 12, title: 'Uluslararası Gençlik Günü', emoji: '🌟' },
-    { month: 9, day: 8, title: 'Uluslararası Okuryazarlık Günü', emoji: '✏️' },
-    { month: 10, day: 5, title: 'Dünya Öğretmenler Günü', emoji: '👩‍🏫' },
-    { month: 10, day: 11, title: 'Kız Çocukları Günü', emoji: '👧' },
-    { month: 11, day: 20, title: 'Dünya Çocuk Hakları Günü', emoji: '🌈' },
-    { month: 11, day: 24, title: 'Öğretmenler Günü', emoji: '🍎' },
-    { month: 12, day: 3, title: 'Dünya Engelliler Günü', emoji: '♿' },
-    { month: 12, day: 10, title: 'Dünya İnsan Hakları Günü', emoji: '⭐' },
-  ];
+  let closest: SpecialDayInfo | null = null;
 
-  for (const day of specialDays) {
-    const eventDate = new Date(currentYear, day.month - 1, day.day);
-    const diffDays = Math.ceil((eventDate.getTime() - today.getTime()) / 86400000);
-    if (diffDays >= 0 && diffDays <= 3) {
-      return { title: day.title, emoji: day.emoji, daysLeft: diffDays };
+  for (const sd of SPECIAL_DAYS) {
+    // SPECIAL_DAYS tarihlerinden ay-gün çıkar (yıl-bağımsız)
+    const parts = sd.date.split('-');
+    const month = parseInt(parts[1], 10) - 1;
+    const day = parseInt(parts[2], 10);
+    const eventDate = new Date(currentYear, month, day);
+    eventDate.setHours(0, 0, 0, 0);
+
+    const diffDays = Math.round(
+      (eventDate.getTime() - today.getTime()) / 86400000,
+    );
+
+    if (diffDays >= 0 && diffDays <= maxDaysAhead) {
+      if (!closest || diffDays < closest.daysLeft) {
+        closest = {
+          title: sd.title,
+          emoji: sd.emoji || '📅',
+          description: sd.description,
+          link: sd.link || '/campaigns',
+          daysLeft: diffDays,
+        };
+      }
     }
   }
 
-  return null;
+  return closest;
 }

@@ -45,6 +45,7 @@ import {
     Video,
     Briefcase,
 } from 'lucide-react';
+import { COUNTRIES, TURKEY_CITIES } from '@/lib/constants';
 
 type DocStatus = 'ready' | 'uploading' | 'uploaded' | 'failed';
 
@@ -134,6 +135,7 @@ export default function SchoolApplyPage() {
     const [formData, setFormData] = useState({
         // School info
         schoolName: '',
+        schoolCountry: '',
         schoolCity: '',
         schoolDistrict: '',
         schoolAddress: '',
@@ -386,7 +388,8 @@ export default function SchoolApplyPage() {
                     documents: documentNames,
                     photoCount: photos.length,
                     hasVideo: !!video,
-                    country: sanitizeInput(formData.schoolCity),
+                    country: formData.schoolCountry || 'TR',
+                    city: formData.schoolCity || undefined,
                 }),
             });
             const result = await response.json();
@@ -550,10 +553,38 @@ export default function SchoolApplyPage() {
                                                     </Select>
                                                 </FieldWrapper>
 
+                                                <FieldWrapper id="schoolCountry" label="Ülke / Country" icon={Globe} error={errors.schoolCountry}>
+                                                    <Select value={formData.schoolCountry} onValueChange={(v) => { updateField('schoolCountry', v); if (v !== 'TR') setFormData(prev => ({ ...prev, schoolCountry: v, schoolCity: '' })); else updateField('schoolCountry', v); }}>
+                                                        <SelectTrigger className={selectTriggerClass(!!errors.schoolCountry)}>
+                                                            <SelectValue placeholder="Ülke seçiniz / Select country..." />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            {COUNTRIES.map((c, index) => (
+                                                                <SelectItem key={c.value} value={c.value}>
+                                                                    {c.flag} {c.labelTr}{index === 0 ? '' : ` / ${c.label}`}
+                                                                </SelectItem>
+                                                            ))}
+                                                        </SelectContent>
+                                                    </Select>
+                                                </FieldWrapper>
+
                                                 <FieldWrapper id="schoolCity" label={t('applySchool.labels.schoolCity')} icon={MapPin} error={errors.schoolCity}>
-                                                    <Input id="schoolCity" type="text" value={formData.schoolCity}
-                                                        onChange={(e) => updateField('schoolCity', e.target.value)}
-                                                        placeholder={t('applySchool.placeholders.schoolCity')} className={inputClass(!!errors.schoolCity)} />
+                                                    {formData.schoolCountry === 'TR' ? (
+                                                        <Select value={formData.schoolCity} onValueChange={(v) => updateField('schoolCity', v)}>
+                                                            <SelectTrigger className={selectTriggerClass(!!errors.schoolCity)}>
+                                                                <SelectValue placeholder="Şehir seçiniz..." />
+                                                            </SelectTrigger>
+                                                            <SelectContent>
+                                                                {TURKEY_CITIES.map((city) => (
+                                                                    <SelectItem key={city} value={city}>{city}</SelectItem>
+                                                                ))}
+                                                            </SelectContent>
+                                                        </Select>
+                                                    ) : (
+                                                        <Input id="schoolCity" type="text" value={formData.schoolCity}
+                                                            onChange={(e) => updateField('schoolCity', e.target.value)}
+                                                            placeholder={t('applySchool.placeholders.schoolCity')} className={inputClass(!!errors.schoolCity)} />
+                                                    )}
                                                 </FieldWrapper>
 
                                                 <FieldWrapper id="schoolDistrict" label={t('applySchool.labels.schoolDistrict')} icon={MapPin} error={errors.schoolDistrict}>

@@ -138,33 +138,44 @@ export const FAQ_ENTRIES: FaqEntry[] = [
 /**
  * Simple keyword-based FAQ search. Returns the best matching FAQ entry.
  * Scores each entry by counting keyword hits in the query string.
+ * Related entries are filtered to same category for relevance.
  */
 export function searchFaq(query: string): { entry: FaqEntry | null; related: FaqEntry[] } {
   const normalised = query.toLocaleLowerCase('tr');
 
   const scored = FAQ_ENTRIES.map((entry) => {
     let score = 0;
+    let exactHits = 0;
     for (const kw of entry.keywords) {
       if (normalised.includes(kw.toLocaleLowerCase('tr'))) {
         score += 1;
+        exactHits += 1;
       }
     }
     // Bonus when question itself is a substring match
     if (normalised.includes(entry.question.toLocaleLowerCase('tr').replace('?', ''))) {
       score += 3;
     }
-    return { entry, score };
+    return { entry, score, exactHits };
   });
 
   scored.sort((a, b) => b.score - a.score);
 
   const best = scored[0]?.score > 0 ? scored[0].entry : null;
 
-  // Related = next 2 entries with score > 0, excluding best
-  const related = scored
-    .filter((s) => s.score > 0 && s.entry.id !== best?.id)
-    .slice(0, 2)
-    .map((s) => s.entry);
+  // Related = next 2 entries with score > 0, same category as best, excluding best
+  const related = best
+    ? scored
+        .filter(
+          (s) =>
+            s.score > 0 &&
+            s.entry.id !== best.id &&
+            s.entry.category === best.category &&
+            s.exactHits >= 1,
+        )
+        .slice(0, 2)
+        .map((s) => s.entry)
+    : [];
 
   return { entry: best, related };
 }

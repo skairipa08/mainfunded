@@ -52,7 +52,10 @@ import {
   ChevronUp,
   ChevronDown,
   UserCircle,
+  MapPin,
+  Tag,
 } from 'lucide-react';
+import { COUNTRIES, FUNDING_CATEGORIES, TURKEY_CITIES } from '@/lib/constants';
 
 type DocStatus = 'ready' | 'uploading' | 'uploaded' | 'failed';
 
@@ -152,8 +155,10 @@ export default function ApplyPage() {
     fullName: '',
     email: '',
     country: '',
+    city: '',
     gender: '',
     educationLevel: '',
+    category: '',
     needSummary: '',
     targetAmount: '',
     classYear: '',
@@ -200,7 +205,7 @@ export default function ApplyPage() {
       newErrors.email = t('apply.validation.invalidEmail');
     }
 
-    if (!formData.country.trim()) {
+    if (!formData.country) {
       newErrors.country = t('apply.validation.country');
     }
 
@@ -250,7 +255,7 @@ export default function ApplyPage() {
       else if (formData.fullName.trim().length < 2) newErrors.fullName = t('apply.validation.invalidName');
       if (!formData.email.trim()) newErrors.email = t('apply.validation.email');
       else if (!validateEmail(formData.email)) newErrors.email = t('apply.validation.invalidEmail');
-      if (!formData.country.trim()) newErrors.country = t('apply.validation.country');
+      if (!formData.country) newErrors.country = t('apply.validation.country');
       if (!formData.gender) newErrors.gender = t('apply.validation.gender');
     }
 
@@ -488,7 +493,7 @@ export default function ApplyPage() {
       // Re-validate to get current errors
       if (!formData.fullName.trim() || formData.fullName.trim().length < 2) { setCurrentStep(1); return; }
       if (!formData.email.trim() || !validateEmail(formData.email)) { setCurrentStep(1); return; }
-      if (!formData.country.trim()) { setCurrentStep(1); return; }
+      if (!formData.country) { setCurrentStep(1); return; }
       if (!formData.educationLevel || !formData.classYear || !formData.faculty.trim() || !formData.department.trim() || !formData.targetAmount) { setCurrentStep(2); return; }
       if (!formData.needSummary.trim() || formData.needSummary.trim().length < MIN_DESCRIPTION_LENGTH) { setCurrentStep(3); return; }
       return;
@@ -534,9 +539,11 @@ export default function ApplyPage() {
         body: JSON.stringify({
           fullName: sanitizeInput(formData.fullName),
           email: formData.email.trim().toLowerCase(),
-          country: sanitizeInput(formData.country),
+          country: formData.country,
+          city: formData.city || undefined,
           gender: formData.gender,
           educationLevel: formData.educationLevel,
+          category: formData.category || undefined,
           needSummary: sanitizeInput(formData.needSummary),
           documents: documentData,
           photos: photoUrls,
@@ -739,18 +746,47 @@ export default function ApplyPage() {
                         </FieldWrapper>
 
                         <FieldWrapper id="country" label={t('apply.labels.country')} icon={Globe} error={errors.country}>
-                          <Input
-                            id="country"
-                            type="text"
+                          <Select
                             value={formData.country}
-                            onChange={(e) => {
-                              setFormData({ ...formData, country: e.target.value });
+                            onValueChange={(value) => {
+                              setFormData({ ...formData, country: value, city: '' });
                               if (errors.country) setErrors({ ...errors, country: '' });
                             }}
-                            placeholder={t('apply.placeholders.country')}
-                            className={inputClass(!!errors.country)}
-                          />
+                          >
+                            <SelectTrigger id="country" className={selectTriggerClass(!!errors.country)}>
+                              <SelectValue placeholder={t('apply.placeholders.country')} />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {COUNTRIES.map((c, index) => (
+                                <SelectItem key={c.value} value={c.value}>
+                                  {c.flag} {c.labelTr}{index === 0 ? '' : ` / ${c.label}`}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
                         </FieldWrapper>
+
+                        {formData.country === 'TR' && (
+                          <FieldWrapper id="city" label="Şehir / City" icon={MapPin} error={errors.city} required={false}>
+                            <Select
+                              value={formData.city}
+                              onValueChange={(value) => {
+                                setFormData({ ...formData, city: value });
+                              }}
+                            >
+                              <SelectTrigger id="city" className={selectTriggerClass(false)}>
+                                <SelectValue placeholder="Şehir seçiniz..." />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {TURKEY_CITIES.map((city) => (
+                                  <SelectItem key={city} value={city}>
+                                    {city}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </FieldWrapper>
+                        )}
 
                         <FieldWrapper id="gender" label={t('apply.labels.gender')} icon={UserCircle} error={errors.gender}>
                           <Select
@@ -858,6 +894,27 @@ export default function ApplyPage() {
                             placeholder={t('apply.placeholders.department')}
                             className={inputClass(!!errors.department)}
                           />
+                        </FieldWrapper>
+
+                        <FieldWrapper id="category" label="İhtiyaç Kategorisi / Need Category" icon={Tag} error={errors.category} required={false}>
+                          <Select
+                            value={formData.category}
+                            onValueChange={(value) => {
+                              setFormData({ ...formData, category: value });
+                              if (errors.category) setErrors({ ...errors, category: '' });
+                            }}
+                          >
+                            <SelectTrigger id="category" className={selectTriggerClass(!!errors.category)}>
+                              <SelectValue placeholder="Kategori seçiniz / Select category..." />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {FUNDING_CATEGORIES.map((cat) => (
+                                <SelectItem key={cat.value} value={cat.value}>
+                                  {cat.labelTr} / {cat.label}
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
                         </FieldWrapper>
 
                         <div className="md:col-span-2">

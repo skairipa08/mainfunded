@@ -3,6 +3,7 @@ import {
   processUserMessage,
   generateWelcomeResponse,
   generateProactiveResponse,
+  generateSpecialDayBanner,
   getKnowledgeById,
 } from '@/lib/ai-assistant/chat-engine';
 
@@ -10,7 +11,7 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const { action, text, currentStep } = body as {
-      action: 'welcome' | 'proactive' | 'chat' | 'knowledge';
+      action: 'welcome' | 'proactive' | 'chat' | 'knowledge' | 'specialDayCheck';
       text?: string;
       currentStep?: string;
       knowledgeId?: string;
@@ -26,6 +27,11 @@ export async function POST(req: NextRequest) {
       case 'proactive':
         result = generateProactiveResponse();
         break;
+
+      case 'specialDayCheck': {
+        const banner = generateSpecialDayBanner();
+        return NextResponse.json({ specialDay: banner });
+      }
 
       case 'knowledge':
         result = getKnowledgeById(body.knowledgeId ?? '');

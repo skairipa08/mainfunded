@@ -15,8 +15,9 @@ import { useTranslation } from '@/lib/i18n';
 import {
     Users, User, Mail, Globe, Phone, FileText, Upload, CheckCircle, AlertCircle,
     Loader2, X, Shield, ArrowRight, ArrowLeft, HelpCircle, Heart, School,
-    Building, MapPin, GraduationCap, Calendar, Hash, ImageIcon, Video, Baby,
+    Building, MapPin, GraduationCap, Calendar, Hash, ImageIcon, Video, Baby, Tag,
 } from 'lucide-react';
+import { COUNTRIES, FUNDING_CATEGORIES, TURKEY_CITIES } from '@/lib/constants';
 
 type DocStatus = 'ready' | 'uploading' | 'uploaded' | 'failed';
 interface DocumentItem { id: string; name: string; file: File; status: DocStatus; size: number; uploadedUrl?: string; }
@@ -64,9 +65,9 @@ export default function ParentApplyPage() {
     const [currentStep, setCurrentStep] = useState(1);
 
     const [formData, setFormData] = useState({
-        parentFullName: '', parentEmail: '', parentPhone: '', parentCountry: '', parentRelation: '',
+        parentFullName: '', parentEmail: '', parentPhone: '', parentCountry: '', parentCity: '', parentRelation: '',
         childFullName: '', childDob: '', childGender: '', schoolName: '', schoolCity: '',
-        childGrade: '', childStudentId: '',
+        childGrade: '', childStudentId: '', category: '',
         story: '', targetAmount: '',
     });
 
@@ -110,7 +111,7 @@ export default function ParentApplyPage() {
             if (!formData.parentFullName.trim()) e.parentFullName = t('applyParent.validation.parentFullName');
             if (!formData.parentEmail.trim()) e.parentEmail = t('applyParent.validation.email');
             else if (!validateEmail(formData.parentEmail)) e.parentEmail = t('applyParent.validation.invalidEmail');
-            if (!formData.parentCountry.trim()) e.parentCountry = t('applyParent.validation.country');
+            if (!formData.parentCountry) e.parentCountry = t('applyParent.validation.country');
             if (!formData.parentRelation) e.parentRelation = t('applyParent.validation.relation');
             if (parentIdDocs.length === 0) e.parentIdDoc = t('applyParent.validation.parentId');
         }
@@ -188,7 +189,9 @@ export default function ParentApplyPage() {
                     fullName: sanitizeInput(formData.parentFullName),
                     email: formData.parentEmail.trim().toLowerCase(),
                     phone: formData.parentPhone,
-                    country: sanitizeInput(formData.parentCountry),
+                    country: formData.parentCountry,
+                    city: formData.parentCity || undefined,
+                    category: formData.category || undefined,
                     parentRelation: formData.parentRelation,
                     childName: sanitizeInput(formData.childFullName),
                     childDob: formData.childDob,
@@ -365,8 +368,29 @@ export default function ParentApplyPage() {
                                                     <Input id="parentPhone" type="tel" value={formData.parentPhone} onChange={e => updateField('parentPhone', e.target.value)} placeholder="+90 5XX XXX XX XX" className={inputClass(false)} />
                                                 </FieldWrapper>
                                                 <FieldWrapper id="parentCountry" label={t('applyParent.labels.country')} icon={Globe} error={errors.parentCountry}>
-                                                    <Input id="parentCountry" value={formData.parentCountry} onChange={e => updateField('parentCountry', e.target.value)} placeholder={t('applyParent.placeholders.country')} className={inputClass(!!errors.parentCountry)} />
+                                                    <Select value={formData.parentCountry} onValueChange={(v) => updateField('parentCountry', v)}>
+                                                        <SelectTrigger id="parentCountry" className={selectTriggerClass(!!errors.parentCountry)}><SelectValue placeholder={t('applyParent.placeholders.country')} /></SelectTrigger>
+                                                        <SelectContent>
+                                                            {COUNTRIES.map((c, index) => (
+                                                                <SelectItem key={c.value} value={c.value}>
+                                                                    {c.flag} {c.labelTr}{index === 0 ? '' : ` / ${c.label}`}
+                                                                </SelectItem>
+                                                            ))}
+                                                        </SelectContent>
+                                                    </Select>
                                                 </FieldWrapper>
+                                                {formData.parentCountry === 'TR' && (
+                                                    <FieldWrapper id="parentCity" label="Şehir / City" icon={MapPin} error={errors.parentCity} required={false}>
+                                                        <Select value={formData.parentCity} onValueChange={(v) => updateField('parentCity', v)}>
+                                                            <SelectTrigger id="parentCity" className={selectTriggerClass(false)}><SelectValue placeholder="Şehir seçiniz..." /></SelectTrigger>
+                                                            <SelectContent>
+                                                                {TURKEY_CITIES.map((city) => (
+                                                                    <SelectItem key={city} value={city}>{city}</SelectItem>
+                                                                ))}
+                                                            </SelectContent>
+                                                        </Select>
+                                                    </FieldWrapper>
+                                                )}
                                                 <div className="md:col-span-2">
                                                     <FieldWrapper id="parentRelation" label={t('applyParent.labels.relation')} icon={Users} error={errors.parentRelation}>
                                                         <Select value={formData.parentRelation} onValueChange={v => updateField('parentRelation', v)}>
@@ -486,6 +510,17 @@ export default function ParentApplyPage() {
                                                     className={`rounded-xl border-slate-200 bg-white focus:border-purple-400 focus:ring-purple-400/20 focus:ring-4 transition-all duration-200 text-slate-800 placeholder:text-slate-300 resize-none ${errors.story ? 'border-red-400' : ''}`} />
                                                 {errors.story && <p className="text-xs text-red-500 flex items-center gap-1"><AlertCircle className="h-3 w-3" />{errors.story}</p>}
                                             </div>
+                                            {/* Category */}
+                                            <FieldWrapper id="category" label="İhtiyaç Kategorisi / Need Category" icon={Tag} error={errors.category} required={false}>
+                                                <Select value={formData.category} onValueChange={(v) => updateField('category', v)}>
+                                                    <SelectTrigger id="category" className={selectTriggerClass(!!errors.category)}><SelectValue placeholder="Kategori seçiniz / Select category..." /></SelectTrigger>
+                                                    <SelectContent>
+                                                        {FUNDING_CATEGORIES.map((cat) => (
+                                                            <SelectItem key={cat.value} value={cat.value}>{cat.labelTr} / {cat.label}</SelectItem>
+                                                        ))}
+                                                    </SelectContent>
+                                                </Select>
+                                            </FieldWrapper>
                                             {/* Target Amount */}
                                             <FieldWrapper id="targetAmount" label={t('applyParent.labels.targetAmount')} icon={Heart} error={errors.targetAmount}>
                                                 <div className="relative">

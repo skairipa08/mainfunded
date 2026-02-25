@@ -2,12 +2,13 @@
 
 import { useEffect, useState } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
-import { Search, Filter, Loader2 } from 'lucide-react';
+import { Search, Filter, Loader2, Users, GraduationCap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectSeparator, SelectLabel, SelectGroup } from '@/components/ui/select';
 import CampaignCard from '@/components/CampaignCard';
 import { getCampaigns, getCategories, getCountries, getFieldsOfStudy } from '@/lib/api';
+import { APPLICANT_TYPES, EDUCATION_LEVELS } from '@/lib/constants';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
@@ -19,7 +20,7 @@ export default function BrowsePageContent() {
   const searchParams = useSearchParams();
   const [campaigns, setCampaigns] = useState<any[]>([]);
   const [categories, setCategories] = useState<any[]>([]);
-  const [countries, setCountries] = useState<string[]>([]);
+  const [countries, setCountries] = useState<any[]>([]);
   const [fieldsOfStudy, setFieldsOfStudy] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({ total: 0, page: 1, total_pages: 0 });
@@ -28,6 +29,8 @@ export default function BrowsePageContent() {
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'all');
   const [selectedCountry, setSelectedCountry] = useState(searchParams.get('country') || 'all');
   const [selectedField, setSelectedField] = useState(searchParams.get('field_of_study') || 'all');
+  const [selectedApplicantType, setSelectedApplicantType] = useState(searchParams.get('applicant_type') || 'all');
+  const [selectedEducationLevel, setSelectedEducationLevel] = useState(searchParams.get('education_level') || 'all');
 
   // Load static data on mount
   useEffect(() => {
@@ -62,6 +65,8 @@ export default function BrowsePageContent() {
         if (selectedCategory !== 'all') params.category = selectedCategory;
         if (selectedCountry !== 'all') params.country = selectedCountry;
         if (selectedField !== 'all') params.field_of_study = selectedField;
+        if (selectedApplicantType !== 'all') params.applicant_type = selectedApplicantType;
+        if (selectedEducationLevel !== 'all') params.education_level = selectedEducationLevel;
 
         const res = await getCampaigns(params);
         setCampaigns(res.data || []);
@@ -75,7 +80,7 @@ export default function BrowsePageContent() {
     };
 
     loadCampaigns();
-  }, [searchQuery, selectedCategory, selectedCountry, selectedField]);
+  }, [searchQuery, selectedCategory, selectedCountry, selectedField, selectedApplicantType, selectedEducationLevel]);
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
@@ -84,6 +89,8 @@ export default function BrowsePageContent() {
     if (selectedCategory !== 'all') params.set('category', selectedCategory);
     if (selectedCountry !== 'all') params.set('country', selectedCountry);
     if (selectedField !== 'all') params.set('field_of_study', selectedField);
+    if (selectedApplicantType !== 'all') params.set('applicant_type', selectedApplicantType);
+    if (selectedEducationLevel !== 'all') params.set('education_level', selectedEducationLevel);
     router.push(`/browse?${params.toString()}`);
   };
 
@@ -97,6 +104,7 @@ export default function BrowsePageContent() {
           {/* Filters */}
           <div className="bg-white rounded-lg shadow-md p-6 mb-8">
             <form onSubmit={handleSearch} className="space-y-4">
+              {/* Row 1: Search + Category + Country */}
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 {/* Search */}
                 <div className="md:col-span-2">
@@ -104,7 +112,7 @@ export default function BrowsePageContent() {
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                     <Input
                       type="text"
-                      placeholder="Search campaigns..."
+                      placeholder="Kampanya ara... / Search campaigns..."
                       value={searchQuery}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
                       className="pl-10"
@@ -115,43 +123,74 @@ export default function BrowsePageContent() {
                 {/* Category */}
                 <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Category" />
+                    <SelectValue placeholder="Kategori / Category" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Categories</SelectItem>
+                    <SelectItem value="all">Tüm Kategoriler / All Categories</SelectItem>
                     {categories.map((cat) => (
-                      <SelectItem key={cat.id} value={cat.id}>
-                        {cat.name}
+                      <SelectItem key={cat.id || cat.value} value={cat.id || cat.value}>
+                        {cat.nameTr ? `${cat.nameTr}` : cat.name}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
 
-                {/* Country */}
+                {/* Country — Turkey first */}
                 <Select value={selectedCountry} onValueChange={setSelectedCountry}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Country" />
+                    <SelectValue placeholder="Ülke / Country" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Countries</SelectItem>
-                    {countries.map((country) => (
-                      <SelectItem key={country} value={country}>
-                        {country}
+                    <SelectItem value="all">Tüm Ülkeler / All Countries</SelectItem>
+                    {countries.map((country: any, index: number) => (
+                      <SelectItem key={country.value || country} value={country.value || country}>
+                        {country.label || country}
                       </SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
               </div>
 
-              {/* Field of Study */}
-              <div>
-                <Select value={selectedField} onValueChange={setSelectedField}>
+              {/* Row 2: Applicant Type + Education Level + Field of Study */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                {/* Applicant Type */}
+                <Select value={selectedApplicantType} onValueChange={setSelectedApplicantType}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Field of Study" />
+                    <SelectValue placeholder="Başvuran Türü / Applicant Type" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Fields</SelectItem>
-                    {fieldsOfStudy.map((field) => (
+                    <SelectItem value="all">Tüm Başvuranlar / All Applicants</SelectItem>
+                    {APPLICANT_TYPES.map((type) => (
+                      <SelectItem key={type.value} value={type.value}>
+                        {type.labelTr} / {type.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                {/* Education Level */}
+                <Select value={selectedEducationLevel} onValueChange={setSelectedEducationLevel}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Eğitim Seviyesi / Education Level" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Tüm Seviyeler / All Levels</SelectItem>
+                    {EDUCATION_LEVELS.map((level) => (
+                      <SelectItem key={level.value} value={level.value}>
+                        {level.labelTr} / {level.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+
+                {/* Field of Study */}
+                <Select value={selectedField} onValueChange={setSelectedField}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Bölüm / Field of Study" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">Tüm Bölümler / All Fields</SelectItem>
+                    {fieldsOfStudy.map((field: any) => (
                       <SelectItem key={field} value={field}>
                         {field}
                       </SelectItem>
