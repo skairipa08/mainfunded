@@ -1175,7 +1175,7 @@ export function getUpcomingSpecialDay(maxDaysAhead = 3): SpecialDayInfo | null {
         closest = {
           title: sd.title,
           emoji: sd.emoji || '📅',
-          description: sd.description,
+          description: sd.description || '',
           link: sd.link || '/campaigns',
           daysLeft: diffDays,
         };
