@@ -73,17 +73,17 @@ export function AiAssistantWidget() {
 
   const handleTrigger = useCallback(async (_type: TriggerType) => {
     if (isOpen) return; // already open
-    
+
     // Sayfaya uygun proactive mesaj göster
     const path = window.location.pathname;
     let contextualMsg: string | null = null;
-    
+
     if (path.includes('/calendar')) {
       contextualMsg = 'Bağış takviminizi mi inceliyorsunuz? 📅 Özel günlerde bağış yaparak daha büyük etki yaratabilirsiniz!';
     } else if (path.includes('/campaign')) {
       contextualMsg = 'Bu kampanyayı mı inceliyorsunuz? 💝 Size en uygun öğrenciyi bulmama izin verin!';
     } else if (path.includes('/browse') || path.includes('/campaigns')) {
-      contextualMsg = 'Kampanyaları incelediğinizi gördüm! 👀 Size uygun öğrenci bulayım mı?';
+      contextualMsg = 'Kampanyaları incelediğinizi gördüm! 👀 Size en uygun öğrenciyi bulmamı ister misiniz?';
     } else if (path.includes('/leaderboard')) {
       contextualMsg = 'Liderlik tablosunu inceliyorsunuz! 🏆 Siz de bağış yaparak sıralamaya girebilirsiniz!';
     } else if (path.includes('/badges')) {
@@ -93,13 +93,13 @@ export function AiAssistantWidget() {
     } else if (path === '/') {
       contextualMsg = 'FundEd\'e hoş geldiniz! 👋 Size nasıl yardımcı olabilirim?';
     }
-    
+
     if (contextualMsg) {
       setProactiveMsg(contextualMsg);
       setShowPulse(true);
       return;
     }
-    
+
     try {
       const res = await fetch('/api/assistant/chat', {
         method: 'POST',
@@ -265,11 +265,10 @@ export function AiAssistantWidget() {
       {!isOpen && (
         <button
           onClick={handleOpen}
-          className={`fixed bottom-4 right-4 sm:right-6 z-[9998] w-14 h-14 rounded-full text-white shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center group ${
-            showSpecialDayBanner
+          className={`fixed bottom-4 right-4 sm:right-6 z-[9998] w-14 h-14 rounded-full text-white shadow-lg hover:shadow-xl hover:scale-105 active:scale-95 transition-all duration-200 flex items-center justify-center group ${showSpecialDayBanner
               ? 'bg-gradient-to-br from-blue-600 to-purple-600 animate-pulse'
               : 'bg-gradient-to-br from-blue-600 to-indigo-600'
-          }`}
+            }`}
           aria-label="AI Asistan'ı aç"
         >
           {isMinimized ? (

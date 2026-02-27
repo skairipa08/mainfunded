@@ -204,7 +204,12 @@ export default function SchoolApplyPage() {
             else if (formData.needSummary.trim().length < MIN_DESCRIPTION_LENGTH) {
                 newErrors.needSummary = t('applySchool.validation.needSummaryMin', { min: MIN_DESCRIPTION_LENGTH });
             }
-            if (!formData.targetAmount || parseInt(formData.targetAmount) < 1) newErrors.targetAmount = t('applySchool.validation.targetAmount');
+            const minTarget = formData.schoolCountry === 'TR' ? 2500 : 50;
+            if (!formData.targetAmount) {
+                newErrors.targetAmount = t('applySchool.validation.targetAmount');
+            } else if (parseInt(formData.targetAmount) < minTarget) {
+                newErrors.targetAmount = formData.schoolCountry === 'TR' ? 'Minimum 2500 TL' : 'Minimum 50 USD';
+            }
             if (!formData.beneficiaryCount || parseInt(formData.beneficiaryCount) < 1) newErrors.beneficiaryCount = t('applySchool.validation.beneficiaryCount');
         }
 
@@ -348,7 +353,8 @@ export default function SchoolApplyPage() {
         if (!formData.schoolName.trim() || !formData.schoolCity.trim() || !formData.schoolType) { setCurrentStep(1); return; }
         if (!formData.applicantFullName.trim() || !formData.applicantEmail.trim() || !validateEmail(formData.applicantEmail) || !formData.applicantRole) { setCurrentStep(2); return; }
         if (!formData.projectTitle.trim() || !formData.projectCategory || !formData.needSummary.trim() || formData.needSummary.trim().length < MIN_DESCRIPTION_LENGTH) { setCurrentStep(3); return; }
-        if (!formData.targetAmount || parseInt(formData.targetAmount) < 1 || !formData.beneficiaryCount || parseInt(formData.beneficiaryCount) < 1) { setCurrentStep(3); return; }
+        const minTarget = formData.schoolCountry === 'TR' ? 2500 : 50;
+        if (!formData.targetAmount || parseInt(formData.targetAmount) < minTarget || !formData.beneficiaryCount || parseInt(formData.beneficiaryCount) < 1) { setCurrentStep(3); return; }
 
         const pendingDocs = documents.some((d) => d.status === 'uploading');
         if (pendingDocs) { toast.warning(t('apply.validation.waitUpload')); return; }

@@ -163,7 +163,12 @@ export default function TeacherApplyPage() {
             if (!formData.classGrade.trim()) newErrors.classGrade = t('applyTeacher.validation.classGrade');
             if (!formData.studentCount || parseInt(formData.studentCount) < 1) newErrors.studentCount = t('applyTeacher.validation.studentCount');
             if (!formData.subject.trim()) newErrors.subject = t('applyTeacher.validation.subject');
-            if (!formData.targetAmount || parseInt(formData.targetAmount) < 1) newErrors.targetAmount = t('applyTeacher.validation.targetAmount');
+            const minTarget = formData.country === 'TR' ? 2500 : 50;
+            if (!formData.targetAmount) {
+                newErrors.targetAmount = t('applyTeacher.validation.targetAmount');
+            } else if (parseInt(formData.targetAmount) < minTarget) {
+                newErrors.targetAmount = formData.country === 'TR' ? 'Minimum 2500 TL' : 'Minimum 50 USD';
+            }
         }
 
         if (currentStep === 3) {
@@ -279,7 +284,8 @@ export default function TeacherApplyPage() {
         if (!formData.country) { setCurrentStep(1); return; }
         if (!formData.schoolName.trim() || !formData.schoolCity.trim() || !formData.classGrade.trim() || !formData.subject.trim()) { setCurrentStep(2); return; }
         if (!formData.studentCount || parseInt(formData.studentCount) < 1) { setCurrentStep(2); return; }
-        if (!formData.targetAmount || parseInt(formData.targetAmount) < 1) { setCurrentStep(2); return; }
+        const minTarget = formData.country === 'TR' ? 2500 : 50;
+        if (!formData.targetAmount || parseInt(formData.targetAmount) < minTarget) { setCurrentStep(2); return; }
         if (!formData.needSummary.trim() || formData.needSummary.trim().length < MIN_DESCRIPTION_LENGTH) { setCurrentStep(3); return; }
 
         const pendingDocs = documents.some((d) => d.status === 'uploading');

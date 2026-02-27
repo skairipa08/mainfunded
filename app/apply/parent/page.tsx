@@ -130,7 +130,12 @@ export default function ParentApplyPage() {
         if (currentStep === 4) {
             if (!formData.story.trim()) e.story = t('applyParent.validation.story');
             else if (formData.story.trim().length < MIN_DESCRIPTION_LENGTH) e.story = t('applyParent.validation.storyMin', { min: MIN_DESCRIPTION_LENGTH });
-            if (!formData.targetAmount || parseInt(formData.targetAmount) < 1) e.targetAmount = t('applyParent.validation.targetAmount');
+            const minTarget = formData.parentCountry === 'TR' ? 2500 : 50;
+            if (!formData.targetAmount) {
+                e.targetAmount = t('applyParent.validation.targetAmount');
+            } else if (parseInt(formData.targetAmount) < minTarget) {
+                e.targetAmount = formData.parentCountry === 'TR' ? 'Minimum 2500 TL' : 'Minimum 50 USD';
+            }
         }
         setErrors(e);
         return Object.keys(e).length === 0;

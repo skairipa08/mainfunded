@@ -217,8 +217,11 @@ export default function ApplyPage() {
       newErrors.educationLevel = t('apply.validation.educationLevel');
     }
 
-    if (!formData.targetAmount || parseInt(formData.targetAmount) < 1) {
+    const minTarget = formData.country === 'TR' ? 2500 : 50;
+    if (!formData.targetAmount) {
       newErrors.targetAmount = t('apply.validation.targetAmount');
+    } else if (parseInt(formData.targetAmount) < minTarget) {
+      newErrors.targetAmount = formData.country === 'TR' ? 'Minimum 2500 TL' : 'Minimum 50 USD';
     }
 
     if (!formData.classYear) {
@@ -264,7 +267,9 @@ export default function ApplyPage() {
       if (!formData.classYear) newErrors.classYear = t('apply.validation.classYear');
       if (!formData.faculty.trim()) newErrors.faculty = t('apply.validation.faculty');
       if (!formData.department.trim()) newErrors.department = t('apply.validation.department');
-      if (!formData.targetAmount || parseInt(formData.targetAmount) < 1) newErrors.targetAmount = t('apply.validation.targetAmount');
+      const minTarget = formData.country === 'TR' ? 2500 : 50;
+      if (!formData.targetAmount) newErrors.targetAmount = t('apply.validation.targetAmount');
+      else if (parseInt(formData.targetAmount) < minTarget) newErrors.targetAmount = formData.country === 'TR' ? 'Minimum 2500 TL' : 'Minimum 50 USD';
     }
 
     if (currentStep === 3) {
@@ -494,7 +499,8 @@ export default function ApplyPage() {
       if (!formData.fullName.trim() || formData.fullName.trim().length < 2) { setCurrentStep(1); return; }
       if (!formData.email.trim() || !validateEmail(formData.email)) { setCurrentStep(1); return; }
       if (!formData.country) { setCurrentStep(1); return; }
-      if (!formData.educationLevel || !formData.classYear || !formData.faculty.trim() || !formData.department.trim() || !formData.targetAmount) { setCurrentStep(2); return; }
+      const minTarget = formData.country === 'TR' ? 2500 : 50;
+      if (!formData.educationLevel || !formData.classYear || !formData.faculty.trim() || !formData.department.trim() || !formData.targetAmount || parseInt(formData.targetAmount) < minTarget) { setCurrentStep(2); return; }
       if (!formData.needSummary.trim() || formData.needSummary.trim().length < MIN_DESCRIPTION_LENGTH) { setCurrentStep(3); return; }
       return;
     }
@@ -667,18 +673,18 @@ export default function ApplyPage() {
                               if (step.id < currentStep) setCurrentStep(step.id);
                             }}
                             className={`flex items-center gap-2.5 transition-all duration-300 ${isActive
-                                ? 'text-emerald-600'
-                                : isCompleted
-                                  ? 'text-emerald-500 cursor-pointer'
-                                  : 'text-slate-300'
+                              ? 'text-emerald-600'
+                              : isCompleted
+                                ? 'text-emerald-500 cursor-pointer'
+                                : 'text-slate-300'
                               }`}
                           >
                             <div
                               className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 transition-all duration-300 ${isActive
-                                  ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30'
-                                  : isCompleted
-                                    ? 'bg-emerald-100 text-emerald-600'
-                                    : 'bg-slate-100 text-slate-400'
+                                ? 'bg-emerald-500 text-white shadow-lg shadow-emerald-500/30'
+                                : isCompleted
+                                  ? 'bg-emerald-100 text-emerald-600'
+                                  : 'bg-slate-100 text-slate-400'
                                 }`}
                             >
                               {isCompleted ? (
@@ -1067,11 +1073,11 @@ export default function ApplyPage() {
                                   className="w-full h-full object-cover"
                                 />
                                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-200" />
-                              {/* Upload status overlay */}
+                                {/* Upload status overlay */}
                                 {photo.status === 'uploading' && (
-                                <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
-                                  <Loader2 className="h-6 w-6 text-white animate-spin" />
-                                </div>
+                                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center">
+                                    <Loader2 className="h-6 w-6 text-white animate-spin" />
+                                  </div>
                                 )}
                                 {photo.status === 'uploaded' && (
                                   <div className="absolute top-2 left-2">
@@ -1135,8 +1141,8 @@ export default function ApplyPage() {
                               onDragLeave={() => setPhotoDragOver(false)}
                               onDrop={handlePhotoDrop}
                               className={`aspect-[4/3] rounded-xl border-2 border-dashed flex flex-col items-center justify-center cursor-pointer transition-all duration-200 ${photoDragOver
-                                  ? 'border-purple-400 bg-purple-50'
-                                  : 'border-slate-200 hover:border-purple-300 hover:bg-purple-50/50 bg-slate-50/50'
+                                ? 'border-purple-400 bg-purple-50'
+                                : 'border-slate-200 hover:border-purple-300 hover:bg-purple-50/50 bg-slate-50/50'
                                 }`}
                             >
                               <ImagePlus className={`h-7 w-7 mb-1.5 transition-colors ${photoDragOver ? 'text-purple-500' : 'text-slate-300'}`} />
@@ -1227,11 +1233,10 @@ export default function ApplyPage() {
                               uploadVideo(newVideo.id, file);
                             });
                           }}
-                          className={`rounded-xl border-2 border-dashed flex flex-col items-center justify-center p-4 text-center cursor-pointer transition-all duration-200 ${
-                            videoDragOver
+                          className={`rounded-xl border-2 border-dashed flex flex-col items-center justify-center p-4 text-center cursor-pointer transition-all duration-200 ${videoDragOver
                               ? 'border-blue-400 bg-blue-50'
                               : 'border-slate-200 hover:border-blue-300 hover:bg-blue-50/40 bg-slate-50/50'
-                          }`}
+                            }`}
                         >
                           <Film className={`h-7 w-7 mb-1.5 ${videoDragOver ? 'text-blue-500' : 'text-slate-300'}`} />
                           <span className="text-xs text-slate-500 font-medium">Video Ekle veya Bırak</span>
@@ -1380,10 +1385,10 @@ export default function ApplyPage() {
                             <div
                               key={doc.id}
                               className={`flex items-center justify-between p-4 rounded-xl border transition-all duration-200 ${doc.status === 'uploaded'
-                                  ? 'bg-emerald-50/50 border-emerald-100'
-                                  : doc.status === 'failed'
-                                    ? 'bg-red-50/50 border-red-100'
-                                    : 'bg-white border-slate-100'
+                                ? 'bg-emerald-50/50 border-emerald-100'
+                                : doc.status === 'failed'
+                                  ? 'bg-red-50/50 border-red-100'
+                                  : 'bg-white border-slate-100'
                                 }`}
                             >
                               <div className="flex items-center gap-3 min-w-0">
