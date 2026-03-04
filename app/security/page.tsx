@@ -17,6 +17,7 @@ import {
     Globe,
     Users,
 } from 'lucide-react';
+import { useTranslation } from "@/lib/i18n/context";
 
 const securityFeatures = [
     {
@@ -79,6 +80,7 @@ const securityHeaders = [
 ];
 
 export default function SecurityPage() {
+    const { t } = useTranslation();
     return (
         <div className="min-h-screen flex flex-col bg-white">
             <Navbar />
@@ -92,11 +94,9 @@ export default function SecurityPage() {
                             </div>
                         </div>
                         <h1 className="text-4xl md:text-5xl font-bold mb-6">
-                            Guvenliginiz Bizim Oncelligimiz
-                        </h1>
+                            {t('app.page.guvenliginiz_bizim_oncelligimi')}</h1>
                         <p className="text-xl text-gray-300 max-w-2xl mx-auto">
-                            FundEd olarak, kullanıcılarımızın ve öğrencilerin verilerini en yüksek güvenlik standartlarıyla koruyoruz.
-                        </p>
+                            {t('app.page.funded_olarak_kullan_c_lar_m_z')}</p>
                     </div>
                 </section>
 
@@ -106,19 +106,19 @@ export default function SecurityPage() {
                         <div className="flex items-center justify-center gap-8 flex-wrap text-white">
                             <div className="flex items-center gap-2">
                                 <CheckCircle className="h-5 w-5" />
-                                <span className="font-medium">SSL Secured</span>
+                                <span className="font-medium">{t('app.page.ssl_secured')}</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <CheckCircle className="h-5 w-5" />
-                                <span className="font-medium">KVKK Uyumlu</span>
+                                <span className="font-medium">{t('app.page.kvkk_uyumlu')}</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <CheckCircle className="h-5 w-5" />
-                                <span className="font-medium">PCI DSS</span>
+                                <span className="font-medium">{t('app.page.pci_dss')}</span>
                             </div>
                             <div className="flex items-center gap-2">
                                 <CheckCircle className="h-5 w-5" />
-                                <span className="font-medium">GDPR Uyumlu</span>
+                                <span className="font-medium">{t('app.page.gdpr_uyumlu')}</span>
                             </div>
                         </div>
                     </div>
@@ -128,8 +128,7 @@ export default function SecurityPage() {
                 <section className="py-16 px-4">
                     <div className="max-w-6xl mx-auto">
                         <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
-                            Güvenlik Önlemlerimiz
-                        </h2>
+                            {t('app.page.g_venlik_nlemlerimiz')}</h2>
                         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
                             {securityFeatures.map((feature, index) => (
                                 <div
@@ -151,11 +150,10 @@ export default function SecurityPage() {
                 <section className="bg-gray-50 py-16 px-4">
                     <div className="max-w-4xl mx-auto">
                         <h2 className="text-2xl font-bold text-center text-gray-900 mb-8">
-                            Uygulanan Güvenlik Başlıkları
-                        </h2>
+                            {t('app.page.uygulanan_g_venlik_ba_l_klar')}</h2>
                         <div className="bg-white rounded-xl border overflow-hidden">
                             <div className="bg-gray-800 text-white p-4">
-                                <code className="text-sm">HTTP Response Headers</code>
+                                <code className="text-sm">{t('app.page.http_response_headers')}</code>
                             </div>
                             <div className="divide-y">
                                 {securityHeaders.map((item, index) => (
@@ -178,19 +176,16 @@ export default function SecurityPage() {
                 <section className="py-16 px-4">
                     <div className="max-w-4xl mx-auto">
                         <h2 className="text-2xl font-bold text-center text-gray-900 mb-12">
-                            Sizi Nasil Koruyoruz?
-                        </h2>
+                            {t('app.page.sizi_nasil_koruyoruz')}</h2>
                         <div className="space-y-6">
                             <div className="flex items-start gap-4 p-6 bg-blue-50 rounded-xl border border-blue-200">
                                 <div className="bg-blue-100 p-3 rounded-lg">
                                     <Users className="h-6 w-6 text-blue-600" />
                                 </div>
                                 <div>
-                                    <h3 className="font-semibold text-gray-900 mb-2">Kimlik Doğrulama</h3>
+                                    <h3 className="font-semibold text-gray-900 mb-2">{t('app.page.kimlik_do_rulama')}</h3>
                                     <p className="text-gray-600">
-                                        Güçlü şifre politikaları, iki faktörlü doğrulama (2FA) ve oturum yönetimi ile hesabınız güvendedir.
-                                        Tum sifreler bcrypt ile hashlenir ve asla duz metin olarak saklanmaz.
-                                    </p>
+                                        {t('app.page.g_l_ifre_politikalar_iki_fakt_')}</p>
                                 </div>
                             </div>
 
@@ -199,11 +194,9 @@ export default function SecurityPage() {
                                     <Database className="h-6 w-6 text-green-600" />
                                 </div>
                                 <div>
-                                    <h3 className="font-semibold text-gray-900 mb-2">Veri Şifreleme</h3>
+                                    <h3 className="font-semibold text-gray-900 mb-2">{t('app.page.veri_ifreleme')}</h3>
                                     <p className="text-gray-600">
-                                        Hassas veriler AES-256 sifreleme ile korunur. Veritabani baglantilari
-                                        SSL/TLS ile sifrelenir. Yedeklemeler de sifrelenmis olarak saklanir.
-                                    </p>
+                                        {t('app.page.hassas_veriler_aes_256_sifrele')}</p>
                                 </div>
                             </div>
 
@@ -212,11 +205,9 @@ export default function SecurityPage() {
                                     <Globe className="h-6 w-6 text-purple-600" />
                                 </div>
                                 <div>
-                                    <h3 className="font-semibold text-gray-900 mb-2">Ag Guvenligi</h3>
+                                    <h3 className="font-semibold text-gray-900 mb-2">{t('app.page.ag_guvenligi')}</h3>
                                     <p className="text-gray-600">
-                                        Rate limiting, DDoS korumasi, IP beyaz/kara liste, ve Web Application Firewall (WAF)
-                                        ile kotu niyetli trafik engellenir.
-                                    </p>
+                                        {t('app.page.rate_limiting_ddos_korumasi_ip')}</p>
                                 </div>
                             </div>
 
@@ -225,11 +216,9 @@ export default function SecurityPage() {
                                     <AlertTriangle className="h-6 w-6 text-orange-600" />
                                 </div>
                                 <div>
-                                    <h3 className="font-semibold text-gray-900 mb-2">Surekli Izleme</h3>
+                                    <h3 className="font-semibold text-gray-900 mb-2">{t('app.page.surekli_izleme')}</h3>
                                     <p className="text-gray-600">
-                                        7/24 güvenlik izleme, anormal aktivite tespiti, otomatik uyarılar ve
-                                        detaylı güvenlik logları ile sistemimiz sürekli gözlem altındadır.
-                                    </p>
+                                        {t('app.page.7_24_g_venlik_izleme_anormal_a')}</p>
                                 </div>
                             </div>
                         </div>
@@ -241,12 +230,9 @@ export default function SecurityPage() {
                     <div className="max-w-2xl mx-auto text-center">
                         <AlertTriangle className="h-10 w-10 text-yellow-400 mx-auto mb-4" />
                         <h2 className="text-2xl font-bold mb-4">
-                            Güvenlik Açığı mı Buldunuz?
-                        </h2>
+                            {t('app.page.g_venlik_a_m_buldunuz')}</h2>
                         <p className="text-gray-300 mb-6">
-                            Platformumuzda bir güvenlik açığı bulduysanız, lütfen bize bildirin.
-                            Sorumlu açıklama politikamız kapsamında size teşekkür edeceğiz.
-                        </p>
+                            {t('app.page.platformumuzda_bir_g_venlik_a_')}</p>
                         <a
                             href="mailto:security@fund-ed.com"
                             className="inline-block bg-yellow-500 text-gray-900 px-8 py-3 rounded-lg font-semibold hover:bg-yellow-400 transition-colors"

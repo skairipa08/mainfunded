@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
@@ -14,10 +15,8 @@ import { getCampaign, createCheckout, getPaymentStatus } from '@/lib/api';
 import { verificationStatuses } from '@/lib/verification-statuses';
 import { toast } from 'sonner';
 import { censorSurname } from '@/lib/privacy';
-import { useTranslation } from '@/lib/i18n';
 import { useCurrency } from '@/lib/currency-context';
 import type { CampaignData } from './fetchCampaign';
-
 // Progress Circle Component
 const ProgressCircle = ({ percentage }: { percentage: number }) => {
     const radius = 35;

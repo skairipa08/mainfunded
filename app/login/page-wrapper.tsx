@@ -1,11 +1,10 @@
 'use client';
 
 import { signIn, useSession } from 'next-auth/react';
+import { useTranslation } from "@/lib/i18n/context";
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { useTranslation } from '@/lib/i18n';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
-
 type AuthTab = 'email' | 'phone' | 'google';
 type AuthMode = 'login' | 'register';
 type AccountType = 'student' | 'donor' | 'mentor' | 'parent' | 'teacher' | 'school';
@@ -541,7 +540,7 @@ export default function LoginPageContent() {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
                           </svg>
                           <p className="text-xs text-amber-700 font-medium">
-                            Dev Mode - {t('auth.login.verificationCode')}: <span className="font-mono text-base tracking-widest text-amber-900">{devOtp}</span>
+                            {t('app.page_wrapper.dev_mode')}{t('auth.login.verificationCode')}: <span className="font-mono text-base tracking-widest text-amber-900">{devOtp}</span>
                           </p>
                         </div>
                       </div>

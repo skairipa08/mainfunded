@@ -1,11 +1,8 @@
-import type { Metadata } from 'next';
-
-export const metadata: Metadata = {
-  title: 'Kullanım Koşulları | FundEd',
-  description: 'FundEd platform kullanım koşulları, komisyon oranları ve sorumluluk bildirimi.',
-};
+'use client';
+import { useTranslation } from "@/lib/i18n/context";
 
 export default function TermsOfServicePage() {
+  const { t } = useTranslation();
   const today = new Date().toLocaleDateString('tr-TR', {
     year: 'numeric',
     month: 'long',
@@ -14,218 +11,161 @@ export default function TermsOfServicePage() {
 
   return (
     <article className="prose prose-blue max-w-none">
-      <h1 className="text-3xl font-bold text-blue-900 mb-2">Kullanım Koşulları</h1>
-      <p className="text-sm text-gray-500 mb-8">Son güncelleme: {today}</p>
+      <h1 className="text-3xl font-bold text-blue-900 mb-2">{t('app.page.kullan_m_ko_ullar')}</h1>
+      <p className="text-sm text-gray-500 mb-8">{t('app.page.son_g_ncelleme')}{today}</p>
 
       {/* -------------------------------------------------- */}
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-blue-800">1. Genel Hükümler</h2>
+        <h2 className="text-xl font-semibold text-blue-800">{t('app.page.1_genel_h_k_mler')}</h2>
         <p>
-          Bu Kullanım Koşulları, <strong>FundEd Eğitim Teknolojileri</strong> tarafından
-          işletilen fund-ed.com platformuna (&quot;Platform&quot;) erişiminizi ve
-          kullanımınızı düzenler. Platforma erişerek veya hesap oluşturarak bu koşulları
-          kabul etmiş sayılırsınız.
-        </p>
+          {t('app.page.bu_kullan_m_ko_ullar')}<strong>{t('app.page.funded_e_itim_teknolojileri')}</strong> {t('app.page.taraf_ndan_i_letilen_fund_ed_c')}</p>
         <p>
-          Koşulları kabul etmiyorsanız Platformu kullanmamanızı rica ederiz.
-        </p>
+          {t('app.page.ko_ullar_kabul_etmiyorsan_z_pl')}</p>
       </section>
 
       {/* -------------------------------------------------- */}
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-blue-800">2. Platform Tanımı</h2>
+        <h2 className="text-xl font-semibold text-blue-800">{t('app.page.2_platform_tan_m')}</h2>
         <p>
-          FundEd, doğrulanmış öğrenciler ile bağışçıları bir araya getiren bir kitle
-          fonlama platformudur. Platform, bağışçı ile öğrenci arasında aracılık hizmeti
-          sunar; taraflar arasındaki fonlama ilişkisinin doğrudan tarafı değildir.
-        </p>
+          {t('app.page.funded_do_rulanm_renciler_ile_')}</p>
       </section>
 
       {/* -------------------------------------------------- */}
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-blue-800">3. Platform Komisyonu</h2>
+        <h2 className="text-xl font-semibold text-blue-800">{t('app.page.3_platform_komisyonu')}</h2>
         <p>
-          Platform sürdürülebilirliğini sağlamak amacıyla toplanan bağışlar üzerinden
-          aşağıdaki kesintiler uygulanır:
-        </p>
+          {t('app.page.platform_s_rd_r_lebilirli_ini_')}</p>
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm">
             <thead>
               <tr className="bg-blue-50">
-                <th className="text-left px-4 py-2 font-semibold text-blue-900">Kalem</th>
-                <th className="text-left px-4 py-2 font-semibold text-blue-900">Oran</th>
-                <th className="text-left px-4 py-2 font-semibold text-blue-900">Açıklama</th>
+                <th className="text-left px-4 py-2 font-semibold text-blue-900">{t('app.page.kalem')}</th>
+                <th className="text-left px-4 py-2 font-semibold text-blue-900">{t('app.page.oran')}</th>
+                <th className="text-left px-4 py-2 font-semibold text-blue-900">{t('app.page.a_klama')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               <tr>
-                <td className="px-4 py-2 font-medium">Platform Komisyonu</td>
+                <td className="px-4 py-2 font-medium">{t('app.page.platform_komisyonu')}</td>
                 <td className="px-4 py-2">%2</td>
-                <td className="px-4 py-2">Platform geliştirme, destek ve operasyon giderleri</td>
+                <td className="px-4 py-2">{t('app.page.platform_geli_tirme_destek_ve_')}</td>
               </tr>
               <tr>
-                <td className="px-4 py-2 font-medium">Ödeme İşlem Bedeli</td>
+                <td className="px-4 py-2 font-medium">{t('app.page.deme_lem_bedeli')}</td>
                 <td className="px-4 py-2">%3,2</td>
                 <td className="px-4 py-2">
-                  iyzico ödeme altyapısı tarafından tahsil edilen işlem ücreti
-                </td>
+                  {t('app.page.iyzico_deme_altyap_s_taraf_nda')}</td>
               </tr>
             </tbody>
           </table>
         </div>
         <p className="mt-4">
-          Bağışçılar, &quot;Ücretleri ben karşılayayım&quot; seçeneğini işaretleyerek bu
-          bedellerin kendi hesaplarından tahsil edilmesini tercih edebilir. Bu durumda
-          öğrenciye tam tutar ulaşır.
-        </p>
+          {t('app.page.ba_lar_quot_cretleri_ben_kar_l')}</p>
       </section>
 
       {/* -------------------------------------------------- */}
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-blue-800">4. Ödeme ve Transfer Süreci</h2>
+        <h2 className="text-xl font-semibold text-blue-800">{t('app.page.4_deme_ve_transfer_s_reci')}</h2>
         <ul>
           <li>
-            Bağışlar, iyzico güvenli ödeme altyapısı aracılığıyla işlenir.
-          </li>
+            {t('app.page.ba_lar_iyzico_g_venli_deme_alt')}</li>
           <li>
-            Başarılı bir bağış sonrası fonlar, kampanya sahibinin hesabına{' '}
-            <strong>7 ila 14 iş günü</strong> içinde aktarılır.
-          </li>
+            {t('app.page.ba_ar_l_bir_ba_sonras_fonlar_k')}{' '}
+            <strong>{t('app.page.7_ila_14_i_g_n')}</strong> {t('app.page.i_inde_aktar_l_r')}</li>
           <li>
-            Transfer süreleri, bankalar arası işlem süreleri ve doğrulama prosedürlerine bağlı
-            olarak değişiklik gösterebilir.
-          </li>
+            {t('app.page.transfer_s_releri_bankalar_ara')}</li>
           <li>
-            Platform, mücbir sebep hâllerinde transfer süresinin uzamasından sorumlu
-            tutulamaz.
-          </li>
+            {t('app.page.platform_m_cbir_sebep_h_llerin')}</li>
         </ul>
       </section>
 
       {/* -------------------------------------------------- */}
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-blue-800">5. Öğrenci Yükümlülükleri</h2>
+        <h2 className="text-xl font-semibold text-blue-800">{t('app.page.5_renci_y_k_ml_l_kleri')}</h2>
         <ul>
-          <li>Profil bilgilerinin doğru ve güncel tutulması</li>
-          <li>Geçerli ve meşru öğrenci belgelerinin sunulması</li>
-          <li>Toplanan fonların yalnızca beyan edilen eğitim amaçlı kullanılması</li>
-          <li>Kampanya bilgilerinin gerçeği yansıtması</li>
-          <li>Platform kurallarına ve Türkiye Cumhuriyeti mevzuatına uyum</li>
+          <li>{t('app.page.profil_bilgilerinin_do_ru_ve_g')}</li>
+          <li>{t('app.page.ge_erli_ve_me_ru_renci_belgele')}</li>
+          <li>{t('app.page.toplanan_fonlar_n_yaln_zca_bey')}</li>
+          <li>{t('app.page.kampanya_bilgilerinin_ger_e_i_')}</li>
+          <li>{t('app.page.platform_kurallar_na_ve_t_rkiy')}</li>
         </ul>
       </section>
 
       {/* -------------------------------------------------- */}
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-blue-800">6. Bağışçı Yükümlülükleri</h2>
+        <h2 className="text-xl font-semibold text-blue-800">{t('app.page.6_ba_y_k_ml_l_kleri')}</h2>
         <ul>
-          <li>Bağışlar gönüllülük esasına dayalı olup, yasal zorunluluk dışında iade edilmez.</li>
+          <li>{t('app.page.ba_lar_g_n_ll_l_k_esas_na_daya')}</li>
           <li>
-            Bağışçılar, Platformun bir aracı olduğunu ve fonların kullanımını garanti
-            etmediğini kabul eder.
-          </li>
+            {t('app.page.ba_lar_platformun_bir_arac_old')}</li>
           <li>
-            Bağışlardan doğabilecek vergisel yükümlülükler bağışçıya aittir.
-          </li>
+            {t('app.page.ba_lardan_do_abilecek_vergisel')}</li>
         </ul>
       </section>
 
       {/* -------------------------------------------------- */}
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-blue-800">7. Yasaklı Faaliyetler</h2>
-        <p>Aşağıdaki eylemler kesinlikle yasaktır ve hesap askıya alınmasıyla sonuçlanır:</p>
+        <h2 className="text-xl font-semibold text-blue-800">{t('app.page.7_yasakl_faaliyetler')}</h2>
+        <p>{t('app.page.a_a_daki_eylemler_kesinlikle_y')}</p>
         <ul>
           <li>
-            <strong>Sahte belge sunma:</strong> Gerçeğe aykırı öğrenci belgesi, kimlik veya
-            transkript yüklenmesi
-          </li>
+            <strong>{t('app.page.sahte_belge_sunma')}</strong> {t('app.page.ger_e_e_ayk_r_renci_belgesi_ki')}</li>
           <li>
-            <strong>Dolandırıcılık:</strong> Yanıltıcı kampanya bilgisi ile bağış toplanması
-          </li>
+            <strong>{t('app.page.doland_r_c_l_k')}</strong> {t('app.page.yan_lt_c_kampanya_bilgisi_ile_')}</li>
           <li>
-            <strong>Fonların kötüye kullanımı:</strong> Toplanan bağışların beyan edilen amaç
-            dışında harcanması
-          </li>
+            <strong>{t('app.page.fonlar_n_k_t_ye_kullan_m')}</strong> {t('app.page.toplanan_ba_lar_n_beyan_edilen')}</li>
           <li>
-            <strong>Kimlik hırsızlığı:</strong> Başka bir kişinin bilgilerini kullanarak hesap
-            açılması
-          </li>
+            <strong>{t('app.page.kimlik_h_rs_zl')}</strong> {t('app.page.ba_ka_bir_ki_inin_bilgilerini_')}</li>
           <li>
-            <strong>Platform manipülasyonu:</strong> Otomatik araçlarla sahte bağış veya
-            etkileşim oluşturulması
-          </li>
+            <strong>{t('app.page.platform_manip_lasyonu')}</strong> {t('app.page.otomatik_ara_larla_sahte_ba_ve')}</li>
           <li>
-            <strong>Kara para aklama:</strong> Platformun yasadışı fonların meşrulaştırılması
-            amacıyla kullanılması
-          </li>
+            <strong>{t('app.page.kara_para_aklama')}</strong> {t('app.page.platformun_yasad_fonlar_n_me_r')}</li>
         </ul>
         <p className="mt-4">
-          Yasaklı faaliyetlerin tespiti hâlinde Platform, ilgili hesabı derhal askıya alma,
-          fonları dondurma ve gerekli hukuki mercilere bildirimde bulunma hakkını saklı
-          tutar.
-        </p>
+          {t('app.page.yasakl_faaliyetlerin_tespiti_h')}</p>
       </section>
 
       {/* -------------------------------------------------- */}
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-blue-800">8. Fikri Mülkiyet</h2>
+        <h2 className="text-xl font-semibold text-blue-800">{t('app.page.8_fikri_m_lkiyet')}</h2>
         <p>
-          Platform üzerindeki tüm içerik, tasarım, logo, yazılım ve diğer materyaller
-          FundEd&apos;in fikri mülkiyetindedir. Yazılı izin olmaksızın kopyalanamaz,
-          çoğaltılamaz veya dağıtılamaz.
-        </p>
+          {t('app.page.platform_zerindeki_t_m_i_erik_')}</p>
       </section>
 
       {/* -------------------------------------------------- */}
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-blue-800">9. Sorumluluk Reddi</h2>
+        <h2 className="text-xl font-semibold text-blue-800">{t('app.page.9_sorumluluk_reddi')}</h2>
         <div className="rounded-lg border border-amber-200 bg-amber-50 p-4">
           <p className="text-amber-900 mb-3">
-            <strong>Önemli Bilgilendirme:</strong>
+            <strong>{t('app.page.nemli_bilgilendirme')}</strong>
           </p>
           <ul className="text-amber-800 space-y-2">
             <li>
-              Platform &quot;olduğu gibi&quot; sunulmakta olup, kesintisiz veya hatasız
-              çalışacağına dair herhangi bir garanti verilmemektedir.
-            </li>
+              {t('app.page.platform_quot_oldu_u_gibi_quot')}</li>
             <li>
-              FundEd, öğrencilerin bildirdiği bilgilerin doğruluğunu makul ölçüde doğrulamaya
-              çalışır; ancak kesin doğruluk garantisi vermez.
-            </li>
+              {t('app.page.funded_rencilerin_bildirdi_i_b')}</li>
             <li>
-              Bağışçı ile öğrenci arasındaki ilişkiden doğan uyuşmazlıklarda Platform
-              taraf değildir.
-            </li>
+              {t('app.page.ba_ile_renci_aras_ndaki_ili_ki')}</li>
             <li>
-              Üçüncü taraf hizmet sağlayıcılarından (iyzico, hosting vb.) kaynaklanan
-              aksaklıklardan Platform sorumlu tutulamaz.
-            </li>
+              {t('app.page.nc_taraf_hizmet_sa_lay_c_lar_n')}</li>
             <li>
-              Mücbir sebep hâllerinde (doğal afet, savaş, yasal düzenleme değişikliği vb.)
-              Platform yükümlülüklerinden muaf tutulur.
-            </li>
+              {t('app.page.m_cbir_sebep_h_llerinde_do_al_')}</li>
           </ul>
         </div>
       </section>
 
       {/* -------------------------------------------------- */}
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-blue-800">10. Uyuşmazlık Çözümü</h2>
+        <h2 className="text-xl font-semibold text-blue-800">{t('app.page.10_uyu_mazl_k_z_m')}</h2>
         <p>
-          Bu Kullanım Koşullarından doğan uyuşmazlıklarda Türkiye Cumhuriyeti hukuku
-          uygulanır. Uyuşmazlıkların çözümünde İstanbul Mahkemeleri ve İcra Daireleri
-          yetkilidir.
-        </p>
+          {t('app.page.bu_kullan_m_ko_ullar_ndan_do_a')}</p>
       </section>
 
       {/* -------------------------------------------------- */}
       <section>
-        <h2 className="text-xl font-semibold text-blue-800">11. Değişiklikler</h2>
+        <h2 className="text-xl font-semibold text-blue-800">{t('app.page.11_de_i_iklikler')}</h2>
         <p>
-          FundEd, bu Kullanım Koşullarını önceden bildirimde bulunarak güncelleme hakkını
-          saklı tutar. Önemli değişikliklerde kayıtlı e-posta adresinize bildirim
-          gönderilecektir. Değişiklik sonrası Platformu kullanmaya devam etmeniz, güncel
-          koşulları kabul ettiğiniz anlamına gelir.
-        </p>
+          {t('app.page.funded_bu_kullan_m_ko_ullar_n_')}</p>
       </section>
     </article>
   );

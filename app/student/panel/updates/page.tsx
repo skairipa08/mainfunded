@@ -19,6 +19,7 @@ import {
   ImageIcon,
   Send,
 } from 'lucide-react';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface CampaignItem {
   campaign_id: string;
@@ -37,6 +38,7 @@ interface UpdateItem {
 }
 
 export default function StudentUpdatesPage() {
+    const { t } = useTranslation();
   const { data: session } = useSession();
   const searchParams = useSearchParams();
   const preselectedCampaign = searchParams.get('campaign') || '';
@@ -193,15 +195,12 @@ export default function StudentUpdatesPage() {
       <div className="flex items-center gap-4 mb-8">
         <Link href="/student/panel">
           <Button variant="ghost" size="sm">
-            <ArrowLeft className="h-4 w-4 mr-1" /> Geri
-          </Button>
+            <ArrowLeft className="h-4 w-4 mr-1" /> {t('app.page.geri')}</Button>
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Güncellemelerim</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t('app.page.g_ncellemelerim')}</h1>
           <p className="text-gray-500 text-sm">
-            Bağışçılarınızla ilerlemenizi ve fotoğraflarınızı paylaşın. Sadece size bağış yapan
-            donörler görebilir.
-          </p>
+            {t('app.page.ba_lar_n_zla_ilerlemenizi_ve_f')}</p>
         </div>
       </div>
 
@@ -209,18 +208,17 @@ export default function StudentUpdatesPage() {
       <div className="bg-white rounded-lg shadow p-6 mb-8">
         <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
           <FileEdit className="h-5 w-5 text-blue-600" />
-          Yeni Güncelleme Paylaş
-        </h2>
+          {t('app.page.yeni_g_ncelleme_payla')}</h2>
 
         {/* Campaign Selector */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Kampanya</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">{t('app.page.kampanya')}</label>
           <select
             value={selectedCampaign}
             onChange={(e) => setSelectedCampaign(e.target.value)}
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           >
-            <option value="">Kampanya Seçin</option>
+            <option value="">{t('app.page.kampanya_se_in')}</option>
             {allCampaignsForSelect.map((c) => (
               <option key={c.campaign_id} value={c.campaign_id}>
                 {c.title} {c.status === 'completed' ? '(Tamamlandı)' : '(Aktif)'}
@@ -231,12 +229,12 @@ export default function StudentUpdatesPage() {
 
         {/* Content */}
         <div className="mb-4">
-          <label className="block text-sm font-medium text-gray-700 mb-1">Güncelleme Metni</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">{t('app.page.g_ncelleme_metni')}</label>
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
             rows={4}
-            placeholder="Kampanya ilerlemeniz hakkında bilgi verin, bağışçılarınıza teşekkür edin..."
+            placeholder={t('app.page.kampanya_ilerlemeniz_hakk_nda_')}
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
             maxLength={2000}
           />
@@ -246,8 +244,7 @@ export default function StudentUpdatesPage() {
         {/* Photo Upload */}
         <div className="mb-4">
           <label className="block text-sm font-medium text-gray-700 mb-2">
-            Fotoğraflar (maks. 5)
-          </label>
+            {t('app.page.foto_raflar_maks_5')}</label>
 
           <div className="flex flex-wrap gap-3">
             {photos.map((url, index) => (
@@ -277,7 +274,7 @@ export default function StudentUpdatesPage() {
                 ) : (
                   <>
                     <Camera className="h-6 w-6 mb-1" />
-                    <span className="text-xs">Ekle</span>
+                    <span className="text-xs">{t('app.page.ekle')}</span>
                   </>
                 )}
               </button>
@@ -296,9 +293,7 @@ export default function StudentUpdatesPage() {
 
         {/* Info */}
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-3 mb-4 text-sm text-blue-800">
-          <strong>Gizlilik:</strong> Paylaştığınız güncellemeler ve fotoğraflar sadece bu kampanyaya
-          bağış yapan donörler tarafından görülebilir.
-        </div>
+          <strong>{t('app.page.gizlilik')}</strong> {t('app.page.payla_t_n_z_g_ncellemeler_ve_f')}</div>
 
         {/* Submit */}
         <Button onClick={handleSubmit} disabled={submitting} className="w-full sm:w-auto">
@@ -307,13 +302,12 @@ export default function StudentUpdatesPage() {
           ) : (
             <Send className="h-4 w-4 mr-2" />
           )}
-          Güncelleme Paylaş
-        </Button>
+          {t('app.page.g_ncelleme_payla')}</Button>
       </div>
 
       {/* Past Updates */}
       <div>
-        <h2 className="text-lg font-semibold text-gray-900 mb-4">Geçmiş Güncellemeler</h2>
+        <h2 className="text-lg font-semibold text-gray-900 mb-4">{t('app.page.ge_mi_g_ncellemeler')}</h2>
 
         {loading ? (
           <div className="space-y-4">
@@ -328,10 +322,9 @@ export default function StudentUpdatesPage() {
         ) : updates.length === 0 ? (
           <div className="bg-white rounded-lg shadow p-12 text-center">
             <ImageIcon className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-            <p className="text-gray-500">Henüz güncelleme paylaşmadınız.</p>
+            <p className="text-gray-500">{t('app.page.hen_z_g_ncelleme_payla_mad_n_z')}</p>
             <p className="text-gray-400 text-sm mt-1">
-              İlk güncellemenizi yukarıdan paylaşabilirsiniz.
-            </p>
+              {t('app.page.lk_g_ncellemenizi_yukar_dan_pa')}</p>
           </div>
         ) : (
           <div className="space-y-4">
@@ -357,8 +350,7 @@ export default function StudentUpdatesPage() {
                     </div>
                     <div className="flex items-center gap-2">
                       <Badge variant="secondary" className="text-xs">
-                        🔒 Sadece Bağışçılar
-                      </Badge>
+                        {t('app.page.sadece_ba_lar')}</Badge>
                       <button
                         onClick={() => handleDelete(u.update_id)}
                         className="text-red-400 hover:text-red-600 transition-colors"

@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useRef, useEffect } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import Link from 'next/link';
 import { useSession } from 'next-auth/react';
 import {
@@ -36,7 +37,6 @@ import { cn } from '@/lib/utils';
 import { BADGES, mockLeaderboard, type LeaderboardEntry } from '@/lib/gamification';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { useTranslation } from '@/lib/i18n/context';
 import { useCurrency } from '@/lib/currency-context';
 
 type FilterType = 'all' | 'corporate' | 'individual';
@@ -284,7 +284,7 @@ export default function LeaderboardPage() {
                             <div className="bg-white rounded-[15px] p-4 sm:p-5">
                                 <div className="flex items-center gap-2 mb-3">
                                     <MapPin className="h-4 w-4 text-indigo-500" />
-                                    <h3 className="text-sm font-bold text-gray-900">Senin Sıralaman</h3>
+                                    <h3 className="text-sm font-bold text-gray-900">{t('app.page.senin_s_ralaman')}</h3>
                                 </div>
                                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
                                     {/* Rank number */}
@@ -298,7 +298,7 @@ export default function LeaderboardPage() {
                                             <p className="font-bold text-gray-900 text-lg">{simulatedUserEntry.displayName}</p>
                                             <div className="flex items-center gap-2 mt-0.5">
                                                 <span className={cn('text-[10px] font-medium px-2 py-0.5 rounded-full bg-gradient-to-r text-white', getLevelInfo(simulatedUserEntry.points).color)}>
-                                                    Lv.{getLevelInfo(simulatedUserEntry.points).level} {getLevelInfo(simulatedUserEntry.points).name}
+                                                    {t('app.page.lv')}{getLevelInfo(simulatedUserEntry.points).level} {getLevelInfo(simulatedUserEntry.points).name}
                                                 </span>
                                                 <span className="text-xs text-gray-400">{simulatedUserEntry.points} puan</span>
                                             </div>
@@ -309,15 +309,15 @@ export default function LeaderboardPage() {
                                     <div className="flex items-center gap-3 sm:ml-auto">
                                         <div className="text-center px-4 py-2 bg-gray-50 rounded-xl">
                                             <p className="text-lg font-bold text-gray-900">{formatAmount(simulatedUserEntry.totalDonated)}</p>
-                                            <p className="text-[10px] text-gray-500 font-medium">Toplam Bağış</p>
+                                            <p className="text-[10px] text-gray-500 font-medium">{t('app.page.toplam_ba')}</p>
                                         </div>
                                         <div className="text-center px-4 py-2 bg-gray-50 rounded-xl">
                                             <p className="text-lg font-bold text-gray-900">{simulatedUserEntry.studentCount}</p>
-                                            <p className="text-[10px] text-gray-500 font-medium">Öğrenci</p>
+                                            <p className="text-[10px] text-gray-500 font-medium">{t('app.page.renci')}</p>
                                         </div>
                                         <div className="text-center px-4 py-2 bg-indigo-50 rounded-xl">
                                             <p className="text-lg font-bold text-indigo-600">+12 <ArrowUp className="inline h-3.5 w-3.5" /></p>
-                                            <p className="text-[10px] text-indigo-500 font-medium">Bu Hafta</p>
+                                            <p className="text-[10px] text-indigo-500 font-medium">{t('app.page.bu_hafta')}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -325,8 +325,8 @@ export default function LeaderboardPage() {
                                 {/* Progress to next milestone */}
                                 <div className="mt-4 pt-3 border-t border-gray-100">
                                     <div className="flex items-center justify-between text-xs text-gray-500 mb-1.5">
-                                        <span>Sonraki seviyeye: <span className="font-semibold text-gray-700">Destekçi</span></span>
-                                        <span className="font-medium">{simulatedUserEntry.points}/500 puan</span>
+                                        <span>{t('app.page.sonraki_seviyeye')}<span className="font-semibold text-gray-700">{t('app.page.destek_i')}</span></span>
+                                        <span className="font-medium">{simulatedUserEntry.points}{t('app.page.500_puan')}</span>
                                     </div>
                                     <div className="w-full h-2 bg-gray-100 rounded-full overflow-hidden">
                                         <div className="h-full bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full transition-all duration-1000" style={{ width: `${(simulatedUserEntry.points / 500) * 100}%` }} />
@@ -471,7 +471,7 @@ export default function LeaderboardPage() {
                                 </div>
                                 <input
                                     type="text"
-                                    placeholder="Bağışçı ara... (isim veya kurum)"
+                                    placeholder={t('app.page.ba_ara_isim_veya_kurum')}
                                     value={searchQuery}
                                     onChange={(e) => { setSearchQuery(e.target.value); setShowCount(10); }}
                                     onFocus={() => setSearchFocused(true)}
@@ -490,8 +490,7 @@ export default function LeaderboardPage() {
 
                             {searchQuery && (
                                 <p className="text-xs text-gray-500">
-                                    <span className="font-medium text-gray-700">{sortedLeaderboard.length}</span> sonuç bulundu
-                                    {searchQuery && <span> &mdash; &ldquo;{searchQuery}&rdquo;</span>}
+                                    <span className="font-medium text-gray-700">{sortedLeaderboard.length}</span> {t('app.page.sonu_bulundu')}{searchQuery && <span> {t('app.page.mdash_ldquo')}{searchQuery}&rdquo;</span>}
                                 </p>
                             )}
                         </div>
@@ -511,8 +510,8 @@ export default function LeaderboardPage() {
                                 {visibleEntries.length === 0 && (
                                     <div className="px-4 py-12 text-center">
                                         <Search className="h-8 w-8 text-gray-300 mx-auto mb-3" />
-                                        <p className="text-sm text-gray-500">Sonuç bulunamadı</p>
-                                        <p className="text-xs text-gray-400 mt-1">Farklı bir arama terimi deneyin</p>
+                                        <p className="text-sm text-gray-500">{t('app.page.sonu_bulunamad')}</p>
+                                        <p className="text-xs text-gray-400 mt-1">{t('app.page.farkl_bir_arama_terimi_deneyin')}</p>
                                     </div>
                                 )}
 
@@ -549,7 +548,7 @@ export default function LeaderboardPage() {
                                                     </div>
                                                     <div className="flex items-center gap-1 mt-0.5">
                                                         <span className={cn('text-[9px] font-medium px-1.5 py-0.5 rounded-full bg-gradient-to-r text-white', level.color)}>
-                                                            Lv.{level.level}
+                                                            {t('app.page.lv')}{level.level}
                                                         </span>
                                                         <div className="flex gap-0.5">
                                                             {entry.badges.slice(0, 3).map(id => {
@@ -595,7 +594,7 @@ export default function LeaderboardPage() {
                                         className="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-600 hover:text-indigo-700 transition-colors px-4 py-1.5 rounded-lg hover:bg-indigo-50"
                                     >
                                         <ChevronDown className="h-4 w-4" />
-                                        Daha Fazla Göster (+{Math.min(10, sortedLeaderboard.length - showCount)})
+                                        {t('app.page.daha_fazla_g_ster')}{Math.min(10, sortedLeaderboard.length - showCount)})
                                     </button>
                                 </div>
                             )}
@@ -603,7 +602,7 @@ export default function LeaderboardPage() {
                             {/* End of list */}
                             {!hasMore && sortedLeaderboard.length > 0 && (
                                 <div className="px-4 py-3 border-t border-gray-100 text-center">
-                                    <p className="text-xs text-gray-400">Toplam {sortedLeaderboard.length} bağışçı listelendi</p>
+                                    <p className="text-xs text-gray-400">{t('app.page.toplam')}{sortedLeaderboard.length} {t('app.page.ba_listelendi')}</p>
                                 </div>
                             )}
                         </div>
@@ -706,7 +705,7 @@ export default function LeaderboardPage() {
 
                         {/* Quick Links */}
                         <div className="bg-white rounded-2xl border border-gray-200 shadow-sm p-4">
-                            <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Sosyal</h4>
+                            <h4 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">{t('app.page.sosyal')}</h4>
                             <div className="space-y-0.5">
                                 <Link href="/badges" className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-gray-600 hover:bg-gray-50 hover:text-gray-900 transition-colors">
                                     <Award className="h-4 w-4 text-amber-500" />

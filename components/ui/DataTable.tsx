@@ -8,6 +8,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { ChevronUp, ChevronDown, Search } from 'lucide-react';
+import { useTranslation } from "@/lib/i18n/context";
 
 export interface Column<T> {
   key: string;
@@ -44,6 +45,7 @@ export function DataTable<T extends Record<string, unknown>>({
   emptyAction,
   rowKey,
 }: DataTableProps<T>) {
+    const { t } = useTranslation();
   const [sortKey, setSortKey] = useState<string | null>(null);
   const [sortDir, setSortDir] = useState<SortDir>('asc');
   const [search, setSearch] = useState('');

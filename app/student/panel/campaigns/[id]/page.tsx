@@ -17,6 +17,7 @@ import {
   FileEdit,
 } from 'lucide-react';
 import { useCurrency } from '@/lib/currency-context';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface DonorInfo {
   donor_id: string;
@@ -38,6 +39,7 @@ interface CampaignInfo {
 }
 
 export default function StudentCampaignDetailPage() {
+    const { t } = useTranslation();
   const { data: session } = useSession();
   const { formatAmount } = useCurrency();
   const params = useParams();
@@ -89,9 +91,9 @@ export default function StudentCampaignDetailPage() {
   if (!campaign) {
     return (
       <div className="max-w-4xl mx-auto px-4 py-8 text-center">
-        <p className="text-gray-500">Kampanya bulunamadı.</p>
+        <p className="text-gray-500">{t('app.page.kampanya_bulunamad')}</p>
         <Link href="/student/panel/campaigns">
-          <Button className="mt-4">Kampanyalarıma Dön</Button>
+          <Button className="mt-4">{t('app.page.kampanyalar_ma_d_n')}</Button>
         </Link>
       </div>
     );
@@ -113,8 +115,7 @@ export default function StudentCampaignDetailPage() {
     <div className="max-w-4xl mx-auto px-4 py-8">
       {/* Back */}
       <Link href="/student/panel/campaigns" className="inline-flex items-center gap-1 text-sm text-gray-500 hover:text-gray-700 mb-6">
-        <ArrowLeft className="h-4 w-4" /> Kampanyalarıma Dön
-      </Link>
+        <ArrowLeft className="h-4 w-4" /> {t('app.page.kampanyalar_ma_d_n')}</Link>
 
       {/* Header */}
       <div className="bg-white rounded-lg shadow p-6 mb-6">
@@ -134,8 +135,7 @@ export default function StudentCampaignDetailPage() {
           {campaign.status === 'completed' && (
             <Link href={`/student/panel/updates?campaign=${campaign.campaign_id}`}>
               <Button size="sm">
-                <FileEdit className="h-4 w-4 mr-1" /> Güncelleme Paylaş
-              </Button>
+                <FileEdit className="h-4 w-4 mr-1" /> {t('app.page.g_ncelleme_payla')}</Button>
             </Link>
           )}
         </div>
@@ -143,7 +143,7 @@ export default function StudentCampaignDetailPage() {
         {/* Progress */}
         <div className="mb-4">
           <div className="flex justify-between text-sm mb-1">
-            <span className="text-gray-600">Bağış İlerlemesi</span>
+            <span className="text-gray-600">{t('app.page.ba_lerlemesi')}</span>
             <span className="font-medium">{pct}%</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-4">
@@ -162,21 +162,19 @@ export default function StudentCampaignDetailPage() {
 
         <div className="flex items-center gap-6 text-sm text-gray-600">
           <span className="flex items-center gap-1">
-            <Users className="h-4 w-4" /> {campaign.donor_count} bağışçı
-          </span>
+            <Users className="h-4 w-4" /> {campaign.donor_count} {t('app.page.ba')}</span>
           <span className="flex items-center gap-1">
-            <TrendingUp className="h-4 w-4" /> {formatAmount(campaign.raised_amount)} toplandı
-          </span>
+            <TrendingUp className="h-4 w-4" /> {formatAmount(campaign.raised_amount)} {t('app.page.topland')}</span>
         </div>
       </div>
 
       {/* Donors */}
       <div className="bg-white rounded-lg shadow p-6">
         <h2 className="text-lg font-semibold text-gray-900 mb-4">
-          Bağışçılar ({donors.length})
+          {t('app.page.ba_lar')}{donors.length})
         </h2>
         {donors.length === 0 ? (
-          <p className="text-gray-500 text-sm">Henüz bağışçı yok.</p>
+          <p className="text-gray-500 text-sm">{t('app.page.hen_z_ba_yok')}</p>
         ) : (
           <div className="space-y-3">
             {donors.map((d, idx) => (
@@ -207,8 +205,7 @@ export default function StudentCampaignDetailPage() {
                     href={`/student/panel/messages?campaign=${campaignId}&donor=${d.donor_id}`}
                   >
                     <Button variant="outline" size="sm">
-                      <MessageCircle className="h-4 w-4 mr-1" /> Mesaj
-                    </Button>
+                      <MessageCircle className="h-4 w-4 mr-1" /> {t('app.page.mesaj')}</Button>
                   </Link>
                 )}
               </div>

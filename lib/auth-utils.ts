@@ -55,7 +55,7 @@ export async function findUserByPhone(phone: string) {
 export async function createUserWithEmail(email: string, password: string, name: string, accountType?: AccountType) {
   const db = await getDb();
   const hashedPassword = await hashPassword(password);
-  
+
   const user: UserRecord = {
     email: email.toLowerCase(),
     name,
@@ -78,9 +78,9 @@ export async function createUserWithEmail(email: string, password: string, name:
 export async function findOrCreateUserByPhone(phone: string) {
   const db = await getDb();
   const normalizedPhone = normalizePhone(phone);
-  
+
   let user = await db.collection('users').findOne({ phone: normalizedPhone });
-  
+
   if (!user) {
     const newUser: UserRecord = {
       phone: normalizedPhone,
@@ -92,11 +92,11 @@ export async function findOrCreateUserByPhone(phone: string) {
       createdAt: new Date(),
       updatedAt: new Date(),
     };
-    
+
     const result = await db.collection('users').insertOne(newUser);
     user = { ...newUser, _id: result.insertedId };
   }
-  
+
   return user;
 }
 
@@ -113,9 +113,9 @@ export function generateOTP(): string {
 export async function storeOTP(phone: string, otp: string) {
   const db = await getDb();
   const normalizedPhone = normalizePhone(phone);
-  
+
   await db.collection('otp_codes').deleteMany({ phone: normalizedPhone });
-  
+
   await db.collection('otp_codes').insertOne({
     phone: normalizedPhone,
     code: otp,
@@ -131,13 +131,13 @@ export async function storeOTP(phone: string, otp: string) {
 export async function verifyOTP(phone: string, code: string): Promise<boolean> {
   const db = await getDb();
   const normalizedPhone = normalizePhone(phone);
-  
+
   const otpRecord = await db.collection('otp_codes').findOne({
     phone: normalizedPhone,
     code,
     expiresAt: { $gt: new Date() },
   });
-  
+
   if (!otpRecord) {
     // Increment attempts for rate limiting
     await db.collection('otp_codes').updateOne(
@@ -146,15 +146,15 @@ export async function verifyOTP(phone: string, code: string): Promise<boolean> {
     );
     return false;
   }
-  
+
   // Check max attempts
   if (otpRecord.attempts >= 5) {
     return false;
   }
-  
+
   // Delete used OTP
   await db.collection('otp_codes').deleteMany({ phone: normalizedPhone });
-  
+
   return true;
 }
 
@@ -164,3 +164,73 @@ export async function verifyOTP(phone: string, code: string): Promise<boolean> {
 function normalizePhone(phone: string): string {
   return phone.replace(/[\s\-\(\)]/g, '').trim();
 }
+
+// ─── Email OTP Functions ─────────────────────────────────────────
+
+/**
+ * Store email OTP in database with expiration
+ */
+export async function storeEmailOTP(email: string, otp: string) {
+  const db = await getDb();
+  const normalizedEmail = email.toLowerCase().trim();
+
+  // Remove any existing OTPs for this email
+  await db.collection('email_otp_codes').deleteMany({ email: normalizedEmail });
+
+  await db.collection('email_otp_codes').insertOne({
+    email: normalizedEmail,
+    code: otp,
+    createdAt: new Date(),
+    expiresAt: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes
+    attempts: 0,
+  });
+}
+
+/**
+ * Verify email OTP code
+ */
+export async function verifyEmailOTP(email: string, code: string): Promise<boolean> {
+  const db = await getDb();
+  const normalizedEmail = email.toLowerCase().trim();
+
+  const otpRecord = await db.collection('email_otp_codes').findOne({
+    email: normalizedEmail,
+    code,
+    expiresAt: { $gt: new Date() },
+  });
+
+  if (!otpRecord) {
+    // Increment attempts for rate limiting
+    await db.collection('email_otp_codes').updateOne(
+      { email: normalizedEmail },
+      { $inc: { attempts: 1 } }
+    );
+    return false;
+  }
+
+  // Check max attempts
+  if (otpRecord.attempts >= 5) {
+    return false;
+  }
+
+  // Delete used OTP
+  await db.collection('email_otp_codes').deleteMany({ email: normalizedEmail });
+
+  return true;
+}
+
+/**
+ * Mark email as verified in user record
+ */
+export async function markEmailVerified(email: string): Promise<boolean> {
+  const db = await getDb();
+  const normalizedEmail = email.toLowerCase().trim();
+
+  const result = await db.collection('users').updateOne(
+    { email: normalizedEmail },
+    { $set: { emailVerified: new Date(), updatedAt: new Date() } }
+  );
+
+  return result.modifiedCount > 0;
+}
+

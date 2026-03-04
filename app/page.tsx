@@ -3,6 +3,7 @@ import Footer from '@/components/Footer';
 import HomeContent from './HomeContent';
 import { getDb } from '@/lib/db';
 import { ObjectId } from 'mongodb';
+import { useTranslation } from "@/lib/i18n/context";
 
 export const dynamic = 'force-dynamic';
 

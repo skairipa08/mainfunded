@@ -4,11 +4,13 @@ import { useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { Loader2 } from 'lucide-react';
+import { useTranslation } from "@/lib/i18n/context";
 
 /**
  * Client component that uses useSearchParams - must be wrapped in Suspense
  */
 function AuthCallbackContent() {
+    const { t } = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();
   const { data: session, status } = useSession();
@@ -90,7 +92,7 @@ function AuthCallbackContent() {
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="text-center">
         <Loader2 className="h-8 w-8 animate-spin mx-auto text-blue-600 mb-4" />
-        <p className="text-gray-600">Completing sign in...</p>
+        <p className="text-gray-600">{t('app.page_wrapper.completing_sign_in')}</p>
       </div>
     </div>
   );

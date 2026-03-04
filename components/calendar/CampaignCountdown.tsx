@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface Campaign {
   id: string;
@@ -17,6 +18,7 @@ export default function CampaignCountdown({
 }: {
   campaign: Campaign;
 }) {
+    const { t } = useTranslation();
   const [timeLeft, setTimeLeft] = useState<{
     days: number;
     hours: number;
@@ -48,8 +50,7 @@ export default function CampaignCountdown({
   if (timeLeft.expired) {
     return (
       <div className="rounded-xl border border-gray-200 bg-gray-50 p-4 text-center text-sm text-gray-500">
-        Bu kampanya sona erdi
-      </div>
+        {t('components.campaigncountdown.bu_kampanya_sona_erdi')}</div>
     );
   }
 
@@ -90,7 +91,7 @@ export default function CampaignCountdown({
                 />
               </div>
               <p className="mt-1 text-xs text-gray-500">
-                {campaign.raised.toLocaleString('tr-TR')}₺ /{' '}
+                {campaign.raised.toLocaleString('tr-TR')}{t('components.campaigncountdown.text')}{' '}
                 {campaign.goal.toLocaleString('tr-TR')}₺
                 <span className="ml-1 font-semibold text-emerald-600">
                   (%{Math.round(progress)})
@@ -131,8 +132,7 @@ export default function CampaignCountdown({
           href={campaign.slug ? `/campaign/${campaign.slug}/donate` : '/donate'}
           className="mt-3 block w-full text-center py-2.5 bg-gradient-to-r from-red-500 to-red-600 text-white font-bold text-sm rounded-lg hover:from-red-600 hover:to-red-700 transition-all shadow-md"
         >
-          ⚡ Son Şans – Hemen Bağış Yap!
-        </a>
+          {t('components.campaigncountdown.son_ans_hemen_ba_yap')}</a>
       )}
     </div>
   );

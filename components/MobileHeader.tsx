@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
 import { useSession, signOut } from 'next-auth/react';
@@ -25,7 +26,6 @@ import {
     FileText,
 } from 'lucide-react';
 import { Button } from './ui/button';
-import { useTranslation } from '@/lib/i18n';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 interface MobileHeaderProps {

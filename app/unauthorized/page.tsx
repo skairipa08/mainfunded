@@ -4,8 +4,10 @@ import { useSession } from 'next-auth/react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 
 export default function UnauthorizedPage() {
+    const { t } = useTranslation();
   const { data: session } = useSession();
   const router = useRouter();
 
@@ -34,24 +36,21 @@ export default function UnauthorizedPage() {
             />
           </svg>
         </div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Unauthorized</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t('app.page.unauthorized')}</h1>
         <p className="text-gray-600 mb-6">
-          You don&apos;t have permission to access this page. Admin access is required.
-        </p>
+          {t('app.page.you_don_apos_t_have_permission')}</p>
         <div className="flex gap-4 justify-center">
           <Link
             href="/"
             className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-blue-600 hover:bg-blue-700"
           >
-            Go Home
-          </Link>
+            {t('app.page.go_home')}</Link>
           {!session && (
             <Link
               href="/login"
               className="inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
             >
-              Sign In
-            </Link>
+              {t('app.page.sign_in')}</Link>
           )}
         </div>
       </div>

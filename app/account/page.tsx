@@ -1,13 +1,13 @@
 'use client';
 
 import { useSession } from 'next-auth/react';
+import { useTranslation } from "@/lib/i18n/context";
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, useCallback, Suspense, useRef } from 'react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { useTranslation } from '@/lib/i18n';
 import { useCurrency } from '@/lib/currency-context';
 import {
   User, Heart, Target, Calendar, Mail, Shield, TrendingUp, BadgeCheck,
@@ -20,7 +20,6 @@ import {
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-
 // ── Types ──────────────────────────────────────────────
 interface VerificationStatus {
   verification_id: string;
@@ -149,6 +148,7 @@ function StatCard({ icon: Icon, value, label, trend, color, onClick }: {
 
 // ── Donation Row ───────────────────────────────────────
 function DonationRow({ donation, formatAmount }: { donation: Donation; formatAmount: (n: number) => string }) {
+    const { t } = useTranslation();
   const statusColors: Record<string, string> = {
     paid: 'bg-emerald-100 text-emerald-700',
     completed: 'bg-emerald-100 text-emerald-700',
@@ -217,6 +217,7 @@ function DonationRow({ donation, formatAmount }: { donation: Donation; formatAmo
 
 // ── Conversation Preview ───────────────────────────────
 function ConversationPreview({ thread, onClick }: { thread: ConversationThread; onClick: () => void }) {
+    const { t } = useTranslation();
   return (
     <button
       onClick={onClick}
@@ -261,6 +262,7 @@ function ConversationPreview({ thread, onClick }: { thread: ConversationThread; 
 
 // ── Quick Action Button ────────────────────────────────
 function QuickAction({ icon: Icon, label, href, color }: { icon: any; label: string; href: string; color: string }) {
+    const { t } = useTranslation();
   const colorMap: Record<string, string> = {
     blue: 'bg-blue-50 text-blue-600 hover:bg-blue-100 ring-blue-100',
     red: 'bg-red-50 text-red-500 hover:bg-red-100 ring-red-100',
@@ -647,7 +649,7 @@ function AccountPageContent() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <div className="h-12 w-12 animate-spin mx-auto text-blue-600 mb-4 border-4 border-blue-200 border-t-blue-600 rounded-full" />
-          <p className="text-gray-500 animate-pulse">Yükleniyor...</p>
+          <p className="text-gray-500 animate-pulse">{t('app.page.y_kleniyor')}</p>
         </div>
       </div>
     );
@@ -733,13 +735,12 @@ function AccountPageContent() {
               <div className="flex-1 min-w-0">
                 <div className="flex flex-wrap items-center gap-2.5 mb-1">
                   <h1 className="text-xl md:text-2xl font-bold text-white truncate">
-                    Merhaba, {(personalInfo.name || user.name)?.split(' ')[0]}!
+                    {t('app.page.merhaba')}{(personalInfo.name || user.name)?.split(' ')[0]}!
                   </h1>
                   {isAdmin && (
                     <span className="inline-flex items-center px-2 py-0.5 bg-purple-500/70 text-white text-[10px] rounded-full font-medium backdrop-blur-sm">
                       <Shield className="h-3 w-3 mr-0.5" />
-                      Admin
-                    </span>
+                      {t('app.page.admin')}</span>
                   )}
                 </div>
                 <p className="text-blue-200 flex items-center gap-1.5 text-sm truncate">
@@ -756,13 +757,12 @@ function AccountPageContent() {
                   {userAccountType === 'student' && verification?.status === 'PENDING_REVIEW' && (
                     <span className="inline-flex items-center px-2.5 py-0.5 bg-yellow-100 text-yellow-700 text-[11px] rounded-full font-medium">
                       <Clock className="h-3 w-3 mr-1" />
-                      Doğrulama Bekliyor
-                    </span>
+                      {t('app.page.do_rulama_bekliyor')}</span>
                   )}
                   {!isStudent && donationSummary.lastDonationDate && (
                     <span className="text-[11px] text-blue-300/80 flex items-center gap-1">
                       <Clock className="h-3 w-3" />
-                      Son bağış: {new Date(donationSummary.lastDonationDate).toLocaleDateString('tr-TR')}
+                      {t('app.page.son_ba')}{new Date(donationSummary.lastDonationDate).toLocaleDateString('tr-TR')}
                     </span>
                   )}
                 </div>
@@ -777,8 +777,7 @@ function AccountPageContent() {
                     className="bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-500/25 text-xs"
                   >
                     <BadgeCheck className="h-3.5 w-3.5 mr-1" />
-                    Doğrulanın
-                  </Button>
+                    {t('app.page.do_rulan_n')}</Button>
                 )}
                 {isStudent ? (
                   <Button
@@ -788,8 +787,7 @@ function AccountPageContent() {
                     className="bg-white/10 border-white/25 text-white hover:bg-white/20 backdrop-blur-sm text-xs"
                   >
                     <Target className="h-3.5 w-3.5 mr-1" />
-                    Kampanya Oluştur
-                  </Button>
+                    {t('app.page.kampanya_olu_tur')}</Button>
                 ) : (
                   <Button
                     onClick={() => router.push('/browse')}
@@ -798,8 +796,7 @@ function AccountPageContent() {
                     className="bg-white/10 border-white/25 text-white hover:bg-white/20 backdrop-blur-sm text-xs"
                   >
                     <Heart className="h-3.5 w-3.5 mr-1" />
-                    Bağış Yap
-                  </Button>
+                    {t('app.page.ba_yap')}</Button>
                 )}
               </div>
             </div>
@@ -848,45 +845,39 @@ function AccountPageContent() {
             {/* ── Desktop Sidebar ── */}
             <div className="hidden lg:block lg:w-56 flex-shrink-0">
               <div className="sticky top-24 space-y-1.5">
-                <SidebarItem icon={BarChart3} label="Genel Bakış" active={activeTab === 'overview'} onClick={() => switchTab('overview')} />
+                <SidebarItem icon={BarChart3} label={t('app.page.genel_bak')} active={activeTab === 'overview'} onClick={() => switchTab('overview')} />
                 {isStudent ? (
-                  <SidebarItem icon={Target} label="Kampanyalarım" active={activeTab === 'donations'} onClick={() => switchTab('donations')} />
+                  <SidebarItem icon={Target} label={t('app.page.kampanyalar_m')} active={activeTab === 'donations'} onClick={() => switchTab('donations')} />
                 ) : (
-                  <SidebarItem icon={Heart} label="Bağışlarım" active={activeTab === 'donations'} onClick={() => switchTab('donations')} badge={donationSummary.totalDonations} />
+                  <SidebarItem icon={Heart} label={t('app.page.ba_lar_m')} active={activeTab === 'donations'} onClick={() => switchTab('donations')} badge={donationSummary.totalDonations} />
                 )}
-                <SidebarItem icon={MessageCircle} label="Mesajlar" active={activeTab === 'messages'} onClick={() => switchTab('messages')} badge={unreadTotal} />
-                <SidebarItem icon={FileText} label="İlerleme Raporları" active={activeTab === 'reports'} onClick={() => switchTab('reports')} />
-                <SidebarItem icon={Settings} label="Ayarlar" active={activeTab === 'settings'} onClick={() => switchTab('settings')} />
+                <SidebarItem icon={MessageCircle} label={t('app.page.mesajlar')} active={activeTab === 'messages'} onClick={() => switchTab('messages')} badge={unreadTotal} />
+                <SidebarItem icon={FileText} label={t('app.page.lerleme_raporlar')} active={activeTab === 'reports'} onClick={() => switchTab('reports')} />
+                <SidebarItem icon={Settings} label={t('app.page.ayarlar')} active={activeTab === 'settings'} onClick={() => switchTab('settings')} />
 
                 {/* Quick Links */}
                 <div className="pt-4 mt-4 border-t border-gray-200">
-                  <p className="px-4 text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">Hızlı Erişim</p>
+                  <p className="px-4 text-[10px] font-semibold text-gray-400 uppercase tracking-wider mb-2">{t('app.page.h_zl_eri_im')}</p>
                   {isStudent ? (
                     <>
                       <Link href="/apply" className="flex items-center gap-2 px-4 py-2 text-xs text-gray-500 hover:text-gray-700 transition-colors rounded-lg hover:bg-gray-50">
-                        <Target className="h-3.5 w-3.5" /> Kampanya Oluştur
-                      </Link>
+                        <Target className="h-3.5 w-3.5" /> {t('app.page.kampanya_olu_tur')}</Link>
                       <Link href="/campaigns" className="flex items-center gap-2 px-4 py-2 text-xs text-gray-500 hover:text-gray-700 transition-colors rounded-lg hover:bg-gray-50">
-                        <Search className="h-3.5 w-3.5" /> Kampanyaları Keşfet
-                      </Link>
+                        <Search className="h-3.5 w-3.5" /> {t('app.page.kampanyalar_ke_fet')}</Link>
                     </>
                   ) : (
                     <>
                       <Link href="/my-donations" className="flex items-center gap-2 px-4 py-2 text-xs text-gray-500 hover:text-gray-700 transition-colors rounded-lg hover:bg-gray-50">
-                        <FileText className="h-3.5 w-3.5" /> Detaylı Bağış Geçmişi
-                      </Link>
+                        <FileText className="h-3.5 w-3.5" /> {t('app.page.detayl_ba_ge_mi_i')}</Link>
                       <Link href="/browse" className="flex items-center gap-2 px-4 py-2 text-xs text-gray-500 hover:text-gray-700 transition-colors rounded-lg hover:bg-gray-50">
-                        <Search className="h-3.5 w-3.5" /> Kampanyaları Keşfet
-                      </Link>
+                        <Search className="h-3.5 w-3.5" /> {t('app.page.kampanyalar_ke_fet')}</Link>
                     </>
                   )}
                   <Link href="/account/security" className="flex items-center gap-2 px-4 py-2 text-xs text-gray-500 hover:text-gray-700 transition-colors rounded-lg hover:bg-gray-50">
-                    <Shield className="h-3.5 w-3.5" /> Güvenlik
-                  </Link>
+                    <Shield className="h-3.5 w-3.5" /> {t('app.page.g_venlik')}</Link>
                   {isAdmin && (
                     <Link href="/admin" className="flex items-center gap-2 px-4 py-2 text-xs text-purple-500 hover:text-purple-700 transition-colors rounded-lg hover:bg-purple-50">
-                      <Shield className="h-3.5 w-3.5" /> Admin Paneli
-                    </Link>
+                      <Shield className="h-3.5 w-3.5" /> {t('app.page.admin_paneli')}</Link>
                   )}
                 </div>
               </div>
@@ -904,27 +895,27 @@ function AccountPageContent() {
                       <StatCard
                         icon={Wallet}
                         value={formatAmount(donationSummary.totalAmount)}
-                        label="Toplam Alınan Bağış"
+                        label={t('app.page.toplam_al_nan_ba')}
                         color="blue"
                         onClick={() => switchTab('donations')}
                       />
                       <StatCard
                         icon={Target}
                         value={String(donationSummary.totalDonations)}
-                        label="Kampanya Sayısı"
+                        label={t('app.page.kampanya_say_s')}
                         color="orange"
                         onClick={() => switchTab('donations')}
                       />
                       <StatCard
                         icon={Heart}
                         value={String(donationSummary.supportedStudents)}
-                        label="Destekçi Sayısı"
+                        label={t('app.page.destek_i_say_s')}
                         color="red"
                       />
                       <StatCard
                         icon={MessageCircle}
                         value={String(conversations.length)}
-                        label="Mesajlar"
+                        label={t('app.page.mesajlar')}
                         color="purple"
                         onClick={() => switchTab('messages')}
                       />
@@ -934,27 +925,27 @@ function AccountPageContent() {
                       <StatCard
                         icon={Wallet}
                         value={formatAmount(donationSummary.totalAmount)}
-                        label="Toplam Bağış"
+                        label={t('app.page.toplam_ba')}
                         color="blue"
                         onClick={() => switchTab('donations')}
                       />
                       <StatCard
                         icon={Heart}
                         value={String(donationSummary.totalDonations)}
-                        label="Bağış Sayısı"
+                        label={t('app.page.ba_say_s')}
                         color="red"
                         onClick={() => switchTab('donations')}
                       />
                       <StatCard
                         icon={GraduationCap}
                         value={String(donationSummary.supportedStudents)}
-                        label="Desteklenen Öğrenci"
+                        label={t('app.page.desteklenen_renci')}
                         color="green"
                       />
                       <StatCard
                         icon={MessageCircle}
                         value={String(conversations.length)}
-                        label="Aktif Sohbet"
+                        label={t('app.page.aktif_sohbet')}
                         color="purple"
                         onClick={() => switchTab('messages')}
                       />
@@ -963,20 +954,20 @@ function AccountPageContent() {
 
                   {/* Quick Actions */}
                   <div>
-                    <h3 className="text-sm font-semibold text-gray-900 mb-3">Hızlı İşlemler</h3>
+                    <h3 className="text-sm font-semibold text-gray-900 mb-3">{t('app.page.h_zl_lemler')}</h3>
                     {isStudent ? (
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                        <QuickAction icon={Target} label="Kampanya Oluştur" href="/apply" color="blue" />
-                        <QuickAction icon={FileText} label="İlerleme Raporu Paylaş" href="/reports" color="green" />
-                        <QuickAction icon={MessageCircle} label="Mesajlarım" href="#" color="purple" />
-                        <QuickAction icon={Award} label="Rozetlerim" href="/badges" color="orange" />
+                        <QuickAction icon={Target} label={t('app.page.kampanya_olu_tur')} href="/apply" color="blue" />
+                        <QuickAction icon={FileText} label={t('app.page.lerleme_raporu_payla')} href="/reports" color="green" />
+                        <QuickAction icon={MessageCircle} label={t('app.page.mesajlar_m')} href="#" color="purple" />
+                        <QuickAction icon={Award} label={t('app.page.rozetlerim')} href="/badges" color="orange" />
                       </div>
                     ) : (
                       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                        <QuickAction icon={Heart} label="Bağış Yap" href="/browse" color="red" />
-                        <QuickAction icon={Download} label="Bağış Raporu İndir" href="/my-donations" color="blue" />
-                        <QuickAction icon={GraduationCap} label="Öğrencileri Keşfet" href="/campaigns" color="green" />
-                        <QuickAction icon={Award} label="Rozetlerim" href="/badges" color="purple" />
+                        <QuickAction icon={Heart} label={t('app.page.ba_yap')} href="/browse" color="red" />
+                        <QuickAction icon={Download} label={t('app.page.ba_raporu_ndir')} href="/my-donations" color="blue" />
+                        <QuickAction icon={GraduationCap} label={t('app.page.rencileri_ke_fet')} href="/campaigns" color="green" />
+                        <QuickAction icon={Award} label={t('app.page.rozetlerim')} href="/badges" color="purple" />
                       </div>
                     )}
                   </div>
@@ -988,16 +979,16 @@ function AccountPageContent() {
                       <div className="flex items-center justify-between px-5 py-3.5 border-b border-gray-100">
                         <h3 className="font-semibold text-gray-900 text-sm flex items-center gap-2">
                           {isStudent ? (
-                            <><Target className="h-4 w-4 text-blue-500" /> Gelen Bağışlar</>
+                            <><Target className="h-4 w-4 text-blue-500" /> {t('app.page.gelen_ba_lar')}</>
                           ) : (
-                            <><Heart className="h-4 w-4 text-red-500" /> Son Bağışlar</>
+                            <><Heart className="h-4 w-4 text-red-500" /> {t('app.page.son_ba_lar')}</>
                           )}
                         </h3>
                         <button
                           onClick={() => switchTab('donations')}
                           className="text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-0.5"
                         >
-                          Tümünü Gör <ChevronRight className="h-3.5 w-3.5" />
+                          {t('app.page.t_m_n_g_r')}<ChevronRight className="h-3.5 w-3.5" />
                         </button>
                       </div>
                       <div className="divide-y divide-gray-50">
@@ -1012,19 +1003,17 @@ function AccountPageContent() {
                             </div>
                             {isStudent ? (
                               <>
-                                <p className="text-gray-500 text-sm mb-1 font-medium">Henüz gelen bağış yok</p>
-                                <p className="text-gray-400 text-xs mb-4">Kampanya oluşturarak bağış almaya başlayın</p>
+                                <p className="text-gray-500 text-sm mb-1 font-medium">{t('app.page.hen_z_gelen_ba_yok')}</p>
+                                <p className="text-gray-400 text-xs mb-4">{t('app.page.kampanya_olu_turarak_ba_almaya')}</p>
                                 <Button size="sm" onClick={() => router.push('/apply')} className="bg-blue-600 hover:bg-blue-700 text-xs">
-                                  Kampanya Oluştur
-                                </Button>
+                                  {t('app.page.kampanya_olu_tur')}</Button>
                               </>
                             ) : (
                               <>
-                                <p className="text-gray-500 text-sm mb-1 font-medium">Henüz bağış yapmadınız</p>
-                                <p className="text-gray-400 text-xs mb-4">Bir öğrencinin hayatını değiştirin</p>
+                                <p className="text-gray-500 text-sm mb-1 font-medium">{t('app.page.hen_z_ba_yapmad_n_z')}</p>
+                                <p className="text-gray-400 text-xs mb-4">{t('app.page.bir_rencinin_hayat_n_de_i_tiri')}</p>
                                 <Button size="sm" onClick={() => router.push('/browse')} className="bg-blue-600 hover:bg-blue-700 text-xs">
-                                  İlk Bağışınızı Yapın
-                                </Button>
+                                  {t('app.page.lk_ba_n_z_yap_n')}</Button>
                               </>
                             )}
                           </div>
@@ -1052,7 +1041,7 @@ function AccountPageContent() {
                           onClick={() => switchTab('messages')}
                           className="text-xs text-blue-600 hover:text-blue-700 font-medium flex items-center gap-0.5"
                         >
-                          Tümünü Gör <ChevronRight className="h-3.5 w-3.5" />
+                          {t('app.page.t_m_n_g_r')}<ChevronRight className="h-3.5 w-3.5" />
                         </button>
                       </div>
                       <div className="divide-y divide-gray-50">
@@ -1065,7 +1054,7 @@ function AccountPageContent() {
                             <div className="w-14 h-14 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-3">
                               <MessageCircle className="h-7 w-7 text-gray-300" />
                             </div>
-                            <p className="text-gray-500 text-sm mb-1 font-medium">Henüz mesajınız yok</p>
+                            <p className="text-gray-500 text-sm mb-1 font-medium">{t('app.page.hen_z_mesaj_n_z_yok')}</p>
                             <p className="text-gray-400 text-xs">{isStudent ? 'Destekçilerinizden gelen mesajlar burada görünecek' : 'Bağış yaptığınız öğrencilerle sohbet edin'}</p>
                           </div>
                         ) : (
@@ -1091,12 +1080,9 @@ function AccountPageContent() {
                       <div className="relative">
                         <h3 className="text-base font-bold mb-1.5 flex items-center gap-2">
                           <Star className="h-5 w-5 text-yellow-300" />
-                          Etki Özetiniz
-                        </h3>
+                          {t('app.page.etki_zetiniz')}</h3>
                         <p className="text-blue-100 text-sm leading-relaxed mb-4">
-                          Toplamda <span className="font-bold text-white">{donationSummary.supportedStudents} öğrencinin</span> eğitim hayatına
-                          {' '}<span className="font-bold text-white">{formatAmount(donationSummary.totalAmount)}</span> katkıda bulundunuz. Teşekkürler!
-                        </p>
+                          {t('app.page.toplamda')}<span className="font-bold text-white">{donationSummary.supportedStudents} {t('app.page.rencinin')}</span> {t('app.page.e_itim_hayat_na')}{' '}<span className="font-bold text-white">{formatAmount(donationSummary.totalAmount)}</span> {t('app.page.katk_da_bulundunuz_te_ekk_rler')}</p>
                         <div className="flex flex-wrap gap-2.5">
                           <Button
                             size="sm"
@@ -1104,8 +1090,7 @@ function AccountPageContent() {
                             className="bg-white text-blue-700 hover:bg-blue-50 text-xs shadow-lg"
                           >
                             <Heart className="h-3.5 w-3.5 mr-1" />
-                            Daha Fazla Destek Ol
-                          </Button>
+                            {t('app.page.daha_fazla_destek_ol')}</Button>
                           <Button
                             size="sm"
                             variant="outline"
@@ -1113,8 +1098,7 @@ function AccountPageContent() {
                             className="border-white/30 text-white hover:bg-white/10 text-xs"
                           >
                             <FileText className="h-3.5 w-3.5 mr-1" />
-                            Detaylı Rapor
-                          </Button>
+                            {t('app.page.detayl_rapor')}</Button>
                         </div>
                       </div>
                     </div>
@@ -1128,29 +1112,29 @@ function AccountPageContent() {
                   {/* Summary Cards */}
                   {isStudent ? (
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-                      <StatCard icon={Wallet} value={formatAmount(donationSummary.totalAmount)} label="Toplam Alınan Bağış" color="blue" />
-                      <StatCard icon={Target} value={String(donationSummary.totalDonations)} label="Kampanya Sayısı" color="orange" />
-                      <StatCard icon={Heart} value={String(donationSummary.supportedStudents)} label="Destekçi Sayısı" color="red" />
+                      <StatCard icon={Wallet} value={formatAmount(donationSummary.totalAmount)} label={t('app.page.toplam_al_nan_ba')} color="blue" />
+                      <StatCard icon={Target} value={String(donationSummary.totalDonations)} label={t('app.page.kampanya_say_s')} color="orange" />
+                      <StatCard icon={Heart} value={String(donationSummary.supportedStudents)} label={t('app.page.destek_i_say_s')} color="red" />
                       <StatCard
                         icon={Calendar}
                         value={donationSummary.lastDonationDate
                           ? new Date(donationSummary.lastDonationDate).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })
                           : '-'}
-                        label="Son Bağış Tarihi"
+                        label={t('app.page.son_ba_tarihi')}
                         color="green"
                       />
                     </div>
                   ) : (
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
-                      <StatCard icon={Wallet} value={formatAmount(donationSummary.totalAmount)} label="Toplam Bağış" color="blue" />
-                      <StatCard icon={Heart} value={String(donationSummary.totalDonations)} label="Bağış Sayısı" color="red" />
-                      <StatCard icon={GraduationCap} value={String(donationSummary.supportedStudents)} label="Desteklenen Öğrenci" color="green" />
+                      <StatCard icon={Wallet} value={formatAmount(donationSummary.totalAmount)} label={t('app.page.toplam_ba')} color="blue" />
+                      <StatCard icon={Heart} value={String(donationSummary.totalDonations)} label={t('app.page.ba_say_s')} color="red" />
+                      <StatCard icon={GraduationCap} value={String(donationSummary.supportedStudents)} label={t('app.page.desteklenen_renci')} color="green" />
                       <StatCard
                         icon={Calendar}
                         value={donationSummary.lastDonationDate
                           ? new Date(donationSummary.lastDonationDate).toLocaleDateString('tr-TR', { day: 'numeric', month: 'short' })
                           : '-'}
-                        label="Son Bağış Tarihi"
+                        label={t('app.page.son_ba_tarihi')}
                         color="orange"
                       />
                     </div>
@@ -1165,8 +1149,7 @@ function AccountPageContent() {
                           <Link href="/my-donations">
                             <Button size="sm" variant="outline" className="text-[11px] h-8">
                               <ExternalLink className="h-3 w-3 mr-1" />
-                              Detaylı Görünüm
-                            </Button>
+                              {t('app.page.detayl_g_r_n_m')}</Button>
                           </Link>
                           <Button
                             size="sm"
@@ -1175,8 +1158,7 @@ function AccountPageContent() {
                             onClick={() => window.open('/api/donations/my/export?format=csv', '_blank')}
                           >
                             <Download className="h-3 w-3 mr-1" />
-                            Dışa Aktar
-                          </Button>
+                            {t('app.page.d_a_aktar')}</Button>
                         </div>
                       )}
                     </div>
@@ -1194,21 +1176,19 @@ function AccountPageContent() {
                           </div>
                           {isStudent ? (
                             <>
-                              <h4 className="text-base font-semibold text-gray-700 mb-1.5">Henüz kampanyanız yok</h4>
-                              <p className="text-gray-400 text-sm mb-5">İlk kampanyanızı oluşturarak bağış almaya başlayın.</p>
+                              <h4 className="text-base font-semibold text-gray-700 mb-1.5">{t('app.page.hen_z_kampanyan_z_yok')}</h4>
+                              <p className="text-gray-400 text-sm mb-5">{t('app.page.lk_kampanyan_z_olu_turarak_ba_')}</p>
                               <Button onClick={() => router.push('/apply')} className="bg-blue-600 hover:bg-blue-700">
                                 <Target className="h-4 w-4 mr-2" />
-                                Kampanya Oluştur
-                              </Button>
+                                {t('app.page.kampanya_olu_tur')}</Button>
                             </>
                           ) : (
                             <>
-                              <h4 className="text-base font-semibold text-gray-700 mb-1.5">Henüz bağış yapmadınız</h4>
-                              <p className="text-gray-400 text-sm mb-5">Bir öğrencinin eğitim hayatını değiştirmek için ilk adımı atın.</p>
+                              <h4 className="text-base font-semibold text-gray-700 mb-1.5">{t('app.page.hen_z_ba_yapmad_n_z')}</h4>
+                              <p className="text-gray-400 text-sm mb-5">{t('app.page.bir_rencinin_e_itim_hayat_n_de')}</p>
                               <Button onClick={() => router.push('/browse')} className="bg-blue-600 hover:bg-blue-700">
                                 <Search className="h-4 w-4 mr-2" />
-                                Kampanyaları Keşfet
-                              </Button>
+                                {t('app.page.kampanyalar_ke_fet')}</Button>
                             </>
                           )}
                         </div>
@@ -1222,8 +1202,7 @@ function AccountPageContent() {
                           {donationTotalPages > 1 && (
                             <div className="flex items-center justify-between px-5 py-3.5">
                               <p className="text-xs text-gray-500">
-                                Toplam {donationTotal} bağış
-                              </p>
+                                {t('app.page.toplam')}{donationTotal} {t('app.page.ba')}</p>
                               <div className="flex gap-2">
                                 <Button
                                   size="sm"
@@ -1265,33 +1244,30 @@ function AccountPageContent() {
                       <div className="px-5 py-3.5 border-b border-gray-100">
                         <h3 className="font-semibold text-gray-900 text-sm flex items-center gap-2">
                           <MessageCircle className="h-4 w-4 text-indigo-500" />
-                          Sohbetlerim
-                          {unreadTotal > 0 && (
+                          {t('app.page.sohbetlerim')}{unreadTotal > 0 && (
                             <span className="px-1.5 py-0.5 text-[10px] font-bold bg-red-500 text-white rounded-full leading-none">{unreadTotal} yeni</span>
                           )}
                         </h3>
-                        <p className="text-[11px] text-gray-400 mt-0.5">Bağış yaptığınız öğrencilerle mesajlaşın</p>
+                        <p className="text-[11px] text-gray-400 mt-0.5">{t('app.page.ba_yapt_n_z_rencilerle_mesajla')}</p>
                       </div>
 
                       <div className="divide-y divide-gray-50">
                         {messagesLoading ? (
                           <div className="p-12 text-center">
                             <div className="h-10 w-10 animate-spin mx-auto text-blue-600 mb-3 border-4 border-blue-200 border-t-blue-600 rounded-full" />
-                            <p className="text-gray-500 text-sm">Mesajlar yükleniyor...</p>
+                            <p className="text-gray-500 text-sm">{t('app.page.mesajlar_y_kleniyor')}</p>
                           </div>
                         ) : conversations.length === 0 ? (
                           <div className="p-12 text-center">
                             <div className="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
                               <MessageCircle className="h-8 w-8 text-gray-300" />
                             </div>
-                            <h4 className="text-base font-semibold text-gray-700 mb-1.5">Henüz mesajınız yok</h4>
+                            <h4 className="text-base font-semibold text-gray-700 mb-1.5">{t('app.page.hen_z_mesaj_n_z_yok')}</h4>
                             <p className="text-gray-400 text-sm mb-5">
-                              Bağış yaptığınız kampanyalardaki öğrencilere mesaj gönderebilirsiniz.
-                            </p>
+                              {t('app.page.ba_yapt_n_z_kampanyalardaki_re')}</p>
                             <Button onClick={() => router.push('/browse')} className="bg-blue-600 hover:bg-blue-700">
                               <Heart className="h-4 w-4 mr-2" />
-                              Bağış Yaparak Başlayın
-                            </Button>
+                              {t('app.page.ba_yaparak_ba_lay_n')}</Button>
                           </div>
                         ) : (
                           conversations.map(c => (
@@ -1335,8 +1311,7 @@ function AccountPageContent() {
                         <Link href={`/campaign/${selectedConversation.campaign_id}`}>
                           <Button size="sm" variant="outline" className="text-[11px] h-8">
                             <Eye className="h-3 w-3 mr-1" />
-                            Kampanya
-                          </Button>
+                            {t('app.page.kampanya')}</Button>
                         </Link>
                       </div>
 
@@ -1381,7 +1356,7 @@ function AccountPageContent() {
                           <Input
                             value={newMessage}
                             onChange={e => setNewMessage(e.target.value)}
-                            placeholder="Mesajınızı yazın..."
+                            placeholder={t('app.page.mesaj_n_z_yaz_n')}
                             className="flex-1 text-sm"
                             onKeyDown={e => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleSendMessage(); } }}
                             maxLength={1000}
@@ -1428,17 +1403,17 @@ function AccountPageContent() {
                             <div className="bg-blue-50 rounded-xl p-4 text-center">
                               <GraduationCap className="h-6 w-6 text-blue-600 mx-auto mb-2" />
                               <p className="text-lg font-bold text-gray-900">—</p>
-                              <p className="text-xs text-gray-500">Not Ortalaması</p>
+                              <p className="text-xs text-gray-500">{t('app.page.not_ortalamas')}</p>
                             </div>
                             <div className="bg-emerald-50 rounded-xl p-4 text-center">
                               <TrendingUp className="h-6 w-6 text-emerald-600 mx-auto mb-2" />
                               <p className="text-lg font-bold text-gray-900">—</p>
-                              <p className="text-xs text-gray-500">Paylaşılan Rapor</p>
+                              <p className="text-xs text-gray-500">{t('app.page.payla_lan_rapor')}</p>
                             </div>
                             <div className="bg-purple-50 rounded-xl p-4 text-center col-span-2 sm:col-span-1">
                               <Star className="h-6 w-6 text-purple-600 mx-auto mb-2" />
                               <p className="text-lg font-bold text-gray-900">—</p>
-                              <p className="text-xs text-gray-500">Başarı</p>
+                              <p className="text-xs text-gray-500">{t('app.page.ba_ar')}</p>
                             </div>
                           </div>
 
@@ -1447,17 +1422,15 @@ function AccountPageContent() {
                             <div className="inline-flex items-center justify-center w-14 h-14 rounded-full bg-emerald-50 mb-3">
                               <FileText className="h-7 w-7 text-emerald-500" />
                             </div>
-                            <h4 className="text-base font-semibold text-gray-900 mb-1.5">Henüz rapor paylaşmadınız</h4>
+                            <h4 className="text-base font-semibold text-gray-900 mb-1.5">{t('app.page.hen_z_rapor_payla_mad_n_z')}</h4>
                             <p className="text-sm text-gray-500 max-w-sm mx-auto mb-5">
-                              Akademik ilerlemenizi ve başarılarınızı paylaşarak destekçilerinize teşekkür edin.
-                            </p>
+                              {t('app.page.akademik_ilerlemenizi_ve_ba_ar')}</p>
                             <Link
                               href="/reports"
                               className="inline-flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white text-sm font-medium rounded-xl hover:bg-emerald-700 transition-colors shadow-sm"
                             >
                               <FileText className="h-4 w-4" />
-                              Rapor Paylaş
-                              <ArrowRight className="h-4 w-4" />
+                              {t('app.page.rapor_payla')}<ArrowRight className="h-4 w-4" />
                             </Link>
                           </div>
                         </div>
@@ -1466,17 +1439,15 @@ function AccountPageContent() {
                           <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-blue-50 mb-4">
                             <FileText className="h-8 w-8 text-blue-500" />
                           </div>
-                          <h4 className="text-base font-semibold text-gray-900 mb-2">İlerleme Raporları</h4>
+                          <h4 className="text-base font-semibold text-gray-900 mb-2">{t('app.page.lerleme_raporlar')}</h4>
                           <p className="text-sm text-gray-500 max-w-md mx-auto mb-6">
-                            Desteklediğiniz öğrencilerin akademik ilerleme raporlarını, not ortalamalarını ve başarı hikayelerini buradan takip edebilirsiniz.
-                          </p>
+                            {t('app.page.destekledi_iniz_rencilerin_aka')}</p>
                           <Link
                             href="/reports"
                             className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 text-white text-sm font-medium rounded-xl hover:bg-blue-700 transition-colors shadow-sm"
                           >
                             <FileText className="h-4 w-4" />
-                            Raporları Görüntüle
-                            <ArrowRight className="h-4 w-4" />
+                            {t('app.page.raporlar_g_r_nt_le')}<ArrowRight className="h-4 w-4" />
                           </Link>
                         </div>
                       )}
@@ -1491,14 +1462,13 @@ function AccountPageContent() {
                   <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
                     <div className="px-5 py-3.5 border-b border-gray-100 flex items-center justify-between">
                       <div>
-                        <h3 className="font-semibold text-gray-900 text-sm">Kişisel Bilgiler</h3>
-                        <p className="text-[11px] text-gray-400 mt-0.5">Hesap bilgilerinizi güncelleyin</p>
+                        <h3 className="font-semibold text-gray-900 text-sm">{t('app.page.ki_isel_bilgiler')}</h3>
+                        <p className="text-[11px] text-gray-400 mt-0.5">{t('app.page.hesap_bilgilerinizi_g_ncelleyi')}</p>
                       </div>
                       {saved && (
                         <span className="flex items-center text-emerald-600 text-[11px] font-medium bg-emerald-50 px-2.5 py-1 rounded-full">
                           <CheckCircle2 className="h-3 w-3 mr-1" />
-                          Kaydedildi
-                        </span>
+                          {t('app.page.kaydedildi')}</span>
                       )}
                     </div>
 
@@ -1507,14 +1477,13 @@ function AccountPageContent() {
                       <div>
                         <h4 className="text-xs font-semibold text-gray-700 mb-3 flex items-center gap-2">
                           <User className="h-4 w-4 text-blue-500" />
-                          Kullanıcı Adı
-                        </h4>
+                          {t('app.page.kullan_c_ad')}</h4>
                         <div className="flex items-center gap-3">
                           {editingName ? (
                             <div className="flex items-center gap-2 flex-1">
                               <Input
                                 type="text"
-                                placeholder="Adınızı girin"
+                                placeholder={t('app.page.ad_n_z_girin')}
                                 value={personalInfo.name}
                                 onChange={(e) => handlePersonalInfoChange('name', e.target.value)}
                                 className="flex-1"
@@ -1525,8 +1494,7 @@ function AccountPageContent() {
                                 onClick={() => setEditingName(false)}
                                 className="bg-blue-600 hover:bg-blue-700 text-white text-xs"
                               >
-                                Tamam
-                              </Button>
+                                {t('app.page.tamam')}</Button>
                               <Button
                                 size="sm"
                                 variant="outline"
@@ -1536,8 +1504,7 @@ function AccountPageContent() {
                                 }}
                                 className="text-xs"
                               >
-                                İptal
-                              </Button>
+                                {t('app.page.ptal')}</Button>
                             </div>
                           ) : (
                             <div className="flex items-center gap-3 flex-1">
@@ -1553,8 +1520,7 @@ function AccountPageContent() {
                                 }}
                                 className="text-xs"
                               >
-                                Değiştir
-                              </Button>
+                                {t('app.page.de_i_tir')}</Button>
                             </div>
                           )}
                         </div>
@@ -1564,11 +1530,10 @@ function AccountPageContent() {
                       <div>
                         <h4 className="text-xs font-semibold text-gray-700 mb-3 flex items-center gap-2">
                           <Phone className="h-4 w-4 text-blue-500" />
-                          İletişim Bilgileri
-                        </h4>
+                          {t('app.page.leti_im_bilgileri')}</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
-                            <label className="block text-[11px] font-medium text-gray-500 mb-1.5">Telefon Numarası</label>
+                            <label className="block text-[11px] font-medium text-gray-500 mb-1.5">{t('app.page.telefon_numaras')}</label>
                             <div className="flex gap-2">
                               <select
                                 value={personalInfo.phoneCountryCode}
@@ -1581,7 +1546,7 @@ function AccountPageContent() {
                               </select>
                               <Input
                                 type="tel"
-                                placeholder="5XX XXX XX XX"
+                                placeholder={t('app.page.5xx_xxx_xx_xx')}
                                 value={personalInfo.phone}
                                 onChange={(e) => handlePersonalInfoChange('phone', e.target.value)}
                                 className="flex-1"
@@ -1589,7 +1554,7 @@ function AccountPageContent() {
                             </div>
                           </div>
                           <div>
-                            <label className="block text-[11px] font-medium text-gray-500 mb-1.5">Yedek E-posta</label>
+                            <label className="block text-[11px] font-medium text-gray-500 mb-1.5">{t('app.page.yedek_e_posta')}</label>
                             <Input
                               type="email"
                               placeholder="yedek@email.com"
@@ -1604,25 +1569,24 @@ function AccountPageContent() {
                       <div>
                         <h4 className="text-xs font-semibold text-gray-700 mb-3 flex items-center gap-2">
                           <User className="h-4 w-4 text-blue-500" />
-                          Kişisel Detaylar
-                        </h4>
+                          {t('app.page.ki_isel_detaylar')}</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
-                            <label className="block text-[11px] font-medium text-gray-500 mb-1.5">Cinsiyet</label>
+                            <label className="block text-[11px] font-medium text-gray-500 mb-1.5">{t('app.page.cinsiyet')}</label>
                             <select
                               value={personalInfo.gender}
                               onChange={(e) => handlePersonalInfoChange('gender', e.target.value)}
                               className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                             >
-                              <option value="">Seçiniz</option>
-                              <option value="male">Erkek</option>
-                              <option value="female">Kadın</option>
-                              <option value="other">Diğer</option>
-                              <option value="preferNotToSay">Belirtmek İstemiyorum</option>
+                              <option value="">{t('app.page.se_iniz')}</option>
+                              <option value="male">{t('app.page.erkek')}</option>
+                              <option value="female">{t('app.page.kad_n')}</option>
+                              <option value="other">{t('app.page.di_er')}</option>
+                              <option value="preferNotToSay">{t('app.page.belirtmek_stemiyorum')}</option>
                             </select>
                           </div>
                           <div>
-                            <label className="block text-[11px] font-medium text-gray-500 mb-1.5">Doğum Tarihi</label>
+                            <label className="block text-[11px] font-medium text-gray-500 mb-1.5">{t('app.page.do_um_tarihi')}</label>
                             <Input
                               type="date"
                               value={personalInfo.dateOfBirth}
@@ -1630,35 +1594,35 @@ function AccountPageContent() {
                             />
                           </div>
                           <div>
-                            <label className="block text-[11px] font-medium text-gray-500 mb-1.5">Ülke</label>
+                            <label className="block text-[11px] font-medium text-gray-500 mb-1.5">{t('app.page.lke')}</label>
                             <select
                               value={personalInfo.country}
                               onChange={(e) => handlePersonalInfoChange('country', e.target.value)}
                               className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                             >
-                              <option value="">Seçiniz</option>
-                              <option value="TR">Türkiye</option>
+                              <option value="">{t('app.page.se_iniz')}</option>
+                              <option value="TR">{t('app.page.t_rkiye')}</option>
                               <option value="US">ABD</option>
-                              <option value="GB">Birleşik Krallık</option>
-                              <option value="DE">Almanya</option>
-                              <option value="FR">Fransa</option>
-                              <option value="SA">Suudi Arabistan</option>
+                              <option value="GB">{t('app.page.birle_ik_krall_k')}</option>
+                              <option value="DE">{t('app.page.almanya')}</option>
+                              <option value="FR">{t('app.page.fransa')}</option>
+                              <option value="SA">{t('app.page.suudi_arabistan')}</option>
                               <option value="AE">BAE</option>
-                              <option value="OTHER">Diğer</option>
+                              <option value="OTHER">{t('app.page.di_er')}</option>
                             </select>
                           </div>
                           <div>
-                            <label className="block text-[11px] font-medium text-gray-500 mb-1.5">Dil</label>
+                            <label className="block text-[11px] font-medium text-gray-500 mb-1.5">{t('app.page.dil')}</label>
                             <select
                               value={personalInfo.language}
                               onChange={(e) => handlePersonalInfoChange('language', e.target.value)}
                               className="w-full px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white text-gray-900"
                             >
-                              <option value="tr">Türkçe</option>
-                              <option value="en">English</option>
-                              <option value="de">Deutsch</option>
-                              <option value="fr">Français</option>
-                              <option value="es">Español</option>
+                              <option value="tr">{t('app.page.t_rk_e')}</option>
+                              <option value="en">{t('app.page.english')}</option>
+                              <option value="de">{t('app.page.deutsch')}</option>
+                              <option value="fr">{t('app.page.fran_ais')}</option>
+                              <option value="es">{t('app.page.espa_ol')}</option>
                               <option value="ar">العربية</option>
                             </select>
                           </div>
@@ -1669,13 +1633,12 @@ function AccountPageContent() {
                       <div>
                         <h4 className="text-xs font-semibold text-gray-700 mb-3 flex items-center gap-2">
                           <Lock className="h-4 w-4 text-blue-500" />
-                          Güvenlik
-                        </h4>
+                          {t('app.page.g_venlik')}</h4>
                         <div className="bg-gray-50 rounded-xl p-4">
                           <div className="flex items-center justify-between">
                             <div>
-                              <p className="font-medium text-gray-900 text-sm">İki Faktörlü Doğrulama</p>
-                              <p className="text-[11px] text-gray-500 mt-0.5">Hesabınıza ekstra güvenlik katmanı ekleyin</p>
+                              <p className="font-medium text-gray-900 text-sm">{t('app.page.ki_fakt_rl_do_rulama')}</p>
+                              <p className="text-[11px] text-gray-500 mt-0.5">{t('app.page.hesab_n_za_ekstra_g_venlik_kat')}</p>
                             </div>
                             <button
                               onClick={() => handlePersonalInfoChange('twoFactorEnabled', !personalInfo.twoFactorEnabled)}
@@ -1686,7 +1649,7 @@ function AccountPageContent() {
                           </div>
                           {personalInfo.twoFactorEnabled && (
                             <div className="mt-3 p-3 bg-blue-50 border border-blue-100 rounded-lg">
-                              <p className="text-[11px] text-blue-700">İki faktörlü doğrulama yakında aktif olacak.</p>
+                              <p className="text-[11px] text-blue-700">{t('app.page.ki_fakt_rl_do_rulama_yak_nda_a')}</p>
                             </div>
                           )}
                         </div>
@@ -1696,8 +1659,7 @@ function AccountPageContent() {
                           className="mt-3 flex items-center gap-1.5 text-xs text-blue-600 hover:text-blue-700 font-medium"
                         >
                           <Shield className="h-3.5 w-3.5" />
-                          Gelişmiş Güvenlik Ayarları
-                          <ChevronRight className="h-3 w-3" />
+                          {t('app.page.geli_mi_g_venlik_ayarlar')}<ChevronRight className="h-3 w-3" />
                         </Link>
                       </div>
 
@@ -1712,13 +1674,11 @@ function AccountPageContent() {
                           {saving ? (
                             <span className="flex items-center gap-2 text-sm">
                               <RefreshCw className="h-3.5 w-3.5 animate-spin" />
-                              Kaydediliyor...
-                            </span>
+                              {t('app.page.kaydediliyor')}</span>
                           ) : (
                             <span className="flex items-center gap-2 text-sm">
                               <Save className="h-3.5 w-3.5" />
-                              Kaydet
-                            </span>
+                              {t('app.page.kaydet')}</span>
                           )}
                         </Button>
                       </div>
@@ -1730,8 +1690,7 @@ function AccountPageContent() {
                     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-5">
                       <h4 className="text-xs font-semibold text-gray-700 mb-3 flex items-center gap-2">
                         <BadgeCheck className="h-4 w-4 text-blue-500" />
-                        Öğrenci Doğrulama Durumu
-                      </h4>
+                        {t('app.page.renci_do_rulama_durumu')}</h4>
                       {tierConfig ? (
                         <div className="flex items-center gap-3">
                           <span className="text-2xl">{tierConfig.icon}</span>
@@ -1740,27 +1699,26 @@ function AccountPageContent() {
                               <BadgeCheck className="h-3.5 w-3.5 mr-1" />
                               {tierConfig.label}
                             </span>
-                            <p className="text-[11px] text-gray-500 mt-1">Hesabınız doğrulanmıştır.</p>
+                            <p className="text-[11px] text-gray-500 mt-1">{t('app.page.hesab_n_z_do_rulanm_t_r')}</p>
                           </div>
                         </div>
                       ) : verification?.status === 'PENDING_REVIEW' ? (
                         <div className="flex items-center gap-3 bg-yellow-50 rounded-xl p-4">
                           <Clock className="h-7 w-7 text-yellow-500 flex-shrink-0" />
                           <div>
-                            <p className="font-medium text-yellow-800 text-sm">Doğrulama İnceleniyor</p>
-                            <p className="text-[11px] text-yellow-600 mt-0.5">Başvurunuz inceleme aşamasında.</p>
+                            <p className="font-medium text-yellow-800 text-sm">{t('app.page.do_rulama_nceleniyor')}</p>
+                            <p className="text-[11px] text-yellow-600 mt-0.5">{t('app.page.ba_vurunuz_inceleme_a_amas_nda')}</p>
                           </div>
                         </div>
                       ) : (
                         <div className="flex items-center justify-between bg-gray-50 rounded-xl p-4">
                           <div>
-                            <p className="font-medium text-gray-700 text-sm">Hesabınız henüz doğrulanmadı</p>
-                            <p className="text-[11px] text-gray-500 mt-0.5">Doğrulanmış hesaplar daha fazla özelliğe erişebilir.</p>
+                            <p className="font-medium text-gray-700 text-sm">{t('app.page.hesab_n_z_hen_z_do_rulanmad')}</p>
+                            <p className="text-[11px] text-gray-500 mt-0.5">{t('app.page.do_rulanm_hesaplar_daha_fazla_')}</p>
                           </div>
                           <Button size="sm" onClick={() => router.push('/verify')} className="bg-blue-600 hover:bg-blue-700 text-xs">
                             <BadgeCheck className="h-3.5 w-3.5 mr-1" />
-                            Doğrula
-                          </Button>
+                            {t('app.page.do_rula')}</Button>
                         </div>
                       )}
                     </div>
@@ -1778,12 +1736,13 @@ function AccountPageContent() {
 
 // ── Export ──────────────────────────────────────────────
 export default function AccountPage() {
+    const { t } = useTranslation();
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <div className="h-12 w-12 animate-spin mx-auto text-blue-600 mb-4 border-4 border-blue-200 border-t-blue-600 rounded-full" />
-          <p className="text-gray-500">Yükleniyor...</p>
+          <p className="text-gray-500">{t('app.page.y_kleniyor')}</p>
         </div>
       </div>
     }>

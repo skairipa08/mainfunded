@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
-import { useTranslation } from '@/lib/i18n/context';
 import {
   Heart,
   Target,

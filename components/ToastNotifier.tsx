@@ -2,8 +2,10 @@
 
 import { useEffect, useState } from 'react';
 import { getToasts, subscribe, removeToast } from '@/lib/toast';
+import { useTranslation } from "@/lib/i18n/context";
 
 export function ToastNotifier() {
+    const { t } = useTranslation();
   const [toasts, setToasts] = useState(getToasts());
 
   useEffect(() => {

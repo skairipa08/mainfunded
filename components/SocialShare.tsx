@@ -14,6 +14,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
 import { useCurrency } from '@/lib/currency-context';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface SocialShareProps {
     url: string;
@@ -34,6 +35,7 @@ export function SocialShare({
     className,
     compact = false,
 }: SocialShareProps) {
+    const { t } = useTranslation();
     const [copied, setCopied] = useState(false);
     const [showDialog, setShowDialog] = useState(false);
 
@@ -102,7 +104,7 @@ export function SocialShare({
                     size="icon"
                     className="h-8 w-8"
                     onClick={copyToClipboard}
-                    title="Linki Kopyala"
+                    title={t('components.socialshare.linki_kopyala')}
                 >
                     {copied ? <Check className="h-4 w-4 text-green-500" /> : <Link2 className="h-4 w-4" />}
                 </Button>
@@ -118,22 +120,20 @@ export function SocialShare({
                 onClick={() => setShowDialog(true)}
             >
                 <Share2 className="h-4 w-4" />
-                Paylas
-            </Button>
+                {t('components.socialshare.paylas')}</Button>
 
             {showDialog && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
                     <div className="absolute inset-0 bg-black/50" onClick={() => setShowDialog(false)} />
                     <div className="relative bg-white rounded-xl shadow-xl max-w-md w-full p-6">
                         <div className="flex items-center justify-between mb-4">
-                            <h3 className="font-semibold text-lg">Kampanyayi Paylas</h3>
+                            <h3 className="font-semibold text-lg">{t('components.socialshare.kampanyayi_paylas')}</h3>
                             <Button variant="ghost" size="icon" onClick={() => setShowDialog(false)}>
                                 <X className="h-4 w-4" />
                             </Button>
                         </div>
                         <p className="text-sm text-gray-500 mb-4">
-                            Bu kampanyayi sosyal medyada paylasarak daha fazla kisiye ulasmasini saglayin.
-                        </p>
+                            {t('components.socialshare.bu_kampanyayi_sosyal_medyada_p')}</p>
                         <div className="grid grid-cols-2 gap-3 mb-4">
                             {shareLinks.map((link) => (
                                 <Button
@@ -178,6 +178,7 @@ export function ShareCard({
     university: string;
     className?: string;
 }) {
+    const { t } = useTranslation();
     const progress = Math.round((raised / goal) * 100);
     const { formatAmount } = useCurrency();
 
@@ -198,7 +199,7 @@ export function ShareCard({
 
             <div className="bg-white/20 rounded-xl p-4 mb-4">
                 <div className="flex justify-between text-sm mb-2">
-                    <span>İlerleme</span>
+                    <span>{t('components.socialshare.lerleme')}</span>
                     <span className="font-bold">{progress}%</span>
                 </div>
                 <div className="h-3 bg-white/30 rounded-full overflow-hidden">
@@ -214,7 +215,7 @@ export function ShareCard({
             </div>
 
             <div className="text-center">
-                <p className="text-sm text-white/90 mb-2">Eğitim hayallerine destek ol!</p>
+                <p className="text-sm text-white/90 mb-2">{t('components.socialshare.e_itim_hayallerine_destek_ol')}</p>
                 <div className="bg-white text-blue-600 font-bold py-2 px-4 rounded-lg text-sm">
                     funded.com
                 </div>

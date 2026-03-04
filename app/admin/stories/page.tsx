@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { MessageSquare, CheckCircle, XCircle, Clock, Eye } from 'lucide-react';
 import { useCurrency } from '@/lib/currency-context';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface Story {
     story_id: string;
@@ -29,6 +30,7 @@ const statusConfig = {
 };
 
 export default function AdminStoriesPage() {
+    const { t } = useTranslation();
     const { formatAmount } = useCurrency();
     const [stories, setStories] = useState<Story[]>([]);
     const [loading, setLoading] = useState(true);
@@ -90,7 +92,7 @@ export default function AdminStoriesPage() {
         <div>
             <div className="flex items-center gap-3 mb-6">
                 <MessageSquare className="h-7 w-7 text-pink-600" />
-                <h2 className="text-3xl font-bold text-gray-900">Başarı Hikayeleri</h2>
+                <h2 className="text-3xl font-bold text-gray-900">{t('app.page.ba_ar_hikayeleri')}</h2>
             </div>
 
             {/* Filter Tabs */}
@@ -127,7 +129,7 @@ export default function AdminStoriesPage() {
             ) : stories.length === 0 ? (
                 <div className="bg-white rounded-lg border p-12 text-center">
                     <MessageSquare className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                    <p className="text-gray-500 text-lg">Bu kategoride hikaye bulunamadı.</p>
+                    <p className="text-gray-500 text-lg">{t('app.page.bu_kategoride_hikaye_bulunamad')}</p>
                 </div>
             ) : (
                 <div className="space-y-4">
@@ -174,7 +176,7 @@ export default function AdminStoriesPage() {
                                 {isExpanded && (
                                     <div className="border-t border-gray-100 p-5 bg-gray-50">
                                         <div className="mb-4">
-                                            <p className="text-sm font-medium text-gray-500 mb-1">Hikaye:</p>
+                                            <p className="text-sm font-medium text-gray-500 mb-1">{t('app.page.hikaye')}</p>
                                             <p className="text-gray-800 bg-white rounded-lg p-4 border italic">
                                                 &ldquo;{story.quote}&rdquo;
                                             </p>
@@ -182,7 +184,7 @@ export default function AdminStoriesPage() {
 
                                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4 text-sm">
                                             <div>
-                                                <p className="text-gray-500">İsim</p>
+                                                <p className="text-gray-500">{t('app.page.sim')}</p>
                                                 <p className="font-medium">{story.user_name}</p>
                                             </div>
                                             <div>
@@ -190,11 +192,11 @@ export default function AdminStoriesPage() {
                                                 <p className="font-medium">{story.user_email}</p>
                                             </div>
                                             <div>
-                                                <p className="text-gray-500">Üniversite</p>
+                                                <p className="text-gray-500">{t('app.page.niversite')}</p>
                                                 <p className="font-medium">{story.university}</p>
                                             </div>
                                             <div>
-                                                <p className="text-gray-500">Toplanan</p>
+                                                <p className="text-gray-500">{t('app.page.toplanan')}</p>
                                                 <p className="font-medium text-green-600">
                                                     {formatAmount(story.funded_amount)}
                                                 </p>
@@ -203,7 +205,7 @@ export default function AdminStoriesPage() {
 
                                         {story.admin_note && (
                                             <div className="mb-4 bg-blue-50 border border-blue-200 rounded-lg p-3">
-                                                <p className="text-xs font-medium text-blue-600 mb-1">Admin Notu:</p>
+                                                <p className="text-xs font-medium text-blue-600 mb-1">{t('app.page.admin_notu')}</p>
                                                 <p className="text-sm text-blue-800">{story.admin_note}</p>
                                             </div>
                                         )}
@@ -225,8 +227,7 @@ export default function AdminStoriesPage() {
                                                     className="border-red-300 text-red-600 hover:bg-red-50"
                                                 >
                                                     <XCircle className="h-4 w-4 mr-2" />
-                                                    Reddet
-                                                </Button>
+                                                    {t('app.page.reddet')}</Button>
                                             </div>
                                         )}
                                     </div>

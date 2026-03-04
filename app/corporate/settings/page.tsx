@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import {
     Building2,
     Users,
@@ -49,7 +50,6 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { mockCorporateAccount, mockCorporateUser } from '@/lib/corporate/mock-data';
-import { useTranslation } from '@/lib/i18n/context';
 import { useCurrency } from '@/lib/currency-context';
 import { useCorporateAuth } from '@/lib/corporate/auth';
 
@@ -300,7 +300,7 @@ export default function SettingsPage() {
                                 onClick={() => fileInputRef.current?.click()}
                             >
                                 {logoPreview ? (
-                                    <img src={logoPreview} alt="Logo" className="w-full h-full object-cover" />
+                                    <img src={logoPreview} alt={t('app.page.logo')} className="w-full h-full object-cover" />
                                 ) : (
                                     <Building2 className="h-10 w-10 text-blue-600" />
                                 )}
@@ -337,8 +337,7 @@ export default function SettingsPage() {
                                 <Label>{t('corporate.settings.subscription')}</Label>
                                 <div className="mt-1 flex items-center gap-2">
                                     <Badge className="bg-purple-100 text-purple-700 text-sm py-1">
-                                        Enterprise
-                                    </Badge>
+                                        {t('app.page.enterprise')}</Badge>
                                     <span className="text-sm text-gray-500">{t('corporate.settings.allFeaturesActive')}</span>
                                 </div>
                             </div>
@@ -366,12 +365,10 @@ export default function SettingsPage() {
                                         <div className="flex items-center gap-3">
                                             <h3 className="text-xl font-bold">{currentTier.name}</h3>
                                             <span className="px-2.5 py-0.5 bg-white/20 backdrop-blur-sm rounded-full text-xs font-medium">
-                                                Aktif
-                                            </span>
+                                                {t('app.page.aktif')}</span>
                                         </div>
                                         <p className="text-white/80 text-sm mt-1">
-                                            Kurumsal abonelik planınız
-                                        </p>
+                                            {t('app.page.kurumsal_abonelik_plan_n_z')}</p>
                                     </div>
                                 </div>
                                 <div className="text-right">
@@ -382,7 +379,7 @@ export default function SettingsPage() {
                             <div className="mt-4 flex items-center gap-6 text-sm text-white/80">
                                 <div className="flex items-center gap-1.5">
                                     <Calendar className="h-4 w-4" />
-                                    <span>Sonraki ödeme: 1 Mart 2026</span>
+                                    <span>{t('app.page.sonraki_deme_1_mart_2026')}</span>
                                 </div>
                                 <div className="flex items-center gap-1.5">
                                     <CreditCard className="h-4 w-4" />
@@ -390,7 +387,7 @@ export default function SettingsPage() {
                                 </div>
                                 <div className="flex items-center gap-1.5">
                                     <RefreshCw className="h-4 w-4" />
-                                    <span>Otomatik yenileme aktif</span>
+                                    <span>{t('app.page.otomatik_yenileme_aktif')}</span>
                                 </div>
                             </div>
                         </div>
@@ -398,13 +395,13 @@ export default function SettingsPage() {
 
                     {/* Usage Overview */}
                     <div className="p-6">
-                        <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Kullanım Durumu</h4>
+                        <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">{t('app.page.kullan_m_durumu')}</h4>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                             {/* Seats */}
                             <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
                                 <div className="flex items-center justify-between mb-2">
                                     <Users className="h-4 w-4 text-blue-500" />
-                                    <span className="text-xs font-medium text-gray-400">Koltuk</span>
+                                    <span className="text-xs font-medium text-gray-400">{t('app.page.koltuk')}</span>
                                 </div>
                                 <div className="flex items-end gap-1">
                                     <span className="text-2xl font-bold text-gray-900">{usageData.seatsUsed}</span>
@@ -422,7 +419,7 @@ export default function SettingsPage() {
                             <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
                                 <div className="flex items-center justify-between mb-2">
                                     <BarChart3 className="h-4 w-4 text-emerald-500" />
-                                    <span className="text-xs font-medium text-gray-400">Kampanya</span>
+                                    <span className="text-xs font-medium text-gray-400">{t('app.page.kampanya')}</span>
                                 </div>
                                 <div className="flex items-end gap-1">
                                     <span className="text-2xl font-bold text-gray-900">{usageData.campaignsActive}</span>
@@ -440,7 +437,7 @@ export default function SettingsPage() {
                             <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
                                 <div className="flex items-center justify-between mb-2">
                                     <FileText className="h-4 w-4 text-purple-500" />
-                                    <span className="text-xs font-medium text-gray-400">Rapor</span>
+                                    <span className="text-xs font-medium text-gray-400">{t('app.page.rapor')}</span>
                                 </div>
                                 <div className="flex items-end gap-1">
                                     <span className="text-2xl font-bold text-gray-900">{usageData.reportsGenerated}</span>
@@ -458,7 +455,7 @@ export default function SettingsPage() {
                             <div className="bg-gray-50 rounded-xl p-4 border border-gray-100">
                                 <div className="flex items-center justify-between mb-2">
                                     <Download className="h-4 w-4 text-orange-500" />
-                                    <span className="text-xs font-medium text-gray-400">Depolama</span>
+                                    <span className="text-xs font-medium text-gray-400">{t('app.page.depolama')}</span>
                                 </div>
                                 <div className="flex items-end gap-1">
                                     <span className="text-2xl font-bold text-gray-900">{usageData.storageUsed}</span>
@@ -476,7 +473,7 @@ export default function SettingsPage() {
 
                     {/* Plan Features */}
                     <div className="px-6 pb-6">
-                        <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">Dahil Özellikler</h4>
+                        <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-3">{t('app.page.dahil_zellikler')}</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                             {currentTier.features.map((feature, i) => (
                                 <div key={i} className="flex items-center gap-2 text-sm text-gray-700">
@@ -495,8 +492,7 @@ export default function SettingsPage() {
                                 className="gap-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white shadow-md"
                             >
                                 <ArrowUpRight className="h-4 w-4" />
-                                Planı Yükselt
-                            </Button>
+                                {t('app.page.plan_y_kselt')}</Button>
                         )}
                         <Button
                             variant="outline"
@@ -504,22 +500,20 @@ export default function SettingsPage() {
                             onClick={() => setShowBillingHistory(!showBillingHistory)}
                         >
                             <Receipt className="h-4 w-4" />
-                            Fatura Geçmişi
-                        </Button>
+                            {t('app.page.fatura_ge_mi_i')}</Button>
                         <Button
                             variant="outline"
                             className="gap-2 text-red-600 border-red-200 hover:bg-red-50 hover:text-red-700"
                             onClick={() => setShowCancelModal(true)}
                         >
                             <X className="h-4 w-4" />
-                            Aboneliği İptal Et
-                        </Button>
+                            {t('app.page.aboneli_i_ptal_et')}</Button>
                     </div>
 
                     {/* Billing History (Expandable) */}
                     {showBillingHistory && (
                         <div className="border-t border-gray-100 px-6 py-4">
-                            <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Fatura Geçmişi</h4>
+                            <h4 className="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">{t('app.page.fatura_ge_mi_i')}</h4>
                             <div className="space-y-3">
                                 {mockBillingHistory.map((invoice) => (
                                     <div
@@ -561,8 +555,7 @@ export default function SettingsPage() {
                             </div>
                             <div className="mt-4 text-center">
                                 <Button variant="ghost" size="sm" className="text-blue-600 hover:text-blue-700 gap-1">
-                                    Tüm faturaları görüntüle
-                                    <ChevronRight className="h-4 w-4" />
+                                    {t('app.page.t_m_faturalar_g_r_nt_le')}<ChevronRight className="h-4 w-4" />
                                 </Button>
                             </div>
                         </div>
@@ -578,12 +571,12 @@ export default function SettingsPage() {
                                 <Calendar className="h-5 w-5 text-blue-600" />
                             </div>
                             <div>
-                                <p className="text-xs text-gray-500">Fatura Dönemi</p>
-                                <p className="font-semibold text-gray-900">Aylık</p>
+                                <p className="text-xs text-gray-500">{t('app.page.fatura_d_nemi')}</p>
+                                <p className="font-semibold text-gray-900">{t('app.page.ayl_k')}</p>
                             </div>
                         </div>
                         <div className="text-xs text-gray-500">
-                            Sonraki yenileme: <span className="font-medium text-gray-700">1 Mart 2026</span>
+                            {t('app.page.sonraki_yenileme')}<span className="font-medium text-gray-700">{t('app.page.1_mart_2026')}</span>
                         </div>
                     </div>
 
@@ -594,13 +587,12 @@ export default function SettingsPage() {
                                 <CreditCard className="h-5 w-5 text-emerald-600" />
                             </div>
                             <div>
-                                <p className="text-xs text-gray-500">Ödeme Yöntemi</p>
-                                <p className="font-semibold text-gray-900">Visa •••• 4242</p>
+                                <p className="text-xs text-gray-500">{t('app.page.deme_y_ntemi')}</p>
+                                <p className="font-semibold text-gray-900">{t('app.page.visa_4242')}</p>
                             </div>
                         </div>
                         <button className="text-xs text-blue-600 hover:text-blue-700 font-medium transition-colors">
-                            Kartı Değiştir →
-                        </button>
+                            {t('app.page.kart_de_i_tir')}</button>
                     </div>
 
                     {/* Total Spent */}
@@ -610,12 +602,12 @@ export default function SettingsPage() {
                                 <TrendingUp className="h-5 w-5 text-purple-600" />
                             </div>
                             <div>
-                                <p className="text-xs text-gray-500">Toplam Harcama</p>
+                                <p className="text-xs text-gray-500">{t('app.page.toplam_harcama')}</p>
                                 <p className="font-semibold text-gray-900">{formatAmount(2395)}</p>
                             </div>
                         </div>
                         <div className="text-xs text-gray-500">
-                            Üyelik başlangıcı: <span className="font-medium text-gray-700">Ekim 2025</span>
+                            {t('app.page.yelik_ba_lang_c')}<span className="font-medium text-gray-700">{t('app.page.ekim_2025')}</span>
                         </div>
                     </div>
                 </div>
@@ -628,7 +620,7 @@ export default function SettingsPage() {
                                 <Sparkles className="h-6 w-6 text-blue-600" />
                             </div>
                             <div className="flex-1">
-                                <h4 className="font-semibold text-gray-900 mb-1">Daha fazla özellik mi istiyorsunuz?</h4>
+                                <h4 className="font-semibold text-gray-900 mb-1">{t('app.page.daha_fazla_zellik_mi_istiyorsu')}</h4>
                                 <p className="text-sm text-gray-600 mb-3">
                                     {currentTierKey === 'starter'
                                         ? 'Growth/Pro planına yükselterek aylık raporlar, gelişmiş kanıt yönetimi ve 5 kullanıcı hakkı elde edin.'
@@ -641,8 +633,7 @@ export default function SettingsPage() {
                                     className="gap-2 bg-blue-600 hover:bg-blue-700 text-white"
                                 >
                                     <ArrowUpRight className="h-4 w-4" />
-                                    Planları Karşılaştır
-                                </Button>
+                                    {t('app.page.planlar_kar_la_t_r')}</Button>
                             </div>
                         </div>
                     </div>
@@ -999,10 +990,9 @@ export default function SettingsPage() {
                             <div>
                                 <h3 className="font-bold text-lg text-gray-900 flex items-center gap-2">
                                     <TrendingUp className="h-5 w-5 text-blue-600" />
-                                    Planı Yükselt
-                                </h3>
+                                    {t('app.page.plan_y_kselt')}</h3>
                                 <p className="text-sm text-gray-500 mt-0.5">
-                                    Mevcut planınız: <span className="font-semibold">{currentTier.name}</span>
+                                    {t('app.page.mevcut_plan_n_z')}<span className="font-semibold">{currentTier.name}</span>
                                 </p>
                             </div>
                             <Button variant="ghost" size="icon" onClick={() => setShowUpgradeModal(false)}>
@@ -1032,13 +1022,11 @@ export default function SettingsPage() {
                                             >
                                                 {isCurrentPlan && (
                                                     <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-blue-600 text-white text-xs font-semibold rounded-full">
-                                                        Mevcut Plan
-                                                    </div>
+                                                        {t('app.page.mevcut_plan')}</div>
                                                 )}
                                                 {key === 'growth' && !isCurrentPlan && (
                                                     <div className="absolute -top-2.5 left-1/2 -translate-x-1/2 px-3 py-0.5 bg-emerald-500 text-white text-xs font-semibold rounded-full">
-                                                        Popüler
-                                                    </div>
+                                                        {t('app.page.pop_ler')}</div>
                                                 )}
                                                 <div className="text-center mb-4">
                                                     <div className={`w-12 h-12 mx-auto rounded-xl bg-gradient-to-br ${tier.color} flex items-center justify-center mb-3`}>
@@ -1060,15 +1048,13 @@ export default function SettingsPage() {
                                                     ))}
                                                     {tier.features.length > 6 && (
                                                         <li className="text-xs text-gray-400 pl-5">
-                                                            +{tier.features.length - 6} daha fazla özellik
-                                                        </li>
+                                                            +{tier.features.length - 6} {t('app.page.daha_fazla_zellik')}</li>
                                                     )}
                                                 </ul>
 
                                                 {isCurrentPlan ? (
                                                     <Button disabled className="w-full" variant="outline">
-                                                        Mevcut Planınız
-                                                    </Button>
+                                                        {t('app.page.mevcut_plan_n_z')}</Button>
                                                 ) : isUpgrade ? (
                                                     <Button
                                                         className={`w-full gap-2 bg-gradient-to-r ${tier.color} text-white hover:opacity-90`}
@@ -1078,12 +1064,10 @@ export default function SettingsPage() {
                                                         }}
                                                     >
                                                         <ArrowUpRight className="h-4 w-4" />
-                                                        Yükselt
-                                                    </Button>
+                                                        {t('app.page.y_kselt')}</Button>
                                                 ) : (
                                                     <Button disabled className="w-full" variant="outline">
-                                                        Düşürme
-                                                    </Button>
+                                                        {t('app.page.d_rme')}</Button>
                                                 )}
                                             </div>
                                         );
@@ -1094,12 +1078,12 @@ export default function SettingsPage() {
                             <div className="mt-6 bg-blue-50 border border-blue-100 rounded-xl p-4 flex items-start gap-3">
                                 <Shield className="h-5 w-5 text-blue-600 flex-shrink-0 mt-0.5" />
                                 <div className="text-sm text-blue-800">
-                                    <p className="font-medium mb-1">Yükseltme Bilgileri</p>
+                                    <p className="font-medium mb-1">{t('app.page.y_kseltme_bilgileri')}</p>
                                     <ul className="list-disc list-inside space-y-1 text-blue-700 text-xs">
-                                        <li>Plan yükseltmeleri anında devreye girer.</li>
-                                        <li>Mevcut dönem için kalan süre oranlanarak fark hesaplanır.</li>
-                                        <li>Tüm verileriniz ve ayarlarınız korunur.</li>
-                                        <li>30 gün içinde eski plana geri dönebilirsiniz.</li>
+                                        <li>{t('app.page.plan_y_kseltmeleri_an_nda_devr')}</li>
+                                        <li>{t('app.page.mevcut_d_nem_i_in_kalan_s_re_o')}</li>
+                                        <li>{t('app.page.t_m_verileriniz_ve_ayarlar_n_z')}</li>
+                                        <li>{t('app.page.30_g_n_i_inde_eski_plana_geri_')}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -1116,8 +1100,7 @@ export default function SettingsPage() {
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="font-bold text-lg text-gray-900 flex items-center gap-2">
                                 <AlertTriangle className="h-5 w-5 text-red-500" />
-                                Aboneliği İptal Et
-                            </h3>
+                                {t('app.page.aboneli_i_ptal_et')}</h3>
                             <Button variant="ghost" size="icon" onClick={() => setShowCancelModal(false)}>
                                 <X className="h-5 w-5" />
                             </Button>
@@ -1125,42 +1108,40 @@ export default function SettingsPage() {
 
                         <div className="bg-red-50 border border-red-100 rounded-xl p-4 mb-4">
                             <p className="text-sm text-red-800 font-medium mb-2">
-                                Dikkat! Aboneliğinizi iptal ederseniz:
-                            </p>
+                                {t('app.page.dikkat_aboneli_inizi_iptal_ede')}</p>
                             <ul className="text-xs text-red-700 space-y-1.5 list-disc list-inside">
-                                <li>Mevcut fatura döneminizin sonunda erişiminiz kapanır.</li>
-                                <li>Tüm kampanyalarınız ve raporlarınız dondurulur.</li>
-                                <li>Ekip üyelerinizin erişimi kaldırılır.</li>
-                                <li>Verileriniz 30 gün boyunca saklanır, ardından silinir.</li>
+                                <li>{t('app.page.mevcut_fatura_d_neminizin_sonu')}</li>
+                                <li>{t('app.page.t_m_kampanyalar_n_z_ve_raporla')}</li>
+                                <li>{t('app.page.ekip_yelerinizin_eri_imi_kald_')}</li>
+                                <li>{t('app.page.verileriniz_30_g_n_boyunca_sak')}</li>
                             </ul>
                         </div>
 
                         <div className="space-y-4">
                             <div>
-                                <Label className="text-sm text-gray-700">İptal nedeniniz nedir?</Label>
+                                <Label className="text-sm text-gray-700">{t('app.page.ptal_nedeniniz_nedir')}</Label>
                                 <Select value={cancelReason} onValueChange={setCancelReason}>
                                     <SelectTrigger className="mt-1">
-                                        <SelectValue placeholder="Lütfen bir neden seçin..." />
+                                        <SelectValue placeholder={t('app.page.l_tfen_bir_neden_se_in')} />
                                     </SelectTrigger>
                                     <SelectContent>
-                                        <SelectItem value="too_expensive">Çok pahalı</SelectItem>
-                                        <SelectItem value="not_using">Yeterince kullanmıyoruz</SelectItem>
-                                        <SelectItem value="missing_features">İstediğimiz özellikler eksik</SelectItem>
-                                        <SelectItem value="switching">Başka bir platform tercih ediyoruz</SelectItem>
-                                        <SelectItem value="temporary">Geçici olarak duraklatmak istiyoruz</SelectItem>
-                                        <SelectItem value="other">Diğer</SelectItem>
+                                        <SelectItem value="too_expensive">{t('app.page.ok_pahal')}</SelectItem>
+                                        <SelectItem value="not_using">{t('app.page.yeterince_kullanm_yoruz')}</SelectItem>
+                                        <SelectItem value="missing_features">{t('app.page.stedi_imiz_zellikler_eksik')}</SelectItem>
+                                        <SelectItem value="switching">{t('app.page.ba_ka_bir_platform_tercih_ediy')}</SelectItem>
+                                        <SelectItem value="temporary">{t('app.page.ge_ici_olarak_duraklatmak_isti')}</SelectItem>
+                                        <SelectItem value="other">{t('app.page.di_er')}</SelectItem>
                                     </SelectContent>
                                 </Select>
                             </div>
 
                             <div>
                                 <Label className="text-sm text-gray-700">
-                                    Onaylamak için <span className="font-mono font-bold text-red-600">&quot;İPTAL ET&quot;</span> yazın
-                                </Label>
+                                    {t('app.page.onaylamak_i_in')}<span className="font-mono font-bold text-red-600">{t('app.page.quot_ptal_et_quot')}</span> {t('app.page.yaz_n')}</Label>
                                 <Input
                                     value={cancelConfirmText}
                                     onChange={(e) => setCancelConfirmText(e.target.value)}
-                                    placeholder="İPTAL ET"
+                                    placeholder={t('app.page.ptal_et')}
                                     className="mt-1 border-red-200 focus:border-red-400 focus:ring-red-200"
                                 />
                             </div>
@@ -1176,8 +1157,7 @@ export default function SettingsPage() {
                                     setCancelConfirmText('');
                                 }}
                             >
-                                Vazgeç
-                            </Button>
+                                {t('app.page.vazge')}</Button>
                             <Button
                                 className="flex-1 bg-red-600 hover:bg-red-700 text-white"
                                 disabled={cancelConfirmText !== 'İPTAL ET' || !cancelReason}
@@ -1188,19 +1168,16 @@ export default function SettingsPage() {
                                     setCancelConfirmText('');
                                 }}
                             >
-                                Aboneliği İptal Et
-                            </Button>
+                                {t('app.page.aboneli_i_ptal_et')}</Button>
                         </div>
 
                         {cancelReason === 'too_expensive' && (
                             <div className="mt-4 bg-blue-50 border border-blue-100 rounded-xl p-4">
                                 <p className="text-sm text-blue-800 font-medium flex items-center gap-2">
                                     <Sparkles className="h-4 w-4" />
-                                    Özel teklif!
-                                </p>
+                                    {t('app.page.zel_teklif')}</p>
                                 <p className="text-xs text-blue-700 mt-1">
-                                    Sizi kaybetmek istemeyiz! Sonraki 3 ay %30 indirimli devam edebilirsiniz.
-                                </p>
+                                    {t('app.page.sizi_kaybetmek_istemeyiz_sonra')}</p>
                                 <Button
                                     size="sm"
                                     className="mt-3 bg-blue-600 hover:bg-blue-700 text-white gap-1"
@@ -1212,8 +1189,7 @@ export default function SettingsPage() {
                                     }}
                                 >
                                     <Check className="h-3 w-3" />
-                                    İndirimi Kabul Et
-                                </Button>
+                                    {t('app.page.ndirimi_kabul_et')}</Button>
                             </div>
                         )}
 
@@ -1221,11 +1197,9 @@ export default function SettingsPage() {
                             <div className="mt-4 bg-amber-50 border border-amber-100 rounded-xl p-4">
                                 <p className="text-sm text-amber-800 font-medium flex items-center gap-2">
                                     <Clock className="h-4 w-4" />
-                                    Aboneliği duraklatın!
-                                </p>
+                                    {t('app.page.aboneli_i_duraklat_n')}</p>
                                 <p className="text-xs text-amber-700 mt-1">
-                                    İptal yerine aboneliğinizi 3 aya kadar duraklatabilirsiniz. Verileriniz korunur.
-                                </p>
+                                    {t('app.page.ptal_yerine_aboneli_inizi_3_ay')}</p>
                                 <Button
                                     size="sm"
                                     className="mt-3 bg-amber-600 hover:bg-amber-700 text-white gap-1"
@@ -1237,8 +1211,7 @@ export default function SettingsPage() {
                                     }}
                                 >
                                     <Clock className="h-3 w-3" />
-                                    Duraklat
-                                </Button>
+                                    {t('app.page.duraklat')}</Button>
                             </div>
                         )}
                     </div>

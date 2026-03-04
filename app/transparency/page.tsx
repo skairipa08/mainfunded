@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import { Shield, PieChart, FileCheck, Users, DollarSign } from 'lucide-react';
 import { TransparencyCard, VerificationBadge } from '@/components/TransparencyCard';
 import MobileHeader from '@/components/MobileHeader';
-import { useTranslation } from '@/lib/i18n/context';
 import { useCurrency } from '@/lib/currency-context';
 
 export default function TransparencyPage() {
@@ -21,11 +21,10 @@ export default function TransparencyPage() {
                 <div className="container mx-auto px-4 text-center">
                     <div className="flex items-center justify-center gap-3 mb-4">
                         <Shield className="h-10 w-10" />
-                        <h1 className="text-4xl font-bold">Şeffaflık</h1>
+                        <h1 className="text-4xl font-bold">{t('app.page.effafl_k')}</h1>
                     </div>
                     <p className="text-green-100 text-lg max-w-2xl mx-auto">
-                        Her bağış, doğrulanmış öğrencilere ulaşır ve her harcama raporlanır
-                    </p>
+                        {t('app.page.her_ba_do_rulanm_rencilere_ula')}</p>
                 </div>
             </div>
 
@@ -41,59 +40,55 @@ export default function TransparencyPage() {
                     <div className="bg-white rounded-xl p-6 shadow-sm border text-center">
                         <DollarSign className="h-8 w-8 text-green-600 mx-auto mb-2" />
                         <p className="text-3xl font-bold text-gray-900">{formatAmount(0)}</p>
-                        <p className="text-gray-600">Toplam Bağış</p>
+                        <p className="text-gray-600">{t('app.page.toplam_ba')}</p>
                     </div>
                     <div className="bg-white rounded-xl p-6 shadow-sm border text-center">
                         <Users className="h-8 w-8 text-blue-600 mx-auto mb-2" />
                         <p className="text-3xl font-bold text-gray-900">0</p>
-                        <p className="text-gray-600">Desteklenen Öğrenci</p>
+                        <p className="text-gray-600">{t('app.page.desteklenen_renci')}</p>
                     </div>
                     <div className="bg-white rounded-xl p-6 shadow-sm border text-center">
                         <FileCheck className="h-8 w-8 text-purple-600 mx-auto mb-2" />
                         <p className="text-3xl font-bold text-gray-900">0%</p>
-                        <p className="text-gray-600">Doğrulama Oranı</p>
+                        <p className="text-gray-600">{t('app.page.do_rulama_oran')}</p>
                     </div>
                     <div className="bg-white rounded-xl p-6 shadow-sm border text-center">
                         <PieChart className="h-8 w-8 text-orange-600 mx-auto mb-2" />
                         <p className="text-3xl font-bold text-gray-900">0%</p>
-                        <p className="text-gray-600">Öğrenciye Ulaşan</p>
+                        <p className="text-gray-600">{t('app.page.renciye_ula_an')}</p>
                     </div>
                 </div>
 
                 {/* Verification Badges */}
                 <div className="mb-12">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-6">Doğrulama Sistemi</h2>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-6">{t('app.page.do_rulama_sistemi')}</h2>
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
                         <div className="bg-white rounded-xl p-4 shadow-sm border">
                             <VerificationBadge status="verified" size="lg" className="mb-3" />
                             <p className="text-sm text-gray-600">
-                                Kimlik ve öğrencilik durumu tam doğrulandı
-                            </p>
+                                {t('app.page.kimlik_ve_rencilik_durumu_tam_')}</p>
                         </div>
                         <div className="bg-white rounded-xl p-4 shadow-sm border">
                             <VerificationBadge status="student_verified" size="lg" className="mb-3" />
                             <p className="text-sm text-gray-600">
-                                Öğrenci belgesi incelendi ve onaylandı
-                            </p>
+                                {t('app.page.renci_belgesi_incelendi_ve_ona')}</p>
                         </div>
                         <div className="bg-white rounded-xl p-4 shadow-sm border">
                             <VerificationBadge status="institution_verified" size="lg" className="mb-3" />
                             <p className="text-sm text-gray-600">
-                                Üniversite tarafından teyit edildi
-                            </p>
+                                {t('app.page.niversite_taraf_ndan_teyit_edi')}</p>
                         </div>
                         <div className="bg-white rounded-xl p-4 shadow-sm border">
                             <VerificationBadge status="document_verified" size="lg" className="mb-3" />
                             <p className="text-sm text-gray-600">
-                                Belgeleri manuel olarak incelendi
-                            </p>
+                                {t('app.page.belgeleri_manuel_olarak_incele')}</p>
                         </div>
                     </div>
                 </div>
 
                 {/* Example Breakdown */}
                 <div className="max-w-xl mx-auto">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">Örnek Harcama Dökümü</h2>
+                    <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">{t('app.page.rnek_harcama_d_k_m')}</h2>
                     <TransparencyCard
                         studentName="Örnek Öğrenci"
                         totalRaised={0}

@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { useCorporateAuth } from '@/lib/corporate/auth';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface HeaderProps {
     title: string;
@@ -14,6 +15,7 @@ interface HeaderProps {
 }
 
 export default function CorporateHeader({ title, subtitle }: HeaderProps) {
+    const { t } = useTranslation();
     const { user } = useCorporateAuth();
 
     const initials = user
@@ -89,7 +91,7 @@ export default function CorporateHeader({ title, subtitle }: HeaderProps) {
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                         <Input
                             type="search"
-                            placeholder="Ara..."
+                            placeholder={t('components.header.ara')}
                             className="pl-10 w-64 bg-gray-50 border-gray-200"
                         />
                     </div>
@@ -108,7 +110,7 @@ export default function CorporateHeader({ title, subtitle }: HeaderProps) {
                     <LanguageSwitcher variant="minimal" />
 
                     {/* Download Report */}
-                    <Button variant="ghost" size="icon" onClick={handleDownload} title="ESG Raporu İndir">
+                    <Button variant="ghost" size="icon" onClick={handleDownload} title={t('components.header.esg_raporu_ndir')}>
                         <Download className="h-5 w-5 text-gray-600" />
                     </Button>
 

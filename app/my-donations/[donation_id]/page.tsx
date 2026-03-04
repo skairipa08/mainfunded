@@ -1,13 +1,13 @@
 'use client';
 
 import React, { useState, useEffect, Suspense } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import { useSession } from 'next-auth/react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { useTranslation } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
@@ -414,7 +414,7 @@ function DonationDetailContent() {
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm text-gray-500">{t('myDonationsPage.detail.campaignProgress')}</span>
                 <span className="text-sm font-semibold text-gray-700">
-                  ${campaign.raised_amount?.toLocaleString()} / ${campaign.goal_amount?.toLocaleString()}
+                  ${campaign.raised_amount?.toLocaleString()} {t('app.page.text')}{campaign.goal_amount?.toLocaleString()}
                 </span>
               </div>
               <div className="w-full bg-gray-200 rounded-full h-3">
@@ -539,7 +539,7 @@ function DonationDetailContent() {
                               <div>
                                 <p className="text-sm font-medium text-gray-900">{item.name}</p>
                                 <p className="text-xs text-gray-500">
-                                  %{item.value} · ${item.amount.toLocaleString()}
+                                  %{item.value} {t('app.page.text')}{item.amount.toLocaleString()}
                                 </p>
                               </div>
                             </div>
@@ -689,8 +689,7 @@ function DonationDetailContent() {
                         }}
                       >
                         <AlertCircle className="h-4 w-4 mr-3" />
-                        Aboneliği İptal Et
-                      </Button>
+                        {t('app.page.aboneli_i_ptal_et')}</Button>
                     )}
                   </div>
                 </div>
@@ -890,6 +889,7 @@ function DonationDetailContent() {
 }
 
 export default function DonationDetailPage() {
+    const { t } = useTranslation();
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center bg-gray-50">

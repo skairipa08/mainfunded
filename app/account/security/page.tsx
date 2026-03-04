@@ -8,8 +8,10 @@ import Footer from '@/components/Footer';
 import { Shield, ShieldCheck, ShieldOff, Copy, CheckCircle2, AlertTriangle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useTranslation } from "@/lib/i18n/context";
 
 export default function MfaSettingsPage() {
+    const { t } = useTranslation();
   const { data: session, status } = useSession();
   const router = useRouter();
 
@@ -130,8 +132,7 @@ export default function MfaSettingsPage() {
             <div className="flex items-center gap-3 mb-6">
               <Shield className="h-7 w-7 text-emerald-600" />
               <h1 className="text-2xl font-bold text-gray-900">
-                İki Faktörlü Doğrulama (2FA)
-              </h1>
+                {t('app.page.ki_fakt_rl_do_rulama_2fa')}</h1>
             </div>
 
             {error && (
@@ -165,19 +166,17 @@ export default function MfaSettingsPage() {
                 {!mfaEnabled ? (
                   <Button onClick={startSetup} disabled={processing} className="w-full bg-emerald-600 hover:bg-emerald-700">
                     {processing ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Shield className="h-4 w-4 mr-2" />}
-                    2FA&apos;yı Etkinleştir
-                  </Button>
+                    {t('app.page.2fa_apos_y_etkinle_tir')}</Button>
                 ) : (
                   <div>
                     <p className="text-sm text-gray-500 mb-3">
-                      2FA&apos;yı devre dışı bırakmak için mevcut kodunuzu girin:
-                    </p>
+                      {t('app.page.2fa_apos_y_devre_d_b_rakmak_i_')}</p>
                     <div className="flex gap-2">
                       <Input
                         type="text"
                         inputMode="numeric"
                         maxLength={8}
-                        placeholder="6 haneli kod"
+                        placeholder={t('app.page.6_haneli_kod')}
                         value={token}
                         onChange={(e) => setToken(e.target.value)}
                         className="flex-1"
@@ -195,18 +194,17 @@ export default function MfaSettingsPage() {
             {step === 'setup' && (
               <div>
                 <p className="text-sm text-gray-600 mb-4">
-                  Google Authenticator veya benzer bir uygulama ile aşağıdaki QR kodu tarayın:
-                </p>
+                  {t('app.page.google_authenticator_veya_benz')}</p>
 
                 {qrCode && (
                   <div className="flex justify-center mb-4">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
-                    <img src={qrCode} alt="MFA QR Code" className="w-48 h-48 border rounded-lg" />
+                    <img src={qrCode} alt={t('app.page.mfa_qr_code')} className="w-48 h-48 border rounded-lg" />
                   </div>
                 )}
 
                 <details className="mb-4">
-                  <summary className="text-sm text-emerald-600 cursor-pointer">Manuel giriş kodu</summary>
+                  <summary className="text-sm text-emerald-600 cursor-pointer">{t('app.page.manuel_giri_kodu')}</summary>
                   <code className="block mt-2 text-xs bg-gray-100 p-2 rounded break-all select-all">
                     {secret}
                   </code>
@@ -215,14 +213,13 @@ export default function MfaSettingsPage() {
                 {/* Backup codes */}
                 <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg">
                   <div className="flex items-center justify-between mb-2">
-                    <span className="text-sm font-medium text-amber-800">Yedek Kodlar</span>
+                    <span className="text-sm font-medium text-amber-800">{t('app.page.yedek_kodlar')}</span>
                     <Button size="sm" variant="ghost" onClick={copyBackupCodes}>
                       {copiedBackup ? <CheckCircle2 className="h-4 w-4 text-emerald-600" /> : <Copy className="h-4 w-4" />}
                     </Button>
                   </div>
                   <p className="text-xs text-amber-700 mb-2">
-                    Bu kodları güvenli bir yere kaydedin. Her kod yalnızca bir kez kullanılabilir.
-                  </p>
+                    {t('app.page.bu_kodlar_g_venli_bir_yere_kay')}</p>
                   <div className="grid grid-cols-2 gap-1">
                     {backupCodes.map((code, i) => (
                       <code key={i} className="text-xs bg-white p-1 rounded text-center font-mono">
@@ -233,8 +230,7 @@ export default function MfaSettingsPage() {
                 </div>
 
                 <p className="text-sm text-gray-600 mb-2">
-                  Uygulamadaki 6 haneli kodu girerek kurulumu tamamlayın:
-                </p>
+                  {t('app.page.uygulamadaki_6_haneli_kodu_gir')}</p>
                 <div className="flex gap-2">
                   <Input
                     type="text"
@@ -257,14 +253,11 @@ export default function MfaSettingsPage() {
               <div className="text-center">
                 <CheckCircle2 className="h-16 w-16 text-emerald-500 mx-auto mb-4" />
                 <h2 className="text-xl font-semibold text-gray-900 mb-2">
-                  2FA Başarıyla Etkinleştirildi!
-                </h2>
+                  {t('app.page.2fa_ba_ar_yla_etkinle_tirildi')}</h2>
                 <p className="text-sm text-gray-600 mb-6">
-                  Hesabınız artık iki faktörlü doğrulama ile korunmaktadır.
-                </p>
+                  {t('app.page.hesab_n_z_art_k_iki_fakt_rl_do')}</p>
                 <Button onClick={() => router.push('/account')} className="bg-emerald-600 hover:bg-emerald-700">
-                  Hesabıma Dön
-                </Button>
+                  {t('app.page.hesab_ma_d_n')}</Button>
               </div>
             )}
           </div>

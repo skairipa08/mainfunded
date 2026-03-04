@@ -1,7 +1,10 @@
+'use client';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useTranslation } from "@/lib/i18n/context";
 
 export default function DisclaimerPage() {
+    const { t } = useTranslation();
   const lastUpdated = new Date().toLocaleDateString('tr-TR', {
     year: 'numeric',
     month: 'long',
@@ -20,28 +23,23 @@ export default function DisclaimerPage() {
           <div className="relative max-w-5xl mx-auto px-4 pt-12">
             <div className="inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-2 text-sm font-medium backdrop-blur border border-white/20">
               <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
-              Güven ve Şeffaflık Sözü
-            </div>
+              {t('app.page.g_ven_ve_effafl_k_s_z')}</div>
 
             <div className="mt-6 flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
               <div className="max-w-3xl space-y-4">
                 <h1 className="text-4xl md:text-5xl font-bold leading-tight">
-                  Destek Olurken Bileceğiniz Her Şey: Sınırlar, Sorumluluklar, Güvence
-                </h1>
+                  {t('app.page.destek_olurken_bilece_iniz_her')}</h1>
                 <p className="text-lg text-slate-200">
-                  FundEd, öğrenciler ve bağışçıları buluşturan bir teknoloji köprüsüdür. Hayalleri büyütürken,
-                  sınırlarımızı açıkça paylaşıyor ve yol arkadaşlığımızı güven üzerine kuruyoruz.
-                </p>
+                  {t('app.page.funded_renciler_ve_ba_lar_bulu')}</p>
               </div>
               <div className="shrink-0 space-y-2 text-sm text-slate-200/80">
                 <div className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 border border-white/15">
                   <span role="img" aria-label="calendar">🗓️</span>
-                  Güncelleme: {lastUpdated}
+                  {t('app.page.g_ncelleme')}{lastUpdated}
                 </div>
                 <div className="flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 border border-white/15">
                   <span role="img" aria-label="shield">🛡️</span>
-                  Şeffaflık ve Sorumluluk İlkesi
-                </div>
+                  {t('app.page.effafl_k_ve_sorumluluk_lkesi')}</div>
               </div>
             </div>
 
@@ -72,51 +70,47 @@ export default function DisclaimerPage() {
           <div className="max-w-5xl mx-auto px-4 space-y-10">
             <div className="grid gap-6 md:grid-cols-2">
               <div className="rounded-2xl border border-slate-100 bg-slate-50 p-6 shadow-sm">
-                <h2 className="text-xl font-semibold text-slate-900">Platform Rolümüz</h2>
+                <h2 className="text-xl font-semibold text-slate-900">{t('app.page.platform_rol_m_z')}</h2>
                 <p className="mt-3 text-slate-700 leading-relaxed">
-                  FundEd bir bağış ve eğitim fonlama teknolojisidir; banka, yardım kuruluşu veya eğitim kurumu değildir.
-                  Öğrencileri doğrular, bağışçıyla buluşturur, ödeme altyapısını güvenli biçimde işletir.
-                </p>
+                  {t('app.page.funded_bir_ba_ve_e_itim_fonlam')}</p>
                 <div className="mt-4 space-y-2 text-sm text-slate-600">
-                  <div className="flex gap-2"><span role="img" aria-label="link">🤝</span> Bağlantı kurar, aracılık ederiz.</div>
-                  <div className="flex gap-2"><span role="img" aria-label="lock">🔒</span> Ödeme sürecini şifreli ve kayıtlı yürütürüz.</div>
-                  <div className="flex gap-2"><span role="img" aria-label="balance">⚖️</span> Bağımsız ve şeffaf kalırız.</div>
+                  <div className="flex gap-2"><span role="img" aria-label="link">🤝</span> {t('app.page.ba_lant_kurar_arac_l_k_ederiz')}</div>
+                  <div className="flex gap-2"><span role="img" aria-label="lock">🔒</span> {t('app.page.deme_s_recini_ifreli_ve_kay_tl')}</div>
+                  <div className="flex gap-2"><span role="img" aria-label="balance">⚖️</span> {t('app.page.ba_ms_z_ve_effaf_kal_r_z')}</div>
                 </div>
               </div>
 
               <div className="rounded-2xl border border-amber-100 bg-amber-50 p-6 shadow-sm">
-                <h2 className="text-xl font-semibold text-amber-900">Garantilemediklerimiz</h2>
+                <h2 className="text-xl font-semibold text-amber-900">{t('app.page.garantilemediklerimiz')}</h2>
                 <ul className="mt-3 space-y-2 text-slate-800 text-sm leading-relaxed">
-                  <li>• Kampanyaların hedeflerine ulaşması</li>
-                  <li>• Öğrencilerin fonları beyan ettikleri şekilde kullanması</li>
-                  <li>• Öğrenci beyanlarının eksiksiz ve hatasız olması</li>
-                  <li>• Eğitim çıktılarının (mezuniyet, başarı) gerçekleşmesi</li>
+                  <li>{t('app.page.kampanyalar_n_hedeflerine_ula_')}</li>
+                  <li>{t('app.page.rencilerin_fonlar_beyan_ettikl')}</li>
+                  <li>{t('app.page.renci_beyanlar_n_n_eksiksiz_ve')}</li>
+                  <li>{t('app.page.e_itim_kt_lar_n_n_mezuniyet_ba')}</li>
                 </ul>
                 <p className="mt-3 text-xs text-amber-800">
-                  Bağış yapmadan önce kampanya detaylarını dikkatle okumanızı, sorularınızı doğrudan öğrenciyle
-                  veya destek kanalımızla paylaşmanızı öneririz.
-                </p>
+                  {t('app.page.ba_yapmadan_nce_kampanya_detay')}</p>
               </div>
             </div>
 
             <div className="grid gap-6 md:grid-cols-2">
               <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-slate-900">Bağışçı Sorumlulukları</h3>
+                <h3 className="text-lg font-semibold text-slate-900">{t('app.page.ba_sorumluluklar')}</h3>
                 <ul className="mt-3 space-y-2 text-sm text-slate-700 leading-relaxed">
-                  <li>• Bağışlar geri ödemesizdir (yasal zorunluluklar hariç).</li>
-                  <li>• Vergisel yükümlülüklerinizi kendiniz takip edersiniz.</li>
-                  <li>• Kampanya açıklamalarını ve güncellemeleri kontrol edersiniz.</li>
-                  <li>• Riskleri değerlendirerek bilinçli karar verirsiniz.</li>
+                  <li>{t('app.page.ba_lar_geri_demesizdir_yasal_z')}</li>
+                  <li>{t('app.page.vergisel_y_k_ml_l_klerinizi_ke')}</li>
+                  <li>{t('app.page.kampanya_a_klamalar_n_ve_g_nce')}</li>
+                  <li>{t('app.page.riskleri_de_erlendirerek_bilin')}</li>
                 </ul>
               </div>
 
               <div className="rounded-2xl border border-slate-100 bg-white p-6 shadow-sm">
-                <h3 className="text-lg font-semibold text-slate-900">Öğrenci Sorumlulukları</h3>
+                <h3 className="text-lg font-semibold text-slate-900">{t('app.page.renci_sorumluluklar')}</h3>
                 <ul className="mt-3 space-y-2 text-sm text-slate-700 leading-relaxed">
-                  <li>• Doğru ve güncel bilgiler paylaşmak.</li>
-                  <li>• Fonları belirtilen eğitim amacıyla kullanmak.</li>
-                  <li>• Talep edildiğinde ek belge/güncelleme sunmak.</li>
-                  <li>• Topluluğa karşı dürüst ve açık olmak.</li>
+                  <li>{t('app.page.do_ru_ve_g_ncel_bilgiler_payla')}</li>
+                  <li>{t('app.page.fonlar_belirtilen_e_itim_amac_')}</li>
+                  <li>{t('app.page.talep_edildi_inde_ek_belge_g_n')}</li>
+                  <li>{t('app.page.toplulu_a_kar_d_r_st_ve_a_k_ol')}</li>
                 </ul>
               </div>
             </div>
@@ -127,12 +121,11 @@ export default function DisclaimerPage() {
           <div className="max-w-5xl mx-auto px-4 space-y-8">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-3">
               <div>
-                <p className="text-sm font-semibold text-sky-700">Nasıl Çalışıyoruz?</p>
-                <h2 className="text-2xl font-bold text-slate-900 mt-1">Doğrulama ve Şeffaflık Adımlarımız</h2>
+                <p className="text-sm font-semibold text-sky-700">{t('app.page.nas_l_al_yoruz')}</p>
+                <h2 className="text-2xl font-bold text-slate-900 mt-1">{t('app.page.do_rulama_ve_effafl_k_ad_mlar_')}</h2>
               </div>
               <div className="rounded-full bg-sky-100 text-sky-800 text-sm px-4 py-2 font-medium">
-                Sürekli iyileştirme ve kayıtlı denetim izi
-              </div>
+                {t('app.page.s_rekli_iyile_tirme_ve_kay_tl_')}</div>
             </div>
 
             <div className="grid gap-4 md:grid-cols-3">
@@ -157,11 +150,9 @@ export default function DisclaimerPage() {
             </div>
 
             <div className="rounded-2xl border border-red-100 bg-red-50 p-5 text-red-900">
-              <h3 className="text-lg font-semibold">Riskleri Bilerek Hareket Edin</h3>
+              <h3 className="text-lg font-semibold">{t('app.page.riskleri_bilerek_hareket_edin')}</h3>
               <p className="mt-2 text-sm leading-relaxed text-red-900/90">
-                Bağışlar bir yatırım veya satın alma değildir. Kampanyaların gerçekleşmemesi, hedeflerin tutmaması
-                veya beyan dışı kullanım gibi riskler mevcut olabilir. Bu riskler bağış kararınızın doğal parçasıdır.
-              </p>
+                {t('app.page.ba_lar_bir_yat_r_m_veya_sat_n_')}</p>
             </div>
           </div>
         </section>
@@ -169,31 +160,24 @@ export default function DisclaimerPage() {
         <section className="bg-white text-slate-900 py-12">
           <div className="max-w-5xl mx-auto px-4 space-y-6">
             <div className="flex flex-col gap-3">
-              <p className="text-sm font-semibold text-emerald-700">Sorumluluk Reddi</p>
-              <h2 className="text-2xl font-bold">Yasal Çerçeve ve Sınırlar</h2>
+              <p className="text-sm font-semibold text-emerald-700">{t('app.page.sorumluluk_reddi')}</p>
+              <h2 className="text-2xl font-bold">{t('app.page.yasal_er_eve_ve_s_n_rlar')}</h2>
               <p className="text-slate-700 leading-relaxed">
-                Yürürlükteki hukuk çerçevesinde, FundEd dolaylı, tesadüfi, özel veya sonucu kayıplarından sorumlu tutulamaz.
-                Üçüncü taraf servis sağlayıcılarının (iyzico, Cloudinary, kimlik doğrulama sağlayıcıları) politika ve güvenlik
-                uygulamalarından sorumluluk kabul etmeyiz; fakat güvenli entegrasyon ve sözleşmesel tedbirleri uygularız.
-              </p>
+                {t('app.page.y_r_rl_kteki_hukuk_er_evesinde')}</p>
             </div>
 
             <div className="rounded-2xl border border-slate-100 bg-slate-50 p-6 shadow-sm">
-              <h3 className="text-lg font-semibold text-slate-900">Sorularınız mı var?</h3>
+              <h3 className="text-lg font-semibold text-slate-900">{t('app.page.sorular_n_z_m_var')}</h3>
               <p className="mt-2 text-sm text-slate-700 leading-relaxed">
-                Şeffaflık için buradayız. Kampanya, doğrulama veya bağış süreçleri hakkında aklınıza takılan her şey için
-                bize ulaşabilirsiniz.
-              </p>
+                {t('app.page.effafl_k_i_in_buraday_z_kampan')}</p>
               <div className="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
                 <a
                   href="mailto:support@fund-ed.com"
                   className="inline-flex items-center justify-center rounded-full bg-emerald-600 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-emerald-200 hover:bg-emerald-700 transition-colors"
                 >
-                  Destek Ekibine Yaz
-                </a>
+                  {t('app.page.destek_ekibine_yaz')}</a>
                 <div className="text-xs text-slate-600">
-                  Hızlı yanıt: 1-2 iş günü içinde | Belge taleplerine yanıt: 5 iş günü içinde
-                </div>
+                  {t('app.page.h_zl_yan_t_1_2_i_g_n_i_inde_be')}</div>
               </div>
             </div>
           </div>

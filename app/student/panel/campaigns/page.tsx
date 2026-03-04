@@ -16,6 +16,7 @@ import {
   Eye,
 } from 'lucide-react';
 import { useCurrency } from '@/lib/currency-context';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface DonorInfo {
   donor_id: string;
@@ -38,6 +39,7 @@ interface CampaignDetail {
 }
 
 export default function StudentCampaignsPage() {
+    const { t } = useTranslation();
   const { data: session } = useSession();
   const { formatAmount } = useCurrency();
 
@@ -109,19 +111,16 @@ export default function StudentCampaignsPage() {
       <div className="flex items-center gap-4 mb-8">
         <Link href="/student/panel">
           <Button variant="ghost" size="sm">
-            <ArrowLeft className="h-4 w-4 mr-1" /> Geri
-          </Button>
+            <ArrowLeft className="h-4 w-4 mr-1" /> {t('app.page.geri')}</Button>
         </Link>
         <div className="flex-1">
-          <h1 className="text-2xl font-bold text-gray-900">Kampanyalarım</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t('app.page.kampanyalar_m')}</h1>
           <p className="text-gray-500 text-sm">
-            Tüm kampanyalarınızı görün, bağışçılarınızı takip edin.
-          </p>
+            {t('app.page.t_m_kampanyalar_n_z_g_r_n_ba_l')}</p>
         </div>
         <Link href="/campaigns/new">
           <Button size="sm">
-            <Plus className="h-4 w-4 mr-1" /> Yeni Kampanya
-          </Button>
+            <Plus className="h-4 w-4 mr-1" /> {t('app.page.yeni_kampanya')}</Button>
         </Link>
       </div>
 
@@ -139,11 +138,10 @@ export default function StudentCampaignsPage() {
       ) : campaigns.length === 0 ? (
         <div className="bg-white rounded-lg shadow p-16 text-center">
           <TrendingUp className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-          <p className="text-gray-500 text-lg mb-4">Henüz kampanyanız yok</p>
+          <p className="text-gray-500 text-lg mb-4">{t('app.page.hen_z_kampanyan_z_yok')}</p>
           <Link href="/campaigns/new">
             <Button>
-              <Plus className="h-4 w-4 mr-1" /> İlk Kampanyanızı Oluşturun
-            </Button>
+              <Plus className="h-4 w-4 mr-1" /> {t('app.page.lk_kampanyan_z_olu_turun')}</Button>
           </Link>
         </div>
       ) : (
@@ -169,20 +167,18 @@ export default function StudentCampaignsPage() {
                         </Badge>
                       </div>
                       <p className="text-sm text-gray-500">
-                        Oluşturulma: {new Date(c.created_at).toLocaleDateString('tr-TR')}
+                        {t('app.page.olu_turulma')}{new Date(c.created_at).toLocaleDateString('tr-TR')}
                       </p>
                     </div>
                     <div className="flex gap-2">
                       <Link href={`/campaign/${c.campaign_id}`}>
                         <Button variant="outline" size="sm">
-                          <Eye className="h-4 w-4 mr-1" /> Görüntüle
-                        </Button>
+                          <Eye className="h-4 w-4 mr-1" /> {t('app.page.g_r_nt_le')}</Button>
                       </Link>
                       {c.status === 'completed' && (
                         <Link href={`/student/panel/updates?campaign=${c.campaign_id}`}>
                           <Button variant="outline" size="sm">
-                            Güncelleme Paylaş
-                          </Button>
+                            {t('app.page.g_ncelleme_payla')}</Button>
                         </Link>
                       )}
                     </div>
@@ -191,7 +187,7 @@ export default function StudentCampaignsPage() {
                   {/* Progress */}
                   <div className="mb-4">
                     <div className="flex justify-between text-sm mb-1">
-                      <span className="text-gray-600">İlerleme</span>
+                      <span className="text-gray-600">{t('app.page.lerleme')}</span>
                       <span className="font-medium text-gray-900">{pct}%</span>
                     </div>
                     <div className="w-full bg-gray-200 rounded-full h-3">
@@ -211,8 +207,7 @@ export default function StudentCampaignsPage() {
                   {/* Quick Stats */}
                   <div className="flex items-center gap-6 text-sm text-gray-600">
                     <span className="flex items-center gap-1">
-                      <Users className="h-4 w-4" /> {c.donor_count} bağışçı
-                    </span>
+                      <Users className="h-4 w-4" /> {c.donor_count} {t('app.page.ba')}</span>
                     <button
                       onClick={() => loadDonors(c.campaign_id)}
                       className="flex items-center gap-1 text-blue-600 hover:text-blue-800 font-medium"
@@ -224,15 +219,14 @@ export default function StudentCampaignsPage() {
                       href={`/student/panel/messages?campaign=${c.campaign_id}`}
                       className="flex items-center gap-1 text-blue-600 hover:text-blue-800 font-medium"
                     >
-                      <MessageCircle className="h-4 w-4" /> Mesaj Gönder
-                    </Link>
+                      <MessageCircle className="h-4 w-4" /> {t('app.page.mesaj_g_nder')}</Link>
                   </div>
                 </div>
 
                 {/* Expanded Donors List */}
                 {isExpanded && (
                   <div className="border-t bg-gray-50 p-6">
-                    <h4 className="font-medium text-gray-900 mb-3">Bağışçılar</h4>
+                    <h4 className="font-medium text-gray-900 mb-3">{t('app.page.ba_lar')}</h4>
                     {donorLoading === c.campaign_id ? (
                       <div className="space-y-2">
                         {[1, 2, 3].map((i) => (
@@ -244,7 +238,7 @@ export default function StudentCampaignsPage() {
                         ))}
                       </div>
                     ) : !c.donors || c.donors.length === 0 ? (
-                      <p className="text-gray-500 text-sm">Henüz bağışçı yok.</p>
+                      <p className="text-gray-500 text-sm">{t('app.page.hen_z_ba_yok')}</p>
                     ) : (
                       <div className="space-y-2">
                         {c.donors.map((d, idx) => (

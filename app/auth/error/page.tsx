@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 
 /**
  * Error codes from NextAuth and their user-friendly messages
@@ -64,6 +65,7 @@ const ERROR_MESSAGES: Record<string, { title: string; description: string; actio
 };
 
 function AuthErrorContent() {
+    const { t } = useTranslation();
   const searchParams = useSearchParams();
   const errorCode = searchParams.get('error') || 'Default';
 
@@ -94,7 +96,7 @@ function AuthErrorContent() {
           {process.env.NODE_ENV === 'development' && errorInfo.action && (
             <div className="bg-yellow-50 border border-yellow-200 rounded-md p-4 mb-6">
               <p className="text-sm text-yellow-800">
-                <strong>Development hint:</strong> {errorInfo.action}
+                <strong>{t('app.page.development_hint')}</strong> {errorInfo.action}
               </p>
             </div>
           )}
@@ -103,7 +105,7 @@ function AuthErrorContent() {
           {errorCode !== 'Default' && (
             <div className="bg-gray-50 rounded-md p-3 mb-6">
               <p className="text-xs text-gray-500 text-center">
-                Error code: <code className="bg-gray-200 px-1 rounded">{errorCode}</code>
+                {t('app.page.error_code')}<code className="bg-gray-200 px-1 rounded">{errorCode}</code>
               </p>
             </div>
           )}
@@ -117,22 +119,19 @@ function AuthErrorContent() {
               <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1" />
               </svg>
-              Try Again
-            </Link>
+              {t('app.page.try_again')}</Link>
             <Link
               href="/"
               className="flex-1 inline-flex items-center justify-center px-4 py-3 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 transition-colors"
             >
-              Go to Home
-            </Link>
+              {t('app.page.go_to_home')}</Link>
           </div>
 
           {/* Help link */}
           <p className="text-xs text-gray-400 text-center mt-6">
-            If the problem persists, please{' '}
+            {t('app.page.if_the_problem_persists_please')}{' '}
             <a href="mailto:support@funded.com" className="text-blue-600 hover:underline">
-              contact support
-            </a>
+              {t('app.page.contact_support')}</a>
           </p>
         </div>
       </div>
@@ -141,12 +140,13 @@ function AuthErrorContent() {
 }
 
 export default function AuthErrorPage() {
+    const { t } = useTranslation();
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <div className="h-8 w-8 animate-spin mx-auto text-blue-600 mb-4 border-4 border-blue-200 border-t-blue-600 rounded-full" />
-          <p className="text-gray-600">Loading...</p>
+          <p className="text-gray-600">{t('app.page.loading')}</p>
         </div>
       </div>
     }>

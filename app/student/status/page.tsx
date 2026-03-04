@@ -163,25 +163,25 @@ function StudentStatusContent() {
             </div>
             {application.faculty && (
               <div>
-                <dt className="text-sm font-medium text-gray-500">Fakülte</dt>
+                <dt className="text-sm font-medium text-gray-500">{t('app.page.fak_lte')}</dt>
                 <dd className="text-gray-900 mt-1">{application.faculty}</dd>
               </div>
             )}
             {application.department && (
               <div>
-                <dt className="text-sm font-medium text-gray-500">Bölüm</dt>
+                <dt className="text-sm font-medium text-gray-500">{t('app.page.b_l_m')}</dt>
                 <dd className="text-gray-900 mt-1">{application.department}</dd>
               </div>
             )}
             {application.classYear && (
               <div>
-                <dt className="text-sm font-medium text-gray-500">Sınıf</dt>
+                <dt className="text-sm font-medium text-gray-500">{t('app.page.s_n_f')}</dt>
                 <dd className="text-gray-900 mt-1">{application.classYear}</dd>
               </div>
             )}
             {application.targetAmount && (
               <div>
-                <dt className="text-sm font-medium text-gray-500">Hedeflenen Miktar</dt>
+                <dt className="text-sm font-medium text-gray-500">{t('app.page.hedeflenen_miktar')}</dt>
                 <dd className="text-gray-900 mt-1">${application.targetAmount}</dd>
               </div>
             )}
@@ -230,7 +230,7 @@ export default function StudentStatusPage() {
           <Suspense fallback={
             <div className="text-center py-12">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4"></div>
-              <p className="text-gray-600">Loading...</p>
+              <p className="text-gray-600">{t('app.page.loading')}</p>
             </div>
           }>
             <StudentStatusContent />

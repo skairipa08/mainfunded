@@ -28,6 +28,11 @@ const translations: Record<Locale, typeof en> = {
 
 // Helper function to get nested translation value
 function getNestedValue(obj: any, path: string): string {
+    // Support flat keys directly appended to the object
+    if (obj && typeof obj === 'object' && path in obj) {
+        return obj[path];
+    }
+
     const keys = path.split('.');
     let result = obj;
 

@@ -7,6 +7,7 @@ import { CorporateAuthProvider } from '@/lib/corporate/auth';
 import CorporateAuthGate from '@/components/corporate/AuthGate';
 import { Menu, ArrowLeft } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from "@/lib/i18n/context";
 
 // Pages that don't require auth (login/register page)
 const publicPaths = ['/corporate/auth'];
@@ -16,6 +17,7 @@ export default function CorporateLayout({
 }: {
     children: React.ReactNode;
 }) {
+    const { t } = useTranslation();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const router = useRouter();
     const pathname = usePathname();
@@ -45,7 +47,7 @@ export default function CorporateLayout({
                         >
                             <ArrowLeft className="h-5 w-5" />
                         </button>
-                        <span className="font-semibold">FundEd Kurumsal</span>
+                        <span className="font-semibold">{t('app.layout.funded_kurumsal')}</span>
                         <button
                             onClick={() => setMobileMenuOpen(true)}
                             className="p-2 -mr-2 rounded-lg hover:bg-gray-800 transition-colors"

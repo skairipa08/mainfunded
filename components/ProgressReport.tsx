@@ -17,6 +17,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { useCurrency } from '@/lib/currency-context';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface ProgressUpdate {
     id: string;
@@ -169,6 +170,7 @@ export function QuarterlyReport({
     nextMilestone,
     className,
 }: QuarterlyReportProps) {
+    const { t } = useTranslation();
     const { formatAmount } = useCurrency();
     const formatDate = (dateStr: string) => {
         return new Date(dateStr).toLocaleDateString('tr-TR', {
@@ -226,7 +228,7 @@ export function QuarterlyReport({
             {/* Header */}
             <div className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white p-6">
                 <div className="flex items-center justify-between mb-4">
-                    <Badge className="bg-white/20 text-white">{quarter} Raporu</Badge>
+                    <Badge className="bg-white/20 text-white">{quarter} {t('components.progressreport.raporu')}</Badge>
                     <Button
                         variant="ghost"
                         size="sm"
@@ -234,8 +236,7 @@ export function QuarterlyReport({
                         onClick={handleDownloadPDF}
                     >
                         <Download className="h-4 w-4" />
-                        PDF Indir
-                    </Button>
+                        {t('components.progressreport.pdf_indir')}</Button>
                 </div>
                 <h2 className="text-2xl font-bold mb-1">{studentName}</h2>
                 <p className="text-blue-100 text-sm">
@@ -247,15 +248,15 @@ export function QuarterlyReport({
             <div className="grid grid-cols-3 gap-4 p-6 border-b">
                 <div className="text-center">
                     <p className="text-3xl font-bold text-blue-600">{academicProgress.gpa.toFixed(2)}</p>
-                    <p className="text-sm text-gray-500">Ortalama (GPA)</p>
+                    <p className="text-sm text-gray-500">{t('components.progressreport.ortalama_gpa')}</p>
                 </div>
                 <div className="text-center border-x">
                     <p className="text-3xl font-bold text-green-600">{academicProgress.credits}</p>
-                    <p className="text-sm text-gray-500">Tamamlanan Kredi</p>
+                    <p className="text-sm text-gray-500">{t('components.progressreport.tamamlanan_kredi')}</p>
                 </div>
                 <div className="text-center">
                     <p className="text-3xl font-bold text-purple-600">{academicProgress.coursesCompleted}</p>
-                    <p className="text-sm text-gray-500">Ders</p>
+                    <p className="text-sm text-gray-500">{t('components.progressreport.ders')}</p>
                 </div>
             </div>
 
@@ -263,19 +264,18 @@ export function QuarterlyReport({
             <div className="p-6 border-b">
                 <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                     <TrendingUp className="h-5 w-5 text-green-600" />
-                    Finansal Özet
-                </h3>
+                    {t('components.progressreport.finansal_zet')}</h3>
                 <div className="space-y-3">
                     <div className="flex justify-between items-center">
-                        <span className="text-gray-600">Alınan Bağış</span>
+                        <span className="text-gray-600">{t('components.progressreport.al_nan_ba')}</span>
                         <span className="font-semibold text-green-600">{formatCurrency(financialSummary.received)}</span>
                     </div>
                     <div className="flex justify-between items-center">
-                        <span className="text-gray-600">Harcanan</span>
+                        <span className="text-gray-600">{t('components.progressreport.harcanan')}</span>
                         <span className="font-semibold text-red-600">-{formatCurrency(financialSummary.spent)}</span>
                     </div>
                     <div className="flex justify-between items-center pt-2 border-t">
-                        <span className="text-gray-900 font-medium">Kalan</span>
+                        <span className="text-gray-900 font-medium">{t('components.progressreport.kalan')}</span>
                         <span className="font-bold text-blue-600">{formatCurrency(financialSummary.remaining)}</span>
                     </div>
                 </div>
@@ -285,8 +285,7 @@ export function QuarterlyReport({
             <div className="p-6">
                 <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                     <Clock className="h-5 w-5 text-blue-600" />
-                    Donem Guncellemeleri
-                </h3>
+                    {t('components.progressreport.donem_guncellemeleri')}</h3>
                 <div className="space-y-4">
                     {updates.map((update) => {
                         const Icon = getUpdateIcon(update.type);
@@ -324,7 +323,7 @@ export function QuarterlyReport({
                     <div className="flex items-center gap-3">
                         <Target className="h-6 w-6 text-purple-600" />
                         <div>
-                            <p className="text-sm text-purple-600 font-medium">Sonraki Hedef</p>
+                            <p className="text-sm text-purple-600 font-medium">{t('components.progressreport.sonraki_hedef')}</p>
                             <p className="text-gray-900">{nextMilestone}</p>
                         </div>
                     </div>
@@ -348,6 +347,7 @@ interface ProgressReportsListProps {
 }
 
 export function ProgressReportsList({ reports, className }: ProgressReportsListProps) {
+    const { t } = useTranslation();
     const [selectedReport, setSelectedReport] = useState<QuarterlyReportData | null>(null);
 
     // Generate mock report data based on quarter
@@ -417,7 +417,7 @@ export function ProgressReportsList({ reports, className }: ProgressReportsListP
                                 <FileText className="h-5 w-5 text-blue-600" />
                             </div>
                             <div>
-                                <h4 className="font-medium text-gray-900">{report.quarter} Raporu</h4>
+                                <h4 className="font-medium text-gray-900">{report.quarter} {t('components.progressreport.raporu')}</h4>
                                 <p className="text-sm text-gray-500">{report.studentName}</p>
                             </div>
                         </div>
@@ -443,7 +443,7 @@ export function ProgressReportsList({ reports, className }: ProgressReportsListP
                 <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
                     <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
                         <div className="sticky top-0 bg-white border-b p-4 flex items-center justify-between">
-                            <h3 className="font-semibold text-gray-900">{selectedReport.quarter} Raporu - {selectedReport.studentName}</h3>
+                            <h3 className="font-semibold text-gray-900">{selectedReport.quarter} {t('components.progressreport.raporu')}{selectedReport.studentName}</h3>
                             <div className="flex items-center gap-2">
                                 <Button
                                     variant="outline"
@@ -452,8 +452,7 @@ export function ProgressReportsList({ reports, className }: ProgressReportsListP
                                     className="gap-2"
                                 >
                                     <Download className="h-4 w-4" />
-                                    PDF Indir
-                                </Button>
+                                    {t('components.progressreport.pdf_indir')}</Button>
                                 <Button
                                     variant="ghost"
                                     size="icon"

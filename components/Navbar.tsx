@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter, usePathname } from 'next/navigation';
@@ -26,7 +27,6 @@ import {
   Info,
 } from 'lucide-react';
 import { Button } from './ui/button';
-import { useTranslation } from '@/lib/i18n';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
 import { useCurrency } from '@/lib/currency-context';
 import NotificationBell from '@/components/notifications/NotificationBell';
@@ -60,6 +60,7 @@ function CurrencySwitcherButton() {
 }
 
 function NavDropdown({ label, icon: Icon, items }: NavDropdownProps) {
+    const { t } = useTranslation();
   const [open, setOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
@@ -259,8 +260,7 @@ export default function Navbar() {
               <GraduationCap className="h-6 w-6 text-white" />
             </div>
             <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
-              FundEd
-            </span>
+              {t('components.navbar.funded')}</span>
           </Link>
 
           {/* Navigation Links */}
@@ -278,11 +278,9 @@ export default function Navbar() {
             {isAdmin && (
               <>
                 <Link href="/ops/applications" className="text-gray-600 hover:text-blue-600 transition-colors font-medium px-2 py-1">
-                  Ops
-                </Link>
+                  {t('components.navbar.ops')}</Link>
                 <Link href="/institution/dashboard" className="text-gray-600 hover:text-blue-600 transition-colors font-medium px-2 py-1">
-                  Institution
-                </Link>
+                  {t('components.navbar.institution')}</Link>
               </>
             )}
           </div>
@@ -302,7 +300,7 @@ export default function Navbar() {
                 className="hidden sm:flex p-2 rounded-lg text-gray-600 hover:text-blue-600 hover:bg-gray-100 transition-colors"
                 aria-label="Bağış Takvimi"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="18" height="18" x="3" y="4" rx="2" ry="2" /><line x1="16" x2="16" y1="2" y2="6" /><line x1="8" x2="8" y1="2" y2="6" /><line x1="3" x2="21" y1="10" y2="10" /></svg>
               </Link>
             )}
 
@@ -362,8 +360,7 @@ export default function Navbar() {
                       <p className="text-sm text-gray-500">{user.email}</p>
                       {isAdmin && (
                         <span className="inline-block mt-1 px-2 py-0.5 bg-purple-100 text-purple-700 text-xs rounded-full">
-                          Admin
-                        </span>
+                          {t('components.navbar.admin')}</span>
                       )}
                     </div>
                     <Link
@@ -404,8 +401,7 @@ export default function Navbar() {
                       onClick={() => setDropdownOpen(false)}
                     >
                       <Heart className="h-4 w-4 mr-2" />
-                      Bağış Takvimi
-                    </Link>
+                      {t('components.navbar.ba_takvimi')}</Link>
                     <div className="border-t border-gray-100 my-1" />
                     <button
                       onClick={handleLogout}
@@ -538,7 +534,7 @@ export default function Navbar() {
                     className="flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
                   >
                     <Heart className="h-5 w-5 text-blue-600" />
-                    <span>Bağış Takvimi</span>
+                    <span>{t('components.navbar.ba_takvimi')}</span>
                   </Link>
                 </div>
               </div>
@@ -547,22 +543,20 @@ export default function Navbar() {
             {/* Admin Links */}
             {isAdmin && (
               <div className="border-t border-gray-100 pt-4">
-                <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">Admin</p>
+                <p className="px-3 text-xs font-semibold text-gray-500 uppercase tracking-wider mb-2">{t('components.navbar.admin')}</p>
                 <div className="space-y-1">
                   <Link
                     href="/ops/applications"
                     onClick={() => setMobileMenuOpen(false)}
                     className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
                   >
-                    Ops
-                  </Link>
+                    {t('components.navbar.ops')}</Link>
                   <Link
                     href="/institution/dashboard"
                     onClick={() => setMobileMenuOpen(false)}
                     className="block px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
                   >
-                    Institution
-                  </Link>
+                    {t('components.navbar.institution')}</Link>
                 </div>
               </div>
             )}

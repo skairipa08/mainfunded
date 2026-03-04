@@ -19,6 +19,7 @@ import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { useCurrency } from '@/lib/currency-context';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface BreakdownItem {
     category: string;
@@ -101,6 +102,7 @@ export function TransparencyCard({
     documents,
     className,
 }: TransparencyCardProps) {
+    const { t } = useTranslation();
     const { formatAmount } = useCurrency();
 
     const formatCurrencyLocal = (value: number) => {
@@ -113,15 +115,13 @@ export function TransparencyCard({
                 return (
                     <Badge className="bg-green-100 text-green-700 gap-1">
                         <Shield className="h-3 w-3" />
-                        Doğrulanmış
-                    </Badge>
+                        {t('components.transparencycard.do_rulanm')}</Badge>
                 );
             case 'pending':
                 return (
                     <Badge className="bg-yellow-100 text-yellow-700 gap-1">
                         <Activity className="h-3 w-3" />
-                        Doğrulama Bekliyor
-                    </Badge>
+                        {t('components.transparencycard.do_rulama_bekliyor')}</Badge>
                 );
             default:
                 return null;
@@ -135,13 +135,12 @@ export function TransparencyCard({
                 <div className="flex items-center justify-between mb-2">
                     <div className="flex items-center gap-2">
                         <PieChart className="h-5 w-5 text-blue-600" />
-                        <h3 className="font-semibold text-gray-900">Harcama Detayi</h3>
+                        <h3 className="font-semibold text-gray-900">{t('components.transparencycard.harcama_detayi')}</h3>
                     </div>
                     {getVerificationBadge()}
                 </div>
                 <p className="text-sm text-gray-600">
-                    {studentName} için toplanan fonların nasıl kullanıldığını görün
-                </p>
+                    {studentName} {t('components.transparencycard.i_in_toplanan_fonlar_n_nas_l_k')}</p>
             </div>
 
             {/* Breakdown List */}
@@ -171,18 +170,18 @@ export function TransparencyCard({
             {/* Total */}
             <div className="bg-gray-50 p-4 border-t">
                 <div className="flex justify-between items-center">
-                    <span className="text-gray-600">Toplam Butce</span>
+                    <span className="text-gray-600">{t('components.transparencycard.toplam_butce')}</span>
                     <span className="text-xl font-bold text-gray-900">{formatCurrencyLocal(goalAmount)}</span>
                 </div>
                 <p className="text-xs text-gray-500 mt-1">
-                    Son güncelleme: {new Date(lastUpdated).toLocaleDateString('tr-TR')}
+                    {t('components.transparencycard.son_g_ncelleme')}{new Date(lastUpdated).toLocaleDateString('tr-TR')}
                 </p>
             </div>
 
             {/* Documents */}
             {documents && documents.length > 0 && (
                 <div className="p-4 border-t">
-                    <h4 className="text-sm font-medium text-gray-700 mb-2">Doğrulama Belgeleri</h4>
+                    <h4 className="text-sm font-medium text-gray-700 mb-2">{t('components.transparencycard.do_rulama_belgeleri')}</h4>
                     <div className="space-y-2">
                         {documents.map((doc) => (
                             <a

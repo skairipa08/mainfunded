@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useTranslation } from "@/lib/i18n/context";
 
 // Mock analytics data
 const mockAnalytics = {
@@ -81,6 +82,7 @@ const mockExperiments = [
 ];
 
 export default function AnalyticsPage() {
+    const { t } = useTranslation();
     const [timeRange, setTimeRange] = useState<'24h' | '7d' | '30d'>('24h');
     const [lastUpdate, setLastUpdate] = useState(new Date());
 
@@ -129,9 +131,9 @@ export default function AnalyticsPage() {
                                 <BarChart3 className="h-6 w-6 text-blue-600" />
                             </div>
                             <div>
-                                <h1 className="text-xl font-bold text-gray-900">Analytics Dashboard</h1>
+                                <h1 className="text-xl font-bold text-gray-900">{t('app.page.analytics_dashboard')}</h1>
                                 <p className="text-sm text-gray-500">
-                                    Son güncelleme: {lastUpdate.toLocaleTimeString('tr-TR')}
+                                    {t('app.page.son_g_ncelleme')}{lastUpdate.toLocaleTimeString('tr-TR')}
                                 </p>
                             </div>
                         </div>
@@ -152,12 +154,10 @@ export default function AnalyticsPage() {
                             </div>
                             <Button variant="outline" size="sm" onClick={refresh}>
                                 <RefreshCw className="h-4 w-4 mr-2" />
-                                Yenile
-                            </Button>
+                                {t('app.page.yenile')}</Button>
                             <Button variant="outline" size="sm">
                                 <Download className="h-4 w-4 mr-2" />
-                                Dışa Aktar
-                            </Button>
+                                {t('app.page.d_a_aktar')}</Button>
                         </div>
                     </div>
                 </div>
@@ -166,10 +166,10 @@ export default function AnalyticsPage() {
             <div className="container mx-auto px-4 py-8">
                 {/* Stats Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-                    <StatCard icon={Eye} label="Sayfa Görüntüleme" value={mockAnalytics.pageViews} change={12} />
-                    <StatCard icon={Users} label="Benzersiz Oturum" value={mockAnalytics.uniqueSessions} change={8} color="green" />
-                    <StatCard icon={Target} label="Dönüşüm Oranı" value={`%${mockAnalytics.conversionRate}`} change={-2} color="purple" />
-                    <StatCard icon={MousePointer} label="Toplam Olay" value={mockAnalytics.totalEvents} change={15} color="orange" />
+                    <StatCard icon={Eye} label={t('app.page.sayfa_g_r_nt_leme')} value={mockAnalytics.pageViews} change={12} />
+                    <StatCard icon={Users} label={t('app.page.benzersiz_oturum')} value={mockAnalytics.uniqueSessions} change={8} color="green" />
+                    <StatCard icon={Target} label={t('app.page.d_n_m_oran')} value={`%${mockAnalytics.conversionRate}`} change={-2} color="purple" />
+                    <StatCard icon={MousePointer} label={t('app.page.toplam_olay')} value={mockAnalytics.totalEvents} change={15} color="orange" />
                 </div>
 
                 <div className="grid lg:grid-cols-3 gap-8 mb-8">
@@ -177,8 +177,7 @@ export default function AnalyticsPage() {
                     <div className="bg-white rounded-xl p-6 border shadow-sm lg:col-span-2">
                         <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                             <Activity className="h-5 w-5 text-blue-600" />
-                            En Çok Görüntülenen Sayfalar
-                        </h2>
+                            {t('app.page.en_ok_g_r_nt_lenen_sayfalar')}</h2>
                         <div className="space-y-3">
                             {mockAnalytics.topPages.map((page, i) => (
                                 <div key={page.path} className="flex items-center gap-4">
@@ -204,8 +203,7 @@ export default function AnalyticsPage() {
                     <div className="bg-white rounded-xl p-6 border shadow-sm">
                         <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                             <TrendingUp className="h-5 w-5 text-green-600" />
-                            Trafik Kaynakları
-                        </h2>
+                            {t('app.page.trafik_kaynaklar')}</h2>
                         <div className="space-y-4">
                             {mockAnalytics.trafficSources.map((source, i) => {
                                 const colors = ['blue', 'green', 'purple', 'orange'];
@@ -232,8 +230,7 @@ export default function AnalyticsPage() {
                 <div className="bg-white rounded-xl p-6 border shadow-sm mb-8">
                     <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
                         <MousePointer className="h-5 w-5 text-purple-600" />
-                        Olay Dağılımı
-                    </h2>
+                        {t('app.page.olay_da_l_m')}</h2>
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
                         {Object.entries(mockAnalytics.eventBreakdown).map(([event, count]) => (
                             <div key={event} className="p-4 bg-gray-50 rounded-lg text-center">
@@ -249,11 +246,9 @@ export default function AnalyticsPage() {
                     <div className="flex items-center justify-between mb-6">
                         <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
                             <FlaskConical className="h-5 w-5 text-orange-600" />
-                            A/B Testleri
-                        </h2>
+                            {t('app.page.a_b_testleri')}</h2>
                         <Badge className="bg-green-100 text-green-700">
-                            {mockExperiments.filter(e => e.status === 'active').length} Aktif Test
-                        </Badge>
+                            {mockExperiments.filter(e => e.status === 'active').length} {t('app.page.aktif_test')}</Badge>
                     </div>
                     <div className="space-y-6">
                         {mockExperiments.map(experiment => (
@@ -265,7 +260,7 @@ export default function AnalyticsPage() {
                                     </div>
                                     <div className="flex items-center gap-2">
                                         <Badge variant="outline">
-                                            Güvenilirlik: %{Math.round(experiment.significance * 100)}
+                                            {t('app.page.g_venilirlik')}{Math.round(experiment.significance * 100)}
                                         </Badge>
                                         <Badge className={experiment.winner ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'}>
                                             {experiment.winner ? `Kazanan: ${experiment.variants.find(v => v.id === experiment.winner)?.name}` : 'Devam Ediyor'}
@@ -286,8 +281,7 @@ export default function AnalyticsPage() {
                                                 <span className="text-lg font-bold text-blue-600">%{variant.rate.toFixed(2)}</span>
                                             </div>
                                             <div className="text-xs text-gray-500">
-                                                {variant.impressions.toLocaleString()} görüntülenme · {variant.conversions} dönüşüm
-                                            </div>
+                                                {variant.impressions.toLocaleString()} {t('app.page.g_r_nt_lenme')}{variant.conversions} {t('app.page.d_n_m')}</div>
                                         </div>
                                     ))}
                                 </div>

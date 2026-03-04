@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import {
   FileText,
   Download,
@@ -23,7 +24,6 @@ import {
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { useTranslation } from '@/lib/i18n/context';
 import { useCurrency } from '@/lib/currency-context';
 import { cn } from '@/lib/utils';
 
@@ -207,7 +207,7 @@ export default function ReportsPage() {
                   type="text"
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Rapor veya öğrenci ara..."
+                  placeholder={t('app.page.rapor_veya_renci_ara')}
                   className="w-full pl-10 pr-10 py-2.5 bg-gray-50 text-gray-900 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-300 placeholder:text-gray-400 text-sm"
                 />
                 {searchQuery && (
@@ -264,8 +264,7 @@ export default function ReportsPage() {
                   )}
                 >
                   <Clock className="h-3 w-3 inline mr-1" />
-                  En Yeni
-                </button>
+                  {t('app.page.en_yeni')}</button>
                 <button
                   onClick={() => setSortBy('student')}
                   className={cn(
@@ -276,8 +275,7 @@ export default function ReportsPage() {
                   )}
                 >
                   <Users className="h-3 w-3 inline mr-1" />
-                  Öğrenci
-                </button>
+                  {t('app.page.renci')}</button>
               </div>
 
               {/* Clear All */}
@@ -287,8 +285,7 @@ export default function ReportsPage() {
                   className="hidden md:flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors"
                 >
                   <X className="h-3 w-3" />
-                  Temizle
-                </button>
+                  {t('app.page.temizle')}</button>
               )}
             </div>
 
@@ -320,8 +317,7 @@ export default function ReportsPage() {
                         sortBy === 'recent' ? 'bg-white text-blue-700 shadow-sm' : 'text-gray-500'
                       )}
                     >
-                      En Yeni
-                    </button>
+                      {t('app.page.en_yeni')}</button>
                     <button
                       onClick={() => setSortBy('student')}
                       className={cn(
@@ -329,16 +325,14 @@ export default function ReportsPage() {
                         sortBy === 'student' ? 'bg-white text-blue-700 shadow-sm' : 'text-gray-500'
                       )}
                     >
-                      Öğrenci
-                    </button>
+                      {t('app.page.renci')}</button>
                   </div>
                   {hasActiveFilters && (
                     <button
                       onClick={clearAllFilters}
                       className="text-xs text-red-500 hover:text-red-700 font-medium"
                     >
-                      Temizle
-                    </button>
+                      {t('app.page.temizle')}</button>
                   )}
                 </div>
               </div>
@@ -360,34 +354,32 @@ export default function ReportsPage() {
           {/* Label pill */}
           <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
             <Sparkles className="h-4 w-4 text-yellow-300" />
-            <span className="text-sm font-medium text-white/90">Şeffaflık &amp; Raporlama</span>
+            <span className="text-sm font-medium text-white/90">{t('app.page.effafl_k_amp_raporlama')}</span>
           </div>
 
           <div className="flex items-center justify-center gap-3 mb-4">
             <FileText className="h-10 w-10" />
             <h1 className="text-4xl md:text-5xl font-extrabold tracking-tight">
-              İlerleme Raporları
-            </h1>
+              {t('app.page.lerleme_raporlar')}</h1>
           </div>
           <p className="text-blue-100 text-lg md:text-xl max-w-2xl mx-auto mb-8 leading-relaxed">
-            Desteklediğiniz öğrencilerin 3 aylık akademik ve finansal ilerleme raporları
-          </p>
+            {t('app.page.destekledi_iniz_rencilerin_3_a')}</p>
 
           {/* Stats */}
           <div className="grid grid-cols-3 gap-4 max-w-lg mx-auto mb-10">
             <div className="bg-white/10 backdrop-blur rounded-xl p-4">
               <p className="text-3xl font-bold">{filteredReports.length}</p>
-              <p className="text-sm text-blue-100">Toplam Rapor</p>
+              <p className="text-sm text-blue-100">{t('app.page.toplam_rapor')}</p>
             </div>
             <div className="bg-white/10 backdrop-blur rounded-xl p-4">
               <p className="text-3xl font-bold">
                 {new Set(filteredReports.map((r) => r.studentName)).size}
               </p>
-              <p className="text-sm text-blue-100">Öğrenci</p>
+              <p className="text-sm text-blue-100">{t('app.page.renci')}</p>
             </div>
             <div className="bg-white/10 backdrop-blur rounded-xl p-4">
               <p className="text-3xl font-bold">0</p>
-              <p className="text-sm text-blue-100">Ort. GPA</p>
+              <p className="text-sm text-blue-100">{t('app.page.ort_gpa')}</p>
             </div>
           </div>
 
@@ -398,7 +390,7 @@ export default function ReportsPage() {
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Rapor veya öğrenci ara..."
+              placeholder={t('app.page.rapor_veya_renci_ara')}
               className="w-full pl-12 pr-24 py-3.5 bg-white/95 backdrop-blur-sm text-gray-900 rounded-2xl shadow-xl shadow-black/10 border-0 focus:outline-none focus:ring-4 focus:ring-white/30 placeholder:text-gray-400 text-base"
             />
             {searchQuery && (
@@ -411,16 +403,14 @@ export default function ReportsPage() {
             )}
             <button className="absolute right-2 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-xl text-sm font-medium transition-colors flex items-center gap-1.5">
               <Search className="h-4 w-4" />
-              Ara
-            </button>
+              {t('app.page.ara')}</button>
           </div>
 
           {/* Quarter Filter Pills in Hero */}
           <div className="max-w-xl mx-auto mt-4 flex items-center justify-center gap-2 flex-wrap">
             <span className="text-blue-200 text-xs font-medium">
               <Hash className="h-3 w-3 inline mr-0.5" />
-              Dönem:
-            </span>
+              {t('app.page.d_nem')}</span>
             {ALL_QUARTERS.filter((q) => q !== 'all').map((q) => (
               <button
                 key={q}
@@ -454,7 +444,7 @@ export default function ReportsPage() {
         {/* Active Filters Summary */}
         {hasActiveFilters && (
           <div className="flex items-center gap-2 mb-6 flex-wrap">
-            <span className="text-sm text-gray-500">Filtreler:</span>
+            <span className="text-sm text-gray-500">{t('app.page.filtreler')}</span>
             {searchQuery && (
               <span className="inline-flex items-center gap-1 px-3 py-1 bg-blue-50 text-blue-700 rounded-full text-xs font-medium">
                 &quot;{searchQuery}&quot;
@@ -475,8 +465,7 @@ export default function ReportsPage() {
               onClick={clearAllFilters}
               className="text-xs text-red-500 hover:text-red-700 font-medium ml-1"
             >
-              Tümünü Temizle
-            </button>
+              {t('app.page.t_m_n_temizle')}</button>
           </div>
         )}
 
@@ -490,7 +479,7 @@ export default function ReportsPage() {
           {/* Sample Report */}
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-gray-900">En Son Rapor</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t('app.page.en_son_rapor')}</h2>
               <Button
                 variant="outline"
                 size="sm"
@@ -498,8 +487,7 @@ export default function ReportsPage() {
                 className="gap-2"
               >
                 <Download className="h-4 w-4" />
-                PDF İndir
-              </Button>
+                {t('app.page.pdf_ndir')}</Button>
             </div>
             <QuarterlyReport {...mockQuarterlyReport} />
           </div>
@@ -507,7 +495,7 @@ export default function ReportsPage() {
           {/* Report List */}
           <div>
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-xl font-bold text-gray-900">Tüm Raporlar</h2>
+              <h2 className="text-xl font-bold text-gray-900">{t('app.page.t_m_raporlar')}</h2>
               <span className="text-sm text-gray-500">{filteredReports.length} rapor</span>
             </div>
 
@@ -516,14 +504,13 @@ export default function ReportsPage() {
             ) : (
               <div className="bg-white rounded-xl border border-gray-200 p-10 text-center">
                 <Search className="h-10 w-10 text-gray-300 mx-auto mb-3" />
-                <p className="text-gray-500 font-medium">Sonuç bulunamadı</p>
-                <p className="text-gray-400 text-sm mt-1">Farklı anahtar kelimeler deneyin</p>
+                <p className="text-gray-500 font-medium">{t('app.page.sonu_bulunamad')}</p>
+                <p className="text-gray-400 text-sm mt-1">{t('app.page.farkl_anahtar_kelimeler_deneyi')}</p>
                 <button
                   onClick={clearAllFilters}
                   className="mt-4 text-sm text-blue-600 hover:text-blue-800 font-medium"
                 >
-                  Filtreleri Temizle
-                </button>
+                  {t('app.page.filtreleri_temizle')}</button>
               </div>
             )}
 
@@ -534,11 +521,9 @@ export default function ReportsPage() {
                   <Calendar className="h-5 w-5 text-blue-600" />
                 </div>
                 <div>
-                  <h4 className="font-semibold text-blue-900 mb-1">Otomatik Raporlama</h4>
+                  <h4 className="font-semibold text-blue-900 mb-1">{t('app.page.otomatik_raporlama')}</h4>
                   <p className="text-sm text-blue-700">
-                    Her 3 ayda bir, desteklediğiniz öğrencinin akademik performansı, finansal durumu
-                    ve önemli gelişmeleri hakkında detaylı rapor alırsınız.
-                  </p>
+                    {t('app.page.her_3_ayda_bir_destekledi_iniz')}</p>
                 </div>
               </div>
             </div>
@@ -551,14 +536,13 @@ export default function ReportsPage() {
                     <TrendingUp className="h-5 w-5 text-green-600" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-gray-900">Toplu İndirme</h4>
-                    <p className="text-sm text-gray-500">Tüm raporları tek PDF olarak indirin</p>
+                    <h4 className="font-semibold text-gray-900">{t('app.page.toplu_ndirme')}</h4>
+                    <p className="text-sm text-gray-500">{t('app.page.t_m_raporlar_tek_pdf_olarak_in')}</p>
                   </div>
                 </div>
                 <Button onClick={handleDownloadAll} className="gap-2 bg-green-600 hover:bg-green-700">
                   <Download className="h-4 w-4" />
-                  Tümü İndir
-                </Button>
+                  {t('app.page.t_m_ndir')}</Button>
               </div>
             </div>
           </div>

@@ -15,6 +15,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface ThankYouMessage {
     id: string;
@@ -37,6 +38,7 @@ interface ThankYouCardProps {
 }
 
 export function ThankYouCard({ message, onMarkRead, className }: ThankYouCardProps) {
+    const { t } = useTranslation();
     const [showVideo, setShowVideo] = useState(false);
 
     const formatDate = (dateString: string) => {
@@ -65,7 +67,7 @@ export function ThankYouCard({ message, onMarkRead, className }: ThankYouCardPro
                             </div>
                             <div>
                                 <p className="font-medium text-gray-900">{message.studentName}</p>
-                                <p className="text-sm text-gray-500">teşekkür ediyor</p>
+                                <p className="text-sm text-gray-500">{t('components.thankyoumessage.te_ekk_r_ediyor')}</p>
                             </div>
                         </div>
                         <Badge
@@ -77,9 +79,9 @@ export function ThankYouCard({ message, onMarkRead, className }: ThankYouCardPro
                             )}
                         >
                             {message.type === 'video' ? (
-                                <><Video className="h-3 w-3 mr-1" /> Video</>
+                                <><Video className="h-3 w-3 mr-1" /> {t('components.thankyoumessage.video')}</>
                             ) : (
-                                <><MessageSquare className="h-3 w-3 mr-1" /> Mesaj</>
+                                <><MessageSquare className="h-3 w-3 mr-1" /> {t('components.thankyoumessage.mesaj')}</>
                             )}
                         </Badge>
                     </div>
@@ -95,7 +97,7 @@ export function ThankYouCard({ message, onMarkRead, className }: ThankYouCardPro
                             {message.thumbnailUrl ? (
                                 <img
                                     src={message.thumbnailUrl}
-                                    alt="Video thumbnail"
+                                    alt={t('components.thankyoumessage.video_thumbnail')}
                                     className="w-full h-full object-cover"
                                 />
                             ) : (
@@ -125,8 +127,7 @@ export function ThankYouCard({ message, onMarkRead, className }: ThankYouCardPro
                             onClick={() => onMarkRead(message.id)}
                         >
                             <Check className="h-4 w-4 mr-1" />
-                            Okundu
-                        </Button>
+                            {t('components.thankyoumessage.okundu')}</Button>
                     )}
                 </div>
             </div>
@@ -136,7 +137,7 @@ export function ThankYouCard({ message, onMarkRead, className }: ThankYouCardPro
                 <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4">
                     <div className="bg-white rounded-xl max-w-3xl w-full overflow-hidden">
                         <div className="flex items-center justify-between p-4 border-b">
-                            <h3 className="font-semibold">{message.studentName} - Teşekkür Videosu</h3>
+                            <h3 className="font-semibold">{message.studentName} {t('components.thankyoumessage.te_ekk_r_videosu')}</h3>
                             <Button variant="ghost" size="icon" onClick={() => setShowVideo(false)}>
                                 <X className="h-4 w-4" />
                             </Button>
@@ -166,6 +167,7 @@ interface SendThankYouProps {
 }
 
 export function SendThankYou({ donorName, donorId, onSend, className }: SendThankYouProps) {
+    const { t } = useTranslation();
     const [messageType, setMessageType] = useState<'video' | 'text'>('text');
     const [textMessage, setTextMessage] = useState('');
     const [videoFile, setVideoFile] = useState<File | null>(null);
@@ -186,8 +188,7 @@ export function SendThankYou({ donorName, donorId, onSend, className }: SendThan
         <div className={cn('bg-white rounded-xl shadow-sm border p-4', className)}>
             <h3 className="font-semibold text-gray-900 mb-4 flex items-center gap-2">
                 <Heart className="h-5 w-5 text-pink-500" />
-                {donorName} için Teşekkür Mesajı
-            </h3>
+                {donorName} {t('components.thankyoumessage.i_in_te_ekk_r_mesaj')}</h3>
 
             {/* Type Toggle */}
             <div className="flex gap-2 mb-4">
@@ -201,8 +202,7 @@ export function SendThankYou({ donorName, donorId, onSend, className }: SendThan
                     )}
                 >
                     <MessageSquare className="h-4 w-4" />
-                    Metin
-                </button>
+                    {t('components.thankyoumessage.metin')}</button>
                 <button
                     onClick={() => setMessageType('video')}
                     className={cn(
@@ -213,14 +213,13 @@ export function SendThankYou({ donorName, donorId, onSend, className }: SendThan
                     )}
                 >
                     <Video className="h-4 w-4" />
-                    Video
-                </button>
+                    {t('components.thankyoumessage.video')}</button>
             </div>
 
             {/* Content Input */}
             {messageType === 'text' ? (
                 <textarea
-                    placeholder="Bağışçı için teşekkür mesajınızı yazın..."
+                    placeholder={t('components.thankyoumessage.ba_i_in_te_ekk_r_mesaj_n_z_yaz')}
                     value={textMessage}
                     onChange={(e) => setTextMessage(e.target.value)}
                     rows={4}
@@ -238,14 +237,13 @@ export function SendThankYou({ donorName, donorId, onSend, className }: SendThan
                                 onClick={() => setVideoFile(null)}
                             >
                                 <X className="h-4 w-4 mr-1" />
-                                Kaldir
-                            </Button>
+                                {t('components.thankyoumessage.kaldir')}</Button>
                         </div>
                     ) : (
                         <label className="cursor-pointer">
                             <Upload className="h-8 w-8 mx-auto text-gray-400 mb-2" />
-                            <p className="text-gray-600 mb-1">Video yüklemek için tıklayın</p>
-                            <p className="text-xs text-gray-400">MP4, max 100MB</p>
+                            <p className="text-gray-600 mb-1">{t('components.thankyoumessage.video_y_klemek_i_in_t_klay_n')}</p>
+                            <p className="text-xs text-gray-400">{t('components.thankyoumessage.mp4_max_100mb')}</p>
                             <input
                                 type="file"
                                 accept="video/mp4,video/webm"
@@ -263,8 +261,7 @@ export function SendThankYou({ donorName, donorId, onSend, className }: SendThan
                 disabled={messageType === 'text' ? !textMessage.trim() : !videoFile}
             >
                 <Send className="h-4 w-4 mr-2" />
-                Teşekkür Gönder
-            </Button>
+                {t('components.thankyoumessage.te_ekk_r_g_nder')}</Button>
         </div>
     );
 }

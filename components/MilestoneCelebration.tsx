@@ -12,6 +12,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { SocialShare } from './SocialShare';
 import { useCurrency } from '@/lib/currency-context';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface MilestoneCardProps {
     type: 'first_donation' | 'halfway' | 'goal_reached' | 'fully_funded';
@@ -57,6 +58,7 @@ export function MilestoneCard({
     donorName,
     className,
 }: MilestoneCardProps) {
+    const { t } = useTranslation();
     const config = milestoneConfig[type];
     const Icon = config.icon;
     const { formatAmount } = useCurrency();
@@ -81,16 +83,14 @@ export function MilestoneCard({
                         <p className="text-3xl font-bold">{formatAmount(amount)}</p>
                         {goal && (
                             <p className="text-sm text-white/70">
-                                / {formatAmount(goal)} hedefe ulasti
-                            </p>
+                                / {formatAmount(goal)} {t('components.milestonecelebration.hedefe_ulasti')}</p>
                         )}
                     </div>
                 )}
 
                 {donorName && (
                     <p className="text-sm text-white/80">
-                        {donorName} tarafindan desteklendi
-                    </p>
+                        {donorName} {t('components.milestonecelebration.tarafindan_desteklendi')}</p>
                 )}
             </div>
         </div>
@@ -109,6 +109,7 @@ interface MilestoneCelebrationProps {
 
 // Simple confetti implementation
 function SimpleConfetti({ active }: { active: boolean }) {
+    const { t } = useTranslation();
     const [particles, setParticles] = useState<Array<{ id: number; left: number; delay: number; color: string }>>([]);
 
     useEffect(() => {
@@ -169,6 +170,7 @@ export function MilestoneCelebration({
     goal,
     shareUrl = '',
 }: MilestoneCelebrationProps) {
+    const { t } = useTranslation();
     const config = milestoneConfig[type];
 
     if (!open) return null;
@@ -198,8 +200,7 @@ export function MilestoneCelebration({
                         className="flex-1 bg-white"
                         onClick={onClose}
                     >
-                        Kapat
-                    </Button>
+                        {t('components.milestonecelebration.kapat')}</Button>
                     {shareUrl && (
                         <SocialShare
                             url={shareUrl}

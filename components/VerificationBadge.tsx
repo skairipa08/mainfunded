@@ -2,6 +2,7 @@
 
 import { getTierBadgeInfo } from '@/lib/verification/tiers';
 import type { VerificationTier } from '@/types/verification';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface VerificationBadgeProps {
     tier: VerificationTier;
@@ -18,6 +19,7 @@ export default function VerificationBadge({
     size = 'md',
     showTooltip = true,
 }: VerificationBadgeProps) {
+    const { t } = useTranslation();
     const badge = getTierBadgeInfo(tier);
 
     const sizeClasses = {
@@ -77,15 +79,15 @@ export default function VerificationBadge({
             {showTooltip && (
                 <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block z-50">
                     <div className="bg-gray-900 text-white text-xs rounded-lg px-3 py-2 min-w-[180px] shadow-lg">
-                        <div className="font-medium mb-1">Tier {tier} Verification</div>
+                        <div className="font-medium mb-1">{t('components.verificationbadge.tier')}{tier} {t('components.verificationbadge.verification')}</div>
                         {verifiedAt && (
                             <div className="text-gray-300 mb-1">
-                                Verified on: {new Date(verifiedAt).toLocaleDateString()}
+                                {t('components.verificationbadge.verified_on')}{new Date(verifiedAt).toLocaleDateString()}
                             </div>
                         )}
                         {checks.length > 0 && (
                             <div className="mt-1 pt-1 border-t border-gray-700">
-                                <div className="text-gray-400 text-[10px] uppercase mb-1">Verified:</div>
+                                <div className="text-gray-400 text-[10px] uppercase mb-1">{t('components.verificationbadge.verified')}</div>
                                 <ul className="space-y-0.5">
                                     {checks.map((check, i) => (
                                         <li key={i} className="flex items-center gap-1">
@@ -110,6 +112,7 @@ export default function VerificationBadge({
 
 // Compact version for cards
 export function VerificationBadgeCompact({ tier }: { tier: VerificationTier }) {
+    const { t } = useTranslation();
     const badge = getTierBadgeInfo(tier);
 
     return (
@@ -117,7 +120,7 @@ export function VerificationBadgeCompact({ tier }: { tier: VerificationTier }) {
             <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
-            Tier {tier}
+            {t('components.verificationbadge.tier')}{tier}
         </span>
     );
 }

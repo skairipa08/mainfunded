@@ -1,11 +1,11 @@
 'use client';
 
 import React from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import { Award, Lock } from 'lucide-react';
 import { BadgeGrid, ProgressToBadge } from '@/components/BadgeDisplay';
 import { BADGES } from '@/lib/gamification';
 import MobileHeader from '@/components/MobileHeader';
-import { useTranslation } from '@/lib/i18n/context';
 import { useCurrency } from '@/lib/currency-context';
 
 export default function BadgesPage() {

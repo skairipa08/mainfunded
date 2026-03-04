@@ -5,8 +5,10 @@ import { Bell } from 'lucide-react';
 import { useNotifications } from '@/lib/notification-context';
 import { cn } from '@/lib/utils';
 import NotificationPanel from './NotificationPanel';
+import { useTranslation } from "@/lib/i18n/context";
 
 export default function NotificationBell() {
+    const { t } = useTranslation();
   const { unreadCount, isOpen, togglePanel, closePanel } = useNotifications();
   const containerRef = useRef<HTMLDivElement>(null);
 

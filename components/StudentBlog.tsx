@@ -22,6 +22,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { censorSurname } from '@/lib/privacy';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface BlogPost {
     id: string;
@@ -67,6 +68,7 @@ function StudentBlogPost({
     showTimeline?: boolean;
     isFirst?: boolean;
 }) {
+    const { t } = useTranslation();
     const [liked, setLiked] = useState(false);
     const [bookmarked, setBookmarked] = useState(false);
     const [showComments, setShowComments] = useState(false);
@@ -193,7 +195,7 @@ function StudentBlogPost({
                                 <span>{getRelativeTime(post.date)}</span>
                                 <span className="text-gray-300">·</span>
                                 <GraduationCap className="h-3 w-3" />
-                                <span>Öğrenci</span>
+                                <span>{t('components.studentblog.renci')}</span>
                             </div>
                         </div>
                     </div>
@@ -234,11 +236,11 @@ function StudentBlogPost({
                         >
                             {expanded ? (
                                 <>
-                                    Daha az göster <ChevronUp className="h-3.5 w-3.5" />
+                                    {t('components.studentblog.daha_az_g_ster')}<ChevronUp className="h-3.5 w-3.5" />
                                 </>
                             ) : (
                                 <>
-                                    Devamını oku <ChevronDown className="h-3.5 w-3.5" />
+                                    {t('components.studentblog.devam_n_oku')}<ChevronDown className="h-3.5 w-3.5" />
                                 </>
                             )}
                         </button>
@@ -290,7 +292,7 @@ function StudentBlogPost({
                                 <div className="w-4 h-4 rounded-full bg-blue-400 border border-white" />
                                 <div className="w-4 h-4 rounded-full bg-emerald-400 border border-white" />
                             </div>
-                            <span className="ml-1">{post.likes + (liked ? 1 : 0)} beğeni</span>
+                            <span className="ml-1">{post.likes + (liked ? 1 : 0)} {t('components.studentblog.be_eni')}</span>
                         </div>
                         <button
                             onClick={() => setShowComments(!showComments)}
@@ -317,8 +319,7 @@ function StudentBlogPost({
                             )}
                         >
                             <Heart className={cn('h-[18px] w-[18px]', liked && 'fill-current')} />
-                            Beğen
-                        </Button>
+                            {t('components.studentblog.be_en')}</Button>
                         <Button
                             variant="ghost"
                             size="sm"
@@ -331,8 +332,7 @@ function StudentBlogPost({
                             )}
                         >
                             <MessageSquare className="h-[18px] w-[18px]" />
-                            Yorum
-                        </Button>
+                            {t('components.studentblog.yorum')}</Button>
                     </div>
                     <Button
                         variant="ghost"
@@ -375,11 +375,9 @@ function StudentBlogPost({
                                             </div>
                                             <div className="flex items-center gap-3 mt-1 ml-2">
                                                 <button className="text-[11px] text-gray-400 hover:text-gray-600 font-medium">
-                                                    Beğen
-                                                </button>
+                                                    {t('components.studentblog.be_en')}</button>
                                                 <button className="text-[11px] text-gray-400 hover:text-gray-600 font-medium">
-                                                    Yanıtla
-                                                </button>
+                                                    {t('components.studentblog.yan_tla')}</button>
                                             </div>
                                         </div>
                                     </div>
@@ -397,7 +395,7 @@ function StudentBlogPost({
                                         value={comment}
                                         onChange={(e) => setComment(e.target.value)}
                                         onKeyDown={(e) => e.key === 'Enter' && handleCommentSubmit()}
-                                        placeholder="Yorum yaz..."
+                                        placeholder={t('components.studentblog.yorum_yaz')}
                                         className="w-full pl-4 pr-10 py-2.5 text-sm bg-white border border-gray-200 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/30 focus:border-blue-300 placeholder:text-gray-400"
                                     />
                                     <button className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-300 hover:text-gray-500">
@@ -428,6 +426,7 @@ interface WriteBlogPostProps {
 }
 
 export function WriteBlogPost({ onSubmit, className }: WriteBlogPostProps) {
+    const { t } = useTranslation();
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [tags, setTags] = useState('');
@@ -452,7 +451,7 @@ export function WriteBlogPost({ onSubmit, className }: WriteBlogPostProps) {
         <form onSubmit={handleSubmit} className={cn('bg-white rounded-xl shadow-sm border p-4', className)}>
             <div className="flex items-center gap-2 mb-4">
                 <BookOpen className="h-5 w-5 text-blue-600" />
-                <h3 className="font-semibold text-gray-900">Yeni Gönderi</h3>
+                <h3 className="font-semibold text-gray-900">{t('components.studentblog.yeni_g_nderi')}</h3>
             </div>
 
             <div className="space-y-4">
@@ -460,14 +459,14 @@ export function WriteBlogPost({ onSubmit, className }: WriteBlogPostProps) {
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
-                    placeholder="Baslik"
+                    placeholder={t('components.studentblog.baslik')}
                     className="w-full px-3 py-2 border rounded-lg font-medium"
                     required
                 />
                 <textarea
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
-                    placeholder="Bağışçılarınla paylaşacağın bir güncelleme yaz..."
+                    placeholder={t('components.studentblog.ba_lar_nla_payla_aca_n_bir_g_n')}
                     rows={4}
                     className="w-full px-3 py-2 border rounded-lg resize-none"
                     required
@@ -476,7 +475,7 @@ export function WriteBlogPost({ onSubmit, className }: WriteBlogPostProps) {
                     type="text"
                     value={tags}
                     onChange={(e) => setTags(e.target.value)}
-                    placeholder="Etiketler (virgul ile ayirin)"
+                    placeholder={t('components.studentblog.etiketler_virgul_ile_ayirin')}
                     className="w-full px-3 py-2 border rounded-lg text-sm"
                 />
             </div>
@@ -492,19 +491,16 @@ export function WriteBlogPost({ onSubmit, className }: WriteBlogPostProps) {
                 />
                 <label htmlFor="censorName" className="flex items-center gap-2 text-sm text-gray-700 cursor-pointer">
                     <EyeOff className="h-4 w-4 text-gray-500" />
-                    Soyadımı sansürle (Örnek: Ayşe Y***)
-                </label>
+                    {t('components.studentblog.soyad_m_sans_rle_rnek_ay_e_y')}</label>
             </div>
 
             <div className="flex items-center justify-between mt-4">
                 <Button type="button" variant="ghost" size="sm">
                     <ImageIcon className="h-4 w-4 mr-1" />
-                    Fotograf Ekle
-                </Button>
+                    {t('components.studentblog.fotograf_ekle')}</Button>
                 <Button type="submit">
                     <Send className="h-4 w-4 mr-1" />
-                    Paylas
-                </Button>
+                    {t('components.studentblog.paylas')}</Button>
             </div>
         </form>
     );

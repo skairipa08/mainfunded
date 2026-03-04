@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { toast } from 'sonner';
 import { useCurrency } from '@/lib/currency-context';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface Campaign {
   campaign_id: string;
@@ -28,6 +29,7 @@ const STATUS_OPTIONS = [
 ];
 
 export default function AdminCampaignsPage() {
+    const { t } = useTranslation();
   const { data: session } = useSession();
   const { formatAmount } = useCurrency();
   const [campaigns, setCampaigns] = useState<Campaign[]>([]);
@@ -115,11 +117,11 @@ export default function AdminCampaignsPage() {
 
   return (
     <div>
-      <h2 className="text-3xl font-bold text-gray-900 mb-8">Campaigns</h2>
+      <h2 className="text-3xl font-bold text-gray-900 mb-8">{t('app.page.campaigns')}</h2>
 
       {campaigns.length === 0 ? (
         <div className="bg-white rounded-lg shadow p-12 text-center">
-          <p className="text-gray-500">No campaigns found</p>
+          <p className="text-gray-500">{t('app.page.no_campaigns_found')}</p>
         </div>
       ) : (
         <div className="bg-white rounded-lg shadow overflow-hidden">
@@ -127,23 +129,17 @@ export default function AdminCampaignsPage() {
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Title
-                </th>
+                  {t('app.page.title')}</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Student
-                </th>
+                  {t('app.page.student')}</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Status
-                </th>
+                  {t('app.page.status')}</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Goal
-                </th>
+                  {t('app.page.goal')}</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Raised
-                </th>
+                  {t('app.page.raised')}</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Actions
-                </th>
+                  {t('app.page.actions')}</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">

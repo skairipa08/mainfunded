@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 
 export default function Error({
   error,
@@ -9,6 +10,7 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
+    const { t } = useTranslation();
   useEffect(() => {
     console.error('[Error Boundary]', error);
   }, [error]);
@@ -21,23 +23,20 @@ export default function Error({
             <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
           </svg>
         </div>
-        <h1 className="text-2xl font-bold text-gray-900 mb-2">Bir şeyler ters gitti</h1>
+        <h1 className="text-2xl font-bold text-gray-900 mb-2">{t('app.error.bir_eyler_ters_gitti')}</h1>
         <p className="text-gray-500 mb-6">
-          Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin.
-        </p>
+          {t('app.error.beklenmeyen_bir_hata_olu_tu_l_')}</p>
         <button
           onClick={reset}
           className="inline-flex items-center px-6 py-3 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition-colors"
         >
-          Yeniden Dene
-        </button>
+          {t('app.error.yeniden_dene')}</button>
         <p className="text-xs text-gray-400 mt-6">
-          Sorun devam ederse{' '}
+          {t('app.error.sorun_devam_ederse')}{' '}
           <a href="mailto:support@fund-ed.com" className="text-blue-600 hover:underline">
             support@fund-ed.com
           </a>
-          &apos;a yazabilirsiniz.
-        </p>
+          {t('app.error.apos_a_yazabilirsiniz')}</p>
       </div>
     </div>
   );

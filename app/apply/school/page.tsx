@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -17,7 +18,6 @@ import {
 import { Label } from '@/components/ui/label';
 import { validateEmail, sanitizeInput } from '@/lib/validation';
 import { toast } from 'sonner';
-import { useTranslation } from '@/lib/i18n';
 import {
     School,
     User,
@@ -46,7 +46,6 @@ import {
     Briefcase,
 } from 'lucide-react';
 import { COUNTRIES, TURKEY_CITIES } from '@/lib/constants';
-
 type DocStatus = 'ready' | 'uploading' | 'uploaded' | 'failed';
 
 interface DocumentItem {
@@ -559,10 +558,10 @@ export default function SchoolApplyPage() {
                                                     </Select>
                                                 </FieldWrapper>
 
-                                                <FieldWrapper id="schoolCountry" label="Ülke / Country" icon={Globe} error={errors.schoolCountry}>
+                                                <FieldWrapper id="schoolCountry" label={t('app.page.lke_country')} icon={Globe} error={errors.schoolCountry}>
                                                     <Select value={formData.schoolCountry} onValueChange={(v) => { updateField('schoolCountry', v); if (v !== 'TR') setFormData(prev => ({ ...prev, schoolCountry: v, schoolCity: '' })); else updateField('schoolCountry', v); }}>
                                                         <SelectTrigger className={selectTriggerClass(!!errors.schoolCountry)}>
-                                                            <SelectValue placeholder="Ülke seçiniz / Select country..." />
+                                                            <SelectValue placeholder={t('app.page.lke_se_iniz_select_country')} />
                                                         </SelectTrigger>
                                                         <SelectContent>
                                                             {COUNTRIES.map((c, index) => (
@@ -578,7 +577,7 @@ export default function SchoolApplyPage() {
                                                     {formData.schoolCountry === 'TR' ? (
                                                         <Select value={formData.schoolCity} onValueChange={(v) => updateField('schoolCity', v)}>
                                                             <SelectTrigger className={selectTriggerClass(!!errors.schoolCity)}>
-                                                                <SelectValue placeholder="Şehir seçiniz..." />
+                                                                <SelectValue placeholder={t('app.page.ehir_se_iniz')} />
                                                             </SelectTrigger>
                                                             <SelectContent>
                                                                 {TURKEY_CITIES.map((city) => (
@@ -684,7 +683,7 @@ export default function SchoolApplyPage() {
                                                 <FieldWrapper id="applicantPhone" label={t('applySchool.labels.applicantPhone')} icon={Phone} error={errors.applicantPhone} required={false}>
                                                     <Input id="applicantPhone" type="tel" value={formData.applicantPhone}
                                                         onChange={(e) => updateField('applicantPhone', e.target.value)}
-                                                        placeholder="+90 5XX XXX XX XX" className={inputClass(false)} />
+                                                        placeholder={t('app.page.90_5xx_xxx_xx_xx')} className={inputClass(false)} />
                                                 </FieldWrapper>
                                             </div>
                                         </div>
@@ -835,7 +834,7 @@ export default function SchoolApplyPage() {
                                                         multiple
                                                         onChange={handlePhotoSelect}
                                                     />
-                                                    <p className="text-xs text-slate-400 mt-2">JPG, PNG, WebP • Max 5 MB • {t('applySchool.photos.maxCount')}</p>
+                                                    <p className="text-xs text-slate-400 mt-2">{t('app.page.jpg_png_webp_max_5_mb')}{t('applySchool.photos.maxCount')}</p>
                                                 </div>
 
                                                 {photos.length > 0 && (
@@ -880,7 +879,7 @@ export default function SchoolApplyPage() {
                                                             accept="video/mp4,video/webm,video/quicktime"
                                                             onChange={handleVideoSelect}
                                                         />
-                                                        <p className="text-xs text-slate-400 mt-2">MP4, WebM • Max 50 MB</p>
+                                                        <p className="text-xs text-slate-400 mt-2">{t('app.page.mp4_webm_max_50_mb')}</p>
                                                     </div>
                                                 ) : (
                                                     <div className="bg-slate-50 border border-slate-200 rounded-xl p-4">
@@ -929,7 +928,7 @@ export default function SchoolApplyPage() {
                                                         {t('applySchool.docSelectFile')}
                                                     </Button>
                                                     <input ref={fileInputRef} type="file" className="hidden" accept=".pdf,.jpg,.jpeg,.png" onChange={handleFileSelect} />
-                                                    <p className="text-xs text-slate-400 mt-2">PDF, JPG, PNG • Max 10 MB</p>
+                                                    <p className="text-xs text-slate-400 mt-2">{t('app.page.pdf_jpg_png_max_10_mb')}</p>
                                                 </div>
 
                                                 {documents.length > 0 && (

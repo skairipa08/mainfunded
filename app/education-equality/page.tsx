@@ -1,6 +1,6 @@
 'use client';
-import { useTranslation } from '@/lib/i18n/context';
 import { useCurrency } from '@/lib/currency-context';
+import { useTranslation } from "@/lib/i18n/context";
 
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
@@ -57,6 +57,7 @@ const CAMPAIGN_COUNTRIES = 1;
    Animated counter
    ──────────────────────────────────────────── */
 function AnimatedNumber({ target, prefix = '', suffix = '' }: { target: number; prefix?: string; suffix?: string }) {
+    const { t } = useTranslation();
     const [count, setCount] = useState(0);
 
     useEffect(() => {
@@ -193,7 +194,7 @@ export default function EducationEqualityPage() {
                     <div className="absolute inset-0">
                         <Image
                             src={HERO_IMG}
-                            alt="Eğitimde eşitlik - Afrikalı çocuklar"
+                            alt={t('app.page.e_itimde_e_itlik_afrikal_ocukl')}
                             fill
                             className="object-cover"
                             priority
@@ -324,7 +325,7 @@ export default function EducationEqualityPage() {
                                     <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-lg">
                                         <Image
                                             src={IMG_CLASSROOM}
-                                            alt="Kötü şartlarda eğitim gören Afrikalı çocuklar"
+                                            alt={t('app.page.k_t_artlarda_e_itim_g_ren_afri')}
                                             fill
                                             className="object-cover hover:scale-105 transition-transform duration-700"
                                         />
@@ -332,7 +333,7 @@ export default function EducationEqualityPage() {
                                     <div className="relative aspect-square rounded-2xl overflow-hidden shadow-lg">
                                         <Image
                                             src={IMG_BOOKS}
-                                            alt="Eğitim materyalleri"
+                                            alt={t('app.page.e_itim_materyalleri')}
                                             fill
                                             className="object-cover hover:scale-105 transition-transform duration-700"
                                         />
@@ -342,7 +343,7 @@ export default function EducationEqualityPage() {
                                     <div className="relative aspect-square rounded-2xl overflow-hidden shadow-lg">
                                         <Image
                                             src={IMG_CHILDREN_WALKING}
-                                            alt="Okula yürüyen çocuklar"
+                                            alt={t('app.page.okula_y_r_yen_ocuklar')}
                                             fill
                                             className="object-cover hover:scale-105 transition-transform duration-700"
                                         />
@@ -350,7 +351,7 @@ export default function EducationEqualityPage() {
                                     <div className="relative aspect-[3/4] rounded-2xl overflow-hidden shadow-lg">
                                         <Image
                                             src={IMG_SCHOOL_BUILDING}
-                                            alt="Kırsal bölge okulu"
+                                            alt={t('app.page.k_rsal_b_lge_okulu')}
                                             fill
                                             className="object-cover hover:scale-105 transition-transform duration-700"
                                         />

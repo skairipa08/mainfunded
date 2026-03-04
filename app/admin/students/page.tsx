@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from 'sonner';
 import { CheckCircle, XCircle, Eye, RefreshCw } from 'lucide-react';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface StudentProfile {
   user_id: string;
@@ -27,6 +28,7 @@ interface StudentProfile {
 }
 
 export default function AdminStudentsPage() {
+    const { t } = useTranslation();
   const { data: session } = useSession();
   const router = useRouter();
   const [students, setStudents] = useState<StudentProfile[]>([]);
@@ -105,7 +107,7 @@ export default function AdminStudentsPage() {
     return (
       <div className="flex flex-col items-center justify-center py-16">
         <p className="text-red-600 font-medium mb-4">{error}</p>
-        <Button onClick={fetchStudents}><RefreshCw className="h-4 w-4 mr-2" /> Yeniden Dene</Button>
+        <Button onClick={fetchStudents}><RefreshCw className="h-4 w-4 mr-2" /> {t('app.page.yeniden_dene')}</Button>
       </div>
     );
   }
@@ -113,7 +115,7 @@ export default function AdminStudentsPage() {
   return (
     <div>
       <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-8 gap-4">
-        <h2 className="text-3xl font-bold text-gray-900">Öğrenciler</h2>
+        <h2 className="text-3xl font-bold text-gray-900">{t('app.page.renciler')}</h2>
         <div className="flex gap-2 flex-wrap">
           {filterBtns.map((f) => (
             <Button
@@ -145,20 +147,20 @@ export default function AdminStudentsPage() {
         </div>
       ) : students.length === 0 ? (
         <div className="bg-white rounded-lg shadow p-12 text-center">
-          <p className="text-gray-500">Bu filtrede öğrenci bulunamadı</p>
+          <p className="text-gray-500">{t('app.page.bu_filtrede_renci_bulunamad')}</p>
         </div>
       ) : (
         <div className="bg-white rounded-lg shadow overflow-x-auto">
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ad</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('app.page.ad')}</th>
                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">E-posta</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Üniversite</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Ülke</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Alan</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Durum</th>
-                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">İşlemler</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('app.page.niversite')}</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('app.page.lke')}</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('app.page.alan')}</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">{t('app.page.durum')}</th>
+                <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">{t('app.page.lemler')}</th>
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">

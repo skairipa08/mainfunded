@@ -17,6 +17,7 @@ import {
   FileEdit,
 } from 'lucide-react';
 import { useCurrency } from '@/lib/currency-context';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface CampaignItem {
   campaign_id: string;
@@ -39,6 +40,7 @@ interface DonationItem {
 }
 
 export default function StudentPanelPage() {
+    const { t } = useTranslation();
   const { data: session } = useSession();
   const { formatAmount } = useCurrency();
 
@@ -109,15 +111,13 @@ export default function StudentPanelPage() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Hoş Geldiniz!</h1>
+          <h1 className="text-3xl font-bold text-gray-900">{t('app.page.ho_geldiniz')}</h1>
           <p className="text-gray-500 mt-1">
-            Kampanyalarınızı yönetin, bağışçılarınızla iletişim kurun.
-          </p>
+            {t('app.page.kampanyalar_n_z_y_netin_ba_lar')}</p>
         </div>
         <Link href="/campaigns/new" className="mt-4 sm:mt-0">
           <Button size="sm">
-            <Plus className="h-4 w-4 mr-1" /> Yeni Kampanya
-          </Button>
+            <Plus className="h-4 w-4 mr-1" /> {t('app.page.yeni_kampanya')}</Button>
         </Link>
       </div>
 
@@ -125,25 +125,25 @@ export default function StudentPanelPage() {
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
         <StatsCard
           icon={<Megaphone className="h-5 w-5 text-blue-600" />}
-          title="Aktif Kampanyalar"
+          title={t('app.page.aktif_kampanyalar')}
           value={loading ? '—' : String(activeCampaigns.length)}
           loading={loading}
         />
         <StatsCard
           icon={<TrendingUp className="h-5 w-5 text-green-600" />}
-          title="Toplam Toplanan"
+          title={t('app.page.toplam_toplanan')}
           value={loading ? '—' : formatAmount(totalRaised)}
           loading={loading}
         />
         <StatsCard
           icon={<Users className="h-5 w-5 text-purple-600" />}
-          title="Toplam Bağışçı"
+          title={t('app.page.toplam_ba')}
           value={loading ? '—' : String(totalDonors)}
           loading={loading}
         />
         <StatsCard
           icon={<MessageCircle className="h-5 w-5 text-orange-600" />}
-          title="Okunmamış Mesaj"
+          title={t('app.page.okunmam_mesaj')}
           value={loading ? '—' : String(unreadMessages)}
           loading={loading}
         />
@@ -153,10 +153,10 @@ export default function StudentPanelPage() {
         {/* Active Campaigns */}
         <div className="lg:col-span-2 space-y-6">
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold text-gray-900">Aktif Kampanyalarım</h2>
+            <h2 className="text-xl font-semibold text-gray-900">{t('app.page.aktif_kampanyalar_m')}</h2>
             <Link href="/student/panel/campaigns">
               <Button variant="ghost" size="sm">
-                Tümünü Gör <ArrowRight className="h-4 w-4 ml-1" />
+                {t('app.page.t_m_n_g_r')}<ArrowRight className="h-4 w-4 ml-1" />
               </Button>
             </Link>
           </div>
@@ -174,11 +174,10 @@ export default function StudentPanelPage() {
           ) : activeCampaigns.length === 0 ? (
             <div className="bg-white rounded-lg shadow p-12 text-center">
               <Megaphone className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500 mb-4">Henüz aktif kampanyanız yok</p>
+              <p className="text-gray-500 mb-4">{t('app.page.hen_z_aktif_kampanyan_z_yok')}</p>
               <Link href="/campaigns/new">
                 <Button>
-                  <Plus className="h-4 w-4 mr-1" /> İlk Kampanyanızı Oluşturun
-                </Button>
+                  <Plus className="h-4 w-4 mr-1" /> {t('app.page.lk_kampanyan_z_olu_turun')}</Button>
               </Link>
             </div>
           ) : (
@@ -200,8 +199,7 @@ export default function StudentPanelPage() {
                           <h3 className="font-medium text-gray-900 truncate">{c.title}</h3>
                           <p className="text-sm text-gray-500 mt-1">
                             {formatAmount(c.raised_amount)} / {formatAmount(c.goal_amount)} &middot;{' '}
-                            {c.donor_count} bağışçı
-                          </p>
+                            {c.donor_count} {t('app.page.ba')}</p>
                         </div>
                         <Badge className={statusColor[c.status] ?? 'bg-gray-100 text-gray-800'}>
                           {statusLabel[c.status] ?? c.status}
@@ -225,10 +223,10 @@ export default function StudentPanelPage() {
           {completedCampaigns.length > 0 && (
             <div>
               <div className="flex items-center justify-between mb-3">
-                <h2 className="text-xl font-semibold text-gray-900">Tamamlanan Kampanyalar</h2>
+                <h2 className="text-xl font-semibold text-gray-900">{t('app.page.tamamlanan_kampanyalar')}</h2>
                 <Link href="/student/panel/updates">
                   <Button variant="ghost" size="sm">
-                    Güncelleme Paylaş <FileEdit className="h-4 w-4 ml-1" />
+                    {t('app.page.g_ncelleme_payla')}<FileEdit className="h-4 w-4 ml-1" />
                   </Button>
                 </Link>
               </div>
@@ -242,13 +240,11 @@ export default function StudentPanelPage() {
                       <div>
                         <h3 className="font-medium text-gray-900">{c.title}</h3>
                         <p className="text-sm text-gray-500">
-                          {formatAmount(c.raised_amount)} toplandı &middot; {c.donor_count} bağışçı
-                        </p>
+                          {formatAmount(c.raised_amount)} {t('app.page.topland_middot')}{c.donor_count} {t('app.page.ba')}</p>
                       </div>
                       <Link href={`/student/panel/updates?campaign=${c.campaign_id}`}>
                         <Button variant="outline" size="sm">
-                          <FileEdit className="h-4 w-4 mr-1" /> Güncelleme
-                        </Button>
+                          <FileEdit className="h-4 w-4 mr-1" /> {t('app.page.g_ncelleme')}</Button>
                       </Link>
                     </div>
                   </div>
@@ -260,7 +256,7 @@ export default function StudentPanelPage() {
 
         {/* Right Column - Recent Donations */}
         <div className="space-y-6">
-          <h2 className="text-xl font-semibold text-gray-900">Son Bağışlar</h2>
+          <h2 className="text-xl font-semibold text-gray-900">{t('app.page.son_ba_lar')}</h2>
 
           {loading ? (
             <div className="space-y-3">
@@ -273,7 +269,7 @@ export default function StudentPanelPage() {
             </div>
           ) : recentDonations.length === 0 ? (
             <div className="bg-white rounded-lg shadow p-8 text-center">
-              <p className="text-gray-500">Henüz bağış yok</p>
+              <p className="text-gray-500">{t('app.page.hen_z_ba_yok')}</p>
             </div>
           ) : (
             <div className="space-y-2">
@@ -303,14 +299,13 @@ export default function StudentPanelPage() {
 
           {/* Quick Links */}
           <div className="bg-white rounded-lg shadow p-4 space-y-3">
-            <h3 className="font-medium text-gray-900">Hızlı Erişim</h3>
+            <h3 className="font-medium text-gray-900">{t('app.page.h_zl_eri_im')}</h3>
             <Link
               href="/student/panel/messages"
               className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800"
             >
               <MessageCircle className="h-4 w-4" />
-              Bağışçılarınıza mesaj gönderin
-              {unreadMessages > 0 && (
+              {t('app.page.ba_lar_n_za_mesaj_g_nderin')}{unreadMessages > 0 && (
                 <span className="bg-red-500 text-white text-xs rounded-full px-2 py-0.5">
                   {unreadMessages}
                 </span>
@@ -321,8 +316,7 @@ export default function StudentPanelPage() {
               className="flex items-center gap-2 text-sm text-blue-600 hover:text-blue-800"
             >
               <FileEdit className="h-4 w-4" />
-              Güncelleme ve fotoğraf paylaşın
-            </Link>
+              {t('app.page.g_ncelleme_ve_foto_raf_payla_n')}</Link>
           </div>
         </div>
       </div>

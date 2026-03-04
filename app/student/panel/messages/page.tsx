@@ -15,6 +15,7 @@ import {
   User,
   ChevronRight,
 } from 'lucide-react';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface ConversationThread {
   donor_id: string;
@@ -39,6 +40,7 @@ interface Message {
 }
 
 export default function StudentMessagesPage() {
+    const { t } = useTranslation();
   const { data: session } = useSession();
   const searchParams = useSearchParams();
   const preselectedCampaign = searchParams.get('campaign') || '';
@@ -201,14 +203,12 @@ export default function StudentMessagesPage() {
       <div className="flex items-center gap-4 mb-6">
         <Link href="/student/panel">
           <Button variant="ghost" size="sm">
-            <ArrowLeft className="h-4 w-4 mr-1" /> Geri
-          </Button>
+            <ArrowLeft className="h-4 w-4 mr-1" /> {t('app.page.geri')}</Button>
         </Link>
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Mesajlar</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t('app.page.mesajlar')}</h1>
           <p className="text-gray-500 text-sm">
-            Sadece size bağış yapan donörlerle iletişim kurabilirsiniz.
-          </p>
+            {t('app.page.sadece_size_ba_yapan_don_rlerl')}</p>
         </div>
       </div>
 
@@ -217,7 +217,7 @@ export default function StudentMessagesPage() {
           {/* Thread List */}
           <div className={`w-full md:w-80 border-r flex-shrink-0 flex flex-col ${activeThread ? 'hidden md:flex' : 'flex'}`}>
             <div className="p-4 border-b bg-gray-50">
-              <h2 className="font-semibold text-gray-900">Konuşmalar</h2>
+              <h2 className="font-semibold text-gray-900">{t('app.page.konu_malar')}</h2>
             </div>
 
             <div className="flex-1 overflow-y-auto">
@@ -236,10 +236,9 @@ export default function StudentMessagesPage() {
               ) : threads.length === 0 ? (
                 <div className="p-8 text-center">
                   <MessageCircle className="h-12 w-12 text-gray-300 mx-auto mb-3" />
-                  <p className="text-gray-500 text-sm">Henüz mesajınız yok</p>
+                  <p className="text-gray-500 text-sm">{t('app.page.hen_z_mesaj_n_z_yok')}</p>
                   <p className="text-gray-400 text-xs mt-1">
-                    Bağışçılarınızdan mesaj geldiğinde burada görünür.
-                  </p>
+                    {t('app.page.ba_lar_n_zdan_mesaj_geldi_inde')}</p>
                 </div>
               ) : (
                 threads.map((thread) => {
@@ -286,10 +285,9 @@ export default function StudentMessagesPage() {
               <div className="flex-1 flex items-center justify-center text-center p-8">
                 <div>
                   <MessageCircle className="h-16 w-16 text-gray-200 mx-auto mb-4" />
-                  <p className="text-gray-500">Bir konuşma seçin</p>
+                  <p className="text-gray-500">{t('app.page.bir_konu_ma_se_in')}</p>
                   <p className="text-gray-400 text-sm mt-1">
-                    Sol taraftaki listeden bir bağışçı seçerek mesajlaşmaya başlayın.
-                  </p>
+                    {t('app.page.sol_taraftaki_listeden_bir_ba_')}</p>
                 </div>
               </div>
             ) : (
@@ -338,10 +336,9 @@ export default function StudentMessagesPage() {
                   ) : messages.length === 0 ? (
                     <div className="flex items-center justify-center h-full text-center">
                       <div>
-                        <p className="text-gray-400 text-sm">Henüz mesaj yok</p>
+                        <p className="text-gray-400 text-sm">{t('app.page.hen_z_mesaj_yok')}</p>
                         <p className="text-gray-400 text-xs mt-1">
-                          İlk mesajı göndererek konuşmayı başlatın.
-                        </p>
+                          {t('app.page.lk_mesaj_g_ndererek_konu_may_b')}</p>
                       </div>
                     </div>
                   ) : (
@@ -383,7 +380,7 @@ export default function StudentMessagesPage() {
                       value={newMessage}
                       onChange={(e) => setNewMessage(e.target.value)}
                       onKeyDown={handleKeyDown}
-                      placeholder="Mesajınızı yazın..."
+                      placeholder={t('app.page.mesaj_n_z_yaz_n')}
                       rows={1}
                       className="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none max-h-24"
                       maxLength={1000}

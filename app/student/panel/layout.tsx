@@ -6,12 +6,14 @@ import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import StudentSidebar from '@/components/student/Sidebar';
 import { Menu, ArrowLeft } from 'lucide-react';
+import { useTranslation } from "@/lib/i18n/context";
 
 export default function StudentPanelLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+    const { t } = useTranslation();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
   const { data: session, status } = useSession();
@@ -40,7 +42,7 @@ export default function StudentPanelLayout({
         >
           <ArrowLeft className="h-5 w-5" />
         </button>
-        <span className="font-semibold">FundEd Öğrenci Paneli</span>
+        <span className="font-semibold">{t('app.layout.funded_renci_paneli')}</span>
         <button
           onClick={() => setMobileMenuOpen(true)}
           className="p-2 -mr-2 rounded-lg hover:bg-gray-800 transition-colors"

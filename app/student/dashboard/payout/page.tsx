@@ -17,6 +17,7 @@ import {
   Shield,
 } from 'lucide-react';
 import Link from 'next/link';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface PayoutMethod {
   type: 'iyzico' | 'paypal' | 'wise' | 'papara';
@@ -27,6 +28,7 @@ interface PayoutMethod {
 }
 
 export default function PayoutMethodsPage() {
+    const { t } = useTranslation();
   const { data: session, status: authStatus } = useSession();
   const router = useRouter();
 
@@ -102,7 +104,7 @@ export default function PayoutMethodsPage() {
           <Link href="/student/dashboard">
             <Button variant="ghost" size="sm"><ArrowLeft className="h-4 w-4" /></Button>
           </Link>
-          <h1 className="text-2xl font-bold text-gray-900">Ödeme Yöntemleri</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t('app.page.deme_y_ntemleri')}</h1>
         </div>
 
         {/* Saved Methods */}
@@ -117,7 +119,7 @@ export default function PayoutMethodsPage() {
           </div>
         ) : methods.length > 0 ? (
           <div className="mb-8">
-            <h2 className="text-lg font-semibold text-gray-900 mb-3">Kayıtlı Yöntemler</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-3">{t('app.page.kay_tl_y_ntemler')}</h2>
             <div className="space-y-3">
               {methods.map((m, idx) => (
                 <div key={idx} className="bg-white rounded-lg shadow p-4 flex items-center justify-between">
@@ -127,10 +129,10 @@ export default function PayoutMethodsPage() {
                       <div className="flex items-center gap-2">
                         <span className="font-medium text-gray-900 capitalize">{m.type}</span>
                         {m.is_default && (
-                          <Badge className="bg-blue-100 text-blue-800 text-xs">Varsayılan</Badge>
+                          <Badge className="bg-blue-100 text-blue-800 text-xs">{t('app.page.varsay_lan')}</Badge>
                         )}
                         {m.verified && (
-                          <Badge className="bg-green-100 text-green-800 text-xs"><Check className="h-3 w-3 mr-0.5" /> Doğrulandı</Badge>
+                          <Badge className="bg-green-100 text-green-800 text-xs"><Check className="h-3 w-3 mr-0.5" /> {t('app.page.do_ruland')}</Badge>
                         )}
                       </div>
                       <p className="text-sm text-gray-500 mt-0.5">
@@ -171,14 +173,13 @@ export default function PayoutMethodsPage() {
                 <div className="flex items-start gap-3 p-4 bg-yellow-50 rounded-lg">
                   <Shield className="h-5 w-5 text-yellow-600 mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium text-yellow-900">PayPal</p>
+                    <p className="text-sm font-medium text-yellow-900">{t('app.page.paypal')}</p>
                     <p className="text-sm text-yellow-700 mt-1">
-                      PayPal hesabınıza ödeme alın. Dünya genelinde kullanılabilir.
-                    </p>
+                      {t('app.page.paypal_hesab_n_za_deme_al_n_d_')}</p>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">PayPal E-posta</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t('app.page.paypal_e_posta')}</label>
                   <Input
                     type="email"
                     placeholder="ornek@email.com"
@@ -201,14 +202,13 @@ export default function PayoutMethodsPage() {
                 <div className="flex items-start gap-3 p-4 bg-green-50 rounded-lg">
                   <Shield className="h-5 w-5 text-green-600 mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium text-green-900">Wise (TransferWise)</p>
+                    <p className="text-sm font-medium text-green-900">{t('app.page.wise_transferwise')}</p>
                     <p className="text-sm text-green-700 mt-1">
-                      Düşük komisyonlarla uluslararası para transferi. 50+ para biriminde ödeme alın.
-                    </p>
+                      {t('app.page.d_k_komisyonlarla_uluslararas_')}</p>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Wise E-posta</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t('app.page.wise_e_posta')}</label>
                   <Input
                     type="email"
                     placeholder="ornek@email.com"
@@ -231,22 +231,21 @@ export default function PayoutMethodsPage() {
                 <div className="flex items-start gap-3 p-4 bg-purple-50 rounded-lg">
                   <Shield className="h-5 w-5 text-purple-600 mt-0.5" />
                   <div>
-                    <p className="text-sm font-medium text-purple-900">Papara</p>
+                    <p className="text-sm font-medium text-purple-900">{t('app.page.papara')}</p>
                     <p className="text-sm text-purple-700 mt-1">
-                      Türkiye&apos;de popüler dijital cüzdan. Papara numaranızla anında ödeme alın.
-                    </p>
+                      {t('app.page.t_rkiye_apos_de_pop_ler_dijita')}</p>
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Papara Numarası</label>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">{t('app.page.papara_numaras')}</label>
                   <Input
                     type="text"
-                    placeholder="10 haneli Papara numarası"
+                    placeholder={t('app.page.10_haneli_papara_numaras')}
                     value={paparaNumber}
                     onChange={(e: React.ChangeEvent<HTMLInputElement>) => setPaparaNumber(e.target.value.replace(/\D/g, '').slice(0, 10))}
                     maxLength={10}
                   />
-                  <p className="text-xs text-gray-500 mt-1">{paparaNumber.length}/10 hane</p>
+                  <p className="text-xs text-gray-500 mt-1">{paparaNumber.length}{t('app.page.10_hane')}</p>
                 </div>
                 <Button
                   onClick={() => handleSaveMethod('papara', { papara_number: paparaNumber })}
@@ -265,6 +264,7 @@ export default function PayoutMethodsPage() {
 }
 
 function MethodIcon({ type }: { type: string }) {
+    const { t } = useTranslation();
   const cls = 'h-8 w-8 rounded-full flex items-center justify-center text-white text-xs font-bold';
   switch (type) {
     case 'iyzico':
@@ -274,7 +274,7 @@ function MethodIcon({ type }: { type: string }) {
     case 'wise':
       return <div className={`${cls} bg-green-500`}>W</div>;
     case 'papara':
-      return <div className={`${cls} bg-purple-600`}>Pa</div>;
+      return <div className={`${cls} bg-purple-600`}>{t('app.page.pa')}</div>;
     default:
       return <div className={`${cls} bg-gray-400`}>?</div>;
   }

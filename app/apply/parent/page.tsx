@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -11,14 +12,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Label } from '@/components/ui/label';
 import { validateEmail, sanitizeInput } from '@/lib/validation';
 import { toast } from 'sonner';
-import { useTranslation } from '@/lib/i18n';
 import {
     Users, User, Mail, Globe, Phone, FileText, Upload, CheckCircle, AlertCircle,
     Loader2, X, Shield, ArrowRight, ArrowLeft, HelpCircle, Heart, School,
     Building, MapPin, GraduationCap, Calendar, Hash, ImageIcon, Video, Baby, Tag,
 } from 'lucide-react';
 import { COUNTRIES, FUNDING_CATEGORIES, TURKEY_CITIES } from '@/lib/constants';
-
 type DocStatus = 'ready' | 'uploading' | 'uploaded' | 'failed';
 interface DocumentItem { id: string; name: string; file: File; status: DocStatus; size: number; uploadedUrl?: string; }
 interface PhotoItem { id: string; name: string; file: File; preview: string; }
@@ -266,7 +265,7 @@ export default function ParentApplyPage() {
                 onClick={() => inputRef.current?.click()}>
                 <Upload className="h-6 w-6 text-slate-400 mx-auto mb-1" />
                 <p className="text-sm text-slate-500">{t('applyParent.uploadClick')}</p>
-                <p className="text-xs text-slate-400 mt-1">PDF, JPG, PNG • Max 10 MB</p>
+                <p className="text-xs text-slate-400 mt-1">{t('app.page.pdf_jpg_png_max_10_mb')}</p>
                 <input ref={inputRef as any} type="file" className="hidden" accept=".pdf,.jpg,.jpeg,.png" onChange={(e) => handleDocSelect(e, setDocs)} />
             </div>
             <DocList docs={docs} setDocs={setDocs} />
@@ -370,7 +369,7 @@ export default function ParentApplyPage() {
                                                     <Input id="parentEmail" type="email" value={formData.parentEmail} onChange={e => updateField('parentEmail', e.target.value)} placeholder={t('applyParent.placeholders.email')} className={inputClass(!!errors.parentEmail)} />
                                                 </FieldWrapper>
                                                 <FieldWrapper id="parentPhone" label={t('applyParent.labels.phone')} icon={Phone} error={errors.parentPhone} required={false}>
-                                                    <Input id="parentPhone" type="tel" value={formData.parentPhone} onChange={e => updateField('parentPhone', e.target.value)} placeholder="+90 5XX XXX XX XX" className={inputClass(false)} />
+                                                    <Input id="parentPhone" type="tel" value={formData.parentPhone} onChange={e => updateField('parentPhone', e.target.value)} placeholder={t('app.page.90_5xx_xxx_xx_xx')} className={inputClass(false)} />
                                                 </FieldWrapper>
                                                 <FieldWrapper id="parentCountry" label={t('applyParent.labels.country')} icon={Globe} error={errors.parentCountry}>
                                                     <Select value={formData.parentCountry} onValueChange={(v) => updateField('parentCountry', v)}>
@@ -385,9 +384,9 @@ export default function ParentApplyPage() {
                                                     </Select>
                                                 </FieldWrapper>
                                                 {formData.parentCountry === 'TR' && (
-                                                    <FieldWrapper id="parentCity" label="Şehir / City" icon={MapPin} error={errors.parentCity} required={false}>
+                                                    <FieldWrapper id="parentCity" label={t('app.page.ehir_city')} icon={MapPin} error={errors.parentCity} required={false}>
                                                         <Select value={formData.parentCity} onValueChange={(v) => updateField('parentCity', v)}>
-                                                            <SelectTrigger id="parentCity" className={selectTriggerClass(false)}><SelectValue placeholder="Şehir seçiniz..." /></SelectTrigger>
+                                                            <SelectTrigger id="parentCity" className={selectTriggerClass(false)}><SelectValue placeholder={t('app.page.ehir_se_iniz')} /></SelectTrigger>
                                                             <SelectContent>
                                                                 {TURKEY_CITIES.map((city) => (
                                                                     <SelectItem key={city} value={city}>{city}</SelectItem>
@@ -516,9 +515,9 @@ export default function ParentApplyPage() {
                                                 {errors.story && <p className="text-xs text-red-500 flex items-center gap-1"><AlertCircle className="h-3 w-3" />{errors.story}</p>}
                                             </div>
                                             {/* Category */}
-                                            <FieldWrapper id="category" label="İhtiyaç Kategorisi / Need Category" icon={Tag} error={errors.category} required={false}>
+                                            <FieldWrapper id="category" label={t('app.page.htiya_kategorisi_need_category')} icon={Tag} error={errors.category} required={false}>
                                                 <Select value={formData.category} onValueChange={(v) => updateField('category', v)}>
-                                                    <SelectTrigger id="category" className={selectTriggerClass(!!errors.category)}><SelectValue placeholder="Kategori seçiniz / Select category..." /></SelectTrigger>
+                                                    <SelectTrigger id="category" className={selectTriggerClass(!!errors.category)}><SelectValue placeholder={t('app.page.kategori_se_iniz_select_catego')} /></SelectTrigger>
                                                     <SelectContent>
                                                         {FUNDING_CATEGORIES.map((cat) => (
                                                             <SelectItem key={cat.value} value={cat.value}>{cat.labelTr} / {cat.label}</SelectItem>
@@ -542,7 +541,7 @@ export default function ParentApplyPage() {
                                                     <p className="text-sm text-slate-500 mb-2">{t('applyParent.photos.dropText')}</p>
                                                     <Button type="button" variant="outline" onClick={() => photoInputRef.current?.click()} className="rounded-xl text-sm">{t('applyParent.photos.selectBtn')}</Button>
                                                     <input ref={photoInputRef} type="file" className="hidden" accept="image/jpeg,image/png,image/webp" multiple onChange={handlePhotoSelect} />
-                                                    <p className="text-xs text-slate-400 mt-2">JPG, PNG, WebP • Max 5 MB • {t('applyParent.photos.maxCount')}</p>
+                                                    <p className="text-xs text-slate-400 mt-2">{t('app.page.jpg_png_webp_max_5_mb')}{t('applyParent.photos.maxCount')}</p>
                                                 </div>
                                                 {photos.length > 0 && (
                                                     <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
@@ -563,7 +562,7 @@ export default function ParentApplyPage() {
                                                     <div className="border-2 border-dashed rounded-xl p-4 text-center border-slate-200 hover:border-purple-300 transition-colors cursor-pointer" onClick={() => videoInputRef.current?.click()}>
                                                         <Video className="h-6 w-6 text-slate-400 mx-auto mb-1" />
                                                         <p className="text-sm text-slate-500">{t('applyParent.video.selectBtn')}</p>
-                                                        <p className="text-xs text-slate-400 mt-1">MP4, WebM • Max 50 MB</p>
+                                                        <p className="text-xs text-slate-400 mt-1">{t('app.page.mp4_webm_max_50_mb')}</p>
                                                         <input ref={videoInputRef} type="file" className="hidden" accept="video/mp4,video/webm" onChange={handleVideoSelect} />
                                                     </div>
                                                 ) : (
@@ -609,7 +608,7 @@ export default function ParentApplyPage() {
                                                     <h4 className="font-semibold text-rose-800 mb-2">{t('applyParent.review.storyMedia')}</h4>
                                                     <p className="text-sm text-slate-600 line-clamp-3">{formData.story}</p>
                                                     <div className="mt-2 text-sm text-slate-500">
-                                                        <span>💰 ${formData.targetAmount} • 📷 {photos.length} {t('applyParent.review.photos')} • 🎥 {video ? 1 : 0} {t('applyParent.review.videos')}</span>
+                                                        <span>{t('app.page.text')}{formData.targetAmount} {t('app.page.text')}{photos.length} {t('applyParent.review.photos')} {t('app.page.text')}{video ? 1 : 0} {t('applyParent.review.videos')}</span>
                                                     </div>
                                                 </div>
                                             </div>

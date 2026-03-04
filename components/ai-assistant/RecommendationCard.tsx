@@ -4,6 +4,7 @@ import React from 'react';
 import { Heart, ExternalLink, GraduationCap, MapPin } from 'lucide-react';
 import type { RecommendedCampaign } from '@/types/ai-assistant';
 import { useRouter } from 'next/navigation';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface RecommendationCardProps {
   campaign: RecommendedCampaign;
@@ -11,6 +12,7 @@ interface RecommendationCardProps {
 }
 
 export function RecommendationCard({ campaign, rank }: RecommendationCardProps) {
+    const { t } = useTranslation();
   const router = useRouter();
   const progress = campaign.goal_amount > 0
     ? Math.min(100, (campaign.raised_amount / campaign.goal_amount) * 100)
@@ -21,8 +23,7 @@ export function RecommendationCard({ campaign, rank }: RecommendationCardProps) 
       {/* Match score header */}
       <div className="flex items-center justify-between px-3 py-2 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100">
         <span className="text-xs font-semibold text-blue-700">
-          🌟 %{campaign.match_score} Eşleşme
-        </span>
+          {t('components.recommendationcard.text')}{campaign.match_score} {t('components.recommendationcard.e_le_me')}</span>
         <span className="text-xs text-gray-500">#{rank}</span>
       </div>
 
@@ -88,7 +89,7 @@ export function RecommendationCard({ campaign, rank }: RecommendationCardProps) 
               ₺{campaign.raised_amount.toLocaleString('tr-TR')}
             </span>
             <span className="text-gray-500">
-              / ₺{campaign.goal_amount.toLocaleString('tr-TR')}
+              {t('components.recommendationcard.text')}{campaign.goal_amount.toLocaleString('tr-TR')}
             </span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-1.5">
@@ -98,8 +99,8 @@ export function RecommendationCard({ campaign, rank }: RecommendationCardProps) 
             />
           </div>
           <div className="flex justify-between text-[10px] text-gray-400 mt-0.5">
-            <span>%{progress.toFixed(0)} fonlanmış</span>
-            <span>{campaign.donor_count} destekçi</span>
+            <span>%{progress.toFixed(0)} {t('components.recommendationcard.fonlanm')}</span>
+            <span>{campaign.donor_count} {t('components.recommendationcard.destek_i')}</span>
           </div>
         </div>
 
@@ -113,8 +114,7 @@ export function RecommendationCard({ campaign, rank }: RecommendationCardProps) 
             className="flex-1 flex items-center justify-center gap-1.5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition-colors"
           >
             <Heart className="w-3.5 h-3.5" />
-            Bağış Yap
-          </button>
+            {t('components.recommendationcard.ba_yap')}</button>
           <button
             onClick={(e) => {
               e.stopPropagation();
@@ -123,8 +123,7 @@ export function RecommendationCard({ campaign, rank }: RecommendationCardProps) 
             className="flex items-center justify-center gap-1 px-3 py-2 border border-gray-200 hover:bg-gray-50 text-gray-700 text-xs rounded-lg transition-colors"
           >
             <ExternalLink className="w-3.5 h-3.5" />
-            Detay
-          </button>
+            {t('components.recommendationcard.detay')}</button>
         </div>
       </div>
     </div>

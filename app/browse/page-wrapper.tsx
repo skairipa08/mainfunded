@@ -11,11 +11,13 @@ import { getCampaigns, getCategories, getCountries, getFieldsOfStudy } from '@/l
 import { APPLICANT_TYPES, EDUCATION_LEVELS } from '@/lib/constants';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useTranslation } from "@/lib/i18n/context";
 
 /**
  * Client component that uses useSearchParams - must be wrapped in Suspense
  */
 export default function BrowsePageContent() {
+    const { t } = useTranslation();
   const router = useRouter();
   const searchParams = useSearchParams();
   const [campaigns, setCampaigns] = useState<any[]>([]);
@@ -99,7 +101,7 @@ export default function BrowsePageContent() {
       <Navbar />
       <main className="flex-1">
         <div className="container mx-auto px-4 py-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-8">Browse Campaigns</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-8">{t('app.page_wrapper.browse_campaigns')}</h1>
 
           {/* Filters */}
           <div className="bg-white rounded-lg shadow-md p-6 mb-8">
@@ -112,7 +114,7 @@ export default function BrowsePageContent() {
                     <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
                     <Input
                       type="text"
-                      placeholder="Kampanya ara... / Search campaigns..."
+                      placeholder={t('app.page_wrapper.kampanya_ara_search_campaigns')}
                       value={searchQuery}
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchQuery(e.target.value)}
                       className="pl-10"
@@ -123,10 +125,10 @@ export default function BrowsePageContent() {
                 {/* Category */}
                 <Select value={selectedCategory} onValueChange={setSelectedCategory}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Kategori / Category" />
+                    <SelectValue placeholder={t('app.page_wrapper.kategori_category')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">Tüm Kategoriler / All Categories</SelectItem>
+                    <SelectItem value="all">{t('app.page_wrapper.t_m_kategoriler_all_categories')}</SelectItem>
                     {categories.map((cat) => (
                       <SelectItem key={cat.id || cat.value} value={cat.id || cat.value}>
                         {cat.nameTr ? `${cat.nameTr}` : cat.name}
@@ -138,10 +140,10 @@ export default function BrowsePageContent() {
                 {/* Country — Turkey first */}
                 <Select value={selectedCountry} onValueChange={setSelectedCountry}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Ülke / Country" />
+                    <SelectValue placeholder={t('app.page_wrapper.lke_country')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">Tüm Ülkeler / All Countries</SelectItem>
+                    <SelectItem value="all">{t('app.page_wrapper.t_m_lkeler_all_countries')}</SelectItem>
                     {countries.map((country: any, index: number) => (
                       <SelectItem key={country.value || country} value={country.value || country}>
                         {country.label || country}
@@ -156,10 +158,10 @@ export default function BrowsePageContent() {
                 {/* Applicant Type */}
                 <Select value={selectedApplicantType} onValueChange={setSelectedApplicantType}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Başvuran Türü / Applicant Type" />
+                    <SelectValue placeholder={t('app.page_wrapper.ba_vuran_t_r_applicant_type')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">Tüm Başvuranlar / All Applicants</SelectItem>
+                    <SelectItem value="all">{t('app.page_wrapper.t_m_ba_vuranlar_all_applicants')}</SelectItem>
                     {APPLICANT_TYPES.map((type) => (
                       <SelectItem key={type.value} value={type.value}>
                         {type.labelTr} / {type.label}
@@ -171,10 +173,10 @@ export default function BrowsePageContent() {
                 {/* Education Level */}
                 <Select value={selectedEducationLevel} onValueChange={setSelectedEducationLevel}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Eğitim Seviyesi / Education Level" />
+                    <SelectValue placeholder={t('app.page_wrapper.e_itim_seviyesi_education_leve')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">Tüm Seviyeler / All Levels</SelectItem>
+                    <SelectItem value="all">{t('app.page_wrapper.t_m_seviyeler_all_levels')}</SelectItem>
                     {EDUCATION_LEVELS.map((level) => (
                       <SelectItem key={level.value} value={level.value}>
                         {level.labelTr} / {level.label}
@@ -186,10 +188,10 @@ export default function BrowsePageContent() {
                 {/* Field of Study */}
                 <Select value={selectedField} onValueChange={setSelectedField}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Bölüm / Field of Study" />
+                    <SelectValue placeholder={t('app.page_wrapper.b_l_m_field_of_study')} />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">Tüm Bölümler / All Fields</SelectItem>
+                    <SelectItem value="all">{t('app.page_wrapper.t_m_b_l_mler_all_fields')}</SelectItem>
                     {fieldsOfStudy.map((field: any) => (
                       <SelectItem key={field} value={field}>
                         {field}
@@ -202,8 +204,7 @@ export default function BrowsePageContent() {
               <div className="flex justify-end">
                 <Button type="submit">
                   <Search className="h-4 w-4 mr-2" />
-                  Search
-                </Button>
+                  {t('app.page_wrapper.search')}</Button>
               </div>
             </form>
           </div>
@@ -215,7 +216,7 @@ export default function BrowsePageContent() {
             </div>
           ) : campaigns.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-gray-600">No campaigns found. Try adjusting your filters.</p>
+              <p className="text-gray-600">{t('app.page_wrapper.no_campaigns_found_try_adjusti')}</p>
             </div>
           ) : (
             <>
@@ -237,10 +238,9 @@ export default function BrowsePageContent() {
                       router.push(`/browse?${params.toString()}`);
                     }}
                   >
-                    Previous
-                  </Button>
+                    {t('app.page_wrapper.previous')}</Button>
                   <span className="flex items-center px-4 text-gray-600">
-                    Page {pagination.page} of {pagination.total_pages}
+                    {t('app.page_wrapper.page')}{pagination.page} of {pagination.total_pages}
                   </span>
                   <Button
                     variant="outline"
@@ -251,8 +251,7 @@ export default function BrowsePageContent() {
                       router.push(`/browse?${params.toString()}`);
                     }}
                   >
-                    Next
-                  </Button>
+                    {t('app.page_wrapper.next')}</Button>
                 </div>
               )}
             </>

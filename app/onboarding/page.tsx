@@ -8,8 +8,10 @@ import { CheckCircle, Shield, Users, Heart, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useTranslation } from "@/lib/i18n/context";
 
 export default function OnboardingPage() {
+    const { t } = useTranslation();
   const { data: session, status } = useSession();
   const router = useRouter();
   const [message, setMessage] = useState<string | null>(null);
@@ -70,16 +72,13 @@ export default function OnboardingPage() {
         <div className="max-w-4xl mx-auto px-4 py-12">
           <div className="bg-white rounded-lg shadow-sm p-8 mb-8">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">
-              Welcome to FundEd
-            </h1>
+              {t('app.page.welcome_to_funded')}</h1>
             <p className="text-xl text-gray-600 mb-8">
-              FundEd connects verified students with donors who want to support educational journeys.
-            </p>
+              {t('app.page.funded_connects_verified_stude')}</p>
 
             <div className="border-t border-gray-200 pt-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-6">
-                How It Works
-              </h2>
+                {t('app.page.how_it_works')}</h2>
               <div className="space-y-6">
                 {steps.map((step, index) => {
                   const Icon = step.icon;
@@ -110,28 +109,26 @@ export default function OnboardingPage() {
 
             <div className="border-t border-gray-200 pt-8 mt-8">
               <h2 className="text-2xl font-semibold text-gray-900 mb-4">
-                Verification Process
-              </h2>
+                {t('app.page.verification_process')}</h2>
               <div className="bg-blue-50 border border-blue-200 rounded-lg p-6 mb-6">
                 <p className="text-gray-700 mb-4">
-                  All students must be verified before creating campaigns. This helps ensure authenticity and builds trust with donors.
-                </p>
+                  {t('app.page.all_students_must_be_verified_')}</p>
                 <ul className="space-y-2 text-gray-700">
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <span>Submit your student profile with university information</span>
+                    <span>{t('app.page.submit_your_student_profile_wi')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <span>Upload verification documents (student ID, enrollment proof, etc.)</span>
+                    <span>{t('app.page.upload_verification_documents_')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <span>Our admin team reviews your submission (usually within 24-48 hours)</span>
+                    <span>{t('app.page.our_admin_team_reviews_your_su')}</span>
                   </li>
                   <li className="flex items-start gap-2">
                     <CheckCircle className="h-5 w-5 text-green-600 flex-shrink-0 mt-0.5" />
-                    <span>Once verified, you can create and publish campaigns</span>
+                    <span>{t('app.page.once_verified_you_can_create_a')}</span>
                   </li>
                 </ul>
               </div>
@@ -144,16 +141,14 @@ export default function OnboardingPage() {
                   size="lg"
                   className="flex-1"
                 >
-                  Go to Dashboard
-                  <ArrowRight className="ml-2 h-5 w-5" />
+                  {t('app.page.go_to_dashboard')}<ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
                 <Button
                   variant="outline"
                   onClick={() => router.push('/')}
                   size="lg"
                 >
-                  Browse Campaigns
-                </Button>
+                  {t('app.page.browse_campaigns')}</Button>
               </div>
             </div>
           </div>

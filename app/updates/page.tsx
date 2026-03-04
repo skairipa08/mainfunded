@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo, useRef, useEffect, useCallback } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import {
     BookOpen,
     TrendingUp,
@@ -19,7 +20,6 @@ import {
 } from 'lucide-react';
 import { StudentBlog, mockBlogPosts } from '@/components/StudentBlog';
 import MobileHeader from '@/components/MobileHeader';
-import { useTranslation } from '@/lib/i18n/context';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
@@ -27,6 +27,7 @@ import { cn } from '@/lib/utils';
 const ALL_TAGS = ['all', 'teşekkür', 'başarı', 'finals', 'staj', 'kariyer', 'google', 'yenidönem', 'üniversite'];
 
 function AnimatedCounter({ value, className }: { value: number; className?: string }) {
+    const { t } = useTranslation();
     const [displayed, setDisplayed] = React.useState(0);
     React.useEffect(() => {
         let start = 0;

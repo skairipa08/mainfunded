@@ -4,7 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { GraduationCap, Heart } from 'lucide-react';
-import { useTranslation } from '@/lib/i18n';
+import { useTranslation } from "@/lib/i18n/context";
 
 const sponsors = [
   { name: 'Nexus Technologies', logo: '/sponsors/sponsor1.png' },
@@ -22,8 +22,7 @@ export default function Footer() {
       <div className="bg-gray-800 py-8 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 mb-4">
           <h3 className="text-center text-lg font-semibold text-gray-300 mb-6">
-            Sponsorlarimiz
-          </h3>
+            {t('components.footer.sponsorlarimiz')}</h3>
         </div>
         <div className="relative">
           <div className="flex animate-scroll">
@@ -58,7 +57,7 @@ export default function Footer() {
                 <div className="bg-blue-600 p-2 rounded-lg">
                   <GraduationCap className="h-6 w-6 text-white" />
                 </div>
-                <span className="text-xl font-bold">FundEd</span>
+                <span className="text-xl font-bold">{t('components.footer.funded')}</span>
               </div>
               <p className="text-gray-400 text-sm">
                 {t('home.hero.subtitle')}
@@ -70,7 +69,7 @@ export default function Footer() {
               <h3 className="font-semibold mb-4">{t('nav.browse')}</h3>
               <ul className="space-y-2">
                 <li><Link href="/browse" className="text-gray-400 hover:text-white transition-colors">{t('nav.browse')}</Link></li>
-                <li><Link href="/education-equality" className="text-gray-400 hover:text-white transition-colors">Eğitimde Eşitlik Bağışları</Link></li>
+                <li><Link href="/education-equality" className="text-gray-400 hover:text-white transition-colors">{t('components.footer.e_itimde_e_itlik_ba_lar')}</Link></li>
                 <li><Link href="/campaigns/new" className="text-gray-400 hover:text-white transition-colors">{t('campaign.createCampaign')}</Link></li>
                 <li><Link href="/login" className="text-gray-400 hover:text-white transition-colors">{t('common.login')}</Link></li>
               </ul>
@@ -98,9 +97,9 @@ export default function Footer() {
 
             {/* Kurumsal */}
             <div>
-              <h3 className="font-semibold mb-4">Kurumsal</h3>
+              <h3 className="font-semibold mb-4">{t('components.footer.kurumsal')}</h3>
               <ul className="space-y-2">
-                <li><Link href="/corporate" className="text-gray-400 hover:text-white transition-colors">Kurumsal Dashboard</Link></li>
+                <li><Link href="/corporate" className="text-gray-400 hover:text-white transition-colors">{t('components.footer.kurumsal_dashboard')}</Link></li>
 
               </ul>
             </div>
@@ -160,10 +159,9 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-4 mt-4 md:mt-0">
               <Link href="/sponsors" className="text-blue-400 hover:text-blue-300 text-sm transition-colors">
-                Tum Sponsorlarimiz →
-              </Link>
+                {t('components.footer.tum_sponsorlarimiz')}</Link>
               <p className="text-gray-400 text-sm flex items-center">
-                Made with <Heart className="h-4 w-4 text-red-500 mx-1" /> {t('home.hero.subtitle')}
+                {t('components.footer.made_with')}<Heart className="h-4 w-4 text-red-500 mx-1" /> {t('home.hero.subtitle')}
               </p>
             </div>
           </div>

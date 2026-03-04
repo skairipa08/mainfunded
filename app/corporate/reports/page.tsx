@@ -195,8 +195,7 @@ export default function ReportsPage() {
                             </Button>
                             <Button variant="outline" onClick={exportExcel} className="gap-2">
                                 <FileSpreadsheet className="h-4 w-4" />
-                                Excel
-                            </Button>
+                                {t('app.page.excel')}</Button>
                             <Button variant="outline" onClick={exportPDF} className="gap-2">
                                 <File className="h-4 w-4" />
                                 {t('corporate.reports.pdfTaxReceipt')}

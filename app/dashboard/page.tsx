@@ -10,6 +10,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CampaignCard from '@/components/CampaignCard';
 import { useCurrency } from '@/lib/currency-context';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface UserData {
   id: string;
@@ -35,6 +36,7 @@ interface Campaign {
 }
 
 export default function DashboardPage() {
+    const { t } = useTranslation();
   const { data: session, status } = useSession();
   const router = useRouter();
   const { formatAmount } = useCurrency();
@@ -123,20 +125,19 @@ export default function DashboardPage() {
         <div className="max-w-7xl mx-auto px-4 py-8">
           <div className="mb-8">
             <div className="flex items-center gap-3 mb-2">
-              <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
+              <h1 className="text-3xl font-bold text-gray-900">{t('app.page.dashboard')}</h1>
               <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium border ${accountInfo.color}`}>
                 <span>{accountInfo.icon}</span>
                 {accountInfo.label}
               </span>
             </div>
-            <p className="text-gray-600">Manage your profile and campaigns</p>
+            <p className="text-gray-600">{t('app.page.manage_your_profile_and_campai')}</p>
           </div>
 
           {/* Verification Status */}
           <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
-              Verification Status
-            </h2>
+              {t('app.page.verification_status')}</h2>
 
             {verificationStatus === 'none' && (
               <div className="border border-gray-200 rounded-lg p-6">
@@ -144,14 +145,11 @@ export default function DashboardPage() {
                   <Clock className="h-6 w-6 text-gray-400 flex-shrink-0 mt-1" />
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      Not Verified
-                    </h3>
+                      {t('app.page.not_verified')}</h3>
                     <p className="text-gray-600 mb-4">
-                      Create a student profile and get verified to start fundraising for your education.
-                    </p>
+                      {t('app.page.create_a_student_profile_and_g')}</p>
                     <Button onClick={() => router.push('/onboarding')}>
-                      Get Verified
-                    </Button>
+                      {t('app.page.get_verified')}</Button>
                   </div>
                 </div>
               </div>
@@ -163,11 +161,9 @@ export default function DashboardPage() {
                   <Clock className="h-6 w-6 text-yellow-600 flex-shrink-0 mt-1" />
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      Verification Pending
-                    </h3>
+                      {t('app.page.verification_pending')}</h3>
                     <p className="text-gray-600">
-                      Your student profile is under review. We&apos;ll notify you by email once verification is complete, usually within 24-48 hours.
-                    </p>
+                      {t('app.page.your_student_profile_is_under_')}</p>
                   </div>
                 </div>
               </div>
@@ -179,21 +175,19 @@ export default function DashboardPage() {
                   <CheckCircle className="h-6 w-6 text-green-600 flex-shrink-0 mt-1" />
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      Verified Student
-                    </h3>
+                      {t('app.page.verified_student')}</h3>
                     <p className="text-gray-600 mb-4">
-                      You&apos;re verified and can create campaigns!
-                    </p>
+                      {t('app.page.you_apos_re_verified_and_can_c')}</p>
                     {userData?.student_profile && (
                       <div className="text-sm text-gray-600 space-y-1">
                         {userData.student_profile.university && (
-                          <p><strong>University:</strong> {userData.student_profile.university}</p>
+                          <p><strong>{t('app.page.university')}</strong> {userData.student_profile.university}</p>
                         )}
                         {userData.student_profile.fieldOfStudy && (
-                          <p><strong>Field of Study:</strong> {userData.student_profile.fieldOfStudy}</p>
+                          <p><strong>{t('app.page.field_of_study')}</strong> {userData.student_profile.fieldOfStudy}</p>
                         )}
                         {userData.student_profile.country && (
-                          <p><strong>Country:</strong> {userData.student_profile.country}</p>
+                          <p><strong>{t('app.page.country')}</strong> {userData.student_profile.country}</p>
                         )}
                       </div>
                     )}
@@ -208,14 +202,11 @@ export default function DashboardPage() {
                   <XCircle className="h-6 w-6 text-red-600 flex-shrink-0 mt-1" />
                   <div className="flex-1">
                     <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      Verification Rejected
-                    </h3>
+                      {t('app.page.verification_rejected')}</h3>
                     <p className="text-gray-600 mb-4">
-                      Your verification request was not approved. Please review your submission and ensure all information is accurate. Contact support if you have questions.
-                    </p>
+                      {t('app.page.your_verification_request_was_')}</p>
                     <Button variant="outline" onClick={() => router.push('/onboarding')}>
-                      View Requirements
-                    </Button>
+                      {t('app.page.view_requirements')}</Button>
                   </div>
                 </div>
               </div>
@@ -226,13 +217,11 @@ export default function DashboardPage() {
           <div className="bg-white rounded-lg shadow-sm p-6">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-semibold text-gray-900">
-                Your Campaigns
-              </h2>
+                {t('app.page.your_campaigns')}</h2>
               {isVerified && (
                 <Button onClick={() => router.push('/campaigns/new')}>
                   <Plus className="mr-2 h-4 w-4" />
-                  Create Campaign
-                </Button>
+                  {t('app.page.create_campaign')}</Button>
               )}
             </div>
 
@@ -245,8 +234,7 @@ export default function DashboardPage() {
                 </p>
                 {isVerified && (
                   <Button onClick={() => router.push('/campaigns/new')}>
-                    Create Your First Campaign
-                  </Button>
+                    {t('app.page.create_your_first_campaign')}</Button>
                 )}
               </div>
             ) : (
@@ -255,9 +243,9 @@ export default function DashboardPage() {
                   <div key={campaign.campaign_id} className="border border-gray-200 rounded-lg p-4">
                     <h3 className="font-semibold text-gray-900 mb-2">{campaign.title}</h3>
                     <div className="text-sm text-gray-600 mb-4">
-                      <p>Status: <span className="font-medium">{campaign.status}</span></p>
+                      <p>{t('app.page.status')}<span className="font-medium">{campaign.status}</span></p>
                       <p>
-                        Progress: {formatAmount(campaign.raised_amount)} / {formatAmount(campaign.goal_amount)}
+                        {t('app.page.progress')}{formatAmount(campaign.raised_amount)} / {formatAmount(campaign.goal_amount)}
                       </p>
                     </div>
                     <div className="flex gap-2">
@@ -266,8 +254,7 @@ export default function DashboardPage() {
                         size="sm"
                         onClick={() => router.push(`/campaign/${campaign.campaign_id}`)}
                       >
-                        View
-                        <ExternalLink className="ml-2 h-3 w-3" />
+                        {t('app.page.view')}<ExternalLink className="ml-2 h-3 w-3" />
                       </Button>
                     </div>
                   </div>

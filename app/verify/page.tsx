@@ -1,6 +1,7 @@
 ﻿'use client';
 
 import { useState, useEffect, Suspense, useRef, useCallback } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Navbar from '@/components/Navbar';
@@ -17,7 +18,6 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { toast } from 'sonner';
-import { useTranslation } from '@/lib/i18n';
 import {
     TIER_CONFIG,
     isEducationalEmail,
@@ -254,7 +254,7 @@ function DocumentsUploadStep({ tierRequested, t }: { tierRequested: number; t: (
                                     </p>
                                 </div>
                                 {uploadedFile.status === 'queued' && (
-                                    <span className="text-xs text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full font-medium">Hazir</span>
+                                    <span className="text-xs text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full font-medium">{t('app.page.hazir')}</span>
                                 )}
                                 {uploadedFile.status === 'uploaded' && (
                                     <CheckCircle2 className="w-5 h-5 text-emerald-600" />
@@ -452,7 +452,7 @@ function VerifyPageContent() {
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-white to-emerald-50/30">
                 <div className="text-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-4 border-emerald-200 border-t-emerald-600 mx-auto mb-4"></div>
-                    <p className="text-gray-500">Yukleniyor...</p>
+                    <p className="text-gray-500">{t('app.page.yukleniyor')}</p>
                 </div>
             </div>
         );
@@ -537,7 +537,7 @@ function VerifyPageContent() {
                                     );
                                 })()}
                                 <div>
-                                    <p className="text-sm text-emerald-600 font-medium">Adim {currentStepIndex + 1} / {steps.length}</p>
+                                    <p className="text-sm text-emerald-600 font-medium">{t('app.page.adim')}{currentStepIndex + 1} / {steps.length}</p>
                                     <h2 className="text-xl font-bold text-gray-900">
                                         {steps[currentStepIndex].title}
                                     </h2>
@@ -593,7 +593,7 @@ function VerifyPageContent() {
                                                                 <span className={`px-2.5 py-0.5 rounded-full text-xs font-bold ${isSelected
                                                                     ? 'bg-emerald-600 text-white'
                                                                     : 'bg-gray-200 text-gray-700'}`}>
-                                                                    Tier {tier.tier}
+                                                                    {t('app.page.tier')}{tier.tier}
                                                                 </span>
                                                                 <h3 className="font-semibold text-gray-900">{tierNames[tier.tier]}</h3>
                                                             </div>
@@ -643,15 +643,14 @@ function VerifyPageContent() {
                                         <div className="flex gap-2 items-center">
                                             <Input
                                                 type="email"
-                                                placeholder="öğrenci@universite.edu.tr"
+                                                placeholder={t('app.page.renci_universite_edu_tr')}
                                                 value={formData.institutionEmail}
                                                 onChange={(e) => setFormData({ ...formData, institutionEmail: e.target.value })}
                                                 className="flex-1 bg-white"
                                             />
                                             {formData.institutionEmail && isEducationalEmail(formData.institutionEmail) && (
                                                 <span className="text-emerald-600 flex items-center gap-1 text-sm font-medium whitespace-nowrap">
-                                                    <CheckCircle2 className="w-4 h-4" /> Geçerli
-                                                </span>
+                                                    <CheckCircle2 className="w-4 h-4" /> {t('app.page.ge_erli')}</span>
                                             )}
                                         </div>
                                     </div>
@@ -672,7 +671,7 @@ function VerifyPageContent() {
                                                 value={formData.firstName}
                                                 onChange={(e) => { setFormData({ ...formData, firstName: e.target.value }); setErrors({ ...errors, firstName: '' }); }}
                                                 className={errors.firstName ? 'border-red-300 focus:border-red-400' : ''}
-                                                placeholder="Ahmet"
+                                                placeholder={t('app.page.ahmet')}
                                             />
                                             {errors.firstName && <p className="text-xs text-red-500">{errors.firstName}</p>}
                                         </div>
@@ -686,7 +685,7 @@ function VerifyPageContent() {
                                                 value={formData.lastName}
                                                 onChange={(e) => { setFormData({ ...formData, lastName: e.target.value }); setErrors({ ...errors, lastName: '' }); }}
                                                 className={errors.lastName ? 'border-red-300 focus:border-red-400' : ''}
-                                                placeholder="Yilmaz"
+                                                placeholder={t('app.page.yilmaz')}
                                             />
                                             {errors.lastName && <p className="text-xs text-red-500">{errors.lastName}</p>}
                                         </div>
@@ -718,7 +717,7 @@ function VerifyPageContent() {
                                             value={formData.phone}
                                             onChange={(e) => { setFormData({ ...formData, phone: e.target.value }); setErrors({ ...errors, phone: '' }); }}
                                             className={errors.phone ? 'border-red-300 focus:border-red-400' : ''}
-                                            placeholder="+90 5XX XXX XX XX"
+                                            placeholder={t('app.page.90_5xx_xxx_xx_xx')}
                                         />
                                         {errors.phone && <p className="text-xs text-red-500">{errors.phone}</p>}
                                     </div>
@@ -734,7 +733,7 @@ function VerifyPageContent() {
                                                 value={formData.country}
                                                 onChange={(e) => { setFormData({ ...formData, country: e.target.value }); setErrors({ ...errors, country: '' }); }}
                                                 className={errors.country ? 'border-red-300 focus:border-red-400' : ''}
-                                                placeholder="Türkiye"
+                                                placeholder={t('app.page.t_rkiye')}
                                             />
                                             {errors.country && <p className="text-xs text-red-500">{errors.country}</p>}
                                         </div>
@@ -747,7 +746,7 @@ function VerifyPageContent() {
                                                 id="city"
                                                 value={formData.city}
                                                 onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-                                                placeholder="İstanbul"
+                                                placeholder={t('app.page.stanbul')}
                                             />
                                         </div>
                                     </div>
@@ -767,7 +766,7 @@ function VerifyPageContent() {
                                             value={formData.institutionName}
                                             onChange={(e) => { setFormData({ ...formData, institutionName: e.target.value }); setErrors({ ...errors, institutionName: '' }); }}
                                             className={errors.institutionName ? 'border-red-300 focus:border-red-400' : ''}
-                                            placeholder="Ör: Boğaziçi Üniversitesi"
+                                            placeholder={t('app.page.r_bo_azi_i_niversitesi')}
                                         />
                                         {errors.institutionName && <p className="text-xs text-red-500">{errors.institutionName}</p>}
                                     </div>
@@ -783,7 +782,7 @@ function VerifyPageContent() {
                                                 value={formData.institutionCountry}
                                                 onChange={(e) => { setFormData({ ...formData, institutionCountry: e.target.value }); setErrors({ ...errors, institutionCountry: '' }); }}
                                                 className={errors.institutionCountry ? 'border-red-300 focus:border-red-400' : ''}
-                                                placeholder="Türkiye"
+                                                placeholder={t('app.page.t_rkiye')}
                                             />
                                             {errors.institutionCountry && <p className="text-xs text-red-500">{errors.institutionCountry}</p>}
                                         </div>
@@ -819,7 +818,7 @@ function VerifyPageContent() {
                                             value={formData.degreeProgram}
                                             onChange={(e) => { setFormData({ ...formData, degreeProgram: e.target.value }); setErrors({ ...errors, degreeProgram: '' }); }}
                                             className={errors.degreeProgram ? 'border-red-300 focus:border-red-400' : ''}
-                                            placeholder="Ör: Bilgisayar Mühendisliği"
+                                            placeholder={t('app.page.r_bilgisayar_m_hendisli_i')}
                                         />
                                         {errors.degreeProgram && <p className="text-xs text-red-500">{errors.degreeProgram}</p>}
                                     </div>
@@ -855,7 +854,7 @@ function VerifyPageContent() {
                                                 id="studentId"
                                                 value={formData.studentId}
                                                 onChange={(e) => setFormData({ ...formData, studentId: e.target.value })}
-                                                placeholder="Sifrelenecektir"
+                                                placeholder={t('app.page.sifrelenecektir')}
                                             />
                                         </div>
                                     </div>
@@ -901,7 +900,7 @@ function VerifyPageContent() {
                                         />
                                         <div>
                                             <span className="font-medium text-gray-900">{t('verification.form.fullTime') || 'Tam zamanlı öğrenci'}</span>
-                                            <p className="text-xs text-gray-500 mt-0.5">Aktif olarak tam zamanlı eğitime devam ediyorum</p>
+                                            <p className="text-xs text-gray-500 mt-0.5">{t('app.page.aktif_olarak_tam_zamanl_e_itim')}</p>
                                         </div>
                                     </label>
                                 </div>
@@ -922,7 +921,7 @@ function VerifyPageContent() {
                                             </div>
                                             <div>
                                                 <p className="text-sm text-emerald-600 font-medium">{t('verification.review.tier') || 'Seçilen Seviye'}</p>
-                                                <p className="font-semibold text-gray-900">Tier {formData.tierRequested} - {TIER_CONFIG[formData.tierRequested]?.name}</p>
+                                                <p className="font-semibold text-gray-900">{t('app.page.tier')}{formData.tierRequested} - {TIER_CONFIG[formData.tierRequested]?.name}</p>
                                             </div>
                                         </div>
                                     </div>
@@ -933,13 +932,13 @@ function VerifyPageContent() {
                                             {t('verification.review.personal') || 'Kişisel Bilgiler'}
                                         </h4>
                                         <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
-                                            <span className="text-gray-500">Ad Soyad</span>
+                                            <span className="text-gray-500">{t('app.page.ad_soyad')}</span>
                                             <span className="text-gray-900 font-medium">{formData.firstName} {formData.lastName}</span>
-                                            <span className="text-gray-500">Doğum Tarihi</span>
+                                            <span className="text-gray-500">{t('app.page.do_um_tarihi')}</span>
                                             <span className="text-gray-900 font-medium">{formData.dateOfBirth || '-'}</span>
-                                            <span className="text-gray-500">Telefon</span>
+                                            <span className="text-gray-500">{t('app.page.telefon')}</span>
                                             <span className="text-gray-900 font-medium">{formData.phone || '-'}</span>
-                                            <span className="text-gray-500">Ülke / Şehir</span>
+                                            <span className="text-gray-500">{t('app.page.lke_ehir')}</span>
                                             <span className="text-gray-900 font-medium">{formData.country}{formData.city ? `, ${formData.city}` : ''}</span>
                                         </div>
                                     </div>
@@ -950,15 +949,15 @@ function VerifyPageContent() {
                                             {t('verification.review.education') || 'Eğitim Bilgileri'}
                                         </h4>
                                         <div className="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
-                                            <span className="text-gray-500">Kurum</span>
+                                            <span className="text-gray-500">{t('app.page.kurum')}</span>
                                             <span className="text-gray-900 font-medium">{formData.institutionName}</span>
-                                            <span className="text-gray-500">Bölüm</span>
+                                            <span className="text-gray-500">{t('app.page.b_l_m')}</span>
                                             <span className="text-gray-900 font-medium">{formData.degreeProgram}</span>
-                                            <span className="text-gray-500">Derece</span>
+                                            <span className="text-gray-500">{t('app.page.derece')}</span>
                                             <span className="text-gray-900 font-medium capitalize">{formData.degreeLevel}</span>
-                                            <span className="text-gray-500">Kayıt / Mezuniyet</span>
+                                            <span className="text-gray-500">{t('app.page.kay_t_mezuniyet')}</span>
                                             <span className="text-gray-900 font-medium">{formData.enrollmentYear} - {formData.expectedGraduation}</span>
-                                            <span className="text-gray-500">Durum</span>
+                                            <span className="text-gray-500">{t('app.page.durum')}</span>
                                             <span className="text-gray-900 font-medium">{formData.isFullTime ? 'Tam Zamanlı' : 'Yarı Zamanlı'}</span>
                                         </div>
                                     </div>
@@ -1015,8 +1014,7 @@ function VerifyPageContent() {
                                     {loading ? (
                                         <>
                                             <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                                            Gönderiliyor...
-                                        </>
+                                            {t('app.page.g_nderiliyor')}</>
                                     ) : (
                                         <>
                                             {t('verification.form.submit') || 'İncelemeye Gönder'}
@@ -1040,12 +1038,13 @@ function VerifyPageContent() {
 }
 
 export default function VerifyPage() {
+    const { t } = useTranslation();
     return (
         <Suspense fallback={
             <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 via-white to-emerald-50/30">
                 <div className="text-center">
                     <div className="animate-spin rounded-full h-12 w-12 border-4 border-emerald-200 border-t-emerald-600 mx-auto mb-4"></div>
-                    <p className="text-gray-500">Yukleniyor...</p>
+                    <p className="text-gray-500">{t('app.page.yukleniyor')}</p>
                 </div>
             </div>
         }>

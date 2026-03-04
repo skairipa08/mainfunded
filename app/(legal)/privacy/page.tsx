@@ -1,11 +1,9 @@
-import type { Metadata } from 'next';
+'use client';
+import { useTranslation } from "@/lib/i18n/context";
 
-export const metadata: Metadata = {
-  title: 'Gizlilik Politikası | FundEd',
-  description: 'FundEd KVKK uyumlu gizlilik politikası ve kişisel verilerin korunması hakkında bilgilendirme.',
-};
 
 export default function PrivacyPolicyPage() {
+  const { t } = useTranslation();
   const today = new Date().toLocaleDateString('tr-TR', {
     year: 'numeric',
     month: 'long',
@@ -14,72 +12,67 @@ export default function PrivacyPolicyPage() {
 
   return (
     <article className="prose prose-blue max-w-none">
-      <h1 className="text-3xl font-bold text-blue-900 mb-2">Gizlilik Politikası</h1>
-      <p className="text-sm text-gray-500 mb-8">Son güncelleme: {today}</p>
+      <h1 className="text-3xl font-bold text-blue-900 mb-2">{t('app.page.gizlilik_politikas')}</h1>
+      <p className="text-sm text-gray-500 mb-8">{t('app.page.son_g_ncelleme')}{today}</p>
 
       {/* -------------------------------------------------- */}
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-blue-800">1. Veri Sorumlusu</h2>
+        <h2 className="text-xl font-semibold text-blue-800">{t('app.page.1_veri_sorumlusu')}</h2>
         <p>
-          6698 sayılı Kişisel Verilerin Korunması Kanunu (&quot;KVKK&quot;) kapsamında veri
-          sorumlusu sıfatıyla hareket eden <strong>FundEd Eğitim Teknolojileri</strong>
-          olarak kişisel verilerinizin güvenliğine azami özen göstermekteyiz.
-        </p>
+          {t('app.page.6698_say_l_ki_isel_verilerin_k')}<strong>{t('app.page.funded_e_itim_teknolojileri')}</strong>
+          {t('app.page.olarak_ki_isel_verilerinizin_g')}</p>
         <ul>
           <li>
-            <strong>İletişim:</strong>{' '}
+            <strong>{t('app.page.leti_im')}</strong>{' '}
             <a href="mailto:support@fund-ed.com" className="text-blue-600 hover:underline">
               support@fund-ed.com
             </a>
           </li>
           <li>
-            <strong>Başvuru yöntemi:</strong> Yukarıdaki e-posta adresi üzerinden veya
-            platformdaki &quot;Hesap Ayarları&quot; bölümünden.
-          </li>
+            <strong>{t('app.page.ba_vuru_y_ntemi')}</strong> {t('app.page.yukar_daki_e_posta_adresi_zeri')}</li>
         </ul>
       </section>
 
       {/* -------------------------------------------------- */}
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-blue-800">2. İşlenen Kişisel Veriler</h2>
+        <h2 className="text-xl font-semibold text-blue-800">{t('app.page.2_lenen_ki_isel_veriler')}</h2>
         <p>
-          Platform üzerinden aşağıdaki kategorilerde kişisel veri işlenmektedir:
-        </p>
+          {t('app.page.platform_zerinden_a_a_daki_kat')}</p>
 
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm">
             <thead>
               <tr className="bg-blue-50">
-                <th className="text-left px-4 py-2 font-semibold text-blue-900">Veri Kategorisi</th>
-                <th className="text-left px-4 py-2 font-semibold text-blue-900">Örnekler</th>
-                <th className="text-left px-4 py-2 font-semibold text-blue-900">İşleme Amacı</th>
+                <th className="text-left px-4 py-2 font-semibold text-blue-900">{t('app.page.veri_kategorisi')}</th>
+                <th className="text-left px-4 py-2 font-semibold text-blue-900">{t('app.page.rnekler')}</th>
+                <th className="text-left px-4 py-2 font-semibold text-blue-900">{t('app.page.leme_amac')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               <tr>
-                <td className="px-4 py-2 font-medium">Kimlik Bilgileri</td>
-                <td className="px-4 py-2">Ad, soyad</td>
-                <td className="px-4 py-2">Hesap oluşturma, kimlik doğrulama</td>
+                <td className="px-4 py-2 font-medium">{t('app.page.kimlik_bilgileri')}</td>
+                <td className="px-4 py-2">{t('app.page.ad_soyad')}</td>
+                <td className="px-4 py-2">{t('app.page.hesap_olu_turma_kimlik_do_rula')}</td>
               </tr>
               <tr>
-                <td className="px-4 py-2 font-medium">İletişim Bilgileri</td>
-                <td className="px-4 py-2">E-posta adresi</td>
-                <td className="px-4 py-2">Bilgilendirme, işlem onayı</td>
+                <td className="px-4 py-2 font-medium">{t('app.page.leti_im_bilgileri')}</td>
+                <td className="px-4 py-2">{t('app.page.e_posta_adresi')}</td>
+                <td className="px-4 py-2">{t('app.page.bilgilendirme_i_lem_onay')}</td>
               </tr>
               <tr>
-                <td className="px-4 py-2 font-medium">Eğitim Belgeleri</td>
-                <td className="px-4 py-2">Öğrenci belgesi, transkript</td>
-                <td className="px-4 py-2">Öğrenci doğrulama süreci</td>
+                <td className="px-4 py-2 font-medium">{t('app.page.e_itim_belgeleri')}</td>
+                <td className="px-4 py-2">{t('app.page.renci_belgesi_transkript')}</td>
+                <td className="px-4 py-2">{t('app.page.renci_do_rulama_s_reci')}</td>
               </tr>
               <tr>
-                <td className="px-4 py-2 font-medium">Finansal Bilgiler</td>
-                <td className="px-4 py-2">Ödeme kartı bilgileri (iyzico aracılığıyla)</td>
-                <td className="px-4 py-2">Bağış işlemlerinin gerçekleştirilmesi</td>
+                <td className="px-4 py-2 font-medium">{t('app.page.finansal_bilgiler')}</td>
+                <td className="px-4 py-2">{t('app.page.deme_kart_bilgileri_iyzico_ara')}</td>
+                <td className="px-4 py-2">{t('app.page.ba_i_lemlerinin_ger_ekle_tiril')}</td>
               </tr>
               <tr>
-                <td className="px-4 py-2 font-medium">Kullanım Verileri</td>
-                <td className="px-4 py-2">IP adresi, tarayıcı bilgisi, çerezler</td>
-                <td className="px-4 py-2">Platform güvenliği, analitik</td>
+                <td className="px-4 py-2 font-medium">{t('app.page.kullan_m_verileri')}</td>
+                <td className="px-4 py-2">{t('app.page.ip_adresi_taray_c_bilgisi_erez')}</td>
+                <td className="px-4 py-2">{t('app.page.platform_g_venli_i_analitik')}</td>
               </tr>
             </tbody>
           </table>
@@ -88,163 +81,136 @@ export default function PrivacyPolicyPage() {
 
       {/* -------------------------------------------------- */}
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-blue-800">3. Hukuki Sebepler</h2>
-        <p>Kişisel verileriniz KVKK m.5/2 kapsamında aşağıdaki hukuki sebeplere dayanılarak işlenmektedir:</p>
+        <h2 className="text-xl font-semibold text-blue-800">{t('app.page.3_hukuki_sebepler')}</h2>
+        <p>{t('app.page.ki_isel_verileriniz_kvkk_m_5_2')}</p>
         <ul>
-          <li>Sözleşmenin kurulması veya ifası için gerekli olması</li>
-          <li>Hukuki yükümlülüğün yerine getirilmesi</li>
-          <li>İlgili kişinin temel hak ve özgürlüklerine zarar vermemek kaydıyla meşru menfaat</li>
-          <li>Açık rıza (yalnızca yukarıdaki sebepler kapsamına girmeyen hallerde)</li>
+          <li>{t('app.page.s_zle_menin_kurulmas_veya_ifas')}</li>
+          <li>{t('app.page.hukuki_y_k_ml_l_n_yerine_getir')}</li>
+          <li>{t('app.page.lgili_ki_inin_temel_hak_ve_zg_')}</li>
+          <li>{t('app.page.a_k_r_za_yaln_zca_yukar_daki_s')}</li>
         </ul>
       </section>
 
       {/* -------------------------------------------------- */}
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-blue-800">4. Saklama Süreleri</h2>
+        <h2 className="text-xl font-semibold text-blue-800">{t('app.page.4_saklama_s_releri')}</h2>
         <p>
-          Kişisel verileriniz, işleme amacının gerektirdiği süre boyunca ve ilgili mevzuatta
-          öngörülen zamanaşımı süreleriyle uyumlu olarak saklanır:
-        </p>
+          {t('app.page.ki_isel_verileriniz_i_leme_ama')}</p>
         <ul>
           <li>
-            <strong>Hesap ve kimlik bilgileri:</strong> Hesap aktif olduğu sürece + hesap
-            kapatmadan itibaren <strong>5 yıl</strong>
+            <strong>{t('app.page.hesap_ve_kimlik_bilgileri')}</strong> {t('app.page.hesap_aktif_oldu_u_s_rece_hesa')}<strong>{t('app.page.5_y_l')}</strong>
           </li>
           <li>
-            <strong>Finansal işlem kayıtları:</strong> İlgili mevzuat gereği{' '}
-            <strong>10 yıl</strong>
+            <strong>{t('app.page.finansal_i_lem_kay_tlar')}</strong> {t('app.page.lgili_mevzuat_gere_i')}{' '}
+            <strong>{t('app.page.10_y_l')}</strong>
           </li>
           <li>
-            <strong>Öğrenci belgeleri:</strong> Kampanya kapanışından itibaren{' '}
-            <strong>5 yıl</strong>
+            <strong>{t('app.page.renci_belgeleri')}</strong> {t('app.page.kampanya_kapan_ndan_itibaren')}{' '}
+            <strong>{t('app.page.5_y_l')}</strong>
           </li>
           <li>
-            <strong>Çerez verileri:</strong> En fazla <strong>13 ay</strong> (CNIL/KVKK uyumlu)
-          </li>
+            <strong>{t('app.page.erez_verileri')}</strong> {t('app.page.en_fazla')}<strong>{t('app.page.13_ay')}</strong> {t('app.page.cnil_kvkk_uyumlu')}</li>
         </ul>
         <p>
-          Saklama süresi dolan veriler, periyodik imha süreçleri kapsamında silinir, yok
-          edilir veya anonim hâle getirilir.
-        </p>
+          {t('app.page.saklama_s_resi_dolan_veriler_p')}</p>
       </section>
 
       {/* -------------------------------------------------- */}
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-blue-800">5. Kullanıcı Hakları (KVKK m.11)</h2>
-        <p>KVKK&apos;nın 11. maddesi uyarınca aşağıdaki haklara sahipsiniz:</p>
+        <h2 className="text-xl font-semibold text-blue-800">{t('app.page.5_kullan_c_haklar_kvkk_m_11')}</h2>
+        <p>{t('app.page.kvkk_apos_n_n_11_maddesi_uyar_')}</p>
         <ol>
-          <li>Kişisel verilerinizin işlenip işlenmediğini öğrenme</li>
-          <li>İşlenmişse buna ilişkin bilgi talep etme</li>
-          <li>İşlenme amacını ve bunların amacına uygun kullanılıp kullanılmadığını öğrenme</li>
-          <li>Yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri öğrenme</li>
-          <li>Eksik veya yanlış işlenmiş verilerin <strong>düzeltilmesini</strong> isteme</li>
+          <li>{t('app.page.ki_isel_verilerinizin_i_lenip_')}</li>
+          <li>{t('app.page.lenmi_se_buna_ili_kin_bilgi_ta')}</li>
+          <li>{t('app.page.lenme_amac_n_ve_bunlar_n_amac_')}</li>
+          <li>{t('app.page.yurt_i_inde_veya_yurt_d_nda_ak')}</li>
+          <li>{t('app.page.eksik_veya_yanl_i_lenmi_verile')}<strong>{t('app.page.d_zeltilmesini')}</strong> isteme</li>
           <li>
-            KVKK m.7 kapsamında kişisel verilerin <strong>silinmesini</strong> veya yok edilmesini isteme
-          </li>
-          <li>Düzeltme/silme işlemlerinin aktarıldığı üçüncü kişilere bildirilmesini isteme</li>
+            {t('app.page.kvkk_m_7_kapsam_nda_ki_isel_ve')}<strong>silinmesini</strong> {t('app.page.veya_yok_edilmesini_isteme')}</li>
+          <li>{t('app.page.d_zeltme_silme_i_lemlerinin_ak')}</li>
           <li>
-            Münhasıran otomatik sistemler vasıtasıyla analiz edilmesi sonucu aleyhinize bir
-            sonucun ortaya çıkmasına itiraz etme
-          </li>
+            {t('app.page.m_nhas_ran_otomatik_sistemler_')}</li>
           <li>
-            Kanuna aykırı işleme nedeniyle zarara uğramanız hâlinde <strong>zararın giderilmesini</strong> talep etme
-          </li>
+            {t('app.page.kanuna_ayk_r_i_leme_nedeniyle_')}<strong>{t('app.page.zarar_n_giderilmesini')}</strong> {t('app.page.talep_etme')}</li>
         </ol>
         <p className="mt-4">
-          Başvurularınızı{' '}
+          {t('app.page.ba_vurular_n_z')}{' '}
           <a href="mailto:support@fund-ed.com" className="text-blue-600 hover:underline">
             support@fund-ed.com
           </a>{' '}
-          adresine göndererek kullanabilirsiniz. Talebiniz en geç <strong>30 gün</strong> içinde
-          sonuçlandırılacaktır.
-        </p>
+          {t('app.page.adresine_g_ndererek_kullanabil')}<strong>{t('app.page.30_g_n')}</strong> {t('app.page.i_inde_sonu_land_r_lacakt_r')}</p>
       </section>
 
       {/* -------------------------------------------------- */}
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-blue-800">6. Veri Aktarımı</h2>
+        <h2 className="text-xl font-semibold text-blue-800">{t('app.page.6_veri_aktar_m')}</h2>
         <p>
-          Kişisel verileriniz, hizmet kalitesini sağlamak amacıyla aşağıdaki taraflara
-          aktarılabilir:
-        </p>
+          {t('app.page.ki_isel_verileriniz_hizmet_kal')}</p>
         <ul>
           <li>
-            <strong>iyzico</strong> — Ödeme işlemleri (Türkiye merkezli; KVKK m.9 kapsamında
-            yeterli önlemler alınmıştır)
-          </li>
+            <strong>iyzico</strong> {t('app.page.deme_i_lemleri_t_rkiye_merkezl')}</li>
           <li>
-            <strong>Hosting sağlayıcıları</strong> — Vercel / bulut altyapısı (şifreli iletişim,
-            veri işleme sözleşmesi mevcuttur)
-          </li>
+            <strong>{t('app.page.hosting_sa_lay_c_lar')}</strong> {t('app.page.vercel_bulut_altyap_s_ifreli_i')}</li>
           <li>
-            <strong>Yasal merciler</strong> — Kanuni zorunluluk hâlinde yetkili kamu kurum ve
-            kuruluşları
-          </li>
+            <strong>{t('app.page.yasal_merciler')}</strong> {t('app.page.kanuni_zorunluluk_h_linde_yetk')}</li>
         </ul>
       </section>
 
       {/* -------------------------------------------------- */}
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-blue-800">7. Çerez Politikası</h2>
-        <p>Platformumuz aşağıdaki çerez türlerini kullanmaktadır:</p>
+        <h2 className="text-xl font-semibold text-blue-800">{t('app.page.7_erez_politikas')}</h2>
+        <p>{t('app.page.platformumuz_a_a_daki_erez_t_r')}</p>
         <div className="overflow-x-auto">
           <table className="min-w-full text-sm">
             <thead>
               <tr className="bg-blue-50">
-                <th className="text-left px-4 py-2 font-semibold text-blue-900">Çerez Türü</th>
-                <th className="text-left px-4 py-2 font-semibold text-blue-900">Amaç</th>
-                <th className="text-left px-4 py-2 font-semibold text-blue-900">Süre</th>
+                <th className="text-left px-4 py-2 font-semibold text-blue-900">{t('app.page.erez_t_r')}</th>
+                <th className="text-left px-4 py-2 font-semibold text-blue-900">{t('app.page.ama')}</th>
+                <th className="text-left px-4 py-2 font-semibold text-blue-900">{t('app.page.s_re')}</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               <tr>
-                <td className="px-4 py-2 font-medium">Zorunlu Çerezler</td>
-                <td className="px-4 py-2">Oturum yönetimi, güvenlik</td>
-                <td className="px-4 py-2">Oturum süresince</td>
+                <td className="px-4 py-2 font-medium">{t('app.page.zorunlu_erezler')}</td>
+                <td className="px-4 py-2">{t('app.page.oturum_y_netimi_g_venlik')}</td>
+                <td className="px-4 py-2">{t('app.page.oturum_s_resince')}</td>
               </tr>
               <tr>
-                <td className="px-4 py-2 font-medium">İşlevsel Çerezler</td>
-                <td className="px-4 py-2">Dil tercihi, tema ayarları</td>
-                <td className="px-4 py-2">1 yıl</td>
+                <td className="px-4 py-2 font-medium">{t('app.page.levsel_erezler')}</td>
+                <td className="px-4 py-2">{t('app.page.dil_tercihi_tema_ayarlar')}</td>
+                <td className="px-4 py-2">{t('app.page.1_y_l')}</td>
               </tr>
               <tr>
-                <td className="px-4 py-2 font-medium">Analitik Çerezler</td>
-                <td className="px-4 py-2">Anonim kullanım istatistikleri</td>
-                <td className="px-4 py-2">13 ay</td>
+                <td className="px-4 py-2 font-medium">{t('app.page.analitik_erezler')}</td>
+                <td className="px-4 py-2">{t('app.page.anonim_kullan_m_istatistikleri')}</td>
+                <td className="px-4 py-2">{t('app.page.13_ay')}</td>
               </tr>
             </tbody>
           </table>
         </div>
         <p className="mt-4">
-          Tarayıcı ayarlarınızdan çerezleri devre dışı bırakabilirsiniz; ancak bu durumda
-          platformun bazı işlevleri kısıtlanabilir.
-        </p>
+          {t('app.page.taray_c_ayarlar_n_zdan_erezler')}</p>
       </section>
 
       {/* -------------------------------------------------- */}
       <section className="mb-10">
-        <h2 className="text-xl font-semibold text-blue-800">8. Güvenlik Önlemleri</h2>
+        <h2 className="text-xl font-semibold text-blue-800">{t('app.page.8_g_venlik_nlemleri')}</h2>
         <p>
-          Kişisel verilerinizin güvenliğini sağlamak amacıyla aşağıdaki teknik ve idari
-          tedbirler alınmaktadır:
-        </p>
+          {t('app.page.ki_isel_verilerinizin_g_venli_')}</p>
         <ul>
-          <li>SSL/TLS ile şifreli veri iletimi</li>
-          <li>Ödeme bilgilerinin iyzico PCI-DSS sertifikalı altyapısında işlenmesi</li>
-          <li>Erişim kontrolleri ve yetkilendirme mekanizmaları</li>
-          <li>Düzenli güvenlik denetimleri ve log izleme</li>
-          <li>Veri minimizasyonu ilkesi</li>
+          <li>{t('app.page.ssl_tls_ile_ifreli_veri_iletim')}</li>
+          <li>{t('app.page.deme_bilgilerinin_iyzico_pci_d')}</li>
+          <li>{t('app.page.eri_im_kontrolleri_ve_yetkilen')}</li>
+          <li>{t('app.page.d_zenli_g_venlik_denetimleri_v')}</li>
+          <li>{t('app.page.veri_minimizasyonu_ilkesi')}</li>
         </ul>
       </section>
 
       {/* -------------------------------------------------- */}
       <section>
-        <h2 className="text-xl font-semibold text-blue-800">9. Politika Değişiklikleri</h2>
+        <h2 className="text-xl font-semibold text-blue-800">{t('app.page.9_politika_de_i_iklikleri')}</h2>
         <p>
-          Bu Gizlilik Politikası zaman zaman güncellenebilir. Önemli değişiklikler
-          yapıldığında kayıtlı e-posta adresinize bildirim gönderilecektir. Güncel metin her
-          zaman bu sayfada yayımlanır.
-        </p>
+          {t('app.page.bu_gizlilik_politikas_zaman_za')}</p>
       </section>
     </article>
   );

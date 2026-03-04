@@ -5,6 +5,7 @@ import { Providers } from './providers';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { Toaster } from '@/components/ui/sonner';
 import { AiAssistantLoader } from '@/components/ai-assistant/AiAssistantLoader';
+import { useTranslation } from "@/lib/i18n/context";
 
 const inter = Inter({ subsets: ['latin'] });
 

@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import Image from 'next/image';
 import Link from 'next/link';
 import { MapPin, GraduationCap, CheckCircle2, Clock, TrendingUp, Heart } from 'lucide-react';
@@ -9,9 +10,7 @@ import { Badge } from './ui/badge';
 import { Progress } from './ui/progress';
 import { verificationStatuses } from '@/lib/verification-statuses';
 import { VerificationBadgeCompact } from './VerificationBadge';
-import { useTranslation } from '@/lib/i18n';
 import { useCurrency } from '@/lib/currency-context';
-
 import { useRouter } from 'next/navigation';
 
 interface CampaignCardProps {
@@ -127,7 +126,7 @@ export default function CampaignCard({ campaign }: CampaignCardProps) {
               className="w-full mt-2 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition-colors flex items-center justify-center gap-2"
             >
               <Heart className="h-4 w-4" />
-              Bağış Yap
+              {t('components.campaigncard.ba_yap')}
             </button>
           </div>
         </CardContent>

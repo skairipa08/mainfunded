@@ -125,6 +125,7 @@ export const RATE_LIMITS = {
   admin: { windowMs: 60 * 1000, maxRequests: 100 },
   checkout: { windowMs: 60 * 1000, maxRequests: 10 },
   auth: { windowMs: 60 * 1000, maxRequests: 20 },
+  api: { windowMs: 60 * 1000, maxRequests: 50 }, // Added for internal data APIs
   // Verification rate limits
   verificationSubmit: { windowMs: 24 * 60 * 60 * 1000, maxRequests: 3 }, // 3/day
   verificationUpload: { windowMs: 60 * 60 * 1000, maxRequests: 10 }, // 10/hour

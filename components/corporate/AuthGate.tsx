@@ -4,12 +4,14 @@ import React, { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useCorporateAuth } from '@/lib/corporate/auth';
 import { Building2 } from 'lucide-react';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface AuthGateProps {
     children: React.ReactNode;
 }
 
 export default function CorporateAuthGate({ children }: AuthGateProps) {
+    const { t } = useTranslation();
     const { isAuthenticated, isLoading } = useCorporateAuth();
     const router = useRouter();
 
@@ -27,7 +29,7 @@ export default function CorporateAuthGate({ children }: AuthGateProps) {
                         <Building2 className="h-8 w-8 text-white animate-pulse" />
                     </div>
                     <div className="h-8 w-8 animate-spin mx-auto border-4 border-gray-200 border-t-blue-600 rounded-full mb-3" />
-                    <p className="text-gray-500 text-sm">Kurumsal panel yükleniyor...</p>
+                    <p className="text-gray-500 text-sm">{t('components.authgate.kurumsal_panel_y_kleniyor')}</p>
                 </div>
             </div>
         );
@@ -38,7 +40,7 @@ export default function CorporateAuthGate({ children }: AuthGateProps) {
             <div className="min-h-screen bg-gray-50 flex items-center justify-center">
                 <div className="text-center">
                     <div className="h-8 w-8 animate-spin mx-auto border-4 border-gray-200 border-t-blue-600 rounded-full mb-3" />
-                    <p className="text-gray-500 text-sm">Yönlendiriliyor...</p>
+                    <p className="text-gray-500 text-sm">{t('components.authgate.y_nlendiriliyor')}</p>
                 </div>
             </div>
         );

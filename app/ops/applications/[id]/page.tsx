@@ -44,6 +44,7 @@ import {
   Link,
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface DocumentData {
   name: string;
@@ -145,6 +146,7 @@ function isImageUrl(url: string): boolean {
 }
 
 export default function ApplicationDetailPage() {
+    const { t } = useTranslation();
   const params = useParams();
   const router = useRouter();
   const [application, setApplication] = useState<StudentApplication | null>(null);
@@ -281,7 +283,7 @@ export default function ApplicationDetailPage() {
         <main className="flex-grow flex items-center justify-center">
           <div className="text-center">
             <Loader2 className="h-8 w-8 animate-spin text-blue-600 mx-auto mb-4" />
-            <p className="text-gray-600">Yükleniyor...</p>
+            <p className="text-gray-600">{t('app.page.y_kleniyor')}</p>
           </div>
         </main>
         <Footer />
@@ -295,9 +297,9 @@ export default function ApplicationDetailPage() {
         <Navbar />
         <main className="flex-grow">
           <div className="max-w-4xl mx-auto px-4 py-16 text-center">
-            <h1 className="text-3xl font-bold text-gray-900 mb-4">Başvuru Bulunamadı</h1>
-            <p className="text-gray-600 mb-8">Girdiğiniz başvuru ID&apos;si geçersiz veya bulunamadı.</p>
-            <Button onClick={() => router.push('/ops/applications')}>Başvurulara Dön</Button>
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">{t('app.page.ba_vuru_bulunamad')}</h1>
+            <p className="text-gray-600 mb-8">{t('app.page.girdi_iniz_ba_vuru_id_apos_si_')}</p>
+            <Button onClick={() => router.push('/ops/applications')}>{t('app.page.ba_vurulara_d_n')}</Button>
           </div>
         </main>
         <Footer />
@@ -339,12 +341,11 @@ export default function ApplicationDetailPage() {
             className="mb-6 rounded-xl"
           >
             <ArrowLeft className="h-4 w-4 mr-2" />
-            Başvurulara Dön
-          </Button>
+            {t('app.page.ba_vurulara_d_n')}</Button>
 
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
             <div>
-              <h1 className="text-3xl font-bold text-slate-900 mb-1">Başvuru Detayı</h1>
+              <h1 className="text-3xl font-bold text-slate-900 mb-1">{t('app.page.ba_vuru_detay')}</h1>
               <p className="text-slate-500 font-mono text-sm">{application.id}</p>
             </div>
             <StatusBadge status={application.status} showIcon />
@@ -361,19 +362,18 @@ export default function ApplicationDetailPage() {
                     <CardHeader className="bg-white border-b border-slate-100">
                       <CardTitle className="flex items-center gap-2 text-lg">
                         <School className="h-5 w-5 text-amber-500" />
-                        Okul Bilgileri
-                      </CardTitle>
+                        {t('app.page.okul_bilgileri')}</CardTitle>
                     </CardHeader>
                     <CardContent className="p-6">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <InfoRow icon={School} label="Okul Adı" value={application.schoolName || '—'} />
-                        <InfoRow icon={Building} label="Okul Türü" value={application.schoolType || '—'} />
-                        <InfoRow icon={MapPin} label="Şehir" value={application.schoolCity || '—'} />
-                        <InfoRow icon={MapPin} label="İlçe" value={application.schoolDistrict || '—'} />
-                        {application.schoolAddress && <InfoRow icon={MapPin} label="Adres" value={application.schoolAddress} />}
-                        <InfoRow icon={Users} label="Toplam Öğrenci" value={application.studentTotal || '—'} />
-                        {application.schoolPhone && <InfoRow icon={Phone} label="Okul Telefonu" value={application.schoolPhone} />}
-                        {application.schoolWebsite && <InfoRow icon={Link} label="Web Sitesi" value={application.schoolWebsite} />}
+                        <InfoRow icon={School} label={t('app.page.okul_ad')} value={application.schoolName || '—'} />
+                        <InfoRow icon={Building} label={t('app.page.okul_t_r')} value={application.schoolType || '—'} />
+                        <InfoRow icon={MapPin} label={t('app.page.ehir')} value={application.schoolCity || '—'} />
+                        <InfoRow icon={MapPin} label={t('app.page.l_e')} value={application.schoolDistrict || '—'} />
+                        {application.schoolAddress && <InfoRow icon={MapPin} label={t('app.page.adres')} value={application.schoolAddress} />}
+                        <InfoRow icon={Users} label={t('app.page.toplam_renci')} value={application.studentTotal || '—'} />
+                        {application.schoolPhone && <InfoRow icon={Phone} label={t('app.page.okul_telefonu')} value={application.schoolPhone} />}
+                        {application.schoolWebsite && <InfoRow icon={Link} label={t('app.page.web_sitesi')} value={application.schoolWebsite} />}
                       </div>
                     </CardContent>
                   </Card>
@@ -383,16 +383,15 @@ export default function ApplicationDetailPage() {
                     <CardHeader className="bg-white border-b border-slate-100">
                       <CardTitle className="flex items-center gap-2 text-lg">
                         <User className="h-5 w-5 text-blue-500" />
-                        Başvuran Bilgileri
-                      </CardTitle>
+                        {t('app.page.ba_vuran_bilgileri')}</CardTitle>
                     </CardHeader>
                     <CardContent className="p-6">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <InfoRow icon={User} label="Ad Soyad" value={application.fullName} />
+                        <InfoRow icon={User} label={t('app.page.ad_soyad')} value={application.fullName} />
                         <InfoRow icon={Mail} label="E-posta" value={application.email} />
-                        <InfoRow icon={Briefcase} label="Görev / Rol" value={application.applicantRole || '—'} />
-                        {application.applicantTitle && <InfoRow icon={Briefcase} label="Ünvan" value={application.applicantTitle} />}
-                        {application.phone && <InfoRow icon={Phone} label="Telefon" value={application.phone} />}
+                        <InfoRow icon={Briefcase} label={t('app.page.g_rev_rol')} value={application.applicantRole || '—'} />
+                        {application.applicantTitle && <InfoRow icon={Briefcase} label={t('app.page.nvan')} value={application.applicantTitle} />}
+                        {application.phone && <InfoRow icon={Phone} label={t('app.page.telefon')} value={application.phone} />}
                       </div>
                     </CardContent>
                   </Card>
@@ -402,22 +401,20 @@ export default function ApplicationDetailPage() {
                     <CardHeader className="bg-white border-b border-slate-100">
                       <CardTitle className="flex items-center gap-2 text-lg">
                         <BookOpen className="h-5 w-5 text-emerald-500" />
-                        Proje Detayı
-                      </CardTitle>
+                        {t('app.page.proje_detay')}</CardTitle>
                     </CardHeader>
                     <CardContent className="p-6">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <InfoRow icon={FileText} label="Proje Başlığı" value={application.projectTitle || '—'} />
-                        <InfoRow icon={Hash} label="Kategori" value={application.projectCategory || '—'} />
-                        <InfoRow icon={DollarSign} label="Hedef Miktar" value={`$${application.targetAmount || 0}`} />
-                        <InfoRow icon={Users} label="Faydalanacak Kişi Sayısı" value={application.beneficiaryCount || '—'} />
+                        <InfoRow icon={FileText} label={t('app.page.proje_ba_l')} value={application.projectTitle || '—'} />
+                        <InfoRow icon={Hash} label={t('app.page.kategori')} value={application.projectCategory || '—'} />
+                        <InfoRow icon={DollarSign} label={t('app.page.hedef_miktar')} value={`$${application.targetAmount || 0}`} />
+                        <InfoRow icon={Users} label={t('app.page.faydalanacak_ki_i_say_s')} value={application.beneficiaryCount || '—'} />
                       </div>
 
                       <div className="mt-6 pt-5 border-t border-slate-100">
                         <h4 className="text-sm font-semibold text-slate-700 flex items-center gap-2 mb-3">
                           <FileText className="h-4 w-4 text-slate-400" />
-                          Proje Açıklaması
-                          <span className="text-xs font-normal text-slate-400">({(needSummary || '').length} karakter)</span>
+                          {t('app.page.proje_a_klamas')}<span className="text-xs font-normal text-slate-400">({(needSummary || '').length} karakter)</span>
                         </h4>
                         <div className="bg-slate-50 rounded-xl p-4 text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
                           {needSummary}
@@ -427,12 +424,12 @@ export default function ApplicationDetailPage() {
                       <div className="mt-5 pt-4 border-t border-slate-100 flex flex-wrap gap-6 text-xs text-slate-400">
                         <div className="flex items-center gap-1.5">
                           <Clock className="h-3.5 w-3.5" />
-                          Gönderildi: {createdAt}
+                          {t('app.page.g_nderildi')}{createdAt}
                         </div>
                         {application.updatedAt && application.updatedAt !== application.createdAt && (
                           <div className="flex items-center gap-1.5">
                             <Clock className="h-3.5 w-3.5" />
-                            Güncellendi: {updatedAt}
+                            {t('app.page.g_ncellendi')}{updatedAt}
                           </div>
                         )}
                       </div>
@@ -447,15 +444,14 @@ export default function ApplicationDetailPage() {
                     <CardHeader className="bg-white border-b border-slate-100">
                       <CardTitle className="flex items-center gap-2 text-lg">
                         <User className="h-5 w-5 text-blue-500" />
-                        Öğretmen Bilgileri
-                      </CardTitle>
+                        {t('app.page.retmen_bilgileri')}</CardTitle>
                     </CardHeader>
                     <CardContent className="p-6">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <InfoRow icon={User} label="Ad Soyad" value={application.fullName} />
+                        <InfoRow icon={User} label={t('app.page.ad_soyad')} value={application.fullName} />
                         <InfoRow icon={Mail} label="E-posta" value={application.email} />
-                        <InfoRow icon={Globe} label="Ülke" value={application.country} />
-                        {application.phone && <InfoRow icon={Phone} label="Telefon" value={application.phone} />}
+                        <InfoRow icon={Globe} label={t('app.page.lke')} value={application.country} />
+                        {application.phone && <InfoRow icon={Phone} label={t('app.page.telefon')} value={application.phone} />}
                       </div>
                     </CardContent>
                   </Card>
@@ -465,17 +461,16 @@ export default function ApplicationDetailPage() {
                     <CardHeader className="bg-white border-b border-slate-100">
                       <CardTitle className="flex items-center gap-2 text-lg">
                         <School className="h-5 w-5 text-amber-500" />
-                        Okul & Sınıf Bilgileri
-                      </CardTitle>
+                        {t('app.page.okul_s_n_f_bilgileri')}</CardTitle>
                     </CardHeader>
                     <CardContent className="p-6">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <InfoRow icon={School} label="Okul Adı" value={application.schoolName || '—'} />
-                        <InfoRow icon={MapPin} label="Okul Şehri" value={application.schoolCity || '—'} />
-                        <InfoRow icon={BookOpen} label="Ders / Branş" value={application.subject || '—'} />
-                        <InfoRow icon={Hash} label="Sınıf Seviyesi" value={application.classGrade || '—'} />
-                        <InfoRow icon={Users} label="Öğrenci Sayısı" value={application.studentCount || '—'} />
-                        <InfoRow icon={DollarSign} label="Hedef Miktar" value={`$${application.targetAmount || 0}`} />
+                        <InfoRow icon={School} label={t('app.page.okul_ad')} value={application.schoolName || '—'} />
+                        <InfoRow icon={MapPin} label={t('app.page.okul_ehri')} value={application.schoolCity || '—'} />
+                        <InfoRow icon={BookOpen} label={t('app.page.ders_bran')} value={application.subject || '—'} />
+                        <InfoRow icon={Hash} label={t('app.page.s_n_f_seviyesi')} value={application.classGrade || '—'} />
+                        <InfoRow icon={Users} label={t('app.page.renci_say_s')} value={application.studentCount || '—'} />
+                        <InfoRow icon={DollarSign} label={t('app.page.hedef_miktar')} value={`$${application.targetAmount || 0}`} />
                       </div>
                     </CardContent>
                   </Card>
@@ -485,8 +480,7 @@ export default function ApplicationDetailPage() {
                     <CardContent className="p-6">
                       <h4 className="text-sm font-semibold text-slate-700 flex items-center gap-2 mb-3">
                         <FileText className="h-4 w-4 text-slate-400" />
-                        İhtiyaç Açıklaması
-                        <span className="text-xs font-normal text-slate-400">({(needSummary || '').length} karakter)</span>
+                        {t('app.page.htiya_a_klamas')}<span className="text-xs font-normal text-slate-400">({(needSummary || '').length} karakter)</span>
                       </h4>
                       <div className="bg-slate-50 rounded-xl p-4 text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
                         {needSummary}
@@ -494,12 +488,12 @@ export default function ApplicationDetailPage() {
                       <div className="mt-5 pt-4 border-t border-slate-100 flex flex-wrap gap-6 text-xs text-slate-400">
                         <div className="flex items-center gap-1.5">
                           <Clock className="h-3.5 w-3.5" />
-                          Gönderildi: {createdAt}
+                          {t('app.page.g_nderildi')}{createdAt}
                         </div>
                         {application.updatedAt && application.updatedAt !== application.createdAt && (
                           <div className="flex items-center gap-1.5">
                             <Clock className="h-3.5 w-3.5" />
-                            Güncellendi: {updatedAt}
+                            {t('app.page.g_ncellendi')}{updatedAt}
                           </div>
                         )}
                       </div>
@@ -514,16 +508,15 @@ export default function ApplicationDetailPage() {
                     <CardHeader className="bg-white border-b border-slate-100">
                       <CardTitle className="flex items-center gap-2 text-lg">
                         <User className="h-5 w-5 text-blue-500" />
-                        Veli Bilgileri
-                      </CardTitle>
+                        {t('app.page.veli_bilgileri')}</CardTitle>
                     </CardHeader>
                     <CardContent className="p-6">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <InfoRow icon={User} label="Ad Soyad" value={application.fullName} />
+                        <InfoRow icon={User} label={t('app.page.ad_soyad')} value={application.fullName} />
                         <InfoRow icon={Mail} label="E-posta" value={application.email} />
-                        <InfoRow icon={Globe} label="Ülke" value={application.country} />
-                        {application.phone && <InfoRow icon={Phone} label="Telefon" value={application.phone} />}
-                        <InfoRow icon={Users} label="Yakınlık" value={application.parentRelation || '—'} />
+                        <InfoRow icon={Globe} label={t('app.page.lke')} value={application.country} />
+                        {application.phone && <InfoRow icon={Phone} label={t('app.page.telefon')} value={application.phone} />}
+                        <InfoRow icon={Users} label={t('app.page.yak_nl_k')} value={application.parentRelation || '—'} />
                       </div>
                     </CardContent>
                   </Card>
@@ -533,18 +526,17 @@ export default function ApplicationDetailPage() {
                     <CardHeader className="bg-white border-b border-slate-100">
                       <CardTitle className="flex items-center gap-2 text-lg">
                         <GraduationCap className="h-5 w-5 text-emerald-500" />
-                        Çocuk Bilgileri
-                      </CardTitle>
+                        {t('app.page.ocuk_bilgileri')}</CardTitle>
                     </CardHeader>
                     <CardContent className="p-6">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                        <InfoRow icon={User} label="Çocuk Adı" value={application.childName || '—'} />
-                        <InfoRow icon={Calendar} label="Doğum Tarihi" value={application.childDob || '—'} />
-                        {application.childGender && <InfoRow icon={User} label="Cinsiyet" value={application.childGender} />}
-                        <InfoRow icon={School} label="Okul" value={application.childSchool || '—'} />
-                        <InfoRow icon={MapPin} label="Okul Şehri" value={application.childSchoolCity || '—'} />
-                        <InfoRow icon={Hash} label="Sınıf" value={application.childGrade || '—'} />
-                        {application.childStudentId && <InfoRow icon={Hash} label="Öğrenci No" value={application.childStudentId} />}
+                        <InfoRow icon={User} label={t('app.page.ocuk_ad')} value={application.childName || '—'} />
+                        <InfoRow icon={Calendar} label={t('app.page.do_um_tarihi')} value={application.childDob || '—'} />
+                        {application.childGender && <InfoRow icon={User} label={t('app.page.cinsiyet')} value={application.childGender} />}
+                        <InfoRow icon={School} label={t('app.page.okul')} value={application.childSchool || '—'} />
+                        <InfoRow icon={MapPin} label={t('app.page.okul_ehri')} value={application.childSchoolCity || '—'} />
+                        <InfoRow icon={Hash} label={t('app.page.s_n_f')} value={application.childGrade || '—'} />
+                        {application.childStudentId && <InfoRow icon={Hash} label={t('app.page.renci_no')} value={application.childStudentId} />}
                       </div>
                     </CardContent>
                   </Card>
@@ -553,12 +545,11 @@ export default function ApplicationDetailPage() {
                   <Card className="rounded-2xl border-slate-200 shadow-sm overflow-hidden">
                     <CardContent className="p-6">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
-                        <InfoRow icon={DollarSign} label="Hedef Miktar" value={`$${application.targetAmount || 0}`} />
+                        <InfoRow icon={DollarSign} label={t('app.page.hedef_miktar')} value={`$${application.targetAmount || 0}`} />
                       </div>
                       <h4 className="text-sm font-semibold text-slate-700 flex items-center gap-2 mb-3">
                         <FileText className="h-4 w-4 text-slate-400" />
-                        Hikaye / Açıklama
-                        <span className="text-xs font-normal text-slate-400">({(needSummary || '').length} karakter)</span>
+                        {t('app.page.hikaye_a_klama')}<span className="text-xs font-normal text-slate-400">({(needSummary || '').length} karakter)</span>
                       </h4>
                       <div className="bg-slate-50 rounded-xl p-4 text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
                         {needSummary}
@@ -566,12 +557,12 @@ export default function ApplicationDetailPage() {
                       <div className="mt-5 pt-4 border-t border-slate-100 flex flex-wrap gap-6 text-xs text-slate-400">
                         <div className="flex items-center gap-1.5">
                           <Clock className="h-3.5 w-3.5" />
-                          Gönderildi: {createdAt}
+                          {t('app.page.g_nderildi')}{createdAt}
                         </div>
                         {application.updatedAt && application.updatedAt !== application.createdAt && (
                           <div className="flex items-center gap-1.5">
                             <Clock className="h-3.5 w-3.5" />
-                            Güncellendi: {updatedAt}
+                            {t('app.page.g_ncellendi')}{updatedAt}
                           </div>
                         )}
                       </div>
@@ -584,28 +575,26 @@ export default function ApplicationDetailPage() {
                   <CardHeader className="bg-white border-b border-slate-100">
                     <CardTitle className="flex items-center gap-2 text-lg">
                       <User className="h-5 w-5 text-blue-500" />
-                      Başvuran Bilgileri
-                    </CardTitle>
+                      {t('app.page.ba_vuran_bilgileri')}</CardTitle>
                   </CardHeader>
                   <CardContent className="p-6">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                      <InfoRow icon={User} label="Ad Soyad" value={application.fullName} />
+                      <InfoRow icon={User} label={t('app.page.ad_soyad')} value={application.fullName} />
                       <InfoRow icon={Mail} label="E-posta" value={application.email} />
-                      <InfoRow icon={Globe} label="Ülke" value={application.country} />
-                      <InfoRow icon={GraduationCap} label="Eğitim Seviyesi" value={application.educationLevel} />
-                      {application.faculty && <InfoRow icon={Building} label="Fakülte" value={application.faculty} />}
-                      {application.department && <InfoRow icon={Building} label="Bölüm" value={application.department} />}
-                      {application.classYear && <InfoRow icon={Calendar} label="Sınıf" value={application.classYear} />}
+                      <InfoRow icon={Globe} label={t('app.page.lke')} value={application.country} />
+                      <InfoRow icon={GraduationCap} label={t('app.page.e_itim_seviyesi')} value={application.educationLevel} />
+                      {application.faculty && <InfoRow icon={Building} label={t('app.page.fak_lte')} value={application.faculty} />}
+                      {application.department && <InfoRow icon={Building} label={t('app.page.b_l_m')} value={application.department} />}
+                      {application.classYear && <InfoRow icon={Calendar} label={t('app.page.s_n_f')} value={application.classYear} />}
                       {(application.targetAmount || application.goalAmount) && (
-                        <InfoRow icon={DollarSign} label="Hedef Miktar" value={`$${application.targetAmount || application.goalAmount}`} />
+                        <InfoRow icon={DollarSign} label={t('app.page.hedef_miktar')} value={`$${application.targetAmount || application.goalAmount}`} />
                       )}
                     </div>
 
                     <div className="mt-6 pt-5 border-t border-slate-100">
                       <h4 className="text-sm font-semibold text-slate-700 flex items-center gap-2 mb-3">
                         <FileText className="h-4 w-4 text-slate-400" />
-                        İhtiyaç Açıklaması
-                        <span className="text-xs font-normal text-slate-400">({(needSummary || '').length} karakter)</span>
+                        {t('app.page.htiya_a_klamas')}<span className="text-xs font-normal text-slate-400">({(needSummary || '').length} karakter)</span>
                       </h4>
                       <div className="bg-slate-50 rounded-xl p-4 text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
                         {needSummary}
@@ -615,12 +604,12 @@ export default function ApplicationDetailPage() {
                     <div className="mt-5 pt-4 border-t border-slate-100 flex flex-wrap gap-6 text-xs text-slate-400">
                       <div className="flex items-center gap-1.5">
                         <Clock className="h-3.5 w-3.5" />
-                        Gönderildi: {createdAt}
+                        {t('app.page.g_nderildi')}{createdAt}
                       </div>
                       {application.updatedAt && application.updatedAt !== application.createdAt && (
                         <div className="flex items-center gap-1.5">
                           <Clock className="h-3.5 w-3.5" />
-                          Güncellendi: {updatedAt}
+                          {t('app.page.g_ncellendi')}{updatedAt}
                         </div>
                       )}
                     </div>
@@ -632,8 +621,7 @@ export default function ApplicationDetailPage() {
                 <CardHeader className="bg-white border-b border-slate-100">
                   <CardTitle className="flex items-center gap-2 text-lg">
                     <FileText className="h-5 w-5 text-amber-500" />
-                    Gönderilen Belgeler
-                    {docs.length > 0 && (
+                    {t('app.page.g_nderilen_belgeler')}{docs.length > 0 && (
                       <Badge variant="secondary" className="ml-2 text-xs">{docs.length} belge</Badge>
                     )}
                   </CardTitle>
@@ -642,7 +630,7 @@ export default function ApplicationDetailPage() {
                   {docs.length === 0 ? (
                     <div className="text-center py-8 text-slate-400">
                       <FileText className="h-10 w-10 mx-auto mb-3 opacity-40" />
-                      <p className="text-sm">Bu başvuruda belge gönderilmemiş.</p>
+                      <p className="text-sm">{t('app.page.bu_ba_vuruda_belge_g_nderilmem')}</p>
                     </div>
                   ) : (
                     <div className="space-y-4">
@@ -698,7 +686,7 @@ export default function ApplicationDetailPage() {
                                     onValueChange={(val) => handleDocTypeChange(index, val)}
                                   >
                                     <SelectTrigger className="h-8 text-xs rounded-lg w-48">
-                                      <SelectValue placeholder="Belge türü seçin..." />
+                                      <SelectValue placeholder={t('app.page.belge_t_r_se_in')} />
                                     </SelectTrigger>
                                     <SelectContent>
                                       {DOC_TYPES.map((dt) => (
@@ -721,14 +709,12 @@ export default function ApplicationDetailPage() {
                                           onClick={() => setPreviewUrl(url)}
                                         >
                                           <Eye className="h-3.5 w-3.5 mr-1" />
-                                          Önizle
-                                        </Button>
+                                          {t('app.page.nizle')}</Button>
                                       )}
                                       <a href={url} target="_blank" rel="noopener noreferrer">
                                         <Button variant="outline" size="sm" className="h-8 text-xs rounded-lg">
                                           <ExternalLink className="h-3.5 w-3.5 mr-1" />
-                                          Aç
-                                        </Button>
+                                          {t('app.page.a')}</Button>
                                       </a>
                                     </>
                                   )}
@@ -749,8 +735,7 @@ export default function ApplicationDetailPage() {
                                           disabled={docUpdating !== null}
                                         >
                                           <CheckCircle className="h-3.5 w-3.5 mr-1" />
-                                          Onayla
-                                        </Button>
+                                          {t('app.page.onayla')}</Button>
                                         <Button
                                           size="sm"
                                           className={`h-8 text-xs rounded-lg ${
@@ -762,8 +747,7 @@ export default function ApplicationDetailPage() {
                                           disabled={docUpdating !== null}
                                         >
                                           <XCircle className="h-3.5 w-3.5 mr-1" />
-                                          Reddet
-                                        </Button>
+                                          {t('app.page.reddet')}</Button>
                                       </>
                                     )}
                                   </div>
@@ -777,15 +761,15 @@ export default function ApplicationDetailPage() {
                       <div className="flex items-center gap-4 pt-3 border-t border-slate-100 text-xs text-slate-500">
                         <div className="flex items-center gap-1.5">
                           <div className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                          Onaylı: {docStatuses.filter((s) => s === 'approved').length}
+                          {t('app.page.onayl')}{docStatuses.filter((s) => s === 'approved').length}
                         </div>
                         <div className="flex items-center gap-1.5">
                           <div className="w-2.5 h-2.5 rounded-full bg-red-500" />
-                          Reddedilen: {docStatuses.filter((s) => s === 'rejected').length}
+                          {t('app.page.reddedilen')}{docStatuses.filter((s) => s === 'rejected').length}
                         </div>
                         <div className="flex items-center gap-1.5">
                           <div className="w-2.5 h-2.5 rounded-full bg-amber-500" />
-                          Bekleyen: {docStatuses.filter((s) => s === 'pending').length}
+                          {t('app.page.bekleyen')}{docStatuses.filter((s) => s === 'pending').length}
                         </div>
                       </div>
                     </div>
@@ -798,8 +782,7 @@ export default function ApplicationDetailPage() {
                   <CardHeader className="bg-white border-b border-slate-100">
                     <CardTitle className="flex items-center gap-2 text-lg">
                       <Camera className="h-5 w-5 text-purple-500" />
-                      Fotoğraflar
-                      <Badge variant="secondary" className="ml-2 text-xs">{photos.length} fotoğraf</Badge>
+                      {t('app.page.foto_raflar')}<Badge variant="secondary" className="ml-2 text-xs">{photos.length} {t('app.page.foto_raf')}</Badge>
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="p-6">
@@ -832,23 +815,21 @@ export default function ApplicationDetailPage() {
                 <CardHeader className="bg-white border-b border-slate-100">
                   <CardTitle className="flex items-center gap-2 text-lg">
                     <Shield className="h-5 w-5 text-blue-500" />
-                    Durumu Güncelle
-                  </CardTitle>
+                    {t('app.page.durumu_g_ncelle')}</CardTitle>
                 </CardHeader>
                 <CardContent className="p-5 space-y-4">
                   <div>
                     <label className="text-sm font-medium text-slate-700 mb-2 block">
-                      Başvuru Durumu
-                    </label>
+                      {t('app.page.ba_vuru_durumu')}</label>
                     <Select value={newStatus} onValueChange={setNewStatus}>
                       <SelectTrigger className="rounded-xl">
-                        <SelectValue placeholder="Durum seçin" />
+                        <SelectValue placeholder={t('app.page.durum_se_in')} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Received">Alındı</SelectItem>
-                        <SelectItem value="Under Review">İnceleniyor</SelectItem>
-                        <SelectItem value="Approved">Onaylandı</SelectItem>
-                        <SelectItem value="Rejected">Reddedildi</SelectItem>
+                        <SelectItem value="Received">{t('app.page.al_nd')}</SelectItem>
+                        <SelectItem value="Under Review">{t('app.page.nceleniyor')}</SelectItem>
+                        <SelectItem value="Approved">{t('app.page.onayland')}</SelectItem>
+                        <SelectItem value="Rejected">{t('app.page.reddedildi')}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -857,9 +838,7 @@ export default function ApplicationDetailPage() {
                     <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3.5 flex items-start gap-2">
                       <CheckCircle className="h-4 w-4 text-emerald-500 flex-shrink-0 mt-0.5" />
                       <p className="text-xs text-emerald-700 leading-relaxed">
-                        <strong>Not:</strong> Bu başvuruyu onaylamak otomatik olarak bir kampanya oluşturur
-                        ve <code className="text-emerald-800 bg-emerald-100 px-1 rounded">/browse</code> sayfasında yayınlar.
-                      </p>
+                        <strong>{t('app.page.not')}</strong> {t('app.page.bu_ba_vuruyu_onaylamak_otomati')}<code className="text-emerald-800 bg-emerald-100 px-1 rounded">/browse</code> {t('app.page.sayfas_nda_yay_nlar')}</p>
                     </div>
                   )}
 
@@ -867,9 +846,7 @@ export default function ApplicationDetailPage() {
                     <div className="bg-red-50 border border-red-200 rounded-xl p-3.5 flex items-start gap-2">
                       <AlertTriangle className="h-4 w-4 text-red-500 flex-shrink-0 mt-0.5" />
                       <p className="text-xs text-red-700 leading-relaxed">
-                        <strong>Dikkat:</strong> Reddetme işlemi kampanyayı yayından kaldırır, bağışçılara
-                        ve başvurana bildirim e-postası gönderir.
-                      </p>
+                        <strong>{t('app.page.dikkat')}</strong> {t('app.page.reddetme_i_lemi_kampanyay_yay_')}</p>
                     </div>
                   )}
 
@@ -881,8 +858,7 @@ export default function ApplicationDetailPage() {
                     {updating ? (
                       <>
                         <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                        Güncelleniyor...
-                      </>
+                        {t('app.page.g_ncelleniyor')}</>
                     ) : (
                       'Durumu Güncelle'
                     )}
@@ -892,26 +868,26 @@ export default function ApplicationDetailPage() {
 
               <Card className="rounded-2xl border-slate-200 shadow-sm">
                 <CardContent className="p-5">
-                  <h4 className="text-sm font-semibold text-slate-800 mb-4">Özet</h4>
+                  <h4 className="text-sm font-semibold text-slate-800 mb-4">{t('app.page.zet')}</h4>
                   <div className="space-y-3">
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-slate-500">Toplam Belge</span>
+                      <span className="text-slate-500">{t('app.page.toplam_belge')}</span>
                       <span className="font-semibold text-slate-800">{docs.length}</span>
                     </div>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-slate-500">Onaylı Belge</span>
+                      <span className="text-slate-500">{t('app.page.onayl_belge')}</span>
                       <span className="font-semibold text-emerald-600">{docStatuses.filter((s) => s === 'approved').length}</span>
                     </div>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-slate-500">Reddedilen Belge</span>
+                      <span className="text-slate-500">{t('app.page.reddedilen_belge')}</span>
                       <span className="font-semibold text-red-600">{docStatuses.filter((s) => s === 'rejected').length}</span>
                     </div>
                     <div className="flex items-center justify-between text-sm">
-                      <span className="text-slate-500">Bekleyen Belge</span>
+                      <span className="text-slate-500">{t('app.page.bekleyen_belge')}</span>
                       <span className="font-semibold text-amber-600">{docStatuses.filter((s) => s === 'pending').length}</span>
                     </div>
                     <div className="border-t border-slate-100 pt-3 flex items-center justify-between text-sm">
-                      <span className="text-slate-500">Fotoğraf</span>
+                      <span className="text-slate-500">{t('app.page.foto_raf')}</span>
                       <span className="font-semibold text-slate-800">{photos.length}</span>
                     </div>
                   </div>
@@ -938,15 +914,14 @@ export default function ApplicationDetailPage() {
             </button>
             <img
               src={previewUrl}
-              alt="Belge önizleme"
+              alt={t('app.page.belge_nizleme')}
               className="w-full h-auto max-h-[85vh] object-contain rounded-xl"
             />
             <div className="absolute bottom-3 right-3">
               <a href={previewUrl} target="_blank" rel="noopener noreferrer">
                 <Button size="sm" className="rounded-lg shadow-lg">
                   <ExternalLink className="h-3.5 w-3.5 mr-1.5" />
-                  Tam Boyut Aç
-                </Button>
+                  {t('app.page.tam_boyut_a')}</Button>
               </a>
             </div>
           </div>

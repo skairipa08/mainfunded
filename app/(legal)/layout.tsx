@@ -1,5 +1,6 @@
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
+import { useTranslation } from "@/lib/i18n/context";
 
 export default function LegalLayout({ children }: { children: React.ReactNode }) {
   return (

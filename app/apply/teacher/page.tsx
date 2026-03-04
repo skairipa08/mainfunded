@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -17,7 +18,6 @@ import {
 import { Label } from '@/components/ui/label';
 import { validateEmail, sanitizeInput } from '@/lib/validation';
 import { toast } from 'sonner';
-import { useTranslation } from '@/lib/i18n';
 import {
     School,
     User,
@@ -44,7 +44,6 @@ import {
     Tag,
 } from 'lucide-react';
 import { COUNTRIES, FUNDING_CATEGORIES, TURKEY_CITIES } from '@/lib/constants';
-
 type DocStatus = 'ready' | 'uploading' | 'uploaded' | 'failed';
 
 interface DocumentItem {
@@ -472,7 +471,7 @@ export default function TeacherApplyPage() {
                                                 <FieldWrapper id="phone" label={t('applyTeacher.labels.phone')} icon={Mail} error={errors.phone} required={false}>
                                                     <Input id="phone" type="tel" value={formData.phone}
                                                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                                                        placeholder="+90 5XX XXX XX XX" className={inputClass(false)} />
+                                                        placeholder={t('app.page.90_5xx_xxx_xx_xx')} className={inputClass(false)} />
                                                 </FieldWrapper>
 
                                                 <FieldWrapper id="country" label={t('applyTeacher.labels.country')} icon={Globe} error={errors.country}>
@@ -496,13 +495,13 @@ export default function TeacherApplyPage() {
                                                     </Select>
                                                 </FieldWrapper>
                                                 {formData.country === 'TR' && (
-                                                    <FieldWrapper id="city" label="Şehir / City" icon={MapPin} error={errors.city} required={false}>
+                                                    <FieldWrapper id="city" label={t('app.page.ehir_city')} icon={MapPin} error={errors.city} required={false}>
                                                         <Select
                                                             value={formData.city}
                                                             onValueChange={(value) => setFormData({ ...formData, city: value })}
                                                         >
                                                             <SelectTrigger id="city" className={selectTriggerClass(false)}>
-                                                                <SelectValue placeholder="Şehir seçiniz..." />
+                                                                <SelectValue placeholder={t('app.page.ehir_se_iniz')} />
                                                             </SelectTrigger>
                                                             <SelectContent>
                                                                 {TURKEY_CITIES.map((city) => (
@@ -560,7 +559,7 @@ export default function TeacherApplyPage() {
                                                         placeholder={t('applyTeacher.placeholders.subject')} className={inputClass(!!errors.subject)} />
                                                 </FieldWrapper>
 
-                                                <FieldWrapper id="category" label="İhtiyaç Kategorisi / Need Category" icon={Tag} error={errors.category} required={false}>
+                                                <FieldWrapper id="category" label={t('app.page.htiya_kategorisi_need_category')} icon={Tag} error={errors.category} required={false}>
                                                     <Select
                                                         value={formData.category}
                                                         onValueChange={(value) => {
@@ -569,7 +568,7 @@ export default function TeacherApplyPage() {
                                                         }}
                                                     >
                                                         <SelectTrigger id="category" className={selectTriggerClass(!!errors.category)}>
-                                                            <SelectValue placeholder="Kategori seçiniz / Select category..." />
+                                                            <SelectValue placeholder={t('app.page.kategori_se_iniz_select_catego')} />
                                                         </SelectTrigger>
                                                         <SelectContent>
                                                             {FUNDING_CATEGORIES.map((cat) => (
@@ -680,7 +679,7 @@ export default function TeacherApplyPage() {
                                                         multiple
                                                         onChange={handlePhotoSelect}
                                                     />
-                                                    <p className="text-xs text-slate-400 mt-2">JPG, PNG, WebP • Max 5 MB • {t('applyTeacher.photos.maxCount')}</p>
+                                                    <p className="text-xs text-slate-400 mt-2">{t('app.page.jpg_png_webp_max_5_mb')}{t('applyTeacher.photos.maxCount')}</p>
                                                 </div>
 
                                                 {/* Photo Previews */}
@@ -747,7 +746,7 @@ export default function TeacherApplyPage() {
                                                     {t('applyTeacher.docSelectFile')}
                                                 </Button>
                                                 <input ref={fileInputRef} type="file" className="hidden" accept=".pdf,.jpg,.jpeg,.png" onChange={handleFileSelect} />
-                                                <p className="text-xs text-slate-400 mt-2">PDF, JPG, PNG • Max 10 MB</p>
+                                                <p className="text-xs text-slate-400 mt-2">{t('app.page.pdf_jpg_png_max_10_mb')}</p>
                                             </div>
 
                                             {/* Document List */}

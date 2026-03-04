@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import {
     Calendar,
     CreditCard,
@@ -13,7 +14,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { cn } from '@/lib/utils';
-import { useTranslation } from '@/lib/i18n/context';
 import { useCurrency } from '@/lib/currency-context';
 
 interface DonationFormProps {
@@ -211,7 +211,7 @@ export function DonationForm({
                     />
                     {currency === 'TRY' && customAmount && parseFloat(customAmount) > 0 && (
                         <p className="text-xs text-gray-400 mt-1 text-right">
-                            ≈ ${Math.round(toUSD(parseFloat(customAmount))).toLocaleString('en-US')} USD
+                            {t('components.donationform.text')}{Math.round(toUSD(parseFloat(customAmount))).toLocaleString('en-US')} USD
                         </p>
                     )}
                 </div>

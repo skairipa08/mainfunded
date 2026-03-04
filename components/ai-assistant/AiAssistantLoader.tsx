@@ -1,6 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
+import { useTranslation } from "@/lib/i18n/context";
 
 // Dynamic import keeps the AI assistant out of the initial JS bundle.
 // It loads lazily after the page hydrates.

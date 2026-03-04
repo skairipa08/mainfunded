@@ -1,6 +1,8 @@
+'use client';
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { LucideIcon } from 'lucide-react';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface StatCardProps {
     title: string;
@@ -22,6 +24,7 @@ export default function StatCard({
     trend,
     className,
 }: StatCardProps) {
+    const { t } = useTranslation();
     return (
         <div className={cn('bg-white rounded-xl p-6 shadow-sm border border-gray-100', className)}>
             <div className="flex items-start justify-between">
@@ -41,7 +44,7 @@ export default function StatCard({
                             >
                                 {trend.positive ? '+' : ''}{trend.value}%
                             </span>
-                            <span className="text-gray-400 text-sm">gecen aya gore</span>
+                            <span className="text-gray-400 text-sm">{t('components.statcard.gecen_aya_gore')}</span>
                         </div>
                     )}
                 </div>

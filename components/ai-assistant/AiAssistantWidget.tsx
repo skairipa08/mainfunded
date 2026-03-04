@@ -5,6 +5,7 @@ import { MessageCircle, X, Gift } from 'lucide-react';
 import { ChatWindow } from './ChatWindow';
 import { useSmartTrigger } from './useSmartTrigger';
 import type { TriggerType } from '@/types/ai-assistant';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface SpecialDayBanner {
   isSpecialDay: boolean;
@@ -25,6 +26,7 @@ interface SpecialDayBanner {
  * donations — no idle wait required.
  */
 export function AiAssistantWidget() {
+    const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
   const [showPulse, setShowPulse] = useState(true);
@@ -221,15 +223,13 @@ export function AiAssistantWidget() {
                   className="flex-1 py-2 bg-white text-indigo-700 font-bold text-xs rounded-lg hover:bg-gray-100 transition-colors flex items-center justify-center gap-1.5 shadow-md"
                 >
                   <Gift className="w-3.5 h-3.5" />
-                  Bağış Yap
-                </button>
+                  {t('components.aiassistantwidget.ba_yap')}</button>
                 <button
                   onClick={handleBannerChat}
                   className="flex-1 py-2 bg-white/20 text-white font-semibold text-xs rounded-lg hover:bg-white/30 transition-colors flex items-center justify-center gap-1.5 border border-white/30"
                 >
                   <MessageCircle className="w-3.5 h-3.5" />
-                  Sohbet Et
-                </button>
+                  {t('components.aiassistantwidget.sohbet_et')}</button>
               </div>
             </div>
           </div>
@@ -253,8 +253,7 @@ export function AiAssistantWidget() {
               onClick={handleOpen}
               className="w-full py-1.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold rounded-lg transition-colors"
             >
-              🎓 Öğrenci Bul
-            </button>
+              {t('components.aiassistantwidget.renci_bul')}</button>
           </div>
           {/* Triangle pointer */}
           <div className="absolute -bottom-2 right-6 w-4 h-4 bg-white border-r border-b border-gray-200 transform rotate-45" />

@@ -10,6 +10,7 @@ import { StatCard } from '@/components/ui/StatCard';
 import { toast } from 'sonner';
 import { DollarSign, Clock, CheckCircle, XCircle, RefreshCw, Send } from 'lucide-react';
 import { useCurrency } from '@/lib/currency-context';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface PayoutSummary {
   method_type: string;
@@ -29,6 +30,7 @@ interface PendingPayout {
 }
 
 export default function AdminPayoutsPage() {
+    const { t } = useTranslation();
   const { formatAmount } = useCurrency();
   const [summaries, setSummaries] = useState<PayoutSummary[]>([]);
   const [pendingPayouts, setPendingPayouts] = useState<PendingPayout[]>([]);
@@ -99,33 +101,33 @@ export default function AdminPayoutsPage() {
     return (
       <div className="flex flex-col items-center justify-center py-16">
         <p className="text-red-600 font-medium mb-4">{error}</p>
-        <Button onClick={fetchPayouts}><RefreshCw className="h-4 w-4 mr-2" /> Yeniden Dene</Button>
+        <Button onClick={fetchPayouts}><RefreshCw className="h-4 w-4 mr-2" /> {t('app.page.yeniden_dene')}</Button>
       </div>
     );
   }
 
   return (
     <div>
-      <h2 className="text-3xl font-bold text-gray-900 mb-8">Ödemeler</h2>
+      <h2 className="text-3xl font-bold text-gray-900 mb-8">{t('app.page.demeler')}</h2>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-8">
         <StatCard
-          title="Toplam Bekleyen Bakiye"
+          title={t('app.page.toplam_bekleyen_bakiye')}
           value={formatAmount(totalAvailable)}
           icon={<DollarSign className="h-5 w-5" />}
           loading={loading}
           valueClassName="text-green-600"
         />
         <StatCard
-          title="Ödeme Bekleyen Öğrenci"
+          title={t('app.page.deme_bekleyen_renci')}
           value={totalStudents}
           icon={<Clock className="h-5 w-5" />}
           loading={loading}
           valueClassName="text-yellow-600"
         />
         <StatCard
-          title="Ödeme Yöntemleri"
+          title={t('app.page.deme_y_ntemleri')}
           value={summaries.length}
           subtitle={summaries.map((s) => s.method_type).join(', ')}
           icon={<CheckCircle className="h-5 w-5" />}
@@ -136,13 +138,13 @@ export default function AdminPayoutsPage() {
       {/* Method Breakdown */}
       {!loading && summaries.length > 0 && (
         <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">Yönteme Göre Dağılım</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('app.page.y_nteme_g_re_da_l_m')}</h3>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {summaries.map((s) => (
               <div key={s.method_type} className="p-4 bg-gray-50 rounded-lg text-center">
                 <p className="text-xs font-medium text-gray-500 uppercase mb-1">{s.method_type}</p>
                 <p className="text-xl font-bold text-gray-900">{formatAmount(s.total_available)}</p>
-                <p className="text-xs text-gray-500">{s.total_students} öğrenci</p>
+                <p className="text-xs text-gray-500">{s.total_students} {t('app.page.renci')}</p>
               </div>
             ))}
           </div>
@@ -152,7 +154,7 @@ export default function AdminPayoutsPage() {
       {/* Pending Payouts Table */}
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <div className="p-6 border-b">
-          <h3 className="text-lg font-semibold text-gray-900">Bekleyen Ödemeler</h3>
+          <h3 className="text-lg font-semibold text-gray-900">{t('app.page.bekleyen_demeler')}</h3>
         </div>
 
         {loading ? (
@@ -169,20 +171,20 @@ export default function AdminPayoutsPage() {
           </div>
         ) : pendingPayouts.length === 0 ? (
           <div className="p-12 text-center">
-            <p className="text-gray-500">Bekleyen ödeme yok</p>
+            <p className="text-gray-500">{t('app.page.bekleyen_deme_yok')}</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="min-w-full divide-y divide-gray-200">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Öğrenci</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{t('app.page.renci')}</th>
                   <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">E-posta</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Yöntem</th>
-                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Detay</th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Bakiye</th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">Tutar</th>
-                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">İşlem</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{t('app.page.y_ntem')}</th>
+                  <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{t('app.page.detay')}</th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">{t('app.page.bakiye')}</th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">{t('app.page.tutar')}</th>
+                  <th className="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase">{t('app.page.lem')}</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
@@ -204,7 +206,7 @@ export default function AdminPayoutsPage() {
                     <td className="px-6 py-4 whitespace-nowrap text-right">
                       <Input
                         type="number"
-                        placeholder="Tutar"
+                        placeholder={t('app.page.tutar')}
                         className="w-28 text-right"
                         min={1}
                         max={p.available}

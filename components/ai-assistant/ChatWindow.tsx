@@ -17,6 +17,7 @@ import {
   botMessage,
 } from '@/lib/ai-assistant/chat-flow';
 import type { ChatEngineResponse } from '@/lib/ai-assistant/chat-engine';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface ChatWindowProps {
   isOpen: boolean;
@@ -25,6 +26,7 @@ interface ChatWindowProps {
 }
 
 export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
+    const { t } = useTranslation();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [currentStep, setCurrentStep] = useState<ChatStep>('welcome');
   const [preferences, setPreferences] = useState<DonorPreferences>({});
@@ -355,29 +357,29 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
             <span className="text-sm">🎓</span>
           </div>
           <div>
-            <h3 className="font-semibold text-sm">FundEd Asistan</h3>
-            <p className="text-[10px] text-blue-100">Size en uygun öğrenciyi bulalım</p>
+            <h3 className="font-semibold text-sm">{t('components.chatwindow.funded_asistan')}</h3>
+            <p className="text-[10px] text-blue-100">{t('components.chatwindow.size_en_uygun_renciyi_bulal_m')}</p>
           </div>
         </div>
         <div className="flex items-center gap-1">
           <button
             onClick={handleReset}
             className="p-1.5 hover:bg-white/10 rounded-lg transition-colors"
-            title="Sohbeti sıfırla"
+            title={t('components.chatwindow.sohbeti_s_f_rla')}
           >
             <RotateCcw className="w-4 h-4" />
           </button>
           <button
             onClick={onMinimize}
             className="p-1.5 hover:bg-white/10 rounded-lg transition-colors"
-            title="Küçült"
+            title={t('components.chatwindow.k_lt')}
           >
             <Minus className="w-4 h-4" />
           </button>
           <button
             onClick={onClose}
             className="p-1.5 hover:bg-white/10 rounded-lg transition-colors"
-            title="Kapat"
+            title={t('components.chatwindow.kapat')}
           >
             <X className="w-4 h-4" />
           </button>
@@ -423,7 +425,7 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
           value={inputValue}
           onChange={(e) => setInputValue(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder="Mesajını yaz..."
+          placeholder={t('components.chatwindow.mesaj_n_yaz')}
           className="flex-1 text-sm px-3 py-2 border border-gray-200 rounded-full focus:outline-none focus:border-blue-400 focus:ring-1 focus:ring-blue-200 bg-white transition-colors"
           disabled={isTyping}
         />

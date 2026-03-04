@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import {
     GraduationCap,
     Briefcase,
@@ -27,7 +28,6 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { censorSurname } from '@/lib/privacy';
-import { useTranslation } from '@/lib/i18n/context';
 import { useCurrency } from '@/lib/currency-context';
 
 export interface AlumniProfile {
@@ -207,7 +207,7 @@ function AlumniCard({ profile, index }: { profile: AlumniProfile; index: number 
                                     className="flex items-center gap-1 text-xs text-indigo-500 hover:text-indigo-700 mt-2 ml-6 font-medium transition-colors"
                                 >
                                     {expanded ? (
-                                        <>Daha Az <ChevronUp className="h-3 w-3" /></>
+                                        <>{t('components.alumnitracking.daha_az')}<ChevronUp className="h-3 w-3" /></>
                                     ) : (
                                         <>{t('pages.alumni.card.readStory')} <ChevronDown className="h-3 w-3" /></>
                                     )}

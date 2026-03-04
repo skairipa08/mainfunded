@@ -15,6 +15,7 @@ import { Button } from '@/components/ui/button';
 import CampaignCountdown from './CampaignCountdown';
 import type { CalendarEvent, CalendarEventType, DonationStreak } from '@/types/notifications';
 import { SPECIAL_DAYS } from '@/types/notifications';
+import { useTranslation } from "@/lib/i18n/context";
 
 // ═══════════════════════════════════════════════════════
 // Donation Calendar — full calendar with events
@@ -89,6 +90,7 @@ export default function DonationCalendar({
   campaigns = [],
   streak,
 }: DonationCalendarProps) {
+    const { t } = useTranslation();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
@@ -246,7 +248,7 @@ export default function DonationCalendar({
             <p className="text-2xl font-extrabold text-gray-900">
               {donationStreak.currentStreak}
             </p>
-            <p className="text-xs text-gray-500">Aylık Bağış Serisi</p>
+            <p className="text-xs text-gray-500">{t('components.donationcalendar.ayl_k_ba_serisi')}</p>
           </div>
         </div>
         <div className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 shadow-sm">
@@ -257,7 +259,7 @@ export default function DonationCalendar({
             <p className="text-2xl font-extrabold text-gray-900">
               {donationStreak.totalDonations}
             </p>
-            <p className="text-xs text-gray-500">Toplam Bağış</p>
+            <p className="text-xs text-gray-500">{t('components.donationcalendar.toplam_ba')}</p>
           </div>
         </div>
         <div className="flex items-center gap-3 p-4 bg-white rounded-xl border border-gray-200 shadow-sm">
@@ -268,7 +270,7 @@ export default function DonationCalendar({
             <p className="text-2xl font-extrabold text-gray-900">
               {activeCampaigns.length}
             </p>
-            <p className="text-xs text-gray-500">Aktif Kampanya</p>
+            <p className="text-xs text-gray-500">{t('components.donationcalendar.aktif_kampanya')}</p>
           </div>
         </div>
       </div>
@@ -277,8 +279,7 @@ export default function DonationCalendar({
       {activeCampaigns.length > 0 && (
         <div className="space-y-3">
           <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wider">
-            Yaklaşan Kampanya Bitiş Tarihleri
-          </h3>
+            {t('components.donationcalendar.yakla_an_kampanya_biti_tarihle')}</h3>
           {activeCampaigns
             .sort(
               (a, b) =>
@@ -307,8 +308,7 @@ export default function DonationCalendar({
               {MONTHS_TR[month]} {year}
             </h2>
             <Button variant="outline" size="sm" onClick={goToToday} className="text-xs h-7">
-              Bugün
-            </Button>
+              {t('components.donationcalendar.bug_n')}</Button>
           </div>
           <button
             onClick={() => navigateMonth(1)}
@@ -404,12 +404,10 @@ export default function DonationCalendar({
           {selectedEvents.length === 0 ? (
             <div className="text-center py-6">
               <p className="text-sm text-gray-400">
-                Bu tarihte etkinlik bulunmuyor
-              </p>
+                {t('components.donationcalendar.bu_tarihte_etkinlik_bulunmuyor')}</p>
               <Link href="/donate">
                 <Button variant="outline" size="sm" className="mt-3">
-                  🔔 Bağış Hatırlatıcısı Kur
-                </Button>
+                  {t('components.donationcalendar.ba_hat_rlat_c_s_kur')}</Button>
               </Link>
             </div>
           ) : (

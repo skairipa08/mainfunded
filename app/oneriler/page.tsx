@@ -42,6 +42,7 @@ import {
     Clock,
 } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface FeatureSuggestion {
     id: string;
@@ -105,6 +106,7 @@ const suggestions: FeatureSuggestion[] = [
 const categories = ['Tümü', 'UX', 'Finans', 'Sosyal', 'Öğrenci', 'Kurumsal', 'Teknik', 'Güven'];
 
 export default function SuggestionsPage() {
+    const { t } = useTranslation();
     const [selectedCategory, setSelectedCategory] = useState('Tümü');
     const [selectedStatus, setSelectedStatus] = useState<string | null>(null);
 
@@ -158,11 +160,9 @@ export default function SuggestionsPage() {
                             </div>
                         </div>
                         <h1 className="text-4xl md:text-5xl font-bold mb-4">
-                            Gelecek Özellikler
-                        </h1>
+                            {t('app.page.gelecek_zellikler')}</h1>
                         <p className="text-xl text-purple-100 max-w-2xl mx-auto">
-                            FundEd platformunda eklenmesi planlanan özellikler ve yol haritamız
-                        </p>
+                            {t('app.page.funded_platformunda_eklenmesi_')}</p>
                     </div>
                 </section>
 
@@ -172,22 +172,22 @@ export default function SuggestionsPage() {
                         <div className="grid grid-cols-4 gap-4">
                             <div className="text-center p-4 bg-gray-50 rounded-xl">
                                 <p className="text-3xl font-bold text-gray-900">{stats.total}</p>
-                                <p className="text-sm text-gray-500">Toplam Öneri</p>
+                                <p className="text-sm text-gray-500">{t('app.page.toplam_neri')}</p>
                             </div>
                             <div className="text-center p-4 bg-green-50 rounded-xl cursor-pointer hover:bg-green-100 transition-colors"
                                 onClick={() => setSelectedStatus(selectedStatus === 'completed' ? null : 'completed')}>
                                 <p className="text-3xl font-bold text-green-600">{stats.completed}</p>
-                                <p className="text-sm text-green-700">Tamamlandı</p>
+                                <p className="text-sm text-green-700">{t('app.page.tamamland')}</p>
                             </div>
                             <div className="text-center p-4 bg-yellow-50 rounded-xl cursor-pointer hover:bg-yellow-100 transition-colors"
                                 onClick={() => setSelectedStatus(selectedStatus === 'in-progress' ? null : 'in-progress')}>
                                 <p className="text-3xl font-bold text-yellow-600">{stats.inProgress}</p>
-                                <p className="text-sm text-yellow-700">Devam Ediyor</p>
+                                <p className="text-sm text-yellow-700">{t('app.page.devam_ediyor')}</p>
                             </div>
                             <div className="text-center p-4 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors"
                                 onClick={() => setSelectedStatus(selectedStatus === 'planned' ? null : 'planned')}>
                                 <p className="text-3xl font-bold text-gray-600">{stats.planned}</p>
-                                <p className="text-sm text-gray-500">Planlandı</p>
+                                <p className="text-sm text-gray-500">{t('app.page.planland')}</p>
                             </div>
                         </div>
                     </div>
@@ -254,8 +254,7 @@ export default function SuggestionsPage() {
 
                         {filteredSuggestions.length === 0 && (
                             <div className="text-center py-12 text-gray-500">
-                                Bu kategoride henüz öneri bulunmuyor.
-                            </div>
+                                {t('app.page.bu_kategoride_hen_z_neri_bulun')}</div>
                         )}
                     </div>
                 </section>
@@ -263,16 +262,14 @@ export default function SuggestionsPage() {
                 {/* CTA */}
                 <section className="py-12 px-4 bg-purple-600 text-white">
                     <div className="max-w-2xl mx-auto text-center">
-                        <h2 className="text-2xl font-bold mb-4">Öneriniz mi Var?</h2>
+                        <h2 className="text-2xl font-bold mb-4">{t('app.page.neriniz_mi_var')}</h2>
                         <p className="text-purple-100 mb-6">
-                            Platformumuzu geliştirmek için fikirlerinizi bekliyoruz!
-                        </p>
+                            {t('app.page.platformumuzu_geli_tirmek_i_in')}</p>
                         <a
                             href="mailto:suggestions@fund-ed.com"
                             className="inline-block bg-white text-purple-600 px-8 py-3 rounded-lg font-semibold hover:bg-purple-50 transition-colors"
                         >
-                            Öneri Gönder
-                        </a>
+                            {t('app.page.neri_g_nder')}</a>
                     </div>
                 </section>
             </main>

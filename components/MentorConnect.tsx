@@ -14,6 +14,7 @@ import { Input } from '@/components/ui/input';
 import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 import { toast } from 'sonner';
+import { useTranslation } from "@/lib/i18n/context";
 
 /* ─── Data Model ─── */
 export interface MentorReview {
@@ -56,6 +57,7 @@ interface MentorCardProps {
 }
 
 export function MentorCard({ mentor, onViewProfile, onBook }: MentorCardProps) {
+    const { t } = useTranslation();
     const initials = mentor.name.split(' ').map(n => n[0]).join('');
 
     return (
@@ -93,11 +95,11 @@ export function MentorCard({ mentor, onViewProfile, onBook }: MentorCardProps) {
                         <div className="flex items-center gap-2 flex-wrap">
                             <h3 className="text-lg font-bold text-slate-900 truncate">{mentor.name}</h3>
                             {mentor.availability === 'available' ? (
-                                <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 text-xs">Müsait</Badge>
+                                <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 text-xs">{t('components.mentorconnect.m_sait')}</Badge>
                             ) : mentor.availability === 'busy' ? (
-                                <Badge className="bg-orange-50 text-orange-600 border-orange-200 text-xs">Meşgul</Badge>
+                                <Badge className="bg-orange-50 text-orange-600 border-orange-200 text-xs">{t('components.mentorconnect.me_gul')}</Badge>
                             ) : (
-                                <Badge className="bg-slate-100 text-slate-500 text-xs">Müsait Değil</Badge>
+                                <Badge className="bg-slate-100 text-slate-500 text-xs">{t('components.mentorconnect.m_sait_de_il')}</Badge>
                             )}
                         </div>
                         <p className="text-sm text-slate-600 truncate">{mentor.title}</p>
@@ -118,7 +120,7 @@ export function MentorCard({ mentor, onViewProfile, onBook }: MentorCardProps) {
                 {mentor.hourlyRate ? (
                     <Badge className="bg-blue-50 text-blue-700 border-blue-200 font-semibold">₺{mentor.hourlyRate}/saat</Badge>
                 ) : (
-                    <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 font-semibold">Ücretsiz</Badge>
+                    <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 font-semibold">{t('components.mentorconnect.cretsiz')}</Badge>
                 )}
             </div>
 
@@ -134,18 +136,16 @@ export function MentorCard({ mentor, onViewProfile, onBook }: MentorCardProps) {
 
             {/* Stats */}
             <div className="px-5 pt-3 flex items-center gap-4 text-xs text-slate-500">
-                <span className="flex items-center gap-1"><Users className="w-3.5 h-3.5" />{mentor.menteeCount}+ Mentee</span>
+                <span className="flex items-center gap-1"><Users className="w-3.5 h-3.5" />{mentor.menteeCount}{t('components.mentorconnect.mentee')}</span>
                 <span className="flex items-center gap-1"><Briefcase className="w-3.5 h-3.5" />{mentor.experience}</span>
             </div>
 
             {/* Actions */}
             <div className="p-5 pt-4 flex gap-2">
                 <Button variant="outline" size="sm" className="flex-1 rounded-xl border-slate-200 text-slate-600 hover:bg-slate-50" onClick={() => onViewProfile(mentor)}>
-                    Profili İncele
-                </Button>
+                    {t('components.mentorconnect.profili_ncele')}</Button>
                 <Button size="sm" className="flex-1 rounded-xl bg-blue-600 hover:bg-blue-700 text-white" onClick={() => onBook(mentor)} disabled={mentor.availability === 'unavailable'}>
-                    Randevu Talep Et
-                </Button>
+                    {t('components.mentorconnect.randevu_talep_et')}</Button>
             </div>
         </motion.div>
     );
@@ -160,6 +160,7 @@ interface MentorDetailSheetProps {
 }
 
 export function MentorDetailSheet({ mentor, open, onClose, onBook }: MentorDetailSheetProps) {
+    const { t } = useTranslation();
     if (!mentor) return null;
     const initials = mentor.name.split(' ').map(n => n[0]).join('');
     const skillLevels: Record<string, number> = {};
@@ -191,24 +192,24 @@ export function MentorDetailSheet({ mentor, open, onClose, onBook }: MentorDetai
                             </div>
                             <p className="text-slate-600">{mentor.title} @ {mentor.company}</p>
                             <div className="flex items-center gap-3 mt-2 text-sm text-slate-500">
-                                <span className="flex items-center gap-1"><Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />{mentor.rating.toFixed(1)} ({mentor.reviewCount} değerlendirme)</span>
+                                <span className="flex items-center gap-1"><Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />{mentor.rating.toFixed(1)} ({mentor.reviewCount} {t('components.mentorconnect.de_erlendirme')}</span>
                                 <span className="flex items-center gap-1"><Users className="w-4 h-4" />{mentor.menteeCount} mentee</span>
                             </div>
                             {mentor.hourlyRate ? (
                                 <Badge className="mt-3 bg-blue-50 text-blue-700 border-blue-200 text-sm">₺{mentor.hourlyRate}/saat</Badge>
                             ) : (
-                                <Badge className="mt-3 bg-emerald-50 text-emerald-700 border-emerald-200 text-sm">Ücretsiz</Badge>
+                                <Badge className="mt-3 bg-emerald-50 text-emerald-700 border-emerald-200 text-sm">{t('components.mentorconnect.cretsiz')}</Badge>
                             )}
 
                             {/* Bio */}
                             <div className="mt-6">
-                                <h3 className="font-semibold text-slate-900 mb-2">Hakkında</h3>
+                                <h3 className="font-semibold text-slate-900 mb-2">{t('components.mentorconnect.hakk_nda')}</h3>
                                 <p className="text-sm text-slate-600 leading-relaxed">{mentor.bio}</p>
                             </div>
 
                             {/* Skills with bars */}
                             <div className="mt-6">
-                                <h3 className="font-semibold text-slate-900 mb-3">Uzmanlık Alanları</h3>
+                                <h3 className="font-semibold text-slate-900 mb-3">{t('components.mentorconnect.uzmanl_k_alanlar')}</h3>
                                 <div className="space-y-2.5">
                                     {mentor.skills.map(skill => (
                                         <div key={skill}>
@@ -227,7 +228,7 @@ export function MentorDetailSheet({ mentor, open, onClose, onBook }: MentorDetai
                             {/* Reviews */}
                             {mentor.reviews.length > 0 && (
                                 <div className="mt-6">
-                                    <h3 className="font-semibold text-slate-900 mb-3">Değerlendirmeler</h3>
+                                    <h3 className="font-semibold text-slate-900 mb-3">{t('components.mentorconnect.de_erlendirmeler')}</h3>
                                     <div className="space-y-3">
                                         {mentor.reviews.map(r => (
                                             <div key={r.id} className="bg-slate-50 rounded-xl p-4">
@@ -247,16 +248,14 @@ export function MentorDetailSheet({ mentor, open, onClose, onBook }: MentorDetai
 
                             {mentor.linkedIn && (
                                 <a href={mentor.linkedIn} target="_blank" rel="noopener noreferrer" className="mt-4 flex items-center gap-2 text-sm text-blue-600 hover:underline">
-                                    <Linkedin className="w-4 h-4" /> LinkedIn Profili
-                                </a>
+                                    <Linkedin className="w-4 h-4" /> {t('components.mentorconnect.linkedin_profili')}</a>
                             )}
                         </div>
 
                         {/* Sticky CTA */}
                         <div className="sticky bottom-0 bg-white border-t p-4">
                             <Button className="w-full rounded-xl bg-blue-600 hover:bg-blue-700 text-white h-12 text-base" onClick={() => onBook(mentor)} disabled={mentor.availability === 'unavailable'}>
-                                Şimdi Başvur
-                            </Button>
+                                {t('components.mentorconnect.imdi_ba_vur')}</Button>
                         </div>
                     </motion.div>
                 </>
@@ -288,6 +287,7 @@ const durations = [
 ];
 
 export function BookingModal({ mentor, open, onClose }: BookingModalProps) {
+    const { t } = useTranslation();
     const [selectedDate, setSelectedDate] = useState('');
     const [selectedDuration, setSelectedDuration] = useState(30);
     const [selectedTopic, setSelectedTopic] = useState('');
@@ -315,7 +315,7 @@ export function BookingModal({ mentor, open, onClose }: BookingModalProps) {
                     <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.95 }} className="fixed inset-4 md:inset-auto md:top-1/2 md:left-1/2 md:-translate-x-1/2 md:-translate-y-1/2 md:max-w-lg md:w-full bg-white rounded-2xl z-50 shadow-2xl overflow-y-auto max-h-[90vh]">
                         <div className="p-6">
                             <div className="flex items-center justify-between mb-6">
-                                <h2 className="text-xl font-bold text-slate-900">Randevu Talep Et</h2>
+                                <h2 className="text-xl font-bold text-slate-900">{t('components.mentorconnect.randevu_talep_et')}</h2>
                                 <button onClick={onClose} className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center hover:bg-slate-200"><X className="w-4 h-4" /></button>
                             </div>
 
@@ -332,7 +332,7 @@ export function BookingModal({ mentor, open, onClose }: BookingModalProps) {
 
                             {/* Duration */}
                             <div className="mb-5">
-                                <label className="text-sm font-medium text-slate-700 mb-2 block">Süre</label>
+                                <label className="text-sm font-medium text-slate-700 mb-2 block">{t('components.mentorconnect.s_re')}</label>
                                 <div className="flex gap-2">
                                     {durations.map(d => (
                                         <button key={d.value} onClick={() => setSelectedDuration(d.value)} className={cn("flex-1 py-2 rounded-xl text-sm font-medium border transition-all", selectedDuration === d.value ? "bg-blue-600 text-white border-blue-600" : "bg-white text-slate-600 border-slate-200 hover:border-blue-300")}>
@@ -344,7 +344,7 @@ export function BookingModal({ mentor, open, onClose }: BookingModalProps) {
 
                             {/* Time Slots */}
                             <div className="mb-5">
-                                <label className="text-sm font-medium text-slate-700 mb-2 block">Uygun Saat</label>
+                                <label className="text-sm font-medium text-slate-700 mb-2 block">{t('components.mentorconnect.uygun_saat')}</label>
                                 <div className="grid grid-cols-3 gap-2">
                                     {slots.map(s => (
                                         <button key={s} onClick={() => setSelectedDate(s)} className={cn("py-2 rounded-xl text-sm border transition-all", selectedDate === s ? "bg-emerald-500 text-white border-emerald-500" : "bg-white text-slate-600 border-slate-200 hover:border-emerald-300")}>
@@ -356,24 +356,24 @@ export function BookingModal({ mentor, open, onClose }: BookingModalProps) {
 
                             {/* Topic */}
                             <div className="mb-5">
-                                <label className="text-sm font-medium text-slate-700 mb-2 block">Konu</label>
+                                <label className="text-sm font-medium text-slate-700 mb-2 block">{t('components.mentorconnect.konu')}</label>
                                 <select value={selectedTopic} onChange={e => setSelectedTopic(e.target.value)} className="w-full h-10 rounded-xl border border-slate-200 px-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
-                                    <option value="">Konu seçin...</option>
+                                    <option value="">{t('components.mentorconnect.konu_se_in')}</option>
                                     {topics.map(t => <option key={t} value={t}>{t}</option>)}
                                 </select>
                             </div>
 
                             {/* Message */}
                             <div className="mb-5">
-                                <label className="text-sm font-medium text-slate-700 mb-2 block">Mesajınız</label>
-                                <textarea value={message} onChange={e => setMessage(e.target.value)} placeholder="Bu görüşmeden ne bekliyorsunuz?" rows={3} className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                <label className="text-sm font-medium text-slate-700 mb-2 block">{t('components.mentorconnect.mesaj_n_z')}</label>
+                                <textarea value={message} onChange={e => setMessage(e.target.value)} placeholder={t('components.mentorconnect.bu_g_r_meden_ne_bekliyorsunuz')} rows={3} className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" />
                             </div>
 
                             {/* Summary */}
                             <div className="bg-slate-50 rounded-xl p-4 mb-6 space-y-2 text-sm">
-                                <div className="flex justify-between"><span className="text-slate-500">Süre</span><span className="font-medium">{selectedDuration} dakika</span></div>
-                                {selectedDate && <div className="flex justify-between"><span className="text-slate-500">Saat</span><span className="font-medium">{selectedDate}</span></div>}
-                                <div className="flex justify-between border-t pt-2"><span className="text-slate-700 font-semibold">Toplam</span><span className="font-bold text-blue-600">{price > 0 ? `₺${price}` : 'Ücretsiz'}</span></div>
+                                <div className="flex justify-between"><span className="text-slate-500">{t('components.mentorconnect.s_re')}</span><span className="font-medium">{selectedDuration} dakika</span></div>
+                                {selectedDate && <div className="flex justify-between"><span className="text-slate-500">{t('components.mentorconnect.saat')}</span><span className="font-medium">{selectedDate}</span></div>}
+                                <div className="flex justify-between border-t pt-2"><span className="text-slate-700 font-semibold">{t('components.mentorconnect.toplam')}</span><span className="font-bold text-blue-600">{price > 0 ? `₺${price}` : 'Ücretsiz'}</span></div>
                             </div>
 
                             <Button className="w-full rounded-xl bg-blue-600 hover:bg-blue-700 text-white h-12" onClick={handleSubmit} disabled={submitting || !selectedDate || !selectedTopic}>
@@ -393,6 +393,7 @@ interface MentorAppModalProps { open: boolean; onClose: () => void; }
 const expertiseAreas = ['Yazılım Geliştirme', 'Veri Bilimi', 'Ürün Yönetimi', 'Finans', 'Pazarlama', 'İnsan Kaynakları', 'Tasarım (UX/UI)', 'Girişimcilik', 'Kariyer Koçluğu', 'Liderlik'];
 
 export function MentorApplicationModal({ open, onClose }: MentorAppModalProps) {
+    const { t } = useTranslation();
     const [step, setStep] = useState(1);
     const totalSteps = 5;
     const [form, setForm] = useState({
@@ -429,8 +430,8 @@ export function MentorApplicationModal({ open, onClose }: MentorAppModalProps) {
                         {/* Header */}
                         <div className="flex items-center justify-between p-6 border-b">
                             <div>
-                                <h2 className="text-xl font-bold text-slate-900">Mentor Başvurusu</h2>
-                                <p className="text-sm text-slate-500">Adım {step} / {totalSteps}</p>
+                                <h2 className="text-xl font-bold text-slate-900">{t('components.mentorconnect.mentor_ba_vurusu')}</h2>
+                                <p className="text-sm text-slate-500">{t('components.mentorconnect.ad_m')}{step} / {totalSteps}</p>
                             </div>
                             <button onClick={onClose} className="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center hover:bg-slate-200"><X className="w-4 h-4" /></button>
                         </div>
@@ -446,27 +447,27 @@ export function MentorApplicationModal({ open, onClose }: MentorAppModalProps) {
                         <div className="p-6 flex-1 overflow-y-auto">
                             {step === 1 && (
                                 <div className="space-y-4">
-                                    <h3 className="font-semibold text-slate-800">Kişisel Bilgiler</h3>
+                                    <h3 className="font-semibold text-slate-800">{t('components.mentorconnect.ki_isel_bilgiler')}</h3>
                                     <div className="grid grid-cols-2 gap-3">
-                                        <div><label className="text-xs font-medium text-slate-600 mb-1 block">Ad</label><Input value={form.firstName} onChange={e => updateForm('firstName', e.target.value)} placeholder="Adınız" className="rounded-xl" /></div>
-                                        <div><label className="text-xs font-medium text-slate-600 mb-1 block">Soyad</label><Input value={form.lastName} onChange={e => updateForm('lastName', e.target.value)} placeholder="Soyadınız" className="rounded-xl" /></div>
+                                        <div><label className="text-xs font-medium text-slate-600 mb-1 block">{t('components.mentorconnect.ad')}</label><Input value={form.firstName} onChange={e => updateForm('firstName', e.target.value)} placeholder={t('components.mentorconnect.ad_n_z')} className="rounded-xl" /></div>
+                                        <div><label className="text-xs font-medium text-slate-600 mb-1 block">{t('components.mentorconnect.soyad')}</label><Input value={form.lastName} onChange={e => updateForm('lastName', e.target.value)} placeholder={t('components.mentorconnect.soyad_n_z')} className="rounded-xl" /></div>
                                     </div>
                                     <div><label className="text-xs font-medium text-slate-600 mb-1 block">E-posta</label><Input type="email" value={form.email} onChange={e => updateForm('email', e.target.value)} placeholder="email@example.com" className="rounded-xl" /></div>
-                                    <div><label className="text-xs font-medium text-slate-600 mb-1 block">LinkedIn URL</label><Input value={form.linkedIn} onChange={e => updateForm('linkedIn', e.target.value)} placeholder="https://linkedin.com/in/..." className="rounded-xl" /></div>
+                                    <div><label className="text-xs font-medium text-slate-600 mb-1 block">{t('components.mentorconnect.linkedin_url')}</label><Input value={form.linkedIn} onChange={e => updateForm('linkedIn', e.target.value)} placeholder="https://linkedin.com/in/..." className="rounded-xl" /></div>
                                 </div>
                             )}
 
                             {step === 2 && (
                                 <div className="space-y-4">
-                                    <h3 className="font-semibold text-slate-800">Profesyonel Bilgiler</h3>
-                                    <div><label className="text-xs font-medium text-slate-600 mb-1 block">Mevcut Rol</label><Input value={form.role} onChange={e => updateForm('role', e.target.value)} placeholder="Örn: Senior Software Engineer" className="rounded-xl" /></div>
-                                    <div><label className="text-xs font-medium text-slate-600 mb-1 block">Şirket</label><Input value={form.company} onChange={e => updateForm('company', e.target.value)} placeholder="Örn: Google" className="rounded-xl" /></div>
+                                    <h3 className="font-semibold text-slate-800">{t('components.mentorconnect.profesyonel_bilgiler')}</h3>
+                                    <div><label className="text-xs font-medium text-slate-600 mb-1 block">{t('components.mentorconnect.mevcut_rol')}</label><Input value={form.role} onChange={e => updateForm('role', e.target.value)} placeholder={t('components.mentorconnect.rn_senior_software_engineer')} className="rounded-xl" /></div>
+                                    <div><label className="text-xs font-medium text-slate-600 mb-1 block">{t('components.mentorconnect.irket')}</label><Input value={form.company} onChange={e => updateForm('company', e.target.value)} placeholder={t('components.mentorconnect.rn_google')} className="rounded-xl" /></div>
                                     <div>
-                                        <label className="text-xs font-medium text-slate-600 mb-1 block">Yıllık Deneyim: {form.yearsExp} yıl</label>
+                                        <label className="text-xs font-medium text-slate-600 mb-1 block">{t('components.mentorconnect.y_ll_k_deneyim')}{form.yearsExp} {t('components.mentorconnect.y_l')}</label>
                                         <input type="range" min={1} max={30} value={form.yearsExp} onChange={e => updateForm('yearsExp', +e.target.value)} className="w-full accent-blue-600" />
                                     </div>
                                     <div>
-                                        <label className="text-xs font-medium text-slate-600 mb-2 block">Uzmanlık Alanları</label>
+                                        <label className="text-xs font-medium text-slate-600 mb-2 block">{t('components.mentorconnect.uzmanl_k_alanlar')}</label>
                                         <div className="flex flex-wrap gap-2">
                                             {expertiseAreas.map(a => (
                                                 <button key={a} onClick={() => toggleExpertise(a)} className={cn("px-3 py-1.5 rounded-full text-xs font-medium border transition-all", form.expertise.includes(a) ? "bg-blue-600 text-white border-blue-600" : "bg-white text-slate-600 border-slate-200 hover:border-blue-300")}>
@@ -480,17 +481,17 @@ export function MentorApplicationModal({ open, onClose }: MentorAppModalProps) {
 
                             {step === 3 && (
                                 <div className="space-y-4">
-                                    <h3 className="font-semibold text-slate-800">Mentorluk Detayları</h3>
+                                    <h3 className="font-semibold text-slate-800">{t('components.mentorconnect.mentorluk_detaylar')}</h3>
                                     <div>
-                                        <label className="text-xs font-medium text-slate-600 mb-1 block">Saatlik Ücret: {form.hourlyRate === 0 ? 'Ücretsiz' : `₺${form.hourlyRate}`}</label>
+                                        <label className="text-xs font-medium text-slate-600 mb-1 block">{t('components.mentorconnect.saatlik_cret')}{form.hourlyRate === 0 ? 'Ücretsiz' : `₺${form.hourlyRate}`}</label>
                                         <input type="range" min={0} max={2000} step={50} value={form.hourlyRate} onChange={e => updateForm('hourlyRate', +e.target.value)} className="w-full accent-blue-600" />
                                     </div>
                                     <div>
-                                        <label className="text-xs font-medium text-slate-600 mb-1 block">Haftalık kaç saat ayırabilirsiniz: {form.weeklyHours} saat</label>
+                                        <label className="text-xs font-medium text-slate-600 mb-1 block">{t('components.mentorconnect.haftal_k_ka_saat_ay_rabilirsin')}{form.weeklyHours} saat</label>
                                         <input type="range" min={1} max={20} value={form.weeklyHours} onChange={e => updateForm('weeklyHours', +e.target.value)} className="w-full accent-emerald-500" />
                                     </div>
                                     <div>
-                                        <label className="text-xs font-medium text-slate-600 mb-2 block">Görüşme Tercihi</label>
+                                        <label className="text-xs font-medium text-slate-600 mb-2 block">{t('components.mentorconnect.g_r_me_tercihi')}</label>
                                         <div className="flex gap-2">
                                             {[{ v: 'online', l: 'Online', icon: Video }, { v: 'hybrid', l: 'Hibrit', icon: Coffee }, { v: 'in-person', l: 'Yüz Yüze', icon: MapPin }].map(o => (
                                                 <button key={o.v} onClick={() => updateForm('sessionType', o.v)} className={cn("flex-1 py-3 rounded-xl text-sm font-medium border flex flex-col items-center gap-1 transition-all", form.sessionType === o.v ? "bg-blue-600 text-white border-blue-600" : "bg-white text-slate-600 border-slate-200 hover:border-blue-300")}>
@@ -504,13 +505,13 @@ export function MentorApplicationModal({ open, onClose }: MentorAppModalProps) {
 
                             {step === 4 && (
                                 <div className="space-y-4">
-                                    <h3 className="font-semibold text-slate-800">Motivasyon & CV</h3>
+                                    <h3 className="font-semibold text-slate-800">{t('components.mentorconnect.motivasyon_cv')}</h3>
                                     <div>
-                                        <label className="text-xs font-medium text-slate-600 mb-1 block">Neden mentor olmak istiyorsunuz?</label>
-                                        <textarea value={form.motivation} onChange={e => updateForm('motivation', e.target.value)} rows={5} placeholder="Deneyimlerinizi ve motivasyonunuzu paylaşın..." className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                                        <label className="text-xs font-medium text-slate-600 mb-1 block">{t('components.mentorconnect.neden_mentor_olmak_istiyorsunu')}</label>
+                                        <textarea value={form.motivation} onChange={e => updateForm('motivation', e.target.value)} rows={5} placeholder={t('components.mentorconnect.deneyimlerinizi_ve_motivasyonu')} className="w-full rounded-xl border border-slate-200 px-3 py-2 text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500" />
                                     </div>
                                     <div>
-                                        <label className="text-xs font-medium text-slate-600 mb-2 block">CV Yükle (Opsiyonel)</label>
+                                        <label className="text-xs font-medium text-slate-600 mb-2 block">{t('components.mentorconnect.cv_y_kle_opsiyonel')}</label>
                                         <label className="border-2 border-dashed border-slate-200 rounded-xl p-6 flex flex-col items-center gap-2 cursor-pointer hover:border-blue-300 transition-colors">
                                             <Upload className="w-6 h-6 text-slate-400" />
                                             <span className="text-sm text-slate-500">{form.cv ? form.cv.name : 'PDF veya DOCX yükleyin'}</span>
@@ -522,15 +523,15 @@ export function MentorApplicationModal({ open, onClose }: MentorAppModalProps) {
 
                             {step === 5 && (
                                 <div className="space-y-4">
-                                    <h3 className="font-semibold text-slate-800">Başvuru Özeti</h3>
+                                    <h3 className="font-semibold text-slate-800">{t('components.mentorconnect.ba_vuru_zeti')}</h3>
                                     <div className="bg-slate-50 rounded-xl p-4 space-y-3 text-sm">
-                                        <div className="flex justify-between"><span className="text-slate-500">Ad Soyad</span><span className="font-medium">{form.firstName} {form.lastName}</span></div>
+                                        <div className="flex justify-between"><span className="text-slate-500">{t('components.mentorconnect.ad_soyad')}</span><span className="font-medium">{form.firstName} {form.lastName}</span></div>
                                         <div className="flex justify-between"><span className="text-slate-500">E-posta</span><span className="font-medium">{form.email}</span></div>
-                                        <div className="flex justify-between"><span className="text-slate-500">Rol</span><span className="font-medium">{form.role} @ {form.company}</span></div>
-                                        <div className="flex justify-between"><span className="text-slate-500">Deneyim</span><span className="font-medium">{form.yearsExp} yıl</span></div>
-                                        <div className="flex justify-between"><span className="text-slate-500">Ücret</span><span className="font-medium">{form.hourlyRate === 0 ? 'Ücretsiz' : `₺${form.hourlyRate}/saat`}</span></div>
-                                        <div className="flex justify-between"><span className="text-slate-500">Haftalık</span><span className="font-medium">{form.weeklyHours} saat</span></div>
-                                        <div><span className="text-slate-500 block mb-1">Uzmanlık</span><div className="flex flex-wrap gap-1">{form.expertise.map(e => <Badge key={e} className="bg-blue-50 text-blue-700 text-xs">{e}</Badge>)}</div></div>
+                                        <div className="flex justify-between"><span className="text-slate-500">{t('components.mentorconnect.rol')}</span><span className="font-medium">{form.role} @ {form.company}</span></div>
+                                        <div className="flex justify-between"><span className="text-slate-500">{t('components.mentorconnect.deneyim')}</span><span className="font-medium">{form.yearsExp} {t('components.mentorconnect.y_l')}</span></div>
+                                        <div className="flex justify-between"><span className="text-slate-500">{t('components.mentorconnect.cret')}</span><span className="font-medium">{form.hourlyRate === 0 ? 'Ücretsiz' : `₺${form.hourlyRate}/saat`}</span></div>
+                                        <div className="flex justify-between"><span className="text-slate-500">{t('components.mentorconnect.haftal_k')}</span><span className="font-medium">{form.weeklyHours} saat</span></div>
+                                        <div><span className="text-slate-500 block mb-1">{t('components.mentorconnect.uzmanl_k')}</span><div className="flex flex-wrap gap-1">{form.expertise.map(e => <Badge key={e} className="bg-blue-50 text-blue-700 text-xs">{e}</Badge>)}</div></div>
                                     </div>
                                 </div>
                             )}
@@ -538,7 +539,7 @@ export function MentorApplicationModal({ open, onClose }: MentorAppModalProps) {
 
                         {/* Footer */}
                         <div className="p-6 border-t flex gap-3">
-                            {step > 1 && <Button variant="outline" className="rounded-xl" onClick={() => setStep(s => s - 1)}>Geri</Button>}
+                            {step > 1 && <Button variant="outline" className="rounded-xl" onClick={() => setStep(s => s - 1)}>{t('components.mentorconnect.geri')}</Button>}
                             <Button className="flex-1 rounded-xl bg-blue-600 hover:bg-blue-700 text-white" onClick={() => step < totalSteps ? setStep(s => s + 1) : handleSubmit()} disabled={submitting}>
                                 {step < totalSteps ? 'Devam Et' : submitting ? 'Gönderiliyor...' : 'Başvuruyu Gönder'}
                             </Button>

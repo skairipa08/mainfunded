@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createUserWithEmail, findUserByEmail, VALID_ACCOUNT_TYPES, type AccountType } from '@/lib/auth-utils';
+import { createUserWithEmail, findUserByEmail, generateOTP, storeEmailOTP, type AccountType } from '@/lib/auth-utils';
+import { sendEmail, renderOtpEmail, renderWelcomeEmail } from '@/lib/email';
 import { z } from 'zod';
 
 const registerSchema = z.object({
@@ -35,10 +36,40 @@ export async function POST(req: NextRequest) {
     // Create user
     const user = await createUserWithEmail(email, password, name, accountType as AccountType);
 
+    // Generate and send email verification OTP
+    const otp = generateOTP();
+    await storeEmailOTP(email, otp);
+
+    const otpHtml = renderOtpEmail({
+      userName: name,
+      otpCode: otp,
+      purpose: 'hesap doğrulama',
+    });
+
+    sendEmail({
+      to: email,
+      subject: `🔐 FundEd Doğrulama Kodu: ${otp}`,
+      html: otpHtml,
+    }).catch((err) => console.error('[Register] OTP email error:', err));
+
+    // Send welcome email
+    const welcomeHtml = renderWelcomeEmail({
+      userName: name,
+      userEmail: email,
+      accountType,
+    });
+
+    sendEmail({
+      to: email,
+      subject: '🎉 FundEd\'e Hoş Geldiniz!',
+      html: welcomeHtml,
+    }).catch((err) => console.error('[Register] Welcome email error:', err));
+
     return NextResponse.json(
       {
         success: true,
-        message: 'Account created successfully',
+        message: 'Account created successfully. Please verify your email.',
+        requiresVerification: true,
         user: { id: user._id, email: user.email, name: user.name, accountType: user.accountType },
       },
       { status: 201 }
@@ -51,3 +82,4 @@ export async function POST(req: NextRequest) {
     );
   }
 }
+

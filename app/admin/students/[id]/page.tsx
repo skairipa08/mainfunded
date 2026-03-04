@@ -15,6 +15,7 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 import { showToast } from '@/lib/toast';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface StudentProfile {
   user_id: string;
@@ -36,6 +37,7 @@ interface StudentProfile {
 }
 
 export default function StudentDetailPage() {
+    const { t } = useTranslation();
   const { data: session } = useSession();
   const router = useRouter();
   const params = useParams();
@@ -160,8 +162,7 @@ export default function StudentDetailPage() {
           href="/admin/students"
           className="mt-4 inline-block text-sm text-red-600 hover:text-red-800"
         >
-          ← Back to Students
-        </Link>
+          {t('app.page.back_to_students')}</Link>
       </div>
     );
   }
@@ -180,12 +181,11 @@ export default function StudentDetailPage() {
           href="/admin/students"
           className="text-sm text-blue-600 hover:text-blue-800"
         >
-          ← Back to Students
-        </Link>
+          {t('app.page.back_to_students')}</Link>
       </div>
 
       <div className="flex justify-between items-center mb-8">
-        <h2 className="text-3xl font-bold text-gray-900">Student Profile</h2>
+        <h2 className="text-3xl font-bold text-gray-900">{t('app.page.student_profile')}</h2>
         <div className="flex gap-3">
           {status === 'pending' && (
             <>
@@ -207,13 +207,11 @@ export default function StudentDetailPage() {
           )}
           {status === 'verified' && (
             <span className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-md bg-green-100 text-green-800">
-              Verified
-            </span>
+              {t('app.page.verified')}</span>
           )}
           {status === 'rejected' && (
             <span className="inline-flex items-center px-3 py-2 text-sm font-medium rounded-md bg-red-100 text-red-800">
-              Rejected
-            </span>
+              {t('app.page.rejected')}</span>
           )}
         </div>
       </div>
@@ -226,37 +224,37 @@ export default function StudentDetailPage() {
 
       <div className="bg-white rounded-lg shadow overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-200">
-          <h3 className="text-lg font-medium text-gray-900">Personal Information</h3>
+          <h3 className="text-lg font-medium text-gray-900">{t('app.page.personal_information')}</h3>
         </div>
         <dl className="px-6 py-4 grid grid-cols-1 gap-4 sm:grid-cols-2">
           <div>
-            <dt className="text-sm font-medium text-gray-500">Name</dt>
+            <dt className="text-sm font-medium text-gray-500">{t('app.page.name')}</dt>
             <dd className="mt-1 text-sm text-gray-900">{student.user?.name || '-'}</dd>
           </div>
           <div>
-            <dt className="text-sm font-medium text-gray-500">Email</dt>
+            <dt className="text-sm font-medium text-gray-500">{t('app.page.email')}</dt>
             <dd className="mt-1 text-sm text-gray-900">{student.user?.email || '-'}</dd>
           </div>
           <div>
-            <dt className="text-sm font-medium text-gray-500">University</dt>
+            <dt className="text-sm font-medium text-gray-500">{t('app.page.university')}</dt>
             <dd className="mt-1 text-sm text-gray-900">{student.university || '-'}</dd>
           </div>
           <div>
-            <dt className="text-sm font-medium text-gray-500">Department</dt>
+            <dt className="text-sm font-medium text-gray-500">{t('app.page.department')}</dt>
             <dd className="mt-1 text-sm text-gray-900">{student.department || '-'}</dd>
           </div>
           <div>
-            <dt className="text-sm font-medium text-gray-500">Country</dt>
+            <dt className="text-sm font-medium text-gray-500">{t('app.page.country')}</dt>
             <dd className="mt-1 text-sm text-gray-900">{student.country || '-'}</dd>
           </div>
           <div>
-            <dt className="text-sm font-medium text-gray-500">Field of Study</dt>
+            <dt className="text-sm font-medium text-gray-500">{t('app.page.field_of_study')}</dt>
             <dd className="mt-1 text-sm text-gray-900">
               {student.fieldOfStudy || student.field_of_study || '-'}
             </dd>
           </div>
           <div>
-            <dt className="text-sm font-medium text-gray-500">Verification Status</dt>
+            <dt className="text-sm font-medium text-gray-500">{t('app.page.verification_status')}</dt>
             <dd className="mt-1">
               <span
                 className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
@@ -277,7 +275,7 @@ export default function StudentDetailPage() {
       {documents.length > 0 && (
         <div className="mt-6 bg-white rounded-lg shadow overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h3 className="text-lg font-medium text-gray-900">Verification Documents</h3>
+            <h3 className="text-lg font-medium text-gray-900">{t('app.page.verification_documents')}</h3>
           </div>
           <div className="px-6 py-4">
             <div className="space-y-4">
@@ -291,13 +289,11 @@ export default function StudentDetailPage() {
                       rel="noopener noreferrer"
                       className="text-sm text-blue-600 hover:text-blue-800"
                     >
-                      View Document
-                    </a>
+                      {t('app.page.view_document')}</a>
                   </div>
                   {doc.verified && (
                     <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                      Verified
-                    </span>
+                      {t('app.page.verified')}</span>
                   )}
                 </div>
               ))}
@@ -309,32 +305,29 @@ export default function StudentDetailPage() {
       <AlertDialog open={rejectDialogOpen} onOpenChange={setRejectDialogOpen}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Reject Student Verification</AlertDialogTitle>
+            <AlertDialogTitle>{t('app.page.reject_student_verification')}</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to reject this student&apos;s verification? You can optionally provide a reason below.
-            </AlertDialogDescription>
+              {t('app.page.are_you_sure_you_want_to_rejec')}</AlertDialogDescription>
           </AlertDialogHeader>
           <div className="py-4">
             <label htmlFor="reject-reason" className="block text-sm font-medium text-gray-700 mb-2">
-              Reason (optional)
-            </label>
+              {t('app.page.reason_optional')}</label>
             <textarea
               id="reject-reason"
               value={rejectReason}
               onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setRejectReason(e.target.value)}
-              placeholder="Enter reason for rejection..."
+              placeholder={t('app.page.enter_reason_for_rejection')}
               className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               rows={3}
             />
           </div>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t('app.page.cancel')}</AlertDialogCancel>
             <AlertDialogAction
               onClick={handleRejectConfirm}
               className="bg-red-600 hover:bg-red-700 text-white"
             >
-              Reject
-            </AlertDialogAction>
+              {t('app.page.reject')}</AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

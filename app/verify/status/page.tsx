@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, useEffect, useCallback, Suspense } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
-import { useTranslation } from '@/lib/i18n';
 import { getTierBadgeInfo, TIER_CONFIG } from '@/lib/verification/tiers';
 import type { VerificationStatusType, VerificationTier } from '@/types/verification';
 
@@ -150,12 +150,12 @@ function VerifyStatusPageContent() {
                                 </div>
                                 <div>
                                     <span className="text-gray-500">{t('verification.tierRequested') || 'Tier Requested'}:</span>
-                                    <p className="font-medium text-gray-900">Tier {verification.tier_requested}</p>
+                                    <p className="font-medium text-gray-900">{t('app.page.tier')}{verification.tier_requested}</p>
                                 </div>
                                 {verification.tier_approved !== undefined && (
                                     <div>
                                         <span className="text-gray-500">{t('verification.tierApproved') || 'Tier Approved'}:</span>
-                                        <p className="font-medium text-emerald-600">Tier {verification.tier_approved}</p>
+                                        <p className="font-medium text-emerald-600">{t('app.page.tier')}{verification.tier_approved}</p>
                                     </div>
                                 )}
                                 <div>
@@ -255,6 +255,7 @@ function VerifyStatusPageContent() {
 }
 
 export default function VerifyStatusPage() {
+    const { t } = useTranslation();
     return (
         <Suspense fallback={<div className="min-h-screen flex items-center justify-center">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-emerald-600"></div>

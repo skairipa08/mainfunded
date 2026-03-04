@@ -140,6 +140,15 @@ export async function createIndexes() {
     await db.collection('notifications').createIndex({ userId: 1, read: 1 });
     await db.collection('notifications').createIndex({ userId: 1, timestamp: -1 });
     await db.collection('notifications').createIndex('type');
+
+    // ESG Indexes
+    await db.collection('esg_company_profiles').createIndex('company_id', { unique: true });
+    await db.collection('esg_company_profiles').createIndex('user_id');
+
+    await db.collection('esg_records').createIndex('record_id', { unique: true });
+    await db.collection('esg_records').createIndex('company_id');
+    await db.collection('esg_records').createIndex({ company_id: 1, period: 1 }, { unique: true });
+    await db.collection('esg_records').createIndex('status');
   } catch (error: any) {
     if (error.code !== 85 && error.codeName !== 'IndexOptionsConflict') {
       console.error('Error creating indexes:', error);

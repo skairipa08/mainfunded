@@ -20,6 +20,7 @@ import {
 } from '@/components/MentorConnect';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { useTranslation } from "@/lib/i18n/context";
 
 const categories = [
     { label: '🔵 Yazılım', value: 'Yazılım' },
@@ -47,6 +48,7 @@ const howItWorks = [
 ];
 
 export default function MentorsPage() {
+    const { t } = useTranslation();
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedSector, setSelectedSector] = useState('Tümü');
     const [selectedExp, setSelectedExp] = useState('Tümü');
@@ -103,22 +105,18 @@ export default function MentorsPage() {
                 <div className="container mx-auto px-4 py-20 md:py-28 relative z-10">
                     <motion.div initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }} className="text-center max-w-3xl mx-auto">
                         <Badge className="bg-white/20 text-white border-white/30 backdrop-blur-sm mb-6 text-sm px-4 py-1.5">
-                            <Sparkles className="w-4 h-4 mr-1.5" /> FundEd Mentor Programı
-                        </Badge>
+                            <Sparkles className="w-4 h-4 mr-1.5" /> {t('app.page.funded_mentor_program')}</Badge>
                         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                            Kariyerinizi Uzmanlarla<br />
-                            <span className="text-emerald-300">Şekillendirin</span>
+                            {t('app.page.kariyerinizi_uzmanlarla')}<br />
+                            <span className="text-emerald-300">{t('app.page.ekillendirin')}</span>
                         </h1>
                         <p className="text-lg md:text-xl text-blue-100 mb-10 max-w-2xl mx-auto">
-                            FundEd Mentor Programı ile deneyimli profesyonellerden birebir rehberlik alın
-                        </p>
+                            {t('app.page.funded_mentor_program_ile_dene')}</p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center">
                             <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 rounded-xl px-8 h-14 text-base font-semibold shadow-lg shadow-blue-900/20" onClick={() => document.getElementById('mentors-grid')?.scrollIntoView({ behavior: 'smooth' })}>
-                                <Search className="w-5 h-5 mr-2" /> Mentor Bul
-                            </Button>
+                                <Search className="w-5 h-5 mr-2" /> {t('app.page.mentor_bul')}</Button>
                             <Button size="lg" variant="outline" className="border-2 border-white/50 text-white hover:bg-white/10 rounded-xl px-8 h-14 text-base font-semibold backdrop-blur-sm bg-transparent" onClick={() => setShowApplyModal(true)}>
-                                <Award className="w-5 h-5 mr-2" /> Mentor Ol
-                            </Button>
+                                <Award className="w-5 h-5 mr-2" /> {t('app.page.mentor_ol')}</Button>
                         </div>
                     </motion.div>
 
@@ -150,7 +148,7 @@ export default function MentorsPage() {
                     <div className="flex items-center gap-3">
                         <div className="relative flex-1 max-w-md">
                             <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
-                            <Input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder="İsim, şirket veya uzmanlık ara..." className="pl-10 rounded-xl border-slate-200 h-10" />
+                            <Input value={searchQuery} onChange={e => setSearchQuery(e.target.value)} placeholder={t('app.page.sim_irket_veya_uzmanl_k_ara')} className="pl-10 rounded-xl border-slate-200 h-10" />
                         </div>
 
                         {/* Desktop filters */}
@@ -159,22 +157,21 @@ export default function MentorsPage() {
                                 {sectors.map(s => <option key={s}>{s}</option>)}
                             </select>
                             <select value={selectedExp} onChange={e => setSelectedExp(e.target.value)} className="h-10 rounded-xl border border-slate-200 px-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
-                                <option value="Tümü">Deneyim</option>
+                                <option value="Tümü">{t('app.page.deneyim')}</option>
                                 {experienceLevels.slice(1).map(l => <option key={l}>{l}</option>)}
                             </select>
                             <select value={selectedRating} onChange={e => setSelectedRating(e.target.value)} className="h-10 rounded-xl border border-slate-200 px-3 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500 cursor-pointer">
-                                <option value="Tümü">Rating</option>
+                                <option value="Tümü">{t('app.page.rating')}</option>
                                 {ratingOptions.slice(1).map(r => <option key={r}>{r}</option>)}
                             </select>
 
                             {/* Availability toggle */}
                             <button onClick={() => setAvailableOnly(!availableOnly)} className={cn("flex items-center gap-2 h-10 px-4 rounded-xl border text-sm transition-all", availableOnly ? "bg-emerald-50 border-emerald-300 text-emerald-700" : "bg-white border-slate-200 text-slate-600 hover:border-emerald-300")}>
                                 <span className={cn("w-3 h-3 rounded-full transition-colors", availableOnly ? "bg-emerald-500" : "bg-slate-300")} />
-                                Müsait
-                            </button>
+                                {t('app.page.m_sait')}</button>
 
                             {hasActiveFilters && (
-                                <button onClick={clearFilters} className="text-sm text-slate-500 hover:text-blue-600 underline underline-offset-2">Temizle</button>
+                                <button onClick={clearFilters} className="text-sm text-slate-500 hover:text-blue-600 underline underline-offset-2">{t('app.page.temizle')}</button>
                             )}
                         </div>
 
@@ -190,10 +187,9 @@ export default function MentorsPage() {
                             <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="md:hidden overflow-hidden">
                                 <div className="pt-3 flex flex-col gap-2">
                                     <select value={selectedSector} onChange={e => setSelectedSector(e.target.value)} className="h-10 rounded-xl border border-slate-200 px-3 text-sm bg-white">{sectors.map(s => <option key={s}>{s}</option>)}</select>
-                                    <select value={selectedExp} onChange={e => setSelectedExp(e.target.value)} className="h-10 rounded-xl border border-slate-200 px-3 text-sm bg-white"><option value="Tümü">Deneyim</option>{experienceLevels.slice(1).map(l => <option key={l}>{l}</option>)}</select>
+                                    <select value={selectedExp} onChange={e => setSelectedExp(e.target.value)} className="h-10 rounded-xl border border-slate-200 px-3 text-sm bg-white"><option value="Tümü">{t('app.page.deneyim')}</option>{experienceLevels.slice(1).map(l => <option key={l}>{l}</option>)}</select>
                                     <button onClick={() => setAvailableOnly(!availableOnly)} className={cn("flex items-center gap-2 h-10 px-4 rounded-xl border text-sm", availableOnly ? "bg-emerald-50 border-emerald-300 text-emerald-700" : "border-slate-200")}>
-                                        <span className={cn("w-3 h-3 rounded-full", availableOnly ? "bg-emerald-500" : "bg-slate-300")} /> Sadece Müsait
-                                    </button>
+                                        <span className={cn("w-3 h-3 rounded-full", availableOnly ? "bg-emerald-500" : "bg-slate-300")} /> {t('app.page.sadece_m_sait')}</button>
                                 </div>
                             </motion.div>
                         )}
@@ -213,7 +209,7 @@ export default function MentorsPage() {
             {/* ─── MENTORS GRID ─── */}
             <section id="mentors-grid" className="container mx-auto px-4 py-10">
                 <div className="flex items-center justify-between mb-6">
-                    <p className="text-sm text-slate-500">{filteredMentors.length} mentor bulundu</p>
+                    <p className="text-sm text-slate-500">{filteredMentors.length} {t('app.page.mentor_bulundu')}</p>
                 </div>
 
                 {filteredMentors.length === 0 ? (
@@ -221,9 +217,9 @@ export default function MentorsPage() {
                         <div className="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mx-auto mb-4">
                             <Search className="w-8 h-8 text-slate-400" />
                         </div>
-                        <h3 className="text-xl font-semibold text-slate-700 mb-2">Sonuç bulunamadı</h3>
-                        <p className="text-slate-500 mb-4">Farklı filtreler deneyebilir veya aramayı genişletebilirsiniz</p>
-                        <Button variant="outline" className="rounded-xl" onClick={clearFilters}>Filtreleri Temizle</Button>
+                        <h3 className="text-xl font-semibold text-slate-700 mb-2">{t('app.page.sonu_bulunamad')}</h3>
+                        <p className="text-slate-500 mb-4">{t('app.page.farkl_filtreler_deneyebilir_ve')}</p>
+                        <Button variant="outline" className="rounded-xl" onClick={clearFilters}>{t('app.page.filtreleri_temizle')}</Button>
                     </motion.div>
                 ) : (
                     <>
@@ -237,8 +233,7 @@ export default function MentorsPage() {
                         {filteredMentors.length > showCount && (
                             <div className="text-center mt-10">
                                 <Button variant="outline" size="lg" className="rounded-xl px-8" onClick={() => setShowCount(s => s + 6)}>
-                                    <ChevronDown className="w-4 h-4 mr-2" /> Daha Fazla Göster
-                                </Button>
+                                    <ChevronDown className="w-4 h-4 mr-2" /> {t('app.page.daha_fazla_g_ster')}</Button>
                             </div>
                         )}
                     </>
@@ -248,8 +243,8 @@ export default function MentorsPage() {
             {/* ─── HOW IT WORKS ─── */}
             <section className="container mx-auto px-4 py-16">
                 <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Nasıl Çalışır?</h2>
-                    <p className="text-slate-500 max-w-xl mx-auto">Dört basit adımda mentorunuzla tanışın ve kariyerinizi şekillendirin</p>
+                    <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">{t('app.page.nas_l_al_r')}</h2>
+                    <p className="text-slate-500 max-w-xl mx-auto">{t('app.page.d_rt_basit_ad_mda_mentorunuzla')}</p>
                 </motion.div>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6 relative">
                     {/* Connecting line (desktop) */}
@@ -270,31 +265,31 @@ export default function MentorsPage() {
             <section className="bg-white py-16">
                 <div className="container mx-auto px-4">
                     <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} className="text-center mb-12">
-                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Mentorluk ile Kariyer Değiştirenler</h2>
-                        <p className="text-slate-500">FundEd mentorları ile başarıya ulaşan öğrenciler</p>
+                        <h2 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">{t('app.page.mentorluk_ile_kariyer_de_i_tir')}</h2>
+                        <p className="text-slate-500">{t('app.page.funded_mentorlar_ile_ba_ar_ya_')}</p>
                     </motion.div>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {testimonials.map((t, i) => (
-                            <motion.div key={t.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="bg-gradient-to-br from-slate-50 to-white rounded-2xl p-6 border border-slate-100 shadow-sm">
+                        {testimonials.map((testm, i) => (
+                            <motion.div key={testm.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }} className="bg-gradient-to-br from-slate-50 to-white rounded-2xl p-6 border border-slate-100 shadow-sm">
                                 {/* Before → After */}
                                 <div className="flex items-center gap-2 mb-4">
-                                    <Badge className="bg-slate-200 text-slate-600 text-xs">{t.before}</Badge>
+                                    <Badge className="bg-slate-200 text-slate-600 text-xs">{testm.before}</Badge>
                                     <ChevronRight className="w-4 h-4 text-emerald-500" />
-                                    <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 text-xs">{t.after}</Badge>
+                                    <Badge className="bg-emerald-50 text-emerald-700 border-emerald-200 text-xs">{testm.after}</Badge>
                                 </div>
                                 {/* Quote */}
                                 <div className="relative mb-4">
                                     <span className="text-5xl text-blue-100 font-serif absolute -top-2 -left-1">&ldquo;</span>
-                                    <p className="text-sm text-slate-600 leading-relaxed pl-6">{t.quote}</p>
+                                    <p className="text-sm text-slate-600 leading-relaxed pl-6">{testm.quote}</p>
                                 </div>
                                 {/* Author */}
                                 <div className="flex items-center gap-3 pt-4 border-t border-slate-100">
                                     <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-sm">
-                                        {t.name.split(' ').map(n => n[0]).join('')}
+                                        {testm.name.split(' ').map((n: string) => n[0]).join('')}
                                     </div>
                                     <div>
-                                        <p className="font-medium text-sm text-slate-800">{t.name}</p>
-                                        <p className="text-xs text-slate-400">Teşekkür: <span className="text-blue-600">{t.mentor}</span></p>
+                                        <p className="font-medium text-sm text-slate-800">{testm.name}</p>
+                                        <p className="text-xs text-slate-400">{t('app.page.te_ekk_r')}<span className="text-blue-600">{testm.mentor}</span></p>
                                     </div>
                                 </div>
                             </motion.div>
@@ -308,11 +303,10 @@ export default function MentorsPage() {
                 <div className="bg-gradient-to-br from-blue-600 to-emerald-500 rounded-3xl p-10 md:p-16 text-center text-white relative overflow-hidden">
                     <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
                     <div className="relative z-10">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4">Deneyimlerinizi Paylaşmak İster misiniz?</h2>
-                        <p className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">Mentor olarak topluluğumuza katılın ve gelecek nesillere ilham verin</p>
+                        <h2 className="text-3xl md:text-4xl font-bold mb-4">{t('app.page.deneyimlerinizi_payla_mak_ster')}</h2>
+                        <p className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">{t('app.page.mentor_olarak_toplulu_umuza_ka')}</p>
                         <Button size="lg" className="bg-white text-blue-600 hover:bg-blue-50 rounded-xl px-8 h-14 text-base font-semibold" onClick={() => setShowApplyModal(true)}>
-                            <Award className="w-5 h-5 mr-2" /> Mentor Olarak Başvur
-                        </Button>
+                            <Award className="w-5 h-5 mr-2" /> {t('app.page.mentor_olarak_ba_vur')}</Button>
                     </div>
                 </div>
             </section>

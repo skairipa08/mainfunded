@@ -4,6 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Search as SearchIcon, X, Clock, TrendingUp, ArrowRight } from 'lucide-react';
 import { search, getSuggestions, getPopularSearches } from '@/lib/search';
 import Link from 'next/link';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface SearchBarProps {
     className?: string;
@@ -11,6 +12,7 @@ interface SearchBarProps {
 }
 
 export default function SearchBar({ className = '', onResultClick }: SearchBarProps) {
+    const { t } = useTranslation();
     const [query, setQuery] = useState('');
     const [isOpen, setIsOpen] = useState(false);
     const [results, setResults] = useState<any[]>([]);
@@ -84,7 +86,7 @@ export default function SearchBar({ className = '', onResultClick }: SearchBarPr
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     onFocus={() => setIsOpen(true)}
-                    placeholder="Kampanya veya öğrenci ara..."
+                    placeholder={t('components.searchbar.kampanya_veya_renci_ara')}
                     className="w-full pl-10 pr-10 py-2.5 border rounded-xl bg-gray-50 focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                 />
                 {query && (
@@ -119,7 +121,7 @@ export default function SearchBar({ className = '', onResultClick }: SearchBarPr
                     {/* Results */}
                     {results.length > 0 && (
                         <div className="p-2">
-                            <p className="px-3 py-1 text-xs font-medium text-gray-500 uppercase">Sonuçlar</p>
+                            <p className="px-3 py-1 text-xs font-medium text-gray-500 uppercase">{t('components.searchbar.sonu_lar')}</p>
                             {results.map((result) => (
                                 <Link
                                     key={result.item.id}
@@ -154,8 +156,8 @@ export default function SearchBar({ className = '', onResultClick }: SearchBarPr
                     {query.length >= 2 && results.length === 0 && (
                         <div className="p-6 text-center text-gray-500">
                             <SearchIcon className="h-8 w-8 mx-auto mb-2 text-gray-300" />
-                            <p>&quot;{query}&quot; için sonuç bulunamadı</p>
-                            <p className="text-sm">Farklı anahtar kelimeler deneyin</p>
+                            <p>&quot;{query}{t('components.searchbar.quot_i_in_sonu_bulunamad')}</p>
+                            <p className="text-sm">{t('components.searchbar.farkl_anahtar_kelimeler_deneyi')}</p>
                         </div>
                     )}
 
@@ -167,8 +169,7 @@ export default function SearchBar({ className = '', onResultClick }: SearchBarPr
                                 <div className="p-2 border-b">
                                     <p className="px-3 py-1 text-xs font-medium text-gray-500 uppercase flex items-center gap-1">
                                         <Clock className="h-3 w-3" />
-                                        Son Aramalar
-                                    </p>
+                                        {t('components.searchbar.son_aramalar')}</p>
                                     {recentSearches.map((search, i) => (
                                         <button
                                             key={i}
@@ -186,8 +187,7 @@ export default function SearchBar({ className = '', onResultClick }: SearchBarPr
                             <div className="p-2">
                                 <p className="px-3 py-1 text-xs font-medium text-gray-500 uppercase flex items-center gap-1">
                                     <TrendingUp className="h-3 w-3" />
-                                    Popüler Aramalar
-                                </p>
+                                    {t('components.searchbar.pop_ler_aramalar')}</p>
                                 <div className="px-3 py-2 flex flex-wrap gap-2">
                                     {popularSearches.map((search, i) => (
                                         <button

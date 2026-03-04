@@ -32,6 +32,7 @@ import {
   PieChart,
   HelpCircle,
 } from 'lucide-react';
+import { useTranslation } from "@/lib/i18n/context";
 
 /* ──────────────────────────────────────── */
 
@@ -135,6 +136,7 @@ const faqs = [
 /* ──────────────────────────────────────── */
 
 export default function HowItWorksPage() {
+    const { t } = useTranslation();
   const router = useRouter();
 
   return (
@@ -159,21 +161,17 @@ export default function HowItWorksPage() {
             <div className="max-w-3xl mx-auto text-center">
               <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 py-2 mb-8">
                 <Zap className="h-4 w-4 text-yellow-300" />
-                <span className="text-sm text-white/90 font-medium">Basit, Şeffaf, Etkili</span>
+                <span className="text-sm text-white/90 font-medium">{t('app.page.basit_effaf_etkili')}</span>
               </div>
 
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-                FundEd Nasıl
-                <br />
+                {t('app.page.funded_nas_l')}<br />
                 <span className="bg-gradient-to-r from-yellow-200 via-amber-200 to-orange-200 bg-clip-text text-transparent">
-                  Çalışır?
-                </span>
+                  {t('app.page.al_r')}</span>
               </h1>
 
               <p className="text-lg sm:text-xl text-blue-100/80 leading-relaxed max-w-2xl mx-auto">
-                Bağışçıları ve öğrencileri 4 basit adımda buluşturuyoruz.
-                Her adım şeffaf, her kuruş izlenebilir.
-              </p>
+                {t('app.page.ba_lar_ve_rencileri_4_basit_ad')}</p>
             </div>
           </div>
 
@@ -212,7 +210,7 @@ export default function HowItWorksPage() {
                             <Icon className="h-10 w-10 text-white" />
                           </div>
                           <div className="flex items-center justify-center gap-2 mb-3">
-                            <span className={`text-xs font-bold ${item.color} uppercase tracking-widest`}>Adım {item.step}</span>
+                            <span className={`text-xs font-bold ${item.color} uppercase tracking-widest`}>{t('app.page.ad_m')}{item.step}</span>
                           </div>
                           <h3 className="text-2xl font-bold text-slate-900">{item.title}</h3>
                         </div>
@@ -248,14 +246,11 @@ export default function HowItWorksPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <span className="inline-block text-xs font-semibold tracking-widest uppercase text-emerald-600 bg-emerald-50 px-4 py-1.5 rounded-full mb-4">
-                Doğrulama Süreci
-              </span>
+                {t('app.page.do_rulama_s_reci')}</span>
               <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-                Öğrenci Nasıl Doğrulanır?
-              </h2>
+                {t('app.page.renci_nas_l_do_rulan_r')}</h2>
               <p className="text-lg text-slate-500 max-w-2xl mx-auto">
-                Platform üzerindeki her öğrenci titiz bir doğrulama sürecinden geçer.
-              </p>
+                {t('app.page.platform_zerindeki_her_renci_t')}</p>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative">
@@ -288,11 +283,9 @@ export default function HowItWorksPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <span className="inline-block text-xs font-semibold tracking-widest uppercase text-blue-600 bg-blue-50 px-4 py-1.5 rounded-full mb-4">
-                Güvenlik & Güvence
-              </span>
+                {t('app.page.g_venlik_g_vence')}</span>
               <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-                Neden FundEd?
-              </h2>
+                {t('app.page.neden_funded')}</h2>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -324,11 +317,9 @@ export default function HowItWorksPage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <span className="inline-block text-xs font-semibold tracking-widest uppercase text-amber-600 bg-amber-50 px-4 py-1.5 rounded-full mb-4">
-                Kimin İçin?
-              </span>
+                {t('app.page.kimin_in')}</span>
               <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-                FundEd Herkes İçin
-              </h2>
+                {t('app.page.funded_herkes_in')}</h2>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -391,8 +382,7 @@ export default function HowItWorksPage() {
                 SSS
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-                Sıkça Sorulan Sorular
-              </h2>
+                {t('app.page.s_k_a_sorulan_sorular')}</h2>
             </div>
 
             <div className="space-y-4">
@@ -439,12 +429,9 @@ export default function HowItWorksPage() {
               <div className="relative z-10">
                 <Sparkles className="h-10 w-10 text-amber-400 mx-auto mb-6" />
                 <h2 className="text-3xl sm:text-4xl font-bold text-white mb-5">
-                  Eğitime Katkınızı Bugün Başlatın
-                </h2>
+                  {t('app.page.e_itime_katk_n_z_bug_n_ba_lat_')}</h2>
                 <p className="text-slate-400 max-w-xl mx-auto mb-10 text-lg leading-relaxed">
-                  Küçük büyük her bağış bir çocuğun geleceğini aydınlatır.
-                  İlk adımı şimdi atın.
-                </p>
+                  {t('app.page.k_k_b_y_k_her_ba_bir_ocu_un_ge')}</p>
 
                 <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                   <Button
@@ -453,16 +440,14 @@ export default function HowItWorksPage() {
                     className="bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-400 hover:to-indigo-500 text-white h-14 px-10 rounded-2xl text-lg font-semibold shadow-xl shadow-blue-500/25"
                   >
                     <Heart className="mr-2 h-5 w-5" />
-                    Bağış Yap
-                  </Button>
+                    {t('app.page.ba_yap')}</Button>
                   <Button
                     onClick={() => router.push('/browse')}
                     size="lg"
                     variant="outline"
                     className="border-white/20 text-white hover:bg-white/10 h-14 px-10 rounded-2xl text-lg backdrop-blur-sm"
                   >
-                    Öğrencileri Keşfet
-                    <ArrowRight className="ml-2 h-5 w-5" />
+                    {t('app.page.rencileri_ke_fet')}<ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </div>
               </div>

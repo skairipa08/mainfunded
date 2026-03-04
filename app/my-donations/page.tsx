@@ -1,12 +1,12 @@
 'use client';
 
 import React, { useState, useEffect, useCallback, Suspense } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import { useSession } from 'next-auth/react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { useTranslation } from '@/lib/i18n';
 import { useCurrency } from '@/lib/currency-context';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -361,8 +361,7 @@ function MyDonationsContent() {
                   disabled={exporting}
                 >
                   <FileSpreadsheet className="h-4 w-4 mr-2" />
-                  Excel
-                </Button>
+                  {t('app.page.excel')}</Button>
                 <Button
                   variant="outline"
                   size="sm"
@@ -721,6 +720,7 @@ function MyDonationsContent() {
 }
 
 export default function MyDonationsPage() {
+    const { t } = useTranslation();
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center bg-gray-50">

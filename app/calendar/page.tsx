@@ -8,6 +8,7 @@ import Footer from '@/components/Footer';
 import DonationCalendar from '@/components/calendar/DonationCalendar';
 import { Loader2, CalendarDays } from 'lucide-react';
 import type { Metadata } from 'next';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface DonationRecord {
   id: string;
@@ -27,6 +28,7 @@ interface CampaignRecord {
 }
 
 export default function CalendarPage() {
+    const { t } = useTranslation();
   const { data: session, status } = useSession();
   const router = useRouter();
   const [donations, setDonations] = useState<DonationRecord[]>([]);
@@ -98,12 +100,9 @@ export default function CalendarPage() {
             </div>
             <div>
               <h1 className="text-2xl font-bold text-gray-900">
-                Bağış Takvimi
-              </h1>
+                {t('app.page.ba_takvimi')}</h1>
               <p className="text-sm text-gray-500">
-                Bağışlarınızı takip edin, özel günleri keşfedin, kampanya
-                bitiş tarihlerini kaçırmayın
-              </p>
+                {t('app.page.ba_lar_n_z_takip_edin_zel_g_nl')}</p>
             </div>
           </div>
         </div>
@@ -112,7 +111,7 @@ export default function CalendarPage() {
         {loading ? (
           <div className="flex items-center justify-center py-20">
             <Loader2 className="h-8 w-8 animate-spin text-blue-500" />
-            <span className="ml-3 text-gray-500">Takvim yükleniyor...</span>
+            <span className="ml-3 text-gray-500">{t('app.page.takvim_y_kleniyor')}</span>
           </div>
         ) : (
           <DonationCalendar

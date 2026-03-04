@@ -1,12 +1,11 @@
 'use client';
 
 import { useState } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import { useRouter } from 'next/navigation';
 import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useTranslation } from '@/lib/i18n';
-
 export default function HomeSearchBar() {
     const router = useRouter();
     const { t } = useTranslation();

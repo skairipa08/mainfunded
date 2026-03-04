@@ -1,15 +1,18 @@
+'use client';
 import { Suspense } from 'react';
 import BrowsePageContent from './page-wrapper';
+import { useTranslation } from "@/lib/i18n/context";
 
 export const dynamic = 'force-dynamic';
 
 export default function BrowsePage() {
+    const { t } = useTranslation();
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="text-center">
           <div className="h-8 w-8 animate-spin mx-auto text-blue-600 mb-4 border-4 border-blue-200 border-t-blue-600 rounded-full" />
-          <p className="text-gray-600">Loading...</p>
+          <p className="text-gray-600">{t('app.page.loading')}</p>
         </div>
       </div>
     }>

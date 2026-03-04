@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import { MessageSquare, Play, Quote, Send, X, Loader2 } from 'lucide-react';
 import { ThankYouCard, mockThankYouMessages } from '@/components/ThankYouMessage';
 import MobileHeader from '@/components/MobileHeader';
-import { useTranslation } from '@/lib/i18n/context';
 import { useCurrency } from '@/lib/currency-context';
 import { censorSurname } from '@/lib/privacy';
 import { useSession } from 'next-auth/react';
@@ -164,8 +164,7 @@ export default function StoriesPage() {
                         className="inline-flex items-center gap-2 bg-white text-pink-600 px-8 py-3 rounded-full font-semibold text-lg hover:bg-pink-50 transition-all shadow-lg hover:shadow-xl hover:-translate-y-0.5"
                     >
                         <Send className="h-5 w-5" />
-                        Başarı Hikayeni Paylaş
-                    </button>
+                        {t('app.page.ba_ar_hikayeni_payla')}</button>
                 </div>
             </div>
 
@@ -242,8 +241,8 @@ export default function StoriesPage() {
                                     <Send className="h-5 w-5 text-pink-600" />
                                 </div>
                                 <div>
-                                    <h2 className="text-xl font-bold text-gray-900">Başarı Hikayeni Paylaş</h2>
-                                    <p className="text-sm text-gray-500">Hikayeniz onaylandıktan sonra yayınlanacaktır</p>
+                                    <h2 className="text-xl font-bold text-gray-900">{t('app.page.ba_ar_hikayeni_payla')}</h2>
+                                    <p className="text-sm text-gray-500">{t('app.page.hikayeniz_onayland_ktan_sonra_')}</p>
                                 </div>
                             </div>
                             <button
@@ -259,13 +258,13 @@ export default function StoriesPage() {
                         <form onSubmit={handleSubmit} className="p-6 space-y-5">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                                    Başlık <span className="text-gray-400">(opsiyonel)</span>
+                                    {t('app.page.ba_l_k')}<span className="text-gray-400">(opsiyonel)</span>
                                 </label>
                                 <input
                                     type="text"
                                     value={formData.title}
                                     onChange={(e) => setFormData({ ...formData, title: e.target.value })}
-                                    placeholder="Örn: Hayallerime Kavuştum"
+                                    placeholder={t('app.page.rn_hayallerime_kavu_tum')}
                                     maxLength={200}
                                     className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition-all"
                                 />
@@ -273,12 +272,12 @@ export default function StoriesPage() {
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                                    Hikayeniz <span className="text-red-500">*</span>
+                                    {t('app.page.hikayeniz')}<span className="text-red-500">*</span>
                                 </label>
                                 <textarea
                                     value={formData.quote}
                                     onChange={(e) => setFormData({ ...formData, quote: e.target.value })}
-                                    placeholder="FundEd size nasıl yardımcı oldu? Deneyiminizi paylaşın..."
+                                    placeholder={t('app.page.funded_size_nas_l_yard_mc_oldu')}
                                     maxLength={1000}
                                     rows={4}
                                     required
@@ -290,13 +289,13 @@ export default function StoriesPage() {
                             <div className="grid grid-cols-2 gap-4">
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                                        Üniversite <span className="text-red-500">*</span>
+                                        {t('app.page.niversite')}<span className="text-red-500">*</span>
                                     </label>
                                     <input
                                         type="text"
                                         value={formData.university}
                                         onChange={(e) => setFormData({ ...formData, university: e.target.value })}
-                                        placeholder="Örn: Boğaziçi Üniversitesi"
+                                        placeholder={t('app.page.rn_bo_azi_i_niversitesi')}
                                         maxLength={200}
                                         required
                                         className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition-all"
@@ -304,13 +303,13 @@ export default function StoriesPage() {
                                 </div>
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                                        Bölüm <span className="text-red-500">*</span>
+                                        {t('app.page.b_l_m')}<span className="text-red-500">*</span>
                                     </label>
                                     <input
                                         type="text"
                                         value={formData.field}
                                         onChange={(e) => setFormData({ ...formData, field: e.target.value })}
-                                        placeholder="Örn: Bilgisayar Mühendisliği"
+                                        placeholder={t('app.page.rn_bilgisayar_m_hendisli_i')}
                                         maxLength={200}
                                         required
                                         className="w-full px-4 py-3 rounded-xl border border-gray-200 focus:ring-2 focus:ring-pink-500 focus:border-pink-500 outline-none transition-all"
@@ -320,7 +319,7 @@ export default function StoriesPage() {
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                                    Toplanan Destek <span className="text-gray-400">(opsiyonel)</span>
+                                    {t('app.page.toplanan_destek')}<span className="text-gray-400">(opsiyonel)</span>
                                 </label>
                                 <input
                                     type="number"
@@ -341,13 +340,11 @@ export default function StoriesPage() {
                                 {submitting ? (
                                     <>
                                         <Loader2 className="h-5 w-5 animate-spin" />
-                                        Gönderiliyor...
-                                    </>
+                                        {t('app.page.g_nderiliyor')}</>
                                 ) : (
                                     <>
                                         <Send className="h-5 w-5" />
-                                        Hikayemi Gönder
-                                    </>
+                                        {t('app.page.hikayemi_g_nder')}</>
                                 )}
                             </button>
                         </form>

@@ -15,6 +15,7 @@ import {
 import { TrendingUp, Users, DollarSign, FileCheck } from 'lucide-react';
 import { DashboardSkeleton } from '@/components/ui/PageSkeleton';
 import { useCurrency } from '@/lib/currency-context';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface InstitutionMetrics {
   studentsHelped: number;
@@ -24,6 +25,7 @@ interface InstitutionMetrics {
 }
 
 export default function InstitutionDashboardPage() {
+    const { t } = useTranslation();
   const [metrics, setMetrics] = useState<InstitutionMetrics | null>(null);
   const [loading, setLoading] = useState(true);
   const { formatAmount } = useCurrency();
@@ -83,10 +85,9 @@ export default function InstitutionDashboardPage() {
       <main className="flex-grow">
         <div className="max-w-7xl mx-auto px-4 py-16">
           <div className="mb-8">
-            <h1 className="text-4xl font-bold text-gray-900 mb-2">Institution Dashboard</h1>
+            <h1 className="text-4xl font-bold text-gray-900 mb-2">{t('app.page.institution_dashboard')}</h1>
             <p className="text-gray-600">
-              Platform metrics and impact indicators for education funding infrastructure
-            </p>
+              {t('app.page.platform_metrics_and_impact_in')}</p>
           </div>
 
           {loading ? (
@@ -94,7 +95,7 @@ export default function InstitutionDashboardPage() {
           ) : !metrics ? (
             <Card>
               <CardContent className="py-12 text-center">
-                <p className="text-gray-600">No metrics available yet.</p>
+                <p className="text-gray-600">{t('app.page.no_metrics_available_yet')}</p>
               </CardContent>
             </Card>
           ) : (
@@ -123,26 +124,17 @@ export default function InstitutionDashboardPage() {
               {/* Notes Section */}
               <Card className="bg-gray-50 border-gray-200">
                 <CardHeader>
-                  <CardTitle>Platform Metrics Notes</CardTitle>
+                  <CardTitle>{t('app.page.platform_metrics_notes')}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-3 text-sm text-gray-700">
                   <p>
-                    <strong>Data Source:</strong> These metrics are derived from the live platform
-                    database including verified student profiles, published campaigns, and processed donations.
-                  </p>
+                    <strong>{t('app.page.data_source')}</strong> {t('app.page.these_metrics_are_derived_from')}</p>
                   <p>
-                    <strong>Calculation Method:</strong> Students helped reflects verified profiles.
-                    Total raised is the sum of all completed/paid donations. Campaign count includes
-                    active and published campaigns.
-                  </p>
+                    <strong>{t('app.page.calculation_method')}</strong> {t('app.page.students_helped_reflects_verif')}</p>
                   <p>
-                    <strong>Reporting Period:</strong> All-time cumulative data.
-                  </p>
+                    <strong>{t('app.page.reporting_period')}</strong> {t('app.page.all_time_cumulative_data')}</p>
                   <p>
-                    <strong>Audit-Ready:</strong> All data points are traceable to source
-                    records. Detailed reports and audit trails are available
-                    for institutional review.
-                  </p>
+                    <strong>{t('app.page.audit_ready')}</strong> {t('app.page.all_data_points_are_traceable_')}</p>
                 </CardContent>
               </Card>
             </>

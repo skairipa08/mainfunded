@@ -1,10 +1,10 @@
 'use client';
 
 import React, { useState } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import Image from 'next/image';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { useTranslation } from '@/lib/i18n';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -88,11 +88,9 @@ export default function SponsorsPage() {
                 <section className="bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 text-white py-20 px-4">
                     <div className="max-w-4xl mx-auto text-center">
                         <h1 className="text-4xl md:text-5xl font-bold mb-6">
-                            Sponsorlarimiz
-                        </h1>
+                            {t('app.page.sponsorlarimiz')}</h1>
                         <p className="text-xl text-blue-100 max-w-2xl mx-auto leading-relaxed">
-                            FundEd&apos;e inanan ve platformumuzu destekleyerek eğitimde eşitlik için birlikte yol yürüten değerli iş ortaklarımız.
-                        </p>
+                            {t('app.page.funded_apos_e_inanan_ve_platfo')}</p>
                     </div>
                 </section>
 
@@ -101,30 +99,20 @@ export default function SponsorsPage() {
                     <div className="max-w-4xl mx-auto">
                         <div className="bg-blue-50 border-l-4 border-blue-600 p-6 rounded-r-lg mb-12">
                             <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                                Neden FundEd&apos;i Destekliyorlar?
-                            </h2>
+                                {t('app.page.neden_funded_apos_i_destekliyo')}</h2>
                             <p className="text-gray-700 leading-relaxed text-lg italic">
-                                &ldquo;FundEd&apos;i destekliyoruz cunku her öğrencinin eşit ve daha iyi bir eğitim hayatı olması gerektiğine inanıyoruz.&rdquo;
-                            </p>
+                                {t('app.page.ldquo_funded_apos_i_destekliyo')}</p>
                             <p className="text-gray-700 leading-relaxed mt-4">
-                                Sponsorlarimiz, FundEd platformunun surekliligini ve buyumesini destekleyerek
-                                eğitimde fırsat eşitliği vizyonumuzu gerçeğe dönüştürmemize yardımcı oluyor.
-                                Platformumuza verdikleri destek sayesinde daha fazla ogrenciye ulasabiliyor,
-                                teknolojimizi geliştirebiliyor ve eğitim ekosistemini güçlendiriyoruz.
-                            </p>
+                                {t('app.page.sponsorlarimiz_funded_platform')}</p>
                             <p className="text-gray-700 leading-relaxed mt-4">
-                                Siz de FundEd&apos;in arkasindaki gücü büyütmek ve eğitimde adaleti sağlamak için
-                                sponsor olabilirsiniz.
-                            </p>
+                                {t('app.page.siz_de_funded_apos_in_arkasind')}</p>
                         </div>
 
                         {/* Sponsors Grid */}
                         <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">
-                            FundEd&apos;e Inanan Sirketler
-                        </h2>
+                            {t('app.page.funded_apos_e_inanan_sirketler')}</h2>
                         <p className="text-gray-500 text-center mb-8">
-                            Platformumuzu destekleyerek eğitimde eşitlik için birlikte çalışan kurumlar
-                        </p>
+                            {t('app.page.platformumuzu_destekleyerek_e_')}</p>
                         <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                             {sponsors.map((sponsor, index) => (
                                 <div
@@ -156,17 +144,14 @@ export default function SponsorsPage() {
                 <section className="bg-gray-100 py-12 px-4">
                     <div className="max-w-2xl mx-auto text-center">
                         <h2 className="text-2xl font-bold text-gray-900 mb-4">
-                            Siz de FundEd&apos;i Destekleyin
-                        </h2>
+                            {t('app.page.siz_de_funded_apos_i_destekley')}</h2>
                         <p className="text-gray-600 mb-6">
-                            Eğitimde eşitlik için platformumuzu büyütmemize yardımcı olun. Birlikte daha fazla öğrenciye ulaşalım.
-                        </p>
+                            {t('app.page.e_itimde_e_itlik_i_in_platform')}</p>
                         <button
                             onClick={() => setShowForm(true)}
                             className="inline-block bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
                         >
-                            Iletisime Gecin
-                        </button>
+                            {t('app.page.iletisime_gecin')}</button>
                     </div>
                 </section>
             </main>
@@ -180,8 +165,8 @@ export default function SponsorsPage() {
                             <>
                                 <div className="p-6 border-b flex items-center justify-between">
                                     <div>
-                                        <h3 className="text-xl font-bold text-gray-900">Sponsor Başvuru Formu</h3>
-                                        <p className="text-sm text-gray-500">Bilgilerinizi doldurun, sizinle iletisime gecelim</p>
+                                        <h3 className="text-xl font-bold text-gray-900">{t('app.page.sponsor_ba_vuru_formu')}</h3>
+                                        <p className="text-sm text-gray-500">{t('app.page.bilgilerinizi_doldurun_sizinle')}</p>
                                     </div>
                                     <button onClick={() => setShowForm(false)} className="p-2 hover:bg-gray-100 rounded-lg">
                                         <X className="h-5 w-5 text-gray-500" />
@@ -192,30 +177,28 @@ export default function SponsorsPage() {
                                     <div>
                                         <Label htmlFor="companyName" className="flex items-center gap-2 mb-2">
                                             <Building2 className="h-4 w-4 text-gray-500" />
-                                            Sirket / Kurum Adi *
-                                        </Label>
+                                            {t('app.page.sirket_kurum_adi')}</Label>
                                         <Input
                                             id="companyName"
                                             name="companyName"
                                             required
                                             value={formData.companyName}
                                             onChange={handleInputChange}
-                                            placeholder="Örnek A.Ş."
+                                            placeholder={t('app.page.rnek_a')}
                                         />
                                     </div>
 
                                     <div>
                                         <Label htmlFor="contactName" className="flex items-center gap-2 mb-2">
                                             <User className="h-4 w-4 text-gray-500" />
-                                            Yetkili Adı Soyadı *
-                                        </Label>
+                                            {t('app.page.yetkili_ad_soyad')}</Label>
                                         <Input
                                             id="contactName"
                                             name="contactName"
                                             required
                                             value={formData.contactName}
                                             onChange={handleInputChange}
-                                            placeholder="Ahmet Yılmaz"
+                                            placeholder={t('app.page.ahmet_y_lmaz')}
                                         />
                                     </div>
 
@@ -223,8 +206,7 @@ export default function SponsorsPage() {
                                         <div>
                                             <Label htmlFor="email" className="flex items-center gap-2 mb-2">
                                                 <Mail className="h-4 w-4 text-gray-500" />
-                                                E-posta *
-                                            </Label>
+                                                {t('app.page.e_posta')}</Label>
                                             <Input
                                                 id="email"
                                                 name="email"
@@ -238,8 +220,7 @@ export default function SponsorsPage() {
                                         <div>
                                             <Label htmlFor="phone" className="flex items-center gap-2 mb-2">
                                                 <Phone className="h-4 w-4 text-gray-500" />
-                                                Telefon *
-                                            </Label>
+                                                {t('app.page.telefon')}</Label>
                                             <Input
                                                 id="phone"
                                                 name="phone"
@@ -247,7 +228,7 @@ export default function SponsorsPage() {
                                                 required
                                                 value={formData.phone}
                                                 onChange={handleInputChange}
-                                                placeholder="0532 XXX XX XX"
+                                                placeholder={t('app.page.0532_xxx_xx_xx')}
                                             />
                                         </div>
                                     </div>
@@ -255,21 +236,20 @@ export default function SponsorsPage() {
                                     <div>
                                         <Label htmlFor="message" className="flex items-center gap-2 mb-2">
                                             <MessageSquare className="h-4 w-4 text-gray-500" />
-                                            Mesajiniz (Opsiyonel)
-                                        </Label>
+                                            {t('app.page.mesajiniz_opsiyonel')}</Label>
                                         <textarea
                                             id="message"
                                             name="message"
                                             value={formData.message}
                                             onChange={handleInputChange}
-                                            placeholder="Sponsorluk hakkinda sorulariniz veya eklemek istedikleriniz..."
+                                            placeholder={t('app.page.sponsorluk_hakkinda_sorularini')}
                                             rows={3}
                                             className="w-full px-3 py-2 border rounded-lg resize-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                                         />
                                     </div>
 
                                     <div className="bg-blue-50 rounded-lg p-4 text-sm text-blue-700">
-                                        <p>📧 Basvurunuz bize ulaştiktan sonra en gec 2 is gunu icinde sizinle iletisime gececegiz.</p>
+                                        <p>{t('app.page.basvurunuz_bize_ula_tiktan_son')}</p>
                                     </div>
 
                                     {submitError && (
@@ -280,8 +260,7 @@ export default function SponsorsPage() {
 
                                     <div className="flex gap-3 pt-2">
                                         <Button type="button" variant="outline" onClick={() => setShowForm(false)} className="flex-1" disabled={submitting}>
-                                            Iptal
-                                        </Button>
+                                            {t('app.page.iptal')}</Button>
                                         <Button type="submit" className="flex-1 bg-blue-600 hover:bg-blue-700" disabled={submitting}>
                                             {submitting ? 'Gönderiliyor...' : 'Başvuru Gönder'}
                                         </Button>
@@ -293,13 +272,11 @@ export default function SponsorsPage() {
                                 <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                     <CheckCircle className="h-8 w-8 text-green-600" />
                                 </div>
-                                <h3 className="text-xl font-bold text-gray-900 mb-2">Basvurunuz Alindi! 🎉</h3>
+                                <h3 className="text-xl font-bold text-gray-900 mb-2">{t('app.page.basvurunuz_alindi')}</h3>
                                 <p className="text-gray-600 mb-6">
-                                    Tesekkurler! Ekibimiz en kisa surede {formData.email} adresinden sizinle iletisime gececek.
-                                </p>
+                                    {t('app.page.tesekkurler_ekibimiz_en_kisa_s')}{formData.email} {t('app.page.adresinden_sizinle_iletisime_g')}</p>
                                 <Button onClick={resetForm} className="bg-blue-600 hover:bg-blue-700">
-                                    Tamam
-                                </Button>
+                                    {t('app.page.tamam')}</Button>
                             </div>
                         )}
                     </div>

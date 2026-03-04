@@ -33,6 +33,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useCorporateAuth, type RegisterData } from '@/lib/corporate/auth';
+import { useTranslation } from "@/lib/i18n/context";
 
 type TabType = 'login' | 'register' | 'pricing';
 type SelectedTier = 'starter' | 'growth' | 'enterprise' | null;
@@ -113,6 +114,7 @@ const tiers = [
 ];
 
 export default function CorporateGatewayPage() {
+    const { t } = useTranslation();
     const router = useRouter();
     const { login, register, isAuthenticated, isLoading } = useCorporateAuth();
 
@@ -266,7 +268,7 @@ export default function CorporateGatewayPage() {
             <div className="min-h-screen flex items-center justify-center bg-[#0a0f1e]">
                 <div className="text-center">
                     <div className="h-10 w-10 animate-spin mx-auto border-4 border-slate-600 border-t-white rounded-full mb-4" />
-                    <p className="text-slate-400 text-sm">Yükleniyor...</p>
+                    <p className="text-slate-400 text-sm">{t('app.page.y_kleniyor')}</p>
                 </div>
             </div>
         );
@@ -298,8 +300,8 @@ export default function CorporateGatewayPage() {
                             <Building2 className="h-6 w-6 text-white" />
                         </div>
                         <div>
-                            <h1 className="text-xl font-bold text-white tracking-tight">FundEd</h1>
-                            <p className="text-[10px] text-slate-500 uppercase tracking-[0.2em] font-medium">Kurumsal Platform</p>
+                            <h1 className="text-xl font-bold text-white tracking-tight">{t('app.page.funded')}</h1>
+                            <p className="text-[10px] text-slate-500 uppercase tracking-[0.2em] font-medium">{t('app.page.kurumsal_platform')}</p>
                         </div>
                     </Link>
                     <Link
@@ -307,7 +309,7 @@ export default function CorporateGatewayPage() {
                         className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors text-sm"
                     >
                         <ArrowLeft className="h-4 w-4" />
-                        <span className="hidden sm:inline">Ana Sayfaya Dön</span>
+                        <span className="hidden sm:inline">{t('app.page.ana_sayfaya_d_n')}</span>
                     </Link>
                 </div>
             </nav>
@@ -316,19 +318,15 @@ export default function CorporateGatewayPage() {
             <div className="relative z-10 text-center pt-12 pb-8 px-4">
                 <div className="inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5 mb-6">
                     <Globe className="h-3.5 w-3.5 text-blue-400" />
-                    <span className="text-xs text-slate-300 font-medium">Kurumsal Eğitim Destek Platformu</span>
+                    <span className="text-xs text-slate-300 font-medium">{t('app.page.kurumsal_e_itim_destek_platfor')}</span>
                 </div>
                 <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
-                    Eğitime Yatırım,
-                    <br />
+                    {t('app.page.e_itime_yat_r_m')}<br />
                     <span className="bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 bg-clip-text text-transparent">
-                        Geleceğe Etki.
-                    </span>
+                        {t('app.page.gelece_e_etki')}</span>
                 </h2>
                 <p className="text-slate-400 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
-                    Kurumsal bağışlarınızı takip edin, ESG raporlarınızı oluşturun ve eğitim üzerindeki
-                    etkinizi şeffaf verilerle görün.
-                </p>
+                    {t('app.page.kurumsal_ba_lar_n_z_takip_edin')}</p>
             </div>
 
             {/* Tab Navigation */}
@@ -364,8 +362,8 @@ export default function CorporateGatewayPage() {
                                 <div className="w-14 h-14 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/25">
                                     <Shield className="h-7 w-7 text-white" />
                                 </div>
-                                <h3 className="text-xl font-semibold text-white mb-1">Kurumsal Giriş</h3>
-                                <p className="text-sm text-slate-400">Kurumsal hesabınızla giriş yapın</p>
+                                <h3 className="text-xl font-semibold text-white mb-1">{t('app.page.kurumsal_giri')}</h3>
+                                <p className="text-sm text-slate-400">{t('app.page.kurumsal_hesab_n_zla_giri_yap_')}</p>
                             </div>
 
                             <form onSubmit={handleLogin} className="space-y-5">
@@ -377,8 +375,7 @@ export default function CorporateGatewayPage() {
 
                                 <div className="space-y-2">
                                     <Label htmlFor="login-email" className="text-slate-300 text-sm">
-                                        Kurumsal E-posta
-                                    </Label>
+                                        {t('app.page.kurumsal_e_posta')}</Label>
                                     <div className="relative">
                                         <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-500" />
                                         <Input
@@ -395,8 +392,7 @@ export default function CorporateGatewayPage() {
 
                                 <div className="space-y-2">
                                     <Label htmlFor="login-password" className="text-slate-300 text-sm">
-                                        Şifre
-                                    </Label>
+                                        {t('app.page.ifre')}</Label>
                                     <div className="relative">
                                         <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-500" />
                                         <Input
@@ -427,8 +423,7 @@ export default function CorporateGatewayPage() {
                                         <div className="animate-spin rounded-full h-5 w-5 border-2 border-white/30 border-t-white" />
                                     ) : (
                                         <>
-                                            Giriş Yap
-                                            <ArrowRight className="ml-2 h-4.5 w-4.5" />
+                                            {t('app.page.giri_yap')}<ArrowRight className="ml-2 h-4.5 w-4.5" />
                                         </>
                                     )}
                                 </Button>
@@ -436,28 +431,26 @@ export default function CorporateGatewayPage() {
 
                             <div className="mt-6 pt-6 border-t border-white/10">
                                 <p className="text-center text-sm text-slate-500">
-                                    Hesabınız yok mu?{' '}
+                                    {t('app.page.hesab_n_z_yok_mu')}{' '}
                                     <button
                                         onClick={() => setActiveTab('register')}
                                         className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
                                     >
-                                        Başvuru Yapın
-                                    </button>
+                                        {t('app.page.ba_vuru_yap_n')}</button>
                                     {' '}veya{' '}
                                     <button
                                         onClick={() => setActiveTab('pricing')}
                                         className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
                                     >
-                                        Paketleri İnceleyin
-                                    </button>
+                                        {t('app.page.paketleri_nceleyin')}</button>
                                 </p>
                             </div>
 
                             {/* Demo */}
                             <div className="mt-5 p-4 bg-blue-500/5 border border-blue-500/10 rounded-xl">
-                                <p className="text-[11px] text-blue-400 font-medium mb-1.5 uppercase tracking-wider">Demo Bilgileri</p>
+                                <p className="text-[11px] text-blue-400 font-medium mb-1.5 uppercase tracking-wider">{t('app.page.demo_bilgileri')}</p>
                                 <p className="text-xs text-slate-400">E-posta: <span className="text-slate-300">admin@techventures.com</span></p>
-                                <p className="text-xs text-slate-400">Şifre: <span className="text-slate-300">demo123</span></p>
+                                <p className="text-xs text-slate-400">{t('app.page.ifre')}<span className="text-slate-300">demo123</span></p>
                             </div>
                         </div>
                     </div>
@@ -472,7 +465,7 @@ export default function CorporateGatewayPage() {
                                     <div className="w-20 h-20 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6 shadow-lg shadow-emerald-500/25">
                                         <Check className="h-10 w-10 text-white" />
                                     </div>
-                                    <h3 className="text-2xl font-bold text-white mb-2">Başvurunuz Alındı!</h3>
+                                    <h3 className="text-2xl font-bold text-white mb-2">{t('app.page.ba_vurunuz_al_nd')}</h3>
                                     <p className="text-slate-400 mb-4">
                                         {selectedTier
                                             ? 'Hesabınız aktifleştirildi. Kurumsal panele yönlendiriliyorsunuz...'
@@ -504,7 +497,7 @@ export default function CorporateGatewayPage() {
                                         {selectedTier && (
                                             <div className="mt-3 inline-flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-1.5">
                                                 <span className="text-xs text-slate-300 font-medium">
-                                                    Seçili Paket: <span className="text-blue-400 font-semibold">{tiers.find(t => t.id === selectedTier)?.name}</span>
+                                                    {t('app.page.se_ili_paket')}<span className="text-blue-400 font-semibold">{tiers.find(t => t.id === selectedTier)?.name}</span>
                                                     {' — '}
                                                     {discountStatus === 'valid' && discountPercent > 0 ? (
                                                         <>
@@ -536,14 +529,14 @@ export default function CorporateGatewayPage() {
                                         {/* Company Name */}
                                         <div className="space-y-2">
                                             <Label htmlFor="reg-company" className="text-slate-300 text-sm">
-                                                Şirket Adı <span className="text-red-400">*</span>
+                                                {t('app.page.irket_ad')}<span className="text-red-400">*</span>
                                             </Label>
                                             <div className="relative">
                                                 <Building2 className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-500" />
                                                 <Input
                                                     id="reg-company"
                                                     type="text"
-                                                    placeholder="Şirket A.Ş."
+                                                    placeholder={t('app.page.irket_a')}
                                                     value={regCompany}
                                                     onChange={(e) => setRegCompany(e.target.value)}
                                                     className="pl-11 h-12 bg-white/5 border-white/10 text-white placeholder:text-slate-500 rounded-xl focus:border-blue-500/50 focus:ring-blue-500/20"
@@ -556,14 +549,14 @@ export default function CorporateGatewayPage() {
                                         <div className="grid grid-cols-2 gap-4">
                                             <div className="space-y-2">
                                                 <Label htmlFor="reg-firstname" className="text-slate-300 text-sm">
-                                                    Ad <span className="text-red-400">*</span>
+                                                    {t('app.page.ad')}<span className="text-red-400">*</span>
                                                 </Label>
                                                 <div className="relative">
                                                     <User className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-500" />
                                                     <Input
                                                         id="reg-firstname"
                                                         type="text"
-                                                        placeholder="Adınız"
+                                                        placeholder={t('app.page.ad_n_z')}
                                                         value={regFirstName}
                                                         onChange={(e) => setRegFirstName(e.target.value)}
                                                         className="pl-11 h-12 bg-white/5 border-white/10 text-white placeholder:text-slate-500 rounded-xl focus:border-blue-500/50 focus:ring-blue-500/20"
@@ -573,12 +566,12 @@ export default function CorporateGatewayPage() {
                                             </div>
                                             <div className="space-y-2">
                                                 <Label htmlFor="reg-lastname" className="text-slate-300 text-sm">
-                                                    Soyad <span className="text-red-400">*</span>
+                                                    {t('app.page.soyad')}<span className="text-red-400">*</span>
                                                 </Label>
                                                 <Input
                                                     id="reg-lastname"
                                                     type="text"
-                                                    placeholder="Soyadınız"
+                                                    placeholder={t('app.page.soyad_n_z')}
                                                     value={regLastName}
                                                     onChange={(e) => setRegLastName(e.target.value)}
                                                     className="h-12 bg-white/5 border-white/10 text-white placeholder:text-slate-500 rounded-xl focus:border-blue-500/50 focus:ring-blue-500/20"
@@ -590,7 +583,7 @@ export default function CorporateGatewayPage() {
                                         {/* Email */}
                                         <div className="space-y-2">
                                             <Label htmlFor="reg-email" className="text-slate-300 text-sm">
-                                                Kurumsal E-posta <span className="text-red-400">*</span>
+                                                {t('app.page.kurumsal_e_posta')}<span className="text-red-400">*</span>
                                             </Label>
                                             <div className="relative">
                                                 <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-500" />
@@ -609,14 +602,14 @@ export default function CorporateGatewayPage() {
                                         {/* Phone (optional) */}
                                         <div className="space-y-2">
                                             <Label htmlFor="reg-phone" className="text-slate-300 text-sm">
-                                                Telefon <span className="text-slate-600 text-xs font-normal">(opsiyonel)</span>
+                                                {t('app.page.telefon')}<span className="text-slate-600 text-xs font-normal">(opsiyonel)</span>
                                             </Label>
                                             <div className="relative">
                                                 <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-500" />
                                                 <Input
                                                     id="reg-phone"
                                                     type="tel"
-                                                    placeholder="+90 5XX XXX XX XX"
+                                                    placeholder={t('app.page.90_5xx_xxx_xx_xx')}
                                                     value={regPhone}
                                                     onChange={(e) => setRegPhone(e.target.value)}
                                                     className="pl-11 h-12 bg-white/5 border-white/10 text-white placeholder:text-slate-500 rounded-xl focus:border-blue-500/50 focus:ring-blue-500/20"
@@ -627,14 +620,14 @@ export default function CorporateGatewayPage() {
                                         {/* Password */}
                                         <div className="space-y-2">
                                             <Label htmlFor="reg-password" className="text-slate-300 text-sm">
-                                                Şifre <span className="text-red-400">*</span>
+                                                {t('app.page.ifre')}<span className="text-red-400">*</span>
                                             </Label>
                                             <div className="relative">
                                                 <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-500" />
                                                 <Input
                                                     id="reg-password"
                                                     type={showRegPassword ? 'text' : 'password'}
-                                                    placeholder="En az 6 karakter"
+                                                    placeholder={t('app.page.en_az_6_karakter')}
                                                     value={regPassword}
                                                     onChange={(e) => setRegPassword(e.target.value)}
                                                     className="pl-11 pr-11 h-12 bg-white/5 border-white/10 text-white placeholder:text-slate-500 rounded-xl focus:border-blue-500/50 focus:ring-blue-500/20"
@@ -654,14 +647,14 @@ export default function CorporateGatewayPage() {
                                         {/* Password Confirm */}
                                         <div className="space-y-2">
                                             <Label htmlFor="reg-password-confirm" className="text-slate-300 text-sm">
-                                                Şifre Tekrar <span className="text-red-400">*</span>
+                                                {t('app.page.ifre_tekrar')}<span className="text-red-400">*</span>
                                             </Label>
                                             <div className="relative">
                                                 <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-500" />
                                                 <Input
                                                     id="reg-password-confirm"
                                                     type="password"
-                                                    placeholder="Şifrenizi tekrar girin"
+                                                    placeholder={t('app.page.ifrenizi_tekrar_girin')}
                                                     value={regPasswordConfirm}
                                                     onChange={(e) => setRegPasswordConfirm(e.target.value)}
                                                     className="pl-11 h-12 bg-white/5 border-white/10 text-white placeholder:text-slate-500 rounded-xl focus:border-blue-500/50 focus:ring-blue-500/20"
@@ -674,16 +667,15 @@ export default function CorporateGatewayPage() {
                                         {/* If no tier selected, show option to pick */}
                                         {!selectedTier && (
                                             <div className="bg-white/5 border border-white/10 rounded-xl p-4">
-                                                <p className="text-sm text-slate-300 mb-2">Paket seçimi yapmadınız.</p>
+                                                <p className="text-sm text-slate-300 mb-2">{t('app.page.paket_se_imi_yapmad_n_z')}</p>
                                                 <p className="text-xs text-slate-500 mb-3">
-                                                    Direkt satın almak için bir paket seçebilir veya başvuru olarak devam edebilirsiniz.
-                                                </p>
+                                                    {t('app.page.direkt_sat_n_almak_i_in_bir_pa')}</p>
                                                 <button
                                                     type="button"
                                                     onClick={() => setActiveTab('pricing')}
                                                     className="text-sm text-blue-400 hover:text-blue-300 font-medium transition-colors flex items-center gap-1"
                                                 >
-                                                    Paketleri İncele <ArrowRight className="h-3.5 w-3.5" />
+                                                    {t('app.page.paketleri_ncele')}<ArrowRight className="h-3.5 w-3.5" />
                                                 </button>
                                             </div>
                                         )}
@@ -693,7 +685,7 @@ export default function CorporateGatewayPage() {
                                             <div className="bg-white/[0.03] border border-white/10 rounded-xl p-5 space-y-3">
                                                 <div className="flex items-center gap-2 mb-1">
                                                     <Tag className="h-4 w-4 text-indigo-400" />
-                                                    <Label className="text-sm font-medium text-slate-300">İndirim Kodu</Label>
+                                                    <Label className="text-sm font-medium text-slate-300">{t('app.page.ndirim_kodu')}</Label>
                                                     <span className="text-[10px] text-slate-600 font-normal">(opsiyonel)</span>
                                                 </div>
 
@@ -701,7 +693,7 @@ export default function CorporateGatewayPage() {
                                                     <div className="relative flex-1">
                                                         <Input
                                                             type="text"
-                                                            placeholder="Kodu girin..."
+                                                            placeholder={t('app.page.kodu_girin')}
                                                             value={discountCode}
                                                             onChange={(e) => {
                                                                 setDiscountCode(e.target.value.toUpperCase());
@@ -787,13 +779,12 @@ export default function CorporateGatewayPage() {
 
                                     <div className="mt-6 pt-6 border-t border-white/10">
                                         <p className="text-center text-sm text-slate-500">
-                                            Zaten hesabınız var mı?{' '}
+                                            {t('app.page.zaten_hesab_n_z_var_m')}{' '}
                                             <button
                                                 onClick={() => setActiveTab('login')}
                                                 className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
                                             >
-                                                Giriş Yapın
-                                            </button>
+                                                {t('app.page.giri_yap_n')}</button>
                                         </p>
                                     </div>
                                 </>
@@ -806,10 +797,9 @@ export default function CorporateGatewayPage() {
                 {activeTab === 'pricing' && (
                     <div className="max-w-6xl mx-auto">
                         <div className="text-center mb-12">
-                            <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3">Kurumsal Paketler</h3>
+                            <h3 className="text-2xl sm:text-3xl font-bold text-white mb-3">{t('app.page.kurumsal_paketler')}</h3>
                             <p className="text-slate-400 max-w-xl mx-auto">
-                                İhtiyacınıza uygun paketi seçin. Her zaman yükseltme yapabilirsiniz.
-                            </p>
+                                {t('app.page.htiyac_n_za_uygun_paketi_se_in')}</p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
@@ -827,8 +817,7 @@ export default function CorporateGatewayPage() {
                                         {tier.popular && (
                                             <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
                                                 <div className="bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-xs font-semibold px-5 py-1.5 rounded-full shadow-lg shadow-blue-500/30">
-                                                    En Popüler
-                                                </div>
+                                                    {t('app.page.en_pop_ler')}</div>
                                             </div>
                                         )}
 
@@ -884,8 +873,7 @@ export default function CorporateGatewayPage() {
                                                 : 'bg-white/10 hover:bg-white/15 text-white border border-white/10'
                                                 }`}
                                         >
-                                            Satın Al
-                                            <ArrowRight className="ml-2 h-4 w-4" />
+                                            {t('app.page.sat_n_al')}<ArrowRight className="ml-2 h-4 w-4" />
                                         </Button>
                                     </div>
                                 );
@@ -895,11 +883,9 @@ export default function CorporateGatewayPage() {
                         {/* Apply without package */}
                         <div className="mt-12 text-center">
                             <div className="bg-white/[0.03] backdrop-blur-sm border border-white/10 rounded-2xl p-8 max-w-xl mx-auto">
-                                <h4 className="text-lg font-semibold text-white mb-2">Henüz karar veremediniz mi?</h4>
+                                <h4 className="text-lg font-semibold text-white mb-2">{t('app.page.hen_z_karar_veremediniz_mi')}</h4>
                                 <p className="text-sm text-slate-400 mb-5">
-                                    Paket seçmeden de başvuru yapabilirsiniz. Ekibimiz sizinle iletişime geçerek
-                                    en uygun çözümü birlikte belirleyecektir.
-                                </p>
+                                    {t('app.page.paket_se_meden_de_ba_vuru_yapa')}</p>
                                 <Button
                                     onClick={() => {
                                         setSelectedTier(null);
@@ -909,24 +895,23 @@ export default function CorporateGatewayPage() {
                                     variant="outline"
                                     className="h-11 rounded-xl border-white/20 text-slate-300 hover:bg-white/10 hover:text-white"
                                 >
-                                    Ücretsiz Başvuru Yap
-                                    <ArrowRight className="ml-2 h-4 w-4" />
+                                    {t('app.page.cretsiz_ba_vuru_yap')}<ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>
                             </div>
                         </div>
 
                         {/* Feature Comparison - compact */}
                         <div className="mt-16 mb-8">
-                            <h4 className="text-xl font-bold text-white text-center mb-8">Detaylı Karşılaştırma</h4>
+                            <h4 className="text-xl font-bold text-white text-center mb-8">{t('app.page.detayl_kar_la_t_rma')}</h4>
                             <div className="bg-white/[0.02] backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden">
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-left">
                                         <thead>
                                             <tr className="border-b border-white/10">
-                                                <th className="px-6 py-4 text-sm font-medium text-slate-400">Özellik</th>
-                                                <th className="px-6 py-4 text-sm font-medium text-slate-300 text-center">Starter</th>
-                                                <th className="px-6 py-4 text-sm font-medium text-blue-400 text-center">Growth</th>
-                                                <th className="px-6 py-4 text-sm font-medium text-amber-400 text-center">Enterprise</th>
+                                                <th className="px-6 py-4 text-sm font-medium text-slate-400">{t('app.page.zellik')}</th>
+                                                <th className="px-6 py-4 text-sm font-medium text-slate-300 text-center">{t('app.page.starter')}</th>
+                                                <th className="px-6 py-4 text-sm font-medium text-blue-400 text-center">{t('app.page.growth')}</th>
+                                                <th className="px-6 py-4 text-sm font-medium text-amber-400 text-center">{t('app.page.enterprise')}</th>
                                             </tr>
                                         </thead>
                                         <tbody className="divide-y divide-white/5">
@@ -964,14 +949,12 @@ export default function CorporateGatewayPage() {
             {/* Footer */}
             <footer className="relative z-10 border-t border-white/5 py-8 px-4">
                 <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p className="text-xs text-slate-600">© 2026 FundEd. Tüm hakları saklıdır.</p>
+                    <p className="text-xs text-slate-600">{t('app.page.2026_funded_t_m_haklar_sakl_d_')}</p>
                     <div className="flex items-center gap-6">
                         <Link href="/privacy" className="text-xs text-slate-500 hover:text-slate-300 transition-colors">
-                            Gizlilik Politikası
-                        </Link>
+                            {t('app.page.gizlilik_politikas')}</Link>
                         <Link href="/terms" className="text-xs text-slate-500 hover:text-slate-300 transition-colors">
-                            Kullanım Koşulları
-                        </Link>
+                            {t('app.page.kullan_m_ko_ullar')}</Link>
                     </div>
                 </div>
             </footer>

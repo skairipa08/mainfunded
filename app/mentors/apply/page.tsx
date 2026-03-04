@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Users, Building2, User, ArrowLeft, CheckCircle2, Mail, Phone, MapPin, Briefcase, Search, ChevronDown } from 'lucide-react';
@@ -9,7 +10,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useTranslation } from '@/lib/i18n/context';
 import MobileHeader from '@/components/MobileHeader';
 
 const allCountries = [
@@ -207,7 +207,7 @@ export default function MentorApplyPage() {
                                         type="tel"
                                         value={formData.phone}
                                         onChange={(e) => handleInputChange('phone', e.target.value)}
-                                        placeholder="+90 5XX XXX XX XX"
+                                        placeholder={t('app.page.90_5xx_xxx_xx_xx')}
                                         className="pl-10"
                                         required
                                     />

@@ -1,9 +1,9 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useTranslation } from "@/lib/i18n/context";
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
-import { useTranslation } from '@/lib/i18n';
 import {
   GraduationCap,
   BookOpen,
@@ -17,7 +17,6 @@ import {
   UserCheck,
 } from 'lucide-react';
 import Image from 'next/image';
-
 export default function ApplyLandingPage() {
   const router = useRouter();
   const { t } = useTranslation();
@@ -216,7 +215,7 @@ export default function ApplyLandingPage() {
                 <div className="absolute inset-0 z-0">
                   <Image
                     src="https://images.unsplash.com/photo-1427504494785-3a9a2e4fe4a1?w=800&q=80&auto=format&fit=crop"
-                    alt="School Application"
+                    alt={t('app.page.school_application')}
                     fill
                     className="object-cover group-hover:scale-110 transition-transform duration-700"
                   />

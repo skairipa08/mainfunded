@@ -18,8 +18,10 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import { useCurrency } from '@/lib/currency-context';
 import { censorSurname } from '@/lib/privacy';
+import { useTranslation } from "@/lib/i18n/context";
 
 function CampaignDonateContent() {
+    const { t } = useTranslation();
   const params = useParams();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -170,8 +172,8 @@ function CampaignDonateContent() {
         <Navbar />
         <main className="flex-grow flex items-center justify-center bg-gray-50">
           <div className="text-center">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4">Kampanya bulunamadı</h2>
-            <Button onClick={() => router.push('/browse')}>Kampanyalara Göz At</Button>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">{t('app.page.kampanya_bulunamad')}</h2>
+            <Button onClick={() => router.push('/browse')}>{t('app.page.kampanyalara_g_z_at')}</Button>
           </div>
         </main>
         <Footer />
@@ -197,24 +199,21 @@ function CampaignDonateContent() {
             </div>
 
             <h1 className="text-3xl font-bold text-gray-900">
-              Teşekkür Ederiz! 🎉
-            </h1>
+              {t('app.page.te_ekk_r_ederiz')}</h1>
 
             <p className="text-lg text-gray-600 leading-relaxed">
-              <strong>{studentName}</strong> adlı öğrenciye yaptığınız bağış başarıyla tamamlandı.
-              Desteğiniz bir hayali gerçeğe dönüştürmeye yardımcı oluyor.
-            </p>
+              <strong>{studentName}</strong> {t('app.page.adl_renciye_yapt_n_z_ba_ba_ar_')}</p>
 
             <div className="bg-white border border-emerald-100 rounded-2xl p-6 text-left space-y-3 shadow-sm">
               <div className="flex items-center gap-3">
                 <GraduationCap className="h-5 w-5 text-emerald-600 shrink-0" />
-                <span className="text-gray-700">Kampanya: <strong>{campaign.title}</strong></span>
+                <span className="text-gray-700">{t('app.page.kampanya')}<strong>{campaign.title}</strong></span>
               </div>
               {noteToStudent && (
                 <div className="flex items-start gap-3">
                   <MessageSquare className="h-5 w-5 text-emerald-600 shrink-0 mt-0.5" />
                   <div>
-                    <span className="text-sm text-gray-500">Notunuz:</span>
+                    <span className="text-sm text-gray-500">{t('app.page.notunuz')}</span>
                     <p className="text-gray-700 text-sm italic">&ldquo;{noteToStudent}&rdquo;</p>
                   </div>
                 </div>
@@ -224,19 +223,15 @@ function CampaignDonateContent() {
             <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-4">
               <p className="text-sm text-emerald-800">
                 <Sparkles className="h-4 w-4 inline mr-1" />
-                Bağışınız öğrenciye iletilecektir. Herhangi bir sorunuz için
-                <a href="mailto:support@fund-ed.com" className="underline font-medium ml-1">support@fund-ed.com</a>
-                adresinden bize ulaşabilirsiniz.
-              </p>
+                {t('app.page.ba_n_z_renciye_iletilecektir_h')}<a href="mailto:support@fund-ed.com" className="underline font-medium ml-1">support@fund-ed.com</a>
+                {t('app.page.adresinden_bize_ula_abilirsini')}</p>
             </div>
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
               <Button onClick={() => router.push(`/campaign/${campaignId}`)} variant="outline" className="gap-2">
-                <ArrowLeft className="h-4 w-4" /> Kampanyaya Dön
-              </Button>
+                <ArrowLeft className="h-4 w-4" /> {t('app.page.kampanyaya_d_n')}</Button>
               <Button onClick={() => router.push('/browse')} className="bg-emerald-600 hover:bg-emerald-700 gap-2">
-                <Heart className="h-4 w-4" /> Diğer Kampanyalar
-              </Button>
+                <Heart className="h-4 w-4" /> {t('app.page.di_er_kampanyalar')}</Button>
             </div>
           </div>
         </main>
@@ -251,8 +246,8 @@ function CampaignDonateContent() {
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="bg-white rounded-2xl p-8 text-center shadow-xl max-w-sm">
           <Loader2 className="h-12 w-12 animate-spin text-blue-600 mx-auto mb-4" />
-          <p className="text-lg font-medium">Ödemeniz doğrulanıyor…</p>
-          <p className="text-gray-500 text-sm mt-1">Lütfen bekleyin</p>
+          <p className="text-lg font-medium">{t('app.page.demeniz_do_rulan_yor')}</p>
+          <p className="text-gray-500 text-sm mt-1">{t('app.page.l_tfen_bekleyin')}</p>
         </div>
       </div>
     );
@@ -266,8 +261,7 @@ function CampaignDonateContent() {
         <div className="max-w-3xl mx-auto px-4 py-10">
           {/* Back */}
           <Button variant="ghost" size="sm" onClick={() => router.push(`/campaign/${campaignId}`)} className="mb-6 -ml-2 gap-2">
-            <ArrowLeft className="h-4 w-4" /> Kampanyaya Dön
-          </Button>
+            <ArrowLeft className="h-4 w-4" /> {t('app.page.kampanyaya_d_n')}</Button>
 
           {/* Header */}
           <div className="bg-white border rounded-2xl p-6 shadow-sm mb-6">
@@ -294,7 +288,7 @@ function CampaignDonateContent() {
           <div className="bg-white border rounded-2xl p-6 shadow-sm space-y-6">
             {/* FREQUENCY SELECTOR */}
             <div>
-              <Label className="text-base font-semibold text-gray-900 block mb-3">Bağış Sıklığı</Label>
+              <Label className="text-base font-semibold text-gray-900 block mb-3">{t('app.page.ba_s_kl')}</Label>
               <div className="flex gap-2 p-1 bg-gray-100 rounded-xl">
                 <button
                   type="button"
@@ -304,8 +298,7 @@ function CampaignDonateContent() {
                     : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
                     }`}
                 >
-                  Tek Seferlik
-                </button>
+                  {t('app.page.tek_seferlik')}</button>
                 <button
                   type="button"
                   onClick={() => setInterval('month')}
@@ -314,8 +307,7 @@ function CampaignDonateContent() {
                     : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
                     }`}
                 >
-                  Aylık
-                </button>
+                  {t('app.page.ayl_k')}</button>
                 <button
                   type="button"
                   onClick={() => setInterval('week')}
@@ -324,20 +316,19 @@ function CampaignDonateContent() {
                     : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
                     }`}
                 >
-                  Haftalık
-                </button>
+                  {t('app.page.haftal_k')}</button>
               </div>
             </div>
 
             {/* AMOUNT */}
             <div>
-              <Label htmlFor="amount" className="text-base font-semibold text-gray-900">Bağış Tutarı ({currencySymbol}) {interval !== 'one-time' ? `(${interval === 'month' ? 'Aylık' : 'Haftalık'})` : ''}</Label>
+              <Label htmlFor="amount" className="text-base font-semibold text-gray-900">{t('app.page.ba_tutar')}{currencySymbol}) {interval !== 'one-time' ? `(${interval === 'month' ? 'Aylık' : 'Haftalık'})` : ''}</Label>
               <Input
                 id="amount"
                 type="number"
                 min={currency === 'TRY' ? 100 : 10}
                 step="0.01"
-                placeholder="Tutar girin"
+                placeholder={t('app.page.tutar_girin')}
                 value={donationAmount}
                 onChange={(e) => { setDonationAmount(e.target.value); setDonationError(null); }}
                 className="mt-2 h-12 text-lg"
@@ -362,11 +353,10 @@ function CampaignDonateContent() {
             <div className="bg-blue-50 border border-blue-100 rounded-xl p-5 space-y-3">
               <div className="flex items-center gap-2">
                 <Heart className="h-5 w-5 text-blue-600" />
-                <span className="font-semibold text-gray-900 text-sm">FundEd&apos;e Platform Desteği</span>
+                <span className="font-semibold text-gray-900 text-sm">{t('app.page.funded_apos_e_platform_deste_i')}</span>
               </div>
               <p className="text-xs text-gray-600 leading-relaxed">
-                Platform desteğiniz, FundEd&apos;in öğrenci doğrulama, güvenli ödeme altyapısı ve operasyon giderlerini karşılamasına yardımcı olur.
-                Minimum oran <strong>%2</strong>&apos;dir.
+                {t('app.page.platform_deste_iniz_funded_apo')}<strong>%2</strong>&apos;dir.
               </p>
 
               {!useCustomTip ? (
@@ -396,7 +386,7 @@ function CampaignDonateContent() {
                     className="w-24 h-9"
                     placeholder="2"
                   />
-                  <span className="text-xs text-gray-500">(min %2)</span>
+                  <span className="text-xs text-gray-500">{t('app.page.min_2')}</span>
                 </div>
               )}
 
@@ -412,7 +402,7 @@ function CampaignDonateContent() {
 
               {amount > 0 && (
                 <div className="text-sm text-gray-700 bg-white rounded-lg px-3 py-2 border border-blue-100">
-                  Öğrenciye: <strong>{currencySymbol}{amount.toFixed(2)}</strong>{currency === 'TRY' && <span className="text-xs text-gray-400"> (≈${Math.round(toUSD(amount))})</span>} · Platform desteği: <strong>{currencySymbol}{tipAmount.toFixed(2)}</strong> · Toplam: <strong>{currencySymbol}{totalCharge.toFixed(2)}</strong>{currency === 'TRY' && <span className="text-xs text-gray-400"> (≈${Math.round(toUSD(totalCharge))})</span>}
+                  {t('app.page.renciye')}<strong>{currencySymbol}{amount.toFixed(2)}</strong>{currency === 'TRY' && <span className="text-xs text-gray-400"> (≈${Math.round(toUSD(amount))})</span>} {t('app.page.platform_deste_i')}<strong>{currencySymbol}{tipAmount.toFixed(2)}</strong> {t('app.page.toplam')}<strong>{currencySymbol}{totalCharge.toFixed(2)}</strong>{currency === 'TRY' && <span className="text-xs text-gray-400"> (≈${Math.round(toUSD(totalCharge))})</span>}
                 </div>
               )}
             </div>
@@ -421,7 +411,7 @@ function CampaignDonateContent() {
             <div>
               <div className="flex items-center gap-2 mb-2">
                 <MessageSquare className="h-4 w-4 text-gray-500" />
-                <Label htmlFor="note" className="text-sm font-semibold text-gray-900">Öğrenciye Not (İsteğe Bağlı)</Label>
+                <Label htmlFor="note" className="text-sm font-semibold text-gray-900">{t('app.page.renciye_not_ste_e_ba_l')}</Label>
               </div>
               <textarea
                 id="note"
@@ -429,15 +419,13 @@ function CampaignDonateContent() {
                 maxLength={500}
                 value={noteToStudent}
                 onChange={(e) => setNoteToStudent(e.target.value)}
-                placeholder="Öğrenciye iletmek istediğiniz bir mesaj yazabilirsiniz…"
+                placeholder={t('app.page.renciye_iletmek_istedi_iniz_bi')}
                 className="w-full rounded-lg border border-gray-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
               />
               <div className="flex items-start gap-1.5 mt-1.5">
                 <AlertTriangle className="h-3.5 w-3.5 text-amber-500 shrink-0 mt-0.5" />
                 <p className="text-[11px] text-amber-700 leading-snug">
-                  Lütfen notta telefon numarası, adres, TC kimlik gibi kişisel bilgiler paylaşmayın.
-                  Kişisel bilgi içeren notlar filtrelenebilir.
-                </p>
+                  {t('app.page.l_tfen_notta_telefon_numaras_a')}</p>
               </div>
               <p className="text-right text-[11px] text-gray-400 mt-0.5">{noteToStudent.length}/500</p>
             </div>
@@ -446,8 +434,8 @@ function CampaignDonateContent() {
             {!session && (
               <div className="space-y-3">
                 <div>
-                  <Label htmlFor="name">Adınız</Label>
-                  <Input id="name" type="text" placeholder="Ad Soyad" value={donorName} onChange={(e) => setDonorName(e.target.value)} className="mt-1" />
+                  <Label htmlFor="name">{t('app.page.ad_n_z')}</Label>
+                  <Input id="name" type="text" placeholder={t('app.page.ad_soyad')} value={donorName} onChange={(e) => setDonorName(e.target.value)} className="mt-1" />
                 </div>
                 <div>
                   <Label htmlFor="email">E-posta</Label>
@@ -458,7 +446,7 @@ function CampaignDonateContent() {
 
             <div className="flex items-center space-x-2">
               <Checkbox id="anonymous" checked={isAnonymous} onCheckedChange={(c) => setIsAnonymous(c === true)} />
-              <Label htmlFor="anonymous" className="text-sm">Anonim olarak bağış yap</Label>
+              <Label htmlFor="anonymous" className="text-sm">{t('app.page.anonim_olarak_ba_yap')}</Label>
             </div>
 
             {/* ERROR */}
@@ -475,16 +463,16 @@ function CampaignDonateContent() {
               disabled={processingPayment || amount <= 0}
             >
               {processingPayment ? (
-                <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> İşleniyor…</>
+                <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> {t('app.page.leniyor')}</>
               ) : (
-                <><Heart className="h-5 w-5 mr-2" /> {currencySymbol}{totalCharge > 0 ? totalCharge.toFixed(2) : '0'} Bağış Yap</>
+                <><Heart className="h-5 w-5 mr-2" /> {currencySymbol}{totalCharge > 0 ? totalCharge.toFixed(2) : '0'} {t('app.page.ba_yap')}</>
               )}
             </Button>
 
             {/* Trust badges */}
             <div className="flex items-center justify-center gap-4 text-xs text-gray-400 pt-2">
-              <span className="flex items-center gap-1"><Lock className="h-3.5 w-3.5" /> Güvenli Ödeme</span>
-              <span className="flex items-center gap-1"><Shield className="h-3.5 w-3.5" /> iyzico Koruması</span>
+              <span className="flex items-center gap-1"><Lock className="h-3.5 w-3.5" /> {t('app.page.g_venli_deme')}</span>
+              <span className="flex items-center gap-1"><Shield className="h-3.5 w-3.5" /> {t('app.page.iyzico_korumas')}</span>
             </div>
           </div>
         </div>
@@ -495,6 +483,7 @@ function CampaignDonateContent() {
 }
 
 export default function CampaignDonatePage() {
+    const { t } = useTranslation();
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center bg-gray-50">

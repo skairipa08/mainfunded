@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useRef } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -17,7 +18,6 @@ import {
 import { Label } from '@/components/ui/label';
 import { validateEmail, sanitizeInput } from '@/lib/validation';
 import { toast } from 'sonner';
-import { useTranslation } from '@/lib/i18n';
 import {
   GraduationCap,
   User,
@@ -56,7 +56,6 @@ import {
   Tag,
 } from 'lucide-react';
 import { COUNTRIES, FUNDING_CATEGORIES, TURKEY_CITIES } from '@/lib/constants';
-
 type DocStatus = 'ready' | 'uploading' | 'uploaded' | 'failed';
 
 interface DocumentItem {
@@ -626,20 +625,17 @@ export default function ApplyPage() {
             <div className="max-w-3xl mx-auto text-center">
               <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-md border border-white/20 rounded-full px-5 py-2 mb-6">
                 <GraduationCap className="h-4 w-4 text-yellow-300" />
-                <span className="text-sm text-white/90 font-medium">Öğrenci Başvuru Formu</span>
+                <span className="text-sm text-white/90 font-medium">{t('app.page.renci_ba_vuru_formu')}</span>
               </div>
 
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white mb-4 leading-tight">
-                Eğitim Hayallerinize
-                <br />
+                {t('app.page.e_itim_hayallerinize')}<br />
                 <span className="bg-gradient-to-r from-yellow-200 via-amber-200 to-orange-200 bg-clip-text text-transparent">
-                  Birlikte Ulaşalım
-                </span>
+                  {t('app.page.birlikte_ula_al_m')}</span>
               </h1>
 
               <p className="text-base sm:text-lg text-emerald-100/80 leading-relaxed max-w-xl mx-auto">
-                Başvurunuzu tamamlayın, doğrulama sürecimizden geçin ve bağışçılarla buluşun.
-              </p>
+                {t('app.page.ba_vurunuzu_tamamlay_n_do_rula')}</p>
             </div>
           </div>
 
@@ -717,8 +713,8 @@ export default function ApplyPage() {
                           <User className="h-5 w-5 text-blue-500" />
                         </div>
                         <div>
-                          <h2 className="text-xl font-bold text-slate-900">Kişisel Bilgiler</h2>
-                          <p className="text-sm text-slate-400">Temel kimlik ve iletişim bilgilerinizi girin</p>
+                          <h2 className="text-xl font-bold text-slate-900">{t('app.page.ki_isel_bilgiler')}</h2>
+                          <p className="text-sm text-slate-400">{t('app.page.temel_kimlik_ve_ileti_im_bilgi')}</p>
                         </div>
                       </div>
 
@@ -773,7 +769,7 @@ export default function ApplyPage() {
                         </FieldWrapper>
 
                         {formData.country === 'TR' && (
-                          <FieldWrapper id="city" label="Şehir / City" icon={MapPin} error={errors.city} required={false}>
+                          <FieldWrapper id="city" label={t('app.page.ehir_city')} icon={MapPin} error={errors.city} required={false}>
                             <Select
                               value={formData.city}
                               onValueChange={(value) => {
@@ -781,7 +777,7 @@ export default function ApplyPage() {
                               }}
                             >
                               <SelectTrigger id="city" className={selectTriggerClass(false)}>
-                                <SelectValue placeholder="Şehir seçiniz..." />
+                                <SelectValue placeholder={t('app.page.ehir_se_iniz')} />
                               </SelectTrigger>
                               <SelectContent>
                                 {TURKEY_CITIES.map((city) => (
@@ -826,8 +822,8 @@ export default function ApplyPage() {
                           <GraduationCap className="h-5 w-5 text-emerald-500" />
                         </div>
                         <div>
-                          <h2 className="text-xl font-bold text-slate-900">Eğitim Bilgileri</h2>
-                          <p className="text-sm text-slate-400">Eğitim durumunuz ve hedef bütçeniz</p>
+                          <h2 className="text-xl font-bold text-slate-900">{t('app.page.e_itim_bilgileri')}</h2>
+                          <p className="text-sm text-slate-400">{t('app.page.e_itim_durumunuz_ve_hedef_b_t_')}</p>
                         </div>
                       </div>
 
@@ -902,7 +898,7 @@ export default function ApplyPage() {
                           />
                         </FieldWrapper>
 
-                        <FieldWrapper id="category" label="İhtiyaç Kategorisi / Need Category" icon={Tag} error={errors.category} required={false}>
+                        <FieldWrapper id="category" label={t('app.page.htiya_kategorisi_need_category')} icon={Tag} error={errors.category} required={false}>
                           <Select
                             value={formData.category}
                             onValueChange={(value) => {
@@ -911,7 +907,7 @@ export default function ApplyPage() {
                             }}
                           >
                             <SelectTrigger id="category" className={selectTriggerClass(!!errors.category)}>
-                              <SelectValue placeholder="Kategori seçiniz / Select category..." />
+                              <SelectValue placeholder={t('app.page.kategori_se_iniz_select_catego')} />
                             </SelectTrigger>
                             <SelectContent>
                               {FUNDING_CATEGORIES.map((cat) => (
@@ -954,19 +950,19 @@ export default function ApplyPage() {
                           <FileText className="h-5 w-5 text-purple-500" />
                         </div>
                         <div>
-                          <h2 className="text-xl font-bold text-slate-900">İhtiyaç Detayı</h2>
-                          <p className="text-sm text-slate-400">Durumunuzu ve ihtiyaçlarınızı anlatın</p>
+                          <h2 className="text-xl font-bold text-slate-900">{t('app.page.htiya_detay')}</h2>
+                          <p className="text-sm text-slate-400">{t('app.page.durumunuzu_ve_ihtiya_lar_n_z_a')}</p>
                         </div>
                       </div>
 
                       <div className="bg-blue-50/50 border border-blue-100 rounded-xl p-4 flex items-start gap-3">
                         <HelpCircle className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
                         <div className="text-sm text-blue-700 leading-relaxed">
-                          <p className="font-medium mb-1">İpuçları:</p>
+                          <p className="font-medium mb-1">{t('app.page.pu_lar')}</p>
                           <ul className="list-disc list-inside space-y-1 text-blue-600">
-                            <li>Eğitim durumunuzu ve maddi ihtiyaçlarınızı detaylıca anlatın</li>
-                            <li>Bağışçıların sizi daha iyi tanıması için hikayenizi paylaşın</li>
-                            <li>Neye ihtiyacınız olduğunu (kitap, burs, ekipman vb.) belirtin</li>
+                            <li>{t('app.page.e_itim_durumunuzu_ve_maddi_iht')}</li>
+                            <li>{t('app.page.ba_lar_n_sizi_daha_iyi_tan_mas')}</li>
+                            <li>{t('app.page.neye_ihtiyac_n_z_oldu_unu_kita')}</li>
                           </ul>
                         </div>
                       </div>
@@ -1016,8 +1012,7 @@ export default function ApplyPage() {
                       <div className="space-y-2 pt-2">
                         <Label htmlFor="campaignTitle" className="text-sm font-semibold text-slate-700 flex items-center gap-2">
                           <FileText className="h-4 w-4 text-slate-400" />
-                          Kampanya Başlığı (Opsiyonel)
-                        </Label>
+                          {t('app.page.kampanya_ba_l_opsiyonel')}</Label>
                         <Input
                           id="campaignTitle"
                           type="text"
@@ -1025,13 +1020,12 @@ export default function ApplyPage() {
                           onChange={(e) => {
                             setFormData({ ...formData, campaignTitle: e.target.value });
                           }}
-                          placeholder="Örn: Mehmet'in Bilgisayar Mühendisliği Eğitimine Destek"
+                          placeholder={t('app.page.rn_mehmet_in_bilgisayar_m_hend')}
                           className={inputClass(false)}
                           maxLength={200}
                         />
                         <p className="text-xs text-slate-400">
-                          Bu alanı doldurursanız, kampanya onaylandığında sayfanın başlığında bu metin görünecek.
-                        </p>
+                          {t('app.page.bu_alan_doldurursan_z_kampanya')}</p>
                       </div>
 
                       {/* ── Optional Photo Upload ── */}
@@ -1039,8 +1033,7 @@ export default function ApplyPage() {
                         <div className="flex items-center justify-between">
                           <Label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
                             <Camera className="h-4 w-4 text-slate-400" />
-                            Fotoğraflar
-                            <span className="text-xs font-normal text-slate-400 ml-1">(Opsiyonel)</span>
+                            {t('app.page.foto_raflar')}<span className="text-xs font-normal text-slate-400 ml-1">(Opsiyonel)</span>
                           </Label>
                           <span className="text-xs text-slate-400">{photos.length}/5</span>
                         </div>
@@ -1048,9 +1041,7 @@ export default function ApplyPage() {
                         <div className="bg-purple-50/50 border border-purple-100 rounded-xl p-3.5 flex items-start gap-2.5">
                           <Camera className="h-4 w-4 text-purple-400 flex-shrink-0 mt-0.5" />
                           <p className="text-xs text-purple-600 leading-relaxed">
-                            Kendinizin, okulunuzun veya eğitim ortamınızın fotoğraflarını ekleyebilirsiniz.
-                            Bu fotoğraflar bağışçıların hikayenizi daha iyi anlamasına yardımcı olur.
-                          </p>
+                            {t('app.page.kendinizin_okulunuzun_veya_e_i')}</p>
                         </div>
 
                         <input
@@ -1089,8 +1080,7 @@ export default function ApplyPage() {
                                 {photo.status === 'failed' && (
                                   <div className="absolute inset-0 bg-red-500/20 flex items-center justify-center">
                                     <div className="bg-red-500 text-white text-[10px] px-2 py-1 rounded-full font-medium">
-                                      Yükleme Başarısız
-                                    </div>
+                                      {t('app.page.y_kleme_ba_ar_s_z')}</div>
                                   </div>
                                 )}
                                 <button
@@ -1109,7 +1099,7 @@ export default function ApplyPage() {
                               <div className="flex items-center justify-between px-2 py-1.5 bg-slate-900/80 text-white text-[10px]">
                                 <div className="flex items-center gap-1">
                                   <GripVertical className="h-3 w-3 text-slate-400" />
-                                  <span className="font-medium">Fotoğraf {index + 1}</span>
+                                  <span className="font-medium">{t('app.page.foto_raf')}{index + 1}</span>
                                 </div>
                                 <div className="flex items-center gap-1">
                                   <button
@@ -1146,8 +1136,8 @@ export default function ApplyPage() {
                                 }`}
                             >
                               <ImagePlus className={`h-7 w-7 mb-1.5 transition-colors ${photoDragOver ? 'text-purple-500' : 'text-slate-300'}`} />
-                              <span className="text-xs text-slate-400 font-medium">Fotoğraf Ekle</span>
-                              <span className="text-[10px] text-slate-300 mt-0.5">JPEG, PNG, WebP</span>
+                              <span className="text-xs text-slate-400 font-medium">{t('app.page.foto_raf_ekle')}</span>
+                              <span className="text-[10px] text-slate-300 mt-0.5">{t('app.page.jpeg_png_webp')}</span>
                             </div>
                           )}
                         </div>
@@ -1158,8 +1148,7 @@ export default function ApplyPage() {
                         <div className="flex items-center justify-between">
                           <Label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
                             <Film className="h-4 w-4 text-slate-400" />
-                            Videolar
-                            <span className="text-xs font-normal text-slate-400 ml-1">(Opsiyonel)</span>
+                            {t('app.page.videolar')}<span className="text-xs font-normal text-slate-400 ml-1">(Opsiyonel)</span>
                           </Label>
                           <span className="text-xs text-slate-400">{videos.length}/2</span>
                         </div>
@@ -1239,8 +1228,8 @@ export default function ApplyPage() {
                             }`}
                         >
                           <Film className={`h-7 w-7 mb-1.5 ${videoDragOver ? 'text-blue-500' : 'text-slate-300'}`} />
-                          <span className="text-xs text-slate-500 font-medium">Video Ekle veya Bırak</span>
-                          <span className="text-[10px] text-slate-300 mt-0.5">MP4, WebM, QuickTime • Maks. 50 MB</span>
+                          <span className="text-xs text-slate-500 font-medium">{t('app.page.video_ekle_veya_b_rak')}</span>
+                          <span className="text-[10px] text-slate-300 mt-0.5">{t('app.page.mp4_webm_quicktime_maks_50_mb')}</span>
                         </div>
 
                         {videos.length > 0 && (
@@ -1261,8 +1250,7 @@ export default function ApplyPage() {
                                   {video.status === 'failed' && (
                                     <div className="absolute inset-0 bg-red-500/30 flex items-center justify-center">
                                       <div className="bg-red-500 text-white text-[10px] px-2 py-1 rounded-full font-medium">
-                                        Yükleme Başarısız
-                                      </div>
+                                        {t('app.page.y_kleme_ba_ar_s_z')}</div>
                                     </div>
                                   )}
                                   <button
@@ -1282,7 +1270,7 @@ export default function ApplyPage() {
                                 <div className="flex items-center justify-between px-2 py-1.5 bg-slate-900/80 text-white text-[10px]">
                                   <div className="flex items-center gap-1">
                                     <GripVertical className="h-3 w-3 text-slate-400" />
-                                    <span className="font-medium">Video {index + 1}</span>
+                                    <span className="font-medium">{t('app.page.video')}{index + 1}</span>
                                   </div>
                                   <div className="flex items-center gap-1">
                                     <button
@@ -1319,8 +1307,8 @@ export default function ApplyPage() {
                           <Upload className="h-5 w-5 text-amber-500" />
                         </div>
                         <div>
-                          <h2 className="text-xl font-bold text-slate-900">Belgeler</h2>
-                          <p className="text-sm text-slate-400">Kimlik ve eğitim belgelerinizi yükleyin</p>
+                          <h2 className="text-xl font-bold text-slate-900">{t('app.page.belgeler')}</h2>
+                          <p className="text-sm text-slate-400">{t('app.page.kimlik_ve_e_itim_belgelerinizi')}</p>
                         </div>
                       </div>
 
@@ -1328,7 +1316,7 @@ export default function ApplyPage() {
                         <FileCheck className="h-5 w-5 text-amber-500 flex-shrink-0 mt-0.5" />
                         <div className="text-sm text-amber-700">
                           <p>{t('apply.documents.help')}</p>
-                          <p className="text-xs text-amber-500 mt-1">PDF, JPEG, PNG — Maks. 10 MB</p>
+                          <p className="text-xs text-amber-500 mt-1">{t('app.page.pdf_jpeg_png_maks_10_mb')}</p>
                         </div>
                       </div>
 
@@ -1355,7 +1343,7 @@ export default function ApplyPage() {
                         <p className="text-sm font-medium text-slate-600 mb-1">
                           {dragOver ? 'Dosyayı bırakın...' : 'Dosyaları sürükleyip bırakın'}
                         </p>
-                        <p className="text-xs text-slate-400">veya tıklayarak dosya seçin</p>
+                        <p className="text-xs text-slate-400">{t('app.page.veya_t_klayarak_dosya_se_in')}</p>
                       </div>
 
                       {/* Optional name input */}
@@ -1399,7 +1387,7 @@ export default function ApplyPage() {
                                 <div className="min-w-0">
                                   <p className="text-sm font-medium text-slate-800 truncate">{doc.name}</p>
                                   <p className="text-xs text-slate-400">
-                                    {(doc.size / 1024 / 1024).toFixed(2)} MB •{' '}
+                                    {(doc.size / 1024 / 1024).toFixed(2)} {t('app.page.mb')}{' '}
                                     <span className={
                                       doc.status === 'uploaded'
                                         ? 'text-emerald-500'
@@ -1443,13 +1431,12 @@ export default function ApplyPage() {
                           className="h-11 rounded-xl text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                         >
                           <ArrowLeft className="h-4 w-4 mr-2" />
-                          Geri
-                        </Button>
+                          {t('app.page.geri')}</Button>
                       )}
                     </div>
                     <div className="flex items-center gap-3">
                       <span className="text-xs text-slate-400 hidden sm:block">
-                        Adım {currentStep}/{STEPS.length}
+                        {t('app.page.ad_m')}{currentStep}/{STEPS.length}
                       </span>
                       {currentStep < 4 ? (
                         <Button
@@ -1457,8 +1444,7 @@ export default function ApplyPage() {
                           onClick={nextStep}
                           className="h-11 px-7 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 text-white shadow-lg shadow-emerald-500/20 font-semibold"
                         >
-                          Devam Et
-                          <ArrowRight className="h-4 w-4 ml-2" />
+                          {t('app.page.devam_et')}<ArrowRight className="h-4 w-4 ml-2" />
                         </Button>
                       ) : (
                         <Button
@@ -1470,8 +1456,7 @@ export default function ApplyPage() {
                           {loading ? (
                             <>
                               <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                              Gönderiliyor...
-                            </>
+                              {t('app.page.g_nderiliyor')}</>
                           ) : (
                             <>
                               <Sparkles className="h-4 w-4 mr-2" />
@@ -1492,8 +1477,7 @@ export default function ApplyPage() {
                 <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
                   <h3 className="text-lg font-bold text-slate-900 mb-5 flex items-center gap-2">
                     <Zap className="h-5 w-5 text-amber-500" />
-                    Başvuru Süreci
-                  </h3>
+                    {t('app.page.ba_vuru_s_reci')}</h3>
                   <div className="space-y-4">
                     {[
                       { num: 1, label: 'Formu doldurun', desc: 'Bilgilerinizi ve ihtiyaçlarınızı paylaşın', color: 'bg-blue-500' },
@@ -1518,8 +1502,7 @@ export default function ApplyPage() {
                 <div className="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
                   <h3 className="text-lg font-bold text-slate-900 mb-5 flex items-center gap-2">
                     <Shield className="h-5 w-5 text-blue-500" />
-                    Güvenlik & Gizlilik
-                  </h3>
+                    {t('app.page.g_venlik_gizlilik')}</h3>
                   <div className="space-y-3.5">
                     {[
                       { icon: Shield, text: 'Bilgileriniz 256-bit SSL ile şifrelenir', color: 'text-blue-500', bg: 'bg-blue-50' },
@@ -1545,18 +1528,17 @@ export default function ApplyPage() {
                   <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-[40px]" />
                   <div className="relative z-10">
                     <Star className="h-8 w-8 mb-4 text-yellow-300" />
-                    <h3 className="text-lg font-bold mb-2">İlk Adımlar</h3>
+                    <h3 className="text-lg font-bold mb-2">{t('app.page.lk_ad_mlar')}</h3>
                     <p className="text-sm text-emerald-100 leading-relaxed mb-5">
-                      FundEd ile eğitim hayallerine ulaşacak öğrenci topluluğunun ilk üyesi siz olun.
-                    </p>
+                      {t('app.page.funded_ile_e_itim_hayallerine_')}</p>
                     <div className="grid grid-cols-2 gap-3">
                       <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center">
                         <p className="text-2xl font-bold">0</p>
-                        <p className="text-xs text-emerald-200">Desteklenen Öğrenci</p>
+                        <p className="text-xs text-emerald-200">{t('app.page.desteklenen_renci')}</p>
                       </div>
                       <div className="bg-white/10 backdrop-blur-sm rounded-xl p-3 text-center">
-                        <p className="text-2xl font-bold">Beta</p>
-                        <p className="text-xs text-emerald-200">Aşama</p>
+                        <p className="text-2xl font-bold">{t('app.page.beta')}</p>
+                        <p className="text-xs text-emerald-200">{t('app.page.a_ama')}</p>
                       </div>
                     </div>
                   </div>
@@ -1565,10 +1547,9 @@ export default function ApplyPage() {
                 {/* Help Card */}
                 <div className="bg-slate-50 rounded-2xl border border-slate-100 p-6 text-center">
                   <HelpCircle className="h-8 w-8 text-slate-400 mx-auto mb-3" />
-                  <h4 className="text-sm font-semibold text-slate-800 mb-1">Yardıma mı ihtiyacınız var?</h4>
+                  <h4 className="text-sm font-semibold text-slate-800 mb-1">{t('app.page.yard_ma_m_ihtiyac_n_z_var')}</h4>
                   <p className="text-xs text-slate-500 mb-4">
-                    Başvuru sürecinde herhangi bir sorunuz varsa bize ulaşın.
-                  </p>
+                    {t('app.page.ba_vuru_s_recinde_herhangi_bir')}</p>
                   <Button
                     type="button"
                     variant="outline"
@@ -1577,8 +1558,7 @@ export default function ApplyPage() {
                     onClick={() => router.push('/contact')}
                   >
                     <Mail className="h-4 w-4 mr-2" />
-                    İletişime Geç
-                  </Button>
+                    {t('app.page.leti_ime_ge')}</Button>
                 </div>
               </div>
             </div>

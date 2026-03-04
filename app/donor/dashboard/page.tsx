@@ -17,6 +17,7 @@ import { Badge } from '@/components/ui/badge';
 import { CheckCircle } from 'lucide-react';
 import { DashboardSkeleton } from '@/components/ui/PageSkeleton';
 import { useCurrency } from '@/lib/currency-context';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface DonationItem {
   donation_id?: string;
@@ -28,6 +29,7 @@ interface DonationItem {
 }
 
 function DonorDashboardContent() {
+    const { t } = useTranslation();
   const searchParams = useSearchParams();
   const { formatAmount } = useCurrency();
   const [donations, setDonations] = useState<DonationItem[]>([]);
@@ -67,15 +69,14 @@ function DonorDashboardContent() {
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
               <CheckCircle className="h-5 w-5 text-green-600" />
-              <span>Donation Successful</span>
+              <span>{t('app.page.donation_successful')}</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-gray-700">
-              Your donation has been processed successfully. Thank you for supporting education!
-            </p>
+              {t('app.page.your_donation_has_been_process')}</p>
             <p className="text-sm text-gray-600 mt-2">
-              Donation ID: <span className="font-mono">{donationId}</span>
+              {t('app.page.donation_id')}<span className="font-mono">{donationId}</span>
             </p>
           </CardContent>
         </Card>
@@ -86,24 +87,22 @@ function DonorDashboardContent() {
       ) : donations.length === 0 ? (
         <Card>
           <CardContent className="py-12 text-center">
-            <p className="text-gray-600 mb-4">No donations found.</p>
+            <p className="text-gray-600 mb-4">{t('app.page.no_donations_found')}</p>
             <p className="text-sm text-gray-500 mb-6">
-              Start making a difference by making your first donation.
-            </p>
+              {t('app.page.start_making_a_difference_by_m')}</p>
             <a
               href="/donate"
               className="text-blue-600 hover:text-blue-800 font-medium inline-block"
             >
-              Make a Donation →
-            </a>
+              {t('app.page.make_a_donation')}</a>
           </CardContent>
         </Card>
       ) : (
         <>
           <div className="mb-6">
-            <h2 className="text-2xl font-semibold text-gray-900 mb-2">Your Donations</h2>
+            <h2 className="text-2xl font-semibold text-gray-900 mb-2">{t('app.page.your_donations')}</h2>
             <p className="text-gray-600">
-              Total donations: {summary?.totalDonations || donations.length} | Total amount:{' '}
+              {t('app.page.total_donations')}{summary?.totalDonations || donations.length} {t('app.page.total_amount')}{' '}
               {formatAmount(summary?.totalAmount || donations.reduce((sum, d) => sum + d.amount, 0))}
               {summary?.supportedStudents ? ` | Students supported: ${summary.supportedStudents}` : ''}
             </p>
@@ -115,10 +114,10 @@ function DonorDashboardContent() {
                 <Table className="w-full">
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Campaign</TableHead>
-                      <TableHead>Amount</TableHead>
-                      <TableHead>Status</TableHead>
-                      <TableHead>Date</TableHead>
+                      <TableHead>{t('app.page.campaign')}</TableHead>
+                      <TableHead>{t('app.page.amount')}</TableHead>
+                      <TableHead>{t('app.page.status')}</TableHead>
+                      <TableHead>{t('app.page.date')}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -156,18 +155,13 @@ function DonorDashboardContent() {
 
           <Card className="mt-8">
             <CardHeader>
-              <CardTitle>Impact Note</CardTitle>
+              <CardTitle>{t('app.page.impact_note')}</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-gray-700">
-                Your contributions support verified students and education impact initiatives.
-                Each donation is linked to measurable educational outcomes and contributes to
-                transparent, reportable impact metrics.
-              </p>
+                {t('app.page.your_contributions_support_ver')}</p>
               <p className="text-sm text-gray-600 mt-4">
-                Detailed impact reports and student progress updates are available for
-                institutional donors and large contributors upon request.
-              </p>
+                {t('app.page.detailed_impact_reports_and_st')}</p>
             </CardContent>
           </Card>
         </>
@@ -177,15 +171,15 @@ function DonorDashboardContent() {
 }
 
 export default function DonorDashboardPage() {
+    const { t } = useTranslation();
   return (
     <div className="min-h-screen flex flex-col bg-white">
       <Navbar />
       <main className="flex-grow">
         <div className="max-w-7xl mx-auto px-4 py-16">
-          <h1 className="text-4xl font-bold text-gray-900 mb-8">Donor Dashboard</h1>
+          <h1 className="text-4xl font-bold text-gray-900 mb-8">{t('app.page.donor_dashboard')}</h1>
           <p className="text-gray-600 mb-8">
-            View your donations and track your impact on education funding.
-          </p>
+            {t('app.page.view_your_donations_and_track_')}</p>
           <Suspense fallback={
             <DashboardSkeleton />
           }>

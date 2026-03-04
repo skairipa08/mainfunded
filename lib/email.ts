@@ -27,7 +27,7 @@ interface EmailTemplateData {
   [key: string]: any;
 }
 
-const FROM_EMAIL = process.env.EMAIL_FROM || 'FundEd <noreply@funded.com>';
+const FROM_EMAIL = process.env.EMAIL_FROM || 'FundEd <onboarding@resend.dev>';
 
 /**
  * Send email using Resend API
@@ -453,3 +453,252 @@ export function renderPaparaPayoutNotification(data: PayoutEmailData): string {
     <p style="font-size: 14px; color: #6b7280;">Ödeme genellikle anında Papara bakiyenize yansır.</p>
   `);
 }
+
+// ─── OTP & Verification Email Templates ──────────────────────────
+
+/**
+ * Email template: OTP verification code
+ */
+export function renderOtpEmail(data: {
+  userName?: string;
+  otpCode: string;
+  purpose?: string;
+}): string {
+  const purposeText = data.purpose || 'hesap doğrulama';
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 28px;">🔐 Doğrulama Kodu</h1>
+  </div>
+  
+  <div style="background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
+    <p style="font-size: 16px; margin-bottom: 20px;">Merhaba${data.userName ? ' ' + escapeHtml(data.userName) : ''},</p>
+    
+    <p style="font-size: 16px; margin-bottom: 20px;">
+      ${escapeHtml(purposeText)} için doğrulama kodunuz:
+    </p>
+    
+    <div style="background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%); border: 2px solid #3b82f6; padding: 25px; margin: 25px 0; text-align: center; border-radius: 12px;">
+      <p style="margin: 0; font-size: 36px; font-weight: 700; letter-spacing: 8px; color: #1e40af; font-family: 'Courier New', monospace;">
+        ${escapeHtml(data.otpCode)}
+      </p>
+    </div>
+    
+    <div style="background: #fffbeb; border-left: 4px solid #f59e0b; padding: 15px; margin: 20px 0;">
+      <p style="margin: 0; font-size: 14px; color: #92400e;">
+        ⏱️ Bu kod <strong>5 dakika</strong> içinde geçerliliğini yitirecektir.<br>
+        🔒 Bu kodu kimseyle paylaşmayın.
+      </p>
+    </div>
+    
+    <p style="font-size: 14px; color: #6b7280; margin-top: 30px; border-top: 1px solid #e5e7eb; padding-top: 20px;">
+      Eğer bu işlemi siz yapmadıysanız, bu e-postayı görmezden gelebilirsiniz.
+    </p>
+  </div>
+  
+  <div style="text-align: center; margin-top: 20px; color: #9ca3af; font-size: 12px;">
+    <p>© ${new Date().getFullYear()} FundEd. Tüm hakları saklıdır.</p>
+  </div>
+</body>
+</html>
+  `.trim();
+}
+
+/**
+ * Email template: Welcome email after registration
+ */
+export function renderWelcomeEmail(data: {
+  userName: string;
+  userEmail: string;
+  accountType?: string;
+}): string {
+  const accountLabels: Record<string, string> = {
+    student: '🎓 Öğrenci',
+    donor: '💝 Bağışçı',
+    mentor: '🧭 Mentor',
+    parent: '👨‍👩‍👧 Veli',
+    teacher: '📚 Öğretmen',
+    school: '🏫 Okul',
+  };
+  const accountLabel = accountLabels[data.accountType || 'student'] || '🎓 Öğrenci';
+
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 28px;">🎉 FundEd'e Hoş Geldiniz!</h1>
+  </div>
+  
+  <div style="background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
+    <p style="font-size: 16px; margin-bottom: 20px;">Merhaba ${escapeHtml(data.userName)},</p>
+    
+    <p style="font-size: 16px; margin-bottom: 20px;">
+      FundEd ailesine katıldığınız için çok mutluyuz! Hesabınız başarıyla oluşturuldu.
+    </p>
+    
+    <div style="background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 15px; margin: 20px 0;">
+      <p style="margin: 0; font-size: 14px; color: #1e40af;">
+        <strong>Hesap Bilgileriniz:</strong><br>
+        📧 E-posta: ${escapeHtml(data.userEmail)}<br>
+        👤 Hesap Türü: ${accountLabel}
+      </p>
+    </div>
+    
+    <div style="background: #f0fdf4; border-left: 4px solid #10b981; padding: 15px; margin: 20px 0;">
+      <p style="margin: 0; font-size: 14px; color: #166534;">
+        <strong>Sonraki adımlar:</strong><br>
+        • Profilinizi tamamlayın<br>
+        • Platformu keşfedin<br>
+        • Topluluğumuza katılın
+      </p>
+    </div>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="${process.env.AUTH_URL || 'http://localhost:3000'}/dashboard" 
+         style="display: inline-block; background: linear-gradient(135deg, #10b981, #059669); color: white; padding: 14px 35px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 16px;">
+        Dashboard'a Git
+      </a>
+    </div>
+    
+    <p style="font-size: 14px; color: #6b7280; margin-top: 30px; border-top: 1px solid #e5e7eb; padding-top: 20px;">
+      Herhangi bir sorunuz varsa destek ekibimizle iletişime geçebilirsiniz.
+    </p>
+  </div>
+  
+  <div style="text-align: center; margin-top: 20px; color: #9ca3af; font-size: 12px;">
+    <p>© ${new Date().getFullYear()} FundEd. Tüm hakları saklıdır.</p>
+  </div>
+</body>
+</html>
+  `.trim();
+}
+
+// ─── Feedback Email Templates ────────────────────────────────────
+
+/**
+ * Email template: Thank you for feedback
+ */
+export function renderFeedbackThankYouEmail(data: {
+  userName: string;
+  message: string;
+}): string {
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: linear-gradient(135deg, #8b5cf6 0%, #6d28d9 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 28px;">💜 Geri Bildiriminiz İçin Teşekkürler!</h1>
+  </div>
+  
+  <div style="background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
+    <p style="font-size: 16px; margin-bottom: 20px;">Merhaba ${escapeHtml(data.userName)},</p>
+    
+    <p style="font-size: 16px; margin-bottom: 20px;">
+      Değerli geri bildiriminizi aldık. Görüşleriniz bizim için çok önemli ve platformumuzu geliştirmemize yardımcı oluyor.
+    </p>
+    
+    <div style="background: #faf5ff; border-left: 4px solid #8b5cf6; padding: 15px; margin: 20px 0;">
+      <p style="margin: 0; font-size: 14px; color: #6b21a8;">
+        <strong>Gönderdiğiniz mesaj:</strong><br>
+        <em style="color: #7c3aed;">"${escapeHtml(data.message).substring(0, 300)}${data.message.length > 300 ? '...' : ''}"</em>
+      </p>
+    </div>
+    
+    <p style="font-size: 16px; margin-bottom: 20px;">
+      Ekibimiz geri bildiriminizi inceleyecek ve gerekli adımları atacaktır.
+    </p>
+    
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="${process.env.AUTH_URL || 'http://localhost:3000'}" 
+         style="display: inline-block; background: linear-gradient(135deg, #8b5cf6, #6d28d9); color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px; font-weight: 600;">
+        FundEd'e Dön
+      </a>
+    </div>
+    
+    <p style="font-size: 14px; color: #6b7280; margin-top: 30px; border-top: 1px solid #e5e7eb; padding-top: 20px;">
+      Desteğiniz için teşekkür ederiz. 🙏
+    </p>
+  </div>
+  
+  <div style="text-align: center; margin-top: 20px; color: #9ca3af; font-size: 12px;">
+    <p>© ${new Date().getFullYear()} FundEd. Tüm hakları saklıdır.</p>
+  </div>
+</body>
+</html>
+  `.trim();
+}
+
+/**
+ * Email template: Admin notification for new feedback
+ */
+export function renderFeedbackNotificationEmail(data: {
+  userName: string;
+  userEmail: string;
+  message: string;
+  rating?: number;
+}): string {
+  const ratingStars = data.rating ? '⭐'.repeat(data.rating) + '☆'.repeat(5 - data.rating) : 'Belirtilmedi';
+
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: #1e293b; padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 28px;">📩 Yeni Geri Bildirim</h1>
+  </div>
+  
+  <div style="background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
+    <p style="font-size: 16px; margin-bottom: 20px;">Merhaba Admin,</p>
+    
+    <p style="font-size: 16px; margin-bottom: 20px;">
+      Yeni bir geri bildirim alındı:
+    </p>
+    
+    <div style="background: #f8fafc; border-left: 4px solid #1e293b; padding: 15px; margin: 20px 0;">
+      <p style="margin: 0; font-size: 14px; color: #334155;">
+        <strong>Gönderen:</strong> ${escapeHtml(data.userName)}<br>
+        <strong>E-posta:</strong> ${escapeHtml(data.userEmail)}<br>
+        <strong>Puan:</strong> ${ratingStars}<br>
+        <strong>Tarih:</strong> ${new Date().toLocaleString('tr-TR')}
+      </p>
+    </div>
+    
+    <div style="background: #f1f5f9; border-radius: 8px; padding: 20px; margin: 20px 0;">
+      <p style="margin: 0; font-size: 14px; color: #475569;">
+        <strong>Mesaj:</strong><br>
+        ${escapeHtml(data.message)}
+      </p>
+    </div>
+    
+    <p style="font-size: 14px; color: #6b7280; margin-top: 30px; border-top: 1px solid #e5e7eb; padding-top: 20px;">
+      Bu bildirim otomatik olarak gönderilmiştir.
+    </p>
+  </div>
+  
+  <div style="text-align: center; margin-top: 20px; color: #9ca3af; font-size: 12px;">
+    <p>© ${new Date().getFullYear()} FundEd. Tüm hakları saklıdır.</p>
+  </div>
+</body>
+</html>
+  `.trim();
+}
+

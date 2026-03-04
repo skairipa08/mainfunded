@@ -5,12 +5,14 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useState, Suspense } from 'react';
 import Link from 'next/link';
 import { ToastNotifier } from '@/components/ToastNotifier';
+import { useTranslation } from "@/lib/i18n/context";
 
 function AdminLayoutContent({
   children,
 }: {
   children: React.ReactNode;
 }) {
+    const { t } = useTranslation();
   const { data: session, status } = useSession();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -64,7 +66,7 @@ function AdminLayoutContent({
       {/* Top Bar */}
       <div className="bg-white border-b border-gray-200 px-6 py-4">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold text-gray-900">FundEd Admin</h1>
+          <h1 className="text-2xl font-bold text-gray-900">{t('app.layout.funded_admin')}</h1>
           <div className="flex items-center gap-4">
             <div className="text-right">
               <div className="text-sm font-medium text-gray-900">{user.name}</div>
@@ -85,36 +87,31 @@ function AdminLayoutContent({
               href="/admin"
               className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100"
             >
-              Dashboard
-            </Link>
+              {t('app.layout.dashboard')}</Link>
             <Link
               href="/admin/students"
               className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100"
             >
-              Students
-            </Link>
+              {t('app.layout.students')}</Link>
             <Link
               href="/admin/verifications"
               className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100"
             >
               <span className="flex items-center">
-                Verifications
-                <span className="ml-2 bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">Queue</span>
+                {t('app.layout.verifications')}<span className="ml-2 bg-yellow-100 text-yellow-800 text-xs px-2 py-0.5 rounded-full">{t('app.layout.queue')}</span>
               </span>
             </Link>
             <Link
               href="/admin/campaigns"
               className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100"
             >
-              Campaigns
-            </Link>
+              {t('app.layout.campaigns')}</Link>
             <Link
               href="/admin/payouts"
               className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100"
             >
               <span className="flex items-center">
-                Ödemeler
-                <span className="ml-2 bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full">Payouts</span>
+                {t('app.layout.demeler')}<span className="ml-2 bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded-full">{t('app.layout.payouts')}</span>
               </span>
             </Link>
             <Link
@@ -122,8 +119,7 @@ function AdminLayoutContent({
               className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100"
             >
               <span className="flex items-center">
-                Denetim
-                <span className="ml-2 bg-purple-100 text-purple-800 text-xs px-2 py-0.5 rounded-full">Audit</span>
+                {t('app.layout.denetim')}<span className="ml-2 bg-purple-100 text-purple-800 text-xs px-2 py-0.5 rounded-full">{t('app.layout.audit')}</span>
               </span>
             </Link>
             <Link
@@ -131,8 +127,7 @@ function AdminLayoutContent({
               className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100"
             >
               <span className="flex items-center">
-                Analytics
-                <span className="ml-2 bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full">New</span>
+                {t('app.layout.analytics')}<span className="ml-2 bg-blue-100 text-blue-800 text-xs px-2 py-0.5 rounded-full">{t('app.layout.new')}</span>
               </span>
             </Link>
             <Link
@@ -140,8 +135,7 @@ function AdminLayoutContent({
               className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100"
             >
               <span className="flex items-center">
-                Hikayeler
-                <span className="ml-2 bg-pink-100 text-pink-800 text-xs px-2 py-0.5 rounded-full">Queue</span>
+                {t('app.layout.hikayeler')}<span className="ml-2 bg-pink-100 text-pink-800 text-xs px-2 py-0.5 rounded-full">{t('app.layout.queue')}</span>
               </span>
             </Link>
             <Link
@@ -149,8 +143,7 @@ function AdminLayoutContent({
               className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100"
             >
               <span className="flex items-center">
-                Sponsor Basvurulari
-                <span className="ml-2 bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded-full">Yeni</span>
+                {t('app.layout.sponsor_basvurulari')}<span className="ml-2 bg-orange-100 text-orange-800 text-xs px-2 py-0.5 rounded-full">{t('app.layout.yeni')}</span>
               </span>
             </Link>
             <div className="border-t border-gray-200 my-4"></div>
@@ -161,8 +154,7 @@ function AdminLayoutContent({
               }}
               className="w-full text-left flex items-center px-4 py-2 text-sm font-medium text-red-600 rounded-md hover:bg-red-50"
             >
-              Logout
-            </button>
+              {t('app.layout.logout')}</button>
           </nav>
         </aside>
 
@@ -178,6 +170,7 @@ export default function AdminLayout({
 }: {
   children: React.ReactNode;
 }) {
+    const { t } = useTranslation();
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center">

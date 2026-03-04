@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { toast } from 'sonner';
 import { FileText, RefreshCw, Filter, Search } from 'lucide-react';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface AuditLog {
   _id: string;
@@ -43,6 +44,7 @@ const SEVERITY_LABELS: Record<string, string> = {
 };
 
 export default function AdminAuditPage() {
+    const { t } = useTranslation();
   const [logs, setLogs] = useState<AuditLog[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -84,7 +86,7 @@ export default function AdminAuditPage() {
     return (
       <div className="flex flex-col items-center justify-center py-16">
         <p className="text-red-600 font-medium mb-4">{error}</p>
-        <Button onClick={fetchLogs}><RefreshCw className="h-4 w-4 mr-2" /> Yeniden Dene</Button>
+        <Button onClick={fetchLogs}><RefreshCw className="h-4 w-4 mr-2" /> {t('app.page.yeniden_dene')}</Button>
       </div>
     );
   }
@@ -93,44 +95,44 @@ export default function AdminAuditPage() {
     <div>
       <div className="flex items-center gap-3 mb-8">
         <FileText className="h-8 w-8 text-gray-600" />
-        <h2 className="text-3xl font-bold text-gray-900">Denetim Kayıtları</h2>
+        <h2 className="text-3xl font-bold text-gray-900">{t('app.page.denetim_kay_tlar')}</h2>
       </div>
 
       {/* Filters */}
       <div className="bg-white rounded-lg shadow p-4 mb-6">
         <div className="flex items-center gap-2 mb-3">
           <Filter className="h-4 w-4 text-gray-500" />
-          <span className="text-sm font-medium text-gray-700">Filtreler</span>
+          <span className="text-sm font-medium text-gray-700">{t('app.page.filtreler')}</span>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">İşlem Türü</label>
+            <label className="block text-xs font-medium text-gray-500 mb-1">{t('app.page.lem_t_r')}</label>
             <select
               className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={actionFilter}
               onChange={(e) => setActionFilter(e.target.value)}
             >
-              <option value="">Tümü</option>
+              <option value="">{t('app.page.t_m')}</option>
               {Object.entries(ACTION_LABELS).map(([key, label]) => (
                 <option key={key} value={key}>{label}</option>
               ))}
             </select>
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">Önem Derecesi</label>
+            <label className="block text-xs font-medium text-gray-500 mb-1">{t('app.page.nem_derecesi')}</label>
             <select
               className="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
               value={severityFilter}
               onChange={(e) => setSeverityFilter(e.target.value)}
             >
-              <option value="">Tümü</option>
-              <option value="info">Bilgi</option>
-              <option value="warning">Uyarı</option>
-              <option value="critical">Kritik</option>
+              <option value="">{t('app.page.t_m')}</option>
+              <option value="info">{t('app.page.bilgi')}</option>
+              <option value="warning">{t('app.page.uyar')}</option>
+              <option value="critical">{t('app.page.kritik')}</option>
             </select>
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">Başlangıç</label>
+            <label className="block text-xs font-medium text-gray-500 mb-1">{t('app.page.ba_lang')}</label>
             <Input
               type="date"
               value={dateFrom}
@@ -138,7 +140,7 @@ export default function AdminAuditPage() {
             />
           </div>
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">Bitiş</label>
+            <label className="block text-xs font-medium text-gray-500 mb-1">{t('app.page.biti')}</label>
             <Input
               type="date"
               value={dateTo}
@@ -170,7 +172,7 @@ export default function AdminAuditPage() {
           </div>
         ) : logs.length === 0 ? (
           <div className="p-12 text-center">
-            <p className="text-gray-500">Bu filtrede kayıt bulunamadı</p>
+            <p className="text-gray-500">{t('app.page.bu_filtrede_kay_t_bulunamad')}</p>
           </div>
         ) : (
           <div className="divide-y divide-gray-100">

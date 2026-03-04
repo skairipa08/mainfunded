@@ -17,6 +17,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { StatusBadge } from '@/components/ui/status-badge';
 import { CheckCircle, XCircle, RefreshCw, Filter, Users, GraduationCap, BookOpen, Heart, MessageSquare, Clock, Eye, Briefcase, School } from 'lucide-react';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface StudentApplication {
   id: string;
@@ -98,6 +99,7 @@ const storyStatusConfig: Record<string, { label: string; color: string; icon: ty
 const TableComponent = Table as React.ComponentType<any>;
 
 export default function OperationsApplicationsPage() {
+    const { t } = useTranslation();
   const router = useRouter();
   const [applications, setApplications] = useState<StudentApplication[]>([]);
   const [loading, setLoading] = useState(true);
@@ -374,12 +376,11 @@ export default function OperationsApplicationsPage() {
           {/* ---------- Header ---------- */}
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-900">Başvuru Yönetimi</h1>
-              <p className="text-gray-500 mt-1 text-sm">Öğrenci, öğretmen ve veli başvurularını inceleyin, onaylayın veya reddedin.</p>
+              <h1 className="text-3xl font-bold text-gray-900">{t('app.page.ba_vuru_y_netimi')}</h1>
+              <p className="text-gray-500 mt-1 text-sm">{t('app.page.renci_retmen_ve_veli_ba_vurula')}</p>
             </div>
             <Button variant="outline" size="sm" onClick={() => mainTab === 'stories' ? loadStories() : mainTab === 'mentors' ? loadMentors() : mainTab === 'schools' ? loadSchools() : loadApplications()} className="gap-2 self-start md:self-auto">
-              <RefreshCw className="h-4 w-4" /> Yenile
-            </Button>
+              <RefreshCw className="h-4 w-4" /> {t('app.page.yenile')}</Button>
           </div>
 
           {/* ---------- Main Tabs ---------- */}
@@ -392,8 +393,7 @@ export default function OperationsApplicationsPage() {
                 }`}
             >
               <Users className="h-4 w-4" />
-              Başvurular
-            </button>
+              {t('app.page.ba_vurular')}</button>
             <button
               onClick={() => setMainTab('stories')}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${mainTab === 'stories'
@@ -402,8 +402,7 @@ export default function OperationsApplicationsPage() {
                 }`}
             >
               <MessageSquare className="h-4 w-4" />
-              Başarı Hikayeleri
-            </button>
+              {t('app.page.ba_ar_hikayeleri')}</button>
             <button
               onClick={() => setMainTab('mentors')}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${mainTab === 'mentors'
@@ -412,8 +411,7 @@ export default function OperationsApplicationsPage() {
                 }`}
             >
               <Briefcase className="h-4 w-4" />
-              Mentör Başvuruları
-            </button>
+              {t('app.page.ment_r_ba_vurular')}</button>
             <button
               onClick={() => setMainTab('schools')}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-semibold transition-all ${mainTab === 'schools'
@@ -422,8 +420,7 @@ export default function OperationsApplicationsPage() {
                 }`}
             >
               <School className="h-4 w-4" />
-              Okul Başvuruları
-            </button>
+              {t('app.page.okul_ba_vurular')}</button>
           </div>
 
           {mainTab === 'applications' && (
@@ -491,11 +488,11 @@ export default function OperationsApplicationsPage() {
                   onChange={(e) => setStatusFilter(e.target.value)}
                   className="rounded-lg border bg-white px-3 py-1.5 text-xs font-medium text-gray-700 outline-none focus:ring-2 focus:ring-blue-500"
                 >
-                  <option value="all">Tüm Durumlar</option>
-                  <option value="Received">Alındı</option>
-                  <option value="Under Review">İnceleniyor</option>
-                  <option value="Approved">Onaylandı</option>
-                  <option value="Rejected">Reddedildi</option>
+                  <option value="all">{t('app.page.t_m_durumlar')}</option>
+                  <option value="Received">{t('app.page.al_nd')}</option>
+                  <option value="Under Review">{t('app.page.nceleniyor')}</option>
+                  <option value="Approved">{t('app.page.onayland')}</option>
+                  <option value="Rejected">{t('app.page.reddedildi')}</option>
                 </select>
               </div>
 
@@ -503,17 +500,17 @@ export default function OperationsApplicationsPage() {
               {loading ? (
                 <div className="text-center py-16">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-4" />
-                  <p className="text-gray-500 text-sm">Başvurular yükleniyor…</p>
+                  <p className="text-gray-500 text-sm">{t('app.page.ba_vurular_y_kleniyor')}</p>
                 </div>
               ) : error ? (
                 <div className="bg-red-50 border border-red-200 rounded-xl p-8 text-center">
                   <p className="text-red-800 mb-4">{error}</p>
-                  <Button size="sm" onClick={() => loadApplications()}>Tekrar Dene</Button>
+                  <Button size="sm" onClick={() => loadApplications()}>{t('app.page.tekrar_dene')}</Button>
                 </div>
               ) : filtered.length === 0 ? (
                 <div className="text-center py-16 bg-white rounded-xl border">
-                  <p className="text-gray-500 mb-2">Filtrelere uygun başvuru bulunamadı.</p>
-                  <p className="text-xs text-gray-400">Filtreleri değiştirmeyi veya sayfayı yenilemeyi deneyin.</p>
+                  <p className="text-gray-500 mb-2">{t('app.page.filtrelere_uygun_ba_vuru_bulun')}</p>
+                  <p className="text-xs text-gray-400">{t('app.page.filtreleri_de_i_tirmeyi_veya_s')}</p>
                 </div>
               ) : (
                 <div className="bg-white border rounded-xl overflow-hidden shadow-sm">
@@ -521,13 +518,13 @@ export default function OperationsApplicationsPage() {
                     <TableHeader>
                       <TableRow className="bg-gray-50/80">
                         <TableHead className="text-xs">ID</TableHead>
-                        <TableHead className="text-xs">Tür</TableHead>
-                        <TableHead className="text-xs">İsim</TableHead>
-                        <TableHead className="text-xs">Ülke</TableHead>
-                        <TableHead className="text-xs">Eğitim</TableHead>
-                        <TableHead className="text-xs">Durum</TableHead>
-                        <TableHead className="text-xs">Tarih</TableHead>
-                        <TableHead className="text-xs text-right">İşlemler</TableHead>
+                        <TableHead className="text-xs">{t('app.page.t_r')}</TableHead>
+                        <TableHead className="text-xs">{t('app.page.sim')}</TableHead>
+                        <TableHead className="text-xs">{t('app.page.lke')}</TableHead>
+                        <TableHead className="text-xs">{t('app.page.e_itim')}</TableHead>
+                        <TableHead className="text-xs">{t('app.page.durum')}</TableHead>
+                        <TableHead className="text-xs">{t('app.page.tarih')}</TableHead>
+                        <TableHead className="text-xs text-right">{t('app.page.lemler')}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -566,28 +563,25 @@ export default function OperationsApplicationsPage() {
                                       disabled={isBusy}
                                       onClick={() => handleQuickAction(app.id, 'Approved')}
                                       className="inline-flex items-center gap-1 rounded-md bg-green-600 hover:bg-green-700 text-white px-2.5 py-1 text-xs font-medium transition-colors disabled:opacity-50"
-                                      title="Onayla ve yayınla"
+                                      title={t('app.page.onayla_ve_yay_nla')}
                                     >
                                       <CheckCircle className="h-3.5 w-3.5" />
-                                      Onayla
-                                    </button>
+                                      {t('app.page.onayla')}</button>
                                     <button
                                       disabled={isBusy}
                                       onClick={() => handleQuickAction(app.id, 'Rejected')}
                                       className="inline-flex items-center gap-1 rounded-md bg-red-600 hover:bg-red-700 text-white px-2.5 py-1 text-xs font-medium transition-colors disabled:opacity-50"
-                                      title="Reddet ve kaldır"
+                                      title={t('app.page.reddet_ve_kald_r')}
                                     >
                                       <XCircle className="h-3.5 w-3.5" />
-                                      Reddet
-                                    </button>
+                                      {t('app.page.reddet')}</button>
                                   </>
                                 )}
                                 <button
                                   onClick={() => router.push(`/ops/applications/${app.id}`)}
                                   className="text-blue-600 hover:text-blue-800 text-xs font-medium underline underline-offset-2"
                                 >
-                                  Detay
-                                </button>
+                                  {t('app.page.detay')}</button>
                               </div>
                             </TableCell>
                           </TableRow>
@@ -600,8 +594,8 @@ export default function OperationsApplicationsPage() {
 
               {/* ---------- Footer info ---------- */}
               <div className="mt-4 flex items-center justify-between text-xs text-gray-400">
-                <span>Gösterilen: {filtered.length} / {applications.length} başvuru</span>
-                <span>Son güncelleme: {new Date().toLocaleTimeString('tr-TR')}</span>
+                <span>{t('app.page.g_sterilen')}{filtered.length} / {applications.length} {t('app.page.ba_vuru')}</span>
+                <span>{t('app.page.son_g_ncelleme')}{new Date().toLocaleTimeString('tr-TR')}</span>
               </div>
             </>
           )}
@@ -640,26 +634,26 @@ export default function OperationsApplicationsPage() {
               {storiesLoading ? (
                 <div className="text-center py-16">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-pink-600 mx-auto mb-4" />
-                  <p className="text-gray-500 text-sm">Hikayeler yükleniyor…</p>
+                  <p className="text-gray-500 text-sm">{t('app.page.hikayeler_y_kleniyor')}</p>
                 </div>
               ) : stories.length === 0 ? (
                 <div className="text-center py-16 bg-white rounded-xl border">
                   <MessageSquare className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                  <p className="text-gray-500 mb-2">Bu kategoride hikaye bulunamadı.</p>
-                  <p className="text-xs text-gray-400">Kullanıcılar /stories sayfasından hikaye gönderebilir.</p>
+                  <p className="text-gray-500 mb-2">{t('app.page.bu_kategoride_hikaye_bulunamad')}</p>
+                  <p className="text-xs text-gray-400">{t('app.page.kullan_c_lar_stories_sayfas_nd')}</p>
                 </div>
               ) : (
                 <div className="bg-white border rounded-xl overflow-hidden shadow-sm">
                   <TableComponent>
                     <TableHeader>
                       <TableRow className="bg-gray-50/80">
-                        <TableHead className="text-xs">İsim</TableHead>
-                        <TableHead className="text-xs">Üniversite</TableHead>
-                        <TableHead className="text-xs">Bölüm</TableHead>
-                        <TableHead className="text-xs">Hikaye</TableHead>
-                        <TableHead className="text-xs">Durum</TableHead>
-                        <TableHead className="text-xs">Tarih</TableHead>
-                        <TableHead className="text-xs text-right">İşlemler</TableHead>
+                        <TableHead className="text-xs">{t('app.page.sim')}</TableHead>
+                        <TableHead className="text-xs">{t('app.page.niversite')}</TableHead>
+                        <TableHead className="text-xs">{t('app.page.b_l_m')}</TableHead>
+                        <TableHead className="text-xs">{t('app.page.hikaye')}</TableHead>
+                        <TableHead className="text-xs">{t('app.page.durum')}</TableHead>
+                        <TableHead className="text-xs">{t('app.page.tarih')}</TableHead>
+                        <TableHead className="text-xs text-right">{t('app.page.lemler')}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -697,16 +691,14 @@ export default function OperationsApplicationsPage() {
                                       className="inline-flex items-center gap-1 rounded-md bg-green-600 hover:bg-green-700 text-white px-2.5 py-1 text-xs font-medium transition-colors disabled:opacity-50"
                                     >
                                       <CheckCircle className="h-3.5 w-3.5" />
-                                      Onayla
-                                    </button>
+                                      {t('app.page.onayla')}</button>
                                     <button
                                       disabled={isBusy}
                                       onClick={() => handleStoryAction(story.story_id, 'rejected')}
                                       className="inline-flex items-center gap-1 rounded-md bg-red-600 hover:bg-red-700 text-white px-2.5 py-1 text-xs font-medium transition-colors disabled:opacity-50"
                                     >
                                       <XCircle className="h-3.5 w-3.5" />
-                                      Reddet
-                                    </button>
+                                      {t('app.page.reddet')}</button>
                                   </>
                                 )}
                               </div>
@@ -720,8 +712,8 @@ export default function OperationsApplicationsPage() {
               )}
 
               <div className="mt-4 flex items-center justify-between text-xs text-gray-400">
-                <span>Gösterilen: {stories.length} hikaye</span>
-                <span>Son güncelleme: {new Date().toLocaleTimeString('tr-TR')}</span>
+                <span>{t('app.page.g_sterilen')}{stories.length} hikaye</span>
+                <span>{t('app.page.son_g_ncelleme')}{new Date().toLocaleTimeString('tr-TR')}</span>
               </div>
             </>
           )}
@@ -760,27 +752,27 @@ export default function OperationsApplicationsPage() {
               {mentorsLoading ? (
                 <div className="text-center py-16">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-indigo-600 mx-auto mb-4" />
-                  <p className="text-gray-500 text-sm">Mentör başvuruları yükleniyor…</p>
+                  <p className="text-gray-500 text-sm">{t('app.page.ment_r_ba_vurular_y_kleniyor')}</p>
                 </div>
               ) : mentors.length === 0 ? (
                 <div className="text-center py-16 bg-white rounded-xl border">
                   <Briefcase className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                  <p className="text-gray-500 mb-2">Bu kategoride mentör başvurusu bulunamadı.</p>
-                  <p className="text-xs text-gray-400">Kullanıcılar /mentors/apply sayfasından başvuru yapabilir.</p>
+                  <p className="text-gray-500 mb-2">{t('app.page.bu_kategoride_ment_r_ba_vurusu')}</p>
+                  <p className="text-xs text-gray-400">{t('app.page.kullan_c_lar_mentors_apply_say')}</p>
                 </div>
               ) : (
                 <div className="bg-white border rounded-xl overflow-hidden shadow-sm">
                   <TableComponent>
                     <TableHeader>
                       <TableRow className="bg-gray-50/80">
-                        <TableHead className="text-xs">İsim</TableHead>
+                        <TableHead className="text-xs">{t('app.page.sim')}</TableHead>
                         <TableHead className="text-xs">E-posta</TableHead>
-                        <TableHead className="text-xs">Ülke</TableHead>
-                        <TableHead className="text-xs">Pozisyon</TableHead>
-                        <TableHead className="text-xs">Tür</TableHead>
-                        <TableHead className="text-xs">Durum</TableHead>
-                        <TableHead className="text-xs">Tarih</TableHead>
-                        <TableHead className="text-xs text-right">İşlemler</TableHead>
+                        <TableHead className="text-xs">{t('app.page.lke')}</TableHead>
+                        <TableHead className="text-xs">{t('app.page.pozisyon')}</TableHead>
+                        <TableHead className="text-xs">{t('app.page.t_r')}</TableHead>
+                        <TableHead className="text-xs">{t('app.page.durum')}</TableHead>
+                        <TableHead className="text-xs">{t('app.page.tarih')}</TableHead>
+                        <TableHead className="text-xs text-right">{t('app.page.lemler')}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -799,7 +791,7 @@ export default function OperationsApplicationsPage() {
                             <TableCell className="text-gray-600 text-sm">{mentor.country}</TableCell>
                             <TableCell className="text-gray-600 text-sm">
                               <div>{mentor.job_title}</div>
-                              <div className="text-xs text-gray-400">{mentor.experience_years} yıl</div>
+                              <div className="text-xs text-gray-400">{mentor.experience_years} {t('app.page.y_l')}</div>
                             </TableCell>
                             <TableCell>
                               <Badge className={mentor.mentor_type === 'corporate' ? 'bg-blue-100 text-blue-800' : 'bg-purple-100 text-purple-800'}>
@@ -824,16 +816,14 @@ export default function OperationsApplicationsPage() {
                                       className="inline-flex items-center gap-1 rounded-md bg-green-600 hover:bg-green-700 text-white px-2.5 py-1 text-xs font-medium transition-colors disabled:opacity-50"
                                     >
                                       <CheckCircle className="h-3.5 w-3.5" />
-                                      Onayla
-                                    </button>
+                                      {t('app.page.onayla')}</button>
                                     <button
                                       disabled={isBusy}
                                       onClick={() => handleMentorAction(mentor.application_id, 'rejected')}
                                       className="inline-flex items-center gap-1 rounded-md bg-red-600 hover:bg-red-700 text-white px-2.5 py-1 text-xs font-medium transition-colors disabled:opacity-50"
                                     >
                                       <XCircle className="h-3.5 w-3.5" />
-                                      Reddet
-                                    </button>
+                                      {t('app.page.reddet')}</button>
                                   </>
                                 )}
                               </div>
@@ -847,8 +837,8 @@ export default function OperationsApplicationsPage() {
               )}
 
               <div className="mt-4 flex items-center justify-between text-xs text-gray-400">
-                <span>Gösterilen: {mentors.length} başvuru</span>
-                <span>Son güncelleme: {new Date().toLocaleTimeString('tr-TR')}</span>
+                <span>{t('app.page.g_sterilen')}{mentors.length} {t('app.page.ba_vuru')}</span>
+                <span>{t('app.page.son_g_ncelleme')}{new Date().toLocaleTimeString('tr-TR')}</span>
               </div>
             </>
           )}
@@ -888,27 +878,27 @@ export default function OperationsApplicationsPage() {
               {schoolsLoading ? (
                 <div className="text-center py-16">
                   <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-amber-600 mx-auto mb-4" />
-                  <p className="text-gray-500 text-sm">Okul başvuruları yükleniyor…</p>
+                  <p className="text-gray-500 text-sm">{t('app.page.okul_ba_vurular_y_kleniyor')}</p>
                 </div>
               ) : schoolApps.length === 0 ? (
                 <div className="text-center py-16 bg-white rounded-xl border">
                   <School className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-                  <p className="text-gray-500 mb-2">Bu kategoride okul başvurusu bulunamadı.</p>
-                  <p className="text-xs text-gray-400">Okullar /apply/school sayfasından başvuru yapabilir.</p>
+                  <p className="text-gray-500 mb-2">{t('app.page.bu_kategoride_okul_ba_vurusu_b')}</p>
+                  <p className="text-xs text-gray-400">{t('app.page.okullar_apply_school_sayfas_nd')}</p>
                 </div>
               ) : (
                 <div className="bg-white border rounded-xl overflow-hidden shadow-sm">
                   <TableComponent>
                     <TableHeader>
                       <TableRow className="bg-gray-50/80">
-                        <TableHead className="text-xs">Okul Adı</TableHead>
-                        <TableHead className="text-xs">Başvuran</TableHead>
-                        <TableHead className="text-xs">Şehir / İlçe</TableHead>
-                        <TableHead className="text-xs">Proje</TableHead>
-                        <TableHead className="text-xs">Kategori</TableHead>
-                        <TableHead className="text-xs">Durum</TableHead>
-                        <TableHead className="text-xs">Tarih</TableHead>
-                        <TableHead className="text-xs text-right">İşlemler</TableHead>
+                        <TableHead className="text-xs">{t('app.page.okul_ad')}</TableHead>
+                        <TableHead className="text-xs">{t('app.page.ba_vuran')}</TableHead>
+                        <TableHead className="text-xs">{t('app.page.ehir_l_e')}</TableHead>
+                        <TableHead className="text-xs">{t('app.page.proje')}</TableHead>
+                        <TableHead className="text-xs">{t('app.page.kategori')}</TableHead>
+                        <TableHead className="text-xs">{t('app.page.durum')}</TableHead>
+                        <TableHead className="text-xs">{t('app.page.tarih')}</TableHead>
+                        <TableHead className="text-xs text-right">{t('app.page.lemler')}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -924,7 +914,7 @@ export default function OperationsApplicationsPage() {
                           >
                             <TableCell className="font-medium text-gray-900">
                               <div>{app.schoolName}</div>
-                              <div className="text-xs text-gray-400">{app.schoolType} • {app.studentTotal} öğrenci</div>
+                              <div className="text-xs text-gray-400">{app.schoolType} • {app.studentTotal} {t('app.page.renci')}</div>
                             </TableCell>
                             <TableCell>
                               <div className="text-gray-900 text-sm">{app.fullName}</div>
@@ -956,28 +946,25 @@ export default function OperationsApplicationsPage() {
                                       disabled={isBusy}
                                       onClick={() => handleSchoolAction(app.id, 'Approved')}
                                       className="inline-flex items-center gap-1 rounded-md bg-green-600 hover:bg-green-700 text-white px-2.5 py-1 text-xs font-medium transition-colors disabled:opacity-50"
-                                      title="Onayla"
+                                      title={t('app.page.onayla')}
                                     >
                                       <CheckCircle className="h-3.5 w-3.5" />
-                                      Onayla
-                                    </button>
+                                      {t('app.page.onayla')}</button>
                                     <button
                                       disabled={isBusy}
                                       onClick={() => handleSchoolAction(app.id, 'Rejected')}
                                       className="inline-flex items-center gap-1 rounded-md bg-red-600 hover:bg-red-700 text-white px-2.5 py-1 text-xs font-medium transition-colors disabled:opacity-50"
-                                      title="Reddet"
+                                      title={t('app.page.reddet')}
                                     >
                                       <XCircle className="h-3.5 w-3.5" />
-                                      Reddet
-                                    </button>
+                                      {t('app.page.reddet')}</button>
                                   </>
                                 )}
                                 <button
                                   onClick={() => router.push(`/ops/applications/${app.id}`)}
                                   className="text-amber-600 hover:text-amber-800 text-xs font-medium underline underline-offset-2"
                                 >
-                                  Detay
-                                </button>
+                                  {t('app.page.detay')}</button>
                               </div>
                             </TableCell>
                           </TableRow>
@@ -989,8 +976,8 @@ export default function OperationsApplicationsPage() {
               )}
 
               <div className="mt-4 flex items-center justify-between text-xs text-gray-400">
-                <span>Gösterilen: {schoolApps.length} okul başvurusu</span>
-                <span>Son güncelleme: {new Date().toLocaleTimeString('tr-TR')}</span>
+                <span>{t('app.page.g_sterilen')}{schoolApps.length} {t('app.page.okul_ba_vurusu')}</span>
+                <span>{t('app.page.son_g_ncelleme')}{new Date().toLocaleTimeString('tr-TR')}</span>
               </div>
             </>
           )}

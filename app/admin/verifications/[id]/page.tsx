@@ -3,6 +3,7 @@
 import { useEffect, useState, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface Document {
     doc_id: string;
@@ -48,6 +49,7 @@ const ACTIONS = [
 ];
 
 export default function VerificationDetailPage() {
+    const { t } = useTranslation();
     const router = useRouter();
     const params = useParams();
     const id = params.id as string;
@@ -121,7 +123,7 @@ export default function VerificationDetailPage() {
         return (
             <div className="bg-red-50 border border-red-200 rounded-md p-4">
                 <p className="text-red-800">{error || 'Verification not found'}</p>
-                <Link href="/admin/verifications" className="text-blue-600 mt-2 inline-block">← Back to queue</Link>
+                <Link href="/admin/verifications" className="text-blue-600 mt-2 inline-block">{t('app.page.back_to_queue')}</Link>
             </div>
         );
     }
@@ -132,8 +134,7 @@ export default function VerificationDetailPage() {
             <div className="flex justify-between items-start mb-6">
                 <div>
                     <Link href="/admin/verifications" className="text-sm text-blue-600 hover:underline mb-2 inline-block">
-                        ← Back to Queue
-                    </Link>
+                        {t('app.page.back_to_queue')}</Link>
                     <h2 className="text-2xl font-bold text-gray-900">
                         {data.first_name} {data.last_name}
                     </h2>
@@ -150,7 +151,7 @@ export default function VerificationDetailPage() {
                     {data.risk_score >= 25 && (
                         <span className={`px-3 py-1 rounded-full text-sm font-medium ${data.risk_score >= 50 ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
                             }`}>
-                            Risk: {data.risk_score}
+                            {t('app.page.risk')}{data.risk_score}
                         </span>
                     )}
                 </div>
@@ -161,22 +162,22 @@ export default function VerificationDetailPage() {
                 <div className="lg:col-span-2 space-y-6">
                     {/* Personal Info */}
                     <div className="bg-white rounded-lg shadow p-6">
-                        <h3 className="text-lg font-semibold mb-4">Personal Information</h3>
+                        <h3 className="text-lg font-semibold mb-4">{t('app.page.personal_information')}</h3>
                         <dl className="grid grid-cols-2 gap-4 text-sm">
                             <div>
-                                <dt className="text-gray-500">Full Name</dt>
+                                <dt className="text-gray-500">{t('app.page.full_name')}</dt>
                                 <dd className="font-medium">{data.first_name} {data.last_name}</dd>
                             </div>
                             <div>
-                                <dt className="text-gray-500">Date of Birth</dt>
+                                <dt className="text-gray-500">{t('app.page.date_of_birth')}</dt>
                                 <dd className="font-medium">{data.date_of_birth}</dd>
                             </div>
                             <div>
-                                <dt className="text-gray-500">Country</dt>
+                                <dt className="text-gray-500">{t('app.page.country')}</dt>
                                 <dd className="font-medium">{data.country}</dd>
                             </div>
                             <div>
-                                <dt className="text-gray-500">City</dt>
+                                <dt className="text-gray-500">{t('app.page.city')}</dt>
                                 <dd className="font-medium">{data.city || '-'}</dd>
                             </div>
                         </dl>
@@ -184,34 +185,34 @@ export default function VerificationDetailPage() {
 
                     {/* Academic Info */}
                     <div className="bg-white rounded-lg shadow p-6">
-                        <h3 className="text-lg font-semibold mb-4">Academic Information</h3>
+                        <h3 className="text-lg font-semibold mb-4">{t('app.page.academic_information')}</h3>
                         <dl className="grid grid-cols-2 gap-4 text-sm">
                             <div>
-                                <dt className="text-gray-500">Institution</dt>
+                                <dt className="text-gray-500">{t('app.page.institution')}</dt>
                                 <dd className="font-medium">{data.institution_name}</dd>
                             </div>
                             <div>
-                                <dt className="text-gray-500">Country</dt>
+                                <dt className="text-gray-500">{t('app.page.country')}</dt>
                                 <dd className="font-medium">{data.institution_country}</dd>
                             </div>
                             <div>
-                                <dt className="text-gray-500">Program</dt>
+                                <dt className="text-gray-500">{t('app.page.program')}</dt>
                                 <dd className="font-medium">{data.degree_program}</dd>
                             </div>
                             <div>
-                                <dt className="text-gray-500">Degree Level</dt>
+                                <dt className="text-gray-500">{t('app.page.degree_level')}</dt>
                                 <dd className="font-medium capitalize">{data.degree_level}</dd>
                             </div>
                             <div>
-                                <dt className="text-gray-500">Enrollment Year</dt>
+                                <dt className="text-gray-500">{t('app.page.enrollment_year')}</dt>
                                 <dd className="font-medium">{data.enrollment_year}</dd>
                             </div>
                             <div>
-                                <dt className="text-gray-500">Expected Graduation</dt>
+                                <dt className="text-gray-500">{t('app.page.expected_graduation')}</dt>
                                 <dd className="font-medium">{data.expected_graduation}</dd>
                             </div>
                             <div>
-                                <dt className="text-gray-500">Full Time</dt>
+                                <dt className="text-gray-500">{t('app.page.full_time')}</dt>
                                 <dd className="font-medium">{data.is_full_time ? 'Yes' : 'No'}</dd>
                             </div>
                         </dl>
@@ -219,9 +220,9 @@ export default function VerificationDetailPage() {
 
                     {/* Documents */}
                     <div className="bg-white rounded-lg shadow p-6">
-                        <h3 className="text-lg font-semibold mb-4">Documents ({data.documents?.length || 0})</h3>
+                        <h3 className="text-lg font-semibold mb-4">{t('app.page.documents')}{data.documents?.length || 0})</h3>
                         {!data.documents || data.documents.length === 0 ? (
-                            <p className="text-gray-500">No documents uploaded</p>
+                            <p className="text-gray-500">{t('app.page.no_documents_uploaded')}</p>
                         ) : (
                             <div className="space-y-2">
                                 {data.documents.map((doc) => (
@@ -232,7 +233,7 @@ export default function VerificationDetailPage() {
                                         </div>
                                         <div className="flex items-center gap-2">
                                             {doc.is_verified && (
-                                                <span className="text-green-600 text-sm">✓ Verified</span>
+                                                <span className="text-green-600 text-sm">{t('app.page.verified')}</span>
                                             )}
                                             <a
                                                 href={doc.view_url}
@@ -240,8 +241,7 @@ export default function VerificationDetailPage() {
                                                 rel="noopener noreferrer"
                                                 className="text-blue-600 hover:underline text-sm"
                                             >
-                                                View
-                                            </a>
+                                                {t('app.page.view')}</a>
                                         </div>
                                     </div>
                                 ))}
@@ -252,7 +252,7 @@ export default function VerificationDetailPage() {
                     {/* Financial Need */}
                     {data.financial_need_statement && (
                         <div className="bg-white rounded-lg shadow p-6">
-                            <h3 className="text-lg font-semibold mb-4">Financial Need Statement</h3>
+                            <h3 className="text-lg font-semibold mb-4">{t('app.page.financial_need_statement')}</h3>
                             <p className="text-gray-700 whitespace-pre-wrap">{data.financial_need_statement}</p>
                         </div>
                     )}
@@ -263,7 +263,7 @@ export default function VerificationDetailPage() {
                     {/* Actions */}
                     {['PENDING_REVIEW', 'NEEDS_MORE_INFO', 'UNDER_INVESTIGATION'].includes(data.status) && (
                         <div className="bg-white rounded-lg shadow p-6">
-                            <h3 className="text-lg font-semibold mb-4">Actions</h3>
+                            <h3 className="text-lg font-semibold mb-4">{t('app.page.actions')}</h3>
                             <div className="space-y-2">
                                 {ACTIONS.map((act) => (
                                     <button
@@ -282,7 +282,7 @@ export default function VerificationDetailPage() {
                     {/* Risk Flags */}
                     {data.risk_flags && data.risk_flags.length > 0 && (
                         <div className="bg-white rounded-lg shadow p-6">
-                            <h3 className="text-lg font-semibold mb-4 text-red-600">⚠️ Risk Flags</h3>
+                            <h3 className="text-lg font-semibold mb-4 text-red-600">{t('app.page.risk_flags')}</h3>
                             <ul className="space-y-1">
                                 {data.risk_flags.map((flag, i) => (
                                     <li key={i} className="text-sm text-red-700 bg-red-50 px-2 py-1 rounded">
@@ -295,15 +295,15 @@ export default function VerificationDetailPage() {
 
                     {/* Timeline */}
                     <div className="bg-white rounded-lg shadow p-6">
-                        <h3 className="text-lg font-semibold mb-4">Timeline</h3>
+                        <h3 className="text-lg font-semibold mb-4">{t('app.page.timeline')}</h3>
                         <div className="text-sm space-y-2">
                             <div className="flex justify-between">
-                                <span className="text-gray-500">Created</span>
+                                <span className="text-gray-500">{t('app.page.created')}</span>
                                 <span>{new Date(data.created_at).toLocaleDateString()}</span>
                             </div>
                             {data.submitted_at && (
                                 <div className="flex justify-between">
-                                    <span className="text-gray-500">Submitted</span>
+                                    <span className="text-gray-500">{t('app.page.submitted')}</span>
                                     <span>{new Date(data.submitted_at).toLocaleDateString()}</span>
                                 </div>
                             )}
@@ -317,31 +317,28 @@ export default function VerificationDetailPage() {
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
                     <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
                         <h3 className="text-lg font-semibold mb-4">
-                            {showActionModal.replace(/_/g, ' ')} Verification
-                        </h3>
+                            {showActionModal.replace(/_/g, ' ')} {t('app.page.verification')}</h3>
                         <div className="space-y-4">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Reason (required)
-                                </label>
+                                    {t('app.page.reason_required')}</label>
                                 <textarea
                                     value={actionReason}
                                     onChange={(e) => setActionReason(e.target.value)}
                                     rows={3}
                                     className="w-full border rounded-md p-2 text-sm"
-                                    placeholder="Enter reason for this action..."
+                                    placeholder={t('app.page.enter_reason_for_this_action')}
                                 />
                             </div>
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1">
-                                    Message to student (optional)
-                                </label>
+                                    {t('app.page.message_to_student_optional')}</label>
                                 <textarea
                                     value={actionMessage}
                                     onChange={(e) => setActionMessage(e.target.value)}
                                     rows={2}
                                     className="w-full border rounded-md p-2 text-sm"
-                                    placeholder="This will be included in the email..."
+                                    placeholder={t('app.page.this_will_be_included_in_the_e')}
                                 />
                             </div>
                             <div className="flex gap-2 justify-end">
@@ -349,8 +346,7 @@ export default function VerificationDetailPage() {
                                     onClick={() => { setShowActionModal(null); setActionReason(''); setActionMessage(''); }}
                                     className="px-4 py-2 text-sm text-gray-700 bg-gray-100 rounded hover:bg-gray-200"
                                 >
-                                    Cancel
-                                </button>
+                                    {t('app.page.cancel')}</button>
                                 <button
                                     onClick={() => handleAction(showActionModal)}
                                     disabled={!actionReason || actionLoading}

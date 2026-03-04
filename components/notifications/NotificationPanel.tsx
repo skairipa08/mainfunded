@@ -7,6 +7,7 @@ import { useNotifications } from '@/lib/notification-context';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
 import type { Notification, NotificationType } from '@/types/notifications';
+import { useTranslation } from "@/lib/i18n/context";
 
 function getNotificationIcon(type: NotificationType): string {
   switch (type) {
@@ -74,6 +75,7 @@ function timeAgo(timestamp: string): string {
 }
 
 function NotificationItem({ notification }: { notification: Notification }) {
+    const { t } = useTranslation();
   const { markAsRead, removeNotification } = useNotifications();
   const icon = getNotificationIcon(notification.type);
   const colorClass = getNotificationColor(notification.type);
@@ -151,6 +153,7 @@ function NotificationItem({ notification }: { notification: Notification }) {
 }
 
 export default function NotificationPanel() {
+    const { t } = useTranslation();
   const { notifications, unreadCount, markAllRead, isLoading } =
     useNotifications();
 
@@ -160,7 +163,7 @@ export default function NotificationPanel() {
       <div className="flex items-center justify-between px-4 py-3 border-b border-gray-100 bg-gray-50/50">
         <div className="flex items-center gap-2">
           <Bell className="h-4 w-4 text-gray-500" />
-          <h3 className="font-semibold text-gray-900 text-sm">Bildirimler</h3>
+          <h3 className="font-semibold text-gray-900 text-sm">{t('components.notificationpanel.bildirimler')}</h3>
           {unreadCount > 0 && (
             <span className="px-1.5 py-0.5 rounded-full bg-blue-100 text-blue-700 text-[11px] font-semibold">
               {unreadCount}
@@ -174,8 +177,7 @@ export default function NotificationPanel() {
               className="flex items-center gap-1 text-xs text-blue-600 hover:text-blue-800 font-medium px-2 py-1 rounded-md hover:bg-blue-50 transition-colors"
             >
               <Check className="h-3 w-3" />
-              Tümünü oku
-            </button>
+              {t('components.notificationpanel.t_m_n_oku')}</button>
           )}
         </div>
       </div>
@@ -185,7 +187,7 @@ export default function NotificationPanel() {
         {isLoading ? (
           <div className="px-4 py-8 text-center">
             <div className="w-6 h-6 border-2 border-blue-300 border-t-blue-600 rounded-full animate-spin mx-auto" />
-            <p className="text-sm text-gray-400 mt-2">Yükleniyor...</p>
+            <p className="text-sm text-gray-400 mt-2">{t('components.notificationpanel.y_kleniyor')}</p>
           </div>
         ) : notifications.length === 0 ? (
           <div className="px-4 py-10 text-center">
@@ -193,11 +195,9 @@ export default function NotificationPanel() {
               <Bell className="h-6 w-6 text-gray-300" />
             </div>
             <p className="text-sm font-medium text-gray-500">
-              Henüz bildiriminiz yok
-            </p>
+              {t('components.notificationpanel.hen_z_bildiriminiz_yok')}</p>
             <p className="text-xs text-gray-400 mt-1">
-              Bağış yaptığınızda burada güncellemeler göreceksiniz
-            </p>
+              {t('components.notificationpanel.ba_yapt_n_zda_burada_g_ncellem')}</p>
           </div>
         ) : (
           notifications.map((notification) => (
@@ -217,14 +217,12 @@ export default function NotificationPanel() {
             className="flex items-center gap-1.5 text-xs text-gray-500 hover:text-blue-600 font-medium transition-colors"
           >
             <Calendar className="h-3.5 w-3.5" />
-            Bağış Takvimi
-          </Link>
+            {t('components.notificationpanel.ba_takvimi')}</Link>
           <Link
             href="/account"
             className="text-xs text-blue-600 hover:text-blue-800 font-medium transition-colors"
           >
-            Tüm bildirimleri gör →
-          </Link>
+            {t('components.notificationpanel.t_m_bildirimleri_g_r')}</Link>
         </div>
       )}
     </div>

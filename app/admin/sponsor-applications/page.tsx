@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useCallback } from 'react';
 import { Building2, User, Mail, Phone, MessageSquare, Clock, CheckCircle, XCircle, Eye, Trash2, Search } from 'lucide-react';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface SponsorApplication {
   _id: string;
@@ -24,6 +25,7 @@ const statusConfig: Record<string, { label: string; color: string; bg: string; i
 };
 
 export default function AdminSponsorApplicationsPage() {
+    const { t } = useTranslation();
   const [applications, setApplications] = useState<SponsorApplication[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState('all');
@@ -113,8 +115,8 @@ export default function AdminSponsorApplicationsPage() {
     <div>
       {/* Header */}
       <div className="mb-6">
-        <h1 className="text-2xl font-bold text-gray-900">Sponsor Basvurulari</h1>
-        <p className="text-gray-500 mt-1">Sponsor olmak isteyen sirketlerin basvurularini yonetin</p>
+        <h1 className="text-2xl font-bold text-gray-900">{t('app.page.sponsor_basvurulari')}</h1>
+        <p className="text-gray-500 mt-1">{t('app.page.sponsor_olmak_isteyen_sirketle')}</p>
       </div>
 
       {/* Stats Cards */}
@@ -151,7 +153,7 @@ export default function AdminSponsorApplicationsPage() {
             filter === 'all' ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
           }`}
         >
-          Tumu ({pagination.total})
+          {t('app.page.tumu')}{pagination.total})
         </button>
         {Object.entries(statusConfig).map(([key, cfg]) => (
           <button
@@ -176,7 +178,7 @@ export default function AdminSponsorApplicationsPage() {
           ) : applications.length === 0 ? (
             <div className="text-center py-20 bg-white rounded-xl border border-gray-200">
               <Search className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-              <p className="text-gray-500">Henüz başvuru bulunmuyor.</p>
+              <p className="text-gray-500">{t('app.page.hen_z_ba_vuru_bulunmuyor')}</p>
             </div>
           ) : (
             <div className="space-y-3">
@@ -215,7 +217,7 @@ export default function AdminSponsorApplicationsPage() {
                       <button
                         onClick={(e) => { e.stopPropagation(); deleteApplication(app._id); }}
                         className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                        title="Sil"
+                        title={t('app.page.sil')}
                       >
                         <Trash2 className="h-4 w-4" />
                       </button>
@@ -232,8 +234,7 @@ export default function AdminSponsorApplicationsPage() {
                     disabled={pagination.page <= 1}
                     className="px-3 py-1.5 rounded-lg border text-sm disabled:opacity-50"
                   >
-                    Önceki
-                  </button>
+                    {t('app.page.nceki')}</button>
                   <span className="text-sm text-gray-500">
                     {pagination.page} / {pagination.totalPages}
                   </span>
@@ -242,8 +243,7 @@ export default function AdminSponsorApplicationsPage() {
                     disabled={pagination.page >= pagination.totalPages}
                     className="px-3 py-1.5 rounded-lg border text-sm disabled:opacity-50"
                   >
-                    Sonraki
-                  </button>
+                    {t('app.page.sonraki')}</button>
                 </div>
               )}
             </div>
@@ -254,7 +254,7 @@ export default function AdminSponsorApplicationsPage() {
         {selectedApp && (
           <div className="w-96 bg-white rounded-xl border border-gray-200 p-6 h-fit sticky top-4">
             <div className="flex items-center justify-between mb-4">
-              <h2 className="text-lg font-bold text-gray-900">Başvuru Detayı</h2>
+              <h2 className="text-lg font-bold text-gray-900">{t('app.page.ba_vuru_detay')}</h2>
               <button onClick={() => setSelectedApp(null)} className="text-gray-400 hover:text-gray-600">
                 <XCircle className="h-5 w-5" />
               </button>
@@ -262,7 +262,7 @@ export default function AdminSponsorApplicationsPage() {
 
             <div className="space-y-4">
               <div>
-                <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">Sirket / Kurum</div>
+                <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">{t('app.page.sirket_kurum')}</div>
                 <div className="flex items-center gap-2 text-gray-900 font-medium">
                   <Building2 className="h-4 w-4 text-gray-500" />
                   {selectedApp.companyName}
@@ -270,7 +270,7 @@ export default function AdminSponsorApplicationsPage() {
               </div>
 
               <div>
-                <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">Yetkili Kisi</div>
+                <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">{t('app.page.yetkili_kisi')}</div>
                 <div className="flex items-center gap-2 text-gray-900">
                   <User className="h-4 w-4 text-gray-500" />
                   {selectedApp.contactName}
@@ -286,7 +286,7 @@ export default function AdminSponsorApplicationsPage() {
               </div>
 
               <div>
-                <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">Telefon</div>
+                <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">{t('app.page.telefon')}</div>
                 <a href={`tel:${selectedApp.phone}`} className="flex items-center gap-2 text-blue-600 hover:underline">
                   <Phone className="h-4 w-4" />
                   {selectedApp.phone}
@@ -295,7 +295,7 @@ export default function AdminSponsorApplicationsPage() {
 
               {selectedApp.message && (
                 <div>
-                  <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">Mesaj</div>
+                  <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">{t('app.page.mesaj')}</div>
                   <div className="flex items-start gap-2 text-gray-700 bg-gray-50 p-3 rounded-lg text-sm">
                     <MessageSquare className="h-4 w-4 text-gray-400 flex-shrink-0 mt-0.5" />
                     {selectedApp.message}
@@ -304,17 +304,17 @@ export default function AdminSponsorApplicationsPage() {
               )}
 
               <div>
-                <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">Başvuru Tarihi</div>
+                <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">{t('app.page.ba_vuru_tarihi')}</div>
                 <div className="text-gray-700 text-sm">{formatDate(selectedApp.createdAt)}</div>
               </div>
 
               {/* Admin Notes */}
               <div>
-                <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">Admin Notlari</div>
+                <div className="text-xs text-gray-400 uppercase tracking-wide mb-1">{t('app.page.admin_notlari')}</div>
                 <textarea
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  placeholder="Bu başvuru hakkında notlarınız..."
+                  placeholder={t('app.page.bu_ba_vuru_hakk_nda_notlar_n_z')}
                   rows={3}
                   className="w-full px-3 py-2 border rounded-lg resize-none text-sm focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
@@ -322,36 +322,32 @@ export default function AdminSponsorApplicationsPage() {
 
               {/* Status Actions */}
               <div>
-                <div className="text-xs text-gray-400 uppercase tracking-wide mb-2">Durumu Guncelle</div>
+                <div className="text-xs text-gray-400 uppercase tracking-wide mb-2">{t('app.page.durumu_guncelle')}</div>
                 <div className="grid grid-cols-2 gap-2">
                   <button
                     onClick={() => updateStatus(selectedApp._id, 'reviewed')}
                     disabled={updatingId === selectedApp._id}
                     className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-blue-50 text-blue-700 hover:bg-blue-100 disabled:opacity-50 transition-colors"
                   >
-                    <Eye className="h-3.5 w-3.5" /> Incelendi
-                  </button>
+                    <Eye className="h-3.5 w-3.5" /> {t('app.page.incelendi')}</button>
                   <button
                     onClick={() => updateStatus(selectedApp._id, 'approved')}
                     disabled={updatingId === selectedApp._id}
                     className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-green-50 text-green-700 hover:bg-green-100 disabled:opacity-50 transition-colors"
                   >
-                    <CheckCircle className="h-3.5 w-3.5" /> Onayla
-                  </button>
+                    <CheckCircle className="h-3.5 w-3.5" /> {t('app.page.onayla')}</button>
                   <button
                     onClick={() => updateStatus(selectedApp._id, 'rejected')}
                     disabled={updatingId === selectedApp._id}
                     className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-red-50 text-red-700 hover:bg-red-100 disabled:opacity-50 transition-colors"
                   >
-                    <XCircle className="h-3.5 w-3.5" /> Reddet
-                  </button>
+                    <XCircle className="h-3.5 w-3.5" /> {t('app.page.reddet')}</button>
                   <button
                     onClick={() => updateStatus(selectedApp._id, 'pending')}
                     disabled={updatingId === selectedApp._id}
                     className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg text-sm font-medium bg-yellow-50 text-yellow-700 hover:bg-yellow-100 disabled:opacity-50 transition-colors"
                   >
-                    <Clock className="h-3.5 w-3.5" /> Beklet
-                  </button>
+                    <Clock className="h-3.5 w-3.5" /> {t('app.page.beklet')}</button>
                 </div>
               </div>
             </div>

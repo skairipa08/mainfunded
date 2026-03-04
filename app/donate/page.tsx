@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useTranslation } from "@/lib/i18n/context";
 import { useRouter, useSearchParams } from 'next/navigation';
 import { Suspense } from 'react';
 import Navbar from '@/components/Navbar';
@@ -18,7 +19,6 @@ import {
 
 import { validateAmount, sanitizeInput, validateEmail } from '@/lib/validation';
 import { toast } from 'sonner';
-import { useTranslation } from '@/lib/i18n';
 import { useCurrency } from '@/lib/currency-context';
 import { getCampaign } from '@/lib/api';
 import { censorSurname } from '@/lib/privacy';
@@ -40,7 +40,6 @@ import {
   Loader2,
   ArrowLeft,
 } from 'lucide-react';
-
 function DonatePageContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -249,8 +248,7 @@ function DonatePageContent() {
               {campaignData && (
                 <div className="bg-white rounded-3xl shadow-xl shadow-slate-200/50 border border-slate-100 p-6 mb-6">
                   <Button variant="ghost" size="sm" onClick={() => router.push(`/campaign/${campaignId}`)} className="mb-4 -ml-2 gap-2">
-                    <ArrowLeft className="h-4 w-4" /> Kampanyaya Dön
-                  </Button>
+                    <ArrowLeft className="h-4 w-4" /> {t('app.page.kampanyaya_d_n')}</Button>
                   <div className="flex items-center gap-4">
                     <div className="w-14 h-14 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold text-xl shrink-0">
                       {censorSurname(campaignData.student?.name || campaignData.studentName || 'Öğrenci').charAt(0)}
@@ -498,11 +496,10 @@ function DonatePageContent() {
                     <div className="bg-blue-50/80 border border-blue-100 rounded-2xl p-5 space-y-3">
                       <div className="flex items-center gap-2">
                         <Heart className="h-5 w-5 text-blue-600" />
-                        <span className="font-semibold text-gray-900 text-sm">FundEd&apos;e Platform Desteği</span>
+                        <span className="font-semibold text-gray-900 text-sm">{t('app.page.funded_apos_e_platform_deste_i')}</span>
                       </div>
                       <p className="text-xs text-gray-600 leading-relaxed">
-                        Platform desteğiniz, FundEd&apos;in öğrenci doğrulama, güvenli ödeme altyapısı ve operasyon giderlerini karşılamasına yardımcı olur.
-                        Minimum oran <strong>%2</strong>&apos;dir.
+                        {t('app.page.platform_deste_iniz_funded_apo')}<strong>%2</strong>&apos;dir.
                       </p>
 
                       {!useCustomTip ? (
@@ -533,7 +530,7 @@ function DonatePageContent() {
                             className="w-24 h-9 rounded-lg"
                             placeholder="2"
                           />
-                          <span className="text-xs text-gray-500">(min %2)</span>
+                          <span className="text-xs text-gray-500">{t('app.page.min_2')}</span>
                         </div>
                       )}
 
@@ -550,10 +547,10 @@ function DonatePageContent() {
 
                       {donationAmount > 0 && (
                         <div className="text-sm text-gray-700 bg-white rounded-xl px-4 py-3 border border-blue-100">
-                          Öğrenciye: <strong>{currencySymbol}{donationAmount.toFixed(2)}</strong>
+                          {t('app.page.renciye')}<strong>{currencySymbol}{donationAmount.toFixed(2)}</strong>
                           {currency === 'TRY' && <span className="text-xs text-gray-400"> (≈${Math.round(toUSD(donationAmount))})</span>}
-                          {' '}· Platform desteği: <strong>{currencySymbol}{tipAmount.toFixed(2)}</strong>
-                          {' '}· Toplam: <strong>{currencySymbol}{totalCharge.toFixed(2)}</strong>
+                          {' '}{t('app.page.platform_deste_i')}<strong>{currencySymbol}{tipAmount.toFixed(2)}</strong>
+                          {' '}{t('app.page.toplam')}<strong>{currencySymbol}{totalCharge.toFixed(2)}</strong>
                           {currency === 'TRY' && <span className="text-xs text-gray-400"> (≈${Math.round(toUSD(totalCharge))})</span>}
                         </div>
                       )}
@@ -698,12 +695,13 @@ function DonatePageContent() {
 }
 
 export default function DonatePage() {
+    const { t } = useTranslation();
   return (
     <Suspense fallback={
       <div className="min-h-screen flex items-center justify-center bg-slate-50">
         <div className="text-center">
           <div className="h-10 w-10 animate-spin mx-auto border-4 border-slate-200 border-t-blue-600 rounded-full mb-4" />
-          <p className="text-slate-400 text-sm">Loading...</p>
+          <p className="text-slate-400 text-sm">{t('app.page.loading')}</p>
         </div>
       </div>
     }>

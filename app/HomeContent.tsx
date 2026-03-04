@@ -1,13 +1,12 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useTranslation } from "@/lib/i18n/context";
 import { Heart, Shield, TrendingUp, Users, Globe, ArrowRight, CheckCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import CampaignCard from '@/components/CampaignCard';
 import HomeSearchBar from './HomeSearchBar';
-import { useTranslation } from '@/lib/i18n';
 import { useCurrency } from '@/lib/currency-context';
-
 interface PlatformStats {
     studentsHelped: number;
     totalRaised: number;

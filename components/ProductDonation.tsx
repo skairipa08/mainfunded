@@ -19,6 +19,7 @@ import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
 import { cn } from '@/lib/utils';
 import { useCurrency } from '@/lib/currency-context';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface ProductItem {
     id: string;
@@ -111,6 +112,7 @@ export function ProductDonationForm({
     className,
     onSubmit,
 }: ProductDonationFormProps) {
+    const { t } = useTranslation();
     const { formatAmount } = useCurrency();
     const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
     const [quantity, setQuantity] = useState(1);
@@ -149,17 +151,16 @@ export function ProductDonationForm({
                         <Gift className="h-6 w-6 text-orange-600" />
                     </div>
                     <div>
-                        <h3 className="font-semibold text-gray-900">Urun Bağışi</h3>
+                        <h3 className="font-semibold text-gray-900">{t('components.productdonation.urun_ba_i')}</h3>
                         <p className="text-sm text-gray-600">
-                            {studentName ? `${studentName} icin` : 'Öğrencilere'} ihtiyac duydugu urunleri bağışın
-                        </p>
+                            {studentName ? `${studentName} icin` : 'Öğrencilere'} {t('components.productdonation.ihtiyac_duydugu_urunleri_ba_n')}</p>
                     </div>
                 </div>
             </div>
 
             {/* Product Selection */}
             <div>
-                <Label className="mb-3 block">Bağışlamak Istediginiz Urun</Label>
+                <Label className="mb-3 block">{t('components.productdonation.ba_lamak_istediginiz_urun')}</Label>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                     {neededProducts.map((product) => (
                         <button
@@ -175,7 +176,7 @@ export function ProductDonationForm({
                         >
                             <product.icon className="h-6 w-6 text-orange-600 mb-2" />
                             <p className="font-medium text-gray-900">{product.name}</p>
-                            <p className="text-xs text-gray-500">{product.inNeed} öğrenci bekliyor</p>
+                            <p className="text-xs text-gray-500">{product.inNeed} {t('components.productdonation.renci_bekliyor')}</p>
                         </button>
                     ))}
                 </div>
@@ -186,7 +187,7 @@ export function ProductDonationForm({
                     {/* Quantity & Condition */}
                     <div className="grid grid-cols-2 gap-4">
                         <div>
-                            <Label htmlFor="quantity">Adet</Label>
+                            <Label htmlFor="quantity">{t('components.productdonation.adet')}</Label>
                             <Input
                                 id="quantity"
                                 type="number"
@@ -197,7 +198,7 @@ export function ProductDonationForm({
                             />
                         </div>
                         <div>
-                            <Label>Durum</Label>
+                            <Label>{t('components.productdonation.durum')}</Label>
                             <div className="flex gap-2 mt-1">
                                 {[
                                     { value: 'new', label: 'Sifir' },
@@ -224,7 +225,7 @@ export function ProductDonationForm({
 
                     {/* Delivery Method */}
                     <div>
-                        <Label className="mb-3 block">Teslimat Yontemi</Label>
+                        <Label className="mb-3 block">{t('components.productdonation.teslimat_yontemi')}</Label>
                         <div className="space-y-2">
                             <button
                                 type="button"
@@ -238,8 +239,8 @@ export function ProductDonationForm({
                             >
                                 <Truck className="h-5 w-5 text-orange-600" />
                                 <div>
-                                    <p className="font-medium">Kargo ile Gönder</p>
-                                    <p className="text-xs text-gray-500">Adresinizden alinir</p>
+                                    <p className="font-medium">{t('components.productdonation.kargo_ile_g_nder')}</p>
+                                    <p className="text-xs text-gray-500">{t('components.productdonation.adresinizden_alinir')}</p>
                                 </div>
                             </button>
                             <button
@@ -254,8 +255,8 @@ export function ProductDonationForm({
                             >
                                 <Package className="h-5 w-5 text-orange-600" />
                                 <div>
-                                    <p className="font-medium">Adresimden Alin</p>
-                                    <p className="text-xs text-gray-500">Kurye adresinize gelir</p>
+                                    <p className="font-medium">{t('components.productdonation.adresimden_alin')}</p>
+                                    <p className="text-xs text-gray-500">{t('components.productdonation.kurye_adresinize_gelir')}</p>
                                 </div>
                             </button>
                             <button
@@ -270,8 +271,8 @@ export function ProductDonationForm({
                             >
                                 <MapPin className="h-5 w-5 text-orange-600" />
                                 <div>
-                                    <p className="font-medium">Teslim Noktasina Birakin</p>
-                                    <p className="text-xs text-gray-500">En yakin FundEd noktasi</p>
+                                    <p className="font-medium">{t('components.productdonation.teslim_noktasina_birakin')}</p>
+                                    <p className="text-xs text-gray-500">{t('components.productdonation.en_yakin_funded_noktasi')}</p>
                                 </div>
                             </button>
                         </div>
@@ -280,12 +281,12 @@ export function ProductDonationForm({
                     {/* Address (if needed) */}
                     {deliveryMethod !== 'drop_off' && (
                         <div>
-                            <Label htmlFor="address">Adres</Label>
+                            <Label htmlFor="address">{t('components.productdonation.adres')}</Label>
                             <textarea
                                 id="address"
                                 value={address}
                                 onChange={(e) => setAddress(e.target.value)}
-                                placeholder="Kargo/kurye için adresiniz"
+                                placeholder={t('components.productdonation.kargo_kurye_i_in_adresiniz')}
                                 rows={2}
                                 className="mt-1 w-full px-3 py-2 border rounded-lg resize-none"
                             />
@@ -295,7 +296,7 @@ export function ProductDonationForm({
                     {/* Donor Info */}
                     <div className="space-y-4">
                         <div>
-                            <Label htmlFor="donorName">Adiniz *</Label>
+                            <Label htmlFor="donorName">{t('components.productdonation.adiniz')}</Label>
                             <Input
                                 id="donorName"
                                 required
@@ -306,7 +307,7 @@ export function ProductDonationForm({
                         </div>
                         <div className="grid grid-cols-2 gap-4">
                             <div>
-                                <Label htmlFor="donorEmail">E-posta *</Label>
+                                <Label htmlFor="donorEmail">{t('components.productdonation.e_posta')}</Label>
                                 <Input
                                     id="donorEmail"
                                     type="email"
@@ -317,7 +318,7 @@ export function ProductDonationForm({
                                 />
                             </div>
                             <div>
-                                <Label htmlFor="donorPhone">Telefon *</Label>
+                                <Label htmlFor="donorPhone">{t('components.productdonation.telefon')}</Label>
                                 <Input
                                     id="donorPhone"
                                     type="tel"
@@ -332,18 +333,18 @@ export function ProductDonationForm({
 
                     {/* Summary */}
                     <div className="bg-gray-50 rounded-xl p-4">
-                        <h4 className="font-medium text-gray-900 mb-2">Bağış Ozeti</h4>
+                        <h4 className="font-medium text-gray-900 mb-2">{t('components.productdonation.ba_ozeti')}</h4>
                         <div className="space-y-1 text-sm">
                             <div className="flex justify-between">
-                                <span className="text-gray-600">Urun</span>
+                                <span className="text-gray-600">{t('components.productdonation.urun')}</span>
                                 <span className="font-medium">{selectedProduct.name}</span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-gray-600">Adet</span>
+                                <span className="text-gray-600">{t('components.productdonation.adet')}</span>
                                 <span className="font-medium">{quantity}</span>
                             </div>
                             <div className="flex justify-between">
-                                <span className="text-gray-600">Tahmini Deger</span>
+                                <span className="text-gray-600">{t('components.productdonation.tahmini_deger')}</span>
                                 <span className="font-medium text-green-600">
                                     ~{formatAmount(selectedProduct.estimatedValue * quantity)}
                                 </span>
@@ -353,8 +354,7 @@ export function ProductDonationForm({
 
                     <Button type="submit" className="w-full gap-2 bg-orange-600 hover:bg-orange-700">
                         <Gift className="h-5 w-5" />
-                        Urun Bağışi Yap
-                    </Button>
+                        {t('components.productdonation.urun_ba_i_yap')}</Button>
                 </>
             )}
         </form>
@@ -363,9 +363,10 @@ export function ProductDonationForm({
 
 // Needed Products List Component
 export function NeededProductsList({ className }: { className?: string }) {
+    const { t } = useTranslation();
     return (
         <div className={cn('space-y-4', className)}>
-            <h3 className="font-semibold text-gray-900">Ihtiyac Duyulan Urunler</h3>
+            <h3 className="font-semibold text-gray-900">{t('components.productdonation.ihtiyac_duyulan_urunler')}</h3>
             {neededProducts.map((product) => (
                 <div
                     key={product.id}

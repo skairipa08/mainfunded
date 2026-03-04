@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface CharityGuaranteeProps {
     className?: string;
@@ -36,6 +37,7 @@ const guaranteePoints = [
 ];
 
 export function CharityGuarantee({ className, variant = 'full' }: CharityGuaranteeProps) {
+    const { t } = useTranslation();
     if (variant === 'compact') {
         return (
             <div className={cn('bg-green-50 rounded-xl p-4 border border-green-200', className)}>
@@ -44,8 +46,8 @@ export function CharityGuarantee({ className, variant = 'full' }: CharityGuarant
                         <Shield className="h-5 w-5 text-green-600" />
                     </div>
                     <div>
-                        <p className="font-medium text-green-800">FundEd Güvencesi</p>
-                        <p className="text-sm text-green-600">Bağışınız %100 güvenli ve şeffaf</p>
+                        <p className="font-medium text-green-800">{t('components.charityguarantee.funded_g_vencesi')}</p>
+                        <p className="text-sm text-green-600">{t('components.charityguarantee.ba_n_z_100_g_venli_ve_effaf')}</p>
                     </div>
                 </div>
             </div>
@@ -57,10 +59,9 @@ export function CharityGuarantee({ className, variant = 'full' }: CharityGuarant
             {/* Header */}
             <div className="bg-gradient-to-r from-green-600 to-emerald-700 text-white p-6 text-center">
                 <Shield className="h-12 w-12 mx-auto mb-3" />
-                <h2 className="text-2xl font-bold mb-2">FundEd Bağış Güvencesi</h2>
+                <h2 className="text-2xl font-bold mb-2">{t('components.charityguarantee.funded_ba_g_vencesi')}</h2>
                 <p className="text-green-100">
-                    Bağışınızın doğru yere ulaşacağından %100 emin olun
-                </p>
+                    {t('components.charityguarantee.ba_n_z_n_do_ru_yere_ula_aca_nd')}</p>
             </div>
 
             {/* Guarantee Points */}
@@ -80,7 +81,7 @@ export function CharityGuarantee({ className, variant = 'full' }: CharityGuarant
 
             {/* Process */}
             <div className="bg-gray-50 p-6 border-t">
-                <h4 className="font-semibold text-gray-900 mb-4">Nasil Calisir?</h4>
+                <h4 className="font-semibold text-gray-900 mb-4">{t('components.charityguarantee.nasil_calisir')}</h4>
                 <div className="flex items-center justify-between">
                     {[
                         { step: 1, label: 'Bağış Yap' },
@@ -108,11 +109,9 @@ export function CharityGuarantee({ className, variant = 'full' }: CharityGuarant
                 <div className="flex items-start gap-3 bg-blue-50 rounded-lg p-4">
                     <AlertCircle className="h-5 w-5 text-blue-600 mt-0.5" />
                     <div>
-                        <h4 className="font-medium text-blue-900">İade Politikası</h4>
+                        <h4 className="font-medium text-blue-900">{t('components.charityguarantee.ade_politikas')}</h4>
                         <p className="text-sm text-blue-700 mt-1">
-                            Bağış yaptığınız öğrenci doğrulanamazsa veya kampanya iptal edilirse,
-                            bağışınızın %100&apos;ü 5-7 iş günü içinde iade edilir.
-                        </p>
+                            {t('components.charityguarantee.ba_yapt_n_z_renci_do_rulanamaz')}</p>
                     </div>
                 </div>
             </div>
@@ -121,8 +120,7 @@ export function CharityGuarantee({ className, variant = 'full' }: CharityGuarant
             <div className="p-6 pt-0">
                 <Button variant="outline" className="w-full gap-2">
                     <HelpCircle className="h-4 w-4" />
-                    Detaylı Bilgi Al
-                </Button>
+                    {t('components.charityguarantee.detayl_bilgi_al')}</Button>
             </div>
         </div>
     );
@@ -130,10 +128,11 @@ export function CharityGuarantee({ className, variant = 'full' }: CharityGuarant
 
 // Trust Badge for inline use
 export function TrustBadge({ className }: { className?: string }) {
+    const { t } = useTranslation();
     return (
         <div className={cn('inline-flex items-center gap-2 px-3 py-1 bg-green-50 rounded-full border border-green-200', className)}>
             <Shield className="h-4 w-4 text-green-600" />
-            <span className="text-sm font-medium text-green-700">FundEd Güvenli</span>
+            <span className="text-sm font-medium text-green-700">{t('components.charityguarantee.funded_g_venli')}</span>
             <Check className="h-4 w-4 text-green-600" />
         </div>
     );

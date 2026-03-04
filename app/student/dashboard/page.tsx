@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
 import { Wallet, TrendingUp, Clock, DollarSign, Plus, ExternalLink } from 'lucide-react';
 import { useCurrency } from '@/lib/currency-context';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface BalanceData {
   totalEarned: number;
@@ -39,6 +40,7 @@ interface DonationItem {
 }
 
 export default function StudentDashboardPage() {
+    const { t } = useTranslation();
   const { data: session, status: authStatus } = useSession();
   const router = useRouter();
   const { formatAmount } = useCurrency();
@@ -109,7 +111,7 @@ export default function StudentDashboardPage() {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
         <div className="text-center max-w-md">
           <p className="text-red-600 font-medium mb-4">{error}</p>
-          <Button onClick={fetchData}>Yeniden Dene</Button>
+          <Button onClick={fetchData}>{t('app.page.yeniden_dene')}</Button>
         </div>
       </div>
     );
@@ -126,13 +128,13 @@ export default function StudentDashboardPage() {
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Öğrenci Paneli</h1>
+          <h1 className="text-3xl font-bold text-gray-900">{t('app.page.renci_paneli')}</h1>
           <div className="flex gap-2 mt-4 sm:mt-0">
             <Link href="/student/dashboard/payout">
-              <Button variant="outline" size="sm"><Wallet className="h-4 w-4 mr-1" /> Ödeme Yöntemleri</Button>
+              <Button variant="outline" size="sm"><Wallet className="h-4 w-4 mr-1" /> {t('app.page.deme_y_ntemleri')}</Button>
             </Link>
             <Link href="/campaigns/new">
-              <Button size="sm"><Plus className="h-4 w-4 mr-1" /> Yeni Kampanya</Button>
+              <Button size="sm"><Plus className="h-4 w-4 mr-1" /> {t('app.page.yeni_kampanya')}</Button>
             </Link>
           </div>
         </div>
@@ -140,21 +142,21 @@ export default function StudentDashboardPage() {
         {/* Balance Cards */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
           <StatCard
-            title="Toplam Kazanç"
+            title={t('app.page.toplam_kazan')}
             value={formatAmount(balance?.totalEarned ?? 0)}
             icon={<TrendingUp className="h-5 w-5" />}
             loading={loading}
             valueClassName="text-green-600"
           />
           <StatCard
-            title="Kullanılabilir Bakiye"
+            title={t('app.page.kullan_labilir_bakiye')}
             value={formatAmount(balance?.available ?? 0)}
             icon={<DollarSign className="h-5 w-5" />}
             loading={loading}
             valueClassName="text-blue-600"
           />
           <StatCard
-            title="Beklemede"
+            title={t('app.page.beklemede')}
             value={formatAmount(balance?.pending ?? 0)}
             subtitle="(son 14 gün)"
             icon={<Clock className="h-5 w-5" />}
@@ -162,7 +164,7 @@ export default function StudentDashboardPage() {
             valueClassName="text-yellow-600"
           />
           <StatCard
-            title="Çekilen Toplam"
+            title={t('app.page.ekilen_toplam')}
             value={formatAmount(balance?.totalWithdrawn ?? 0)}
             icon={<Wallet className="h-5 w-5" />}
             loading={loading}
@@ -172,7 +174,7 @@ export default function StudentDashboardPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Campaigns */}
           <div className="lg:col-span-2">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Kampanyalarım</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('app.page.kampanyalar_m')}</h2>
             {loading ? (
               <div className="space-y-3">
                 {[1, 2, 3].map((i) => (
@@ -185,9 +187,9 @@ export default function StudentDashboardPage() {
               </div>
             ) : campaigns.length === 0 ? (
               <div className="bg-white rounded-lg shadow p-12 text-center">
-                <p className="text-gray-500 mb-4">Henüz kampanyanız yok</p>
+                <p className="text-gray-500 mb-4">{t('app.page.hen_z_kampanyan_z_yok')}</p>
                 <Link href="/campaigns/new">
-                  <Button><Plus className="h-4 w-4 mr-1" /> İlk Kampanyanızı Oluşturun</Button>
+                  <Button><Plus className="h-4 w-4 mr-1" /> {t('app.page.lk_kampanyan_z_olu_turun')}</Button>
                 </Link>
               </div>
             ) : (
@@ -201,8 +203,7 @@ export default function StudentDashboardPage() {
                           <div className="flex-1 min-w-0">
                             <h3 className="font-medium text-gray-900 truncate">{c.title}</h3>
                             <p className="text-sm text-gray-500 mt-1">
-                              {formatAmount(c.raised_amount)} / {formatAmount(c.goal_amount)} &middot; {c.donor_count} bağışçı
-                            </p>
+                              {formatAmount(c.raised_amount)} / {formatAmount(c.goal_amount)} &middot; {c.donor_count} {t('app.page.ba')}</p>
                           </div>
                           <Badge className={statusColor[c.status] ?? 'bg-gray-100 text-gray-800'}>
                             {c.status}
@@ -221,7 +222,7 @@ export default function StudentDashboardPage() {
 
           {/* Recent Donations */}
           <div>
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Son Bağışlar</h2>
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">{t('app.page.son_ba_lar')}</h2>
             {loading ? (
               <div className="space-y-3">
                 {[1, 2, 3, 4, 5].map((i) => (
@@ -233,7 +234,7 @@ export default function StudentDashboardPage() {
               </div>
             ) : recentDonations.length === 0 ? (
               <div className="bg-white rounded-lg shadow p-8 text-center">
-                <p className="text-gray-500">Henüz bağış yok</p>
+                <p className="text-gray-500">{t('app.page.hen_z_ba_yok')}</p>
               </div>
             ) : (
               <div className="space-y-2">

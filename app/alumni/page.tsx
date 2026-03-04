@@ -175,7 +175,7 @@ export default function AlumniPage() {
 
                         {/* Scroll indicator */}
                         <div className="mt-12 flex flex-col items-center gap-2 animate-bounce">
-                            <span className="text-white/40 text-xs uppercase tracking-widest">Scroll</span>
+                            <span className="text-white/40 text-xs uppercase tracking-widest">{t('app.page.scroll')}</span>
                             <div className="w-px h-8 bg-gradient-to-b from-white/40 to-transparent" />
                         </div>
                     </div>

@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface VerificationItem {
     verification_id: string;
@@ -42,6 +43,7 @@ const TIER_COLORS: Record<number, string> = {
 };
 
 export default function VerificationQueuePage() {
+    const { t } = useTranslation();
     const [data, setData] = useState<QueueResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -95,20 +97,19 @@ export default function VerificationQueuePage() {
     return (
         <div>
             <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">Verification Queue</h2>
+                <h2 className="text-2xl font-bold text-gray-900">{t('app.page.verification_queue')}</h2>
                 <button
                     onClick={fetchQueue}
                     className="px-4 py-2 text-sm bg-gray-100 hover:bg-gray-200 rounded-md"
                 >
-                    Refresh
-                </button>
+                    {t('app.page.refresh')}</button>
             </div>
 
             {/* Filters */}
             <div className="bg-white rounded-lg shadow p-4 mb-6 space-y-4">
                 {/* Status filters */}
                 <div>
-                    <label className="text-xs font-medium text-gray-500 uppercase mb-2 block">Status</label>
+                    <label className="text-xs font-medium text-gray-500 uppercase mb-2 block">{t('app.page.status')}</label>
                     <div className="flex gap-2 flex-wrap">
                         {['PENDING_REVIEW', 'NEEDS_MORE_INFO', 'UNDER_INVESTIGATION', 'APPROVED', 'REJECTED', 'ALL'].map((status) => (
                             <button
@@ -127,7 +128,7 @@ export default function VerificationQueuePage() {
 
                 {/* Tier filters */}
                 <div>
-                    <label className="text-xs font-medium text-gray-500 uppercase mb-2 block">Tier Requested</label>
+                    <label className="text-xs font-medium text-gray-500 uppercase mb-2 block">{t('app.page.tier_requested')}</label>
                     <div className="flex gap-2 flex-wrap">
                         {['', '0', '1', '2', '3'].map((tier) => (
                             <button
@@ -146,7 +147,7 @@ export default function VerificationQueuePage() {
 
                 {/* Risk score filter */}
                 <div>
-                    <label className="text-xs font-medium text-gray-500 uppercase mb-2 block">Min Risk Score</label>
+                    <label className="text-xs font-medium text-gray-500 uppercase mb-2 block">{t('app.page.min_risk_score')}</label>
                     <div className="flex gap-2">
                         {['', '25', '50', '75'].map((score) => (
                             <button
@@ -185,20 +186,19 @@ export default function VerificationQueuePage() {
                         <table className="min-w-full divide-y divide-gray-200">
                             <thead className="bg-gray-50">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Student</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Institution</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Status</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Risk</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Submitted</th>
-                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Actions</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{t('app.page.student')}</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{t('app.page.institution')}</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{t('app.page.status')}</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{t('app.page.risk')}</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{t('app.page.submitted')}</th>
+                                    <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">{t('app.page.actions')}</th>
                                 </tr>
                             </thead>
                             <tbody className="bg-white divide-y divide-gray-200">
                                 {data.items.length === 0 ? (
                                     <tr>
                                         <td colSpan={6} className="px-6 py-12 text-center text-gray-500">
-                                            No verifications found
-                                        </td>
+                                            {t('app.page.no_verifications_found')}</td>
                                     </tr>
                                 ) : (
                                     data.items.map((item) => (
@@ -231,8 +231,7 @@ export default function VerificationQueuePage() {
                                                     href={`/admin/verifications/${item.verification_id}`}
                                                     className="text-blue-600 hover:text-blue-800 font-medium"
                                                 >
-                                                    Review
-                                                </Link>
+                                                    {t('app.page.review')}</Link>
                                             </td>
                                         </tr>
                                     ))
@@ -245,7 +244,7 @@ export default function VerificationQueuePage() {
                     {data.totalPages > 1 && (
                         <div className="flex justify-between items-center mt-4">
                             <p className="text-sm text-gray-500">
-                                Showing {((page - 1) * 20) + 1} to {Math.min(page * 20, data.total)} of {data.total}
+                                {t('app.page.showing')}{((page - 1) * 20) + 1} to {Math.min(page * 20, data.total)} of {data.total}
                             </p>
                             <div className="flex gap-2">
                                 <button
@@ -253,18 +252,16 @@ export default function VerificationQueuePage() {
                                     disabled={page === 1}
                                     className="px-3 py-1 text-sm bg-gray-100 rounded disabled:opacity-50"
                                 >
-                                    Previous
-                                </button>
+                                    {t('app.page.previous')}</button>
                                 <span className="px-3 py-1 text-sm">
-                                    Page {page} of {data.totalPages}
+                                    {t('app.page.page')}{page} of {data.totalPages}
                                 </span>
                                 <button
                                     onClick={() => setPage(p => Math.min(data.totalPages, p + 1))}
                                     disabled={page === data.totalPages}
                                     className="px-3 py-1 text-sm bg-gray-100 rounded disabled:opacity-50"
                                 >
-                                    Next
-                                </button>
+                                    {t('app.page.next')}</button>
                             </div>
                         </div>
                     )}

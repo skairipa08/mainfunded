@@ -20,6 +20,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useCorporateAuth } from '@/lib/corporate/auth';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface SidebarItem {
     name: string;
@@ -33,7 +34,7 @@ const sidebarItems: SidebarItem[] = [
     { name: 'Öğrenciler', href: '/corporate/students', icon: Users },
     { name: 'Raporlar', href: '/corporate/reports', icon: FileText },
     { name: 'Kampanyalar', href: '/corporate/campaigns', icon: ShoppingCart },
-    { name: 'ESG Raporu', href: '/corporate/esg', icon: Leaf },
+    { name: 'ESG & Sosyal Etki', href: '/corporate/esg', icon: Leaf },
     { name: 'Bildirimler', href: '/corporate/notifications', icon: Bell, badge: 2 },
     { name: 'Ayarlar', href: '/corporate/settings', icon: Settings },
 ];
@@ -44,6 +45,7 @@ interface CorporateSidebarProps {
 }
 
 export default function CorporateSidebar({ mobileOpen = false, onMobileClose }: CorporateSidebarProps) {
+    const { t } = useTranslation();
     const pathname = usePathname();
     const router = useRouter();
     const [collapsed, setCollapsed] = useState(false);
@@ -97,8 +99,8 @@ export default function CorporateSidebar({ mobileOpen = false, onMobileClose }: 
                         </div>
                         {!collapsed && (
                             <div>
-                                <h1 className="font-bold text-lg">FundEd</h1>
-                                <p className="text-xs text-gray-400">Kurumsal Panel</p>
+                                <h1 className="font-bold text-lg">{t('components.sidebar.funded')}</h1>
+                                <p className="text-xs text-gray-400">{t('components.sidebar.kurumsal_panel')}</p>
                             </div>
                         )}
                     </Link>
@@ -174,7 +176,7 @@ export default function CorporateSidebar({ mobileOpen = false, onMobileClose }: 
                             className="flex items-center gap-2 mt-4 text-gray-400 hover:text-white transition-colors text-sm w-full"
                         >
                             <LogOut className="h-4 w-4" />
-                            <span>Çıkış Yap</span>
+                            <span>{t('components.sidebar.k_yap')}</span>
                         </button>
                     )}
                 </div>
@@ -194,8 +196,8 @@ export default function CorporateSidebar({ mobileOpen = false, onMobileClose }: 
                             <Building2 className="h-6 w-6" />
                         </div>
                         <div>
-                            <h1 className="font-bold text-lg">FundEd</h1>
-                            <p className="text-xs text-gray-400">Kurumsal Panel</p>
+                            <h1 className="font-bold text-lg">{t('components.sidebar.funded')}</h1>
+                            <p className="text-xs text-gray-400">{t('components.sidebar.kurumsal_panel')}</p>
                         </div>
                     </Link>
                     <button
@@ -214,7 +216,7 @@ export default function CorporateSidebar({ mobileOpen = false, onMobileClose }: 
                         className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-gray-400 hover:bg-gray-800 hover:text-white transition-colors"
                     >
                         <Home className="h-5 w-5" />
-                        <span>Ana Siteye Dön</span>
+                        <span>{t('components.sidebar.ana_siteye_d_n')}</span>
                     </Link>
                 </div>
 
@@ -265,7 +267,7 @@ export default function CorporateSidebar({ mobileOpen = false, onMobileClose }: 
                         className="flex items-center gap-2 mt-4 text-gray-400 hover:text-white transition-colors text-sm w-full"
                     >
                         <LogOut className="h-4 w-4" />
-                        <span>Çıkış Yap</span>
+                        <span>{t('components.sidebar.k_yap')}</span>
                     </button>
                 </div>
             </aside>

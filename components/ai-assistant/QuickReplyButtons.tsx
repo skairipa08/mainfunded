@@ -2,6 +2,7 @@
 
 import React from 'react';
 import type { QuickReply } from '@/types/ai-assistant';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface QuickReplyButtonsProps {
   replies: QuickReply[];
@@ -10,6 +11,7 @@ interface QuickReplyButtonsProps {
 }
 
 export function QuickReplyButtons({ replies, onSelect, disabled }: QuickReplyButtonsProps) {
+    const { t } = useTranslation();
   return (
     <div className="flex flex-wrap gap-2 px-2 mb-3">
       {replies.map((reply) => (

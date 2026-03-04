@@ -18,6 +18,7 @@ import {
   Wallet,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useTranslation } from "@/lib/i18n/context";
 
 interface SidebarItem {
   name: string;
@@ -40,6 +41,7 @@ interface StudentSidebarProps {
 }
 
 export default function StudentSidebar({ mobileOpen = false, onMobileClose }: StudentSidebarProps) {
+    const { t } = useTranslation();
   const pathname = usePathname();
   const router = useRouter();
   const [collapsed, setCollapsed] = useState(false);
@@ -82,8 +84,8 @@ export default function StudentSidebar({ mobileOpen = false, onMobileClose }: St
             </div>
             {!collapsed && (
               <div>
-                <h1 className="font-bold text-lg">FundEd</h1>
-                <p className="text-xs text-gray-400">Öğrenci Paneli</p>
+                <h1 className="font-bold text-lg">{t('components.sidebar.funded')}</h1>
+                <p className="text-xs text-gray-400">{t('components.sidebar.renci_paneli')}</p>
               </div>
             )}
           </Link>
@@ -138,7 +140,7 @@ export default function StudentSidebar({ mobileOpen = false, onMobileClose }: St
             {!collapsed && (
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium truncate">{displayName}</p>
-                <p className="text-xs text-gray-400 truncate">Öğrenci</p>
+                <p className="text-xs text-gray-400 truncate">{t('components.sidebar.renci')}</p>
               </div>
             )}
           </div>
@@ -150,7 +152,7 @@ export default function StudentSidebar({ mobileOpen = false, onMobileClose }: St
             )}
           >
             <LogOut className="h-4 w-4" />
-            {!collapsed && <span className="text-sm">Çıkış Yap</span>}
+            {!collapsed && <span className="text-sm">{t('components.sidebar.k_yap')}</span>}
           </button>
         </div>
       </aside>
@@ -169,8 +171,8 @@ export default function StudentSidebar({ mobileOpen = false, onMobileClose }: St
               <GraduationCap className="h-6 w-6" />
             </div>
             <div>
-              <h1 className="font-bold text-lg">FundEd</h1>
-              <p className="text-xs text-gray-400">Öğrenci Paneli</p>
+              <h1 className="font-bold text-lg">{t('components.sidebar.funded')}</h1>
+              <p className="text-xs text-gray-400">{t('components.sidebar.renci_paneli')}</p>
             </div>
           </Link>
           <button onClick={onMobileClose} className="p-2 rounded-lg hover:bg-gray-800">
@@ -213,7 +215,7 @@ export default function StudentSidebar({ mobileOpen = false, onMobileClose }: St
             </div>
             <div className="flex-1 min-w-0">
               <p className="text-sm font-medium truncate">{displayName}</p>
-              <p className="text-xs text-gray-400 truncate">Öğrenci</p>
+              <p className="text-xs text-gray-400 truncate">{t('components.sidebar.renci')}</p>
             </div>
           </div>
           <button
@@ -221,7 +223,7 @@ export default function StudentSidebar({ mobileOpen = false, onMobileClose }: St
             className="flex items-center gap-2 mt-3 px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-800 hover:text-white transition-colors w-full"
           >
             <LogOut className="h-4 w-4" />
-            <span className="text-sm">Çıkış Yap</span>
+            <span className="text-sm">{t('components.sidebar.k_yap')}</span>
           </button>
         </div>
       </aside>
