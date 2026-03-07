@@ -204,6 +204,12 @@ export default function Navbar() {
       description: 'Dünyada eğitim eşitliği için kampanyamız',
     },
     {
+      label: 'Özel Gereksinimli Çocuklar',
+      href: '/special-needs',
+      icon: Heart,
+      description: 'Özel gereksinimli çocuklar için bağış kampanyası',
+    },
+    {
       label: t('nav.menu.matchingGift'),
       href: '/corporate',
       icon: Gift,

@@ -25,7 +25,7 @@ export interface VerifiedStudent extends SessionUser {
 
 export async function getSessionUser(): Promise<SessionUser | null> {
   const session = await auth();
-  
+
   if (!session?.user) {
     return null;
   }
@@ -63,9 +63,13 @@ export async function requireAdmin(): Promise<SessionUser> {
   return requireRole(['admin']);
 }
 
+export async function requireAdminOrOps(): Promise<SessionUser> {
+  return requireRole(['admin', 'ops']);
+}
+
 export async function requireVerifiedStudent(): Promise<VerifiedStudent> {
   const user = await requireUser();
-  
+
   if (user.role === 'admin') {
     return {
       ...user,
@@ -78,7 +82,7 @@ export async function requireVerifiedStudent(): Promise<VerifiedStudent> {
     { user_id: user.id },
     { projection: { _id: 0 } }
   );
-  
+
   if (!studentProfile) {
     throw new Error('STUDENT_PROFILE_NOT_FOUND');
   }

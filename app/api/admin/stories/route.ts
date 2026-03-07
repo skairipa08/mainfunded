@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest } from 'next/server';
 import { getDb } from '@/lib/db';
-import { requireAdmin } from '@/lib/authz';
+import { requireAdminOrOps } from '@/lib/authz';
 import { successResponse, handleRouteError } from '@/lib/api-response';
 
 /**
@@ -11,7 +11,7 @@ import { successResponse, handleRouteError } from '@/lib/api-response';
  */
 export async function GET(request: NextRequest) {
     try {
-        await requireAdmin();
+        await requireAdminOrOps();
 
         const db = await getDb();
         const { searchParams } = new URL(request.url);

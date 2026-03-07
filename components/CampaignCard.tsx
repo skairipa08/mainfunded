@@ -62,6 +62,11 @@ export default function CampaignCard({ campaign }: CampaignCardProps) {
                 {status.label}
               </Badge>
             )}
+            {campaign.condition && (
+              <span className="bg-purple-500/90 backdrop-blur-sm text-white text-[10px] px-2 py-0.5 rounded-full font-medium shadow-sm truncate max-w-[120px]">
+                {campaign.condition}
+              </span>
+            )}
             {campaign.isPublished && (campaign.status === 'published' || campaign.createdFrom === 'application') && (
               <Badge className="bg-emerald-600 text-white border-emerald-700 shadow-sm">
                 <CheckCircle2 className="h-3 w-3 mr-1" />

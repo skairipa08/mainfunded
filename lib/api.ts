@@ -9,14 +9,14 @@ async function apiCall(endpoint: string, options: RequestInit = {}, includeCrede
     },
     ...options,
   };
-  
+
   if (includeCredentials) {
     config.credentials = 'include';
   }
 
   try {
     const response = await fetch(url, config);
-    
+
     // Check if response is ok before trying to parse JSON
     if (!response.ok) {
       // Try to parse error response as JSON
@@ -28,16 +28,16 @@ async function apiCall(endpoint: string, options: RequestInit = {}, includeCrede
         // If not JSON, create a generic error
         errorData = {};
       }
-      
+
       // Extract error message from various possible formats
-      const errorMessage = 
-        errorData?.error?.message || 
-        errorData?.error?.code || 
-        errorData?.detail || 
-        errorData?.error || 
+      const errorMessage =
+        errorData?.error?.message ||
+        errorData?.error?.code ||
+        errorData?.detail ||
+        errorData?.error ||
         errorData?.message ||
         `API request failed with status ${response.status}`;
-      
+
       // Log detailed error in development only
       if (process.env.NODE_ENV === 'development') {
         console.error(`[API Error] ${endpoint}:`, {
@@ -46,7 +46,7 @@ async function apiCall(endpoint: string, options: RequestInit = {}, includeCrede
           error: errorMessage,
         });
       }
-      
+
       throw new Error(errorMessage);
     }
 
@@ -68,7 +68,7 @@ async function apiCall(endpoint: string, options: RequestInit = {}, includeCrede
         throw new Error('Invalid JSON response from server');
       }
     }
-    
+
     // Non-JSON response
     const text = await response.text();
     return { data: text };
@@ -81,7 +81,7 @@ async function apiCall(endpoint: string, options: RequestInit = {}, includeCrede
       }
       throw networkError;
     }
-    
+
     // Re-throw other errors (including our Error from above)
     throw error;
   }
@@ -91,7 +91,7 @@ async function apiCall(endpoint: string, options: RequestInit = {}, includeCrede
 import { cachedFetch, invalidateCacheByPrefix } from './api-cache';
 
 const STATIC_TTL = 5 * 60_000;  // 5 min for rarely-changing data
-const LIST_TTL   = 60_000;       // 1 min for campaign lists
+const LIST_TTL = 60_000;       // 1 min for campaign lists
 const DETAIL_TTL = 60_000;       // 1 min for single campaign
 
 export const getCategories = () =>
@@ -107,8 +107,26 @@ export const getCampaigns = (params: Record<string, any> = {}) => {
   return cachedFetch(key, () => apiCall(key, {}, false), { ttl: LIST_TTL });
 };
 
-export const getCampaign = (campaignId: string) =>
-  cachedFetch(`/campaigns/${campaignId}`, () => apiCall(`/campaigns/${campaignId}`, {}, false), { ttl: DETAIL_TTL });
+export const getCampaign = (campaignId: string) => {
+  if (campaignId.startsWith('special-needs-story-')) {
+    const storyName = campaignId.replace('special-needs-story-', '');
+    const decodedName = decodeURIComponent(storyName);
+    return Promise.resolve({
+      success: true,
+      data: {
+        campaign_id: campaignId,
+        title: `Özel Gereksinimli Çocuklar Destek Fonu - ${decodedName}`,
+        status: 'published',
+        student: { name: decodedName },
+        studentName: decodedName,
+        raised_amount: 0,
+        goal_amount: 50000,
+        country: 'Türkiye'
+      }
+    });
+  }
+  return cachedFetch(`/campaigns/${campaignId}`, () => apiCall(`/campaigns/${campaignId}`, {}, false), { ttl: DETAIL_TTL });
+};
 export const getMyCampaigns = () => apiCall('/campaigns/my');
 
 export const createCampaign = (campaignData: any) =>

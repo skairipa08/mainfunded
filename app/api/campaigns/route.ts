@@ -6,6 +6,7 @@ import { campaignCreateSchema } from '@/lib/validators/campaign';
 import crypto from 'crypto';
 import { ObjectId } from 'mongodb';
 import { logger } from '@/lib/logger';
+import { cache } from '@/lib/cache';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -42,6 +43,13 @@ export async function GET(request: NextRequest) {
   };
 
   try {
+    const cacheKey = `campaigns:${searchParams.toString()}`;
+    const cachedData = cache.get<any>(cacheKey);
+    if (cachedData) {
+      logger.info(`[Campaigns GET] Cache hit for ${cacheKey}`);
+      return returnCampaigns(cachedData.data, cachedData.total);
+    }
+
     const db = await getDb();
 
     // Build query - only show published campaigns
@@ -159,6 +167,9 @@ export async function GET(request: NextRequest) {
         },
       };
     });
+
+    // Cache the result for 60 seconds
+    cache.set(cacheKey, { data: enrichedCampaigns, total }, 60);
 
     return returnCampaigns(enrichedCampaigns, total);
 

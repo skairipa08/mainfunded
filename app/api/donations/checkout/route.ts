@@ -104,23 +104,39 @@ export async function POST(request: NextRequest) {
     }
 
     // Verify campaign exists and is published
-    const campaign = await db.collection('campaigns').findOne(
-      { campaign_id: campaignId },
-      { projection: { _id: 0 } }
-    );
+    let campaign = null;
+    let campaignTitle = 'Campaign';
 
-    if (!campaign) {
-      return errorResponse(
-        { code: 'NOT_FOUND', message: 'Campaign not found' },
-        404
+    if (campaignId.startsWith('special-needs-story-')) {
+      const storyName = campaignId.replace('special-needs-story-', '');
+      const decodedName = decodeURIComponent(storyName);
+      campaignTitle = `Özel Gereksinimli Çocuklar Destek Fonu - ${decodedName}`;
+      campaign = {
+        campaign_id: campaignId,
+        title: campaignTitle,
+        status: 'published',
+        student: { name: decodedName }
+      };
+    } else {
+      campaign = await db.collection('campaigns').findOne(
+        { campaign_id: campaignId },
+        { projection: { _id: 0 } }
       );
-    }
 
-    if (campaign.status !== 'published') {
-      return errorResponse(
-        { code: 'INVALID_STATUS', message: 'This campaign is not currently accepting donations' },
-        400
-      );
+      if (!campaign) {
+        return errorResponse(
+          { code: 'NOT_FOUND', message: 'Campaign not found' },
+          404
+        );
+      }
+
+      if (campaign.status !== 'published') {
+        return errorResponse(
+          { code: 'INVALID_STATUS', message: 'This campaign is not currently accepting donations' },
+          400
+        );
+      }
+      campaignTitle = campaign.title?.substring(0, 50) || 'Campaign';
     }
 
     // Get user from NextAuth session if available (optional for donations)
@@ -154,7 +170,7 @@ export async function POST(request: NextRequest) {
         buyerName: donorName || 'Anonymous',
         buyerEmail: finalDonorEmail || 'anonymous@funded.org',
         buyerId: donorId || `guest_${crypto.randomBytes(4).toString('hex')}`,
-        campaignTitle: campaign.title?.substring(0, 50) || 'Campaign',
+        campaignTitle: campaignTitle,
         campaignId,
       });
 

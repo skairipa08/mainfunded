@@ -2,7 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest } from 'next/server';
 import { getDb } from '@/lib/db';
-import { requireAdmin } from '@/lib/authz';
+import { requireAdminOrOps } from '@/lib/authz';
 import { successResponse, errorResponse, handleRouteError } from '@/lib/api-response';
 
 /**
@@ -14,7 +14,7 @@ export async function PATCH(
     { params }: { params: { id: string } }
 ) {
     try {
-        const admin = await requireAdmin();
+        const admin = await requireAdminOrOps();
 
         const db = await getDb();
         const body = await request.json();

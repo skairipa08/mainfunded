@@ -70,6 +70,7 @@ export default function Footer() {
               <ul className="space-y-2">
                 <li><Link href="/browse" className="text-gray-400 hover:text-white transition-colors">{t('nav.browse')}</Link></li>
                 <li><Link href="/education-equality" className="text-gray-400 hover:text-white transition-colors">{t('components.footer.e_itimde_e_itlik_ba_lar')}</Link></li>
+                <li><Link href="/special-needs" className="text-gray-400 hover:text-white transition-colors">{t('specialNeeds.navLabel') !== 'specialNeeds.navLabel' ? t('specialNeeds.navLabel') : 'Özel Gereksinimli Çocuklar'}</Link></li>
                 <li><Link href="/campaigns/new" className="text-gray-400 hover:text-white transition-colors">{t('campaign.createCampaign')}</Link></li>
                 <li><Link href="/login" className="text-gray-400 hover:text-white transition-colors">{t('common.login')}</Link></li>
               </ul>

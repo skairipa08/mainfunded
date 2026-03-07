@@ -19,6 +19,7 @@ export const APPLICANT_TYPES = [
   { value: 'parent', label: 'Parent / Guardian', labelTr: 'Veli', icon: 'Users' },
   { value: 'teacher', label: 'Teacher', labelTr: 'Öğretmen', icon: 'School' },
   { value: 'school', label: 'School / Institution', labelTr: 'Okul / Kurum', icon: 'Building' },
+  { value: 'special-needs', label: 'Special Needs', labelTr: 'Özel Gereksinimli', icon: 'Heart' },
 ] as const;
 
 // ─── Education Levels ─────────────────────────────────────────────────────────
