@@ -228,22 +228,22 @@ export default function SpecialNeedsPage() {
 
     const coffeeCostItems = [
         {
-            amount: currency === 'TRY' ? 2750 : 75,
+            amount: currency === 'TRY' ? 1000 : 75,
             impact: t('specialNeeds.coffee.impact1'),
             emoji: '📖',
         },
         {
-            amount: currency === 'TRY' ? 25550 : 700,
+            amount: currency === 'TRY' ? 8000 : 700,
             impact: t('specialNeeds.coffee.impact2'),
             emoji: '🎨',
         },
         {
-            amount: currency === 'TRY' ? 18250 : 500,
+            amount: currency === 'TRY' ? 10000 : 500,
             impact: t('specialNeeds.coffee.impact3'),
             emoji: '🧩',
         },
         {
-            amount: currency === 'TRY' ? 73000 : 2000,
+            amount: currency === 'TRY' ? 50000 : 2000,
             impact: t('specialNeeds.coffee.impact4'),
             emoji: '💜',
         },
