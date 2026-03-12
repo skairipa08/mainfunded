@@ -49,7 +49,7 @@ function DonatePageContent() {
   const [submitted, setSubmitted] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [selectedQuickAmount, setSelectedQuickAmount] = useState<number | null>(null);
-  const [interval, setInterval] = useState<'one-time' | 'month' | 'week'>('one-time');
+  const [interval, setInterval] = useState<'one-time' | 'month' | 'quarterly' | 'yearly'>('one-time');
   const [formData, setFormData] = useState({
     amount: '',
     target: 'Support a verified student' as 'Support a verified student' | 'General education fund' | 'Monthly student scholarship' | 'Special needs children',
@@ -398,62 +398,94 @@ function DonatePageContent() {
                       </div>
                     )}
 
-                    {/* Recurring donation prompt & interval selector */}
-                    {formData.target === 'General education fund' && (
-                      <div className="bg-blue-50/50 border border-blue-100 rounded-2xl p-5 space-y-4">
-                        <div className="flex gap-3">
-                          <Heart className="h-5 w-5 text-blue-500 mt-0.5" />
-                          <div>
-                            <p className="text-sm font-semibold text-blue-900 leading-snug">
-                              {t('donation.recurringPrompt')}
-                            </p>
+                    {/* Recurring donation prompt for eligible categories */}
+                    {(formData.target === 'General education fund' || formData.target === 'Special needs children' || formData.target === 'Monthly student scholarship') && (
+                      <div className="space-y-4">
+                        {/* Recommendation banner for special needs & education equality */}
+                        {(formData.target === 'Special needs children' || formData.target === 'General education fund') && interval === 'one-time' && (
+                          <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-2xl p-5">
+                            <div className="flex items-start gap-3">
+                              <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center shrink-0">
+                                <Heart className="h-5 w-5 text-purple-600" />
+                              </div>
+                              <div className="flex-1">
+                                <p className="font-semibold text-purple-900 text-sm">
+                                  {formData.target === 'Special needs children'
+                                    ? 'Özel gereksinimli çocuklar için düzenli bağış öneriyoruz'
+                                    : 'Eğitimde eşitlik için düzenli destek öneriyoruz'}
+                                </p>
+                                <p className="text-xs text-purple-700 mt-1 leading-relaxed">
+                                  {formData.target === 'Special needs children'
+                                    ? 'Özel gereksinimli çocuklar sürekli desteğe ihtiyaç duyar. Aylık düzenli bağışınız, terapi, eğitim materyalleri ve bakım masraflarını karşılamaya yardımcı olur.'
+                                    : 'Eğitim uzun soluklu bir süreçtir. Düzenli bağışlar, öğrencilerin yollarına güvenle devam etmesini sağlar.'}
+                                </p>
+                                <button
+                                  type="button"
+                                  onClick={() => setInterval('month')}
+                                  className="mt-3 inline-flex items-center gap-1.5 bg-purple-600 text-white text-sm font-semibold px-4 py-2 rounded-lg hover:bg-purple-700 transition-colors"
+                                >
+                                  <Clock className="h-3.5 w-3.5" />
+                                  Aylık bağışa geç
+                                </button>
+                              </div>
+                            </div>
                           </div>
-                        </div>
-                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                          <button
-                            type="button"
-                            onClick={() => setInterval('month')}
-                            className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${interval !== 'one-time'
-                              ? 'bg-blue-600 text-white shadow-md shadow-blue-500/20 border-2 border-blue-600'
-                              : 'bg-white text-slate-600 border-2 border-slate-200 hover:border-blue-300'
-                              }`}
-                          >
-                            {t('donation.emotionalYes')}
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setInterval('one-time')}
-                            className={`px-4 py-3 rounded-xl text-sm font-medium transition-all ${interval === 'one-time'
-                              ? 'bg-white text-slate-800 border-2 border-blue-600 shadow-sm'
-                              : 'bg-white text-slate-600 border-2 border-slate-200 hover:border-blue-300'
-                              }`}
-                          >
-                            {t('donation.emotionalNo')}
-                          </button>
-                        </div>
-                      </div>
-                    )}
+                        )}
 
-                    {(formData.target === 'Monthly student scholarship' || (formData.target === 'General education fund' && interval !== 'one-time')) && (
-                      <div className="space-y-3">
-                        <Label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
-                          <Clock className="h-4 w-4 text-slate-400" />
-                          {t('donation.intervalSelect')}
-                        </Label>
-                        <div className="flex p-1 bg-slate-100/80 rounded-2xl">
-                          {(['one-time', 'week', 'month'] as const).map((opt) => (
-                            <button
-                              key={opt}
-                              type="button"
-                              onClick={() => setInterval(opt)}
-                              className={`flex-1 py-3 text-sm font-semibold rounded-xl transition-all duration-300 ${interval === opt
-                                ? 'bg-white text-slate-900 shadow-sm'
-                                : 'text-slate-500 hover:text-slate-700 hover:bg-white/50'
-                                }`}
-                            >
-                              {opt === 'one-time' ? t('donation.intervalOneTime') : opt === 'week' ? t('donation.intervalWeekly') : t('donation.intervalMonthly')}
-                            </button>
-                          ))}
+                        {/* Interval selector */}
+                        <div className="space-y-3">
+                          <Label className="text-sm font-semibold text-slate-700 flex items-center gap-2">
+                            <Clock className="h-4 w-4 text-slate-400" />
+                            Bağış Sıklığı
+                          </Label>
+                          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                            {([
+                              { value: 'one-time' as const, label: 'Tek Seferlik', desc: 'Bir kereye mahsus' },
+                              { value: 'month' as const, label: 'Aylık', desc: 'Her ay otomatik', recommended: formData.target === 'Special needs children' || formData.target === 'General education fund' },
+                              { value: 'quarterly' as const, label: '3 Aylık', desc: 'Her 3 ayda bir' },
+                              { value: 'yearly' as const, label: 'Yıllık', desc: 'Yılda bir kez' },
+                            ]).map((opt) => {
+                              const isSelected = interval === opt.value;
+                              const isRecurring = opt.value !== 'one-time';
+                              return (
+                                <button
+                                  key={opt.value}
+                                  type="button"
+                                  onClick={() => setInterval(opt.value)}
+                                  className={`relative flex flex-col items-center gap-1 py-3 px-2 rounded-xl border-2 text-center transition-all ${
+                                    isSelected
+                                      ? isRecurring
+                                        ? 'border-blue-500 bg-blue-50 text-blue-700 shadow-sm'
+                                        : 'border-slate-800 bg-white text-slate-900 shadow-sm'
+                                      : 'border-slate-200 bg-white text-slate-500 hover:border-slate-300 hover:bg-slate-50'
+                                  }`}
+                                >
+                                  {opt.recommended && (
+                                    <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-purple-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap">
+                                      Önerilen
+                                    </span>
+                                  )}
+                                  <span className="text-sm font-semibold">{opt.label}</span>
+                                  <span className="text-[11px] opacity-70">{opt.desc}</span>
+                                </button>
+                              );
+                            })}
+                          </div>
+
+                          {/* Info banner when recurring selected */}
+                          {interval !== 'one-time' && (
+                            <div className="bg-blue-50 border border-blue-100 rounded-xl p-3 flex items-start gap-2.5">
+                              <Shield className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                              <div>
+                                <p className="text-sm text-blue-800 font-medium">
+                                  {interval === 'month' ? 'Her ay' : interval === 'quarterly' ? 'Her 3 ayda bir' : 'Her yıl'} otomatik olarak çekim yapılacaktır.
+                                </p>
+                                <p className="text-xs text-blue-600 mt-0.5">
+                                  Kartınız güvenle saklanır. İstediğiniz zaman iptal edebilirsiniz.
+                                </p>
+                              </div>
+                            </div>
+                          )}
                         </div>
                       </div>
                     )}

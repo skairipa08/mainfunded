@@ -132,42 +132,50 @@ export function DonationForm({
 
             {/* Recurring Frequency */}
             {donationType === 'recurring' && (
-                <div className="bg-purple-50 rounded-xl p-4 border border-purple-100">
-                    <Label className="text-purple-700 mb-3 block">{t('donationForm.frequency')}</Label>
-                    <div className="flex gap-4">
-                        <label className="flex items-center gap-2 cursor-pointer">
-                            <input
-                                type="radio"
-                                name="frequency"
-                                value="monthly"
-                                checked={frequency === 'monthly'}
-                                onChange={() => setFrequency('monthly')}
-                                className="accent-purple-600"
-                            />
-                            <span>{t('donationForm.monthly')}</span>
-                        </label>
-                        <label className="flex items-center gap-2 cursor-pointer">
-                            <input
-                                type="radio"
-                                name="frequency"
-                                value="quarterly"
-                                checked={frequency === 'quarterly'}
-                                onChange={() => setFrequency('quarterly')}
-                                className="accent-purple-600"
-                            />
-                            <span>{t('donationForm.quarterly')}</span>
-                        </label>
-                        <label className="flex items-center gap-2 cursor-pointer">
-                            <input
-                                type="radio"
-                                name="frequency"
-                                value="yearly"
-                                checked={frequency === 'yearly'}
-                                onChange={() => setFrequency('yearly')}
-                                className="accent-purple-600"
-                            />
-                            <span>{t('donationForm.yearly')}</span>
-                        </label>
+                <div className="space-y-3">
+                    <div className="bg-purple-50 rounded-xl p-4 border border-purple-100">
+                        <Label className="text-purple-700 mb-3 block">{t('donationForm.frequency')}</Label>
+                        <div className="flex gap-4">
+                            <label className="flex items-center gap-2 cursor-pointer">
+                                <input
+                                    type="radio"
+                                    name="frequency"
+                                    value="monthly"
+                                    checked={frequency === 'monthly'}
+                                    onChange={() => setFrequency('monthly')}
+                                    className="accent-purple-600"
+                                />
+                                <span>{t('donationForm.monthly')}</span>
+                            </label>
+                            <label className="flex items-center gap-2 cursor-pointer">
+                                <input
+                                    type="radio"
+                                    name="frequency"
+                                    value="quarterly"
+                                    checked={frequency === 'quarterly'}
+                                    onChange={() => setFrequency('quarterly')}
+                                    className="accent-purple-600"
+                                />
+                                <span>{t('donationForm.quarterly')}</span>
+                            </label>
+                            <label className="flex items-center gap-2 cursor-pointer">
+                                <input
+                                    type="radio"
+                                    name="frequency"
+                                    value="yearly"
+                                    checked={frequency === 'yearly'}
+                                    onChange={() => setFrequency('yearly')}
+                                    className="accent-purple-600"
+                                />
+                                <span>{t('donationForm.yearly')}</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div className="bg-blue-50 rounded-lg p-3 border border-blue-100 flex items-start gap-2">
+                        <Calendar className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                        <p className="text-sm text-blue-700">
+                            {t('donationForm.recurringInfo') || 'Kartınız güvenle saklanacak ve her dönem otomatik olarak çekim yapılacaktır. İstediğiniz zaman aboneliğinizi iptal edebilirsiniz.'}
+                        </p>
                     </div>
                 </div>
             )}

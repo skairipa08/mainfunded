@@ -1,0 +1,118 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("MONGO_URL") // Current DB URL variable
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model StudentProfile {
+  id                 String           @id @default(auto()) @map("_id") @db.ObjectId
+  userId             String           @unique // Links to User collection
+  photoUrl           String?
+  age                Int?
+  schoolName         String?
+  grade              String?
+  major              String?
+  careerGoal         String?
+  hobbies            String[]
+  shortStory         String?
+  gpa                Float?
+  
+  // Relations
+  verifications      Verification[]
+  achievements       Achievement[]
+  privacySettings    PrivacySettings?
+  receivedMessages   StudentMessage[]
+  followers          DonorStudentFollow[]
+
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+
+  @@map("student_profiles")
+}
+
+model Verification {
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  studentId        String         @db.ObjectId
+  student          StudentProfile @relation(fields: [studentId], references: [id])
+  type             VerificationType
+  status           String         // e.g., "PENDING", "APPROVED", "REJECTED"
+  verifiedAt       DateTime?
+
+  @@map("verifications")
+}
+
+enum VerificationType {
+  ID         // "Öğrenci Kimliği Doğrulandı"
+  SCHOOL     // "Okul Onaylıyor"
+  TEACHER    // "Öğretmen Referansı Var"
+}
+
+model Achievement {
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  studentId        String         @db.ObjectId
+  student          StudentProfile @relation(fields: [studentId], references: [id])
+  type             AchievementType
+  title            String
+  description      String?
+  date             DateTime       @default(now())
+
+  @@map("achievements")
+}
+
+enum AchievementType {
+  SCHOLARSHIP
+  PASSED_CLASS
+  GRADUATED
+  OTHER
+}
+
+model PrivacySettings {
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  studentId        String         @unique @db.ObjectId
+  student          StudentProfile @relation(fields: [studentId], references: [id])
+  
+  ageVisibility    PrivacyLevel   @default(EVERYONE)
+  gpaVisibility    PrivacyLevel   @default(DONORS_ONLY)
+  storyVisibility  PrivacyLevel   @default(EVERYONE)
+
+  @@map("privacy_settings")
+}
+
+enum PrivacyLevel {
+  EVERYONE
+  DONORS_ONLY
+  HIDDEN
+}
+
+model StudentMessage {
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  studentId        String         @db.ObjectId
+  student          StudentProfile @relation(fields: [studentId], references: [id])
+  donorId          String         // Links to User or Donor profile
+  message          String
+  status           MessageStatus  @default(SENT)
+  createdAt        DateTime       @default(now())
+
+  @@map("student_messages")
+}
+
+enum MessageStatus {
+  SENT
+  REJECTED_MODERATION
+  READ
+}
+
+model DonorStudentFollow {
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  donorId          String         // Links to User collection
+  studentId        String         @db.ObjectId
+  student          StudentProfile @relation(fields: [studentId], references: [id])
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@unique([donorId, studentId])
+  @@map("donor_student_follows")
+}

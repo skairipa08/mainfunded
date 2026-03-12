@@ -4,6 +4,29 @@ import HomeContent from './HomeContent';
 import { getDb } from '@/lib/db';
 import { ObjectId } from 'mongodb';
 import { useTranslation } from "@/lib/i18n/context";
+import { Metadata } from 'next';
+
+export async function generateMetadata({ params: { locale } }: { params: { locale: string } }): Promise<Metadata> {
+  const isTr = locale === 'tr';
+  return {
+    title: isTr
+      ? 'FundEd | Çocuklar İçin Eğitim ve Terapi Fonlama Platformu'
+      : 'FundEd | Education and Therapy Crowdfunding for Children',
+    description: isTr
+      ? 'Özel gereksinimli çocuklar ve eğitimde fırsat eşitliği için güvenilir bağış platformu. Çocukların geleceğine ortak olun, eğitim ve terapi süreçlerini destekleyin.'
+      : 'Reliable crowdfunding platform for children with special needs and educational equality. Support children\'s therapy and education journey.',
+    openGraph: {
+      title: isTr
+        ? 'FundEd | Çocuklar İçin Eğitim ve Terapi Fonlama Platformu'
+        : 'FundEd | Education and Therapy Crowdfunding for Children',
+      description: isTr
+        ? 'Özel gereksinimli çocuklar ve eğitimde fırsat eşitliği için güvenilir bağış platformu. Çocukların geleceğine ortak olun, eğitim ve terapi süreçlerini destekleyin.'
+        : 'Reliable crowdfunding platform for children with special needs and educational equality. Support children\'s therapy and education journey.',
+      images: ['/og-image.png'],
+      locale: isTr ? 'tr_TR' : 'en_US',
+    }
+  };
+}
 
 export const dynamic = 'force-dynamic';
 

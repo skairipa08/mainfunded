@@ -5,8 +5,8 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import {
-  Heart, ArrowLeft, Loader2, Shield, Lock, MessageSquare,
-  AlertTriangle, CheckCircle2, GraduationCap, Sparkles
+  Heart, ArrowLeft, Loader2, Shield, Lock, MessageSquare, Gift,
+  AlertTriangle, CheckCircle2, GraduationCap, Sparkles, RefreshCcw, Calendar
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -19,6 +19,13 @@ import Footer from '@/components/Footer';
 import { useCurrency } from '@/lib/currency-context';
 import { censorSurname } from '@/lib/privacy';
 import { useTranslation } from "@/lib/i18n/context";
+import { TributeSection, EMPTY_TRIBUTE, type TributeInfo } from '@/components/donation/TributeSection';
+import dynamic from 'next/dynamic';
+
+const TributeShareCard = dynamic(
+  () => import('@/components/donation/TributeShareCard').then((m) => ({ default: m.TributeShareCard })),
+  { ssr: false }
+);
 
 function CampaignDonateContent() {
     const { t } = useTranslation();
@@ -34,7 +41,7 @@ function CampaignDonateContent() {
 
   // Form state
   const [donationAmount, setDonationAmount] = useState('');
-  const [interval, setInterval] = useState<'one-time' | 'week' | 'month'>('one-time');
+  const [interval, setInterval] = useState<'one-time' | 'week' | 'month' | 'quarterly' | 'yearly'>('one-time');
   const [platformTipPercent, setPlatformTipPercent] = useState(2);
   const [customTip, setCustomTip] = useState('');
   const [useCustomTip, setUseCustomTip] = useState(false);
@@ -42,6 +49,7 @@ function CampaignDonateContent() {
   const [donorEmail, setDonorEmail] = useState('');
   const [isAnonymous, setIsAnonymous] = useState(false);
   const [noteToStudent, setNoteToStudent] = useState('');
+  const [tributeInfo, setTributeInfo] = useState<TributeInfo>(EMPTY_TRIBUTE);
   const [donationError, setDonationError] = useState<string | null>(null);
   const [processingPayment, setProcessingPayment] = useState(false);
 
@@ -141,7 +149,18 @@ function CampaignDonateContent() {
         platform_tip_percent: effectiveTipPercent,
         platform_tip_amount: tipAmount,
         coverFees: false,
-        interval: interval
+        interval: interval,
+        // Tribute giving
+        ...(tributeInfo.isTribute && tributeInfo.honoreeName
+          ? {
+              tribute_info: {
+                ...tributeInfo,
+                donorDisplayName: isAnonymous
+                  ? 'Bir destekçi'
+                  : (donorName || session?.user?.name || 'Bağışçı'),
+              },
+            }
+          : {}),
       });
 
       if (response.data?.checkout_url || response.data?.url) {
@@ -187,6 +206,25 @@ function CampaignDonateContent() {
     ? Math.min((campaign.raised_amount / campaign.goal_amount) * 100, 100)
     : 0;
 
+  // Determine if this campaign should recommend recurring
+  const campaignCategory = (campaign.category || '').toLowerCase();
+  const campaignTitle = (campaign.title || '').toLowerCase();
+  const isRecurringRecommended =
+    campaignCategory === 'special-needs' ||
+    campaignCategory === 'tuition' ||
+    campaignTitle.includes('özel gereksinim') ||
+    campaignTitle.includes('eğitimde eşitlik') ||
+    campaignTitle.includes('eğitim eşitli') ||
+    campaignTitle.includes('special needs') ||
+    campaignTitle.includes('education equality');
+
+  const INTERVAL_OPTIONS = [
+    { value: 'one-time' as const, label: 'Tek Seferlik', icon: Heart, desc: 'Bir kereye mahsus destek' },
+    { value: 'month' as const, label: 'Aylık', icon: RefreshCcw, desc: 'Her ay otomatik', recommended: isRecurringRecommended },
+    { value: 'quarterly' as const, label: '3 Aylık', icon: Calendar, desc: 'Her 3 ayda bir' },
+    { value: 'yearly' as const, label: 'Yıllık', icon: Calendar, desc: 'Yılda bir kez' },
+  ];
+
   // ---- SUCCESS SCREEN ----
   if (donationComplete) {
     return (
@@ -226,6 +264,31 @@ function CampaignDonateContent() {
                 {t('app.page.ba_n_z_renciye_iletilecektir_h')}<a href="mailto:support@fund-ed.com" className="underline font-medium ml-1">support@fund-ed.com</a>
                 {t('app.page.adresinden_bize_ula_abilirsini')}</p>
             </div>
+
+            {/* Tribute success summary + social share */}
+            {tributeInfo.isTribute && tributeInfo.honoreeName && (
+              <div className="space-y-3 text-left">
+                <div className="flex items-center gap-2 bg-purple-50 border border-purple-100 rounded-xl px-4 py-3">
+                  <Gift className="h-5 w-5 text-purple-500 shrink-0" />
+                  <p className="text-sm text-purple-800">
+                    Bu bağış <strong>{tributeInfo.honoreeName}</strong> adına yapıldı.
+                    {tributeInfo.honoreeEmail && (
+                      <> <strong>{tributeInfo.honoreeEmail}</strong> adresine bildirim gönderildi.</>
+                    )}
+                  </p>
+                </div>
+                <TributeShareCard
+                  tribute={tributeInfo}
+                  campaignTitle={campaign.title}
+                  campaignId={campaignId}
+                  donorName={
+                    isAnonymous
+                      ? 'Bir destekçi'
+                      : (donorName || session?.user?.name || 'Bağışçı')
+                  }
+                />
+              </div>
+            )}
 
             <div className="flex flex-col sm:flex-row gap-3 justify-center pt-2">
               <Button onClick={() => router.push(`/campaign/${campaignId}`)} variant="outline" className="gap-2">
@@ -286,43 +349,96 @@ function CampaignDonateContent() {
 
           {/* Form */}
           <div className="bg-white border rounded-2xl p-6 shadow-sm space-y-6">
+
+            {/* RECURRING RECOMMENDATION for special campaigns */}
+            {isRecurringRecommended && interval === 'one-time' && (
+              <div className="bg-gradient-to-r from-purple-50 to-indigo-50 border border-purple-200 rounded-2xl p-5">
+                <div className="flex items-start gap-3">
+                  <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center shrink-0">
+                    <Heart className="h-5 w-5 text-purple-600" />
+                  </div>
+                  <div className="flex-1">
+                    <p className="font-semibold text-purple-900 text-sm">
+                      Bu kampanya için düzenli bağış öneriyoruz
+                    </p>
+                    <p className="text-xs text-purple-700 mt-1 leading-relaxed">
+                      {campaignCategory === 'special-needs'
+                        ? 'Özel gereksinimli çocuklar sürekli desteğe ihtiyaç duyar. Aylık düzenli bağışınız onların yaşamını kalıcı olarak değiştirir.'
+                        : 'Eğitim uzun soluklu bir yolculuktur. Düzenli bağışlar öğrencilerin yollarına güvenle devam etmesini sağlar.'}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => setInterval('month')}
+                      className="mt-3 inline-flex items-center gap-1.5 text-sm font-semibold text-purple-700 hover:text-purple-900 transition-colors"
+                    >
+                      <RefreshCcw className="h-3.5 w-3.5" />
+                      Aylık bağışa geç
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* FREQUENCY SELECTOR */}
             <div>
-              <Label className="text-base font-semibold text-gray-900 block mb-3">{t('app.page.ba_s_kl')}</Label>
-              <div className="flex gap-2 p-1 bg-gray-100 rounded-xl">
-                <button
-                  type="button"
-                  onClick={() => setInterval('one-time')}
-                  className={`flex-1 py-2.5 px-3 text-sm font-medium rounded-lg transition-colors ${interval === 'one-time'
-                    ? 'bg-white text-gray-900 shadow-sm ring-1 ring-gray-900/5'
-                    : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
-                    }`}
-                >
-                  {t('app.page.tek_seferlik')}</button>
-                <button
-                  type="button"
-                  onClick={() => setInterval('month')}
-                  className={`flex-1 py-2.5 px-3 text-sm font-medium rounded-lg transition-colors ${interval === 'month'
-                    ? 'bg-blue-600 text-white shadow-sm hover:bg-blue-700'
-                    : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
-                    }`}
-                >
-                  {t('app.page.ayl_k')}</button>
-                <button
-                  type="button"
-                  onClick={() => setInterval('week')}
-                  className={`flex-1 py-2.5 px-3 text-sm font-medium rounded-lg transition-colors ${interval === 'week'
-                    ? 'bg-blue-600 text-white shadow-sm hover:bg-blue-700'
-                    : 'text-gray-500 hover:text-gray-700 hover:bg-white/50'
-                    }`}
-                >
-                  {t('app.page.haftal_k')}</button>
+              <Label className="text-base font-semibold text-gray-900 block mb-3">Bağış Sıklığı</Label>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {INTERVAL_OPTIONS.map((opt) => {
+                  const Icon = opt.icon;
+                  const isSelected = interval === opt.value;
+                  const isRecurring = opt.value !== 'one-time';
+                  return (
+                    <button
+                      key={opt.value}
+                      type="button"
+                      onClick={() => setInterval(opt.value)}
+                      className={`relative flex flex-col items-center gap-1.5 py-3.5 px-2 rounded-xl border-2 text-center transition-all ${
+                        isSelected
+                          ? isRecurring
+                            ? 'border-blue-500 bg-blue-50 text-blue-700 shadow-sm'
+                            : 'border-gray-800 bg-white text-gray-900 shadow-sm'
+                          : 'border-gray-200 bg-white text-gray-500 hover:border-gray-300 hover:bg-gray-50'
+                      }`}
+                    >
+                      {opt.recommended && (
+                        <span className="absolute -top-2.5 left-1/2 -translate-x-1/2 bg-purple-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full whitespace-nowrap">
+                          Önerilen
+                        </span>
+                      )}
+                      <Icon className="h-4 w-4" />
+                      <span className="text-sm font-semibold leading-tight">{opt.label}</span>
+                      <span className="text-[11px] leading-tight opacity-70">{opt.desc}</span>
+                    </button>
+                  );
+                })}
               </div>
+
+              {/* Recurring info banner */}
+              {interval !== 'one-time' && (
+                <div className="mt-3 bg-blue-50 border border-blue-100 rounded-xl p-3 flex items-start gap-2.5">
+                  <Shield className="h-4 w-4 text-blue-600 mt-0.5 flex-shrink-0" />
+                  <div>
+                    <p className="text-sm text-blue-800 font-medium">
+                      {interval === 'month' ? 'Her ay' : interval === 'quarterly' ? 'Her 3 ayda bir' : 'Her yıl'} otomatik olarak çekim yapılacaktır.
+                    </p>
+                    <p className="text-xs text-blue-600 mt-0.5">
+                      Kartınız güvenle saklanır. İstediğiniz zaman iptal edebilirsiniz.
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* AMOUNT */}
             <div>
-              <Label htmlFor="amount" className="text-base font-semibold text-gray-900">{t('app.page.ba_tutar')}{currencySymbol}) {interval !== 'one-time' ? `(${interval === 'month' ? 'Aylık' : 'Haftalık'})` : ''}</Label>
+              <Label htmlFor="amount" className="text-base font-semibold text-gray-900">
+                Bağış Tutarı ({currencySymbol})
+                {interval !== 'one-time' && (
+                  <span className="ml-1 text-blue-600 font-normal text-sm">
+                    — {interval === 'month' ? 'Aylık' : interval === 'quarterly' ? '3 Aylık' : 'Yıllık'}
+                  </span>
+                )}
+              </Label>
               <Input
                 id="amount"
                 type="number"
@@ -429,6 +545,9 @@ function CampaignDonateContent() {
               </div>
               <p className="text-right text-[11px] text-gray-400 mt-0.5">{noteToStudent.length}/500</p>
             </div>
+
+            {/* TRIBUTE GIVING */}
+            <TributeSection value={tributeInfo} onChange={setTributeInfo} />
 
             {/* DONOR INFO */}
             {!session && (

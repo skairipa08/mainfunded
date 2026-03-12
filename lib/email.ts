@@ -702,3 +702,348 @@ export function renderFeedbackNotificationEmail(data: {
   `.trim();
 }
 
+// ─── Tribute Giving Email Templates ─────────────────────────────────────────
+
+/**
+ * Email sent to the DONOR confirming a tribute donation.
+ * Subject: "X adına bağışınız tamamlandı 💙"
+ */
+export function renderTributeDonorConfirmEmail(data: {
+  donorName: string;
+  honoreeName: string;
+  occasionLabel: string;
+  occasionEmoji: string;
+  amount: number;
+  currency: string;
+  campaignTitle: string;
+  campaignId: string;
+  message: string;
+  honoreeEmail?: string;
+}): string {
+  const baseUrl = process.env.AUTH_URL || 'http://localhost:3000';
+  const symMap: Record<string, string> = { TRY: '₺', USD: '$', EUR: '€', GBP: '£' };
+  const sym = symMap[data.currency?.toUpperCase()] ?? data.currency;
+  const fmtAmount =
+    data.currency?.toUpperCase() === 'TRY'
+      ? `${data.amount.toLocaleString('tr-TR')}${sym}`
+      : `${sym}${data.amount.toLocaleString('en-US')}`;
+
+  return `
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.7; color: #1f2937; max-width: 600px; margin: 0 auto; padding: 20px; background: #f9fafb;">
+  <div style="background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%); padding: 36px 30px; text-align: center; border-radius: 12px 12px 0 0;">
+    <div style="font-size: 44px; margin-bottom: 10px;">${escapeHtml(data.occasionEmoji)}</div>
+    <h1 style="color: white; margin: 0; font-size: 24px; font-weight: 700;">Tribute Bağışınız Tamamlandı!</h1>
+    <p style="color: rgba(255,255,255,0.85); margin: 8px 0 0; font-size: 15px;">${escapeHtml(data.honoreeName)} adına bir öğrenciye destek oldunuz</p>
+  </div>
+  <div style="background: #ffffff; padding: 32px 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 12px 12px;">
+    <p style="font-size: 16px; margin: 0 0 20px;">Sayın <strong>${escapeHtml(data.donorName)}</strong>,</p>
+    <p style="font-size: 15px; color: #374151; margin: 0 0 24px;">
+      <strong>${escapeHtml(data.honoreeName)}</strong> adına yaptığınız <strong>${escapeHtml(data.occasionLabel)}</strong> bağışı başarıyla tamamlandı.
+    </p>
+    <div style="background: #f0f7ff; border: 1px solid #bfdbfe; border-radius: 10px; padding: 20px; margin: 0 0 24px;">
+      <table style="width: 100%; border-collapse: collapse;">
+        <tr><td style="padding: 6px 0; color: #6b7280; font-size: 13px; width: 42%;">Onurlandırılan Kişi</td><td style="font-weight: 600; font-size: 14px;">${escapeHtml(data.honoreeName)}</td></tr>
+        <tr><td style="padding: 6px 0; color: #6b7280; font-size: 13px;">Özel Gün</td><td style="font-weight: 600; font-size: 14px;">${escapeHtml(data.occasionEmoji)} ${escapeHtml(data.occasionLabel)}</td></tr>
+        <tr><td style="padding: 6px 0; color: #6b7280; font-size: 13px;">Bağış Tutarı</td><td style="font-weight: 700; font-size: 16px; color: #2563eb;">${escapeHtml(fmtAmount)}</td></tr>
+        <tr><td style="padding: 6px 0; color: #6b7280; font-size: 13px;">Kampanya</td><td style="font-size: 14px;">${escapeHtml(data.campaignTitle)}</td></tr>
+        ${data.honoreeEmail ? `<tr><td style="padding: 6px 0; color: #6b7280; font-size: 13px;">Bildirim Gönderildi</td><td style="font-size: 14px; color: #059669;">✓ ${escapeHtml(data.honoreeEmail)}</td></tr>` : ''}
+      </table>
+    </div>
+    ${data.message ? `
+    <div style="background: #fafafa; border-left: 4px solid #6366f1; border-radius: 0 8px 8px 0; padding: 16px 20px; margin: 0 0 24px;">
+      <p style="margin: 0 0 6px; font-size: 12px; color: #9ca3af; text-transform: uppercase;">Mesajınız</p>
+      <p style="margin: 0; font-size: 14px; color: #374151; font-style: italic;">"${escapeHtml(data.message)}"</p>
+    </div>` : ''}
+    <div style="text-align: center; margin: 28px 0 8px;">
+      <a href="${baseUrl}/campaign/${escapeHtml(data.campaignId)}" style="display: inline-block; background: #3b82f6; color: white; padding: 13px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px;">Kampanyayı Görüntüle</a>
+    </div>
+    <p style="font-size: 13px; color: #9ca3af; text-align: center; margin-top: 28px; padding-top: 20px; border-top: 1px solid #f3f4f6;">
+      Sorularınız için <a href="mailto:support@fund-ed.com" style="color: #3b82f6;">support@fund-ed.com</a>
+    </p>
+  </div>
+  <div style="text-align: center; margin-top: 16px; color: #9ca3af; font-size: 12px;"><p>© ${new Date().getFullYear()} FundEd. Tüm hakları saklıdır.</p></div>
+</body>
+</html>
+  `.trim();
+}
+
+/**
+ * Email sent to the HONOREE notifying them that someone donated in their name.
+ * Subject: "Sevdikleriniz sizin adınıza bir öğrenciye destek oldu 💙"
+ */
+export function renderTributeHonoreeNotificationEmail(data: {
+  honoreeName: string;
+  donorName: string;
+  occasionLabel: string;
+  occasionEmoji: string;
+  amount: number;
+  currency: string;
+  campaignTitle: string;
+  campaignId: string;
+  message: string;
+}): string {
+  const baseUrl = process.env.AUTH_URL || 'http://localhost:3000';
+  const symMap: Record<string, string> = { TRY: '₺', USD: '$', EUR: '€', GBP: '£' };
+  const sym = symMap[data.currency?.toUpperCase()] ?? data.currency;
+  const fmtAmount =
+    data.currency?.toUpperCase() === 'TRY'
+      ? `${data.amount.toLocaleString('tr-TR')}${sym}`
+      : `${sym}${data.amount.toLocaleString('en-US')}`;
+
+  return `
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.7; color: #1f2937; max-width: 600px; margin: 0 auto; padding: 20px; background: #f9fafb;">
+  <div style="background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%); padding: 36px 30px; text-align: center; border-radius: 12px 12px 0 0;">
+    <div style="font-size: 44px; margin-bottom: 10px;">🎁</div>
+    <h1 style="color: white; margin: 0; font-size: 24px; font-weight: 700;">Sizi Düşündüler!</h1>
+    <p style="color: rgba(255,255,255,0.87); margin: 8px 0 0; font-size: 15px;">${escapeHtml(data.occasionEmoji)} ${escapeHtml(data.occasionLabel)} vesilesiyle size özel bir hediye var</p>
+  </div>
+  <div style="background: #ffffff; padding: 32px 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 12px 12px;">
+    <p style="font-size: 16px; margin: 0 0 20px;">Sayın <strong>${escapeHtml(data.honoreeName)}</strong>,</p>
+    <p style="font-size: 15px; color: #374151; margin: 0 0 8px;">
+      <strong>${escapeHtml(data.donorName)}</strong>, sizin adınıza bir öğrencinin eğitim hayaline destek oldu 💙
+    </p>
+    <div style="background: linear-gradient(135deg, #ecfdf5, #eff6ff); border: 1px solid #a7f3d0; border-radius: 12px; padding: 24px; text-align: center; margin: 24px 0;">
+      <p style="margin: 0 0 4px; font-size: 13px; color: #6b7280; text-transform: uppercase;">Bağış Tutarı</p>
+      <p style="margin: 0; font-size: 36px; font-weight: 800; color: #1d4ed8;">${escapeHtml(fmtAmount)}</p>
+      <p style="margin: 8px 0 0; font-size: 14px; color: #374151;">${escapeHtml(data.campaignTitle)}</p>
+    </div>
+    ${data.message ? `
+    <div style="background: #fdf4ff; border: 1px solid #e9d5ff; border-radius: 10px; padding: 20px; margin: 0 0 24px;">
+      <p style="margin: 0 0 8px; font-size: 12px; color: #9ca3af; text-transform: uppercase;">${escapeHtml(data.donorName)}&#39;ın Size Özel Mesajı</p>
+      <p style="margin: 0; font-size: 15px; color: #374151; font-style: italic;">"${escapeHtml(data.message)}"</p>
+    </div>` : ''}
+    <div style="background: #f8fafc; border-left: 4px solid #3b82f6; border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 0 0 24px;">
+      <p style="margin: 0; font-size: 13px; color: #475569;">
+        Bu bağış, FundEd platformu üzerinden gerçek bir öğrencinin eğitim kampanyasına yönlendirilmiştir.
+        <a href="${baseUrl}/campaign/${escapeHtml(data.campaignId)}" style="color: #3b82f6; font-weight: 600;">Kampanyayı buradan görebilirsiniz.</a>
+      </p>
+    </div>
+    <div style="text-align: center; margin: 28px 0 8px;">
+      <a href="${baseUrl}/campaign/${escapeHtml(data.campaignId)}" style="display: inline-block; background: #10b981; color: white; padding: 13px 32px; text-decoration: none; border-radius: 8px; font-weight: 600; font-size: 15px;">Kampanyayı Gör</a>
+    </div>
+    <p style="font-size: 13px; color: #9ca3af; text-align: center; margin-top: 28px; padding-top: 20px; border-top: 1px solid #f3f4f6;">
+      Bu e-postayı yanlışlıkla aldıysanız lütfen dikkate almayınız.
+      Sorularınız için <a href="mailto:support@fund-ed.com" style="color: #3b82f6;">support@fund-ed.com</a>
+    </p>
+  </div>
+  <div style="text-align: center; margin-top: 16px; color: #9ca3af; font-size: 12px;"><p>© ${new Date().getFullYear()} FundEd. Tüm hakları saklıdır.</p></div>
+</body>
+</html>
+  `.trim();
+}
+
+// ─── Subscription Email Templates ────────────────────────────────────────────
+
+/**
+ * Email template: Subscription created
+ */
+export function renderSubscriptionCreatedEmail(data: {
+  donorName: string;
+  amount: number;
+  currency: string;
+  campaignTitle: string;
+  campaignId: string;
+  interval: string;
+  nextBillingDate: string;
+}): string {
+  const baseUrl = process.env.AUTH_URL || 'http://localhost:3000';
+  const formattedAmount = new Intl.NumberFormat('tr-TR', {
+    style: 'currency',
+    currency: data.currency || 'TRY',
+  }).format(data.amount);
+  const intervalLabel = data.interval === 'monthly' ? 'Aylık' : data.interval === 'quarterly' ? '3 Aylık' : 'Yıllık';
+
+  return `
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 28px;">🔄 Düzenli Bağış Aktif!</h1>
+  </div>
+  <div style="background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
+    <p style="font-size: 16px; margin-bottom: 20px;">Merhaba ${escapeHtml(data.donorName)},</p>
+    <p style="font-size: 16px; margin-bottom: 20px;">Düzenli bağış aboneliğiniz başarıyla oluşturuldu. Bir öğrencinin eğitim yolculuğuna sürekli destek verdiğiniz için teşekkür ederiz!</p>
+    <div style="background: #f5f3ff; border-left: 4px solid #7c3aed; padding: 15px; margin: 20px 0;">
+      <p style="margin: 0 0 8px 0; font-size: 14px; color: #6d28d9;"><strong>Kampanya:</strong> ${escapeHtml(data.campaignTitle)}</p>
+      <p style="margin: 0 0 8px 0; font-size: 14px; color: #6d28d9;"><strong>Tutar:</strong> ${formattedAmount} / ${intervalLabel}</p>
+      <p style="margin: 0; font-size: 14px; color: #6d28d9;"><strong>Sonraki çekim:</strong> ${escapeHtml(data.nextBillingDate)}</p>
+    </div>
+    <p style="font-size: 14px; color: #6b7280; margin-bottom: 20px;">Aboneliğinizi istediğiniz zaman dashboard üzerinden iptal edebilir veya duraklatabilirsiniz.</p>
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="${baseUrl}/donor/subscriptions" style="display: inline-block; background: #7c3aed; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; font-weight: 600;">Aboneliklerimi Yönet</a>
+    </div>
+    <p style="font-size: 14px; color: #6b7280; margin-top: 30px; border-top: 1px solid #e5e7eb; padding-top: 20px;">Sorularınız için <a href="mailto:support@fund-ed.com" style="color: #7c3aed;">support@fund-ed.com</a></p>
+  </div>
+  <div style="text-align: center; margin-top: 20px; color: #9ca3af; font-size: 12px;"><p>© ${new Date().getFullYear()} FundEd. Tüm hakları saklıdır.</p></div>
+</body></html>
+  `.trim();
+}
+
+/**
+ * Email template: Subscription renewal success (sent to donor)
+ */
+export function renderSubscriptionRenewalEmail(data: {
+  donorName: string;
+  amount: number;
+  currency: string;
+  campaignTitle: string;
+  campaignId: string;
+  paymentDate: string;
+  nextBillingDate: string;
+  totalDonated: number;
+}): string {
+  const baseUrl = process.env.AUTH_URL || 'http://localhost:3000';
+  const formattedAmount = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: data.currency || 'TRY' }).format(data.amount);
+  const formattedTotal = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: data.currency || 'TRY' }).format(data.totalDonated);
+
+  return `
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: linear-gradient(135deg, #10b981 0%, #059669 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 28px;">💝 Aylık Bağışınız Tamamlandı!</h1>
+  </div>
+  <div style="background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
+    <p style="font-size: 16px; margin-bottom: 20px;">Merhaba ${escapeHtml(data.donorName)},</p>
+    <p style="font-size: 16px; margin-bottom: 20px;">Düzenli bağışınız başarıyla tahsil edildi. Sürekli desteğiniz için teşekkür ederiz!</p>
+    <div style="background: #f0fdf4; border-left: 4px solid #10b981; padding: 15px; margin: 20px 0;">
+      <p style="margin: 0 0 8px 0; font-size: 14px; color: #065f46;"><strong>Kampanya:</strong> ${escapeHtml(data.campaignTitle)}</p>
+      <p style="margin: 0 0 8px 0; font-size: 14px; color: #065f46;"><strong>Bu ay çekilen:</strong> ${formattedAmount}</p>
+      <p style="margin: 0 0 8px 0; font-size: 14px; color: #065f46;"><strong>Toplam bağışınız:</strong> ${formattedTotal}</p>
+      <p style="margin: 0; font-size: 14px; color: #065f46;"><strong>Sonraki çekim:</strong> ${escapeHtml(data.nextBillingDate)}</p>
+    </div>
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="${baseUrl}/campaign/${escapeHtml(data.campaignId)}" style="display: inline-block; background: #10b981; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; font-weight: 600;">Kampanyayı Gör</a>
+    </div>
+    <p style="font-size: 14px; color: #6b7280; margin-top: 30px; border-top: 1px solid #e5e7eb; padding-top: 20px;">Aboneliğinizi yönetmek için <a href="${baseUrl}/donor/subscriptions" style="color: #10b981;">buraya tıklayın</a>.</p>
+  </div>
+  <div style="text-align: center; margin-top: 20px; color: #9ca3af; font-size: 12px;"><p>© ${new Date().getFullYear()} FundEd. Tüm hakları saklıdır.</p></div>
+</body></html>
+  `.trim();
+}
+
+/**
+ * Email template: Recurring donation notification (sent to student)
+ */
+export function renderStudentRecurringDonationEmail(data: {
+  studentName: string;
+  donorName: string;
+  amount: number;
+  currency: string;
+  campaignTitle: string;
+  campaignId: string;
+  anonymous: boolean;
+}): string {
+  const baseUrl = process.env.AUTH_URL || 'http://localhost:3000';
+  const formattedAmount = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: data.currency || 'TRY' }).format(data.amount);
+  const displayDonor = data.anonymous ? 'Anonim Bağışçı' : escapeHtml(data.donorName);
+
+  return `
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 28px;">🎓 Yeni Düzenli Bağış Alındı!</h1>
+  </div>
+  <div style="background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
+    <p style="font-size: 16px; margin-bottom: 20px;">Merhaba ${escapeHtml(data.studentName)},</p>
+    <p style="font-size: 16px; margin-bottom: 20px;">Harika haber! <strong>${displayDonor}</strong> kampanyanıza <strong>${formattedAmount}</strong> tutarında düzenli aylık bağış yaptı!</p>
+    <div style="background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 15px; margin: 20px 0;">
+      <p style="margin: 0; font-size: 14px; color: #1e40af;">Bu bağışçı her ay otomatik olarak kampanyanıza destek vermeye devam edecek. 🌟</p>
+    </div>
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="${baseUrl}/campaign/${escapeHtml(data.campaignId)}" style="display: inline-block; background: #667eea; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; font-weight: 600;">Kampanyamı Gör</a>
+    </div>
+  </div>
+  <div style="text-align: center; margin-top: 20px; color: #9ca3af; font-size: 12px;"><p>© ${new Date().getFullYear()} FundEd. Tüm hakları saklıdır.</p></div>
+</body></html>
+  `.trim();
+}
+
+/**
+ * Email template: Payment failed retry (sent to donor)
+ */
+export function renderPaymentFailedEmail(data: {
+  donorName: string;
+  amount: number;
+  currency: string;
+  campaignTitle: string;
+  retryCount: number;
+  maxRetries: number;
+}): string {
+  const baseUrl = process.env.AUTH_URL || 'http://localhost:3000';
+  const formattedAmount = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: data.currency || 'TRY' }).format(data.amount);
+  const remainingRetries = data.maxRetries - data.retryCount;
+
+  return `
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: #ef4444; padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 28px;">⚠️ Ödeme Başarısız</h1>
+  </div>
+  <div style="background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
+    <p style="font-size: 16px; margin-bottom: 20px;">Merhaba ${escapeHtml(data.donorName)},</p>
+    <p style="font-size: 16px; margin-bottom: 20px;">"<strong>${escapeHtml(data.campaignTitle)}</strong>" kampanyasına olan <strong>${formattedAmount}</strong> tutarındaki düzenli bağışınızın tahsilatı başarısız oldu.</p>
+    <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 15px; margin: 20px 0;">
+      <p style="margin: 0; font-size: 14px; color: #991b1b;"><strong>Olası nedenler:</strong><br>• Kartınızda yeterli bakiye olmayabilir<br>• Kart bilgileriniz güncel olmayabilir<br>• Bankanız işlemi reddetmiş olabilir</p>
+    </div>
+    ${remainingRetries > 0 ? `<p style="font-size: 14px; color: #6b7280; margin-bottom: 20px;">Sistem <strong>${remainingRetries}</strong> kez daha deneyecek. Bu sürede kart bilgilerinizi güncelleyebilirsiniz.</p>` : `<p style="font-size: 14px; color: #991b1b; margin-bottom: 20px;"><strong>Tüm deneme hakları kullanıldı.</strong> Aboneliğiniz askıya alındı. Lütfen kart bilgilerinizi güncelledikten sonra aboneliğinizi yeniden başlatın.</p>`}
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="${baseUrl}/donor/subscriptions" style="display: inline-block; background: #ef4444; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; font-weight: 600;">Aboneliğimi Güncelle</a>
+    </div>
+    <p style="font-size: 14px; color: #6b7280; margin-top: 30px; border-top: 1px solid #e5e7eb; padding-top: 20px;">Yardıma mı ihtiyacınız var? <a href="mailto:support@fund-ed.com" style="color: #3b82f6;">support@fund-ed.com</a></p>
+  </div>
+  <div style="text-align: center; margin-top: 20px; color: #9ca3af; font-size: 12px;"><p>© ${new Date().getFullYear()} FundEd. Tüm hakları saklıdır.</p></div>
+</body></html>
+  `.trim();
+}
+
+/**
+ * Email template: Subscription cancelled
+ */
+export function renderSubscriptionCancelledEmail(data: {
+  donorName: string;
+  campaignTitle: string;
+  totalDonated: number;
+  currency: string;
+  totalPayments: number;
+}): string {
+  const baseUrl = process.env.AUTH_URL || 'http://localhost:3000';
+  const formattedTotal = new Intl.NumberFormat('tr-TR', { style: 'currency', currency: data.currency || 'TRY' }).format(data.totalDonated);
+
+  return `
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: linear-gradient(135deg, #6b7280 0%, #4b5563 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 28px;">Abonelik İptal Edildi</h1>
+  </div>
+  <div style="background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
+    <p style="font-size: 16px; margin-bottom: 20px;">Merhaba ${escapeHtml(data.donorName)},</p>
+    <p style="font-size: 16px; margin-bottom: 20px;">"<strong>${escapeHtml(data.campaignTitle)}</strong>" kampanyasına olan düzenli bağış aboneliğiniz iptal edildi.</p>
+    <div style="background: #f0f9ff; border-left: 4px solid #3b82f6; padding: 15px; margin: 20px 0;">
+      <p style="margin: 0 0 8px 0; font-size: 14px; color: #1e40af;"><strong>Toplam katkınız:</strong> ${formattedTotal}</p>
+      <p style="margin: 0; font-size: 14px; color: #1e40af;"><strong>Toplam ödeme sayısı:</strong> ${data.totalPayments}</p>
+    </div>
+    <p style="font-size: 16px; margin-bottom: 20px;">Desteğiniz bir öğrencinin hayatında fark yarattı. Tekrar bağış yapmak isterseniz sizi her zaman bekleriz! 💜</p>
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="${baseUrl}/campaigns" style="display: inline-block; background: #667eea; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; font-weight: 600;">Kampanyaları Keşfet</a>
+    </div>
+  </div>
+  <div style="text-align: center; margin-top: 20px; color: #9ca3af; font-size: 12px;"><p>© ${new Date().getFullYear()} FundEd. Tüm hakları saklıdır.</p></div>
+</body></html>
+  `.trim();
+}

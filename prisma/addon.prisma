@@ -1,0 +1,12 @@
+// This file is appended to the prisma schema
+model DonorStudentFollow {
+  id               String         @id @default(auto()) @map("_id") @db.ObjectId
+  donorId          String         // Links to User collection
+  studentId        String         @db.ObjectId
+  student          StudentProfile @relation(fields: [studentId], references: [id])
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+
+  @@unique([donorId, studentId])
+  @@map("donor_student_follows")
+}

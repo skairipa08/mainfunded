@@ -1,8 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
 import { retrieveIyzicoPayment } from '@/lib/iyzico';
-import { PaymentStatus } from '@/types';
-import { sendEmail, renderDonationSuccessEmail } from '@/lib/email';
+import { PaymentStatus, SubscriptionStatus } from '@/types';
+import type { BillingInterval } from '@/types';
+import {
+  sendEmail,
+  renderDonationSuccessEmail,
+  renderTributeDonorConfirmEmail,
+  renderTributeHonoreeNotificationEmail,
+  renderSubscriptionCreatedEmail,
+  renderStudentRecurringDonationEmail,
+} from '@/lib/email';
+import { TRIBUTE_OCCASIONS } from '@/lib/tribute-templates';
 import crypto from 'crypto';
 import {
     isIyzicoEventProcessed,
@@ -13,7 +22,33 @@ import { logger } from '@/lib/logger';
 
 export const runtime = 'nodejs';
 
-async function processSuccessfulPayment(db: any, token: string, paymentId: string) {
+/** Map checkout interval values to BillingInterval */
+function mapIntervalToBilling(interval: string): BillingInterval {
+  switch (interval) {
+    case 'month': return 'monthly';
+    case 'quarterly': return 'quarterly';
+    case 'yearly': return 'yearly';
+    default: return 'monthly';
+  }
+}
+
+/** Calculate next billing date based on interval */
+function calculateNextBillingDate(interval: BillingInterval): string {
+  const next = new Date();
+  switch (interval) {
+    case 'monthly': next.setMonth(next.getMonth() + 1); break;
+    case 'quarterly': next.setMonth(next.getMonth() + 3); break;
+    case 'yearly': next.setFullYear(next.getFullYear() + 1); break;
+  }
+  return next.toISOString();
+}
+
+async function processSuccessfulPayment(
+  db: any,
+  token: string,
+  paymentId: string,
+  paymentResult?: { cardUserKey?: string; cardToken?: string; lastFourDigits?: string; cardType?: string }
+) {
   // Check idempotency
   const existingDonation = await db.collection('donations').findOne(
     { iyzico_token: token },
@@ -123,6 +158,162 @@ async function processSuccessfulPayment(db: any, token: string, paymentId: strin
       // Ignore email errors
     }
   }
+
+  // ── Tribute giving emails ─────────────────────────────────────────────
+  const tribute = transaction.tribute_info;
+  if (tribute?.isTribute && tribute.honoreeName) {
+    const occasionMeta = TRIBUTE_OCCASIONS.find((o: any) => o.id === tribute.occasion) ??
+      TRIBUTE_OCCASIONS[0];
+    const emailData = {
+      honoreeName: tribute.honoreeName,
+      occasionLabel: occasionMeta.label,
+      occasionEmoji: occasionMeta.emoji,
+      amount: transaction.base_amount ?? transaction.amount,
+      currency: transaction.currency || 'TRY',
+      campaignTitle: campaign?.title || 'Kampanya',
+      campaignId: transaction.campaign_id,
+      message: tribute.message || '',
+    };
+
+    // 1. Send confirmation to donor (if email available)
+    const donorEmailForTribute = transaction.donor_email;
+    if (donorEmailForTribute && !transaction.anonymous) {
+      try {
+        await sendEmail({
+          to: donorEmailForTribute,
+          subject: `${tribute.honoreeName} adına bağışınız tamamlandı ${occasionMeta.emoji}`,
+          html: renderTributeDonorConfirmEmail({
+            donorName: transaction.donor_name || 'Bağışçı',
+            ...emailData,
+            honoreeEmail: tribute.honoreeEmail || undefined,
+          }),
+        });
+      } catch {
+        // Non-critical
+      }
+    }
+
+    // 2. Send notification to honoree (if they provided an email)
+    if (tribute.honoreeEmail) {
+      try {
+        await sendEmail({
+          to: tribute.honoreeEmail,
+          subject: `Sevdikleriniz sizin adınıza bir öğrenciye destek oldu ${occasionMeta.emoji}`,
+          html: renderTributeHonoreeNotificationEmail({
+            ...emailData,
+            donorName: transaction.anonymous
+              ? 'Sevdikleriniz'
+              : (transaction.donor_name || 'Sevdikleriniz'),
+          }),
+        });
+      } catch {
+        // Non-critical
+      }
+    }
+  }
+
+  // ── Recurring subscription creation ────────────────────────────────────
+  if (transaction.is_recurring && paymentResult?.cardUserKey && paymentResult?.cardToken) {
+    try {
+      const billingInterval = mapIntervalToBilling(transaction.interval || 'month');
+      const nextBillingDate = calculateNextBillingDate(billingInterval);
+      const subscriptionId = `sub_${crypto.randomBytes(8).toString('hex')}`;
+
+      const subscription = {
+        subscription_id: subscriptionId,
+        donor_id: transaction.donor_id || null,
+        donor_email: transaction.donor_email || '',
+        donor_name: transaction.donor_name || 'Anonymous',
+        campaign_id: transaction.campaign_id,
+        amount: transaction.base_amount ?? transaction.amount,
+        currency: transaction.currency || 'TRY',
+        interval: billingInterval,
+        status: SubscriptionStatus.ACTIVE,
+        card_user_key: paymentResult.cardUserKey,
+        card_token: paymentResult.cardToken,
+        card_last_four: paymentResult.lastFourDigits || '',
+        card_type: paymentResult.cardType || '',
+        next_billing_date: nextBillingDate,
+        last_billing_date: new Date().toISOString(),
+        retry_count: 0,
+        max_retries: 5,
+        total_charged: transaction.base_amount ?? transaction.amount,
+        total_payments: 1,
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      };
+
+      await db.collection('subscriptions').insertOne(subscription);
+
+      // Link subscription to donation
+      await db.collection('donations').updateOne(
+        { donation_id: donation.donation_id },
+        { $set: { subscription_id: subscriptionId } }
+      );
+
+      // Record first subscription payment
+      await db.collection('subscription_payments').insertOne({
+        payment_id: `sp_${crypto.randomBytes(6).toString('hex')}`,
+        subscription_id: subscriptionId,
+        donation_id: donation.donation_id,
+        amount: transaction.base_amount ?? transaction.amount,
+        currency: transaction.currency || 'TRY',
+        status: 'success',
+        iyzico_payment_id: paymentId,
+        created_at: new Date().toISOString(),
+      });
+
+      // Send subscription confirmation email to donor
+      if (transaction.donor_email) {
+        const nextDate = new Date(nextBillingDate);
+        const formattedDate = nextDate.toLocaleDateString('tr-TR', {
+          year: 'numeric', month: 'long', day: 'numeric',
+        });
+
+        await sendEmail({
+          to: transaction.donor_email,
+          subject: '🔄 Düzenli Bağış Aboneliğiniz Aktif!',
+          html: renderSubscriptionCreatedEmail({
+            donorName: transaction.donor_name || 'Bağışçı',
+            amount: transaction.base_amount ?? transaction.amount,
+            currency: transaction.currency || 'TRY',
+            campaignTitle: campaign?.title || 'Kampanya',
+            campaignId: transaction.campaign_id,
+            interval: billingInterval,
+            nextBillingDate: formattedDate,
+          }),
+        });
+      }
+
+      // Send notification to student about recurring donor
+      if (campaign?.owner_id) {
+        const student = await db.collection('users').findOne(
+          { user_id: campaign.owner_id },
+          { projection: { email: 1, name: 1 } }
+        );
+        if (student?.email) {
+          await sendEmail({
+            to: student.email,
+            subject: '🎓 Yeni Düzenli Bağışçınız Var!',
+            html: renderStudentRecurringDonationEmail({
+              studentName: student.name || 'Öğrenci',
+              donorName: transaction.donor_name || 'Bağışçı',
+              amount: transaction.base_amount ?? transaction.amount,
+              currency: transaction.currency || 'TRY',
+              campaignTitle: campaign.title || 'Kampanya',
+              campaignId: transaction.campaign_id,
+              anonymous: transaction.anonymous || false,
+            }),
+          });
+        }
+      }
+
+      logger.info(`[Subscription] Created subscription ${subscriptionId} for campaign ${transaction.campaign_id}`);
+    } catch (subError: any) {
+      // Subscription creation failure should not break the main payment flow
+      logger.error(`[Subscription] Failed to create subscription: ${subError.message}`);
+    }
+  }
 }
 
 async function processPaymentFailure(db: any, token: string) {
@@ -178,7 +369,12 @@ export async function POST(request: NextRequest) {
       // Payment successful
       await updateIyzicoEventStatus(token, 'PROCESSING');
       try {
-        await processSuccessfulPayment(db, token, paymentResult.paymentId);
+        await processSuccessfulPayment(db, token, paymentResult.paymentId, {
+          cardUserKey: paymentResult.cardUserKey,
+          cardToken: paymentResult.cardToken,
+          lastFourDigits: paymentResult.lastFourDigits,
+          cardType: paymentResult.cardType,
+        });
         await updateIyzicoEventStatus(token, 'PROCESSED');
       } catch (error: any) {
         await updateIyzicoEventStatus(token, 'FAILED', error.message);

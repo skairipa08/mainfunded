@@ -1,5 +1,6 @@
 'use client';
 import { useCurrency } from '@/lib/currency-context';
+import { formatCurrency } from '@/lib/currency';
 import { useTranslation } from "@/lib/i18n/context";
 import DOMPurify from 'isomorphic-dompurify';
 
@@ -628,7 +629,7 @@ export default function SpecialNeedsPage() {
                                 >
                                     <div className="text-4xl mb-4">{item.emoji}</div>
                                     <div className="text-2xl font-bold text-slate-900 mb-2 group-hover:text-pink-600 transition-colors">
-                                        {formatAmount(item.amount)}
+                                        {currency === 'TRY' ? formatCurrency(item.amount, 'TRY', 'tr-TR') : formatAmount(item.amount)}
                                     </div>
                                     <p className="text-sm text-slate-500 leading-relaxed">{item.impact}</p>
                                     <div className="mt-4 flex items-center text-pink-500 text-sm font-medium opacity-0 group-hover:opacity-100 transition-opacity">

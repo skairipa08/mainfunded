@@ -40,6 +40,47 @@ export async function GET(request: NextRequest) {
     ]).toArray();
     
     const stats = donationStats[0] || { total_amount: 0, total_count: 0 };
+
+    // Subscription metrics
+    const activeSubscriptions = await db.collection('subscriptions').countDocuments({ status: 'active' });
+    const pausedSubscriptions = await db.collection('subscriptions').countDocuments({ status: 'paused' });
+    const cancelledSubscriptions = await db.collection('subscriptions').countDocuments({ status: 'cancelled' });
+
+    // Calculate MRR (Monthly Recurring Revenue)
+    const mrrResult = await db.collection('subscriptions').aggregate([
+      { $match: { status: 'active' } },
+      {
+        $group: {
+          _id: null,
+          mrr: {
+            $sum: {
+              $switch: {
+                branches: [
+                  { case: { $eq: ['$interval', 'monthly'] }, then: '$amount' },
+                  { case: { $eq: ['$interval', 'quarterly'] }, then: { $divide: ['$amount', 3] } },
+                  { case: { $eq: ['$interval', 'yearly'] }, then: { $divide: ['$amount', 12] } },
+                ],
+                default: '$amount',
+              },
+            },
+          },
+          total_subscribers: { $sum: 1 },
+        },
+      },
+    ]).toArray();
+
+    const mrrStats = mrrResult[0] || { mrr: 0, total_subscribers: 0 };
+
+    // Churn rate: subscriptions cancelled in last 30 days / total active at start
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const recentCancellations = await db.collection('subscriptions').countDocuments({
+      status: { $in: ['cancelled', 'expired'] },
+      cancelled_at: { $gte: thirtyDaysAgo.toISOString() },
+    });
+    const churnRate = activeSubscriptions > 0
+      ? Math.round((recentCancellations / (activeSubscriptions + recentCancellations)) * 10000) / 100
+      : 0;
     
     return NextResponse.json({
       success: true,
@@ -61,6 +102,13 @@ export async function GET(request: NextRequest) {
         donations: {
           total_amount: stats.total_amount,
           total_count: stats.total_count,
+        },
+        subscriptions: {
+          active: activeSubscriptions,
+          paused: pausedSubscriptions,
+          cancelled: cancelledSubscriptions,
+          mrr: Math.round(mrrStats.mrr * 100) / 100,
+          churn_rate: churnRate,
         },
       },
     });

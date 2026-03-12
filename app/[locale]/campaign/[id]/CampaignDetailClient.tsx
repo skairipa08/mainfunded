@@ -5,6 +5,7 @@ import { useTranslation } from "@/lib/i18n/context";
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useSession } from 'next-auth/react';
+import dynamic from 'next/dynamic';
 import {
     ArrowLeft, MapPin, GraduationCap, Calendar, Share2, Heart,
     CheckCircle2, Loader2, Clock, ImageIcon, X, ChevronLeft, ChevronRight,
@@ -17,6 +18,14 @@ import { toast } from 'sonner';
 import { censorSurname } from '@/lib/privacy';
 import { useCurrency } from '@/lib/currency-context';
 import type { CampaignData } from './fetchCampaign';
+import { EmbedCodeModal } from '@/components/campaign/EmbedCodeModal';
+
+// Lazy-load the live donations widget so it never blocks initial page paint
+const CampaignLiveDonations = dynamic(
+    () => import('@/components/donation/CampaignLiveDonations'),
+    { ssr: false }
+);
+
 // Progress Circle Component
 const ProgressCircle = ({ percentage }: { percentage: number }) => {
     const radius = 35;
@@ -552,6 +561,8 @@ export default function CampaignDetailClient({ initialCampaign }: CampaignDetail
                                     {t('campaign.share')}
                                 </Button>
 
+                                <EmbedCodeModal campaignId={campaignId} />
+
                                 {/* Trending Indicator */}
                                 {recentDonors.length > 0 && (
                                     <div className="flex items-center gap-2 mt-4 text-blue-600">
@@ -604,6 +615,14 @@ export default function CampaignDetailClient({ initialCampaign }: CampaignDetail
                                     </div>
                                 )}
                             </div>
+
+                            {/* Son Destekler — Real-time donation feed */}
+                            <CampaignLiveDonations
+                                campaignId={campaignId}
+                                showList={true}
+                                showToasts={true}
+                                listLimit={5}
+                            />
 
                             {/* Donation CTA Card */}
                             <div className="bg-gradient-to-br from-blue-50 to-indigo-50 border border-blue-100 rounded-2xl p-6 shadow-sm text-center">

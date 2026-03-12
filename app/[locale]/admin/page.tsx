@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { StatCard } from '@/components/ui/StatCard';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { Users, ShieldAlert, Megaphone, DollarSign, Wallet, FileText } from 'lucide-react';
+import { Users, ShieldAlert, Megaphone, DollarSign, Wallet, FileText, RefreshCcw } from 'lucide-react';
 import { useCurrency } from '@/lib/currency-context';
 import { useTranslation } from "@/lib/i18n/context";
 
@@ -15,6 +15,7 @@ interface Stats {
   verifications: { pending: number; verified: number; rejected: number };
   campaigns: { total: number; published: number; completed: number };
   donations: { total_amount: number; total_count: number };
+  subscriptions?: { active: number; paused: number; cancelled: number; mrr: number; churn_rate: number };
 }
 
 export default function AdminDashboard() {
@@ -95,6 +96,22 @@ export default function AdminDashboard() {
           icon={<DollarSign className="h-5 w-5" />}
           loading={loading}
           valueClassName="text-green-600"
+        />
+        <StatCard
+          title="Aktif Abonelikler"
+          value={stats?.subscriptions?.active ?? 0}
+          subtitle={`${stats?.subscriptions?.paused ?? 0} duraklatılmış, ${stats?.subscriptions?.cancelled ?? 0} iptal`}
+          icon={<RefreshCcw className="h-5 w-5" />}
+          loading={loading}
+          valueClassName="text-purple-600"
+        />
+        <StatCard
+          title="Aylık Tekrarlı Gelir"
+          value={formatAmount(stats?.subscriptions?.mrr ?? 0)}
+          subtitle={`Churn: %${((stats?.subscriptions?.churn_rate ?? 0) * 100).toFixed(1)}`}
+          icon={<DollarSign className="h-5 w-5" />}
+          loading={loading}
+          valueClassName="text-indigo-600"
         />
       </div>
 

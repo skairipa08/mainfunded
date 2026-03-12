@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { updateExchangeRate } from '@/lib/exchange-rate';
 
+export const dynamic = 'force-dynamic';
+
 /**
  * GET /api/cron/exchange-rate
  *

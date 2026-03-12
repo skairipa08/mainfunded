@@ -26,21 +26,30 @@ export async function updateExchangeRate(): Promise<ExchangeRateDoc> {
   }
 
   const url = `https://v6.exchangerate-api.com/v6/${apiKey}/pair/USD/TRY`;
-  const response = await fetch(url, { cache: 'no-store' });
+
+  const response = await fetch(url, {
+    cache: 'no-store',
+    signal: AbortSignal.timeout(10000), // 10s timeout
+  });
 
   if (!response.ok) {
-    throw new Error(`Exchange rate API returned ${response.status}: ${response.statusText}`);
+    const body = await response.text().catch(() => '');
+    throw new Error(
+      `Exchange rate API returned ${response.status}: ${response.statusText}. Body: ${body}`
+    );
   }
 
   const data = await response.json();
 
   if (data.result !== 'success' || typeof data.conversion_rate !== 'number') {
-    throw new Error(`Exchange rate API error: ${data['error-type'] || 'unknown'}`);
+    throw new Error(
+      `Exchange rate API error: ${data['error-type'] || JSON.stringify(data)}`
+    );
   }
 
   const rate = data.conversion_rate as number;
-  const db = await getDb();
 
+  // Try to cache in MongoDB, but don't fail if DB is unavailable
   const doc: ExchangeRateDoc = {
     from: 'USD',
     to: 'TRY',
@@ -48,11 +57,16 @@ export async function updateExchangeRate(): Promise<ExchangeRateDoc> {
     updatedAt: new Date(),
   };
 
-  await db.collection(COLLECTION).updateOne(
-    { from: 'USD', to: 'TRY' },
-    { $set: doc },
-    { upsert: true }
-  );
+  try {
+    const db = await getDb();
+    await db.collection(COLLECTION).updateOne(
+      { from: 'USD', to: 'TRY' },
+      { $set: doc },
+      { upsert: true }
+    );
+  } catch (dbErr) {
+    console.warn('[ExchangeRate] Failed to cache rate in DB:', dbErr);
+  }
 
   console.log(`[ExchangeRate] Updated USD/TRY = ${rate}`);
   return doc;
@@ -75,7 +89,7 @@ export async function getExchangeRate(
         from: doc.from,
         to: doc.to,
         rate: doc.rate,
-        updatedAt: doc.updatedAt,
+        updatedAt: new Date(doc.updatedAt), // ensure it's a Date object
       };
     }
   } catch (error) {

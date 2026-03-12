@@ -6,6 +6,7 @@
  * - Payment verification (callback)
  * - Refunds
  * - Subscription management
+ * - Card storage for recurring billing
  * 
  * iyzico API docs: https://dev.iyzipay.com/
  */
@@ -28,6 +29,8 @@ interface IyzicoCheckoutParams {
   campaignTitle: string;
   campaignId: string;
   currency?: string;
+  /** Set to 1 to request card registration for recurring billing */
+  registerCard?: number;
 }
 
 interface IyzicoCheckoutResult {
@@ -54,6 +57,10 @@ interface IyzicoPaymentResult {
   cardAssociation?: string;
   cardFamily?: string;
   lastFourDigits?: string;
+  /** Returned when registerCard was requested during checkout */
+  cardUserKey?: string;
+  /** Returned when registerCard was requested during checkout */
+  cardToken?: string;
 }
 
 interface IyzicoRefundParams {
@@ -149,7 +156,7 @@ export async function createIyzicoCheckoutForm(params: IyzicoCheckoutParams): Pr
   const [firstName, ...lastNameParts] = buyerName.split(' ');
   const lastName = lastNameParts.join(' ') || firstName;
 
-  const requestBody = {
+  const requestBody: Record<string, any> = {
     locale: 'tr',
     conversationId,
     price,
@@ -159,6 +166,7 @@ export async function createIyzicoCheckoutForm(params: IyzicoCheckoutParams): Pr
     paymentGroup: 'PRODUCT',
     callbackUrl,
     enabledInstallments: [1, 2, 3, 6, 9],
+    ...(params.registerCard ? { registerCard: 1 } : {}),
     buyer: {
       id: buyerId,
       name: firstName || 'Anonymous',
@@ -253,6 +261,8 @@ export async function retrieveIyzicoPayment(token: string): Promise<IyzicoPaymen
       cardAssociation: result.cardAssociation,
       cardFamily: result.cardFamily,
       lastFourDigits: result.lastFourDigits,
+      cardUserKey: result.cardUserKey,
+      cardToken: result.cardToken,
     };
   } catch (error: any) {
     return {
@@ -329,6 +339,220 @@ export async function cancelIyzicoPayment(paymentId: string, ip?: string): Promi
       paymentId: '',
       price: 0,
       errorMessage: error.message || 'iyzico cancel failed',
+    };
+  }
+}
+
+// ─── Card Storage & Recurring Billing ────────────────────────────────────────
+
+interface IyzicoStoreCardParams {
+  conversationId: string;
+  email: string;
+  cardAlias: string;
+  cardHolderName: string;
+  cardNumber: string;
+  expireMonth: string;
+  expireYear: string;
+  externalId?: string;
+}
+
+interface IyzicoStoreCardResult {
+  status: string;
+  cardUserKey: string;
+  cardToken: string;
+  cardAlias: string;
+  lastFourDigits: string;
+  errorMessage?: string;
+}
+
+interface IyzicoChargeWithTokenParams {
+  conversationId: string;
+  price: string;
+  paidPrice: string;
+  currency?: string;
+  cardUserKey: string;
+  cardToken: string;
+  buyerId: string;
+  buyerName: string;
+  buyerEmail: string;
+  basketId: string;
+  campaignTitle: string;
+  campaignId: string;
+  ip?: string;
+}
+
+interface IyzicoChargeResult {
+  status: string;
+  paymentId: string;
+  price: number;
+  paidPrice: number;
+  currency: string;
+  errorMessage?: string;
+  errorCode?: string;
+  fraudStatus?: number;
+}
+
+/**
+ * Store a card for recurring billing via iyzico Card Storage API.
+ * Returns cardUserKey + cardToken for future charges.
+ *
+ * Note: When using iyzico Checkout Form, the response may already contain
+ * cardUserKey and cardToken if `registerCard` is set. This function is for
+ * direct card storage when not using the checkout form flow.
+ */
+export async function storeCardForRecurring(params: IyzicoStoreCardParams): Promise<IyzicoStoreCardResult> {
+  const requestBody = {
+    locale: 'tr',
+    conversationId: params.conversationId,
+    email: params.email,
+    externalId: params.externalId || params.email,
+    card: {
+      cardAlias: params.cardAlias,
+      cardHolderName: params.cardHolderName,
+      cardNumber: params.cardNumber,
+      expireMonth: params.expireMonth,
+      expireYear: params.expireYear,
+    },
+  };
+
+  try {
+    const result = await iyzicoRequest('/cardstorage/card', requestBody);
+
+    if (result.status === 'success') {
+      return {
+        status: 'success',
+        cardUserKey: result.cardUserKey || '',
+        cardToken: result.cardToken || '',
+        cardAlias: result.cardAlias || params.cardAlias,
+        lastFourDigits: result.lastFourDigits || '',
+      };
+    }
+
+    return {
+      status: 'failure',
+      cardUserKey: '',
+      cardToken: '',
+      cardAlias: '',
+      lastFourDigits: '',
+      errorMessage: result.errorMessage || 'Kart kaydedilemedi',
+    };
+  } catch (error: any) {
+    return {
+      status: 'failure',
+      cardUserKey: '',
+      cardToken: '',
+      cardAlias: '',
+      lastFourDigits: '',
+      errorMessage: error.message || 'iyzico card storage API hatası',
+    };
+  }
+}
+
+/**
+ * Charge a stored card for recurring subscription billing.
+ * Uses iyzico's 3DS-less payment endpoint with stored card tokens.
+ * This should only be called by the server-side cron job.
+ */
+export async function chargeStoredCard(params: IyzicoChargeWithTokenParams): Promise<IyzicoChargeResult> {
+  const [firstName, ...lastNameParts] = params.buyerName.split(' ');
+  const lastName = lastNameParts.join(' ') || firstName;
+
+  const requestBody = {
+    locale: 'tr',
+    conversationId: params.conversationId,
+    price: params.price,
+    paidPrice: params.paidPrice,
+    currency: params.currency || 'TRY',
+    installment: 1,
+    paymentChannel: 'WEB',
+    paymentGroup: 'PRODUCT',
+    paymentCard: {
+      cardUserKey: params.cardUserKey,
+      cardToken: params.cardToken,
+    },
+    buyer: {
+      id: params.buyerId,
+      name: firstName || 'Anonymous',
+      surname: lastName || 'Donor',
+      gsmNumber: '+905000000000',
+      email: params.buyerEmail,
+      identityNumber: '00000000000',
+      registrationAddress: 'Turkey',
+      ip: params.ip || '85.34.78.112',
+      city: 'Istanbul',
+      country: 'Turkey',
+    },
+    shippingAddress: {
+      contactName: `${firstName} ${lastName}`,
+      city: 'Istanbul',
+      country: 'Turkey',
+      address: 'Turkey',
+    },
+    billingAddress: {
+      contactName: `${firstName} ${lastName}`,
+      city: 'Istanbul',
+      country: 'Turkey',
+      address: 'Turkey',
+    },
+    basketItems: [
+      {
+        id: params.campaignId,
+        name: `Aylık Bağış: ${params.campaignTitle}`,
+        category1: 'Recurring Donation',
+        itemType: 'VIRTUAL',
+        price: params.price,
+      },
+    ],
+  };
+
+  try {
+    const result = await iyzicoRequest('/payment/auth', requestBody);
+
+    return {
+      status: result.status || 'failure',
+      paymentId: result.paymentId || '',
+      price: parseFloat(result.price || '0'),
+      paidPrice: parseFloat(result.paidPrice || '0'),
+      currency: result.currency || 'TRY',
+      errorMessage: result.errorMessage,
+      errorCode: result.errorCode,
+      fraudStatus: result.fraudStatus,
+    };
+  } catch (error: any) {
+    return {
+      status: 'failure',
+      paymentId: '',
+      price: 0,
+      paidPrice: 0,
+      currency: 'TRY',
+      errorMessage: error.message || 'iyzico recurring charge failed',
+    };
+  }
+}
+
+/**
+ * Delete a stored card from iyzico.
+ * Should be called when a subscription is permanently cancelled.
+ */
+export async function deleteStoredCard(cardUserKey: string, cardToken: string): Promise<{ status: string; errorMessage?: string }> {
+  const requestBody = {
+    locale: 'tr',
+    conversationId: `delcard_${crypto.randomBytes(4).toString('hex')}`,
+    cardUserKey,
+    cardToken,
+  };
+
+  try {
+    const result = await iyzicoRequest('/cardstorage/card/delete', requestBody);
+
+    return {
+      status: result.status || 'failure',
+      errorMessage: result.errorMessage,
+    };
+  } catch (error: any) {
+    return {
+      status: 'failure',
+      errorMessage: error.message || 'iyzico card delete failed',
     };
   }
 }

@@ -2002,7 +2002,7 @@
       "fact2": "Sub-Saharan Afrika'daki çocukların %60'ı ilkokulu tamamlayamıyor.",
       "fact3": "617 milyon çocuk temel okuma-yazma ve matematik becerilerinden yoksun.",
       "fact4": "4 milyondan fazla mülteci çocuk hiçbir eğitime erişemiyor.",
-      "fact5": "Sadece 50 dolar, bir çocuğun 1 yıllık okul malzemesini karşılayabilir."
+      "fact5": "Sadece bu bağış tutarı, bir çocuğun 1 yıllık okul malzemesini karşılayabilir."
     },
     "impact": {
       "badge": "Etki Alanlarımız",
@@ -4624,5 +4624,58 @@
   "app.page.g_ncellemelerim": "Güncellemelerim",
   "app.page.topland": "toplandı",
   "app.page.ba_lerlemesi": "Bağış İlerlemesi",
-  "app.page.kampanyalar_ma_d_n": "Kampanyalarıma Dön"
+  "app.page.kampanyalar_ma_d_n": "Kampanyalarıma Dön",
+  "studentPassport": {
+    "title": "Öğrenci Profili",
+    "age": "Yaş",
+    "schoolName": "Okul Adı",
+    "grade": "Sınıf",
+    "major": "Bölüm",
+    "careerGoal": "Kariyer Hedefi",
+    "hobbies": "Hobiler",
+    "shortStory": "Kısa Hikaye",
+    "gpa": "Not Ortalaması (GPA)",
+    "verifications": {
+      "title": "Doğrulamalar",
+      "idVerified": "Öğrenci Kimliği Doğrulandı",
+      "schoolApproved": "Okul Onaylıyor",
+      "teacherReference": "Öğretmen Referansı Var"
+    },
+    "timeline": {
+      "title": "Başarı Zaman Çizelgesi",
+      "receivedScholarship": "Burs Aldı",
+      "passedClass": "Sınıfı Başarıyla Geçti",
+      "graduated": "Mezun Oldu"
+    },
+    "privacy": {
+      "everyone": "Herkes",
+      "donorsOnly": "Sadece Bağışçılarım",
+      "hidden": "Gizli",
+      "restricted": "Bu bilgi gizlidir"
+    },
+    "messaging": {
+      "title": "Öğrenciye Mesaj Gönder",
+      "placeholder": "Destek mesajınızı buraya yazın...",
+      "send": "Mesaj Gönder",
+      "sending": "Gönderiliyor...",
+      "success": "Mesajınız başarıyla gönderildi!",
+      "errorRateLimit": "Çok fazla mesaj gönderdiniz. Lütfen daha sonra tekrar deneyin.",
+      "errorModeration": "Mesajınızda uygunsuz içerik bulundu. Lütfen düzenleyin.",
+      "error": "Mesaj gönderilirken bir hata oluştu."
+    }
+  },
+  "email": {
+    "impactReport": {
+      "header": "Etki Raporu: {years} Yıllık Destek",
+      "greeting": "Sayın {donorName},",
+      "intro": "{studentName} adlı öğrenciyi {years} yıldır destekliyorsunuz. İşte birlikte yarattığınız etki:",
+      "achievementsTitle": "Yeni Başarılar",
+      "gpaProgress": "Not Ortalaması Değişimi:",
+      "followPrompt": "Düzenli güncellemeler için {studentName} adlı öğrenciyi takip edin.",
+      "followButton": "Öğrenciyi Takip Et",
+      "sharePrompt": "Bu etkiyi çevrenizle paylaşın!",
+      "viewCampaign": "Orijinal Kampanyayı Görüntüle",
+      "footerRight": "Tüm hakları saklıdır."
+    }
+  }
 }

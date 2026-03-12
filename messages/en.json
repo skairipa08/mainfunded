@@ -4624,5 +4624,58 @@
   "app.page.g_ncellemelerim": "[en] Güncellemelerim",
   "app.page.topland": "[en] toplandı",
   "app.page.ba_lerlemesi": "[en] Bağış İlerlemesi",
-  "app.page.kampanyalar_ma_d_n": "[en] Kampanyalarıma Dön"
+  "app.page.kampanyalar_ma_d_n": "[en] Kampanyalarıma Dön",
+  "studentPassport": {
+    "title": "Student Profile",
+    "age": "Age",
+    "schoolName": "School Name",
+    "grade": "Grade",
+    "major": "Major/Department",
+    "careerGoal": "Career Goal",
+    "hobbies": "Hobiler",
+    "shortStory": "Short Story",
+    "gpa": "GPA",
+    "verifications": {
+      "title": "Verifications",
+      "idVerified": "Student ID Verified",
+      "schoolApproved": "School Approved",
+      "teacherReference": "Teacher Reference Available"
+    },
+    "timeline": {
+      "title": "Achievement Timeline",
+      "receivedScholarship": "Received Scholarship",
+      "passedClass": "Successfully Passed Class",
+      "graduated": "Graduated"
+    },
+    "privacy": {
+      "everyone": "Everyone",
+      "donorsOnly": "My Donors Only",
+      "hidden": "Hidden",
+      "restricted": "This information is private"
+    },
+    "messaging": {
+      "title": "Message the Student",
+      "placeholder": "Write your message of support here...",
+      "send": "Send Message",
+      "sending": "Sending...",
+      "success": "Message sent successfully!",
+      "errorRateLimit": "You have sent too many messages. Please try again later.",
+      "errorModeration": "Your message contains inappropriate content. Please revise.",
+      "error": "Failed to send message."
+    }
+  },
+  "email": {
+    "impactReport": {
+      "header": "Impact Report: {years} Year(s) of Support",
+      "greeting": "Dear {donorName},",
+      "intro": "You have been supporting {studentName} for {years} year(s). Here is the impact you've made together:",
+      "achievementsTitle": "New Achievements",
+      "gpaProgress": "GPA Change:",
+      "followPrompt": "Follow {studentName} to get regular updates.",
+      "followButton": "Follow Student",
+      "sharePrompt": "Share this impact with your network!",
+      "viewCampaign": "View Original Campaign",
+      "footerRight": "All rights reserved."
+    }
+  }
 }

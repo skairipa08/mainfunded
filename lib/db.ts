@@ -152,6 +152,19 @@ export async function createIndexes() {
     await db.collection('esg_records').createIndex('company_id');
     await db.collection('esg_records').createIndex({ company_id: 1, period: 1 }, { unique: true });
     await db.collection('esg_records').createIndex('status');
+
+    // Subscription Indexes
+    await db.collection('subscriptions').createIndex('subscription_id', { unique: true });
+    await db.collection('subscriptions').createIndex({ donor_id: 1, status: 1 });
+    await db.collection('subscriptions').createIndex({ campaign_id: 1, status: 1 });
+    await db.collection('subscriptions').createIndex({ status: 1, next_billing_date: 1 });
+    await db.collection('subscriptions').createIndex('card_user_key');
+    await db.collection('subscriptions').createIndex('donor_email');
+
+    // Subscription Payments Indexes
+    await db.collection('subscription_payments').createIndex('payment_id', { unique: true });
+    await db.collection('subscription_payments').createIndex({ subscription_id: 1, created_at: -1 });
+    await db.collection('subscription_payments').createIndex('status');
   } catch (error: any) {
     if (error.code !== 85 && error.codeName !== 'IndexOptionsConflict') {
       console.error('Error creating indexes:', error);

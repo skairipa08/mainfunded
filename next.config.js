@@ -52,6 +52,28 @@ const nextConfig = {
     }
     return config;
   },
+  async headers() {
+    return [
+      {
+        source: '/embed/campaign/:id',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors *",
+          }
+        ],
+      },
+      {
+        source: '/:locale/embed/campaign/:id',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: "frame-ancestors *",
+          }
+        ],
+      }
+    ];
+  },
 }
 
 module.exports = withNextIntl(nextConfig);

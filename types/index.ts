@@ -214,3 +214,53 @@ export interface StudentBalance {
   pending: number;
   lastUpdated: string;
 }
+
+// Subscription Types
+export enum SubscriptionStatus {
+  ACTIVE = "active",
+  PAUSED = "paused",
+  CANCELLED = "cancelled",
+  PAST_DUE = "past_due",
+  EXPIRED = "expired",
+}
+
+export type BillingInterval = 'monthly' | 'quarterly' | 'yearly';
+
+export interface Subscription {
+  subscription_id: string;
+  donor_id: string;
+  donor_email: string;
+  donor_name: string;
+  campaign_id: string;
+  amount: number;
+  currency: string;
+  interval: BillingInterval;
+  status: SubscriptionStatus;
+  card_user_key: string;
+  card_token: string;
+  card_last_four?: string;
+  card_type?: string;
+  next_billing_date: string;
+  last_billing_date?: string;
+  retry_count: number;
+  max_retries: number;
+  total_charged: number;
+  total_payments: number;
+  created_at: string;
+  updated_at: string;
+  cancelled_at?: string;
+  cancellation_reason?: string;
+  paused_at?: string;
+}
+
+export interface SubscriptionPayment {
+  payment_id: string;
+  subscription_id: string;
+  donation_id?: string;
+  amount: number;
+  currency: string;
+  status: 'success' | 'failed';
+  iyzico_payment_id?: string;
+  error_message?: string;
+  created_at: string;
+}

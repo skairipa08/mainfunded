@@ -45,6 +45,7 @@ export async function POST(request: NextRequest) {
       platform_tip_percent: platformTipPercent,
       platform_tip_amount: platformTipAmount,
       interval,
+      tribute_info: tributeInfo,
     } = parsed.data;
 
     const noteToStudent = note_to_student?.trim() || '';
@@ -157,10 +158,11 @@ export async function POST(request: NextRequest) {
     const basketId = `basket_${crypto.randomBytes(6).toString('hex')}`;
 
     try {
-      const isSubscription = interval === 'week' || interval === 'month';
+      const isSubscription = interval === 'week' || interval === 'month' || interval === 'quarterly' || interval === 'yearly';
       const callbackUrl = `${originUrl}/api/iyzico/callback`;
 
       // Create iyzico checkout form
+      // For recurring donations, request card registration for future charges
       const iyzicoResult = await createIyzicoCheckoutForm({
         conversationId,
         price: amount.toFixed(2),
@@ -172,6 +174,7 @@ export async function POST(request: NextRequest) {
         buyerId: donorId || `guest_${crypto.randomBytes(4).toString('hex')}`,
         campaignTitle: campaignTitle,
         campaignId,
+        registerCard: isSubscription ? 1 : undefined,
       });
 
       if (iyzicoResult.status !== 'success') {
@@ -204,6 +207,8 @@ export async function POST(request: NextRequest) {
         platform_tip_amount: platformTipAmount,
         interval: interval || 'one-time',
         is_recurring: isSubscription,
+        // Tribute giving (optional)
+        tribute_info: (tributeInfo?.isTribute ? tributeInfo : undefined) ?? null,
         payment_status: 'initiated',
         idempotency_key: idempotencyKey,
         checkout_url: iyzicoResult.paymentPageUrl,
