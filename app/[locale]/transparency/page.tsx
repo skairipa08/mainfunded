@@ -1,107 +1,55 @@
-'use client';
+// app/[locale]/transparency/page.tsx
+import type { Metadata } from 'next'
+import { buildAlternates } from '@/lib/seo/metadata'
+import { JsonLd } from '@/components/seo/JsonLd'
+import { faqSchema, breadcrumbSchema } from '@/lib/seo/schemas'
+import TransparencyClient from './TransparencyClient'
 
-import React from 'react';
-import { useTranslation } from "@/lib/i18n/context";
-import { Shield, PieChart, FileCheck, Users, DollarSign } from 'lucide-react';
-import { TransparencyCard, VerificationBadge } from '@/components/TransparencyCard';
-import MobileHeader from '@/components/MobileHeader';
-import { useCurrency } from '@/lib/currency-context';
+interface Props {
+  params: { locale: string }
+}
 
-export default function TransparencyPage() {
-    const { t } = useTranslation();
-    const { formatAmount } = useCurrency();
+export async function generateMetadata({ params: { locale } }: Props): Promise<Metadata> {
+  const isTr = locale === 'tr'
+  return {
+    title: isTr
+      ? 'Doğrulanmış ve Şeffaf Eğitim Fonlaması | FundEd'
+      : 'Verified & Transparent Education Funding | FundEd',
+    description: isTr
+      ? 'Her bağışın tam olarak nereye gittiğini görün. FundEd canlı fon takibi ve doğrulanmış öğrenci sonuçları yayınlar.'
+      : 'See exactly where every donation goes. FundEd publishes live fund tracking and verified student outcomes.',
+    alternates: buildAlternates(locale, '/transparency'),
+  }
+}
 
-    return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 to-green-50">
-            {/* Mobile Header */}
-            <MobileHeader transparent backHref="/" />
+const faqEn = [
+  { question: 'How does FundEd verify students?', answer: 'Every student submits ID, enrollment documents, and a needs statement. Our team verifies all documents before any profile is published on the platform.' },
+  { question: 'How is my donation tracked?', answer: 'Every donation is assigned a transaction ID and linked to a specific student or fund. You can view the complete audit trail from your donor dashboard.' },
+  { question: 'What percentage goes to students?', answer: 'The vast majority of every donation reaches the student directly. A small platform fee covers operations and verification costs — displayed transparently on every donation page.' },
+  { question: 'Can I see how past donations were spent?', answer: 'Yes. Every completed campaign shows a breakdown of how funds were used, with receipts and student progress updates.' },
+  { question: 'Is FundEd ESG-compliant?', answer: 'Yes. FundEd provides impact reports aligned with ESG (Environmental, Social, Governance) frameworks, including SDG 4 (Quality Education) tracking for corporate donors.' },
+]
 
-            {/* Hero */}
-            <div className="bg-gradient-to-r from-green-600 to-emerald-700 text-white py-16 -mt-14 pt-20">
-                <div className="container mx-auto px-4 text-center">
-                    <div className="flex items-center justify-center gap-3 mb-4">
-                        <Shield className="h-10 w-10" />
-                        <h1 className="text-4xl font-bold">{t('app.page.effafl_k')}</h1>
-                    </div>
-                    <p className="text-green-100 text-lg max-w-2xl mx-auto">
-                        {t('app.page.her_ba_do_rulanm_rencilere_ula')}</p>
-                </div>
-            </div>
+const faqTr = [
+  { question: 'FundEd öğrencileri nasıl doğruluyor?', answer: 'Her öğrenci kimlik, öğrenim belgesi ve ihtiyaç beyanı ile başvurur. Ekibimiz tüm belgeleri doğrular, profil ancak onaylandıktan sonra yayınlanır.' },
+  { question: 'Bağışım nasıl takip edilir?', answer: 'Her bağışa bir işlem kimliği atanır ve belirli bir öğrenci veya fona bağlanır. Bağışçı dashboard\'ınızdan tam denetim izini görüntüleyebilirsiniz.' },
+  { question: 'Bağışımın yüzde kaçı öğrenciye ulaşır?', answer: 'Her bağışın büyük çoğunluğu doğrudan öğrenciye ulaşır. Küçük bir platform ücreti, operasyon ve doğrulama maliyetlerini karşılar — her bağış sayfasında şeffaf biçimde gösterilir.' },
+  { question: 'Geçmiş bağışların nasıl kullanıldığını görebilir miyim?', answer: 'Evet. Tamamlanan her kampanya, fonların nasıl kullanıldığını, makbuzları ve öğrenci ilerleme güncellemelerini gösterir.' },
+  { question: 'FundEd ESG uyumlu mu?', answer: 'Evet. FundEd, kurumsal bağışçılar için SDG 4 (Kaliteli Eğitim) takibi dahil ESG çerçevelerine uygun etki raporları sunar.' },
+]
 
-            <div className="container mx-auto px-4 py-8">
-                {/* Stats */}
-                {/* Demo Notice */}
-                <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-8 flex items-center gap-3">
-                    <span className="text-amber-600 font-bold text-lg">⚠️</span>
-                    <p className="text-amber-800 text-sm font-medium">{t('common.demoTransparency')}</p>
-                </div>
+export default function TransparencyPage({ params: { locale } }: Props) {
+  const isTr = locale === 'tr'
+  const faqs = isTr ? faqTr : faqEn
+  const breadcrumbs = isTr
+    ? [{ name: 'Ana Sayfa', url: 'https://fund-ed.com/tr' }, { name: 'Şeffaflık', url: 'https://fund-ed.com/tr/transparency' }]
+    : [{ name: 'Home', url: 'https://fund-ed.com/en' }, { name: 'Transparency', url: 'https://fund-ed.com/en/transparency' }]
 
-                <div className="grid md:grid-cols-4 gap-6 mb-12">
-                    <div className="bg-white rounded-xl p-6 shadow-sm border text-center">
-                        <DollarSign className="h-8 w-8 text-green-600 mx-auto mb-2" />
-                        <p className="text-3xl font-bold text-gray-900">{formatAmount(0)}</p>
-                        <p className="text-gray-600">{t('app.page.toplam_ba')}</p>
-                    </div>
-                    <div className="bg-white rounded-xl p-6 shadow-sm border text-center">
-                        <Users className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-                        <p className="text-3xl font-bold text-gray-900">0</p>
-                        <p className="text-gray-600">{t('app.page.desteklenen_renci')}</p>
-                    </div>
-                    <div className="bg-white rounded-xl p-6 shadow-sm border text-center">
-                        <FileCheck className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-                        <p className="text-3xl font-bold text-gray-900">0%</p>
-                        <p className="text-gray-600">{t('app.page.do_rulama_oran')}</p>
-                    </div>
-                    <div className="bg-white rounded-xl p-6 shadow-sm border text-center">
-                        <PieChart className="h-8 w-8 text-orange-600 mx-auto mb-2" />
-                        <p className="text-3xl font-bold text-gray-900">0%</p>
-                        <p className="text-gray-600">{t('app.page.renciye_ula_an')}</p>
-                    </div>
-                </div>
-
-                {/* Verification Badges */}
-                <div className="mb-12">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-6">{t('app.page.do_rulama_sistemi')}</h2>
-                    <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <div className="bg-white rounded-xl p-4 shadow-sm border">
-                            <VerificationBadge status="verified" size="lg" className="mb-3" />
-                            <p className="text-sm text-gray-600">
-                                {t('app.page.kimlik_ve_rencilik_durumu_tam_')}</p>
-                        </div>
-                        <div className="bg-white rounded-xl p-4 shadow-sm border">
-                            <VerificationBadge status="student_verified" size="lg" className="mb-3" />
-                            <p className="text-sm text-gray-600">
-                                {t('app.page.renci_belgesi_incelendi_ve_ona')}</p>
-                        </div>
-                        <div className="bg-white rounded-xl p-4 shadow-sm border">
-                            <VerificationBadge status="institution_verified" size="lg" className="mb-3" />
-                            <p className="text-sm text-gray-600">
-                                {t('app.page.niversite_taraf_ndan_teyit_edi')}</p>
-                        </div>
-                        <div className="bg-white rounded-xl p-4 shadow-sm border">
-                            <VerificationBadge status="document_verified" size="lg" className="mb-3" />
-                            <p className="text-sm text-gray-600">
-                                {t('app.page.belgeleri_manuel_olarak_incele')}</p>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Example Breakdown */}
-                <div className="max-w-xl mx-auto">
-                    <h2 className="text-2xl font-bold text-gray-900 mb-6 text-center">{t('app.page.rnek_harcama_d_k_m')}</h2>
-                    <TransparencyCard
-                        studentName="Örnek Öğrenci"
-                        totalRaised={0}
-                        goalAmount={0}
-                        lastUpdated="2026-01-15"
-                        verificationStatus="verified"
-                        documents={[
-                            { name: 'Öğrenci Belgesi', url: '#' },
-                            { name: 'Transkript', url: '#' },
-                        ]}
-                    />
-                </div>
-            </div>
-        </div>
-    );
+  return (
+    <>
+      <JsonLd schema={faqSchema(faqs)} />
+      <JsonLd schema={breadcrumbSchema(breadcrumbs)} />
+      <TransparencyClient />
+    </>
+  )
 }

@@ -254,6 +254,18 @@ export default function Navbar() {
       icon: Shield,
       description: t('nav.menu.transparencyDesc'),
     },
+    {
+      label: t('nav.menu.blog'),
+      href: '/blog',
+      icon: FileText,
+      description: t('nav.menu.blogDesc'),
+    },
+    {
+      label: t('nav.menu.impactCalculator'),
+      href: '/education-funding-calculator',
+      icon: GraduationCap,
+      description: t('nav.menu.impactCalculatorDesc'),
+    },
   ];
 
   return (

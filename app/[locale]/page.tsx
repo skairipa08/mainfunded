@@ -5,27 +5,33 @@ import { getDb } from '@/lib/db';
 import { ObjectId } from 'mongodb';
 import { useTranslation } from "@/lib/i18n/context";
 import { Metadata } from 'next';
+import { buildAlternates } from '@/lib/seo/metadata';
 
-export async function generateMetadata({ params: { locale } }: { params: { locale: string } }): Promise<Metadata> {
-  const isTr = locale === 'tr';
+export async function generateMetadata({
+  params: { locale },
+}: {
+  params: { locale: string }
+}): Promise<Metadata> {
+  const isTr = locale === 'tr'
   return {
     title: isTr
-      ? 'FundEd | Çocuklar İçin Eğitim ve Terapi Fonlama Platformu'
-      : 'FundEd | Education and Therapy Crowdfunding for Children',
+      ? 'Bir Öğrenciyi Destekle | FundEd'
+      : "Fund a Student's Education | FundEd",
     description: isTr
-      ? 'Özel gereksinimli çocuklar ve eğitimde fırsat eşitliği için güvenilir bağış platformu. Çocukların geleceğine ortak olun, eğitim ve terapi süreçlerini destekleyin.'
-      : 'Reliable crowdfunding platform for children with special needs and educational equality. Support children\'s therapy and education journey.',
+      ? 'Doğrulanmış öğrencileri küresel çapta destekleyin. ESG uyumlu ilk eğitim fonlama platformu. Gerçek etkiyi takip edin.'
+      : 'Sponsor verified students globally on the first ESG-aligned education funding platform. Track real impact.',
     openGraph: {
       title: isTr
-        ? 'FundEd | Çocuklar İçin Eğitim ve Terapi Fonlama Platformu'
-        : 'FundEd | Education and Therapy Crowdfunding for Children',
+        ? 'Bir Öğrenciyi Destekle | FundEd'
+        : "Fund a Student's Education | FundEd",
       description: isTr
-        ? 'Özel gereksinimli çocuklar ve eğitimde fırsat eşitliği için güvenilir bağış platformu. Çocukların geleceğine ortak olun, eğitim ve terapi süreçlerini destekleyin.'
-        : 'Reliable crowdfunding platform for children with special needs and educational equality. Support children\'s therapy and education journey.',
+        ? 'Doğrulanmış öğrencileri küresel çapta destekleyin. ESG uyumlu ilk eğitim fonlama platformu.'
+        : 'Sponsor verified students globally on the first ESG-aligned education funding platform.',
       images: ['/og-image.png'],
       locale: isTr ? 'tr_TR' : 'en_US',
-    }
-  };
+    },
+    alternates: buildAlternates(locale, '/'),
+  }
 }
 
 export const dynamic = 'force-dynamic';

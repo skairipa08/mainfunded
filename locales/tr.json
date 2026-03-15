@@ -81,7 +81,11 @@
       "missionVision": "Misyon & Vizyon",
       "missionVisionDesc": "Amacımız ve hedeflerimiz",
       "aboutUs": "Hakkımızda",
-      "aboutUsDesc": "Bizi tanıyın"
+      "aboutUsDesc": "Bizi tanıyın",
+      "blog": "Blog",
+      "blogDesc": "Eğitim fonlama rehberleri",
+      "impactCalculator": "Etki Hesaplayıcı",
+      "impactCalculatorDesc": "Bağışının etkisini gör"
     }
   },
   "pages": {
