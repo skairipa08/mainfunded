@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SEO Audit — Global Education Funding Platform</title>
+<style>
+  :root {
+    --primary: #1a5632;
+    --primary-light: #e8f5ec;
+    --accent: #d4a017;
+    --critical: #c0392b;
+    --high: #e67e22;
+    --medium: #f39c12;
+    --low: #27ae60;
+    --pass: #27ae60;
+    --fail: #c0392b;
+    --warn: #f39c12;
+    --bg: #fafbfc;
+    --text: #1e293b;
+    --muted: #64748b;
+    --border: #e2e8f0;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; padding: 0; }
+  .header { background: linear-gradient(135deg, var(--primary) 0%, #0d3b1f 100%); color: #fff; padding: 48px 40px 40px; }
+  .header h1 { font-size: 28px; font-weight: 700; margin-bottom: 6px; }
+  .header .subtitle { font-size: 15px; opacity: .85; }
+  .header .meta { margin-top: 18px; display: flex; gap: 28px; font-size: 13px; opacity: .75; }
+  .container { max-width: 1080px; margin: 0 auto; padding: 32px 40px 60px; }
+  h2 { font-size: 20px; font-weight: 700; color: var(--primary); margin: 40px 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--primary-light); }
+  h3 { font-size: 16px; font-weight: 600; margin: 24px 0 10px; }
+  p, li { font-size: 14.5px; }
+  p { margin-bottom: 12px; }
+  ul, ol { margin: 8px 0 16px 20px; }
+  li { margin-bottom: 6px; }
+
+  /* Executive summary card */
+  .exec-card { background: var(--primary-light); border-left: 4px solid var(--primary); border-radius: 6px; padding: 20px 24px; margin: 20px 0; }
+  .exec-card p { margin-bottom: 8px; }
+  .exec-card strong { color: var(--primary); }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0 24px; font-size: 13.5px; }
+  th { background: var(--primary); color: #fff; text-align: left; padding: 10px 12px; font-weight: 600; }
+  td { padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:nth-child(even) td { background: #f8fafc; }
+  tr:hover td { background: #eef5f0; }
+
+  /* Severity / status badges */
+  .badge { display: inline-block; padding: 2px 9px; border-radius: 10px; font-size: 11.5px; font-weight: 600; color: #fff; }
+  .badge-critical { background: var(--critical); }
+  .badge-high { background: var(--high); }
+  .badge-medium { background: var(--medium); color: #333; }
+  .badge-low { background: var(--low); }
+  .badge-pass { background: var(--pass); }
+  .badge-fail { background: var(--fail); }
+  .badge-warn { background: var(--warn); color: #333; }
+  .badge-info { background: #3498db; }
+  .badge-hard { background: var(--critical); }
+  .badge-moderate { background: var(--high); }
+  .badge-easy { background: var(--low); }
+
+  /* Score boxes */
+  .score-row { display: flex; gap: 16px; margin: 20px 0; flex-wrap: wrap; }
+  .score-box { flex: 1; min-width: 140px; background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 16px; text-align: center; }
+  .score-box .number { font-size: 28px; font-weight: 800; color: var(--primary); }
+  .score-box .label { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  /* Action plan cards */
+  .action-card { background: #fff; border: 1px solid var(--border); border-radius: 8px; padding: 16px 20px; margin: 10px 0; }
+  .action-card h4 { font-size: 14px; margin-bottom: 6px; }
+  .action-card .meta-row { font-size: 12px; color: var(--muted); display: flex; gap: 16px; margin-top: 8px; }
+
+  .note { background: #fffbeb; border-left: 3px solid var(--accent); padding: 12px 16px; border-radius: 4px; margin: 16px 0; font-size: 13.5px; }
+
+  @media print {
+    .header { padding: 24px 20px; }
+    .container { padding: 16px 20px; }
+    table { font-size: 11px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>SEO Audit Report</h1>
+  <div class="subtitle">Global Education Funding Platform — Keyword Research &amp; Competitive SEO Analysis (ESG-Aligned)</div>
+  <div class="meta">
+    <span>Date: March 14, 2026</span>
+    <span>Audit Type: Full Keyword &amp; Competitor Analysis</span>
+    <span>Prepared for: Baran</span>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ============ EXECUTIVE SUMMARY ============ -->
+<h2>1. Executive Summary</h2>
+
+<div class="exec-card">
+  <p><strong>Market opportunity is substantial.</strong> The global education crowdfunding market is projected to reach $0.7B by 2033 (CAGR ~12%), while the ESG investing market is surging toward $191T by 2035. Your platform sits at a powerful intersection of both trends — transparent, impact-tracked education funding is a category with rising search demand and relatively low dedicated competition.</p>
+  <p><strong>Top strength:</strong> The ESG + education niche is underserved in organic search. No single competitor currently dominates for keywords combining "education funding" with "impact tracking," "ESG," or "transparent donations." This is your wedge.</p>
+  <p><strong>Top 3 priorities for maximum SEO impact:</strong></p>
+  <ol>
+    <li><strong>Claim long-tail territory first</strong> — target "fund a student," "transparent education donation," and "ESG education impact" before competitors expand here.</li>
+    <li><strong>Build a pillar content hub</strong> around "How Education Funding Works" that clusters into scholarship types, impact reporting, donor guides, and student stories.</li>
+    <li><strong>Differentiate on trust &amp; transparency</strong> — publish live impact dashboards and verified student outcome pages that competitors don't offer, generating natural backlinks and featured snippet opportunities.</li>
+  </ol>
+  <p><strong>Overall assessment:</strong> <span class="badge badge-info">High Opportunity</span> — The keyword landscape has moderate competition at the head terms but significant open space in long-tail and niche ESG-aligned queries. A well-executed content strategy can achieve page-1 rankings for 10+ target keywords within 6-9 months.</p>
+</div>
+
+<div class="score-row">
+  <div class="score-box"><div class="number">25</div><div class="label">Keyword Opportunities Identified</div></div>
+  <div class="score-box"><div class="number">7</div><div class="label">Competitors Analyzed</div></div>
+  <div class="score-box"><div class="number">12</div><div class="label">Content Gaps Found</div></div>
+  <div class="score-box"><div class="number">8</div><div class="label">Quick Wins Available</div></div>
+</div>
+
+
+<!-- ============ KEYWORD OPPORTUNITY TABLE ============ -->
+<h2>2. Keyword Opportunity Table</h2>
+
+<p>Keywords are sorted by <strong>Opportunity Score</strong> — a composite of estimated search demand, difficulty, and business relevance. Intent types: <strong>T</strong> = Transactional, <strong>C</strong> = Commercial Investigation, <strong>I</strong> = Informational, <strong>N</strong> = Navigational.</p>
+
+<div class="note">Note: Exact search volume and difficulty scores require connected SEO tools (Ahrefs, Semrush). Estimates below are derived from web research, SERP analysis, and market data. Connect an SEO tool via MCP for auto-populated ranking data.</div>
+
+<table>
+<thead>
+<tr><th style="width:26%">Keyword</th><th>Est. Difficulty</th><th>Opportunity</th><th>Current Ranking</th><th>Intent</th><th>Recommended Content Type</th></tr>
+</thead>
+<tbody>
+<tr><td>fund a student</td><td><span class="badge badge-easy">Easy</span></td><td><span class="badge badge-low">High</span></td><td>Not ranking</td><td>T</td><td>Landing page + CTA</td></tr>
+<tr><td>sponsor a student education</td><td><span class="badge badge-easy">Easy</span></td><td><span class="badge badge-low">High</span></td><td>Not ranking</td><td>T</td><td>Landing page + student profiles</td></tr>
+<tr><td>transparent education donation</td><td><span class="badge badge-easy">Easy</span></td><td><span class="badge badge-low">High</span></td><td>Not ranking</td><td>C</td><td>Trust-focused landing page</td></tr>
+<tr><td>education crowdfunding</td><td><span class="badge badge-moderate">Moderate</span></td><td><span class="badge badge-low">High</span></td><td>Not ranking</td><td>C</td><td>Pillar page + comparison content</td></tr>
+<tr><td>student funding platform</td><td><span class="badge badge-moderate">Moderate</span></td><td><span class="badge badge-low">High</span></td><td>Not ranking</td><td>C</td><td>Homepage / product page</td></tr>
+<tr><td>ESG education impact</td><td><span class="badge badge-easy">Easy</span></td><td><span class="badge badge-low">High</span></td><td>Not ranking</td><td>I/C</td><td>Blog post + impact dashboard</td></tr>
+<tr><td>verified student funding</td><td><span class="badge badge-easy">Easy</span></td><td><span class="badge badge-low">High</span></td><td>Not ranking</td><td>C</td><td>Trust page with verification process</td></tr>
+<tr><td>donate for education</td><td><span class="badge badge-moderate">Moderate</span></td><td><span class="badge badge-low">High</span></td><td>Not ranking</td><td>T</td><td>Donation landing page</td></tr>
+<tr><td>education donation platform</td><td><span class="badge badge-moderate">Moderate</span></td><td><span class="badge badge-low">High</span></td><td>Not ranking</td><td>C</td><td>Comparison / features page</td></tr>
+<tr><td>scholarship funding platform</td><td><span class="badge badge-moderate">Moderate</span></td><td><span class="badge badge-high">Medium</span></td><td>Not ranking</td><td>C</td><td>Product page + scholarship listings</td></tr>
+<tr><td>fund students globally</td><td><span class="badge badge-easy">Easy</span></td><td><span class="badge badge-high">Medium</span></td><td>Not ranking</td><td>T</td><td>Global impact landing page</td></tr>
+<tr><td>student sponsorship platform</td><td><span class="badge badge-moderate">Moderate</span></td><td><span class="badge badge-high">Medium</span></td><td>Not ranking</td><td>C</td><td>Product / how-it-works page</td></tr>
+<tr><td>how to fund a student's education</td><td><span class="badge badge-easy">Easy</span></td><td><span class="badge badge-high">Medium</span></td><td>Not ranking</td><td>I</td><td>Blog guide / how-to article</td></tr>
+<tr><td>education impact tracking</td><td><span class="badge badge-easy">Easy</span></td><td><span class="badge badge-high">Medium</span></td><td>Not ranking</td><td>I/C</td><td>Feature page + case studies</td></tr>
+<tr><td>crowdfund college tuition</td><td><span class="badge badge-moderate">Moderate</span></td><td><span class="badge badge-high">Medium</span></td><td>Not ranking</td><td>T</td><td>Guide + campaign start page</td></tr>
+<tr><td>best education crowdfunding sites</td><td><span class="badge badge-moderate">Moderate</span></td><td><span class="badge badge-high">Medium</span></td><td>Not ranking</td><td>C</td><td>Comparison blog post</td></tr>
+<tr><td>transparent donation platform</td><td><span class="badge badge-easy">Easy</span></td><td><span class="badge badge-high">Medium</span></td><td>Not ranking</td><td>C</td><td>Trust / transparency page</td></tr>
+<tr><td>ESG aligned giving platform</td><td><span class="badge badge-easy">Easy</span></td><td><span class="badge badge-high">Medium</span></td><td>Not ranking</td><td>C</td><td>Blog post / landing page</td></tr>
+<tr><td>alternatives to GoFundMe for education</td><td><span class="badge badge-moderate">Moderate</span></td><td><span class="badge badge-high">Medium</span></td><td>Not ranking</td><td>C</td><td>Comparison blog post</td></tr>
+<tr><td>impact investing in education</td><td><span class="badge badge-moderate">Moderate</span></td><td><span class="badge badge-high">Medium</span></td><td>Not ranking</td><td>I</td><td>Long-form guide / pillar page</td></tr>
+<tr><td>DonorsChoose alternatives</td><td><span class="badge badge-moderate">Moderate</span></td><td><span class="badge badge-medium">Medium</span></td><td>Not ranking</td><td>C</td><td>Comparison page</td></tr>
+<tr><td>education fundraising ideas</td><td><span class="badge badge-hard">Hard</span></td><td><span class="badge badge-medium">Medium</span></td><td>Not ranking</td><td>I</td><td>Listicle blog post</td></tr>
+<tr><td>donate to education charity</td><td><span class="badge badge-hard">Hard</span></td><td><span class="badge badge-medium">Low</span></td><td>Not ranking</td><td>T</td><td>Donation page (long-term play)</td></tr>
+<tr><td>online fundraising for schools</td><td><span class="badge badge-hard">Hard</span></td><td><span class="badge badge-medium">Low</span></td><td>Not ranking</td><td>C</td><td>Feature page for institutions</td></tr>
+<tr><td>crowdfunding platform</td><td><span class="badge badge-hard">Hard</span></td><td><span class="badge badge-medium">Low</span></td><td>Not ranking</td><td>C</td><td>Avoid — too generic, GoFundMe dominates</td></tr>
+</tbody>
+</table>
+
+
+<!-- ============ COMPETITOR COMPARISON ============ -->
+<h2>3. Competitor SEO Comparison</h2>
+
+<p>Your 7 named competitors occupy different niches within the education/donation space. Here's how they stack up on key SEO dimensions:</p>
+
+<table>
+<thead>
+<tr><th>Dimension</th><th>GoFundMe</th><th>DonorsChoose</th><th>Kiva</th><th>GlobalGiving</th><th>ScholarshipOwl</th><th>JustGiving</th><th>GiveDirectly</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>Primary Focus</strong></td><td>Personal fundraising (all causes)</td><td>US classroom projects</td><td>Microloans (global)</td><td>Nonprofit project funding</td><td>Scholarship matching</td><td>UK charity fundraising</td><td>Direct cash transfers</td></tr>
+<tr><td><strong>Domain Authority (est.)</strong></td><td>Very High (90+)</td><td>High (75-85)</td><td>High (80+)</td><td>High (75-85)</td><td>Medium (45-55)</td><td>High (80+)</td><td>Medium-High (60-70)</td></tr>
+<tr><td><strong>Education Focus Depth</strong></td><td>Low — one category of many</td><td>Deep — core mission</td><td>Medium — education is one sector</td><td>Medium — 3,600+ edu nonprofits</td><td>Deep — scholarships only</td><td>Low — general charity</td><td>Low — cash transfers focus</td></tr>
+<tr><td><strong>ESG/Impact Tracking</strong></td><td>None</td><td>Basic (projects funded)</td><td>Repayment tracking</td><td>Impact reports</td><td>None</td><td>None</td><td>RCT-based evidence</td></tr>
+<tr><td><strong>Content Strategy</strong></td><td>Blog + success stories + SEO guides</td><td>Teacher blog + project listings</td><td>Blog + borrower stories</td><td>Project reports + theme pages</td><td>Scholarship listings + blog</td><td>Fundraiser guides</td><td>Research papers + blog</td></tr>
+<tr><td><strong>Key SEO Strength</strong></td><td>Massive DA + UGC pages</td><td>Thousands of indexed project pages</td><td>Strong brand + loan listings</td><td>3,600+ indexed project pages</td><td>Scholarship database</td><td>UK charity SEO dominance</td><td>Academic backlinks</td></tr>
+<tr><td><strong>Transparency Content</strong></td><td>Minimal</td><td>Per-project impact stats</td><td>Repayment dashboards</td><td>Progress reports per project</td><td>None</td><td>Minimal</td><td>Full research transparency</td></tr>
+<tr><td><strong>SERP Feature Presence</strong></td><td>Featured snippets, PAA, knowledge panel</td><td>Project rich results</td><td>Knowledge panel</td><td>Theme category pages</td><td>Scholarship listings</td><td>UK charity knowledge panel</td><td>Academic citations</td></tr>
+</tbody>
+</table>
+
+<h3>Key Competitive Insights</h3>
+<ul>
+  <li><strong>GoFundMe</strong> dominates head terms ("crowdfunding platform," "fundraising") with a DA 90+ and ~44% crowdfunding market share. Don't compete head-on — differentiate on niche keywords and transparency.</li>
+  <li><strong>DonorsChoose</strong> is the closest direct competitor in education funding but is US-only and teacher-focused. They generate SEO value from thousands of individual project pages that each rank for long-tail queries. Your global scope and ESG angle are differentiators.</li>
+  <li><strong>Kiva</strong> and <strong>GlobalGiving</strong> have strong domain authority but thin content on "education impact tracking" or "ESG-aligned giving." This is your gap to exploit.</li>
+  <li><strong>ScholarshipOwl</strong> competes for scholarship-related keywords but has no donation/crowdfunding functionality. You can outrank them on "scholarship funding platform" with better content depth.</li>
+  <li><strong>No competitor currently owns the "ESG + education + transparent impact" keyword cluster.</strong> This is your biggest strategic opportunity.</li>
+</ul>
+
+
+<!-- ============ CONTENT GAP ANALYSIS ============ -->
+<h2>4. Content Gap Analysis</h2>
+
+<p>These are the topics and content types your competitors rank for (or that have strong search demand) where no dedicated, high-quality content exists for your niche:</p>
+
+<table>
+<thead>
+<tr><th>Topic / Keyword Gap</th><th>Why It Matters</th><th>Format</th><th>Priority</th><th>Effort</th></tr>
+</thead>
+<tbody>
+<tr><td><strong>"How to Fund a Student's Education"</strong> — Complete guide covering scholarships, crowdfunding, sponsorship, and grants</td><td>High informational demand; captures top-of-funnel donors researching options. Competitors lack a comprehensive single resource.</td><td>Pillar page (2,500+ words)</td><td><span class="badge badge-low">High</span></td><td>Substantial (2-3 days)</td></tr>
+<tr><td><strong>"Best Education Crowdfunding Platforms [2026]"</strong> — Comparison of all platforms with honest pros/cons</td><td>High commercial intent; people search this before choosing where to donate. You can rank and position yourself favorably.</td><td>Comparison blog post</td><td><span class="badge badge-low">High</span></td><td>Moderate (half day)</td></tr>
+<tr><td><strong>"ESG Impact Reporting in Education Donations"</strong> — What it is, why it matters, how to evaluate</td><td>No competitor covers this intersection. Rising ESG investor interest (market heading to $191T by 2035). Positions you as the authority.</td><td>Long-form blog + downloadable framework</td><td><span class="badge badge-low">High</span></td><td>Substantial (2-3 days)</td></tr>
+<tr><td><strong>Student Impact Stories</strong> — Verified outcome profiles showing education impact over time</td><td>DonorsChoose has teacher stories; Kiva has borrower profiles. No one does verified student outcome tracking pages well.</td><td>Story template pages (UGC-driven)</td><td><span class="badge badge-low">High</span></td><td>Moderate ongoing</td></tr>
+<tr><td><strong>"Alternatives to GoFundMe for Education"</strong></td><td>High commercial intent from people dissatisfied with GoFundMe's lack of education focus or high fees.</td><td>Comparison blog post</td><td><span class="badge badge-low">High</span></td><td>Quick win (2-3 hours)</td></tr>
+<tr><td><strong>"How Transparent Donation Platforms Work"</strong> — Trust-building content explaining verification, fund tracking, and outcome reporting</td><td>Directly addresses donor skepticism — the #1 barrier to first donations on new platforms.</td><td>Feature page + blog post</td><td><span class="badge badge-high">Medium</span></td><td>Moderate (half day)</td></tr>
+<tr><td><strong>Donor Guides by Region</strong> — "How to donate to education in [Africa/Asia/Latin America]"</td><td>Geo-targeted long-tail keywords with low competition. GlobalGiving has theme pages but not donor-centric guides.</td><td>Regional landing pages</td><td><span class="badge badge-high">Medium</span></td><td>Moderate per region</td></tr>
+<tr><td><strong>"Education Funding Calculator"</strong> — Interactive tool estimating what a donation can achieve</td><td>Interactive tools earn backlinks and time-on-page. No competitor offers this for education donations.</td><td>Interactive tool / calculator page</td><td><span class="badge badge-high">Medium</span></td><td>Substantial (3-5 days)</td></tr>
+<tr><td><strong>Glossary: Education Funding Terms</strong></td><td>Targets question-based queries and PAA results. Supports internal linking to product pages.</td><td>Glossary / resource hub</td><td><span class="badge badge-high">Medium</span></td><td>Moderate (half day)</td></tr>
+<tr><td><strong>"Corporate ESG Education Partnerships"</strong> — Content for B2B donors and corporate giving programs</td><td>B2B angle competitors ignore. Companies seeking ESG-compliant giving will search for this.</td><td>Landing page + case studies</td><td><span class="badge badge-high">Medium</span></td><td>Substantial (2-3 days)</td></tr>
+<tr><td><strong>"Scholarship vs. Crowdfunding vs. Sponsorship" comparison</strong></td><td>Informational gap — people confused about differences. Featured snippet opportunity.</td><td>Blog post with comparison table</td><td><span class="badge badge-medium">Low</span></td><td>Quick win (2-3 hours)</td></tr>
+<tr><td><strong>Annual Education Funding Report</strong> — Data-driven state of education funding globally</td><td>Link-magnet content that earns press mentions and .edu backlinks. GiveDirectly does this for cash transfers; no one does it for education crowdfunding.</td><td>Annual report (PDF + web page)</td><td><span class="badge badge-medium">Low</span></td><td>Substantial (1-2 weeks)</td></tr>
+</tbody>
+</table>
+
+
+<!-- ============ ON-PAGE SEO RECOMMENDATIONS ============ -->
+<h2>5. On-Page SEO Recommendations</h2>
+
+<p>These are the page-level optimizations to build into every key page from day one. Since the platform is pre-launch or early-stage, this is a <strong>build-right-the-first-time</strong> checklist rather than a fix-it audit.</p>
+
+<table>
+<thead>
+<tr><th>Page Type</th><th>Optimization</th><th>Severity</th><th>Recommendation</th></tr>
+</thead>
+<tbody>
+<tr><td>Homepage</td><td>Title tag</td><td><span class="badge badge-critical">Critical</span></td><td>Include primary keyword in title: e.g. "Fund a Student's Education — Transparent Impact Tracking | [Brand]" (under 60 chars)</td></tr>
+<tr><td>Homepage</td><td>H1 tag</td><td><span class="badge badge-critical">Critical</span></td><td>Single H1 with primary keyword, e.g. "Fund a Student's Education with Verified Impact Tracking"</td></tr>
+<tr><td>Homepage</td><td>Meta description</td><td><span class="badge badge-high">High</span></td><td>Compelling 150-160 char description with CTA: "Sponsor students globally on the first ESG-aligned education funding platform. See exactly where your donation goes. Start today."</td></tr>
+<tr><td>Homepage</td><td>First 100 words</td><td><span class="badge badge-high">High</span></td><td>Include "education funding platform," "fund a student," and "impact tracking" naturally in the opening paragraph.</td></tr>
+<tr><td>All pages</td><td>URL structure</td><td><span class="badge badge-critical">Critical</span></td><td>Use clean, keyword-rich URLs: /fund-a-student, /how-it-works, /education-impact, /donate-education. Avoid parameters or nested directories deeper than 3 levels.</td></tr>
+<tr><td>Student profiles</td><td>Schema markup</td><td><span class="badge badge-high">High</span></td><td>Add Person + EducationalOrganization schema to student pages. Add FAQ schema to guide pages. Add Organization + WebSite schema sitewide.</td></tr>
+<tr><td>Blog posts</td><td>H2/H3 structure</td><td><span class="badge badge-high">High</span></td><td>Use secondary keywords in H2 headings. Every blog post should have a clear hierarchy: H1 (title) → H2 (sections) → H3 (subsections).</td></tr>
+<tr><td>All pages</td><td>Internal linking</td><td><span class="badge badge-high">High</span></td><td>Every page should link to 3-5 related pages. Create a hub-and-spoke model: pillar pages link to clusters, clusters link back.</td></tr>
+<tr><td>Student profiles</td><td>Image alt text</td><td><span class="badge badge-medium">Medium</span></td><td>Every student photo and infographic needs descriptive alt text: "Student [Name] from [Country] studying [Field]" — not "IMG_3847.jpg."</td></tr>
+<tr><td>Impact dashboard</td><td>Crawlable content</td><td><span class="badge badge-medium">Medium</span></td><td>Render impact stats as HTML text (not just JavaScript charts) so search engines can index the data. Use server-side rendering or pre-rendering.</td></tr>
+<tr><td>All pages</td><td>Open Graph + Twitter cards</td><td><span class="badge badge-medium">Medium</span></td><td>Every page needs og:title, og:description, og:image, and Twitter card meta tags for social sharing.</td></tr>
+<tr><td>Donation pages</td><td>Page speed</td><td><span class="badge badge-high">High</span></td><td>Donation/CTA pages must load in under 2.5s (LCP target). Lazy-load images, minimize third-party scripts, use CDN.</td></tr>
+</tbody>
+</table>
+
+
+<!-- ============ TECHNICAL SEO CHECKLIST ============ -->
+<h2>6. Technical SEO Checklist</h2>
+
+<p>Build these into your platform architecture before or at launch:</p>
+
+<table>
+<thead>
+<tr><th style="width:30%">Check</th><th style="width:12%">Status</th><th>Details &amp; Recommendation</th></tr>
+</thead>
+<tbody>
+<tr><td>HTTPS</td><td><span class="badge badge-pass">Required</span></td><td>Ensure all pages served over HTTPS. Redirect all HTTP to HTTPS. No mixed content (loading HTTP assets on HTTPS pages).</td></tr>
+<tr><td>XML Sitemap</td><td><span class="badge badge-pass">Required</span></td><td>Auto-generate sitemap.xml at launch. Include all indexable pages: student profiles, blog posts, category pages. Submit to Google Search Console.</td></tr>
+<tr><td>Robots.txt</td><td><span class="badge badge-pass">Required</span></td><td>Allow crawling of all public pages. Block /admin, /api, /checkout internals. Don't accidentally block CSS/JS files.</td></tr>
+<tr><td>Canonical Tags</td><td><span class="badge badge-warn">Plan</span></td><td>Every page needs a self-referencing canonical. Student profiles shared with query parameters (e.g., ?ref=email) must canonicalize to the clean URL.</td></tr>
+<tr><td>Mobile Responsiveness</td><td><span class="badge badge-pass">Required</span></td><td>Google uses mobile-first indexing. All pages must be fully responsive. Test tap targets (48px+), font sizes (16px+ body), and viewport meta tag.</td></tr>
+<tr><td>Core Web Vitals (LCP)</td><td><span class="badge badge-warn">Plan</span></td><td>Target LCP under 2.5s. Pre-load hero images, use WebP/AVIF format, implement CDN. Student profile images should be lazy-loaded below the fold.</td></tr>
+<tr><td>Core Web Vitals (INP)</td><td><span class="badge badge-warn">Plan</span></td><td>Target INP under 200ms. Minimize JavaScript on donation pages. Defer non-critical scripts. Avoid layout-blocking third-party trackers.</td></tr>
+<tr><td>Core Web Vitals (CLS)</td><td><span class="badge badge-warn">Plan</span></td><td>Target CLS under 0.1. Set explicit width/height on all images. Reserve space for dynamically loaded content (impact stats, student cards).</td></tr>
+<tr><td>Structured Data (Schema)</td><td><span class="badge badge-warn">Plan</span></td><td>Implement: Organization, WebSite (with SearchAction), BreadcrumbList, Article (blog), FAQPage (guides), Person (student profiles).</td></tr>
+<tr><td>Breadcrumbs</td><td><span class="badge badge-warn">Plan</span></td><td>Implement breadcrumb navigation on all pages. Use BreadcrumbList schema. Helps with sitelinks and SERP click-through.</td></tr>
+<tr><td>404 Error Handling</td><td><span class="badge badge-pass">Required</span></td><td>Create a custom 404 page with search, top categories, and CTA back to homepage. Monitor 404s in Search Console post-launch.</td></tr>
+<tr><td>Redirect Strategy</td><td><span class="badge badge-warn">Plan</span></td><td>If migrating from a previous domain or rebranding, implement 301 redirects for all old URLs. Avoid redirect chains (max 1 hop).</td></tr>
+<tr><td>Internationalization (hreflang)</td><td><span class="badge badge-warn">Plan</span></td><td>If serving multiple languages/regions, implement hreflang tags. Critical for a "global" education platform targeting donors and students worldwide.</td></tr>
+<tr><td>JavaScript Rendering</td><td><span class="badge badge-fail">Critical</span></td><td>If using a JS framework (React, Vue, etc.), implement SSR or pre-rendering. Google can render JS but delays are costly for indexation speed. Impact dashboards and student listings MUST be server-rendered.</td></tr>
+<tr><td>Page Speed (overall)</td><td><span class="badge badge-warn">Plan</span></td><td>Target: homepage &lt;2s, student profiles &lt;2.5s, blog posts &lt;2s. Use image compression, code splitting, CDN, and browser caching (31+ day cache headers).</td></tr>
+</tbody>
+</table>
+
+
+<!-- ============ PRIORITIZED ACTION PLAN ============ -->
+<h2>7. Prioritized Action Plan</h2>
+
+<h3>Quick Wins — Do This Week</h3>
+
+<div class="action-card">
+  <h4>1. Define title tags and meta descriptions for your 5 core pages</h4>
+  <p>Write optimized title tags (under 60 chars) and meta descriptions (under 160 chars) for: Homepage, How It Works, Fund a Student, Impact Dashboard, About/Trust. Include primary keywords and a clear CTA in each.</p>
+  <div class="meta-row"><span>Impact: <strong>High</strong></span><span>Effort: 1-2 hours</span><span>Dependencies: None</span></div>
+</div>
+
+<div class="action-card">
+  <h4>2. Set up Google Search Console + Analytics</h4>
+  <p>Verify your domain in Google Search Console. Submit your sitemap. Set up GA4 with conversion tracking on donation completions and student profile views.</p>
+  <div class="meta-row"><span>Impact: <strong>High</strong></span><span>Effort: 1-2 hours</span><span>Dependencies: Domain must be live</span></div>
+</div>
+
+<div class="action-card">
+  <h4>3. Write and publish "Alternatives to GoFundMe for Education" blog post</h4>
+  <p>Target the commercial-intent keyword cluster. Honest comparison of 5-7 platforms (including yours). Aim for featured snippet with a comparison table. 1,500-2,000 words.</p>
+  <div class="meta-row"><span>Impact: <strong>High</strong></span><span>Effort: 3-4 hours</span><span>Dependencies: None</span></div>
+</div>
+
+<div class="action-card">
+  <h4>4. Write and publish "Scholarship vs. Crowdfunding vs. Sponsorship" explainer</h4>
+  <p>Targets question-based queries and People Also Ask. Include a clear comparison table for featured snippet potential. 1,200-1,500 words.</p>
+  <div class="meta-row"><span>Impact: <strong>Medium</strong></span><span>Effort: 2-3 hours</span><span>Dependencies: None</span></div>
+</div>
+
+<div class="action-card">
+  <h4>5. Implement core schema markup</h4>
+  <p>Add Organization, WebSite (with SearchAction), and BreadcrumbList structured data to your site template. Add FAQPage schema to any page with Q&A content.</p>
+  <div class="meta-row"><span>Impact: <strong>Medium</strong></span><span>Effort: 2-3 hours</span><span>Dependencies: Dev access</span></div>
+</div>
+
+<div class="action-card">
+  <h4>6. Ensure all student profile images have descriptive alt text</h4>
+  <p>Audit every image on the site. Replace generic filenames with descriptive alt text that includes relevant keywords naturally.</p>
+  <div class="meta-row"><span>Impact: <strong>Medium</strong></span><span>Effort: 1-2 hours</span><span>Dependencies: Content access</span></div>
+</div>
+
+<div class="action-card">
+  <h4>7. Create a /transparency or /how-it-works page</h4>
+  <p>Explain your verification process, fund tracking, and impact reporting methodology. This is your core SEO differentiator and trust signal. Target "transparent education donation" and "verified student funding."</p>
+  <div class="meta-row"><span>Impact: <strong>High</strong></span><span>Effort: 3-4 hours</span><span>Dependencies: Product team input</span></div>
+</div>
+
+<div class="action-card">
+  <h4>8. Set up internal linking structure</h4>
+  <p>Map out hub-and-spoke linking: Homepage → Category pages → Student profiles. Blog posts → Related product pages. Every page should link to at least 3 other pages.</p>
+  <div class="meta-row"><span>Impact: <strong>High</strong></span><span>Effort: 2-3 hours</span><span>Dependencies: Site map finalized</span></div>
+</div>
+
+<h3>Strategic Investments — Plan for This Quarter</h3>
+
+<div class="action-card">
+  <h4>9. Build "How to Fund a Student's Education" pillar page</h4>
+  <p>Comprehensive 2,500+ word guide covering scholarships, crowdfunding, sponsorship, grants, and corporate programs. Internal links to 5-8 cluster articles. Target primary keyword "fund a student" and 10+ secondary keywords. This becomes your highest-traffic organic page.</p>
+  <div class="meta-row"><span>Impact: <strong>Very High</strong></span><span>Effort: 3-5 days</span><span>Dependencies: Cluster content plan</span></div>
+</div>
+
+<div class="action-card">
+  <h4>10. Launch an "ESG Education Impact" content hub</h4>
+  <p>Create 5-8 articles on ESG-aligned education giving: what ESG means for donors, how to measure education impact, corporate ESG education partnerships, SDG alignment in education funding. No competitor owns this space — you can become the authority.</p>
+  <div class="meta-row"><span>Impact: <strong>Very High</strong></span><span>Effort: 2-3 weeks</span><span>Dependencies: Subject matter expertise</span></div>
+</div>
+
+<div class="action-card">
+  <h4>11. Build a student impact story template system (UGC-driven SEO)</h4>
+  <p>Create a templated page type for verified student stories — each page targets long-tail keywords like "fund education in Kenya" or "sponsor student in Philippines." This mirrors DonorsChoose's project-page SEO strategy, where thousands of individual pages drive aggregate organic traffic.</p>
+  <div class="meta-row"><span>Impact: <strong>Very High</strong></span><span>Effort: 2-4 weeks (ongoing)</span><span>Dependencies: Student onboarding, verification system</span></div>
+</div>
+
+<div class="action-card">
+  <h4>12. Create an "Education Funding Impact Calculator" interactive tool</h4>
+  <p>Interactive tool showing what a $25, $50, $100, $500 donation achieves. Link-magnet content that earns backlinks from education blogs and nonprofit directories.</p>
+  <div class="meta-row"><span>Impact: <strong>High</strong></span><span>Effort: 1-2 weeks</span><span>Dependencies: Dev resources, impact data</span></div>
+</div>
+
+<div class="action-card">
+  <h4>13. Launch link-building campaign targeting .edu and nonprofit backlinks</h4>
+  <p>Outreach to education blogs, university financial aid pages, ESG research centers, and nonprofit directories. Offer your impact data, student stories, or annual report as citable resources. Target 20+ quality backlinks in Q1.</p>
+  <div class="meta-row"><span>Impact: <strong>Very High</strong></span><span>Effort: Ongoing (4-6 hrs/week)</span><span>Dependencies: Linkable content published first</span></div>
+</div>
+
+<div class="action-card">
+  <h4>14. Publish a geo-targeted landing page series: "Donate to Education in [Region]"</h4>
+  <p>Create 5-10 regional landing pages (Africa, South Asia, Southeast Asia, Latin America, Middle East, etc.) with region-specific student profiles, impact stats, and donation CTAs. Targets low-competition geo-modified keywords.</p>
+  <div class="meta-row"><span>Impact: <strong>High</strong></span><span>Effort: 1-2 weeks</span><span>Dependencies: Regional data, student profiles</span></div>
+</div>
+
+<div class="action-card">
+  <h4>15. Produce an Annual "State of Education Funding" report</h4>
+  <p>Data-driven report on global education funding trends, crowdfunding growth, and ESG impact metrics. Publish as both a web page and downloadable PDF. This is your #1 link-magnet asset — target press coverage, .edu citations, and industry shares.</p>
+  <div class="meta-row"><span>Impact: <strong>Very High</strong></span><span>Effort: 2-3 weeks</span><span>Dependencies: Data collection, design</span></div>
+</div>
+
+
+<!-- ============ CONTENT CALENDAR SUGGESTION ============ -->
+<h2>8. Suggested Content Calendar — First 90 Days</h2>
+
+<table>
+<thead>
+<tr><th>Week</th><th>Content Piece</th><th>Primary Keyword Target</th><th>Type</th></tr>
+</thead>
+<tbody>
+<tr><td>1</td><td>Core page optimization (titles, metas, H1s, schema)</td><td>All primary keywords</td><td>Technical</td></tr>
+<tr><td>2</td><td>"Alternatives to GoFundMe for Education"</td><td>alternatives to GoFundMe for education</td><td>Blog</td></tr>
+<tr><td>3</td><td>"Scholarship vs. Crowdfunding vs. Sponsorship — What's the Difference?"</td><td>scholarship funding platform</td><td>Blog</td></tr>
+<tr><td>4</td><td>"How to Fund a Student's Education" pillar page</td><td>fund a student, how to fund a student's education</td><td>Pillar</td></tr>
+<tr><td>5</td><td>"What Is ESG-Aligned Giving?" explainer</td><td>ESG education impact, ESG aligned giving platform</td><td>Blog</td></tr>
+<tr><td>6</td><td>"Best Education Crowdfunding Platforms [2026]"</td><td>best education crowdfunding sites</td><td>Blog</td></tr>
+<tr><td>7</td><td>/transparency page launch</td><td>transparent education donation, verified student funding</td><td>Product page</td></tr>
+<tr><td>8</td><td>"How Transparent Donation Platforms Work"</td><td>transparent donation platform</td><td>Blog</td></tr>
+<tr><td>9</td><td>"Impact Investing in Education — A Donor's Guide"</td><td>impact investing in education</td><td>Blog / Guide</td></tr>
+<tr><td>10</td><td>First 3 regional landing pages</td><td>donate to education in [Africa/Asia/LatAm]</td><td>Landing pages</td></tr>
+<tr><td>11</td><td>"Corporate ESG Education Partnerships" page</td><td>corporate ESG education partnerships</td><td>Landing page</td></tr>
+<tr><td>12</td><td>Education Funding Impact Calculator launch</td><td>education funding calculator</td><td>Interactive tool</td></tr>
+</tbody>
+</table>
+
+
+<!-- ============ SOURCES ============ -->
+<h2>Sources &amp; Methodology</h2>
+<p>This audit was compiled using web research, SERP analysis, and publicly available market data. Keyword difficulty and search volume estimates are directional — for precise metrics, connect an SEO tool (Ahrefs, Semrush, or Moz) via MCP to auto-populate with live ranking data.</p>
+<p style="font-size:12px; color:var(--muted); margin-top:24px;">Generated March 14, 2026 | SEO Audit by Claude</p>
+
+</div>
+</body>
+</html>
