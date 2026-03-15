@@ -5,21 +5,21 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CampaignDetailClient from './CampaignDetailClient';
 import { fetchCampaignData } from './fetchCampaign';
+import { buildAlternates } from '@/lib/seo/metadata'
+import { JsonLd } from '@/components/seo/JsonLd'
+import { personSchema, educationalOrgSchema, breadcrumbSchema } from '@/lib/seo/schemas'
 
 interface Props {
-  params: { id: string };
+  params: { id: string; locale: string }
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const campaign = await fetchCampaignData(params.id);
-
-  if (!campaign) {
-    return { title: 'Campaign Not Found — FundEd' };
-  }
+  const campaign = await fetchCampaignData(params.id)
+  if (!campaign) return { title: 'Campaign Not Found — FundEd' }
 
   const description = campaign.story
     ? campaign.story.substring(0, 160) + (campaign.story.length > 160 ? '...' : '')
-    : `Support ${campaign.student?.name}'s education on FundEd`;
+    : `Support ${campaign.student?.name}'s education on FundEd`
 
   return {
     title: `${campaign.title} — FundEd`,
@@ -36,7 +36,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description,
       images: campaign.cover_image ? [campaign.cover_image] : [],
     },
-  };
+    alternates: buildAlternates(params.locale, '/campaign/' + params.id),
+  }
 }
 
 function CampaignDetailLoading() {
@@ -67,21 +68,48 @@ function CampaignDetailLoading() {
 }
 
 export default async function CampaignDetailPage({ params }: Props) {
-  const campaign = await fetchCampaignData(params.id);
+  const campaign = await fetchCampaignData(params.id)
 
   if (!campaign) {
-    notFound();
+    return notFound()
   }
 
+  const isTr = params.locale === 'tr'
+
+  const schemas = [
+    personSchema({
+      name: campaign.student?.name || campaign.title,
+      description: campaign.story?.substring(0, 200) || '',
+      imageUrl: campaign.cover_image,
+      url: `https://fund-ed.com/${params.locale}/campaign/${params.id}`,
+    }),
+    educationalOrgSchema(),
+    breadcrumbSchema(isTr
+      ? [
+          { name: 'Ana Sayfa', url: `https://fund-ed.com/tr` },
+          { name: 'Kampanyalar', url: `https://fund-ed.com/tr/browse` },
+          { name: campaign.title, url: `https://fund-ed.com/tr/campaign/${params.id}` },
+        ]
+      : [
+          { name: 'Home', url: `https://fund-ed.com/en` },
+          { name: 'Browse', url: `https://fund-ed.com/en/browse` },
+          { name: campaign.title, url: `https://fund-ed.com/en/campaign/${params.id}` },
+        ]
+    ),
+  ]
+
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
-      <Navbar />
-      <main className="flex-grow">
-        <Suspense fallback={<CampaignDetailLoading />}>
-          <CampaignDetailClient initialCampaign={campaign} />
-        </Suspense>
-      </main>
-      <Footer />
-    </div>
+    <>
+      {schemas.map((s, i) => <JsonLd key={i} schema={s} />)}
+      <div className="min-h-screen flex flex-col bg-gray-50">
+        <Navbar />
+        <main className="flex-grow">
+          <Suspense fallback={<CampaignDetailLoading />}>
+            <CampaignDetailClient initialCampaign={campaign} />
+          </Suspense>
+        </main>
+        <Footer />
+      </div>
+    </>
   );
 }
