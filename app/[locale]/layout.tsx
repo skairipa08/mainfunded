@@ -8,6 +8,8 @@ import { AiAssistantLoader } from '@/components/ai-assistant/AiAssistantLoader';
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { GoogleAnalytics } from '@next/third-parties/google';
+import { JsonLd } from '@/components/seo/JsonLd';
+import { organizationSchema, websiteSchema } from '@/lib/seo/schemas';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -39,9 +41,6 @@ export const metadata: Metadata = {
       'max-snippet': -1,
     },
   },
-  alternates: {
-    canonical: '/',
-  },
   keywords: ['eğitim', 'bağış', 'kitle fonlama', 'öğrenci', 'fon', 'sosyal sorumluluk', 'burs', 'eğitimde fırsat eşitliği'],
   authors: [{ name: 'FundEd Ekibi' }],
   creator: 'FundEd',
@@ -64,6 +63,8 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body className={inter.className}>
+        <JsonLd schema={organizationSchema()} />
+        <JsonLd schema={websiteSchema()} />
         <GoogleAnalytics gaId="G-NRN6MW6SDF" />
         <NextIntlClientProvider messages={messages}>
           <script
