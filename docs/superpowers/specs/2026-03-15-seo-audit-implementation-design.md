@@ -186,15 +186,17 @@ Changes to server page:
 - `app/[locale]/blog/alternatives-to-gofundme-for-education/page.tsx`
 - `app/[locale]/blog/scholarship-vs-crowdfunding-vs-sponsorship/page.tsx`
 
-**Locale strategy:** Blog posts are authored in English only. The `hreflang` alternates for the `/tr` locale will point canonical to the `/en` version (via `buildAlternates` with the same path). This avoids thin/duplicate content on the Turkish index for content not yet translated.
+**Locale strategy:** Both Turkish and English are equally important markets. All blog posts and new content pages must be fully authored in both languages. Each page uses the `locale` param from `app/[locale]/` routing to conditionally render the correct language content. The `buildAlternates` helper will produce correct `tr`/`en` canonicals for each locale. **No locale points to another as its canonical — each has its own unique content.**
 
-**Blog index:** Static list of posts (no CMS). Each post entry: title, slug, description, keyword, date.
+The existing `messages/tr.json` and `messages/en.json` files will be extended with translation keys for all new content pages. Blog post body content (being long-form) is colocated in the page file itself as locale-conditional strings rather than in the messages JSON, to keep large content blocks manageable.
 
-**Post: Alternatives to GoFundMe for Education**
-~1,500 words. Comparison table of 5-7 platforms (GoFundMe, DonorsChoose, Kiva, JustGiving, FundEd). Target featured snippet via comparison table. Article schema. BreadcrumbList: Home → Blog → Alternatives to GoFundMe. Metadata targets `alternatives to GoFundMe for education`. Internal links to `/fund-a-student`, `/how-it-works`, `/transparency`.
+**Blog index:** Static list of posts (no CMS). Each post entry: title, slug, description, keyword, date — with tr/en variants.
 
-**Post: Scholarship vs. Crowdfunding vs. Sponsorship**
-~1,200 words. Comparison table of 3 models. Target featured snippet. Article schema. BreadcrumbList: Home → Blog → Scholarship vs Crowdfunding. Metadata targets `scholarship funding platform`. Internal links to `/fund-a-student`, `/education-funding-calculator`.
+**Post: Alternatives to GoFundMe for Education** (`egitim-icin-gofundme-alternatifleri` in TR slug)
+~1,500 words in English + ~1,500 words in Turkish. Comparison table of 5-7 platforms (GoFundMe, DonorsChoose, Kiva, JustGiving, FundEd). Target featured snippet via comparison table. Article schema. BreadcrumbList: Home → Blog → [Post Title]. EN metadata targets `alternatives to GoFundMe for education`; TR targets `eğitim için GoFundMe alternatifleri`. Internal links to `/fund-a-student`, `/how-it-works`, `/transparency`.
+
+**Post: Scholarship vs. Crowdfunding vs. Sponsorship** (`burs-vs-kitlefonlama-vs-sponsorluk` in TR slug)
+~1,200 words in English + ~1,200 words in Turkish. Comparison table of 3 models. Target featured snippet. Article schema. EN metadata targets `scholarship funding platform`; TR targets `burs fonu platformu`. Internal links to `/fund-a-student`, `/education-funding-calculator`.
 
 ### 2.6 `app/[locale]/campaign/[id]/page.tsx` — Schema + Alternates
 
@@ -238,7 +240,7 @@ UI: 4 clickable tier cards. On selection, animated counter reveals impact breakd
 **File:** `app/[locale]/blog/esg-education-impact/page.tsx`
 **Target keyword:** `ESG education impact` (High opportunity, Informational/Commercial)
 
-~1,500 words. Covers: what ESG-aligned giving means, why education is an ESG investment, how FundEd tracks impact, SDG alignment. Article schema. BreadcrumbList: Home → Blog → ESG Education Impact. Internal links to `/fund-a-student`, `/transparency`, `/education-funding-calculator`. English only (same locale strategy as other blog posts).
+~1,500 words in English + ~1,500 words in Turkish. Covers: what ESG-aligned giving means, why education is an ESG investment, how FundEd tracks impact, SDG alignment. Article schema. BreadcrumbList: Home → Blog → ESG Education Impact. EN metadata targets `ESG education impact`; TR targets `ESG eğitim etkisi`. Internal links to `/fund-a-student`, `/transparency`, `/education-funding-calculator`. Both languages fully authored.
 
 ### 3.3 Internal Linking Pass
 
@@ -308,7 +310,7 @@ Add:
 - `/fund-a-student`, `/blog/*`, `/education-funding-calculator`, `/who-we-are` are present in `app/sitemap.ts` with appropriate priority
 - `app/[locale]/layout.tsx` no longer has a fallback `alternates: { canonical: '/' }`
 - `how-it-works` and `transparency` use server-wrapper pattern — `generateMetadata` exports work without build errors
-- Blog posts render English content only; Turkish hreflang alternates point to English canonical
+- All blog posts and new content pages render full content in both Turkish and English (locale-conditional in page files); no locale redirects to another as its canonical
 - 404 page has navigation CTAs (Browse, Fund a Student, How It Works)
 - Homepage and `/fund-a-student` each have 4+ outbound internal links
 - Impact stats on campaign pages render as crawlable HTML text nodes (not canvas/SVG-only)
