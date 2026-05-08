@@ -118,23 +118,27 @@ model DonorStudentFollow {
 }
 
 model Company {
-  id              String          @id @default(auto()) @map("_id") @db.ObjectId
-  name            String
-  legalName       String?
-  taxId           String          @unique
-  logoUrl         String?
-  contactEmail    String
-  contactPhone    String?
-  websiteUrl      String?
-  ownerUserId     String          @unique
-  status          CompanyStatus   @default(PENDING)
-  approvedAt      DateTime?
-  approvedBy      String?
-  rejectedReason  String?
-  createdAt       DateTime        @default(now())
-  updatedAt       DateTime        @updatedAt
+  id                  String                  @id @default(auto()) @map("_id") @db.ObjectId
+  name                String
+  legalName           String?
+  taxId               String                  @unique
+  logoUrl             String?
+  contactEmail        String
+  contactPhone        String?
+  websiteUrl          String?
+  ownerUserId         String                  @unique
+  status              CompanyStatus           @default(PENDING)
+  approvedAt          DateTime?
+  approvedBy          String?
+  rejectedReason      String?
+  activationCode      String?                 @unique
+  budgetAlertSentAt   Json?
+  createdAt           DateTime                @default(now())
+  updatedAt           DateTime                @updatedAt
 
-  matchingRule    MatchingRule?
+  matchingRule        MatchingRule?
+  affiliations        EmployeeAffiliation[]
+  transactions        MatchingTransaction[]
 
   @@index([status])
   @@map("companies")
@@ -160,4 +164,49 @@ model MatchingRule {
   updatedAt           DateTime  @updatedAt
 
   @@map("matching_rules")
+}
+
+model MatchingTransaction {
+  id                  String                @id @default(auto()) @map("_id") @db.ObjectId
+  companyId           String                @db.ObjectId
+  company             Company               @relation(fields: [companyId], references: [id])
+  ruleId              String                @db.ObjectId
+  donationId          String                @unique @db.ObjectId
+  campaignId          String                @db.ObjectId
+  donorUserId         String
+  category            String
+  donationAmountTRY   Int
+  matchedAmountTRY    Int
+  ratioApplied        Int
+  status              MatchingStatus        @default(PENDING)
+  rejectReason        String?
+  ownerNote           String?
+  approvedAt          DateTime?
+  rejectedAt          DateTime?
+  periodKey           String
+  createdAt           DateTime              @default(now())
+
+  @@index([companyId, periodKey, status])
+  @@index([companyId, status])
+  @@index([donorUserId])
+  @@map("matching_transactions")
+}
+
+enum MatchingStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model EmployeeAffiliation {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  userId        String    @unique
+  companyId     String    @db.ObjectId
+  company       Company   @relation(fields: [companyId], references: [id])
+  active        Boolean   @default(true)
+  activatedAt   DateTime  @default(now())
+  deactivatedAt DateTime?
+
+  @@index([companyId, active])
+  @@map("employee_affiliations")
 }
