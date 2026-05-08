@@ -178,7 +178,7 @@ model MatchingRule {
 |---|---|---|
 | `POST /api/corporate/signup` | Public | Create User + Company (PENDING) |
 | `GET /api/corporate/me` | COMPANY_OWNER | Returns `{company, matchingRule}` |
-| `PATCH /api/corporate/me` | COMPANY_OWNER + APPROVED | Update profile fields |
+| `PATCH /api/corporate/me` | COMPANY_OWNER + APPROVED | Update mutable profile fields (allow-list below) |
 | `GET /api/corporate/matching-rule` | COMPANY_OWNER + APPROVED | Returns rule or null |
 | `PUT /api/corporate/matching-rule` | COMPANY_OWNER + APPROVED | Upsert rule |
 | `POST /api/corporate/matching/simulate` | COMPANY_OWNER + APPROVED | Run engine |
@@ -226,7 +226,7 @@ The engine has zero I/O. The simulate API resolves `rule` and `spentInPeriodTRY`
 
 **Phase 1 `spentInPeriodTRY` is always 0** because no `MatchingTransaction` records exist yet. Phase 2 will replace this with a real aggregation over `MatchingTransaction` filtered by `companyId`, `periodKey`, and `status: APPROVED`.
 
-**Period key format:** `'YYYY-MM'` (e.g. `'2026-05'`), generated server-side from `new Date()`.
+**Period key format:** `'YYYY-MM'` (e.g. `'2026-05'`), generated server-side. Computed in **Europe/Istanbul timezone** (the platform's primary market) using `Intl.DateTimeFormat('en-CA', { timeZone: 'Europe/Istanbul', year: 'numeric', month: '2-digit' })` so the month boundary aligns with local CSR reporting expectations. Phase 2 budget aggregations and end-of-month tests must use the same helper (`lib/corporate/period.ts:periodKey(date)`).
 
 ### Simulate API
 
@@ -256,35 +256,50 @@ Built with `@react-email/components` (already in dependencies). Phase 1 only ren
 3. Check User email uniqueness in MongoDB native — return 409 if duplicate
 4. `bcrypt.hash(password)` → create User: `{ email, passwordHash, role: 'COMPANY_OWNER', emailVerified: null }`
 5. Create Company: `{ ownerUserId: user._id, status: 'PENDING', ...formData }` via Prisma
-6. **Compensation pattern** (no MongoDB transaction): if step 5 fails, delete the User created in step 4. Replica-set transactions are not assumed (most local dev runs standalone MongoDB)
+6. **Compensation pattern** (no MongoDB transaction): if step 5 fails, delete the User created in step 4. Replica-set transactions are not assumed (most local dev runs standalone MongoDB). If the compensation `User.delete` *also* fails (rare — connection lost mid-rollback), log a structured error via `lib/logger.ts` with tag `signup.orphan_user` containing the User `_id`; an admin can clean up manually. Phase 1 does not auto-recover this case.
 7. Response: `{ companyId, status: 'PENDING' }`. **No auto-login** — user is sent to `/corporate/login`
 
 ### Login redirect (server-side, NextAuth callback)
 
-Login callback resolves the user's company status and redirects:
+On sign-in, the JWT callback resolves the user's company status **once** and stamps `companyId` and `companyStatus` into the JWT. Subsequent requests read these from the session token without re-querying the DB. Status changes (admin approval, rejection) require the user to re-login to refresh their JWT — acceptable trade-off in Phase 1 (status transitions are infrequent).
+
+Redirect targets:
 - `PENDING` → `/corporate/pending`
 - `APPROVED` → `/corporate/settings/matching-rule`
 - `REJECTED` → `/corporate/login?error=rejected` (shows `rejectedReason`)
 - `SUSPENDED` → `/corporate/login?error=suspended`
 
-Routing is decided in the NextAuth callback rather than middleware to avoid DB queries on every request. Existing `middleware.ts` (i18n + auth gate) is not modified.
+Existing `middleware.ts` (i18n + auth gate) is not modified.
 
 ### New authz helpers (added to `lib/authz.ts`)
 
 ```ts
-export async function requireCompanyOwner(): Promise<{ user, company }>
-export async function requireApprovedCompanyOwner(): Promise<{ user, company }>
+export async function requireCompanyOwner(): Promise<{ user: User; company: Company }>
+export async function requireApprovedCompanyOwner(): Promise<{ user: User; company: Company }>
 export async function requireAdmin(): Promise<User>
 ```
+
+Helpers return `{ user, company }` only — they do **not** preload `MatchingRule`. Routes that need the rule (`GET /api/corporate/me`, `PUT /api/corporate/matching-rule`, `POST /api/corporate/matching/simulate`) fetch it explicitly via `prisma.matchingRule.findUnique({ where: { companyId } })`. This keeps the helper lightweight and routes' DB access explicit.
 
 Each throws on failure; routes catch and translate to 401/403 via the existing `lib/api-error.ts` pattern.
 
 ### Admin approval (`POST /api/admin/corporate/companies/[id]/approve`)
 
 - `requireAdmin()`
-- Body: `{ decision: 'APPROVE' | 'REJECT', reason?: string }`
+- Body: `{ decision: 'APPROVE' | 'REJECT', reason?: string }` — zod refinement: `reason` is **required when `decision === 'REJECT'`**, optional when `APPROVE`
 - `APPROVE`: sets `status = 'APPROVED'`, `approvedAt = now()`, `approvedBy = adminUserId`. **No empty `MatchingRule` is auto-created** — owner creates it via PUT (first call = upsert insert)
 - `REJECT`: sets `status = 'REJECTED'`, `rejectedReason = reason`. No email triggered in Phase 1 (Phase 2 will send a notification)
+
+### `PATCH /api/corporate/me` mutable field allow-list
+
+Mutable post-approval (validated in `lib/corporate/validators.ts`):
+- `name`, `legalName`, `logoUrl`, `contactEmail`, `contactPhone`, `websiteUrl`
+
+**Immutable** (rejected with 400 if present in body):
+- `taxId` — would let an approved company swap legal identity, bypassing admin re-approval
+- `ownerUserId`, `status`, `approvedAt`, `approvedBy`, `rejectedReason`, `id`, `createdAt`, `updatedAt`
+
+zod schema uses `.strict()` and the mutable allow-list explicitly so unknown keys are rejected.
 
 ## Testing strategy
 
@@ -309,7 +324,7 @@ Vitest is already configured (`vitest.config.ts`). No new packages.
 
 ### Test isolation
 
-Before implementation begins, scan existing `__tests__/` for the established pattern (real DB vs `lib/mockDb.ts` vs mocked Prisma) and adopt it for Phase 1 tests. Test environment uses a separate `MONGO_URL` (e.g. `funded-test`); each test file resets relevant collections in `beforeEach`. NextAuth session is mocked via `vi.mock('next-auth')`.
+**Decision:** Phase 1 unit tests for `matching-engine`, `validators`, and `email-templates` use **no DB** (pure functions / pure renders). API integration tests use a **mocked Prisma client** via `vi.mock('@/lib/prisma')` returning in-memory fixtures, plus `vi.mock('next-auth')` for session injection. This avoids requiring a running MongoDB during `npm run test` and matches the lightest pattern in the repo. The first task of the implementation plan is a 5-minute scan of `__tests__/` to confirm — if integration tests in the repo already require a real DB, the plan adopts that instead. The decision is bounded: pick the established pattern, do not invent a third.
 
 ### Manual smoke test (after implementation)
 
