@@ -22,7 +22,9 @@ const sessionUser = {
 };
 
 describe('requireCompanyOwner', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('throws Unauthorized when no session', async () => {
     vi.mocked(auth).mockResolvedValue(null as any);
@@ -54,7 +56,9 @@ describe('requireCompanyOwner', () => {
 });
 
 describe('requireApprovedCompanyOwner', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('throws CompanyNotApproved when status is PENDING', async () => {
     vi.mocked(auth).mockResolvedValue({ user: sessionUser } as any);

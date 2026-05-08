@@ -15,7 +15,7 @@ export function MatchingRuleForm() {
   const existing = data?.data;
 
   const form = useForm<MatchingRuleInput>({
-    resolver: zodResolver(matchingRuleSchema),
+    resolver: zodResolver(matchingRuleSchema) as any,
     values: existing
       ? {
           ratio: existing.ratio,
