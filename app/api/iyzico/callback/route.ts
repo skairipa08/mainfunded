@@ -19,6 +19,7 @@ import {
     updateIyzicoEventStatus
 } from '@/lib/verification/db';
 import { logger } from '@/lib/logger';
+import { onDonationCreated } from '@/lib/corporate/trigger';
 
 export const runtime = 'nodejs';
 
@@ -138,6 +139,19 @@ async function processSuccessfulPayment(
       { campaign_id: transaction.campaign_id },
       { $set: { status: 'completed' } }
     );
+  }
+
+  // Corporate matching trigger — fire and forget, never blocks the donation
+  if (donation.donor_id && campaign?.category) {
+    onDonationCreated({
+      donationId: donation.donation_id,
+      donorUserId: String(donation.donor_id),
+      campaignId: transaction.campaign_id,
+      amountTRY: Number(transaction.base_amount ?? transaction.amount),
+      category: String(campaign.category),
+    }).catch((err) => {
+      logger.error('[corporate.trigger.unhandled]', String(err));
+    });
   }
 
   if (transaction.donor_email && !transaction.anonymous) {

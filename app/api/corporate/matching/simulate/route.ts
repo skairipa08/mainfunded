@@ -3,6 +3,8 @@ import { requireApprovedCompanyOwner } from '@/lib/authz';
 import { findRuleByCompany } from '@/lib/corporate/matching-rule-repo';
 import { simulateSchema } from '@/lib/corporate/validators';
 import { simulate } from '@/lib/corporate/matching-engine';
+import { getSpentInPeriod } from '@/lib/corporate/budget';
+import { periodKey } from '@/lib/corporate/period';
 import { withRateLimit, RATE_LIMITS } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
@@ -35,13 +37,14 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Phase 1: spentInPeriodTRY is always 0 (no MatchingTransaction records yet).
-    // Phase 2 will replace this with prisma.matchingTransaction.aggregate(...) by periodKey + status APPROVED.
+    // Phase 2: real `spentInPeriodTRY` from APPROVED transactions in current period.
+    const period = periodKey(new Date());
+    const spent = await getSpentInPeriod(company.id, period);
     const result = simulate({
       donationAmountTRY: parsed.data.donationAmountTRY,
       category: parsed.data.category,
       rule,
-      spentInPeriodTRY: 0,
+      spentInPeriodTRY: spent,
     });
 
     return NextResponse.json({

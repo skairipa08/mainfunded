@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { mockDashboardStats, mockDonationTrend, mockFacultyDistribution } from '@/lib/corporate/mock-data';
+import { requireUser } from '@/lib/authz';
+import { withRateLimit, RATE_LIMITS } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
 
@@ -9,8 +11,10 @@ export const runtime = 'nodejs';
  */
 export async function GET(request: NextRequest) {
     try {
-        // In production, validate JWT token here
-        const authHeader = request.headers.get('authorization');
+        const rateLimitResponse = withRateLimit(request, RATE_LIMITS.api);
+        if (rateLimitResponse) return rateLimitResponse;
+
+        await requireUser();
 
         // Return mock data for demo
         const data = {
@@ -27,13 +31,15 @@ export async function GET(request: NextRequest) {
                 version: '1.0',
             },
         });
-    } catch (error) {
+    } catch (error: any) {
+        const message = error?.message || 'Failed to fetch dashboard data';
+        const status = message === 'Unauthorized' ? 401 : 500;
         return NextResponse.json(
             {
                 success: false,
-                error: 'Failed to fetch dashboard data',
+                error: message,
             },
-            { status: 500 }
+            { status }
         );
     }
 }

@@ -7,6 +7,9 @@ vi.mock('../../../lib/authz', () => ({
 vi.mock('../../../lib/corporate/matching-rule-repo', () => ({
   findRuleByCompany: vi.fn(),
 }));
+vi.mock('../../../lib/corporate/budget', () => ({
+  getSpentInPeriod: vi.fn().mockResolvedValue(0),
+}));
 vi.mock('../../../lib/rate-limit', () => ({
   withRateLimit: vi.fn(() => null),
   RATE_LIMITS: { api: {} },
