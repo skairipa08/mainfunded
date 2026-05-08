@@ -195,7 +195,7 @@ vercel.json                    # MODIFIED — cron schedules registered
 - Single source of truth; both API and PDF renderer call it.
 
 ### `enqueueReceiptJob(donation_id)`
-- Idempotent: if a `document_jobs` row with `payload.donation_id` already exists in non-terminal status, no-op.
+- Idempotent on two layers: no-op if a `document_jobs` row with `payload.donation_id` exists in non-terminal status, AND no-op if a `tax_documents` row already references this donation_id (terminal-side guard, since job rows may be pruned later).
 - Called from iyzico callback `payment_status` transition to `paid`.
 
 ### `claimNext(workerId): Job | null`
@@ -226,6 +226,7 @@ vercel.json                    # MODIFIED — cron schedules registered
 | GET | `/api/admin/tax-documents` | admin | Filters: donor, year, type, class, status |
 | GET | `/api/admin/tax-documents/[id]/audit` | admin | Audit timeline |
 | POST | `/api/admin/tax-documents/[id]/void` | admin | Body: `{ reason }`; sets status='void', audit-logs |
+| POST | `/api/tax-documents/annual-summary` | donor session | Manual trigger when cron-generated summary missing >24h after 15 Jan; idempotent on (donor, tax_year); rate-limited to 1/hour/donor |
 
 ## UI
 
@@ -293,7 +294,7 @@ Public verify hits are throttled but always logged (with IP) — useful for frau
 ## Security
 
 - `verification_code`: 32 bytes from `crypto.randomBytes`, base64url. Not derivable from donation_id.
-- `verification_payload_hmac`: HMAC-SHA256 of canonical `(document_number|donor_id|amount_total|tax_year)` using `TAX_DOCUMENT_HMAC_SECRET` env. Validated server-side on every verify hit — protects against DB tampering.
+- `verification_payload_hmac`: HMAC-SHA256 of canonical `(document_number|donor_id|amount_total|tax_year)` using `TAX_DOCUMENT_HMAC_SECRET` env. Same canonicalization for both `receipt` and `annual_summary` types (donation_date / campaign_id are intentionally excluded so the scheme is uniform). Validated server-side on every verify hit — protects against DB tampering.
 - `pdf_hash_sha256`: stored at issue time; admin diagnostic endpoint can re-hash and compare.
 - Cloudinary URLs: signed, 1-hour expiry on each download (re-signed per request).
 - CRON_SECRET: required header on `/api/cron/*`. Already an established pattern.
@@ -326,10 +327,11 @@ Tests live in `__tests__/` following existing convention.
 ## Migration / rollout
 
 1. Deploy code; cron registered but no documents in DB.
-2. Add Cloudinary folder, env vars (`TAX_DOCUMENT_HMAC_SECRET`, `TAX_DOCUMENT_FUND_ED_VKN`, `TAX_DOCUMENT_TAX_EXEMPTION_REF`).
-3. Backfill script (one-off, dev-only): enqueue receipt jobs for all already-paid donations from current tax year. Cron drains.
-4. Donor dashboard link enabled after backfill completes.
-5. Annual summary cron is a no-op until 15 January 2027.
+2. Add Cloudinary folder, env vars (`TAX_DOCUMENT_HMAC_SECRET`, `TAX_DOCUMENT_FUND_ED_VKN`, `TAX_DOCUMENT_TAX_EXEMPTION_REF`, `CRON_SECRET`).
+3. Verify Vercel plan supports the planned cron frequency. Hobby plans cap at daily granularity; the document-processor cron expects ~minute-level. If the plan is constrained, fall back to "every 15 min" plus a synchronous-on-demand fallback when a donor opens the dashboard before the cron has run.
+4. Backfill script (one-off, dev-only): enqueue receipt jobs for all already-paid donations from current tax year. Cron drains. Note: backfill freezes `donor_snapshot` from the donor's profile *as it stands at backfill time*; donors who later fill their tax_profile will see those values reflected only on subsequent (post-backfill) donations, not on backfilled ones.
+5. Donor dashboard link enabled after backfill completes.
+6. Annual summary cron is a no-op until 15 January 2027.
 
 ## Open questions for implementation phase
 
@@ -338,3 +340,4 @@ These do not block design approval; they are explicit reminders for the writing-
 - Final wording of legal note blocks must be reviewed by a Turkish accountant before production deploy. Spec includes placeholder text; legal sign-off is a release gate.
 - Roboto Turkish font license file commit (Apache-2.0; bundle `LICENSE.txt` with font).
 - Cloudinary folder access policy (private + signed URLs); confirm current Cloudinary plan supports per-asset signing.
+- `document_audit_log` retention policy. Public verify hits log every IP and grow unbounded; pick a TTL (e.g., 2 years for verify events, indefinite for issued/voided) before traffic reaches a level where the collection size becomes operational pain.
