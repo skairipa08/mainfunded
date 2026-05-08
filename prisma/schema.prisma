@@ -116,3 +116,48 @@ model DonorStudentFollow {
   @@unique([donorId, studentId])
   @@map("donor_student_follows")
 }
+
+model Company {
+  id              String          @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  legalName       String?
+  taxId           String          @unique
+  logoUrl         String?
+  contactEmail    String
+  contactPhone    String?
+  websiteUrl      String?
+  ownerUserId     String          @unique
+  status          CompanyStatus   @default(PENDING)
+  approvedAt      DateTime?
+  approvedBy      String?
+  rejectedReason  String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+
+  matchingRule    MatchingRule?
+
+  @@index([status])
+  @@map("companies")
+}
+
+enum CompanyStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  SUSPENDED
+}
+
+model MatchingRule {
+  id                  String    @id @default(auto()) @map("_id") @db.ObjectId
+  companyId           String    @unique @db.ObjectId
+  company             Company   @relation(fields: [companyId], references: [id])
+  ratio               Int
+  monthlyBudgetTRY    Int
+  eligibleCategories  String[]
+  active              Boolean   @default(true)
+  effectiveFrom       DateTime  @default(now())
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+
+  @@map("matching_rules")
+}
