@@ -4750,5 +4750,42 @@
       "rejectReason": "Red Sebebi",
       "noPending": "Onay bekleyen şirket yok"
     }
+  },
+  "corporateP2": {
+    "join": {
+      "title": "Şirket Eşleştirme Programına Katıl",
+      "code": "Aktivasyon Kodu",
+      "submit": "Katıl",
+      "success": "Şirket programına katıldınız: {company}",
+      "errors": {
+        "INVALID_CODE": "Kod geçersiz",
+        "COMPANY_NOT_APPROVED": "Şirket henüz onaylanmamış",
+        "ALREADY_AFFILIATED": "Zaten başka bir şirkete bağlısınız"
+      }
+    },
+    "code": {
+      "title": "Aktivasyon Kodu",
+      "current": "Mevcut Kod",
+      "rotate": "Yeni Kod Üret",
+      "rotateConfirm": "Mevcut kod geçersiz olacak. Devam edilsin mi?",
+      "noCode": "Henüz kod oluşturulmadı"
+    },
+    "transactions": {
+      "title": "Eşleştirme İşlemleri",
+      "filterStatus": "Durum",
+      "all": "Tümü",
+      "pending": "Bekleyen",
+      "approved": "Onaylanan",
+      "rejected": "Reddedilen",
+      "donor": "Bağışçı",
+      "amount": "Bağış",
+      "matched": "Eşleştirilen",
+      "category": "Kategori",
+      "date": "Tarih",
+      "approve": "Onayla",
+      "reject": "Reddet",
+      "rejectReason": "Red Sebebi",
+      "noTransactions": "Bu durumda işlem yok"
+    }
   }
 }

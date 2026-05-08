@@ -35,6 +35,7 @@ const sidebarItems: SidebarItem[] = [
     { name: 'Raporlar', href: '/corporate/reports', icon: FileText },
     { name: 'Kampanyalar', href: '/corporate/campaigns', icon: ShoppingCart },
     { name: 'ESG & Sosyal Etki', href: '/corporate/esg', icon: Leaf },
+    { name: 'İşlemler', href: '/corporate/transactions', icon: ShoppingCart },
     { name: 'Bildirimler', href: '/corporate/notifications', icon: Bell, badge: 2 },
     { name: 'Profil', href: '/corporate/settings/profile', icon: Building2 },
     { name: 'Eşleştirme Kuralı', href: '/corporate/settings/matching-rule', icon: Settings },

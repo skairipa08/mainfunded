@@ -4750,5 +4750,42 @@
       "rejectReason": "Rejection Reason",
       "noPending": "No companies awaiting approval"
     }
+  },
+  "corporateP2": {
+    "join": {
+      "title": "Join Company Matching Program",
+      "code": "Activation Code",
+      "submit": "Join",
+      "success": "You joined the company program: {company}",
+      "errors": {
+        "INVALID_CODE": "Invalid code",
+        "COMPANY_NOT_APPROVED": "Company is not yet approved",
+        "ALREADY_AFFILIATED": "You are already affiliated with another company"
+      }
+    },
+    "code": {
+      "title": "Activation Code",
+      "current": "Current Code",
+      "rotate": "Generate New Code",
+      "rotateConfirm": "The current code will be invalidated. Continue?",
+      "noCode": "No code generated yet"
+    },
+    "transactions": {
+      "title": "Matching Transactions",
+      "filterStatus": "Status",
+      "all": "All",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "donor": "Donor",
+      "amount": "Donation",
+      "matched": "Matched",
+      "category": "Category",
+      "date": "Date",
+      "approve": "Approve",
+      "reject": "Reject",
+      "rejectReason": "Rejection Reason",
+      "noTransactions": "No transactions in this state"
+    }
   }
 }
