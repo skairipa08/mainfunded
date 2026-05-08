@@ -3,6 +3,7 @@ import Google from 'next-auth/providers/google';
 import Credentials from 'next-auth/providers/credentials';
 import { findUserByEmail, verifyPassword, findOrCreateUserByPhone, verifyOTP } from '@/lib/auth-utils';
 import { getDb } from '@/lib/db';
+import { prisma } from '@/lib/prisma';
 import { ObjectId } from 'mongodb';
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -165,16 +166,34 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
           .filter(Boolean);
         token.role = adminEmails.includes(user.email?.toLowerCase() || '') ? 'admin' : 'user';
 
-        // Load accountType from DB
+        // Load accountType + role override from DB (company_owner overrides 'user')
         try {
           const db = await getDb();
           const dbUser = await db.collection('users').findOne(
             { _id: new ObjectId(user.id as string) },
-            { projection: { accountType: 1 } }
+            { projection: { accountType: 1, role: 1 } }
           );
           token.accountType = dbUser?.accountType || 'student';
+          if (token.role !== 'admin' && dbUser?.role === 'company_owner') {
+            token.role = 'company_owner';
+          }
         } catch {
           token.accountType = 'student';
+        }
+
+        // For company_owner, stamp company info into JWT
+        if (token.role === 'company_owner') {
+          try {
+            const company = await prisma.company.findUnique({
+              where: { ownerUserId: user.id as string },
+              select: { id: true, status: true },
+            });
+            token.companyId = company?.id ?? null;
+            token.companyStatus = company?.status ?? null;
+          } catch {
+            token.companyId = null;
+            token.companyStatus = null;
+          }
         }
       }
 
@@ -201,7 +220,8 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
         (session.user as any).id = token.id;
         (session.user as any).role = token.role || 'user';
         (session.user as any).accountType = token.accountType || 'student';
-        // Always sync name from token (updated from DB)
+        (session.user as any).companyId = token.companyId ?? null;
+        (session.user as any).companyStatus = token.companyStatus ?? null;
         if (token.name) {
           session.user.name = token.name as string;
         }
