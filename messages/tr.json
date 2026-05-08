@@ -4677,5 +4677,78 @@
       "viewCampaign": "Orijinal Kampanyayı Görüntüle",
       "footerRight": "Tüm hakları saklıdır."
     }
+  },
+  "corporate": {
+    "signup": {
+      "title": "Şirket Hesabı Aç",
+      "name": "Şirket Adı",
+      "legalName": "Resmi Ünvan",
+      "taxId": "Vergi Numarası",
+      "contactEmail": "İletişim E-postası",
+      "contactPhone": "Telefon",
+      "websiteUrl": "Web Sitesi",
+      "logoUrl": "Logo URL",
+      "password": "Şifre",
+      "submit": "Kayıt Ol",
+      "successTitle": "Kayıt Alındı",
+      "successBody": "Şirket hesabınız onay için admin'e iletildi.",
+      "errors": {
+        "EMAIL_TAKEN": "Bu e-posta zaten kullanılıyor",
+        "TAX_ID_TAKEN": "Bu vergi numarası zaten kayıtlı",
+        "SIGNUP_FAILED": "Kayıt sırasında bir hata oluştu"
+      }
+    },
+    "login": {
+      "title": "Şirket Girişi",
+      "email": "E-posta",
+      "password": "Şifre",
+      "submit": "Giriş Yap",
+      "rejected": "Hesabınız reddedildi",
+      "suspended": "Hesabınız askıya alındı"
+    },
+    "pending": {
+      "title": "Onay Bekleniyor",
+      "body": "Şirket hesabınız admin onayı bekliyor. Onay sonrası bilgilendirileceksiniz."
+    },
+    "settings": {
+      "profile": {
+        "title": "Şirket Profili",
+        "save": "Kaydet",
+        "saved": "Profil güncellendi"
+      },
+      "matchingRule": {
+        "title": "Eşleştirme Kuralı",
+        "ratio": "Eşleştirme Oranı",
+        "ratio1x": "1x",
+        "ratio2x": "2x",
+        "ratio3x": "3x",
+        "monthlyBudget": "Aylık Bütçe (TL)",
+        "categories": "Uygun Kategoriler",
+        "active": "Aktif",
+        "save": "Kaydet",
+        "saved": "Kural güncellendi",
+        "categoryLabels": {
+          "tuition": "Okul Ücreti",
+          "books": "Kitap",
+          "laptop": "Bilgisayar",
+          "housing": "Barınma",
+          "travel": "Seyahat",
+          "emergency": "Acil"
+        }
+      }
+    }
+  },
+  "admin": {
+    "corporate": {
+      "title": "Şirket Onay Kuyruğu",
+      "name": "Şirket",
+      "taxId": "Vergi No",
+      "contactEmail": "E-posta",
+      "createdAt": "Kayıt Tarihi",
+      "approve": "Onayla",
+      "reject": "Reddet",
+      "rejectReason": "Red Sebebi",
+      "noPending": "Onay bekleyen şirket yok"
+    }
   }
 }

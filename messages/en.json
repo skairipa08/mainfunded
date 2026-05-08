@@ -4677,5 +4677,78 @@
       "viewCampaign": "View Original Campaign",
       "footerRight": "All rights reserved."
     }
+  },
+  "corporate": {
+    "signup": {
+      "title": "Create Company Account",
+      "name": "Company Name",
+      "legalName": "Legal Name",
+      "taxId": "Tax ID",
+      "contactEmail": "Contact Email",
+      "contactPhone": "Phone",
+      "websiteUrl": "Website",
+      "logoUrl": "Logo URL",
+      "password": "Password",
+      "submit": "Sign Up",
+      "successTitle": "Registration Received",
+      "successBody": "Your company account has been submitted for admin approval.",
+      "errors": {
+        "EMAIL_TAKEN": "This email is already in use",
+        "TAX_ID_TAKEN": "This tax ID is already registered",
+        "SIGNUP_FAILED": "An error occurred during registration"
+      }
+    },
+    "login": {
+      "title": "Company Login",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign In",
+      "rejected": "Your account has been rejected",
+      "suspended": "Your account has been suspended"
+    },
+    "pending": {
+      "title": "Awaiting Approval",
+      "body": "Your company account is awaiting admin approval. You will be notified once approved."
+    },
+    "settings": {
+      "profile": {
+        "title": "Company Profile",
+        "save": "Save",
+        "saved": "Profile updated"
+      },
+      "matchingRule": {
+        "title": "Matching Rule",
+        "ratio": "Matching Ratio",
+        "ratio1x": "1x",
+        "ratio2x": "2x",
+        "ratio3x": "3x",
+        "monthlyBudget": "Monthly Budget (TRY)",
+        "categories": "Eligible Categories",
+        "active": "Active",
+        "save": "Save",
+        "saved": "Rule updated",
+        "categoryLabels": {
+          "tuition": "Tuition",
+          "books": "Books",
+          "laptop": "Laptop",
+          "housing": "Housing",
+          "travel": "Travel",
+          "emergency": "Emergency"
+        }
+      }
+    }
+  },
+  "admin": {
+    "corporate": {
+      "title": "Company Approval Queue",
+      "name": "Company",
+      "taxId": "Tax ID",
+      "contactEmail": "Email",
+      "createdAt": "Registered",
+      "approve": "Approve",
+      "reject": "Reject",
+      "rejectReason": "Rejection Reason",
+      "noPending": "No companies awaiting approval"
+    }
   }
 }
