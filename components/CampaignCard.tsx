@@ -15,9 +15,10 @@ import { useRouter } from 'next/navigation';
 
 interface CampaignCardProps {
   campaign: any;
+  sponsors?: Array<{ id: string; name: string; logoUrl: string | null }>;
 }
 
-export default function CampaignCard({ campaign }: CampaignCardProps) {
+export default function CampaignCard({ campaign, sponsors }: CampaignCardProps) {
   const { t } = useTranslation();
   const { formatAmount } = useCurrency();
   const router = useRouter();
@@ -99,6 +100,26 @@ export default function CampaignCard({ campaign }: CampaignCardProps) {
           </div>
 
           <p className="text-sm text-gray-600 mb-4 line-clamp-2">{campaign.story}</p>
+
+          {sponsors && sponsors.length > 0 && (
+            <div className="mb-4 flex flex-wrap items-center gap-1.5">
+              <span className="text-xs text-gray-500">Destekleyen:</span>
+              {sponsors.slice(0, 2).map((s) => (
+                <span
+                  key={s.id}
+                  className="inline-flex items-center gap-1 rounded-full bg-blue-50 border border-blue-200 px-2 py-0.5 text-xs font-medium text-blue-700"
+                >
+                  {s.logoUrl ? (
+                    <img src={s.logoUrl} alt="" className="h-4 w-4 rounded-full" />
+                  ) : null}
+                  {s.name}
+                </span>
+              ))}
+              {sponsors.length > 2 && (
+                <span className="text-xs text-gray-500">+{sponsors.length - 2}</span>
+              )}
+            </div>
+          )}
 
           <div className="space-y-3">
             <div>
