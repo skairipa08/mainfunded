@@ -4751,6 +4751,22 @@
       "noPending": "Onay bekleyen şirket yok"
     }
   },
+  "corporateDashboard": {
+    "loading": "Yükleniyor...",
+    "loadError": "Dashboard verileri yüklenemedi.",
+    "pendingApproval": "Bekleyen Onay",
+    "rejectedSuffix": "{count} reddedilen",
+    "approvedSuffix": "{count} işlem onaylandı",
+    "budgetUsage": "Bütçe Kullanımı",
+    "noTrend": "Henüz onaylanmış eşleştirme yok.",
+    "matchedTooltip": "Eşleştirilen",
+    "transactionsTitle": "Eşleştirme İşlemleri",
+    "transactionsSummary": "{pending} bekleyen, {approved} onaylanan, {rejected} reddedilen işlem.",
+    "viewAll": "Tümü",
+    "esgTitle": "ESG Yıllık Raporu",
+    "esgDownload": "PDF İndir",
+    "esgBlurb": "Onaylı eşleştirmelerinizden otomatik üretilen yıllık raporu PDF olarak indirin."
+  },
   "corporateP2": {
     "join": {
       "title": "Şirket Eşleştirme Programına Katıl",

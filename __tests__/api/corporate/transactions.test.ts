@@ -19,7 +19,9 @@ import { findTransactionsByCompany } from '../../../lib/corporate/transaction-re
 const company = { id: 'co_1', status: 'APPROVED' } as any;
 
 describe('GET /api/corporate/transactions', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('returns list filtered by status', async () => {
     vi.mocked(requireApprovedCompanyOwner).mockResolvedValue({ user: {} as any, company });

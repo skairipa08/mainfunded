@@ -28,7 +28,9 @@ function makeReq(body: any) {
 }
 
 describe('POST /api/admin/corporate/companies/[id]/approve', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('returns 403 for non-admin', async () => {
     vi.mocked(requireAdmin).mockRejectedValue(

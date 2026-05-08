@@ -26,6 +26,9 @@ export default function BrowsePageContent() {
   const [fieldsOfStudy, setFieldsOfStudy] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({ total: 0, page: 1, total_pages: 0 });
+  const [sponsorsMap, setSponsorsMap] = useState<
+    Record<string, Array<{ id: string; name: string; logoUrl: string | null }>>
+  >({});
 
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'all');
@@ -33,6 +36,40 @@ export default function BrowsePageContent() {
   const [selectedField, setSelectedField] = useState(searchParams.get('field_of_study') || 'all');
   const [selectedApplicantType, setSelectedApplicantType] = useState(searchParams.get('applicant_type') || 'all');
   const [selectedEducationLevel, setSelectedEducationLevel] = useState(searchParams.get('education_level') || 'all');
+
+  // After campaigns load, fetch corporate sponsors for the visible set.
+  // Only ObjectId-shaped IDs are eligible; static story IDs are ignored.
+  useEffect(() => {
+    if (campaigns.length === 0) {
+      setSponsorsMap({});
+      return;
+    }
+    const objectIdRe = /^[a-f0-9]{24}$/i;
+    const ids = campaigns
+      .map((c: any) => c.campaign_id)
+      .filter((id: unknown): id is string => typeof id === 'string' && objectIdRe.test(id));
+    if (ids.length === 0) {
+      setSponsorsMap({});
+      return;
+    }
+    let cancelled = false;
+    fetch('/api/campaigns/sponsors', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ campaignIds: ids }),
+    })
+      .then((r) => r.json())
+      .then((json) => {
+        if (cancelled || !json?.success) return;
+        setSponsorsMap(json.data ?? {});
+      })
+      .catch(() => {
+        // Silent — sponsors are decorative; never block the page on failure
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [campaigns]);
 
   // Load static data on mount
   useEffect(() => {
@@ -283,7 +320,11 @@ export default function BrowsePageContent() {
             <>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 {campaigns.map((campaign) => (
-                  <CampaignCard key={campaign.campaign_id} campaign={campaign} />
+                  <CampaignCard
+                    key={campaign.campaign_id}
+                    campaign={campaign}
+                    sponsors={sponsorsMap[campaign.campaign_id]}
+                  />
                 ))}
               </div>
 

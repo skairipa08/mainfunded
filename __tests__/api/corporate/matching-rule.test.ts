@@ -20,7 +20,9 @@ import { findRuleByCompany, upsertRule } from '../../../lib/corporate/matching-r
 const company = { id: 'co_1', status: 'APPROVED' } as any;
 
 describe('GET /api/corporate/matching-rule', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('returns null when no rule exists', async () => {
     vi.mocked(requireApprovedCompanyOwner).mockResolvedValue({ user: {} as any, company });
@@ -40,7 +42,9 @@ describe('GET /api/corporate/matching-rule', () => {
 });
 
 describe('PUT /api/corporate/matching-rule', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('rejects invalid ratio', async () => {
     vi.mocked(requireApprovedCompanyOwner).mockResolvedValue({ user: {} as any, company });

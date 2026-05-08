@@ -71,7 +71,7 @@ export default function CorporateDashboard() {
                     title={t('corporate.dashboard')}
                     subtitle={t('corporate.welcomeMessage')}
                 />
-                <p className="p-6 text-gray-600">Loading...</p>
+                <p className="p-6 text-gray-600">{t('corporateDashboard.loading')}</p>
             </div>
         );
     }
@@ -85,7 +85,7 @@ export default function CorporateDashboard() {
                 />
                 <div className="p-6">
                     <p className="text-red-600">
-                        {data?.error ?? 'Dashboard verileri yüklenemedi.'}
+                        {data?.error ?? t('corporateDashboard.loadError')}
                     </p>
                 </div>
             </div>
@@ -96,6 +96,17 @@ export default function CorporateDashboard() {
     const trendData = donationTrend.map((p) => ({
         month: p.periodKey,
         amount: p.matched,
+    }));
+
+    // Map raw category keys to localized labels via existing i18n namespace
+    const categoryLabel = (key: string): string => {
+        const localized = t(`corporate.settings.matchingRule.categoryLabels.${key}`);
+        // i18n helper returns the key path itself when missing, fall back to raw key
+        return localized.startsWith('corporate.') ? key : localized;
+    };
+    const localizedFaculty = facultyDistribution.map((d) => ({
+        ...d,
+        name: categoryLabel(d.name),
     }));
 
     return (
@@ -117,17 +128,17 @@ export default function CorporateDashboard() {
                     <StatCard
                         title={t('corporate.supportedStudents')}
                         value={stats.affectedStudents}
-                        subtitle={`${stats.approvedTxCount} işlem onaylandı`}
+                        subtitle={t('corporateDashboard.approvedSuffix', { count: stats.approvedTxCount })}
                         icon={Users}
                     />
                     <StatCard
-                        title="Bekleyen Onay"
+                        title={t('corporateDashboard.pendingApproval')}
                         value={stats.pendingTxCount}
-                        subtitle={`${stats.rejectedTxCount} reddedilen`}
+                        subtitle={t('corporateDashboard.rejectedSuffix', { count: stats.rejectedTxCount })}
                         icon={TrendingUp}
                     />
                     <StatCard
-                        title="Bütçe Kullanımı"
+                        title={t('corporateDashboard.budgetUsage')}
                         value={`${Math.round(stats.budgetUsedPct * 100)}%`}
                         subtitle={`${formatCurrency(stats.currentPeriodSpent)} / ${formatCurrency(stats.monthlyBudget)}`}
                         icon={Target}
@@ -144,7 +155,7 @@ export default function CorporateDashboard() {
                         <div className="h-80">
                             {trendData.every((p) => p.amount === 0) ? (
                                 <div className="flex h-full items-center justify-center text-gray-500">
-                                    Henüz onaylanmış eşleştirme yok.
+                                    {t('corporateDashboard.noTrend')}
                                 </div>
                             ) : (
                                 <ResponsiveContainer width="100%" height="100%">
@@ -158,7 +169,7 @@ export default function CorporateDashboard() {
                                         <Tooltip
                                             formatter={(value) => [
                                                 formatCurrency(Number(value)),
-                                                'Eşleştirilen',
+                                                t('corporateDashboard.matchedTooltip'),
                                             ]}
                                             contentStyle={{
                                                 backgroundColor: '#fff',
@@ -179,47 +190,55 @@ export default function CorporateDashboard() {
                         </div>
                     </div>
 
-                    {/* Faculty Distribution (Phase 3 status: still mock — Student-profile join deferred) */}
+                    {/* Category Distribution — APPROVED transactions grouped by category */}
                     <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                         <h3 className="text-lg font-semibold text-gray-900 mb-4">
                             {t('corporate.facultyDistribution')}
                         </h3>
                         <div className="h-80 flex items-center">
-                            <ResponsiveContainer width="50%" height="100%">
-                                <PieChart>
-                                    <Pie
-                                        data={facultyDistribution}
-                                        cx="50%"
-                                        cy="50%"
-                                        innerRadius={60}
-                                        outerRadius={100}
-                                        paddingAngle={2}
-                                        dataKey="value"
-                                    >
-                                        {facultyDistribution.map((_, index) => (
-                                            <Cell
-                                                key={`cell-${index}`}
-                                                fill={COLORS[index % COLORS.length]}
-                                            />
+                            {localizedFaculty.length === 0 ? (
+                                <div className="w-full text-center text-gray-500">
+                                    {t('corporateDashboard.noTrend')}
+                                </div>
+                            ) : (
+                                <>
+                                    <ResponsiveContainer width="50%" height="100%">
+                                        <PieChart>
+                                            <Pie
+                                                data={localizedFaculty}
+                                                cx="50%"
+                                                cy="50%"
+                                                innerRadius={60}
+                                                outerRadius={100}
+                                                paddingAngle={2}
+                                                dataKey="value"
+                                            >
+                                                {localizedFaculty.map((_, index) => (
+                                                    <Cell
+                                                        key={`cell-${index}`}
+                                                        fill={COLORS[index % COLORS.length]}
+                                                    />
+                                                ))}
+                                            </Pie>
+                                            <Tooltip />
+                                        </PieChart>
+                                    </ResponsiveContainer>
+                                    <div className="flex-1 space-y-3">
+                                        {localizedFaculty.map((item, index) => (
+                                            <div key={item.name} className="flex items-center gap-3">
+                                                <div
+                                                    className="w-3 h-3 rounded-full"
+                                                    style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                                                />
+                                                <span className="text-sm text-gray-600 flex-1">{item.name}</span>
+                                                <span className="text-sm font-medium text-gray-900">
+                                                    {item.value}%
+                                                </span>
+                                            </div>
                                         ))}
-                                    </Pie>
-                                    <Tooltip />
-                                </PieChart>
-                            </ResponsiveContainer>
-                            <div className="flex-1 space-y-3">
-                                {facultyDistribution.map((item, index) => (
-                                    <div key={item.name} className="flex items-center gap-3">
-                                        <div
-                                            className="w-3 h-3 rounded-full"
-                                            style={{ backgroundColor: COLORS[index % COLORS.length] }}
-                                        />
-                                        <span className="text-sm text-gray-600 flex-1">{item.name}</span>
-                                        <span className="text-sm font-medium text-gray-900">
-                                            {item.value}%
-                                        </span>
                                     </div>
-                                ))}
-                            </div>
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -229,24 +248,27 @@ export default function CorporateDashboard() {
                     <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="text-lg font-semibold text-gray-900">
-                                Eşleştirme İşlemleri
+                                {t('corporateDashboard.transactionsTitle')}
                             </h3>
                             <Link href="/corporate/transactions">
                                 <Button variant="ghost" size="sm">
-                                    Tümü <ArrowRight className="ml-1 h-4 w-4" />
+                                    {t('corporateDashboard.viewAll')} <ArrowRight className="ml-1 h-4 w-4" />
                                 </Button>
                             </Link>
                         </div>
                         <p className="text-gray-600">
-                            {stats.pendingTxCount} bekleyen, {stats.approvedTxCount} onaylanan,{' '}
-                            {stats.rejectedTxCount} reddedilen işlem.
+                            {t('corporateDashboard.transactionsSummary', {
+                                pending: stats.pendingTxCount,
+                                approved: stats.approvedTxCount,
+                                rejected: stats.rejectedTxCount,
+                            })}
                         </p>
                     </div>
 
                     <div className="bg-white rounded-xl p-6 shadow-sm border border-gray-100">
                         <div className="flex items-center justify-between mb-4">
                             <h3 className="text-lg font-semibold text-gray-900">
-                                ESG Yıllık Raporu
+                                {t('corporateDashboard.esgTitle')}
                             </h3>
                             <a
                                 href={`/api/corporate/esg/report?year=${new Date().getFullYear()}`}
@@ -254,14 +276,12 @@ export default function CorporateDashboard() {
                                 rel="noopener noreferrer"
                             >
                                 <Button variant="ghost" size="sm">
-                                    PDF İndir <ArrowRight className="ml-1 h-4 w-4" />
+                                    {t('corporateDashboard.esgDownload')}{' '}
+                                    <ArrowRight className="ml-1 h-4 w-4" />
                                 </Button>
                             </a>
                         </div>
-                        <p className="text-gray-600">
-                            Onaylı eşleştirmelerinizden otomatik üretilen yıllık raporu PDF olarak
-                            indirin.
-                        </p>
+                        <p className="text-gray-600">{t('corporateDashboard.esgBlurb')}</p>
                     </div>
                 </div>
             </div>

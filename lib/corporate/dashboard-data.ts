@@ -68,6 +68,25 @@ export async function getTrend(
   return points;
 }
 
+/** Category distribution among APPROVED matches, as percentages of count. */
+export async function getCategoryDistribution(
+  companyId: string
+): Promise<Array<{ name: string; value: number }>> {
+  const grouped = await prisma.matchingTransaction.groupBy({
+    by: ['category'],
+    where: { companyId, status: 'APPROVED' },
+    _count: { _all: true },
+  });
+  const total = grouped.reduce((acc, g) => acc + g._count._all, 0);
+  if (total === 0) return [];
+  return grouped
+    .map((g) => ({
+      name: g.category,
+      value: Math.round((g._count._all / total) * 100),
+    }))
+    .sort((a, b) => b.value - a.value);
+}
+
 /** Sponsor lookup: which companies have APPROVED matches for this campaign? */
 export async function getSponsorsForCampaign(
   campaignId: string

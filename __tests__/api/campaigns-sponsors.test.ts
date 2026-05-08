@@ -23,7 +23,9 @@ function makeReq(body: any) {
 }
 
 describe('POST /api/campaigns/sponsors', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('returns 400 on invalid body', async () => {
     const res = await POST(makeReq({}));

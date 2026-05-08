@@ -24,7 +24,9 @@ import { updateCompanyProfile } from '../../../lib/corporate/company-repo';
 const company = { id: 'co_1', status: 'APPROVED', name: 'Acme', taxId: '123' } as any;
 
 describe('GET /api/corporate/me', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('returns 401 without auth', async () => {
     vi.mocked(requireCompanyOwner).mockRejectedValue(new Error('Unauthorized'));
@@ -52,7 +54,9 @@ describe('GET /api/corporate/me', () => {
 });
 
 describe('PATCH /api/corporate/me', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('returns 403 when company not approved', async () => {
     vi.mocked(requireApprovedCompanyOwner).mockRejectedValue(

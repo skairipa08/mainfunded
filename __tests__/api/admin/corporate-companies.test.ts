@@ -15,7 +15,9 @@ import { requireAdmin } from '../../../lib/authz';
 import { findCompaniesByStatus } from '../../../lib/corporate/company-repo';
 
 describe('GET /api/admin/corporate/companies', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('returns 403 for non-admin', async () => {
     vi.mocked(requireAdmin).mockRejectedValue(

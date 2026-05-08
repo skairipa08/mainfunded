@@ -1,16 +1,19 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { mockFacultyDistribution } from '@/lib/corporate/mock-data';
 import { requireApprovedCompanyOwner } from '@/lib/authz';
 import { withRateLimit, RATE_LIMITS } from '@/lib/rate-limit';
 import { findRuleByCompany } from '@/lib/corporate/matching-rule-repo';
-import { getDashboardStats, getTrend } from '@/lib/corporate/dashboard-data';
+import {
+    getCategoryDistribution,
+    getDashboardStats,
+    getTrend,
+} from '@/lib/corporate/dashboard-data';
 
 export const runtime = 'nodejs';
 
 /**
  * GET /api/corporate/dashboard
- * Returns real dashboard stats + trend for the authenticated company.
- * facultyDistribution remains mock until a Student-profile join is wired (deferred).
+ * Returns real dashboard stats + trend + category distribution for the authenticated company.
+ * `facultyDistribution` is keyed by raw category — frontend resolves labels via i18n.
  */
 export async function GET(request: NextRequest) {
     try {
@@ -20,9 +23,10 @@ export async function GET(request: NextRequest) {
         const { company } = await requireApprovedCompanyOwner();
         const rule = await findRuleByCompany(company.id);
 
-        const [stats, donationTrend] = await Promise.all([
+        const [stats, donationTrend, facultyDistribution] = await Promise.all([
             getDashboardStats(company.id, rule),
             getTrend(company.id, 12),
+            getCategoryDistribution(company.id),
         ]);
 
         return NextResponse.json({
@@ -30,11 +34,11 @@ export async function GET(request: NextRequest) {
             data: {
                 stats,
                 donationTrend,
-                facultyDistribution: mockFacultyDistribution, // deferred
+                facultyDistribution,
             },
             meta: {
                 timestamp: new Date().toISOString(),
-                version: '2.0',
+                version: '3.0',
             },
         });
     } catch (error: any) {

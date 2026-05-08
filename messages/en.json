@@ -4751,6 +4751,22 @@
       "noPending": "No companies awaiting approval"
     }
   },
+  "corporateDashboard": {
+    "loading": "Loading...",
+    "loadError": "Failed to load dashboard data.",
+    "pendingApproval": "Pending Approval",
+    "rejectedSuffix": "{count} rejected",
+    "approvedSuffix": "{count} approved transactions",
+    "budgetUsage": "Budget Usage",
+    "noTrend": "No approved matches yet.",
+    "matchedTooltip": "Matched",
+    "transactionsTitle": "Matching Transactions",
+    "transactionsSummary": "{pending} pending, {approved} approved, {rejected} rejected.",
+    "viewAll": "View all",
+    "esgTitle": "ESG Annual Report",
+    "esgDownload": "Download PDF",
+    "esgBlurb": "Download the annual report automatically generated from your approved matches."
+  },
   "corporateP2": {
     "join": {
       "title": "Join Company Matching Program",

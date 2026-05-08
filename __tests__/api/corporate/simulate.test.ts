@@ -37,7 +37,9 @@ function makeReq(body: any) {
 }
 
 describe('POST /api/corporate/matching/simulate', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('returns NO_RULE_DEFINED when company has no rule', async () => {
     vi.mocked(requireApprovedCompanyOwner).mockResolvedValue({ user: {} as any, company });

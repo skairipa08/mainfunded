@@ -3,6 +3,7 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 const aggregate = vi.fn();
 const count = vi.fn();
 const findMany = vi.fn();
+const groupBy = vi.fn();
 
 vi.mock('../../../lib/prisma', () => ({
   prisma: {
@@ -10,6 +11,7 @@ vi.mock('../../../lib/prisma', () => ({
       aggregate: (...a: any[]) => aggregate(...a),
       count: (...a: any[]) => count(...a),
       findMany: (...a: any[]) => findMany(...a),
+      groupBy: (...a: any[]) => groupBy(...a),
     },
   },
 }));
@@ -19,6 +21,7 @@ vi.mock('../../../lib/corporate/budget', () => ({
 }));
 
 import {
+  getCategoryDistribution,
   getDashboardStats,
   getSponsorsForCampaign,
 } from '../../../lib/corporate/dashboard-data';
@@ -58,7 +61,9 @@ describe('getDashboardStats', () => {
 });
 
 describe('getSponsorsForCampaign', () => {
-  beforeEach(() => vi.clearAllMocks());
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
   it('dedupes by company and returns minimal company data', async () => {
     findMany.mockResolvedValue([
@@ -73,5 +78,30 @@ describe('getSponsorsForCampaign', () => {
   it('returns empty list when no APPROVED transactions', async () => {
     findMany.mockResolvedValue([]);
     expect(await getSponsorsForCampaign('camp_2')).toEqual([]);
+  });
+});
+
+describe('getCategoryDistribution', () => {
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
+
+  it('returns empty when no APPROVED transactions', async () => {
+    groupBy.mockResolvedValue([]);
+    expect(await getCategoryDistribution('co_1')).toEqual([]);
+  });
+
+  it('computes percentages and sorts descending', async () => {
+    groupBy.mockResolvedValue([
+      { category: 'tuition', _count: { _all: 6 } },
+      { category: 'books', _count: { _all: 3 } },
+      { category: 'laptop', _count: { _all: 1 } },
+    ]);
+    const dist = await getCategoryDistribution('co_1');
+    expect(dist).toEqual([
+      { name: 'tuition', value: 60 },
+      { name: 'books', value: 30 },
+      { name: 'laptop', value: 10 },
+    ]);
   });
 });
