@@ -13,6 +13,18 @@ FundEd is a self-hostable crowdfunding platform for verified students to raise f
 - 📁 **File Uploads** - Cloudinary integration for images and documents
 - 🔒 **Security** - Rate limiting, CORS protection, input validation
 
+## Expenditures Release Pack
+
+For the donor transparency expenditure tracking rollout documents, start here:
+
+- [docs/EXPENDITURES_RELEASE_PACK.md](docs/EXPENDITURES_RELEASE_PACK.md)
+
+This pack includes:
+- Go / No-Go decision note
+- Release verification report
+- Rollout + UAT runbook
+- Expenditures schema and index references
+
 ## Tech Stack
 
 - **Frontend & Backend**: Next.js 14 (App Router)

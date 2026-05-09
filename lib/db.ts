@@ -144,6 +144,14 @@ export async function createIndexes() {
     await db.collection('notifications').createIndex({ userId: 1, timestamp: -1 });
     await db.collection('notifications').createIndex('type');
 
+    // Expenditures indexes
+    await db.collection('expenditures').createIndex('expenditure_id', { unique: true });
+    await db.collection('expenditures').createIndex({ campaign_id: 1, created_at: -1 });
+    await db.collection('expenditures').createIndex({ campaign_id: 1, status: 1, created_at: -1 });
+    await db.collection('expenditures').createIndex({ created_by: 1, created_at: -1 });
+    await db.collection('expenditures').createIndex({ status: 1, created_at: -1 });
+    await db.collection('expenditures').createIndex('approved_by', { sparse: true });
+
     // ESG Indexes
     await db.collection('esg_company_profiles').createIndex('company_id', { unique: true });
     await db.collection('esg_company_profiles').createIndex('user_id');
@@ -165,6 +173,31 @@ export async function createIndexes() {
     await db.collection('subscription_payments').createIndex('payment_id', { unique: true });
     await db.collection('subscription_payments').createIndex({ subscription_id: 1, created_at: -1 });
     await db.collection('subscription_payments').createIndex('status');
+
+    // Mentorship System Indexes
+    await db.collection('mentor_profiles').createIndex('mentor_profile_id', { unique: true });
+    await db.collection('mentor_profiles').createIndex('user_id', { unique: true });
+    await db.collection('mentor_profiles').createIndex({ accepting_new_students: 1, sector: 1 });
+    await db.collection('mentor_profiles').createIndex({ expertise_areas: 'text', industries: 'text' });
+
+    await db.collection('hybrid_support_intents').createIndex('support_intent_id', { unique: true });
+    await db.collection('hybrid_support_intents').createIndex({ donor_user_id: 1, created_at: -1 });
+    await db.collection('hybrid_support_intents').createIndex({ student_id: 1, status: 1 });
+
+    await db.collection('mentorship_matches').createIndex('match_id', { unique: true });
+    await db.collection('mentorship_matches').createIndex({ student_id: 1, created_at: -1 });
+
+    await db.collection('mentorship_sessions').createIndex('session_id', { unique: true });
+    await db.collection('mentorship_sessions').createIndex({ external_booking_id: 1 }, { unique: true, sparse: true });
+    await db.collection('mentorship_sessions').createIndex({ mentor_user_id: 1, scheduled_start: -1 });
+    await db.collection('mentorship_sessions').createIndex({ student_user_id: 1, scheduled_start: -1 });
+    await db.collection('mentorship_sessions').createIndex({ status: 1, scheduled_start: -1 });
+
+    await db.collection('mentorship_feedback').createIndex('feedback_id', { unique: true });
+    await db.collection('mentorship_feedback').createIndex({ session_id: 1, student_user_id: 1 }, { unique: true });
+    await db.collection('mentorship_feedback').createIndex({ mentor_user_id: 1, created_at: -1 });
+
+    await db.collection('mentor_certificates').createIndex({ mentor_user_id: 1, year: 1 }, { unique: true });
   } catch (error: any) {
     if (error.code !== 85 && error.codeName !== 'IndexOptionsConflict') {
       console.error('Error creating indexes:', error);

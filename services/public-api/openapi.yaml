@@ -1,0 +1,348 @@
+openapi: 3.0.3
+info:
+  title: FundEd Public API
+  version: 1.0.0
+  description: |
+    FundEd platformuna okul ve üçüncü taraf entegrasyonları için public REST API.
+
+    **Authentication**: Tüm istekler `X-API-Key` header'ı ile yapılmalıdır.
+    Anahtar `fk_live_*` (production) veya `fk_test_*` (sandbox) prefix'i taşır.
+
+    **Rate limit**: Anahtar başına dakikada 100 istek. Header: `X-RateLimit-Remaining`.
+
+    **Webhook'lar**: Olay teslimatları HMAC-SHA256 ile imzalanır
+    (`X-FundEd-Signature: t=<unix>,v1=<hex>`). 24 saatlik exponential backoff retry.
+  contact:
+    name: FundEd Developer Support
+    email: api@funded.example
+servers:
+  - url: https://api.funded.example/v1
+    description: Production
+  - url: https://sandbox.api.funded.example/v1
+    description: Sandbox
+
+security:
+  - ApiKeyAuth: []
+
+tags:
+  - name: Campaigns
+  - name: Students
+  - name: Donations
+  - name: Webhooks
+  - name: Admin
+
+paths:
+  /campaigns:
+    get:
+      tags: [Campaigns]
+      summary: Kampanyaları listele
+      parameters:
+        - { in: query, name: status,   schema: { type: string, enum: [active, completed, draft] } }
+        - { in: query, name: school_id, schema: { type: string } }
+        - { in: query, name: limit,   schema: { type: integer, default: 20, maximum: 100 } }
+        - { in: query, name: cursor,  schema: { type: string } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:        { type: array, items: { $ref: "#/components/schemas/Campaign" } }
+                  next_cursor: { type: string, nullable: true }
+        "401": { $ref: "#/components/responses/Unauthorized" }
+        "429": { $ref: "#/components/responses/RateLimited" }
+
+  /campaigns/{id}:
+    get:
+      tags: [Campaigns]
+      summary: Kampanya detayı
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Campaign" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /students/{id}:
+    get:
+      tags: [Students]
+      summary: Öğrenci profili (anonimleştirilmiş)
+      description: Yalnızca okula bağlı öğrenciler döner. PII alanları scope'a göre maskelenir.
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Student" }
+        "404": { $ref: "#/components/responses/NotFound" }
+
+  /donations:
+    get:
+      tags: [Donations]
+      summary: Bağış listesi (yalnızca okula ait kampanyalar)
+      parameters:
+        - { in: query, name: campaign_id, schema: { type: string } }
+        - { in: query, name: status,      schema: { type: string, enum: [pending, succeeded, refunded, failed] } }
+        - { in: query, name: from,        schema: { type: string, format: date-time } }
+        - { in: query, name: to,          schema: { type: string, format: date-time } }
+        - { in: query, name: limit,       schema: { type: integer, default: 20 } }
+        - { in: query, name: cursor,      schema: { type: string } }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:        { type: array, items: { $ref: "#/components/schemas/Donation" } }
+                  next_cursor: { type: string, nullable: true }
+
+  /donations/{id}:
+    get:
+      tags: [Donations]
+      summary: Bağış durumu
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema: { $ref: "#/components/schemas/Donation" }
+
+  /webhooks/endpoints:
+    get:
+      tags: [Webhooks]
+      summary: Webhook endpoint'lerini listele
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: "#/components/schemas/WebhookEndpoint" }
+    post:
+      tags: [Webhooks]
+      summary: Yeni webhook endpoint kaydet
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [url, events]
+              properties:
+                url:    { type: string, format: uri }
+                events:
+                  type: array
+                  items:
+                    type: string
+                    enum: [donation.created, campaign.completed, monthly_report.ready]
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/WebhookEndpoint"
+                  - type: object
+                    properties:
+                      secret:
+                        type: string
+                        description: Yalnızca oluşturma anında döner — sakla.
+
+  /webhooks/endpoints/{id}:
+    delete:
+      tags: [Webhooks]
+      summary: Webhook endpoint'i sil
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "204": { description: No content }
+
+  /admin/api-keys:
+    post:
+      tags: [Admin]
+      summary: Okul için yeni API key oluştur
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [school_id, name, environment]
+              properties:
+                school_id:   { type: string }
+                name:        { type: string }
+                environment: { type: string, enum: [live, sandbox] }
+                scopes:
+                  type: array
+                  items:
+                    type: string
+                    enum:
+                      - campaigns:read
+                      - students:read
+                      - donations:read
+                      - webhooks:write
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:           { type: string }
+                  api_key:
+                    type: string
+                    description: Tek seferlik döner — sakla.
+                    example: "fk_live_3aB9cQ8...redacted"
+                  environment:  { type: string }
+
+  /admin/api-keys/{id}:
+    delete:
+      tags: [Admin]
+      summary: API key iptal et
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema: { type: string }
+      responses:
+        "204": { description: Revoked }
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-Key
+
+  schemas:
+    Campaign:
+      type: object
+      properties:
+        id:           { type: string }
+        title:        { type: string }
+        student_id:   { type: string }
+        goal_amount:  { type: number }
+        raised:       { type: number }
+        currency:     { type: string, example: USD }
+        status:       { type: string, enum: [draft, active, completed, paused] }
+        created_at:   { type: string, format: date-time }
+        completed_at: { type: string, format: date-time, nullable: true }
+
+    Student:
+      type: object
+      properties:
+        id:                { type: string }
+        display_name:      { type: string }
+        country:           { type: string }
+        field_of_study:    { type: string }
+        verification_status: { type: string, enum: [pending, verified, rejected] }
+        created_at:        { type: string, format: date-time }
+
+    Donation:
+      type: object
+      properties:
+        id:           { type: string }
+        campaign_id:  { type: string }
+        amount:       { type: number }
+        currency:     { type: string }
+        status:       { type: string, enum: [pending, succeeded, refunded, failed] }
+        created_at:   { type: string, format: date-time }
+
+    WebhookEndpoint:
+      type: object
+      properties:
+        id:           { type: string }
+        url:          { type: string, format: uri }
+        events:       { type: array, items: { type: string } }
+        environment:  { type: string }
+        status:       { type: string }
+        created_at:   { type: string, format: date-time }
+
+    Error:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:    { type: string }
+            message: { type: string }
+            request_id: { type: string }
+
+  responses:
+    Unauthorized:
+      description: Geçersiz veya iptal edilmiş API key
+      content:
+        application/json: { schema: { $ref: "#/components/schemas/Error" } }
+    NotFound:
+      description: Kayıt bulunamadı
+      content:
+        application/json: { schema: { $ref: "#/components/schemas/Error" } }
+    RateLimited:
+      description: Rate limit aşıldı (100 rpm)
+      headers:
+        Retry-After: { schema: { type: integer } }
+      content:
+        application/json: { schema: { $ref: "#/components/schemas/Error" } }
+
+webhooks:
+  donation.created:
+    post:
+      summary: Yeni başarılı bağış
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:         { type: string }
+                event:      { type: string, example: donation.created }
+                created_at: { type: string, format: date-time }
+                data:       { $ref: "#/components/schemas/Donation" }
+      responses:
+        "200": { description: Acknowledged }
+
+  campaign.completed:
+    post:
+      summary: Kampanya hedefe ulaştı
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                event: { type: string, example: campaign.completed }
+                data:  { $ref: "#/components/schemas/Campaign" }
+      responses:
+        "200": { description: Acknowledged }
+
+  monthly_report.ready:
+    post:
+      summary: Aylık ESG/bağış raporu üretildi
+      responses:
+        "200": { description: Acknowledged }

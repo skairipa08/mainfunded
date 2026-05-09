@@ -19,6 +19,7 @@ import { censorSurname } from '@/lib/privacy';
 import { useCurrency } from '@/lib/currency-context';
 import type { CampaignData } from './fetchCampaign';
 import { EmbedCodeModal } from '@/components/campaign/EmbedCodeModal';
+import ExpenditureTimeline from '@/components/campaign/ExpenditureTimeline';
 
 // Lazy-load the live donations widget so it never blocks initial page paint
 const CampaignLiveDonations = dynamic(
@@ -427,6 +428,8 @@ export default function CampaignDetailClient({ initialCampaign }: CampaignDetail
                         <div className="prose prose-gray max-w-none">
                             <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">{campaign.story}</p>
                         </div>
+
+                        <ExpenditureTimeline campaignId={campaignId} />
 
                         {/* Organizer Section */}
                         <div className="border-t pt-6">
