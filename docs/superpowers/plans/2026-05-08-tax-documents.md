@@ -2180,3 +2180,988 @@ Expected: 0 type errors. Lint warnings non-blocking.
 If green, proceed to Chunk 4.
 
 ---
+
+## Chunk 4: Donor-facing API + dashboard belgeler page + public verify
+
+Goal of this chunk: a paying donor can see their issued documents on `/dashboard/belgeler`, download a PDF, and a third party (e.g. an accountant) can paste the verification code into `/verify/<code>` to confirm authenticity. No admin or annual-summary work — those are Chunk 5.
+
+---
+
+### Task 17: Extend `/api/donations/my/[id]/receipt` with `?format=pdf` branch
+
+The existing endpoint returns JSON (preserved for backwards compatibility). Add a PDF branch that redirects to the signed Cloudinary URL of the donor's `receipt`-type tax document for that donation. If the document has not been issued yet, return 202 with a `retry_after` hint so the dashboard can show a "hazırlanıyor" state.
+
+**Files:**
+- Modify: `app/api/donations/my/[donation_id]/receipt/route.ts`
+
+- [ ] **Step 1: Read existing handler**
+
+Confirm the file at `app/api/donations/my/[donation_id]/receipt/route.ts` returns JSON via `successResponse({ receipt: {...} })`. The new branch must NOT remove that path — only add a `?format=pdf` discriminator.
+
+- [ ] **Step 2: Replace the handler body**
+
+Replace the entire `GET` body with:
+
+```typescript
+export const dynamic = 'force-dynamic';
+
+import { NextRequest, NextResponse } from 'next/server';
+import { getDb } from '@/lib/db';
+import { requireUser } from '@/lib/authz';
+import { successResponse, errorResponse, handleRouteError } from '@/lib/api-response';
+import { writeAuditEntry } from '@/lib/tax-documents/audit';
+import { getSignedPdfUrl } from '@/lib/tax-documents/storage';
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { donation_id: string } }
+) {
+  try {
+    const db = await getDb();
+    const user = await requireUser();
+    const donationId = params.donation_id;
+    const format = new URL(request.url).searchParams.get('format');
+
+    const donation = await db.collection('donations').findOne(
+      { donation_id: donationId, donor_id: user.id },
+      { projection: { _id: 0 } }
+    );
+    if (!donation) {
+      return errorResponse({ code: 'NOT_FOUND', message: 'Donation not found' }, 404);
+    }
+
+    if (format === 'pdf') {
+      const doc = await db.collection('tax_documents').findOne({
+        donation_ids: donationId,
+        document_type: 'receipt',
+        donor_id: user.id, // defense-in-depth — Task 19's filter shape
+      });
+
+      if (!doc) {
+        // Document not yet issued — 202 lets the dashboard poll without an error toast.
+        return NextResponse.json(
+          { status: 'pending', retry_after_seconds: 60 },
+          { status: 202 }
+        );
+      }
+      if (doc.status === 'void') {
+        return errorResponse(
+          { code: 'DOCUMENT_VOIDED', message: 'Document has been voided', meta: { void_reason: doc.void_reason } },
+          410
+        );
+      }
+
+      await writeAuditEntry({
+        document_id: doc.document_id,
+        event: 'downloaded',
+        actor_role: 'donor',
+        actor_id: user.id,
+        ip: request.headers.get('x-forwarded-for') || undefined,
+        user_agent: request.headers.get('user-agent') || undefined,
+      });
+      // Prefer freshly signed URL (short-lived); fall back to stored URL if signing returns empty.
+      const url = getSignedPdfUrl(doc.pdf_storage_path) || doc.pdf_url;
+      return NextResponse.redirect(url, 302);
+    }
+
+    // Existing JSON branch preserved for backwards compatibility.
+    const campaign = await db.collection('campaigns').findOne(
+      { campaign_id: donation.campaign_id },
+      { projection: { _id: 0, campaign_id: 1, title: 1, category: 1 } }
+    );
+
+    return successResponse({
+      receipt: {
+        receipt_number: `FE-${donationId?.replace('don_', '').toUpperCase() || Date.now()}`,
+        donation_id: donationId,
+        donor_name: donation.donor_name || user.name,
+        donor_email: donation.donor_email || user.email,
+        campaign_title: campaign?.title || 'Campaign',
+        amount: donation.amount,
+        currency: donation.currency || 'USD',
+        date: donation.created_at,
+        payment_status: donation.payment_status || donation.status || 'paid',
+        organization: 'FundEd - Educational Crowdfunding Platform',
+        receipt_url: donation.receipt_url || null,
+      },
+    });
+  } catch (error) {
+    return handleRouteError(error);
+  }
+}
+```
+
+- [ ] **Step 3: TypeScript check**
+
+Run: `npx tsc --noEmit`
+Expected: 0 new errors.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add app/api/donations/my/[donation_id]/receipt/route.ts
+git commit -m "feat(tax-documents): ?format=pdf branch on existing receipt endpoint"
+```
+
+---
+
+### Task 18: GET `/api/tax-documents` — donor list endpoint
+
+**Files:**
+- Create: `__tests__/tax-documents-list.test.ts`
+- Create: `app/api/tax-documents/route.ts`
+
+- [ ] **Step 1: Write failing tests**
+
+Create `__tests__/tax-documents-list.test.ts`:
+
+```typescript
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { NextRequest } from 'next/server';
+
+// Single shared cursor object — `find()` always returns this same reference.
+// We reference `cursor` directly rather than via `taxDocsCol.find()` so test-side
+// no-arg calls don't pollute `find.mock.calls` indices.
+const { mockDb, taxDocsCol, cursor } = vi.hoisted(() => {
+  const cursor = { sort: vi.fn().mockReturnThis(), toArray: vi.fn() };
+  const taxDocsCol: any = { find: vi.fn().mockReturnValue(cursor) };
+  return {
+    cursor,
+    taxDocsCol,
+    mockDb: { collection: vi.fn().mockReturnValue(taxDocsCol) },
+  };
+});
+
+vi.mock('../lib/db', () => ({ getDb: vi.fn().mockResolvedValue(mockDb) }));
+vi.mock('../lib/authz', () => ({
+  requireUser: vi.fn().mockResolvedValue({ id: 'user_1', email: 't@x.com', name: 'T' }),
+}));
+
+import { GET } from '../app/api/tax-documents/route';
+
+beforeEach(() => {
+  taxDocsCol.find.mockClear();
+  cursor.sort.mockClear();
+  cursor.toArray.mockReset();
+});
+
+describe('GET /api/tax-documents', () => {
+  it('returns documents scoped to the authenticated donor', async () => {
+    cursor.toArray.mockResolvedValueOnce([
+      {
+        document_id: 'doc_a',
+        document_number: 'FE-2026-000001',
+        document_type: 'receipt',
+        amount_total: 100,
+        currency: 'TRY',
+        tax_year: 2026,
+        status: 'issued',
+      },
+    ]);
+
+    const req = new NextRequest('http://localhost/api/tax-documents');
+    const res = await GET(req);
+    const body = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(body.documents).toHaveLength(1);
+    // The handler is the only caller of `find()`, so calls[0] is the handler's call.
+    const filter = taxDocsCol.find.mock.calls[0][0];
+    expect(filter.donor_id).toBe('user_1');
+  });
+
+  it('filters by tax_year query param', async () => {
+    cursor.toArray.mockResolvedValueOnce([]);
+    const req = new NextRequest('http://localhost/api/tax-documents?year=2025');
+    await GET(req);
+    const filter = taxDocsCol.find.mock.calls[0][0];
+    expect(filter.tax_year).toBe(2025);
+  });
+
+  it('filters by type query param', async () => {
+    cursor.toArray.mockResolvedValueOnce([]);
+    const req = new NextRequest('http://localhost/api/tax-documents?type=annual_summary');
+    await GET(req);
+    const filter = taxDocsCol.find.mock.calls[0][0];
+    expect(filter.document_type).toBe('annual_summary');
+  });
+
+  it('strips sensitive fields from each row', async () => {
+    cursor.toArray.mockResolvedValueOnce([
+      {
+        document_id: 'doc_a',
+        document_number: 'FE-2026-000001',
+        document_type: 'receipt',
+        amount_total: 100,
+        currency: 'TRY',
+        tax_year: 2026,
+        status: 'issued',
+        verification_code: 'SECRET',
+        verification_payload_hmac: 'HMAC',
+        pdf_storage_path: 'tax_documents/2026/FE-2026-000001.pdf',
+      },
+    ]);
+    const req = new NextRequest('http://localhost/api/tax-documents');
+    const body = await (await GET(req)).json();
+    expect(body.documents[0]).not.toHaveProperty('verification_payload_hmac');
+    expect(body.documents[0]).not.toHaveProperty('pdf_storage_path');
+  });
+});
+```
+
+- [ ] **Step 2: Run tests — verify they fail**
+
+Run: `npx vitest run __tests__/tax-documents-list.test.ts`
+Expected: FAIL — module not found.
+
+- [ ] **Step 3: Implement the handler**
+
+Create `app/api/tax-documents/route.ts`:
+
+```typescript
+export const dynamic = 'force-dynamic';
+
+import { NextRequest, NextResponse } from 'next/server';
+import { getDb } from '@/lib/db';
+import { requireUser } from '@/lib/authz';
+import { handleRouteError } from '@/lib/api-response';
+
+export async function GET(request: NextRequest) {
+  try {
+    const user = await requireUser();
+    const db = await getDb();
+    const url = new URL(request.url);
+    const yearStr = url.searchParams.get('year');
+    const type = url.searchParams.get('type');
+
+    const filter: Record<string, unknown> = { donor_id: user.id };
+    if (yearStr) filter.tax_year = Number(yearStr);
+    if (type === 'receipt' || type === 'annual_summary') filter.document_type = type;
+
+    const rows = await db
+      .collection('tax_documents')
+      .find(filter)
+      .sort({ tax_year: -1, created_at: -1 })
+      .toArray();
+
+    const documents = rows.map((d: any) => ({
+      document_id: d.document_id,
+      document_number: d.document_number,
+      document_type: d.document_type,
+      document_class: d.document_class,
+      campaign_id: d.campaign_id,
+      campaign_title_snapshot: d.campaign_title_snapshot,
+      amount_total: d.amount_total,
+      currency: d.currency,
+      donation_date: d.donation_date,
+      tax_year: d.tax_year,
+      status: d.status,
+      voided_at: d.voided_at,
+      void_reason: d.void_reason,
+      issued_at: d.issued_at,
+    }));
+
+    return NextResponse.json({ documents });
+  } catch (error) {
+    return handleRouteError(error);
+  }
+}
+```
+
+- [ ] **Step 4: Run tests — verify they pass**
+
+Run: `npx vitest run __tests__/tax-documents-list.test.ts`
+Expected: PASS, 4 tests.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add app/api/tax-documents/route.ts __tests__/tax-documents-list.test.ts
+git commit -m "feat(tax-documents): donor list endpoint"
+```
+
+---
+
+### Task 19: GET `/api/tax-documents/[id]/download` — audit-logged signed redirect
+
+**Files:**
+- Create: `__tests__/tax-documents-download.test.ts`
+- Create: `app/api/tax-documents/[document_id]/download/route.ts`
+
+- [ ] **Step 1: Write failing tests**
+
+Create `__tests__/tax-documents-download.test.ts`:
+
+```typescript
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { NextRequest } from 'next/server';
+
+const { mockDb, docsCol, auditCol } = vi.hoisted(() => {
+  const docsCol: any = { findOne: vi.fn() };
+  const auditCol: any = { insertOne: vi.fn().mockResolvedValue({ acknowledged: true }) };
+  const collections: Record<string, any> = {
+    tax_documents: docsCol,
+    document_audit_log: auditCol,
+  };
+  return { docsCol, auditCol, mockDb: { collection: vi.fn((n: string) => collections[n]) } };
+});
+
+vi.mock('../lib/db', () => ({ getDb: vi.fn().mockResolvedValue(mockDb) }));
+vi.mock('../lib/authz', () => ({
+  requireUser: vi.fn().mockResolvedValue({ id: 'user_1' }),
+}));
+vi.mock('../lib/tax-documents/storage', () => ({
+  getSignedPdfUrl: vi.fn().mockReturnValue('https://cdn.example.com/signed.pdf'),
+}));
+
+import { GET } from '../app/api/tax-documents/[document_id]/download/route';
+
+beforeEach(() => {
+  docsCol.findOne.mockReset();
+  auditCol.insertOne.mockClear();
+});
+
+describe('GET /api/tax-documents/[id]/download', () => {
+  it('redirects to a signed URL and writes downloaded audit entry', async () => {
+    docsCol.findOne.mockResolvedValueOnce({
+      document_id: 'doc_a',
+      donor_id: 'user_1',
+      pdf_url: 'https://cdn.example.com/raw.pdf',
+      pdf_storage_path: 'tax_documents/2026/FE-2026-000001.pdf',
+      status: 'issued',
+    });
+
+    const req = new NextRequest('http://localhost/api/tax-documents/doc_a/download');
+    const res = await GET(req, { params: { document_id: 'doc_a' } });
+
+    expect(res.status).toBe(302);
+    expect(res.headers.get('location')).toContain('signed.pdf');
+    expect(auditCol.insertOne).toHaveBeenCalledTimes(1);
+    const audit = auditCol.insertOne.mock.calls[0][0];
+    expect(audit.event).toBe('downloaded');
+    expect(audit.actor_role).toBe('donor');
+    expect(audit.actor_id).toBe('user_1');
+  });
+
+  it('404 when document not found or not owned by donor', async () => {
+    docsCol.findOne.mockResolvedValueOnce(null);
+    const req = new NextRequest('http://localhost/api/tax-documents/missing/download');
+    const res = await GET(req, { params: { document_id: 'missing' } });
+    expect(res.status).toBe(404);
+    expect(auditCol.insertOne).not.toHaveBeenCalled();
+  });
+
+  it('410 when document is void', async () => {
+    docsCol.findOne.mockResolvedValueOnce({
+      document_id: 'doc_v',
+      donor_id: 'user_1',
+      pdf_url: 'x',
+      pdf_storage_path: 'p',
+      status: 'void',
+      void_reason: 'iade',
+    });
+    const req = new NextRequest('http://localhost/api/tax-documents/doc_v/download');
+    const res = await GET(req, { params: { document_id: 'doc_v' } });
+    expect(res.status).toBe(410);
+  });
+});
+```
+
+- [ ] **Step 2: Run tests — verify they fail**
+
+Run: `npx vitest run __tests__/tax-documents-download.test.ts`
+Expected: FAIL.
+
+- [ ] **Step 3: Implement the handler**
+
+Create `app/api/tax-documents/[document_id]/download/route.ts`:
+
+```typescript
+export const dynamic = 'force-dynamic';
+
+import { NextRequest, NextResponse } from 'next/server';
+import { getDb } from '@/lib/db';
+import { requireUser } from '@/lib/authz';
+import { errorResponse, handleRouteError } from '@/lib/api-response';
+import { getSignedPdfUrl } from '@/lib/tax-documents/storage';
+import { writeAuditEntry } from '@/lib/tax-documents/audit';
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { document_id: string } }
+) {
+  try {
+    const user = await requireUser();
+    const db = await getDb();
+
+    const doc = await db.collection('tax_documents').findOne({
+      document_id: params.document_id,
+      donor_id: user.id,
+    });
+    if (!doc) {
+      return errorResponse({ code: 'NOT_FOUND', message: 'Document not found' }, 404);
+    }
+    if (doc.status === 'void') {
+      return errorResponse(
+        {
+          code: 'DOCUMENT_VOIDED',
+          message: 'Document has been voided',
+          meta: { void_reason: doc.void_reason },
+        },
+        410
+      );
+    }
+
+    await writeAuditEntry({
+      document_id: doc.document_id,
+      event: 'downloaded',
+      actor_role: 'donor',
+      actor_id: user.id,
+      ip: request.headers.get('x-forwarded-for') || undefined,
+      user_agent: request.headers.get('user-agent') || undefined,
+    });
+
+    const url = getSignedPdfUrl(doc.pdf_storage_path) || doc.pdf_url;
+    return NextResponse.redirect(url, 302);
+  } catch (error) {
+    return handleRouteError(error);
+  }
+}
+```
+
+- [ ] **Step 4: Run tests — verify they pass**
+
+Run: `npx vitest run __tests__/tax-documents-download.test.ts`
+Expected: PASS, 3 tests.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add app/api/tax-documents/[document_id]/download/route.ts __tests__/tax-documents-download.test.ts
+git commit -m "feat(tax-documents): donor download endpoint with audit logging"
+```
+
+---
+
+### Task 20: GET `/api/verify/[code]` — public verification with rate limit
+
+**Files:**
+- Create: `__tests__/tax-document-verify-api.test.ts`
+- Create: `app/api/verify/[code]/route.ts`
+
+The endpoint:
+- Returns minimal masked information (no tax_id, no PDF URL).
+- Validates the stored HMAC server-side; if it fails, treats the document as not found (no enumeration leak).
+- Always writes a `verified` audit entry with IP and UA.
+- Rate-limits via existing `lib/rate-limit` if present (the test mocks it; the implementation calls it loosely).
+
+- [ ] **Step 1: Write failing tests**
+
+Create `__tests__/tax-document-verify-api.test.ts`:
+
+```typescript
+import { describe, it, expect, beforeEach, vi, afterAll } from 'vitest';
+import { NextRequest } from 'next/server';
+
+const ORIGINAL_SECRET = process.env.TAX_DOCUMENT_HMAC_SECRET;
+process.env.TAX_DOCUMENT_HMAC_SECRET = 'test-secret';
+
+const { mockDb, docsCol, auditCol } = vi.hoisted(() => {
+  const docsCol: any = { findOne: vi.fn() };
+  const auditCol: any = { insertOne: vi.fn().mockResolvedValue({ acknowledged: true }) };
+  const collections: Record<string, any> = {
+    tax_documents: docsCol,
+    document_audit_log: auditCol,
+  };
+  return { docsCol, auditCol, mockDb: { collection: vi.fn((n: string) => collections[n]) } };
+});
+
+vi.mock('../lib/db', () => ({ getDb: vi.fn().mockResolvedValue(mockDb) }));
+vi.mock('../lib/rate-limit', () => ({
+  withRateLimit: vi.fn().mockReturnValue(null),
+  RATE_LIMITS: { api: { windowMs: 60_000, maxRequests: 10 } },
+}));
+
+import { GET } from '../app/api/verify/[code]/route';
+import { computePayloadHmac } from '../lib/tax-documents/verification';
+
+beforeEach(() => {
+  docsCol.findOne.mockReset();
+  auditCol.insertOne.mockClear();
+});
+
+afterAll(() => {
+  if (ORIGINAL_SECRET === undefined) delete process.env.TAX_DOCUMENT_HMAC_SECRET;
+  else process.env.TAX_DOCUMENT_HMAC_SECRET = ORIGINAL_SECRET;
+});
+
+function makeDoc(overrides: Partial<any> = {}) {
+  const base = {
+    document_id: 'doc_a',
+    document_number: 'FE-2026-000001',
+    document_type: 'receipt',
+    document_class: 'official',
+    donor_snapshot: { full_name: 'Şahin Çetin', email: 's@x.com' },
+    donor_id: 'user_1',
+    amount_total: 250,
+    currency: 'TRY',
+    tax_year: 2026,
+    donation_date: new Date('2026-03-15'),
+    status: 'issued',
+    verification_code: 'CODE_OK',
+    verification_payload_hmac: '',
+  };
+  const doc = { ...base, ...overrides };
+  doc.verification_payload_hmac = computePayloadHmac({
+    document_number: doc.document_number,
+    donor_id: doc.donor_id,
+    amount_total: doc.amount_total,
+    tax_year: doc.tax_year,
+  });
+  return doc;
+}
+
+describe('GET /api/verify/[code]', () => {
+  it('returns masked document info on valid code + valid HMAC', async () => {
+    docsCol.findOne.mockResolvedValueOnce(makeDoc());
+
+    const req = new NextRequest('http://localhost/api/verify/CODE_OK');
+    const res = await GET(req, { params: { code: 'CODE_OK' } });
+    const body = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(body.status).toBe('issued');
+    expect(body.document_number).toBe('FE-2026-000001');
+    expect(body.donor_name_masked).toMatch(/^Ş\S{0,3}\.\.\. Ç\.$/);
+    expect(body).not.toHaveProperty('donor_id');
+    expect(body).not.toHaveProperty('verification_payload_hmac');
+    expect(auditCol.insertOne).toHaveBeenCalledTimes(1);
+    expect(auditCol.insertOne.mock.calls[0][0].event).toBe('verified');
+  });
+
+  it('returns 404 (generic) when code does not exist', async () => {
+    docsCol.findOne.mockResolvedValueOnce(null);
+    const req = new NextRequest('http://localhost/api/verify/UNKNOWN');
+    const res = await GET(req, { params: { code: 'UNKNOWN' } });
+    expect(res.status).toBe(404);
+  });
+
+  it('returns 404 when HMAC does not match (DB tampered)', async () => {
+    const doc = makeDoc();
+    doc.verification_payload_hmac = 'tampered_hmac';
+    docsCol.findOne.mockResolvedValueOnce(doc);
+    const req = new NextRequest('http://localhost/api/verify/CODE_OK');
+    const res = await GET(req, { params: { code: 'CODE_OK' } });
+    expect(res.status).toBe(404);
+  });
+
+  it('returns void state for voided documents', async () => {
+    docsCol.findOne.mockResolvedValueOnce(
+      makeDoc({ status: 'void', voided_at: new Date('2026-04-01'), void_reason: 'iade' })
+    );
+    const req = new NextRequest('http://localhost/api/verify/CODE_OK');
+    const body = await (await GET(req, { params: { code: 'CODE_OK' } })).json();
+    expect(body.status).toBe('void');
+    expect(body.voided_at).toBeDefined();
+  });
+
+  it('returns 429 when rate limit triggers', async () => {
+    const rl = await import('../lib/rate-limit');
+    (rl.withRateLimit as any).mockReturnValueOnce(
+      new Response('Too many', { status: 429 })
+    );
+    const req = new NextRequest('http://localhost/api/verify/X');
+    const res = await GET(req, { params: { code: 'X' } });
+    expect(res.status).toBe(429);
+  });
+});
+```
+
+- [ ] **Step 2: Run tests — verify they fail**
+
+Run: `npx vitest run __tests__/tax-document-verify-api.test.ts`
+Expected: FAIL.
+
+- [ ] **Step 3: Implement the handler**
+
+Create `app/api/verify/[code]/route.ts`:
+
+```typescript
+export const dynamic = 'force-dynamic';
+
+import { NextRequest, NextResponse } from 'next/server';
+import { getDb } from '@/lib/db';
+import { withRateLimit, RATE_LIMITS } from '@/lib/rate-limit';
+import { verifyPayloadHmac } from '@/lib/tax-documents/verification';
+import { writeAuditEntry } from '@/lib/tax-documents/audit';
+
+function maskName(full: string): string {
+  const parts = full.trim().split(/\s+/).filter(Boolean);
+  if (parts.length === 0) return '***';
+  const first = parts[0];
+  const lastInitial = parts.length > 1 ? parts[parts.length - 1][0] + '.' : '';
+  // Show first 1 char + up to 3 chars + ellipsis, then last initial
+  const head = first.slice(0, 1) + (first.length > 1 ? first.slice(1, Math.min(4, first.length)) : '') + '...';
+  return lastInitial ? `${head} ${lastInitial}` : head;
+}
+
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { code: string } }
+) {
+  const limited = withRateLimit(request, RATE_LIMITS.api);
+  if (limited) return limited;
+
+  const db = await getDb();
+  const doc = await db.collection('tax_documents').findOne({
+    verification_code: params.code,
+  });
+
+  if (!doc) {
+    return NextResponse.json({ status: 'not_found' }, { status: 404 });
+  }
+
+  const valid = verifyPayloadHmac(
+    {
+      document_number: doc.document_number,
+      donor_id: doc.donor_id,
+      amount_total: doc.amount_total,
+      tax_year: doc.tax_year,
+    },
+    doc.verification_payload_hmac
+  );
+  if (!valid) {
+    // Treat HMAC mismatch as not-found (no enumeration leak; flag in audit).
+    await writeAuditEntry({
+      document_id: doc.document_id,
+      event: 'verified',
+      actor_role: 'public',
+      meta: { result: 'hmac_mismatch' },
+      ip: request.headers.get('x-forwarded-for') || undefined,
+      user_agent: request.headers.get('user-agent') || undefined,
+    });
+    return NextResponse.json({ status: 'not_found' }, { status: 404 });
+  }
+
+  await writeAuditEntry({
+    document_id: doc.document_id,
+    event: 'verified',
+    actor_role: 'public',
+    meta: { result: doc.status },
+    ip: request.headers.get('x-forwarded-for') || undefined,
+    user_agent: request.headers.get('user-agent') || undefined,
+  });
+
+  return NextResponse.json({
+    status: doc.status,
+    document_number: doc.document_number,
+    document_type: doc.document_type,
+    document_class: doc.document_class,
+    donor_name_masked: maskName(doc.donor_snapshot?.full_name || ''),
+    amount_total: doc.amount_total,
+    currency: doc.currency,
+    donation_date: doc.donation_date,
+    tax_year: doc.tax_year,
+    voided_at: doc.voided_at,
+  });
+}
+```
+
+- [ ] **Step 4: Run tests — verify they pass**
+
+Run: `npx vitest run __tests__/tax-document-verify-api.test.ts`
+Expected: PASS, 5 tests.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add app/api/verify/[code]/route.ts __tests__/tax-document-verify-api.test.ts
+git commit -m "feat(tax-documents): public verify endpoint with HMAC + rate limit + audit"
+```
+
+---
+
+### Task 21: Public verify page `/verify/[code]`
+
+**Files:**
+- Create: `app/[locale]/verify/[code]/page.tsx`
+
+- [ ] **Step 1: Identify locale-aware routing pattern**
+
+Existing pages live under `app/[locale]/...`. New pages must follow the same pattern. The page is a server component that fetches the verify endpoint server-side and renders the result.
+
+- [ ] **Step 2: Create the page**
+
+```tsx
+import { headers } from 'next/headers';
+import Link from 'next/link';
+
+interface VerifyResult {
+  status: 'issued' | 'void' | 'not_found' | string;
+  document_number?: string;
+  document_class?: 'official' | 'informal';
+  donor_name_masked?: string;
+  amount_total?: number;
+  currency?: string;
+  donation_date?: string;
+  tax_year?: number;
+  voided_at?: string;
+}
+
+async function fetchVerify(code: string): Promise<VerifyResult> {
+  const h = headers();
+  const proto = h.get('x-forwarded-proto') || 'https';
+  const host = h.get('host');
+  const url = `${proto}://${host}/api/verify/${encodeURIComponent(code)}`;
+  const res = await fetch(url, { cache: 'no-store' });
+  if (res.status === 404) return { status: 'not_found' };
+  if (!res.ok) return { status: 'not_found' };
+  return res.json();
+}
+
+export default async function VerifyPage({
+  params,
+}: {
+  params: { locale: string; code: string };
+}) {
+  const result = await fetchVerify(params.code);
+
+  return (
+    <main style={{ maxWidth: 640, margin: '64px auto', padding: 24, fontFamily: 'system-ui' }}>
+      <h1 style={{ marginBottom: 24 }}>Belge Doğrulama</h1>
+
+      {result.status === 'issued' && (
+        <section style={{ borderLeft: '4px solid #2e7d32', paddingLeft: 16 }}>
+          <p style={{ color: '#2e7d32', fontWeight: 600 }}>✓ Belge geçerli</p>
+          <dl style={{ display: 'grid', gridTemplateColumns: '160px 1fr', rowGap: 6 }}>
+            <dt>Belge No</dt>
+            <dd>{result.document_number}</dd>
+            <dt>Bağışçı</dt>
+            <dd>{result.donor_name_masked}</dd>
+            <dt>Tutar</dt>
+            <dd>
+              {result.amount_total} {result.currency}
+            </dd>
+            <dt>Tarih</dt>
+            <dd>{result.donation_date && new Date(result.donation_date).toLocaleDateString('tr-TR')}</dd>
+            <dt>Vergi Yılı</dt>
+            <dd>{result.tax_year}</dd>
+            <dt>Belge Sınıfı</dt>
+            <dd>{result.document_class === 'official' ? 'Resmî makbuz' : 'Bağış teyit belgesi'}</dd>
+          </dl>
+        </section>
+      )}
+
+      {result.status === 'void' && (
+        <section style={{ borderLeft: '4px solid #c62828', paddingLeft: 16 }}>
+          <p style={{ color: '#c62828', fontWeight: 600 }}>✕ Bu belge iptal edilmiştir</p>
+          <p>İptal Tarihi: {result.voided_at && new Date(result.voided_at).toLocaleDateString('tr-TR')}</p>
+        </section>
+      )}
+
+      {(result.status === 'not_found' || (!['issued', 'void'].includes(result.status))) && (
+        <section style={{ borderLeft: '4px solid #757575', paddingLeft: 16 }}>
+          <p>Belge bulunamadı.</p>
+          <p style={{ fontSize: 13, color: '#666' }}>
+            QR kodun doğru kopyalandığından emin olun. Sorun devam ederse FundEd ile iletişime geçin.
+          </p>
+        </section>
+      )}
+
+      <hr style={{ margin: '32px 0' }} />
+      <Link href={`/${params.locale}`}>← FundEd ana sayfa</Link>
+    </main>
+  );
+}
+```
+
+- [ ] **Step 3: TypeScript check**
+
+Run: `npx tsc --noEmit`
+Expected: 0 new errors.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add app/[locale]/verify/[code]/page.tsx
+git commit -m "feat(tax-documents): public /verify/[code] page"
+```
+
+---
+
+### Task 22: Donor dashboard belgeler page
+
+**Files:**
+- Create: `components/tax-documents/DocumentList.tsx`
+- Create: `app/[locale]/dashboard/belgeler/page.tsx`
+
+- [ ] **Step 1: Build the document list component**
+
+Create `components/tax-documents/DocumentList.tsx`:
+
+```tsx
+'use client';
+
+import { useEffect, useState } from 'react';
+
+interface DocumentRow {
+  document_id: string;
+  document_number: string;
+  document_type: 'receipt' | 'annual_summary';
+  document_class: 'official' | 'informal';
+  campaign_title_snapshot?: string;
+  amount_total: number;
+  currency: string;
+  donation_date?: string;
+  tax_year: number;
+  status: 'queued' | 'processing' | 'issued' | 'void';
+  void_reason?: string;
+  issued_at?: string;
+}
+
+export function DocumentList() {
+  const [year, setYear] = useState<number>(new Date().getFullYear());
+  const [type, setType] = useState<'all' | 'receipt' | 'annual_summary'>('all');
+  const [rows, setRows] = useState<DocumentRow[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams({ year: String(year) });
+    if (type !== 'all') params.set('type', type);
+    fetch(`/api/tax-documents?${params}`, { cache: 'no-store' })
+      .then((r) => (r.ok ? r.json() : Promise.reject(r.statusText)))
+      .then((d) => setRows(d.documents))
+      .catch((e) => setError(String(e)));
+  }, [year, type]);
+
+  if (error) return <p style={{ color: '#c62828' }}>Yüklenemedi: {error}</p>;
+  if (!rows) return <p>Yükleniyor…</p>;
+  if (rows.length === 0)
+    return <p style={{ color: '#666' }}>{year} yılı için belge bulunamadı.</p>;
+
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
+        <label>
+          Yıl{' '}
+          <select value={year} onChange={(e) => setYear(Number(e.target.value))}>
+            {[0, 1, 2].map((d) => {
+              const y = new Date().getFullYear() - d;
+              return (
+                <option key={y} value={y}>
+                  {y}
+                </option>
+              );
+            })}
+          </select>
+        </label>
+        <label>
+          Tür{' '}
+          <select value={type} onChange={(e) => setType(e.target.value as any)}>
+            <option value="all">Hepsi</option>
+            <option value="receipt">Makbuzlar</option>
+            <option value="annual_summary">Yıllık özet</option>
+          </select>
+        </label>
+      </div>
+
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr style={{ textAlign: 'left', borderBottom: '1px solid #ddd' }}>
+            <th>Belge No</th>
+            <th>Tür</th>
+            <th>Kampanya</th>
+            <th>Tutar</th>
+            <th>Tarih</th>
+            <th>Durum</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr key={r.document_id} style={{ borderBottom: '1px solid #eee' }}>
+              <td>{r.document_number}</td>
+              <td>{r.document_type === 'annual_summary' ? 'Yıllık özet' : 'Makbuz'}</td>
+              <td>{r.campaign_title_snapshot || '—'}</td>
+              <td>
+                {r.amount_total} {r.currency}
+              </td>
+              <td>
+                {(r.donation_date || r.issued_at) &&
+                  new Date(r.donation_date || r.issued_at!).toLocaleDateString('tr-TR')}
+              </td>
+              <td>
+                {r.status === 'issued' && 'Geçerli'}
+                {r.status === 'void' && 'İptal edildi'}
+                {r.status === 'queued' && 'Hazırlanıyor'}
+                {r.status === 'processing' && 'Hazırlanıyor'}
+              </td>
+              <td>
+                {r.status === 'issued' ? (
+                  <a href={`/api/tax-documents/${r.document_id}/download`}>İndir</a>
+                ) : (
+                  <span style={{ color: '#999' }}>—</span>
+                )}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+```
+
+- [ ] **Step 2: Build the page wrapper**
+
+Create `app/[locale]/dashboard/belgeler/page.tsx`:
+
+```tsx
+import { DocumentList } from '@/components/tax-documents/DocumentList';
+
+export default function BelgelerPage() {
+  return (
+    <main style={{ maxWidth: 960, margin: '32px auto', padding: 24 }}>
+      <h1>Vergi Belgelerim</h1>
+      <p style={{ color: '#555', marginBottom: 24 }}>
+        Bağışlarınız için düzenlenen makbuzları ve yıllık özetleri buradan indirebilirsiniz.
+      </p>
+      <DocumentList />
+    </main>
+  );
+}
+```
+
+- [ ] **Step 3: TypeScript check + render-only sanity**
+
+Run: `npx tsc --noEmit`
+Expected: 0 new errors.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add components/tax-documents/DocumentList.tsx app/[locale]/dashboard/belgeler/page.tsx
+git commit -m "feat(tax-documents): donor /dashboard/belgeler page"
+```
+
+---
+
+### Chunk 4 wrap-up
+
+- [ ] **Step 1: Run all Chunk 4 tests**
+
+Run: `npx vitest run __tests__/tax-documents-list.test.ts __tests__/tax-documents-download.test.ts __tests__/tax-document-verify-api.test.ts`
+Expected: 4 + 3 + 5 = 12 tests pass.
+
+- [ ] **Step 2: Run full project test suite (regression check)**
+
+Run: `npx vitest run`
+Expected: no previously-passing test now failing.
+
+- [ ] **Step 3: Manual smoke (if dev environment available)**
+
+Sign in as a donor with at least one paid donation, navigate to `/dashboard/belgeler`. Verify the list loads (may show "Hazırlanıyor" if Chunk 3's cron has not yet processed the job — that is expected). Open `/verify/<some-code>` with a known code from the DB. Confirm masked donor name renders correctly with Turkish characters.
+
+If green, proceed to Chunk 5.
+
+---
