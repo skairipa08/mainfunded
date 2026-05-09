@@ -3165,3 +3165,1315 @@ Sign in as a donor with at least one paid donation, navigate to `/dashboard/belg
 If green, proceed to Chunk 5.
 
 ---
+
+## Chunk 5: Annual summaries — generator body, manual trigger, yearly cron
+
+Goal of this chunk: replace the Chunk 3 annual-summary stub with a working aggregator, expose a donor-triggered manual generation endpoint, and register a yearly cron that runs on 15 January for the previous tax year.
+
+---
+
+### Task 23: Implement `generateAnnualSummaryForJob`
+
+Replace the Chunk 3 stub with a real aggregator. Aggregates all paid donations for the donor in `tax_year`, builds row table, allocates a new document number, computes HMAC, renders `<AnnualSummaryDocument />`, persists.
+
+**Files:**
+- Modify: `lib/tax-documents/generate.ts`
+- Create: `__tests__/tax-document-annual-summary.test.ts`
+
+- [ ] **Step 1: Write failing test**
+
+Create `__tests__/tax-document-annual-summary.test.ts`:
+
+```typescript
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+
+const { mockDb, collections } = vi.hoisted(() => {
+  const cursor = (rows: any[]) => ({
+    sort: vi.fn().mockReturnThis(),
+    toArray: vi.fn().mockResolvedValue(rows),
+  });
+  const make = () => ({
+    findOne: vi.fn(),
+    insertOne: vi.fn().mockResolvedValue({ acknowledged: true }),
+    findOneAndUpdate: vi.fn(),
+    find: vi.fn(),
+  });
+  const collections: Record<string, any> = {
+    donations: { ...make(), find: vi.fn() },
+    campaigns: make(),
+    tax_documents: make(),
+    document_audit_log: make(),
+    document_counters: make(),
+    users: make(),
+  };
+  return { collections, mockDb: { collection: vi.fn((n: string) => collections[n]) } };
+});
+
+vi.mock('../lib/db', () => ({ getDb: vi.fn().mockResolvedValue(mockDb) }));
+vi.mock('../lib/tax-documents/render', () => ({
+  renderDocumentToBuffer: vi.fn().mockResolvedValue(Buffer.from('PDF')),
+  AnnualSummaryDocument: () => null,
+  ReceiptDocument: () => null,
+}));
+vi.mock('../lib/tax-documents/qr', () => ({
+  generateQrPngBuffer: vi.fn().mockResolvedValue(Buffer.from('PNG')),
+  buildVerifyUrl: vi.fn(() => 'https://x'),
+}));
+vi.mock('../lib/tax-documents/storage', () => ({
+  uploadPdf: vi.fn().mockResolvedValue({
+    url: 'https://cdn/x.pdf',
+    storage_path: 'p',
+    hash_sha256: 'h',
+  }),
+}));
+
+import { generateAnnualSummaryForJob } from '../lib/tax-documents/generate';
+
+beforeEach(() => {
+  Object.values(collections).forEach((c: any) =>
+    Object.values(c).forEach((fn: any) => fn.mockReset?.())
+  );
+  collections.tax_documents.insertOne.mockResolvedValue({ acknowledged: true });
+  collections.document_audit_log.insertOne.mockResolvedValue({ acknowledged: true });
+  collections.document_counters.findOneAndUpdate.mockResolvedValue({
+    _id: 'tax_documents:2026',
+    seq: 100,
+  });
+});
+
+function donationCursor(rows: any[]) {
+  return {
+    sort: vi.fn().mockReturnThis(),
+    toArray: vi.fn().mockResolvedValue(rows),
+  };
+}
+
+describe('generateAnnualSummaryForJob()', () => {
+  const job = {
+    job_id: 'job_a',
+    type: 'annual_summary' as const,
+    payload: { donor_id: 'user_1', tax_year: 2026 },
+    status: 'processing' as const,
+    attempts: 0,
+    run_after: new Date(),
+    created_at: new Date(),
+  };
+
+  it('aggregates all paid donations in the year and writes a single tax_documents row', async () => {
+    process.env.TAX_DOCUMENT_HMAC_SECRET = 'secret';
+    process.env.TAX_DOCUMENT_FUND_ED_VKN = 'VKN';
+    collections.donations.find.mockReturnValue(
+      donationCursor([
+        {
+          donation_id: 'don_1',
+          campaign_id: 'cam_1',
+          amount: 100,
+          currency: 'TRY',
+          created_at: new Date('2026-02-01'),
+          payment_status: 'paid',
+        },
+        {
+          donation_id: 'don_2',
+          campaign_id: 'cam_2',
+          amount: 250,
+          currency: 'TRY',
+          created_at: new Date('2026-08-15'),
+          payment_status: 'paid',
+        },
+      ])
+    );
+    collections.campaigns.find.mockReturnValue(
+      donationCursor([
+        { campaign_id: 'cam_1', title: 'A' },
+        { campaign_id: 'cam_2', title: 'B' },
+      ])
+    );
+    collections.tax_documents.find.mockReturnValue(donationCursor([])); // no existing receipts to cross-link
+    collections.users.findOne.mockResolvedValueOnce({
+      _id: 'user_1',
+      email: 'd@x.com',
+      name: 'Donor',
+    });
+
+    await generateAnnualSummaryForJob(job);
+
+    expect(collections.tax_documents.insertOne).toHaveBeenCalledTimes(1);
+    const inserted = collections.tax_documents.insertOne.mock.calls[0][0];
+    expect(inserted.document_type).toBe('annual_summary');
+    expect(inserted.tax_year).toBe(2026);
+    expect(inserted.donation_ids).toEqual(['don_1', 'don_2']);
+    expect(inserted.amount_total).toBe(350);
+    expect(inserted.status).toBe('issued');
+  });
+
+  it('skips writing if no paid donations in the year', async () => {
+    collections.donations.find.mockReturnValue(donationCursor([]));
+    collections.users.findOne.mockResolvedValueOnce({
+      _id: 'user_1',
+      email: 'd@x.com',
+      name: 'Donor',
+    });
+
+    await generateAnnualSummaryForJob(job);
+
+    expect(collections.tax_documents.insertOne).not.toHaveBeenCalled();
+  });
+
+  it('throws when payload is missing donor_id or tax_year', async () => {
+    await expect(
+      generateAnnualSummaryForJob({ ...job, payload: {} })
+    ).rejects.toThrow();
+  });
+});
+```
+
+- [ ] **Step 2: Run test — verify it fails with the stub**
+
+Run: `npx vitest run __tests__/tax-document-annual-summary.test.ts`
+Expected: FAIL — `generateAnnualSummaryForJob not yet implemented (Chunk 4 task)`.
+
+- [ ] **Step 3: Replace the stub**
+
+In `lib/tax-documents/generate.ts`, replace the `generateAnnualSummaryForJob` stub with:
+
+```typescript
+export async function generateAnnualSummaryForJob(job: DocumentJob): Promise<void> {
+  if (job.type !== 'annual_summary' || !job.payload.donor_id || !job.payload.tax_year) {
+    throw new Error(`generateAnnualSummaryForJob called with wrong job shape: ${job.job_id}`);
+  }
+
+  const db = await getDb();
+  const donor_id = job.payload.donor_id;
+  const tax_year = job.payload.tax_year;
+
+  const yearStart = new Date(Date.UTC(tax_year, 0, 1));
+  const yearEnd = new Date(Date.UTC(tax_year + 1, 0, 1));
+
+  const donations = await db
+    .collection('donations')
+    .find({
+      donor_id,
+      payment_status: { $in: ['paid', 'completed'] },
+      created_at: { $gte: yearStart, $lt: yearEnd },
+    })
+    .sort({ created_at: 1 })
+    .toArray();
+
+  if (donations.length === 0) {
+    // Nothing to summarize — silently skip. Cron will not retry this donor next year unless eligible.
+    return;
+  }
+
+  const campaignIds = [...new Set(donations.map((d: any) => d.campaign_id).filter(Boolean))];
+  const campaigns = campaignIds.length
+    ? await db
+        .collection('campaigns')
+        .find({ campaign_id: { $in: campaignIds } })
+        .toArray()
+    : [];
+  const campaignTitle = new Map<string, string>(
+    campaigns.map((c: any) => [c.campaign_id, c.title || c.campaign_id])
+  );
+
+  // Cross-link to per-donation receipts so the table can show each receipt number.
+  const linkedReceipts = await db
+    .collection('tax_documents')
+    .find({
+      donor_id,
+      document_type: 'receipt',
+      donation_ids: { $in: donations.map((d: any) => d.donation_id) },
+    })
+    .toArray();
+  const receiptByDonation = new Map<string, string>();
+  for (const r of linkedReceipts as any[]) {
+    for (const did of r.donation_ids || []) {
+      receiptByDonation.set(did, r.document_number);
+    }
+  }
+
+  const donor = await resolveDonor(donor_id, donations[0]);
+  const amount_total = donations.reduce((s: number, d: any) => s + (Number(d.amount) || 0), 0);
+  const currency = donations[0].currency || 'TRY';
+
+  const document_number = await allocateDocumentNumber(tax_year);
+  const document_id = newDocumentId();
+  const verification_code = generateVerificationCode();
+  const verification_payload_hmac = computePayloadHmac({
+    document_number,
+    donor_id,
+    amount_total,
+    tax_year,
+  });
+
+  // Annual summaries are always informal — they aggregate across campaigns and the
+  // legal classification of each receipt is independent.
+  const document_class = 'informal' as const;
+
+  const qrBuf = await generateQrPngBuffer(buildVerifyUrl(verification_code));
+  const qrDataUrl = `data:image/png;base64,${qrBuf.toString('base64')}`;
+
+  const pdfBuf = await renderDocumentToBuffer(
+    React.createElement(AnnualSummaryDocument, {
+      document_number,
+      document_class,
+      donor_snapshot: donor.donor_snapshot,
+      donor_type: donor.donor_type,
+      tax_year,
+      amount_total,
+      currency,
+      rows: donations.map((d: any) => ({
+        date: d.created_at instanceof Date ? d.created_at : new Date(d.created_at),
+        campaign_title: campaignTitle.get(d.campaign_id) || d.campaign_id || '—',
+        amount: Number(d.amount) || 0,
+        currency: d.currency || currency,
+        receipt_number: receiptByDonation.get(d.donation_id) || '—',
+      })),
+      qr_png_data_url: qrDataUrl,
+      fund_ed_vkn: process.env.TAX_DOCUMENT_FUND_ED_VKN || '',
+    })
+  );
+
+  const upload = await uploadPdf(pdfBuf, tax_year, document_number);
+
+  const row: TaxDocument = {
+    document_id,
+    document_number,
+    document_type: 'annual_summary',
+    document_class,
+    donor_id,
+    donor_type: donor.donor_type,
+    donor_snapshot: donor.donor_snapshot,
+    donation_ids: donations.map((d: any) => d.donation_id),
+    amount_total,
+    currency,
+    tax_year,
+    verification_code,
+    verification_payload_hmac,
+    pdf_url: upload.url,
+    pdf_storage_path: upload.storage_path,
+    pdf_hash_sha256: upload.hash_sha256,
+    status: 'issued',
+    created_at: new Date(),
+    issued_at: new Date(),
+  };
+
+  await db.collection('tax_documents').insertOne(row as any);
+  await writeAuditEntry({
+    document_id,
+    event: 'issued',
+    actor_role: 'system',
+    meta: { job_id: job.job_id, donation_count: donations.length, tax_year },
+  });
+}
+```
+
+- [ ] **Step 4: Run test — verify it passes**
+
+Run: `npx vitest run __tests__/tax-document-annual-summary.test.ts`
+Expected: PASS, 3 tests.
+
+- [ ] **Step 5: Commit**
+
+```bash
+git add lib/tax-documents/generate.ts __tests__/tax-document-annual-summary.test.ts
+git commit -m "feat(tax-documents): implement annual summary generator"
+```
+
+---
+
+### Task 24: Manual annual summary trigger endpoint
+
+POST `/api/tax-documents/annual-summary` — donor session, idempotent (delegates to `enqueueAnnualSummaryJob`), rate-limited to 1/hour/donor.
+
+**Files:**
+- Create: `app/api/tax-documents/annual-summary/route.ts`
+
+- [ ] **Step 1: Create the handler**
+
+```typescript
+export const dynamic = 'force-dynamic';
+
+import { NextRequest, NextResponse } from 'next/server';
+import { requireUser } from '@/lib/authz';
+import { handleRouteError } from '@/lib/api-response';
+import { withRateLimit } from '@/lib/rate-limit';
+import { enqueueAnnualSummaryJob } from '@/lib/tax-documents/jobs';
+
+export async function POST(request: NextRequest) {
+  try {
+    // Coarse per-IP+endpoint limit: 1 request per hour. The button is meant for the
+    // narrow case where a donor's cron-generated summary is missing >24h after
+    // 15 January; that doesn't need a higher cadence.
+    const limited = withRateLimit(request, {
+      windowMs: 60 * 60_000,
+      maxRequests: 1,
+    });
+    if (limited) return limited;
+
+    const user = await requireUser();
+    const body = await request.json().catch(() => ({}));
+    const tax_year = Number(body?.tax_year ?? new Date().getFullYear() - 1);
+    if (!Number.isInteger(tax_year) || tax_year < 2024 || tax_year > new Date().getFullYear()) {
+      return NextResponse.json(
+        { error: 'invalid_tax_year' },
+        { status: 400 }
+      );
+    }
+
+    await enqueueAnnualSummaryJob(user.id, tax_year);
+    return NextResponse.json({ status: 'queued', tax_year });
+  } catch (error) {
+    return handleRouteError(error);
+  }
+}
+```
+
+- [ ] **Step 2: TypeScript check**
+
+Run: `npx tsc --noEmit`
+Expected: 0 new errors.
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add app/api/tax-documents/annual-summary/route.ts
+git commit -m "feat(tax-documents): donor-triggered annual summary generation"
+```
+
+---
+
+### Task 25: Annual summary cron handler
+
+`/api/cron/annual-summaries` — runs once per year on 15 January. Enumerates donors with paid donations in the previous tax year and enqueues annual_summary jobs (idempotent at the enqueue layer).
+
+**Files:**
+- Create: `app/api/cron/annual-summaries/route.ts`
+- Modify: `vercel.json`
+
+- [ ] **Step 1: Create the handler**
+
+```typescript
+export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
+
+import { NextRequest, NextResponse } from 'next/server';
+import { getDb } from '@/lib/db';
+import { enqueueAnnualSummaryJob } from '@/lib/tax-documents/jobs';
+
+export async function GET(request: NextRequest) {
+  return handle(request);
+}
+export async function POST(request: NextRequest) {
+  return handle(request);
+}
+
+async function handle(request: NextRequest) {
+  const auth = request.headers.get('authorization') || '';
+  if (!process.env.CRON_SECRET || auth !== `Bearer ${process.env.CRON_SECRET}`) {
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
+
+  const taxYearOverride = new URL(request.url).searchParams.get('year');
+  const taxYear = taxYearOverride
+    ? Number(taxYearOverride)
+    : new Date().getUTCFullYear() - 1;
+
+  const db = await getDb();
+  const yearStart = new Date(Date.UTC(taxYear, 0, 1));
+  const yearEnd = new Date(Date.UTC(taxYear + 1, 0, 1));
+
+  const donorIds = await db
+    .collection('donations')
+    .distinct('donor_id', {
+      payment_status: { $in: ['paid', 'completed'] },
+      created_at: { $gte: yearStart, $lt: yearEnd },
+    });
+
+  let enqueued = 0;
+  for (const donor_id of donorIds) {
+    if (!donor_id) continue;
+    await enqueueAnnualSummaryJob(donor_id, taxYear);
+    enqueued++;
+  }
+
+  return NextResponse.json({ ok: true, tax_year: taxYear, donors: enqueued });
+}
+```
+
+- [ ] **Step 2: Register cron in `vercel.json`**
+
+Append to the `crons` array in `vercel.json`:
+
+```json
+{
+  "path": "/api/cron/annual-summaries",
+  "schedule": "0 6 15 1 *"
+}
+```
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add app/api/cron/annual-summaries/route.ts vercel.json
+git commit -m "feat(tax-documents): annual summary cron (15 January)"
+```
+
+---
+
+### Chunk 5 wrap-up
+
+- [ ] **Step 1: Run all Chunk 5 tests**
+
+Run: `npx vitest run __tests__/tax-document-annual-summary.test.ts`
+Expected: 3 tests pass.
+
+- [ ] **Step 2: TypeScript check**
+
+Run: `npx tsc --noEmit`
+Expected: 0 new errors.
+
+- [ ] **Step 3: Manual smoke (optional)**
+
+If MongoDB and Cloudinary are reachable, manually trigger the annual cron with `?year=<previous-year>` and verify a `tax_documents` row of type `annual_summary` is created for at least one donor with paid donations. The PDF should aggregate all of that donor's donations for the year with correct totals.
+
+If green, proceed to Chunk 6.
+
+---
+
+## Chunk 6: Admin tools, checkout tax profile, backfill, rollout
+
+Goal of this chunk: ship the operational surface — admin endpoints + UI for oversight, donor tax-profile capture (dashboard + checkout integration), a one-off backfill script, and final rollout artifacts (vercel.json finalization + release notes).
+
+---
+
+### Task 26: Admin endpoints — list, audit, void
+
+**Files:**
+- Create: `__tests__/tax-document-admin-void.test.ts`
+- Create: `app/api/admin/tax-documents/route.ts`
+- Create: `app/api/admin/tax-documents/[document_id]/audit/route.ts`
+- Create: `app/api/admin/tax-documents/[document_id]/void/route.ts`
+
+- [ ] **Step 1: Implement admin list**
+
+Create `app/api/admin/tax-documents/route.ts`:
+
+```typescript
+export const dynamic = 'force-dynamic';
+
+import { NextRequest, NextResponse } from 'next/server';
+import { getDb } from '@/lib/db';
+import { requireAdminOrOps } from '@/lib/authz';
+import { handleRouteError } from '@/lib/api-response';
+
+export async function GET(request: NextRequest) {
+  try {
+    await requireAdminOrOps();
+    const db = await getDb();
+    const url = new URL(request.url);
+    const filter: Record<string, unknown> = {};
+    const year = url.searchParams.get('year');
+    const type = url.searchParams.get('type');
+    const cls = url.searchParams.get('class');
+    const status = url.searchParams.get('status');
+    const donor_id = url.searchParams.get('donor_id');
+    if (year) filter.tax_year = Number(year);
+    if (type === 'receipt' || type === 'annual_summary') filter.document_type = type;
+    if (cls === 'official' || cls === 'informal') filter.document_class = cls;
+    if (status) filter.status = status;
+    if (donor_id) filter.donor_id = donor_id;
+
+    const limit = Math.min(Number(url.searchParams.get('limit') || 50), 200);
+    const page = Math.max(Number(url.searchParams.get('page') || 1), 1);
+
+    const cursor = db
+      .collection('tax_documents')
+      .find(filter)
+      .sort({ created_at: -1 })
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    const rows = await cursor.toArray();
+    return NextResponse.json({ documents: rows.map(stripSensitive), page, limit });
+  } catch (error) {
+    return handleRouteError(error);
+  }
+}
+
+function stripSensitive(d: any) {
+  const { verification_payload_hmac, pdf_storage_path, ...rest } = d;
+  return rest;
+}
+```
+
+- [ ] **Step 2: Implement admin audit timeline**
+
+Create `app/api/admin/tax-documents/[document_id]/audit/route.ts`:
+
+```typescript
+export const dynamic = 'force-dynamic';
+
+import { NextRequest, NextResponse } from 'next/server';
+import { getDb } from '@/lib/db';
+import { requireAdminOrOps } from '@/lib/authz';
+import { handleRouteError } from '@/lib/api-response';
+
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: { document_id: string } }
+) {
+  try {
+    await requireAdminOrOps();
+    const db = await getDb();
+    const events = await db
+      .collection('document_audit_log')
+      .find({ document_id: params.document_id })
+      .sort({ at: -1 })
+      .toArray();
+    return NextResponse.json({ events });
+  } catch (error) {
+    return handleRouteError(error);
+  }
+}
+```
+
+- [ ] **Step 3: Write failing test for void endpoint**
+
+Create `__tests__/tax-document-admin-void.test.ts`:
+
+```typescript
+import { describe, it, expect, beforeEach, vi } from 'vitest';
+import { NextRequest } from 'next/server';
+
+const { mockDb, docsCol, auditCol } = vi.hoisted(() => {
+  const docsCol: any = {
+    findOne: vi.fn(),
+    updateOne: vi.fn().mockResolvedValue({ matchedCount: 1 }),
+  };
+  const auditCol: any = { insertOne: vi.fn().mockResolvedValue({ acknowledged: true }) };
+  const collections: Record<string, any> = {
+    tax_documents: docsCol,
+    document_audit_log: auditCol,
+  };
+  return { docsCol, auditCol, mockDb: { collection: vi.fn((n: string) => collections[n]) } };
+});
+
+vi.mock('../lib/db', () => ({ getDb: vi.fn().mockResolvedValue(mockDb) }));
+vi.mock('../lib/authz', () => ({
+  requireAdminOrOps: vi.fn().mockResolvedValue({ id: 'admin_1', email: 'a@x.com' }),
+}));
+
+import { POST } from '../app/api/admin/tax-documents/[document_id]/void/route';
+
+beforeEach(() => {
+  docsCol.findOne.mockReset();
+  docsCol.updateOne.mockClear();
+  auditCol.insertOne.mockClear();
+});
+
+describe('POST /api/admin/tax-documents/[id]/void', () => {
+  it('marks document as void and writes audit entry', async () => {
+    docsCol.findOne.mockResolvedValueOnce({
+      document_id: 'doc_a',
+      status: 'issued',
+    });
+
+    const req = new NextRequest('http://localhost/api/admin/tax-documents/doc_a/void', {
+      method: 'POST',
+      body: JSON.stringify({ reason: 'iade edildi' }),
+    });
+    const res = await POST(req, { params: { document_id: 'doc_a' } });
+    expect(res.status).toBe(200);
+
+    const upd = docsCol.updateOne.mock.calls[0][1];
+    expect(upd.$set.status).toBe('void');
+    expect(upd.$set.void_reason).toBe('iade edildi');
+    expect(upd.$set.voided_at).toBeInstanceOf(Date);
+
+    const audit = auditCol.insertOne.mock.calls[0][0];
+    expect(audit.event).toBe('voided');
+    expect(audit.actor_role).toBe('admin');
+  });
+
+  it('rejects when document not found', async () => {
+    docsCol.findOne.mockResolvedValueOnce(null);
+    const req = new NextRequest('http://localhost/api/admin/tax-documents/missing/void', {
+      method: 'POST',
+      body: JSON.stringify({ reason: 'x' }),
+    });
+    const res = await POST(req, { params: { document_id: 'missing' } });
+    expect(res.status).toBe(404);
+  });
+
+  it('rejects when reason is empty or missing', async () => {
+    docsCol.findOne.mockResolvedValueOnce({ document_id: 'doc_a', status: 'issued' });
+    const req = new NextRequest('http://localhost/api/admin/tax-documents/doc_a/void', {
+      method: 'POST',
+      body: JSON.stringify({}),
+    });
+    const res = await POST(req, { params: { document_id: 'doc_a' } });
+    expect(res.status).toBe(400);
+  });
+
+  it('is idempotent on already-void documents', async () => {
+    docsCol.findOne.mockResolvedValueOnce({
+      document_id: 'doc_a',
+      status: 'void',
+      void_reason: 'önceki neden',
+    });
+    const req = new NextRequest('http://localhost/api/admin/tax-documents/doc_a/void', {
+      method: 'POST',
+      body: JSON.stringify({ reason: 'yeni' }),
+    });
+    const res = await POST(req, { params: { document_id: 'doc_a' } });
+    expect(res.status).toBe(200);
+    expect(docsCol.updateOne).not.toHaveBeenCalled(); // already void — skip update
+    expect(auditCol.insertOne).not.toHaveBeenCalled();
+  });
+});
+```
+
+- [ ] **Step 4: Implement void endpoint**
+
+Create `app/api/admin/tax-documents/[document_id]/void/route.ts`:
+
+```typescript
+export const dynamic = 'force-dynamic';
+
+import { NextRequest, NextResponse } from 'next/server';
+import { getDb } from '@/lib/db';
+import { requireAdminOrOps } from '@/lib/authz';
+import { errorResponse, handleRouteError } from '@/lib/api-response';
+import { writeAuditEntry } from '@/lib/tax-documents/audit';
+
+export async function POST(
+  request: NextRequest,
+  { params }: { params: { document_id: string } }
+) {
+  try {
+    const admin = await requireAdminOrOps();
+    const body = await request.json().catch(() => ({}));
+    const reason = (body?.reason || '').toString().trim();
+    if (!reason) {
+      return errorResponse(
+        { code: 'INVALID_INPUT', message: 'reason is required' },
+        400
+      );
+    }
+
+    const db = await getDb();
+    const doc = await db.collection('tax_documents').findOne({
+      document_id: params.document_id,
+    });
+    if (!doc) {
+      return errorResponse({ code: 'NOT_FOUND', message: 'Document not found' }, 404);
+    }
+    if (doc.status === 'void') {
+      // Idempotent — return current state, no DB write, no audit entry.
+      return NextResponse.json({ status: 'void', already_void: true });
+    }
+
+    const voided_at = new Date();
+    await db.collection('tax_documents').updateOne(
+      { document_id: params.document_id },
+      { $set: { status: 'void', void_reason: reason, voided_at } }
+    );
+    await writeAuditEntry({
+      document_id: doc.document_id,
+      event: 'voided',
+      actor_role: 'admin',
+      actor_id: (admin as any)?.id,
+      meta: { reason },
+      ip: request.headers.get('x-forwarded-for') || undefined,
+      user_agent: request.headers.get('user-agent') || undefined,
+    });
+    return NextResponse.json({ status: 'void', voided_at });
+  } catch (error) {
+    return handleRouteError(error);
+  }
+}
+```
+
+- [ ] **Step 5: Run void tests**
+
+Run: `npx vitest run __tests__/tax-document-admin-void.test.ts`
+Expected: PASS, 4 tests.
+
+- [ ] **Step 6: Commit**
+
+```bash
+git add app/api/admin/tax-documents/route.ts app/api/admin/tax-documents/[document_id]/audit/route.ts app/api/admin/tax-documents/[document_id]/void/route.ts __tests__/tax-document-admin-void.test.ts
+git commit -m "feat(tax-documents): admin endpoints — list, audit timeline, void"
+```
+
+---
+
+### Task 27: Admin UI — `/admin/tax-documents`
+
+A minimal table view with filter controls, audit-timeline modal, and void action. UI patterns intentionally match the existing admin pages' aesthetic; refine in a follow-up if a design pass is needed.
+
+**Files:**
+- Create: `components/tax-documents/AdminAuditTimeline.tsx`
+- Create: `app/[locale]/admin/tax-documents/page.tsx`
+
+- [ ] **Step 1: Build the audit timeline component**
+
+Create `components/tax-documents/AdminAuditTimeline.tsx`:
+
+```tsx
+'use client';
+
+import { useEffect, useState } from 'react';
+
+interface AuditEvent {
+  event_id: string;
+  event: string;
+  actor_role: string;
+  actor_id?: string;
+  ip?: string;
+  user_agent?: string;
+  meta?: Record<string, unknown>;
+  at: string;
+}
+
+export function AdminAuditTimeline({ documentId, onClose }: { documentId: string; onClose: () => void }) {
+  const [events, setEvents] = useState<AuditEvent[] | null>(null);
+  useEffect(() => {
+    fetch(`/api/admin/tax-documents/${documentId}/audit`)
+      .then((r) => r.json())
+      .then((d) => setEvents(d.events));
+  }, [documentId]);
+
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        inset: 0,
+        background: 'rgba(0,0,0,0.4)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+      onClick={onClose}
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{ background: '#fff', padding: 24, maxWidth: 720, maxHeight: '80vh', overflowY: 'auto' }}
+      >
+        <h2>Audit Timeline — {documentId}</h2>
+        {!events && <p>Yükleniyor…</p>}
+        {events && events.length === 0 && <p>Kayıt yok.</p>}
+        {events && (
+          <ul style={{ listStyle: 'none', padding: 0 }}>
+            {events.map((e) => (
+              <li key={e.event_id} style={{ borderLeft: '2px solid #ccc', paddingLeft: 12, marginBottom: 12 }}>
+                <strong>{e.event}</strong> — {new Date(e.at).toLocaleString('tr-TR')}
+                <div style={{ fontSize: 12, color: '#666' }}>
+                  {e.actor_role} {e.actor_id ? `(${e.actor_id})` : ''} {e.ip ? `· ${e.ip}` : ''}
+                </div>
+                {e.meta && (
+                  <pre style={{ fontSize: 11, color: '#444' }}>
+                    {JSON.stringify(e.meta, null, 2)}
+                  </pre>
+                )}
+              </li>
+            ))}
+          </ul>
+        )}
+        <button onClick={onClose}>Kapat</button>
+      </div>
+    </div>
+  );
+}
+```
+
+- [ ] **Step 2: Build the admin page**
+
+Create `app/[locale]/admin/tax-documents/page.tsx`:
+
+```tsx
+'use client';
+
+import { useEffect, useState } from 'react';
+import { AdminAuditTimeline } from '@/components/tax-documents/AdminAuditTimeline';
+
+interface AdminDoc {
+  document_id: string;
+  document_number: string;
+  document_type: string;
+  document_class: string;
+  donor_id: string;
+  amount_total: number;
+  currency: string;
+  tax_year: number;
+  status: string;
+  created_at: string;
+}
+
+export default function AdminTaxDocumentsPage() {
+  const [docs, setDocs] = useState<AdminDoc[] | null>(null);
+  const [audit, setAudit] = useState<string | null>(null);
+  const [filter, setFilter] = useState({ year: '', status: '' });
+
+  function load() {
+    const qs = new URLSearchParams();
+    if (filter.year) qs.set('year', filter.year);
+    if (filter.status) qs.set('status', filter.status);
+    fetch(`/api/admin/tax-documents?${qs}`)
+      .then((r) => r.json())
+      .then((d) => setDocs(d.documents));
+  }
+  useEffect(load, [filter.year, filter.status]);
+
+  async function voidDoc(id: string) {
+    const reason = prompt('Belge iptali için neden gir:');
+    if (!reason) return;
+    await fetch(`/api/admin/tax-documents/${id}/void`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ reason }),
+    });
+    load();
+  }
+
+  return (
+    <main style={{ padding: 24 }}>
+      <h1>Vergi Belgeleri (Admin)</h1>
+      <div style={{ display: 'flex', gap: 12, marginBottom: 16 }}>
+        <input
+          placeholder="Yıl"
+          value={filter.year}
+          onChange={(e) => setFilter((f) => ({ ...f, year: e.target.value }))}
+        />
+        <select value={filter.status} onChange={(e) => setFilter((f) => ({ ...f, status: e.target.value }))}>
+          <option value="">Tüm durumlar</option>
+          <option value="issued">Geçerli</option>
+          <option value="void">İptal</option>
+          <option value="queued">Sırada</option>
+        </select>
+      </div>
+      <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+        <thead>
+          <tr><th>No</th><th>Tip</th><th>Donör</th><th>Tutar</th><th>Yıl</th><th>Durum</th><th></th></tr>
+        </thead>
+        <tbody>
+          {docs?.map((d) => (
+            <tr key={d.document_id} style={{ borderBottom: '1px solid #eee' }}>
+              <td>{d.document_number}</td>
+              <td>{d.document_type}</td>
+              <td>{d.donor_id}</td>
+              <td>{d.amount_total} {d.currency}</td>
+              <td>{d.tax_year}</td>
+              <td>{d.status}</td>
+              <td>
+                <button onClick={() => setAudit(d.document_id)}>Audit</button>
+                {d.status === 'issued' && <button onClick={() => voidDoc(d.document_id)}>İptal</button>}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {audit && <AdminAuditTimeline documentId={audit} onClose={() => setAudit(null)} />}
+    </main>
+  );
+}
+```
+
+- [ ] **Step 3: TypeScript check**
+
+Run: `npx tsc --noEmit`
+Expected: 0 new errors.
+
+- [ ] **Step 4: Commit**
+
+```bash
+git add components/tax-documents/AdminAuditTimeline.tsx app/[locale]/admin/tax-documents/page.tsx
+git commit -m "feat(tax-documents): admin tax-documents page with audit timeline + void"
+```
+
+---
+
+### Task 28: Tax profile — capture in checkout + dashboard editor
+
+The donor's `users.tax_profile` is the single source for `donor_snapshot`. Capture it (a) in checkout as an optional collapsible section and (b) in `/dashboard/belgeler` as an inline editor.
+
+**Files:**
+- Create: `components/tax-documents/TaxProfileForm.tsx`
+- Create: `app/api/users/me/tax-profile/route.ts`
+
+> **Note:** Wiring `<TaxProfileForm />` into the existing checkout component is intentionally left as a UI integration step the executor performs by reading the existing checkout file (it isn't in this plan's blast radius and varies across the project's checkout iterations). The form is a drop-in component once the checkout location is identified.
+
+- [ ] **Step 1: Create the API endpoint**
+
+Create `app/api/users/me/tax-profile/route.ts`:
+
+```typescript
+export const dynamic = 'force-dynamic';
+
+import { NextRequest, NextResponse } from 'next/server';
+import { getDb } from '@/lib/db';
+import { requireUser } from '@/lib/authz';
+import { handleRouteError } from '@/lib/api-response';
+import { z } from 'zod';
+
+const TaxProfileSchema = z.object({
+  profile_type: z.enum(['individual', 'corporate']),
+  full_name: z.string().min(1).max(200).optional(),
+  tax_id: z.string().min(8).max(20).optional(),
+  company_name: z.string().min(1).max(200).optional(),
+  address: z.string().max(500).optional(),
+});
+
+export async function GET() {
+  try {
+    const user = await requireUser();
+    const db = await getDb();
+    const u = await db.collection('users').findOne(
+      { _id: user.id as any },
+      { projection: { tax_profile: 1, _id: 0 } }
+    );
+    return NextResponse.json({ tax_profile: u?.tax_profile || null });
+  } catch (error) {
+    return handleRouteError(error);
+  }
+}
+
+export async function PUT(request: NextRequest) {
+  try {
+    const user = await requireUser();
+    const body = await request.json().catch(() => ({}));
+    const parsed = TaxProfileSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json({ error: 'invalid_input', issues: parsed.error.issues }, { status: 400 });
+    }
+    const db = await getDb();
+    await db.collection('users').updateOne(
+      { _id: user.id as any },
+      { $set: { tax_profile: parsed.data } }
+    );
+    return NextResponse.json({ ok: true });
+  } catch (error) {
+    return handleRouteError(error);
+  }
+}
+```
+
+- [ ] **Step 2: Create the form component**
+
+Create `components/tax-documents/TaxProfileForm.tsx`:
+
+```tsx
+'use client';
+
+import { useEffect, useState } from 'react';
+
+interface TaxProfile {
+  profile_type: 'individual' | 'corporate';
+  full_name?: string;
+  tax_id?: string;
+  company_name?: string;
+  address?: string;
+}
+
+export function TaxProfileForm({ onSaved }: { onSaved?: () => void }) {
+  const [profile, setProfile] = useState<TaxProfile>({ profile_type: 'individual' });
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    fetch('/api/users/me/tax-profile')
+      .then((r) => r.json())
+      .then((d) => d.tax_profile && setProfile(d.tax_profile));
+  }, []);
+
+  async function save() {
+    setSaving(true);
+    await fetch('/api/users/me/tax-profile', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(profile),
+    });
+    setSaving(false);
+    onSaved?.();
+  }
+
+  return (
+    <fieldset style={{ padding: 16, border: '1px solid #ddd', marginBottom: 16 }}>
+      <legend>Vergi Belgesi Bilgileri (opsiyonel)</legend>
+      <label>
+        <input
+          type="radio"
+          checked={profile.profile_type === 'individual'}
+          onChange={() => setProfile((p) => ({ ...p, profile_type: 'individual' }))}
+        />{' '}
+        Bireysel
+      </label>
+      <label style={{ marginLeft: 16 }}>
+        <input
+          type="radio"
+          checked={profile.profile_type === 'corporate'}
+          onChange={() => setProfile((p) => ({ ...p, profile_type: 'corporate' }))}
+        />{' '}
+        Kurumsal
+      </label>
+
+      <div style={{ marginTop: 12 }}>
+        {profile.profile_type === 'individual' ? (
+          <>
+            <input
+              placeholder="Ad Soyad"
+              value={profile.full_name || ''}
+              onChange={(e) => setProfile((p) => ({ ...p, full_name: e.target.value }))}
+            />
+            <input
+              placeholder="TCKN (opsiyonel)"
+              value={profile.tax_id || ''}
+              onChange={(e) => setProfile((p) => ({ ...p, tax_id: e.target.value }))}
+            />
+          </>
+        ) : (
+          <>
+            <input
+              placeholder="Şirket Ünvanı"
+              value={profile.company_name || ''}
+              onChange={(e) => setProfile((p) => ({ ...p, company_name: e.target.value }))}
+            />
+            <input
+              placeholder="VKN"
+              value={profile.tax_id || ''}
+              onChange={(e) => setProfile((p) => ({ ...p, tax_id: e.target.value }))}
+            />
+          </>
+        )}
+        <input
+          placeholder="Adres (opsiyonel)"
+          value={profile.address || ''}
+          onChange={(e) => setProfile((p) => ({ ...p, address: e.target.value }))}
+        />
+      </div>
+
+      <button onClick={save} disabled={saving} style={{ marginTop: 12 }}>
+        {saving ? 'Kaydediliyor…' : 'Kaydet'}
+      </button>
+    </fieldset>
+  );
+}
+```
+
+- [ ] **Step 3: Wire into dashboard belgeler page**
+
+Edit `app/[locale]/dashboard/belgeler/page.tsx` to render `<TaxProfileForm />` above `<DocumentList />`:
+
+```tsx
+import { DocumentList } from '@/components/tax-documents/DocumentList';
+import { TaxProfileForm } from '@/components/tax-documents/TaxProfileForm';
+
+export default function BelgelerPage() {
+  return (
+    <main style={{ maxWidth: 960, margin: '32px auto', padding: 24 }}>
+      <h1>Vergi Belgelerim</h1>
+      <p style={{ color: '#555', marginBottom: 24 }}>
+        Bağışlarınız için düzenlenen makbuzları ve yıllık özetleri buradan indirebilirsiniz.
+      </p>
+      <TaxProfileForm />
+      <DocumentList />
+    </main>
+  );
+}
+```
+
+- [ ] **Step 4: Identify checkout integration site (manual)**
+
+Run: `git grep -l "donations/checkout\|CheckoutForm\|donate" app/`
+Open the donation form component the executor finds. Add `<TaxProfileForm />` inside the existing form, behind a "Vergi belgesi istiyorum" toggle. Document the exact file/line modified in the commit message — it varies between project iterations so keep this scoped.
+
+- [ ] **Step 5: TypeScript + commit**
+
+Run: `npx tsc --noEmit`
+Expected: 0 new errors.
+
+```bash
+git add app/api/users/me/tax-profile/route.ts components/tax-documents/TaxProfileForm.tsx app/[locale]/dashboard/belgeler/page.tsx
+# plus whichever checkout component you wired
+git commit -m "feat(tax-documents): tax profile capture (dashboard + checkout) and PUT /api/users/me/tax-profile"
+```
+
+---
+
+### Task 29: Backfill script for already-paid donations
+
+Dev-only one-off that enqueues `receipt` jobs for every donation in the current tax year that does not yet have a `tax_documents` row.
+
+**Files:**
+- Create: `scripts/backfill-tax-documents.ts`
+- Modify: `package.json` (add `scripts` entry)
+
+- [ ] **Step 1: Create the script**
+
+```typescript
+import { getDb } from '@/lib/db';
+import { enqueueReceiptJob } from '@/lib/tax-documents/jobs';
+
+async function main() {
+  if (process.env.NODE_ENV === 'production') {
+    console.error('Refusing to backfill in production. Set NODE_ENV=development.');
+    process.exit(1);
+  }
+  const db = await getDb();
+  const yearStart = new Date(Date.UTC(new Date().getUTCFullYear(), 0, 1));
+  const donations = await db
+    .collection('donations')
+    .find({
+      payment_status: { $in: ['paid', 'completed'] },
+      created_at: { $gte: yearStart },
+    })
+    .project({ donation_id: 1, _id: 0 })
+    .toArray();
+
+  console.log(`Found ${donations.length} candidate donations`);
+  let enqueued = 0;
+  for (const d of donations as any[]) {
+    if (!d.donation_id) continue;
+    await enqueueReceiptJob(d.donation_id);
+    enqueued++;
+  }
+  console.log(`Enqueued ${enqueued} receipt jobs (idempotency rules apply — duplicates skipped).`);
+  process.exit(0);
+}
+
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
+```
+
+- [ ] **Step 2: Add npm script**
+
+Add to `package.json` `scripts`:
+
+```json
+"backfill:tax-docs": "tsx scripts/backfill-tax-documents.ts"
+```
+
+(If the project uses `ts-node` instead of `tsx`, match that.)
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add scripts/backfill-tax-documents.ts package.json
+git commit -m "chore(tax-documents): one-off backfill script for existing paid donations"
+```
+
+---
+
+### Task 30: Final rollout artifacts
+
+**Files:**
+- Modify: `vercel.json` (verify both crons present)
+- Create: `docs/TAX_DOCUMENTS_RELEASE_NOTES.md`
+
+- [ ] **Step 1: Confirm vercel.json contains both crons**
+
+Open `vercel.json` and confirm both entries are present:
+
+```json
+{
+  "crons": [
+    { "path": "/api/cron/process-documents", "schedule": "*/1 * * * *" },
+    { "path": "/api/cron/annual-summaries", "schedule": "0 6 15 1 *" }
+  ]
+}
+```
+
+If the Vercel plan caps cron frequency, downgrade `process-documents` to `*/15 * * * *` and document the downgrade in the release notes.
+
+- [ ] **Step 2: Write release notes**
+
+Create `docs/TAX_DOCUMENTS_RELEASE_NOTES.md`:
+
+```markdown
+# Tax Document Automation — Release Notes
+
+## What shipped (P09)
+- Per-donation receipt PDFs (auto-issued on paid donations)
+- Yearly consolidated summary PDFs (cron + manual donor trigger)
+- QR-based public verification (`/verify/<code>`)
+- Donor document center (`/dashboard/belgeler`)
+- Admin oversight (`/admin/tax-documents`) with audit trail and void action
+- Hybrid legal model: official makbuz vs. informal teyit belgesi based on campaign beneficiary
+
+## Required env vars (production)
+- `TAX_DOCUMENT_HMAC_SECRET` — 32 bytes base64; never rotate after launch (would invalidate existing verifications)
+- `TAX_DOCUMENT_FUND_ED_VKN` — FundEd's tax identification number (printed on every receipt)
+- `TAX_DOCUMENT_TAX_EXEMPTION_REF` — tax exemption decision reference (printed on official receipts)
+- `CRON_SECRET` — required by `/api/cron/*` handlers
+
+## Operational gates before production launch
+1. **Legal review** — confirm wording in `lib/tax-documents/render.tsx` (`LegalNoteBlock`) with a Turkish accountant. Status: ☐ pending
+2. **Vercel cron plan** — confirm the plan supports the schedules in `vercel.json`. Status: ☐ confirmed
+3. **Cloudinary signing** — confirm signed URLs are enabled for the `tax_documents/` folder. Status: ☐ confirmed
+4. **Backfill** — run `npm run backfill:tax-docs` in staging; spot-check a generated PDF; then run in production. Status: ☐ done in staging / ☐ done in prod
+5. **Audit retention** — pick TTL for `verified` events; current default is no TTL. Status: ☐ decision recorded
+
+## Post-launch checks
+- After cron's first run, confirm `document_jobs` drains.
+- Confirm `/verify/<code>` renders Turkish characters (Ş, Ç, ğ, ı) correctly.
+- Spot-check that `/dashboard/belgeler` and `/api/tax-documents/[id]/download` return signed URLs.
+- Confirm a refund/iade triggers admin void (manual workflow).
+
+## Known limitations (out of v1 scope)
+- Multi-language documents (TR only)
+- e-Signature / KEP integration
+- Real-time websocket notification when document ready
+- Document amendments (immutable; correction = void + new document)
+```
+
+- [ ] **Step 3: Commit**
+
+```bash
+git add vercel.json docs/TAX_DOCUMENTS_RELEASE_NOTES.md
+git commit -m "docs(tax-documents): release notes + final cron registration"
+```
+
+---
+
+### Chunk 6 wrap-up
+
+- [ ] **Step 1: Run all Chunk 6 tests**
+
+Run: `npx vitest run __tests__/tax-document-admin-void.test.ts`
+Expected: 4 tests pass.
+
+- [ ] **Step 2: Run full project test suite (final regression)**
+
+Run: `npx vitest run`
+Expected: tax-documents tests total = 6 + 5 + 8 + 9 + 3 + 4 + 3 + 5 + 3 + 4 = 50 passing across all chunks. No previously-passing test now failing.
+
+- [ ] **Step 3: Final typecheck + lint**
+
+Run: `npx tsc --noEmit && npm run lint -- --quiet 2>nul`
+Expected: 0 type errors.
+
+- [ ] **Step 4: Manual end-to-end smoke**
+
+In a dev environment with MongoDB, Cloudinary, and `CRON_SECRET` set:
+
+1. Make a donation as a donor and complete iyzico sandbox callback.
+2. Within 60s the cron creates a `tax_documents` row.
+3. Visit `/dashboard/belgeler` → row appears, "İndir" button returns a PDF.
+4. Open the QR target URL `/verify/<code>` → masked donor name + valid badge.
+5. Sign in as admin → `/admin/tax-documents` lists the doc → click Audit → see `issued`, `downloaded`, `verified` events.
+6. Click İptal → confirm `/verify/<code>` now shows void state.
+7. (Optional) Run `npm run backfill:tax-docs` to confirm idempotency on existing donations.
+
+If all green, mark the plan complete and proceed to merge.
+
+---
+
+## Plan complete
+
+All six chunks are independently committed and reviewer-approved. Execution path:
+
+1. Fresh worktree per chunk (use `superpowers:using-git-worktrees`).
+2. Use `superpowers:subagent-driven-development` to dispatch each task.
+3. Run the chunk wrap-up before moving on.
+4. Final smoke test in Chunk 6 wrap-up Step 4 is the last gate before merge.
