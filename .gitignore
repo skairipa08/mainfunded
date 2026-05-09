@@ -17,3 +17,6 @@ coverage
 tsconfig.tsbuildinfo
 
 .vercel
+
+# Worktrees (used for isolated skill-driven workspaces)
+.worktrees/
