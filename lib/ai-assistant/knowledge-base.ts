@@ -515,7 +515,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     category: 'security',
     keywords: ['güvence', 'garanti', 'bağış güvencesi', '%100', 'korunma', 'charity guarantee'],
     question: 'Bağış güvencesi nedir?',
-    answer: 'FundEd %100 Bağış Güvencesi sunar! 🛡️\n\n✅ Bağışınız %100 doğrudan seçtiğiniz öğrenciye ulaşır.\n✅ Platform işletme giderleri bağışlarınızdan kesilmez — ayrı kurumsal sponsorluklarla karşılanır.\n✅ Öğrenci doğrulanamazsa veya kampanya iptal edilirse, bağışınızın %100\'ü 5-7 iş günü içinde iade edilir.\n\nGüvence Süreci:\n1️⃣ Bağış Yap → 2️⃣ Doğrulama → 3️⃣ Öğrenciye Ulaşım → 4️⃣ Rapor Al',
+    answer: 'FundEd %100 Bağış Güvencesi sunar! 🛡️\n\n✅ Bağışınız %100 doğrudan seçtiğiniz öğrenciye ulaşır.\n✅ Platform işletme giderleri bağışlarınızdan kesilmez — ayrı kurumsal sponsorluklarla karşılanır.\n✅ Şeffaf raporlama ve doğrulama sistemi ile bağışınızın nereye gittiğini takip edebilirsiniz.\n\nGüvence Süreci:\n1️⃣ Bağış Yap → 2️⃣ Doğrulama → 3️⃣ Öğrenciye Ulaşım → 4️⃣ Rapor Al',
     followUp: 'Güvenle bağış yapmak ister misiniz?',
     priority: 10,
   },
@@ -524,7 +524,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     category: 'security',
     keywords: ['iade süresi', 'geri ödeme', 'kaç gün', '5 gün', '7 gün', 'iade politikası'],
     question: 'İade süresi ne kadar?',
-    answer: 'FundEd iade politikası:\n\n⏱️ İade Süresi: 5-7 iş günü\n\nİade durumları:\n- Bağış yaptığınız öğrenci doğrulanamazsa\n- Kampanya iptal edilirse\n- Yanlışlıkla yapılan bağışlar (getsfunded@gmail.com\'a yazın)\n\n💡 Normal şartlarda bağışlar geri alınamaz çünkü doğrudan öğrenciye aktarılır.',
+    answer: 'Bağış politikası hakkında detaylı bilgi için destek ekibimize yazabilirsiniz: getsfunded@gmail.com\n\n💡 Bağışlar doğrudan öğrenciye aktarılır. Özel durumlar için lütfen bizimle iletişime geçin.',
     priority: 7,
   },
   {
