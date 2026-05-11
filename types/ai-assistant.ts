@@ -7,10 +7,10 @@ export type MessageSender = 'bot' | 'user';
 export type ChatStep =
   | 'welcome'
   | 'ask_field'
-  | 'ask_gender'
+  | 'ask_gender'   // @deprecated — removed from flow, kept for type compatibility
   | 'ask_budget'
   | 'ask_priority'
-  | 'ask_country'
+  | 'ask_country'  // @deprecated — removed from flow, kept for type compatibility
   | 'searching'
   | 'results'
   | 'faq'

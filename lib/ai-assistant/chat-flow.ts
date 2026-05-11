@@ -167,10 +167,8 @@ export function getNextStep(currentStep: ChatStep): ChatStep {
   const flow: ChatStep[] = [
     'welcome',
     'ask_field',
-    'ask_gender',
     'ask_budget',
     'ask_priority',
-    'ask_country',
     'searching',
     'results',
   ];

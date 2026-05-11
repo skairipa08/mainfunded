@@ -282,17 +282,11 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
       case 'ask_field':
         newPrefs.field = value;
         break;
-      case 'ask_gender':
-        newPrefs.gender = value;
-        break;
       case 'ask_budget':
         newPrefs.budget = value;
         break;
       case 'ask_priority':
         newPrefs.priority = value;
-        break;
-      case 'ask_country':
-        newPrefs.country = value;
         break;
     }
 
@@ -300,7 +294,7 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
 
     const nextStep = getNextStep(currentStep);
 
-    if (nextStep === 'searching' || currentStep === 'ask_country') {
+    if (nextStep === 'searching' || currentStep === 'ask_priority') {
       // All questions answered — fetch recommendations
       setCurrentStep('searching');
       await addBotMessage(getSearchingMessage(), 400);
