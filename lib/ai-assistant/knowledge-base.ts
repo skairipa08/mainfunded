@@ -958,6 +958,137 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     answer: '💙 Her bağış bir umut yeşertir — birlikte değişimi yaratıyoruz.\n\n🌟 Bağışınız sadece para değil:\n- Bir öğrencinin geleceğine yatırım\n- Bir ailenin umuduna katkı\n- Bir toplumun dönüşümüne destek\n\n📖 "Bir çocuğa eğitim vermek, bir yaşamı değiştirmek değildir. Bir nesli dönüştürmektir."\n\n🦋 Kelebek etkisi: Bir bağış → Bir mezuniyet → Bir kariyer → Yüzlerce hayata dokunuş\n\n"Eğitime erişimi demokratikleştiren topluluğumuza katılın." 🎓',
     priority: 9,
   },
+
+  // ─── ÖDEME ──────────────────────────────────────────────────
+  {
+    id: 'payment-1',
+    category: 'payment',
+    keywords: ['kart', 'kredi', 'banka', 'ödeme', 'ödeme yöntemi', 'hangi kart', 'visa', 'mastercard'],
+    question: 'Hangi kartlarla ödeme yapabilirim?',
+    answer: 'Visa, Mastercard ve Troy logolu tüm banka ve kredi kartlarıyla güvenle bağış yapabilirsiniz. Ödeme işlemleri 3D Secure teknolojisiyle korunur.',
+    followUp: 'Başka bir sorunuz var mı?',
+    priority: 8,
+  },
+  {
+    id: 'payment-2',
+    category: 'payment',
+    keywords: ['taksit', 'taksitli', 'aylık', 'peşin'],
+    question: 'Taksitli bağış yapabilir miyim?',
+    answer: 'Aylık düzenli bağış seçeneğimiz var! Kampanya sayfasında "Aylık bağış" seçeneğini işaretleyerek belirlediğiniz tutarı her ay otomatik olarak bağışlayabilirsiniz. Tek seferlik veya taksitli banka ödemesi için bankanızın kart taksit seçeneklerini kullanabilirsiniz.',
+    priority: 7,
+  },
+  {
+    id: 'payment-3',
+    category: 'payment',
+    keywords: ['yabancı kart', 'uluslararası', 'dolar', 'euro', 'döviz', 'türkiye dışı'],
+    question: 'Yurt dışındaki bir kartla bağış yapabilir miyim?',
+    answer: 'Evet! Uluslararası Visa ve Mastercard kartlarla yurt dışından bağış yapabilirsiniz. Ödeme Türk Lirası üzerinden gerçekleşir; döviz çevrimi bankanız tarafından yapılır.',
+    priority: 6,
+  },
+
+  // ─── HUKUKİ / VERGİ ─────────────────────────────────────────
+  {
+    id: 'legal-1',
+    category: 'legal',
+    keywords: ['makbuz', 'bağış makbuzu', 'dekont', 'fiş', 'belge', 'fatura'],
+    question: 'Bağış makbuzu alabilir miyim?',
+    answer: 'Her bağış sonrasında e-posta adresinize otomatik olarak bağış dekontu gönderilir. Hesabınızın "Bağışlarım" bölümünden geçmiş bağışlarınızın dekontlarına erişebilirsiniz.',
+    priority: 7,
+  },
+  {
+    id: 'legal-2',
+    category: 'legal',
+    keywords: ['vergi', 'vergi indirimi', 'vergi avantajı', 'beyanname', 'gelir vergisi'],
+    question: 'Vergi indirimi alabilir miyim?',
+    answer: 'Vergi avantajları bireysel durumunuza ve bağışın yapıldığı kuruma göre değişiklik gösterir. Bu konuda muhasebe danışmanınıza veya getsfunded@gmail.com adresine yazmanızı öneririz.',
+    priority: 6,
+  },
+
+  // ─── ÖĞRENCİ BAŞVURUSU ──────────────────────────────────────
+  {
+    id: 'student-apply-1',
+    category: 'student',
+    keywords: ['öğrenci başvuru', 'nasıl başvuru', 'başvurma', 'kayıt', 'kampanya aç', 'öğrenci olarak'],
+    question: 'Öğrenci olarak nasıl başvurabilirim?',
+    answer: 'Başvuru adımları:\n\n1️⃣ Ana sayfadan "Başvur" butonuna tıklayın\n2️⃣ Öğrenci formunu doldurun (kişisel bilgiler, okul, bölüm)\n3️⃣ Belgelerinizi yükleyin\n4️⃣ Ekibimiz başvurunuzu inceler (1-3 iş günü)\n5️⃣ Onay sonrası kampanyanız yayına girer\n\nDetaylı bilgi: getsfunded@gmail.com',
+    priority: 7,
+  },
+  {
+    id: 'student-apply-2',
+    category: 'student',
+    keywords: ['belge', 'evrak', 'gerekli', 'öğrenci belgesi', 'transkript', 'kayıt belgesi'],
+    question: 'Başvuru için hangi belgeler gerekiyor?',
+    answer: 'Başvuru için genellikle şunlar istenir:\n\n📄 Öğrenci belgesi (güncel)\n📊 Transkript veya not ortalaması belgesi\n🪪 Kimlik belgesi\n\nEk belgeler duruma göre talep edilebilir. Sorularınız için: getsfunded@gmail.com',
+    priority: 6,
+  },
+
+  // ─── BAĞIŞ / PARA TRANSFERİ ─────────────────────────────────
+  {
+    id: 'donation-transfer-1',
+    category: 'donation',
+    keywords: ['para nasıl', 'transfer', 'ulaşır', 'öğrenciye gider', 'nereye gidiyor', 'kim alır'],
+    question: 'Bağışım öğrenciye nasıl ulaşır?',
+    answer: 'Kampanya hedefine ulaştığında bağış tutarı, ekibimiz tarafından doğrulanmış öğrencinin banka hesabına aktarılır. Ödeme doğrudan öğrenciye yapılır; aracı kurum ücreti bağıştan kesilmez.',
+    followUp: 'Şeffaf sürecimiz hakkında başka sorunuz var mı?',
+    priority: 8,
+  },
+  {
+    id: 'donation-transfer-2',
+    category: 'donation',
+    keywords: ['ne zaman', 'kaç gün', 'süre', 'transfer süresi', 'bekleme'],
+    question: 'Bağışım ne zaman öğrenciye ulaşır?',
+    answer: 'Kampanya hedefine ulaştıktan sonra transfer işlemi genellikle 3-5 iş günü içinde tamamlanır. Süreç içinde hem bağışçıya hem öğrenciye bildirim gönderilir.',
+    priority: 7,
+  },
+
+  // ─── GÜVENLİK ───────────────────────────────────────────────
+  {
+    id: 'security-card-1',
+    category: 'security',
+    keywords: ['kart güvenli', 'kart bilgisi', 'güvende mi', 'çalınır mı', 'dolandırıcılık'],
+    question: 'Kart bilgilerim güvende mi?',
+    answer: 'Evet! Kart bilgileriniz FundEd sunucularında saklanmaz. Tüm ödeme işlemleri PCI-DSS sertifikalı ödeme altyapısı üzerinden gerçekleşir. Kart numaranız şifreli olarak yalnızca ödeme sağlayıcısına iletilir.',
+    priority: 9,
+  },
+  {
+    id: 'security-3dsecure-1',
+    category: 'security',
+    keywords: ['3d secure', '3ds', 'sms onay', 'doğrulama', 'şifre', 'ssl'],
+    question: '3D Secure ve SSL koruması var mı?',
+    answer: 'Evet, tüm ödemeler 256-bit SSL şifreleme ve 3D Secure ile korunur. Ödeme sırasında bankanızdan SMS veya uygulama onayı alırsınız. Bu sistem kartın gerçek sahibinin siz olduğunuzu doğrular.',
+    priority: 8,
+  },
+
+  // ─── KURUMSAL ───────────────────────────────────────────────
+  {
+    id: 'corporate-1',
+    category: 'corporate',
+    keywords: ['şirket', 'kurumsal', 'toplu bağış', 'firma', 'kurum', 'iş yeri', 'csr', 'sosyal sorumluluk'],
+    question: 'Şirket olarak toplu bağış yapabilir miyim?',
+    answer: 'Kesinlikle! Kurumsal bağış ve sosyal sorumluluk programları için özel çözümlerimiz var. Kurumsal Dashboard üzerinden toplu bağış yönetimi, etki raporları ve özel kampanyalar oluşturabilirsiniz.\n\nDetaylı bilgi için: getsfunded@gmail.com',
+    followUp: 'Kurumsal Dashboard hakkında bilgi almak ister misiniz?',
+    priority: 7,
+  },
+
+  // ─── MENTORLUK ──────────────────────────────────────────────
+  {
+    id: 'mentor-1',
+    category: 'mentor',
+    keywords: ['mentor', 'mentorluk', 'rehber', 'para değil', 'gönüllü', 'destek başka', 'tavsiye', 'yönlendirme'],
+    question: 'Para yerine mentorluk desteği verebilir miyim?',
+    answer: 'Evet! FundEd\'de mentorluk programı da var. Öğrencilere kariyer rehberliği, CV/mülakat hazırlığı veya alan uzmanlığınızla destek olabilirsiniz. Mentör olmak için getsfunded@gmail.com adresine yazın.',
+    priority: 6,
+  },
+
+  // ─── KAMPANYA İPTALİ ────────────────────────────────────────
+  {
+    id: 'campaign-cancel-1',
+    category: 'campaign',
+    keywords: ['kampanya iptal', 'iptal olursa', 'bağış geri', 'hedef dolmaz', 'başarısız kampanya'],
+    question: 'Kampanya hedefine ulaşamazsa ne olur?',
+    answer: 'Kampanya süresi dolduğunda hedefe ulaşılamamışsa bağışçılar bilgilendirilir. Detaylı politika için getsfunded@gmail.com adresine yazabilirsiniz.',
+    priority: 7,
+  },
 ];
 
 // ═══════════════════════════════════════════════════════════════
