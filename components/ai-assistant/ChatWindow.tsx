@@ -168,9 +168,10 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
         }
       } else {
         await addBotMessage(
-          botMessage('Hmm, bunu tam anlayamadım 🤔 Başka türlü sormayı dener misiniz?', [
+          botMessage('Bu konuyu bilgi tabanımda bulamadım 🤔\n\nDestek ekibimize yazın: getsfunded@gmail.com', [
+            { label: '📧 Mail gönder', value: 'support_email' },
             { label: '🎯 Öğrenci bul', value: 'find_student' },
-            { label: '❓ Nasıl çalışır?', value: 'ask_how' },
+            { label: '🏠 Ana menü', value: 'home' },
           ]),
           500,
         );

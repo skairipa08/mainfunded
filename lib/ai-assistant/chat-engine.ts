@@ -254,9 +254,9 @@ function processKnowledgeQuery(query: string): ChatEngineResponse {
     return {
       messages: [botMessage(getFallbackResponse())],
       quickReplies: [
+        { label: '📧 Mail gönder', value: 'support_email' },
         { label: '🎯 Öğrenci bul', value: 'find_student' },
-        { label: '❓ Nasıl çalışır?', value: 'ask_how' },
-        { label: '🔒 Güvenilir mi?', value: 'ask_trust' },
+        { label: '🏠 Ana menü', value: 'home' },
       ],
     };
   }
@@ -295,6 +295,11 @@ export function getKnowledgeById(id: string): ChatEngineResponse {
   if (!entry) {
     return {
       messages: [botMessage(getFallbackResponse())],
+      quickReplies: [
+        { label: '📧 Mail gönder', value: 'support_email' },
+        { label: '🎯 Öğrenci bul', value: 'find_student' },
+        { label: '🏠 Ana menü', value: 'home' },
+      ],
     };
   }
 

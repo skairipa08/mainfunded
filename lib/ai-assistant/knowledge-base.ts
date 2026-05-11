@@ -1249,9 +1249,9 @@ export function getRandomMotivation(): KnowledgeEntry {
 
 /** Bilinmeyen sorular için fallback cevaplar */
 const FALLBACK_RESPONSES = [
-  'Bu konuda kesin bir bilgim yok ama size başka konularda yardımcı olabilirim! 🤔\n\n💡 Şunları deneyebilirsiniz:\n- "Nasıl bağış yapabilirim?"\n- "Bana öğrenci öner"\n- "FundEd nedir?"',
-  'Hmm, bu soruyu tam anlayamadım. 🤔 Başka bir şekilde sormayı deneyebilir misiniz? Ya da şu konularda yardımcı olabilirim:\n\n🎯 Öğrenci eşleştirme\n💝 Bağış süreci\n🔒 Güvenlik bilgisi',
-  'Bu konuda detaylı bilgi için getsfunded@gmail.com adresine yazabilirsiniz. 📧\n\nBen şu konularda yardımcı olabilirim:\n- Platform hakkında bilgi\n- Bağış süreci\n- Öğrenci önerisi\n\nNe sormak istersiniz? 😊',
+  'Bu konuyu bilgi tabanımda bulamadım 🤔\n\nDestek ekibimize yazın: getsfunded@gmail.com',
+  'Bu soruyu tam anlayamadım 🤔\n\nDestek ekibimize yazın: getsfunded@gmail.com',
+  'Bu konuda kesin bilgim yok 🤔\n\nDestek ekibimize yazın: getsfunded@gmail.com',
 ];
 
 export function getFallbackResponse(): string {
