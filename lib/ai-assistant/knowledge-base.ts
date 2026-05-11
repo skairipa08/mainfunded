@@ -1006,14 +1006,17 @@ function getRelatedCategories(category: KnowledgeCategory): KnowledgeCategory[] 
  * Hem keyword eşleşmesi hem de fuzzy matching kullanır.
  * İlgili sorular aynı veya yakın kategoriden seçilir.
  */
+export const MIN_CONFIDENCE_SCORE = 15;
+
 export function searchKnowledge(query: string): {
   entry: KnowledgeEntry | null;
   related: KnowledgeEntry[];
+  score: number;
 } {
   const normalizedQuery = normalizeText(query);
   const queryWords = normalizedQuery.split(/\s+/).filter((w) => w.length > 1);
 
-  if (queryWords.length === 0) return { entry: null, related: [] };
+  if (queryWords.length === 0) return { entry: null, related: [], score: 0 };
 
   const scored: { entry: KnowledgeEntry; score: number; keywordHits: number }[] = [];
 
@@ -1068,15 +1071,15 @@ export function searchKnowledge(query: string): {
   scored.sort((a, b) => b.score - a.score);
 
   // Minimum eşik
-  const threshold = 5;
-  const best = scored[0]?.score >= threshold ? scored[0].entry : null;
+  const best = scored[0]?.score >= MIN_CONFIDENCE_SCORE ? scored[0].entry : null;
+  const topScore = scored[0]?.score ?? 0;
 
   // İlgili sorular: aynı veya yakın kategoriden seçilir
   // Farklı konudaki entry'ler önerilmez — bu sayede alakasız takip soruları engellenir
   let related: KnowledgeEntry[] = [];
   if (best) {
     const relatedCategories = getRelatedCategories(best.category);
-    const relatedThreshold = threshold * 1.5; // related için daha yüksek eşik
+    const relatedThreshold = MIN_CONFIDENCE_SCORE * 1.5; // related için daha yüksek eşik
 
     // Önce aynı kategoriden eşleşmeleri bul
     const sameCategoryEntries = scored.filter(
@@ -1104,7 +1107,7 @@ export function searchKnowledge(query: string): {
     ].slice(0, 2);
   }
 
-  return { entry: best, related };
+  return { entry: best, related, score: topScore };
 }
 
 /** Rastgele motivasyon mesajı döndür */

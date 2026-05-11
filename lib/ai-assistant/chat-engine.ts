@@ -10,6 +10,7 @@ import {
   getUpcomingSpecialDay,
   getTodaySpecialDay,
   getRandomMotivation,
+  MIN_CONFIDENCE_SCORE,
   type KnowledgeEntry,
   type SpecialDayInfo,
 } from './knowledge-base';
@@ -247,9 +248,9 @@ export function processUserMessage(
 // ─── Knowledge base sorgusu ──────────────────────────────────
 
 function processKnowledgeQuery(query: string): ChatEngineResponse {
-  const { entry, related } = searchKnowledge(query);
+  const { entry, related, score } = searchKnowledge(query);
 
-  if (!entry) {
+  if (!entry || score < MIN_CONFIDENCE_SCORE) {
     return {
       messages: [botMessage(getFallbackResponse())],
       quickReplies: [
