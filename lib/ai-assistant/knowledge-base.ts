@@ -134,7 +134,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     category: 'donation',
     keywords: ['iade', 'geri', 'iptal', 'vazgeç', 'geri al', 'para iade', 'refund', 'cancel'],
     question: 'Bağışımı geri alabilir miyim?',
-    answer: 'FundEd bağış güvencesi kapsamında:\n\n✅ Bağış yaptığınız öğrenci doğrulanamazsa veya kampanya iptal edilirse, bağışınızın %100\'ü 5-7 iş günü içinde iade edilir.\n\n⚠️ Normal koşullarda bağışlar geri alınamaz çünkü doğrudan öğrenciye aktarılır.\n📧 Yanlışlıkla yapılan bağışlar için info@funded.com adresine yazabilirsiniz.\n\n🔒 Bağışınız %100 doğrudan seçtiğiniz öğrenciye ulaşır — platform işletme giderleri bağışlarınızdan kesilmez, ayrı kurumsal sponsorluklarla karşılanır.',
+    answer: 'FundEd bağış güvencesi kapsamında:\n\n✅ Bağış yaptığınız öğrenci doğrulanamazsa veya kampanya iptal edilirse, bağışınızın %100\'ü 5-7 iş günü içinde iade edilir.\n\n⚠️ Normal koşullarda bağışlar geri alınamaz çünkü doğrudan öğrenciye aktarılır.\n📧 Yanlışlıkla yapılan bağışlar için getsfunded@gmail.com adresine yazabilirsiniz.\n\n🔒 Bağışınız %100 doğrudan seçtiğiniz öğrenciye ulaşır — platform işletme giderleri bağışlarınızdan kesilmez, ayrı kurumsal sponsorluklarla karşılanır.',
     priority: 7,
   },
   {
@@ -160,7 +160,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     category: 'payment',
     keywords: ['vergi', 'vergi indirimi', 'makbuz', 'fatura', 'vergi avantajı', 'tax', 'receipt'],
     question: 'Vergi indirimi alabilir miyim?',
-    answer: 'FundEd bir kitlesel fonlama platformu olarak hizmet vermektedir. Vergi indirimi konusunda kesin bilgi için mali müşavirinize danışmanızı öneririz.\n\n📄 Bağış makbuzunuzu profil sayfanızdan indirebilirsiniz.\n📧 Detaylı bilgi için: info@funded.com',
+    answer: 'FundEd bir kitlesel fonlama platformu olarak hizmet vermektedir. Vergi indirimi konusunda kesin bilgi için mali müşavirinize danışmanızı öneririz.\n\n📄 Bağış makbuzunuzu profil sayfanızdan indirebilirsiniz.\n📧 Detaylı bilgi için: getsfunded@gmail.com',
     priority: 6,
   },
   {
@@ -417,7 +417,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     category: 'technical',
     keywords: ['hata', 'sorun', 'çalışmıyor', 'bug', 'problem', 'yardım', 'destek ekibi'],
     question: 'Bir sorun yaşıyorum, nasıl destek alabilirim?',
-    answer: 'Size yardımcı olmak istiyoruz! 🛠️\n\n📧 E-posta: info@funded.com\n🤖 AI Asistan: Bana sorabilirsiniz!\n\nSık yaşanan sorunlar:\n- Sayfa yüklenmiyorsa → Tarayıcı önbelleğini temizleyin\n- Ödeme hatası → Kart bilgilerinizi kontrol edin\n- Giriş sorunu → Şifre sıfırlama yapın\n\nSorunuzu detaylıca anlatırsanız yardımcı olmaya çalışırım!',
+    answer: 'Size yardımcı olmak istiyoruz! 🛠️\n\n📧 E-posta: getsfunded@gmail.com\n🤖 AI Asistan: Bana sorabilirsiniz!\n\nSık yaşanan sorunlar:\n- Sayfa yüklenmiyorsa → Tarayıcı önbelleğini temizleyin\n- Ödeme hatası → Kart bilgilerinizi kontrol edin\n- Giriş sorunu → Şifre sıfırlama yapın\n\nSorunuzu detaylıca anlatırsanız yardımcı olmaya çalışırım!',
     priority: 8,
   },
   {
@@ -524,7 +524,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     category: 'security',
     keywords: ['iade süresi', 'geri ödeme', 'kaç gün', '5 gün', '7 gün', 'iade politikası'],
     question: 'İade süresi ne kadar?',
-    answer: 'FundEd iade politikası:\n\n⏱️ İade Süresi: 5-7 iş günü\n\nİade durumları:\n- Bağış yaptığınız öğrenci doğrulanamazsa\n- Kampanya iptal edilirse\n- Yanlışlıkla yapılan bağışlar (info@funded.com\'a yazın)\n\n💡 Normal şartlarda bağışlar geri alınamaz çünkü doğrudan öğrenciye aktarılır.',
+    answer: 'FundEd iade politikası:\n\n⏱️ İade Süresi: 5-7 iş günü\n\nİade durumları:\n- Bağış yaptığınız öğrenci doğrulanamazsa\n- Kampanya iptal edilirse\n- Yanlışlıkla yapılan bağışlar (getsfunded@gmail.com\'a yazın)\n\n💡 Normal şartlarda bağışlar geri alınamaz çünkü doğrudan öğrenciye aktarılır.',
     priority: 7,
   },
   {
@@ -887,7 +887,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     category: 'technical',
     keywords: ['iletişim', 'destek', 'email', 'mail', 'contact', 'ulaşım', 'info'],
     question: 'FundEd\'e nasıl ulaşabilirim?',
-    answer: 'FundEd İletişim:\n\n📧 E-posta: info@funded.com\n🤖 AI Asistan: Ben her zaman buradayım!\n🌐 Website: funded.com\n\n📱 Sosyal Medya:\n🐦 Twitter\n📘 Facebook\n📸 Instagram\n\n© 2026 FundEd. Tüm hakları saklıdır.',
+    answer: 'FundEd İletişim:\n\n📧 E-posta: getsfunded@gmail.com\n🤖 AI Asistan: Ben her zaman buradayım!\n🌐 Website: funded.com\n\n📱 Sosyal Medya:\n🐦 Twitter\n📘 Facebook\n📸 Instagram\n\n© 2026 FundEd. Tüm hakları saklıdır.',
     priority: 7,
   },
 
@@ -1117,7 +1117,7 @@ export function getRandomMotivation(): KnowledgeEntry {
 const FALLBACK_RESPONSES = [
   'Bu konuda kesin bir bilgim yok ama size başka konularda yardımcı olabilirim! 🤔\n\n💡 Şunları deneyebilirsiniz:\n- "Nasıl bağış yapabilirim?"\n- "Bana öğrenci öner"\n- "FundEd nedir?"',
   'Hmm, bu soruyu tam anlayamadım. 🤔 Başka bir şekilde sormayı deneyebilir misiniz? Ya da şu konularda yardımcı olabilirim:\n\n🎯 Öğrenci eşleştirme\n💝 Bağış süreci\n🔒 Güvenlik bilgisi',
-  'Bu konuda detaylı bilgi için info@funded.com adresine yazabilirsiniz. 📧\n\nBen şu konularda yardımcı olabilirim:\n- Platform hakkında bilgi\n- Bağış süreci\n- Öğrenci önerisi\n\nNe sormak istersiniz? 😊',
+  'Bu konuda detaylı bilgi için getsfunded@gmail.com adresine yazabilirsiniz. 📧\n\nBen şu konularda yardımcı olabilirim:\n- Platform hakkında bilgi\n- Bağış süreci\n- Öğrenci önerisi\n\nNe sormak istersiniz? 😊',
 ];
 
 export function getFallbackResponse(): string {
@@ -1134,7 +1134,7 @@ export function getTimeBasedGreeting(): string {
 }
 
 /** Tüm özel günler — SPECIAL_DAYS (notifications.ts) ile senkronize, tam liste */
-import { SPECIAL_DAYS } from '@/types/notifications';
+import { SPECIAL_DAYS, resolveSpecialDayDateForYear } from '@/types/notifications';
 
 export interface SpecialDayInfo {
   title: string;
@@ -1159,11 +1159,7 @@ export function getUpcomingSpecialDay(maxDaysAhead = 3): SpecialDayInfo | null {
   let closest: SpecialDayInfo | null = null;
 
   for (const sd of SPECIAL_DAYS) {
-    // SPECIAL_DAYS tarihlerinden ay-gün çıkar (yıl-bağımsız)
-    const parts = sd.date.split('-');
-    const month = parseInt(parts[1], 10) - 1;
-    const day = parseInt(parts[2], 10);
-    const eventDate = new Date(currentYear, month, day);
+    const eventDate = new Date(resolveSpecialDayDateForYear(sd, currentYear));
     eventDate.setHours(0, 0, 0, 0);
 
     const diffDays = Math.round(
