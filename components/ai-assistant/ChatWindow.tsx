@@ -200,9 +200,9 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
     }
 
     if (value === 'support_email') {
-      window.open('mailto:getsfunded@gmail.com', '_blank');
+      window.location.href = 'mailto:getsfunded@gmail.com';
       await addBotMessage(
-        botMessage('Mail uygulamanız açıldı 📧 Yardımcı olmaktan memnuniyet duyarız!', [
+        botMessage('Destek ekibimize ulaşabilirsiniz 📧\n\ngetsfunded@gmail.com', [
           { label: '🎯 Öğrenci bul', value: 'find_student' },
           { label: '🏠 Ana menü', value: 'home' },
         ])
