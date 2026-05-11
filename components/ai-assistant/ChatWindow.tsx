@@ -199,6 +199,17 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
       return;
     }
 
+    if (value === 'support_email') {
+      window.open('mailto:getsfunded@gmail.com', '_blank');
+      await addBotMessage(
+        botMessage('Mail uygulamanız açıldı 📧 Yardımcı olmaktan memnuniyet duyarız!', [
+          { label: '🎯 Öğrenci bul', value: 'find_student' },
+          { label: '🏠 Ana menü', value: 'home' },
+        ])
+      );
+      return;
+    }
+
     if (value === 'find_student') {
       // Reset preferences and start flow
       setPreferences({});
@@ -220,6 +231,11 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
 
     if (value === 'ask_trust') {
       await fetchChatResponse('FundEd güvenilir mi?');
+      return;
+    }
+
+    if (value === 'ask_payment') {
+      await fetchChatResponse('Hangi kartlarla ödeme yapabilirim?');
       return;
     }
 

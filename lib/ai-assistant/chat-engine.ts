@@ -110,7 +110,9 @@ export function generateWelcomeResponse(): ChatEngineResponse {
       { label: '🎯 Öğrenci bul', value: 'find_student' },
       { label: '❓ Nasıl çalışır?', value: 'ask_how' },
       { label: '🔒 Güvenilir mi?', value: 'ask_trust' },
+      { label: '💳 Ödeme yöntemleri', value: 'ask_payment' },
       { label: '📋 Kampanyaları gör', value: 'browse' },
+      { label: '📧 Destek', value: 'support_email' },
     ],
   };
 }
