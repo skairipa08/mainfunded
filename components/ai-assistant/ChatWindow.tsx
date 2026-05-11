@@ -342,6 +342,19 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
     }
   };
 
+  /** Handle thumbs up/down feedback on bot messages */
+  const handleFeedback = async (messageId: string, type: 'positive' | 'negative') => {
+    console.log('chatbot_feedback', { type, messageId, timestamp: Date.now() });
+    if (type === 'negative') {
+      await addBotMessage(
+        botMessage(
+          'Üzgünüm 😔 Daha iyi yardım için destek ekibimize yazabilirsiniz: getsfunded@gmail.com',
+          [{ label: '📧 Mail gönder', value: 'support_email' }]
+        )
+      );
+    }
+  };
+
   /** Reset the conversation */
   const handleReset = () => {
     setMessages([]);
@@ -403,7 +416,7 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
         className="flex-1 overflow-y-auto p-4 space-y-1 scroll-smooth"
       >
         {messages.map((msg) => (
-          <MessageBubble key={msg.id} message={msg} />
+          <MessageBubble key={msg.id} message={msg} onFeedback={handleFeedback} />
         ))}
 
         {/* Recommendations */}
