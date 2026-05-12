@@ -24,6 +24,7 @@ Bu spec üç iyileştirmeyi tanımlar.
 - Tam morfolojik analiz (Zemberek vb. kütüphane kullanımı)
 - Öneri motoru (recommendation-engine.ts) değişikliği
 - Çok dil desteği — tüm logic Türkçe için
+- `lib/mentorship/matching.ts` içindeki `normalizeText` fonksiyonu — bu bağımsız bir implementasyon, `tr-TR` locale ve NFD normalizasyonu kullanır; bu spec kapsamında kesinlikle değiştirilmez
 
 ---
 
@@ -50,7 +51,7 @@ export function stemTurkish(word: string): string
 - Min kök uzunluğu: 4 karakter (daha kısa ise orijinal döner)
 - Sonekler **en uzundan en kısaya** sırayla denenir, ilk eşleşmede durulur
 
-**Soyulan sonekler (normalize edilmiş haliyle):**
+**Soyulan sonekler (normalize edilmiş haliyle, orijinal Türkçe karşılığıyla):**
 
 | Sonek (ASCII) | Orijinal | Örnek |
 |---|---|---|
@@ -75,15 +76,15 @@ export function stemTurkish(word: string): string
 | `lar` | -lar | bagislar → bagis |
 | `ler` | -ler | odemeler → odeme |
 | `dan` | -dan | bagisdan → bagis |
-| `den` | -den | odenden → oden |
+| `den` | -den | |
 | `tan` | -tan | |
 | `ten` | -ten | |
 | `lik` | -lik | guvenlik → guven |
 | `luk` | -luk | |
 | `mak` | -mak | odemek → ode |
 | `mek` | -mek | |
-| `mis` | -miş | odenmis → oden |
-| `dis` | -diş | |
+| `mis` | -miş | gelmis → gel |
+| `mus` | -muş | olmus → ol (4 char guard: ol=2, döner: "olmus") |
 | `im` | -im | bagisim → bagis |
 | `in` | -ın/-in | |
 | `da` | -da | kampanyada → kampanya |
@@ -95,30 +96,26 @@ export function stemTurkish(word: string): string
 | `ya` | -ya | |
 | `ye` | -ye | |
 
-**Kritik kural:** Sonek soyulduktan sonra kök `>= 4` karakter olmalı; aksi halde orijinal kelime döner.
+**Kritik kural:** Sonek soyulduktan sonra kök `>= 4` karakter olmalı; aksi halde orijinal kelime döner. Bu kural, `-da/-de/-ta/-te` gibi lokativ soneklerinin kısa kelimelerde yanlış soyulmasını engeller ("ada" → "a" yerine "ada" döner). Bazı kelimelerde lokativ soyma yanlış pozitif üretebilir — bu, kural tabanlı bir sistemde kabul edilmiş bir trade-off'tur; domain kelime dağarcığı dikkate alındığında etkisi düşüktür.
 
 ### `knowledge-base.ts` entegrasyonu
 
-`searchKnowledge()` içinde:
+`searchKnowledge()` içinde sorgu kelimeleri hem orijinal hem stem haliyle eşleştirilir:
 
 ```ts
-// Mevcut
-const queryWords = normalizedQuery.split(/\s+/).filter(w => w.length > 1);
-
-// Yeni — stemmed versiyonlar da eklenir
 const stemmedQueryWords = queryWords.map(stemTurkish);
 
-// Keyword eşleştirmede hem orijinal hem stem karşılaştırılır
-const nk = normalizeText(keyword);
+// Keyword loop içinde, mevcut logic'e ek olarak:
 const nkStem = stemTurkish(nk);
-
-if (normalizedQuery.includes(nk)) { score += 10 * nk.length; }
-// ...mevcut logic...
-// Ek stem eşleşmesi:
 for (const sw of stemmedQueryWords) {
-  if (nkStem === sw && sw.length >= 4) { score += 7; keywordHits++; }
+  if (nkStem === sw && sw.length >= 4) {
+    score += 7; // exact-word (+8) altında, partial (+3) üstünde — stem daha belirsizdir
+    keywordHits++;
+  }
 }
 ```
+
+Stem eşleşmesi `+7` puan alır: exact-word (`+8`) ile partial (`+3`) arasında kasıtlı olarak konumlandırılmıştır çünkü stem eşleşmeleri daha yüksek belirsizlik taşır.
 
 ---
 
@@ -128,10 +125,26 @@ for (const sw of stemmedQueryWords) {
 
 ```ts
 export const SYNONYM_GROUPS: string[][] = [ ... ]
-export function expandSynonyms(words: string[]): string[]
+export function expandSynonyms(queryWords: string[]): string[]
 ```
 
-`expandSynonyms()`: her kelime için ait olduğu sinonim grubunu bulur, tüm grup üyelerini sonuç listesine ekler (duplicate'ler kaldırılır).
+`expandSynonyms()` **yalnızca tek kelimeli** sinonimler üzerinde çalışır ve kelime listesi döner. Çok kelimeli sinonimler (`'kredi karti'`, `'para gonder'` vb.) `searchKnowledge()` içinde `normalizedQuery.includes(multiWordSynonym)` ile ayrıca kontrol edilir — bu sorumluluk `expandSynonyms`'a ait değildir.
+
+```ts
+export function expandSynonyms(queryWords: string[]): string[] {
+  const expanded = new Set(queryWords);
+  for (const group of SYNONYM_GROUPS) {
+    const singleWordMembers = group.filter(s => !s.includes(' '));
+    const hit = singleWordMembers.some(synonym => queryWords.includes(synonym));
+    if (hit) {
+      singleWordMembers.forEach(synonym => expanded.add(synonym));
+    }
+  }
+  return Array.from(expanded);
+}
+```
+
+Sinonim eşleşmesi `keywordHits`'i artırır (aşağıdaki entegrasyon pseudocode'da gösterilmiştir).
 
 **Sinonim Grupları (normalize edilmiş):**
 
@@ -158,16 +171,27 @@ export function expandSynonyms(words: string[]): string[]
   // Şirket/Kurumsal
   ['sirket', 'kurumsal', 'firma', 'corporate', 'isyeri'],
   // Mentorluk
-  ['mentorлuk', 'mentor', 'rehber', 'koçluk', 'kocluk'],
+  ['mentorluk', 'mentor', 'rehber', 'kocluk'],
 ]
 ```
 
 ### `knowledge-base.ts` entegrasyonu
 
 ```ts
+// Tek kelimeli sinonim genişletme
 const expandedQueryWords = expandSynonyms(queryWords);
-// expandedQueryWords = [...queryWords, ...synonym_matches]
-// Keyword eşleştirmede expandedQueryWords kullanılır
+
+// Çok kelimeli sinonim kontrolü — normalizedQuery üzerinde doğrudan
+for (const group of SYNONYM_GROUPS) {
+  const multiWordHit = group.some(s => s.includes(' ') && normalizedQuery.includes(s));
+  if (multiWordHit) {
+    group.filter(s => !s.includes(' ')).forEach(s => {
+      if (!expandedQueryWords.includes(s)) expandedQueryWords.push(s);
+    });
+  }
+}
+
+// keyword loop'unda expandedQueryWords kullanılır, eşleşme bulunursa keywordHits artırılır
 ```
 
 ---
@@ -185,14 +209,14 @@ export function fuzzyMatchScore(queryWord: string, keyword: string): number
 - Her iki kelime de `>= 5` karakter olmalı
 - Levenshtein distance `<= 1` ise `2` puan döner
 - Aksi halde `0` döner
-- `distance == 0` ise zaten mevcut exact match logic yakalıyor, burada skip edilir
+- `distance == 0` ise zaten mevcut exact match logic yakalıyor — burada skip
 
 ### `knowledge-base.ts` entegrasyonu
 
-Mevcut keyword loop'unun sonuna eklenir:
+Fuzzy matching, **sadece o entry için `keywordHits === 0`** olduğunda devreye girer. Hem exact/stem hem de sinonim eşleşmeleri `keywordHits`'i artırdığından, bu guard her üç önceki katmanı da doğru şekilde kapsar:
 
 ```ts
-// Fuzzy bonus — sadece exact/stem eşleşme bulunamazsa devreye girer
+// Keyword loop bittikten SONRA:
 if (keywordHits === 0) {
   for (const word of queryWords) {
     for (const keyword of entry.keywords) {
@@ -210,6 +234,8 @@ if (keywordHits === 0) {
 `normalizeText()` `knowledge-base.ts`'den `text-utils.ts`'e taşınır.
 `knowledge-base.ts`'de `export { normalizeText } from './text-utils'` re-export eklenir — **geriye uyumluluk korunur.**
 
+**Önemli:** `lib/mentorship/matching.ts` dosyası kendi bağımsız `normalizeText` implementasyonunu barındırır (`toLocaleLowerCase('tr-TR')` + NFD). Bu dosyaya dokunulmaz.
+
 ---
 
 ## Etkilenen Dosyalar
@@ -217,18 +243,20 @@ if (keywordHits === 0) {
 | Dosya | Değişiklik |
 |---|---|
 | `lib/ai-assistant/text-utils.ts` | **YENİ** — normalizeText, stemTurkish, SYNONYM_GROUPS, expandSynonyms, levenshtein, fuzzyMatchScore |
-| `lib/ai-assistant/knowledge-base.ts` | normalizeText kaldırılır (re-export), searchKnowledge stem+sinonim+fuzzy entegrasyonu |
+| `lib/ai-assistant/knowledge-base.ts` | normalizeText import'u güncellenir (re-export), searchKnowledge stem+sinonim+fuzzy entegrasyonu |
 | `__tests__/lib/ai-assistant/text-utils.test.ts` | **YENİ** — tüm fonksiyonlar için birim testler |
 
 ---
 
 ## Test Senaryoları
 
-| Girdi | Beklenen eşleşme |
-|---|---|
-| "ödemeleri" | payment entry (stem: ode) |
-| "visa ile bağış yapabilir miyim" | payment-cards entry (sinonim: visa→kart) |
-| "güvenlik" | security entry (stem: guven) |
-| "bağiş" (typo) | donation entry (fuzzy: bagis) |
-| "kampanyada ne olur" | campaign entry (stem: kampanya) |
-| "şirket olarak destek" | corporate entry (sinonim: sirket→kurumsal) |
+| Girdi | Beklenen eşleşme | Tetiklenen katman |
+|---|---|---|
+| "ödemeleri" | payment entry | stem: `odemeler` + `i` → `odeme` (`leri` soyulur, 5 char, geçerli) |
+| "visa ile bağış yapabilir miyim" | payment-cards entry | sinonim: `visa` → `kart` grubu (tek kelime) |
+| "kredi kartı var mı" | payment-cards entry | sinonim: `kredi karti` çok kelimeli — `normalizedQuery.includes` ile yakalanır |
+| "guvenlik" | security entry | stem: `guvenlik` → `guven`; ayrıca sinonim: `guven` grubu |
+| "bağiş" (typo) | donation entry | fuzzy: `bagis` edit distance 1 |
+| "kampanyada ne olur" | campaign entry | stem: `kampanyada` → `kampanya` |
+| "şirket olarak destek" | corporate entry | sinonim: `sirket` → `kurumsal` grubu |
+| "mentorluk yapabilir miyim" | mentor entry | sinonim: `mentorluk` → mentor grubu |
