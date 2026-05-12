@@ -30,6 +30,7 @@ const SUFFIXES = [
   'mak',         'mek',
   'mis',         'mus',
   'im',          'in',
+  'is',
   'da',          'de',    'ta',   'te',
   'yi',          'yu',    'ya',   'ye',
 ];
@@ -41,6 +42,10 @@ const SUFFIXES = [
 export function stemTurkish(word: string): string {
   for (const suffix of SUFFIXES) {
     if (word.endsWith(suffix) && word.length - suffix.length >= 4) {
+      // Special case: 'is' suffix should not strip from 'lmis' words (past tense)
+      if (suffix === 'is' && word.endsWith('lmis')) {
+        continue; // Skip this suffix and try the next one
+      }
       return word.slice(0, word.length - suffix.length);
     }
   }
