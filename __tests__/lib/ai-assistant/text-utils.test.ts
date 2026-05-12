@@ -62,6 +62,14 @@ describe('stemTurkish', () => {
     expect(stemTurkish('ada')).toBe('ada');
   });
 
+  it('does not over-strip past-tense words ending in -lmis via -is suffix', () => {
+    // 'gelmis' ends with 'lmis' → guard prevents -is from stripping
+    expect(stemTurkish('gelmis')).toBe('gelmis');
+    // 'kilmis' (6 chars) - 'mis' (3) = 'kil' (3 chars) < 4 min → not stripped
+    // Also ends with 'lmis', so -is suffix guard also applies
+    expect(stemTurkish('kilmis')).toBe('kilmis');
+  });
+
   it('strips longest matching suffix first', () => {
     // 'leri' (4) beats 'ler' (3) and 'i' (1)
     expect(stemTurkish('kampanyaleri')).toBe('kampanya');
