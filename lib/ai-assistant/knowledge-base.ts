@@ -3,6 +3,15 @@
 // Sitedeki tüm bilgilerden derlenen kapsamlı bilgi tabanı
 // ═══════════════════════════════════════════════════════════════
 
+import {
+  normalizeText,
+  stemTurkish,
+  expandSynonyms,
+  fuzzyMatchScore,
+  SYNONYM_GROUPS,
+} from './text-utils';
+export { normalizeText } from './text-utils';
+
 export interface KnowledgeEntry {
   id: string;
   category: KnowledgeCategory;
@@ -1095,20 +1104,6 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
 // ARAMA MOTORU
 // ═══════════════════════════════════════════════════════════════
 
-/** Türkçe karakterleri normalize eder ve küçük harfe çevirir */
-function normalizeText(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/ı/g, 'i')
-    .replace(/ğ/g, 'g')
-    .replace(/ü/g, 'u')
-    .replace(/ş/g, 's')
-    .replace(/ö/g, 'o')
-    .replace(/ç/g, 'c')
-    .replace(/[^a-z0-9\s]/g, '')
-    .trim();
-}
-
 /** Birbiriyle ilişkili kategori grupları — aynı grup içindeki kategoriler related olabilir */
 const RELATED_CATEGORY_GROUPS: KnowledgeCategory[][] = [
   ['about', 'how_it_works', 'impact'],
@@ -1149,6 +1144,22 @@ export function searchKnowledge(query: string): {
 
   if (queryWords.length === 0) return { entry: null, related: [], score: 0 };
 
+  // Stem query words (run after normalization)
+  const stemmedQueryWords = queryWords.map(stemTurkish);
+
+  // Single-word synonym expansion
+  const expandedQueryWords = expandSynonyms(queryWords);
+
+  // Multi-word synonym expansion — check against full normalizedQuery
+  for (const group of SYNONYM_GROUPS) {
+    const multiWordHit = group.some(s => s.includes(' ') && normalizedQuery.includes(s));
+    if (multiWordHit) {
+      group
+        .filter(s => !s.includes(' '))
+        .forEach(s => { if (!expandedQueryWords.includes(s)) expandedQueryWords.push(s); });
+    }
+  }
+
   const scored: { entry: KnowledgeEntry; score: number; keywordHits: number }[] = [];
 
   for (const entry of KNOWLEDGE_BASE) {
@@ -1165,10 +1176,10 @@ export function searchKnowledge(query: string): {
         keywordHits++;
       }
 
-      // Kelime bazlı eşleşme (tam kelime eşleşmeleri)
-      for (const word of queryWords) {
+      // Kelime bazlı eşleşme — sinonimlerle genişletilmiş kelime listesi kullanılır
+      for (const word of expandedQueryWords) {
         if (nk === word) {
-          score += 8;  // tam kelime eşleşmesi
+          score += 8;
           keywordHits++;
         } else if (nk.includes(word) && word.length >= 4) {
           score += 3;
@@ -1177,10 +1188,27 @@ export function searchKnowledge(query: string): {
           score += 3;
           keywordHits++;
         }
-        // Kök eşleşme: sadece 4+ karakter ve çok kısa olmayan kelimeler
-        // (3 karakter kök eşleşmesi çok fazla yanlış pozitif üretiyor)
         if (word.length >= 5 && nk.length >= 5 && word.substring(0, 4) === nk.substring(0, 4)) {
           score += 1;
+        }
+      }
+
+      // Stem eşleşmesi — +7 (exact-word +8 altında, partial +3 üstünde)
+      const nkStem = stemTurkish(nk);
+      for (const sw of stemmedQueryWords) {
+        if (sw.length >= 4 && nkStem === sw) {
+          score += 7;
+          keywordHits++;
+        }
+      }
+    }
+
+    // Fuzzy fallback — sadece hiç keyword hit yoksa devreye girer
+    if (keywordHits === 0) {
+      for (const word of queryWords) {
+        for (const kw of entry.keywords) {
+          const bonus = fuzzyMatchScore(word, normalizeText(kw));
+          if (bonus > 0) { score += bonus; }
         }
       }
     }
