@@ -83,7 +83,7 @@ export function stemTurkish(word: string): string
 | `luk` | -luk | |
 | `mak` | -mak | odemek → ode |
 | `mek` | -mek | |
-| `mis` | -miş | gelmis → gel |
+| `mis` | -miş | odemis → odem (4 char, geçerli); gelmis → gelmis (gel=3, guard) |
 | `mus` | -muş | olmus → ol (4 char guard: ol=2, döner: "olmus") |
 | `im` | -im | bagisim → bagis |
 | `in` | -ın/-in | |
