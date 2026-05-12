@@ -7,6 +7,7 @@ import { storage } from '@/lib/storage';
 import { calculateFileHash, sanitizeFileName, validateFile } from '@/lib/verification/upload';
 import {
   ExpenditureRecord,
+  ExpenditureStatus,
   getCampaignFinancialSummary,
   isValidExpenditureCategory,
   withReceiptUrl,
@@ -56,12 +57,12 @@ export async function GET(request: NextRequest) {
     const isOwner = !!session && campaign.owner_id === session.id;
     const canSeeAll = isModerator || isOwner;
 
-    let statusFilter = 'approved';
+    let statusFilter: ExpenditureStatus = 'approved';
     if (canSeeAll && requestedStatus && ['pending', 'approved', 'rejected'].includes(requestedStatus)) {
-      statusFilter = requestedStatus;
+      statusFilter = requestedStatus as ExpenditureStatus;
     }
 
-    const expenditures = await db.collection('expenditures')
+    const expenditures = await db.collection<ExpenditureRecord>('expenditures')
       .find(
         {
           campaign_id: campaignId,

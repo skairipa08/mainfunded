@@ -21,8 +21,7 @@ interface CreateNotificationParams {
   metadata?: Record<string, unknown>;
 }
 
-export const DEFAULT_NOTIFICATION_PREFERENCES: NotificationPreferences = {
-  userId: '',
+export const DEFAULT_NOTIFICATION_PREFERENCES: Omit<NotificationPreferences, 'userId'> = {
   email: true,
   push: true,
   donationReminders: true,
@@ -155,8 +154,8 @@ export async function getNotificationPreferences(
     if (existing) {
       return {
         ...DEFAULT_NOTIFICATION_PREFERENCES,
-        userId,
         ...existing,
+        userId,
         reminderRules: getNormalizedReminderRules(existing.reminderRules),
       };
     }
@@ -188,8 +187,8 @@ export async function getNotificationPreferences(
 
   return {
     ...DEFAULT_NOTIFICATION_PREFERENCES,
-    userId,
     ...preferences,
+    userId,
     reminderRules: getNormalizedReminderRules(preferences.reminderRules),
   } as NotificationPreferences;
 }
@@ -319,9 +318,15 @@ async function markRuleTriggered(
   });
 }
 
-export async function maybeCreateMonthlyDonationReminder(userId: string) {
+export async function maybeCreateMonthlyDonationReminder(
+  userId: string,
+  prefetched?: NotificationPreferences
+) {
+  // Skip immediately on days 29-31 — reminderDay is always ≤ 28.
+  if (new Date().getDate() > 28) return null;
+
   const db = await getDbSafe();
-  const preferences = await getNotificationPreferences(userId);
+  const preferences = prefetched ?? (await getNotificationPreferences(userId));
 
   if (!db) {
     return null;
@@ -391,8 +396,11 @@ export async function maybeCreateMonthlyDonationReminder(userId: string) {
   return notification;
 }
 
-export async function maybeCreateSpecialDayReminders(userId: string) {
-  const preferences = await getNotificationPreferences(userId);
+export async function maybeCreateSpecialDayReminders(
+  userId: string,
+  prefetched?: NotificationPreferences
+) {
+  const preferences = prefetched ?? (await getNotificationPreferences(userId));
   const today = new Date();
   const todayMonthDay = `${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
   const currentYearMonth = `${today.getFullYear()}-${String(today.getMonth() + 1).padStart(2, '0')}`;
@@ -428,6 +436,18 @@ export async function maybeCreateSpecialDayReminders(userId: string) {
 
   await markRuleTriggered(userId, rule.id, today.toISOString());
   return notification;
+}
+
+/**
+ * Run both monthly and special-day reminder checks with a single preferences fetch.
+ * Fire-and-forget from the notifications GET handler.
+ */
+export async function maybeTriggerReminders(userId: string): Promise<void> {
+  const preferences = await getNotificationPreferences(userId);
+  await Promise.all([
+    maybeCreateMonthlyDonationReminder(userId, preferences),
+    maybeCreateSpecialDayReminders(userId, preferences),
+  ]);
 }
 
 /**
