@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
 import { auth } from '@/auth';
+<<<<<<< Updated upstream
+=======
+import { maybeTriggerReminders } from '@/lib/notification-helpers';
+>>>>>>> Stashed changes
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -20,19 +24,19 @@ export async function GET(request: NextRequest) {
 
     const db = await getDb();
 
+<<<<<<< Updated upstream
+=======
+    // Fire-and-forget: runs once per day at most; must not block the response.
+    maybeTriggerReminders(userId).catch(() => {});
+
+>>>>>>> Stashed changes
     const query: any = { userId };
     if (unreadOnly) query.read = false;
 
-    const notifications = await db
-      .collection('notifications')
-      .find(query)
-      .sort({ timestamp: -1 })
-      .limit(limit)
-      .toArray();
-
-    const unreadCount = await db
-      .collection('notifications')
-      .countDocuments({ userId, read: false });
+    const [notifications, unreadCount] = await Promise.all([
+      db.collection('notifications').find(query).sort({ timestamp: -1 }).limit(limit).toArray(),
+      db.collection('notifications').countDocuments({ userId, read: false }),
+    ]);
 
     return NextResponse.json({
       notifications: notifications.map((n) => ({
