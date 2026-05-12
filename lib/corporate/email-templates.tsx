@@ -21,12 +21,12 @@ export function BudgetThreshold80Email(props: Props80) {
     <Html>
       <Body>
         <Container>
-          <Heading>Bütçenizin %80'i kullanıldı</Heading>
+          <Heading>Bütçenizin %80&apos;i kullanıldı</Heading>
           <Section>
             <Text>Sayın {companyName} yetkilisi,</Text>
             <Text>
               {periodKey} dönemi için belirlediğiniz {limitTRY.toLocaleString('tr-TR')} TL aylık eşleştirme bütçesinin
-              %80'i ({spentTRY.toLocaleString('tr-TR')} TL) kullanılmıştır.
+              %80&apos;i ({spentTRY.toLocaleString('tr-TR')} TL) kullanılmıştır.
             </Text>
             <Text>
               Yeni eşleştirmeler bütçe tükenene kadar normal şekilde işlenecektir. Limit dolduğunda

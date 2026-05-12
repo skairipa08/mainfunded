@@ -1,0 +1,139 @@
+<h2>Karşılaştırma Tablosu Stili</h2>
+<p class="subtitle">Blog yazılarındaki platform karşılaştırma tabloları nasıl görünmeli?</p>
+
+<div class="cards">
+
+  <!-- Option A: Minimal striped -->
+  <div class="card" data-choice="minimal-striped" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff;padding:12px;border-radius:8px;border:1px solid #e2e8f0;">
+      <div style="overflow:hidden;border-radius:8px;border:1px solid #e2e8f0;font-size:8px;">
+        <div style="display:grid;grid-template-columns:1.2fr 0.8fr 1fr 0.7fr;background:#0f172a;color:white;font-weight:600;">
+          <div style="padding:6px 8px;">Platform</div>
+          <div style="padding:6px 8px;">Odak</div>
+          <div style="padding:6px 8px;">Doğrulama</div>
+          <div style="padding:6px 8px;">ESG</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1.2fr 0.8fr 1fr 0.7fr;background:#f0fdf4;border-bottom:1px solid #dcfce7;">
+          <div style="padding:5px 8px;font-weight:700;color:#065f46;">⭐ FundEd</div>
+          <div style="padding:5px 8px;color:#065f46;">Eğitim</div>
+          <div style="padding:5px 8px;color:#065f46;">✅ Tam</div>
+          <div style="padding:5px 8px;color:#065f46;">✅</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1.2fr 0.8fr 1fr 0.7fr;background:white;border-bottom:1px solid #f1f5f9;">
+          <div style="padding:5px 8px;color:#0f172a;">GoFundMe</div>
+          <div style="padding:5px 8px;color:#64748b;">Genel</div>
+          <div style="padding:5px 8px;color:#ef4444;">❌ Yok</div>
+          <div style="padding:5px 8px;color:#ef4444;">❌</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1.2fr 0.8fr 1fr 0.7fr;background:#f8fafc;border-bottom:1px solid #f1f5f9;">
+          <div style="padding:5px 8px;color:#0f172a;">DonorsChoose</div>
+          <div style="padding:5px 8px;color:#64748b;">Sınıf</div>
+          <div style="padding:5px 8px;color:#065f46;">✅ Öğretmen</div>
+          <div style="padding:5px 8px;color:#f59e0b;">⚠️</div>
+        </div>
+        <div style="display:grid;grid-template-columns:1.2fr 0.8fr 1fr 0.7fr;background:white;">
+          <div style="padding:5px 8px;color:#0f172a;">Kiva</div>
+          <div style="padding:5px 8px;color:#64748b;">Mikro kredi</div>
+          <div style="padding:5px 8px;color:#065f46;">✅ Ortak</div>
+          <div style="padding:5px 8px;color:#f59e0b;">⚠️</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Minimal Striped</h3>
+      <p>Koyu başlık, FundEd satırı yeşil vurgulu, alternatif şerit arka planlar. Sade ve okunabilir.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Card-based comparison -->
+  <div class="card" data-choice="card-comparison" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8fafc;padding:12px;border-radius:8px;">
+      <!-- FundEd highlight card on top -->
+      <div style="background:linear-gradient(135deg,#0f172a,#1e3a5f);border-radius:8px;padding:10px 12px;margin-bottom:8px;color:white;display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-size:7px;color:#10b981;font-weight:700;text-transform:uppercase;letter-spacing:.05em;margin-bottom:3px;">⭐ Önerilen</div>
+          <div style="font-size:11px;font-weight:800;">FundEd</div>
+          <div style="font-size:7px;color:#94a3b8;margin-top:2px;">Eğitim · Global · ESG</div>
+        </div>
+        <div style="text-align:right;font-size:8px;">
+          <div style="color:#10b981;margin-bottom:2px;">✅ Tam Doğrulama</div>
+          <div style="color:#10b981;margin-bottom:2px;">✅ ESG Rapor</div>
+          <div style="color:#10b981;">✅ Global</div>
+        </div>
+      </div>
+      <!-- Competitors mini-list -->
+      <div style="display:flex;flex-direction:column;gap:4px;">
+        <div style="background:white;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;display:flex;justify-content:space-between;font-size:8px;">
+          <span style="font-weight:600;color:#0f172a;">GoFundMe</span>
+          <span style="color:#94a3b8;">Genel · ❌ · ❌</span>
+        </div>
+        <div style="background:white;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;display:flex;justify-content:space-between;font-size:8px;">
+          <span style="font-weight:600;color:#0f172a;">DonorsChoose</span>
+          <span style="color:#94a3b8;">Sınıf · ✅ · ⚠️ Sadece ABD</span>
+        </div>
+        <div style="background:white;border:1px solid #e2e8f0;border-radius:6px;padding:6px 10px;display:flex;justify-content:space-between;font-size:8px;">
+          <span style="font-weight:600;color:#0f172a;">Kiva</span>
+          <span style="color:#94a3b8;">Kredi · ✅ · ⚠️</span>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Kart Bazlı Karşılaştırma</h3>
+      <p>FundEd öne çıkan koyu kartta, rakipler altında sade listede. Hiyerarşik, kazanan nettir.</p>
+    </div>
+  </div>
+
+  <!-- Option C: Scored comparison -->
+  <div class="card" data-choice="scored" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#fff;padding:12px;border-radius:8px;border:1px solid #e2e8f0;">
+      <div style="font-size:7px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Puan Karşılaştırması</div>
+      <!-- Score bars -->
+      <div style="display:flex;flex-direction:column;gap:7px;">
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:8px;margin-bottom:2px;">
+            <span style="font-weight:700;color:#0f172a;">⭐ FundEd</span>
+            <span style="color:#10b981;font-weight:700;">9.5/10</span>
+          </div>
+          <div style="background:#e2e8f0;border-radius:4px;height:6px;overflow:hidden;">
+            <div style="background:#10b981;width:95%;height:100%;border-radius:4px;"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:8px;margin-bottom:2px;">
+            <span style="color:#0f172a;">GoFundMe</span>
+            <span style="color:#64748b;">5.0/10</span>
+          </div>
+          <div style="background:#e2e8f0;border-radius:4px;height:6px;overflow:hidden;">
+            <div style="background:#94a3b8;width:50%;height:100%;border-radius:4px;"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:8px;margin-bottom:2px;">
+            <span style="color:#0f172a;">DonorsChoose</span>
+            <span style="color:#64748b;">7.0/10</span>
+          </div>
+          <div style="background:#e2e8f0;border-radius:4px;height:6px;overflow:hidden;">
+            <div style="background:#6366f1;width:70%;height:100%;border-radius:4px;"></div>
+          </div>
+        </div>
+        <div>
+          <div style="display:flex;justify-content:space-between;font-size:8px;margin-bottom:2px;">
+            <span style="color:#0f172a;">Kiva</span>
+            <span style="color:#64748b;">6.5/10</span>
+          </div>
+          <div style="background:#e2e8f0;border-radius:4px;height:6px;overflow:hidden;">
+            <div style="background:#f59e0b;width:65%;height:100%;border-radius:4px;"></div>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:8px;font-size:7px;color:#94a3b8;">Eğitim odağı, doğrulama, ESG ve kapsam puanlarına göre</div>
+    </div>
+    <div class="card-body">
+      <h3>C — Puanlı Bar Grafik</h3>
+      <p>Her platform için görsel puan barı. Çok dinamik ve sürükleyici ama subjektif görünebilir.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:24px;">Birini seçin veya kombinasyon söyleyin.</p>

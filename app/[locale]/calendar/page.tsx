@@ -7,6 +7,8 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import DonationCalendar from '@/components/calendar/DonationCalendar';
 import { Loader2, CalendarDays } from 'lucide-react';
+import Link from 'next/link';
+import { Button } from '@/components/ui/button';
 import type { Metadata } from 'next';
 import { useTranslation } from "@/lib/i18n/context";
 
@@ -94,16 +96,21 @@ export default function CalendarPage() {
       <main className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Page Header */}
         <div className="mb-8">
-          <div className="flex items-center gap-3 mb-2">
-            <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
-              <CalendarDays className="h-5 w-5 text-blue-600" />
+          <div className="flex items-center justify-between gap-3 mb-2 flex-wrap">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center">
+                <CalendarDays className="h-5 w-5 text-blue-600" />
+              </div>
+              <div>
+                <h1 className="text-2xl font-bold text-gray-900">
+                  {t('app.page.ba_takvimi')}</h1>
+                <p className="text-sm text-gray-500">
+                  {t('app.page.ba_lar_n_z_takip_edin_zel_g_nl')}</p>
+              </div>
             </div>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">
-                {t('app.page.ba_takvimi')}</h1>
-              <p className="text-sm text-gray-500">
-                {t('app.page.ba_lar_n_z_takip_edin_zel_g_nl')}</p>
-            </div>
+            <Link href="/calendar/reminders">
+              <Button variant="outline" size="sm">Hatırlatıcı Merkezi</Button>
+            </Link>
           </div>
         </div>
 

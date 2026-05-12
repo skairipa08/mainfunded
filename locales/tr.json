@@ -1273,6 +1273,17 @@
       "pending": "Bekleyen",
       "approved": "Onaylanan",
       "rejected": "Reddedilen"
+    },
+    "corporate": {
+      "title": "Şirket Onay Kuyruğu",
+      "name": "Şirket",
+      "taxId": "Vergi No",
+      "contactEmail": "E-posta",
+      "createdAt": "Kayıt Tarihi",
+      "approve": "Onayla",
+      "reject": "Reddet",
+      "rejectReason": "Red Sebebi",
+      "noPending": "Onay bekleyen şirket yok"
     }
   },
   "footer": {
@@ -1667,7 +1678,32 @@
       "twoFASetup": "2FA Kurulumu",
       "qrCode": "QR Kodu",
       "scanQR": "Google Authenticator veya benzeri bir uygulama ile taratın",
-      "secretKey": "Manuel Giriş İçin Gizli Anahtar"
+      "secretKey": "Manuel Giriş İçin Gizli Anahtar",
+      "profile": {
+        "title": "Şirket Profili",
+        "save": "Kaydet",
+        "saved": "Profil güncellendi"
+      },
+      "matchingRule": {
+        "title": "Eşleştirme Kuralı",
+        "ratio": "Eşleştirme Oranı",
+        "ratio1x": "1x",
+        "ratio2x": "2x",
+        "ratio3x": "3x",
+        "monthlyBudget": "Aylık Bütçe (TL)",
+        "categories": "Uygun Kategoriler",
+        "active": "Aktif",
+        "save": "Kaydet",
+        "saved": "Kural güncellendi",
+        "categoryLabels": {
+          "tuition": "Okul Ücreti",
+          "books": "Kitap",
+          "laptop": "Bilgisayar",
+          "housing": "Barınma",
+          "travel": "Seyahat",
+          "emergency": "Acil"
+        }
+      }
     },
     "notifications": {
       "title": "Bildirimler",
@@ -1728,7 +1764,10 @@
       "credentialsNote": "Kurumsal panel giriş için kullanıcı adı ve şifreniz mailinize aktarılacaktır. Yalnızca kurumsal müşterilerimiz içindir.",
       "invalidCredentials": "Geçersiz e-posta veya şifre",
       "backToHome": "Ana Sayfaya Dön",
-      "demoCredentials": "Demo Giriş Bilgileri"
+      "demoCredentials": "Demo Giriş Bilgileri",
+      "submit": "Giriş Yap",
+      "rejected": "Hesabınız reddedildi",
+      "suspended": "Hesabınız askıya alındı"
     },
     "students": {
       "title": "Öğrenciler",
@@ -1781,6 +1820,29 @@
       "addToCart": "Sepete Ekle",
       "individualStudents": "Bireysel Öğrenciler",
       "add": "Ekle"
+    },
+    "signup": {
+      "title": "Şirket Hesabı Aç",
+      "name": "Şirket Adı",
+      "legalName": "Resmi Ünvan",
+      "taxId": "Vergi Numarası",
+      "contactEmail": "İletişim E-postası",
+      "contactPhone": "Telefon",
+      "websiteUrl": "Web Sitesi",
+      "logoUrl": "Logo URL",
+      "password": "Şifre",
+      "submit": "Kayıt Ol",
+      "successTitle": "Kayıt Alındı",
+      "successBody": "Şirket hesabınız onay için admin'e iletildi.",
+      "errors": {
+        "EMAIL_TAKEN": "Bu e-posta zaten kullanılıyor",
+        "TAX_ID_TAKEN": "Bu vergi numarası zaten kayıtlı",
+        "SIGNUP_FAILED": "Kayıt sırasında bir hata oluştu"
+      }
+    },
+    "pending": {
+      "title": "Onay Bekleniyor",
+      "body": "Şirket hesabınız admin onayı bekliyor. Onay sonrası bilgilendirileceksiniz."
     }
   },
   "mentorApplication": {
@@ -4628,5 +4690,134 @@
   "app.page.g_ncellemelerim": "Güncellemelerim",
   "app.page.topland": "toplandı",
   "app.page.ba_lerlemesi": "Bağış İlerlemesi",
-  "app.page.kampanyalar_ma_d_n": "Kampanyalarıma Dön"
+  "app.page.kampanyalar_ma_d_n": "Kampanyalarıma Dön",
+  "studentPassport": {
+    "title": "Öğrenci Profili",
+    "age": "Yaş",
+    "schoolName": "Okul Adı",
+    "grade": "Sınıf",
+    "major": "Bölüm",
+    "careerGoal": "Kariyer Hedefi",
+    "hobbies": "Hobiler",
+    "shortStory": "Kısa Hikaye",
+    "gpa": "Not Ortalaması (GPA)",
+    "verifications": {
+      "title": "Doğrulamalar",
+      "idVerified": "Öğrenci Kimliği Doğrulandı",
+      "schoolApproved": "Okul Onaylıyor",
+      "teacherReference": "Öğretmen Referansı Var"
+    },
+    "timeline": {
+      "title": "Başarı Zaman Çizelgesi",
+      "receivedScholarship": "Burs Aldı",
+      "passedClass": "Sınıfı Başarıyla Geçti",
+      "graduated": "Mezun Oldu"
+    },
+    "privacy": {
+      "everyone": "Herkes",
+      "donorsOnly": "Sadece Bağışçılarım",
+      "hidden": "Gizli",
+      "restricted": "Bu bilgi gizlidir"
+    },
+    "messaging": {
+      "title": "Öğrenciye Mesaj Gönder",
+      "placeholder": "Destek mesajınızı buraya yazın...",
+      "send": "Mesaj Gönder",
+      "sending": "Gönderiliyor...",
+      "success": "Mesajınız başarıyla gönderildi!",
+      "errorRateLimit": "Çok fazla mesaj gönderdiniz. Lütfen daha sonra tekrar deneyin.",
+      "errorModeration": "Mesajınızda uygunsuz içerik bulundu. Lütfen düzenleyin.",
+      "error": "Mesaj gönderilirken bir hata oluştu."
+    }
+  },
+  "email": {
+    "impactReport": {
+      "header": "Etki Raporu: {years} Yıllık Destek",
+      "greeting": "Sayın {donorName},",
+      "intro": "{studentName} adlı öğrenciyi {years} yıldır destekliyorsunuz. İşte birlikte yarattığınız etki:",
+      "achievementsTitle": "Yeni Başarılar",
+      "gpaProgress": "Not Ortalaması Değişimi:",
+      "followPrompt": "Düzenli güncellemeler için {studentName} adlı öğrenciyi takip edin.",
+      "followButton": "Öğrenciyi Takip Et",
+      "sharePrompt": "Bu etkiyi çevrenizle paylaşın!",
+      "viewCampaign": "Orijinal Kampanyayı Görüntüle",
+      "footerRight": "Tüm hakları saklıdır."
+    }
+  },
+  "corporateDashboard": {
+    "loading": "Yükleniyor...",
+    "loadError": "Dashboard verileri yüklenemedi.",
+    "pendingApproval": "Bekleyen Onay",
+    "rejectedSuffix": "{count} reddedilen",
+    "approvedSuffix": "{count} işlem onaylandı",
+    "budgetUsage": "Bütçe Kullanımı",
+    "noTrend": "Henüz onaylanmış eşleştirme yok.",
+    "matchedTooltip": "Eşleştirilen",
+    "transactionsTitle": "Eşleştirme İşlemleri",
+    "transactionsSummary": "{pending} bekleyen, {approved} onaylanan, {rejected} reddedilen işlem.",
+    "viewAll": "Tümü",
+    "esgTitle": "ESG Yıllık Raporu",
+    "esgDownload": "PDF İndir",
+    "esgBlurb": "Onaylı eşleştirmelerinizden otomatik üretilen yıllık raporu PDF olarak indirin."
+  },
+  "corporateP2": {
+    "join": {
+      "title": "Şirket Eşleştirme Programına Katıl",
+      "code": "Aktivasyon Kodu",
+      "submit": "Katıl",
+      "success": "Şirket programına katıldınız: {company}",
+      "errors": {
+        "INVALID_CODE": "Kod geçersiz",
+        "COMPANY_NOT_APPROVED": "Şirket henüz onaylanmamış",
+        "ALREADY_AFFILIATED": "Zaten başka bir şirkete bağlısınız"
+      }
+    },
+    "code": {
+      "title": "Aktivasyon Kodu",
+      "current": "Mevcut Kod",
+      "rotate": "Yeni Kod Üret",
+      "rotateConfirm": "Mevcut kod geçersiz olacak. Devam edilsin mi?",
+      "noCode": "Henüz kod oluşturulmadı"
+    },
+    "transactions": {
+      "title": "Eşleştirme İşlemleri",
+      "filterStatus": "Durum",
+      "all": "Tümü",
+      "pending": "Bekleyen",
+      "approved": "Onaylanan",
+      "rejected": "Reddedilen",
+      "donor": "Bağışçı",
+      "amount": "Bağış",
+      "matched": "Eşleştirilen",
+      "category": "Kategori",
+      "date": "Tarih",
+      "approve": "Onayla",
+      "reject": "Reddet",
+      "rejectReason": "Red Sebebi",
+      "noTransactions": "Bu durumda işlem yok"
+    }
+  },
+  "pages.stories.fallback.demo1.name": "Ayşe Yılmaz",
+  "pages.stories.fallback.demo1.title": "Hayallerime Kavuştum",
+  "pages.stories.fallback.demo1.university": "Boğaziçi Üniversitesi",
+  "pages.stories.fallback.demo1.field": "Bilgisayar Mühendisliği",
+  "pages.stories.fallback.demo1.quote": "FundEd sayesinde hayallerime kavuştum. Şimdi Google'da staj yapıyorum!",
+  "pages.stories.fallback.demo2.name": "Mehmet Kaya",
+  "pages.stories.fallback.demo2.title": "Ailem Destekleyemiyordu",
+  "pages.stories.fallback.demo2.university": "ODTÜ",
+  "pages.stories.fallback.demo2.field": "Elektrik Elektronik",
+  "pages.stories.fallback.demo2.quote": "Ailem beni destekleyemiyordu. FundEd ailesi olmasa burada olamazdım.",
+  "pages.stories.fallback.demo3.name": "Zeynep Demir",
+  "pages.stories.fallback.demo3.title": "Maddi ve Moral Destek",
+  "pages.stories.fallback.demo3.university": "İTÜ",
+  "pages.stories.fallback.demo3.field": "Mimarlık",
+  "pages.stories.fallback.demo3.quote": "Bağışçıların desteği sadece maddi değil, moral olarak da çok değerli.",
+  "pages.stories.toasts.loginRequired": "Hikaye paylaşmak için giriş yapmalısınız",
+  "pages.stories.toasts.minLength": "Hikayeniz en az 10 karakter olmalıdır",
+  "pages.stories.toasts.universityFieldRequired": "Üniversite ve bölüm bilgisi gereklidir",
+  "pages.stories.toasts.submitSuccess": "Hikayeniz gönderildi! Onaylandıktan sonra yayınlanacaktır. 🎉",
+  "pages.stories.toasts.genericError": "Bir hata oluştu",
+  "pages.stories.toasts.networkError": "Bağlantı hatası. Lütfen tekrar deneyin.",
+  "pages.stories.form.defaultTitle": "Başarı Hikayem",
+  "pages.stories.form.optional": "opsiyonel"
 }

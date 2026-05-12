@@ -53,6 +53,10 @@ export async function getDb(): Promise<Db> {
   return client.db(dbName);
 }
 
+export async function getClient(): Promise<MongoClient> {
+  return getClientPromise();
+}
+
 export async function createIndexes() {
   const db = await getDb();
 
@@ -143,6 +147,18 @@ export async function createIndexes() {
     await db.collection('notifications').createIndex({ userId: 1, read: 1 });
     await db.collection('notifications').createIndex({ userId: 1, timestamp: -1 });
     await db.collection('notifications').createIndex('type');
+    await db.collection('notification_preferences').createIndex('userId', {
+      unique: true,
+    });
+    await db.collection('notification_preferences').createIndex({
+      userId: 1,
+      reminderDay: 1,
+    });
+    await db.collection('notification_preferences').createIndex({
+      userId: 1,
+      'reminderRules.monthDay': 1,
+      'reminderRules.enabled': 1,
+    });
 
     // Expenditures indexes
     await db.collection('expenditures').createIndex('expenditure_id', { unique: true });
@@ -198,6 +214,19 @@ export async function createIndexes() {
     await db.collection('mentorship_feedback').createIndex({ mentor_user_id: 1, created_at: -1 });
 
     await db.collection('mentor_certificates').createIndex({ mentor_user_id: 1, year: 1 }, { unique: true });
+
+    // Reward Tier Indexes
+    await db.collection('reward_tiers').createIndex('tier_id', { unique: true });
+    await db.collection('reward_tiers').createIndex({ campaign_id: 1, sort_order: 1 });
+    await db.collection('reward_tiers').createIndex({ campaign_id: 1, min_amount_tl: 1 });
+    await db.collection('reward_tiers').createIndex({ campaign_id: 1, is_active: 1, min_amount_tl: -1 });
+
+    // Reward Claim Indexes
+    await db.collection('reward_claims').createIndex('claim_id', { unique: true });
+    await db.collection('reward_claims').createIndex('donation_id', { unique: true });
+    await db.collection('reward_claims').createIndex('donor_id');
+    await db.collection('reward_claims').createIndex('status');
+    await db.collection('reward_claims').createIndex({ tier_id: 1, status: 1 });
   } catch (error: any) {
     if (error.code !== 85 && error.codeName !== 'IndexOptionsConflict') {
       console.error('Error creating indexes:', error);

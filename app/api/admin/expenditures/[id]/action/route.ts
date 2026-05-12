@@ -92,10 +92,20 @@ export async function POST(request: NextRequest, { params }: Params) {
       );
 
       if (campaign) {
+        const expenditurePayload = {
+          expenditure_id: String(updated.expenditure_id || expenditureId),
+          category: String(updated.category || 'other'),
+          custom_category: typeof updated.custom_category === 'string' ? updated.custom_category : undefined,
+          amount: typeof updated.amount === 'number' ? updated.amount : Number(updated.amount || 0),
+          currency: typeof updated.currency === 'string' ? updated.currency : undefined,
+          description: String(updated.description || ''),
+          published_at: typeof updated.published_at === 'string' ? updated.published_at : undefined,
+        };
+
         await notifyDonorsForApprovedExpenditure({
           campaignId: campaign.campaign_id,
           campaignTitle: campaign.title || campaign.campaign_id,
-          expenditure: updated,
+          expenditure: expenditurePayload,
         });
       }
     }

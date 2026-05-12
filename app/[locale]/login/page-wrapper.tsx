@@ -214,18 +214,6 @@ export default function LoginPageContent() {
     }
   };
 
-  // ─── Loading State ───
-  if (status === 'loading') {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-indigo-50">
-        <div className="text-center">
-          <div className="h-10 w-10 animate-spin mx-auto text-blue-600 mb-4 border-4 border-blue-200 border-t-blue-600 rounded-full" />
-          <p className="text-gray-600">{t('common.loading')}</p>
-        </div>
-      </div>
-    );
-  }
-
   // ─── Tab Config ───
   const tabs: { id: AuthTab; label: string; icon: React.ReactNode }[] = [
     {
