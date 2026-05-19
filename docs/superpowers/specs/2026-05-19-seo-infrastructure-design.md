@@ -35,7 +35,8 @@ Central file exporting one function per page type. Each function:
 ```ts
 // Exported functions:
 export function campaignMetadata(campaign: CampaignDoc, locale: string): Metadata
-export function studentMetadata(student: StudentDoc, locale: string): Metadata
+export function studentMetadata(student: { name: string; image?: string; fieldOfStudy?: string; university?: string; shortStory?: string; userId: string }, locale: string): Metadata
+// Caller merges user.name + user.image with profile fields before passing
 export function browseMetadata(filters: BrowseFilters, locale: string): Metadata
 ```
 
@@ -60,9 +61,9 @@ export function browseMetadata(filters: BrowseFilters, locale: string): Metadata
 
 ### 2. Campaign OG Image — `app/api/og/campaign/[id]/route.tsx` (NEW)
 
-**Runtime:** Edge (`export const runtime = 'edge'`)  
+**Runtime:** Node.js (`runtime = 'nodejs'` — Edge Runtime does not support the MongoDB Node.js driver)  
 **Size:** 1200×630  
-**Cache:** `Cache-Control: public, max-age=3600`
+**Cache:** `Cache-Control: public, s-maxage=3600, stale-while-revalidate=86400`
 
 **Layout:**
 ```
@@ -81,9 +82,9 @@ export function browseMetadata(filters: BrowseFilters, locale: string): Metadata
 ```
 
 **Data fetching:**
-1. Fetch campaign by `id` (ObjectId or slug) from MongoDB via `getDb()`
-2. Fetch student photo from `campaign.cover_image` (Cloudinary URL) with `fetch()`
-3. If photo fetch fails, use a branded gradient placeholder
+1. Call `fetchCampaignData(id)` from `app/[locale]/campaign/[id]/fetchCampaign.ts` — queries by `campaign_id` string field
+2. Student photo: `campaign.student.picture` (Google OAuth avatar) → fallback `campaign.cover_image` → fallback gradient placeholder
+3. Progress: `Math.round((campaign.raised_amount / campaign.goal_amount) * 100)`
 
 **Error handling:** If campaign not found, return a branded default image (same as `app/opengraph-image.tsx` style).
 
@@ -95,7 +96,14 @@ Simpler variant of the campaign OG image:
 - Student photo (full right half)
 - Student name + major + school (left)
 - "Verified Student" badge
-- Same Edge Runtime, 1200×630, 1h cache
+- Same Node.js Runtime, 1200×630, 1h cache
+
+**Data fetching:** Direct MongoDB query on `student_profiles` collection by `user_id` field + `users` collection for name/photo:
+```ts
+const profile = await db.collection('student_profiles').findOne({ user_id: params.id })
+const user    = await db.collection('users').findOne({ _id: new ObjectId(params.id) })
+// Available fields: profile.fieldOfStudy, profile.university, user.name, user.image
+```
 
 ---
 
@@ -110,7 +118,16 @@ export function campaignSchema({
 }: CampaignSchemaProps)
 ```
 
-Uses `schema.org/DonateAction` as the primary type with `recipient` (Person) and `beneficiaryProgram` (EducationalOccupationalProgram).
+Primary type is `WebPage` with a `potentialAction` of type `DonateAction` (standalone `DonateAction` as root type is rejected by Google Rich Results validator):
+```json
+{
+  "@type": "WebPage",
+  "potentialAction": {
+    "@type": "DonateAction",
+    "recipient": { "@type": "Person", "name": "..." }
+  }
+}
+```
 
 ---
 
@@ -135,7 +152,17 @@ Add `campaignSchema` to the JSON-LD array alongside existing Person + Breadcrumb
 
 ### 6. Student Profile Page — `app/[locale]/student/[id]/page.tsx` (UPDATE)
 
-Replace mock DB function with real Prisma/MongoDB query (reuse existing student service if available, otherwise add direct DB call).
+Replace mock `getStudentProfile` with real MongoDB query:
+```ts
+async function getStudentProfile(id: string) {
+  const db = await getDb()
+  const profile = await db.collection('student_profiles').findOne({ user_id: id })
+  const user    = await db.collection('users').findOne({ _id: new ObjectId(id) })
+  if (!user) return null
+  return { profile, user }
+}
+// Available: user.name, user.image, profile.fieldOfStudy, profile.university, profile.shortStory
+```
 
 Add `generateMetadata`:
 ```ts
@@ -163,15 +190,17 @@ Add JSON-LD at render:
 #### `components/analytics/WebVitalsTracker.tsx` (NEW)
 Client component (`'use client'`). Imported once in `app/[locale]/layout.tsx`.
 
+**Dependency:** `npm install web-vitals` (not currently installed).
+
 ```ts
-import { onLCP, onCLS, onINP, onFID } from 'web-vitals'
+import { onLCP, onCLS, onINP } from 'web-vitals'
+// Note: onFID removed — FID was retired from Core Web Vitals in 2024, web-vitals v4 no longer exports it
 ```
 
 Thresholds (Google "needs improvement" boundaries):
 - LCP > 2500ms
 - CLS > 0.1
 - INP > 200ms
-- FID > 100ms
 
 When a threshold is exceeded, POST to `/api/vitals` with `{ metric, value, path, timestamp }`.
 
@@ -182,29 +211,36 @@ When a threshold is exceeded, POST to `/api/vitals` with `{ metric, value, path,
 Access to GET is restricted to `role === 'ADMIN'` (check session via existing auth).
 
 #### `components/admin/WebVitalsWidget.tsx` (NEW)
-Server component. Fetches GET `/api/vitals`. Renders a summary card:
+Server component. Does **NOT** self-fetch `/api/vitals` (server→server loopback fails on Vercel). Instead calls a shared utility function directly:
 
+```ts
+import { getVitalsSummary } from '@/lib/vitals'
+// lib/vitals.ts exports: async function getVitalsSummary(): Promise<VitalSummary[]>
+// VitalSummary: { metric: string, avg: number, p75: number, violations: number }
+```
+
+Renders a summary card:
 ```
 Core Web Vitals (last 24h)
 LCP  avg 1.8s  ✅ Good
 CLS  avg 0.05  ✅ Good
 INP  avg 245ms ⚠️ Needs Improvement
-FID  avg 45ms  ✅ Good
 ```
 
 Color coding: green (good), amber (needs improvement), red (poor).  
-Placed in `app/[locale]/admin/analytics/page.tsx`.
+Placed in `app/[locale]/admin/analytics/page.tsx` (CREATE this page — does not currently exist).
 
 ---
 
 ### 8. Sitemap — `app/sitemap.ts` (UPDATE)
 
-Add student public profiles:
+Add student public profiles. The `student_profiles` collection has no `profileVisible` flag — include all profiles that have a corresponding `users` record. Use `user_id` as the URL identifier:
 ```ts
 const students = await db.collection('student_profiles')
-  .find({ 'privacySettings.profileVisible': true }, { projection: { id: 1, updatedAt: 1 } })
+  .find({}, { projection: { user_id: 1, updatedAt: 1 } })
   .limit(2000)
   .toArray()
+// URL: /student/${student.user_id}
 ```
 
 Refactor into helper functions for extensibility:
@@ -220,9 +256,8 @@ Student entries: `priority: 0.5`, `changeFreq: 'weekly'`.
 
 ### 9. Robots — `app/robots.ts` (UPDATE)
 
-Add to disallow list:
+Add to disallow list (locale-prefixed only, consistent with existing pattern):
 ```ts
-'/student/panel/',
 '/en/student/panel/',
 '/tr/student/panel/',
 ```
@@ -235,8 +270,9 @@ Add to disallow list:
 |------|--------|---------|
 | `lib/seo/generate-metadata.ts` | CREATE | Metadata factory for all page types |
 | `lib/seo/schemas.ts` | UPDATE | Add `campaignSchema` |
-| `app/api/og/campaign/[id]/route.tsx` | CREATE | Edge OG image with photo + progress bar |
-| `app/api/og/student/[id]/route.tsx` | CREATE | Edge OG image for student profiles |
+| `app/api/og/campaign/[id]/route.tsx` | CREATE | Node.js OG image with photo + progress bar |
+| `app/api/og/student/[id]/route.tsx` | CREATE | Node.js OG image for student profiles |
+| `lib/vitals.ts` | CREATE | Shared DB query for CWV summary (used by widget + API) |
 | `app/api/vitals/route.ts` | CREATE | CWV metric collection + retrieval |
 | `app/[locale]/campaign/[id]/layout.tsx` | UPDATE | Remove duplicate `generateMetadata` |
 | `app/[locale]/campaign/[id]/page.tsx` | UPDATE | Use factory + add campaignSchema |
