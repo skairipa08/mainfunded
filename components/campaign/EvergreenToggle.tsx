@@ -46,7 +46,7 @@ export function EvergreenToggle({ value, onChange, disabled, className }: Evergr
           Süre sonrası bağışa açık kalsın
         </label>
         <p className="mt-0.5 text-xs text-gray-500">
-          Kampanya süresi dolduğunda "Devam Eden Destek" olarak yayında kalmaya devam eder.
+          Kampanya süresi dolduğunda &quot;Devam Eden Destek&quot; olarak yayında kalmaya devam eder.
           Bağışçılar ek destek vermeye devam edebilir; hedef aşılırsa fazla tutar bir sonraki
           dönem için ayrılır.
         </p>

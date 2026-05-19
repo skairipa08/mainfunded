@@ -13,6 +13,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
+import { ObjectId } from 'mongodb';
 import { getDb } from '@/lib/db';
 import { logger } from '@/lib/logger';
 
@@ -29,8 +30,12 @@ export async function GET(
     const db = await getDb();
 
     // Fetch campaign metadata
+    const orConditions: object[] = [{ campaign_id: campaignId }];
+    if (ObjectId.isValid(campaignId)) {
+      orConditions.push({ _id: new ObjectId(campaignId) });
+    }
     const campaign = await db.collection('campaigns').findOne(
-      { $or: [{ campaign_id: campaignId }, { _id: campaignId }] },
+      { $or: orConditions },
       { projection: { _id: 0, campaign_id: 1, title: 1, status: 1, goal_amount: 1, evergreen_enabled: 1 } }
     );
 
