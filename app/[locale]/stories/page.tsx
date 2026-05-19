@@ -22,46 +22,49 @@ interface SuccessStory {
     created_at: string;
 }
 
-// Hardcoded fallback stories (shown when DB has none)
-const fallbackStories: SuccessStory[] = [
-    {
-        story_id: 'demo-1',
-        user_name: 'Ayşe Yılmaz',
-        title: 'Hayallerime Kavuştum',
-        university: 'Boğaziçi Üniversitesi',
-        field: 'Bilgisayar Mühendisliği',
-        quote: "FundEd sayesinde hayallerime kavuştum. Şimdi Google'da staj yapıyorum!",
-        funded_amount: 0,
-        created_at: new Date().toISOString(),
-    },
-    {
-        story_id: 'demo-2',
-        user_name: 'Mehmet Kaya',
-        title: 'Ailem Destekleyemiyordu',
-        university: 'ODTU',
-        field: 'Elektrik Elektronik',
-        quote: 'Ailem beni destekleyemiyordu. FundEd ailesi olmasa burada olamazdım.',
-        funded_amount: 0,
-        created_at: new Date().toISOString(),
-    },
-    {
-        story_id: 'demo-3',
-        user_name: 'Zeynep Demir',
-        title: 'Maddi ve Moral Destek',
-        university: 'ITU',
-        field: 'Mimarlık',
-        quote: 'Bağışçıların desteği sadece maddi değil, moral olarak da çok değerli.',
-        funded_amount: 0,
-        created_at: new Date().toISOString(),
-    },
-];
+const getFallbackStories = (t: (key: string, params?: Record<string, string | number>) => string): SuccessStory[] => {
+    const createdAt = new Date().toISOString();
+
+    return [
+        {
+            story_id: 'demo-1',
+            user_name: t('pages.stories.fallback.demo1.name'),
+            title: t('pages.stories.fallback.demo1.title'),
+            university: t('pages.stories.fallback.demo1.university'),
+            field: t('pages.stories.fallback.demo1.field'),
+            quote: t('pages.stories.fallback.demo1.quote'),
+            funded_amount: 0,
+            created_at: createdAt,
+        },
+        {
+            story_id: 'demo-2',
+            user_name: t('pages.stories.fallback.demo2.name'),
+            title: t('pages.stories.fallback.demo2.title'),
+            university: t('pages.stories.fallback.demo2.university'),
+            field: t('pages.stories.fallback.demo2.field'),
+            quote: t('pages.stories.fallback.demo2.quote'),
+            funded_amount: 0,
+            created_at: createdAt,
+        },
+        {
+            story_id: 'demo-3',
+            user_name: t('pages.stories.fallback.demo3.name'),
+            title: t('pages.stories.fallback.demo3.title'),
+            university: t('pages.stories.fallback.demo3.university'),
+            field: t('pages.stories.fallback.demo3.field'),
+            quote: t('pages.stories.fallback.demo3.quote'),
+            funded_amount: 0,
+            created_at: createdAt,
+        },
+    ];
+};
 
 export default function StoriesPage() {
     const { t } = useTranslation();
     const { formatAmount } = useCurrency();
     const { data: session } = useSession();
     const router = useRouter();
-    const [stories, setStories] = useState<SuccessStory[]>(fallbackStories);
+    const [stories, setStories] = useState<SuccessStory[]>(() => getFallbackStories(t));
     const [showForm, setShowForm] = useState(false);
     const [submitting, setSubmitting] = useState(false);
     const [formData, setFormData] = useState({
@@ -74,7 +77,7 @@ export default function StoriesPage() {
 
     useEffect(() => {
         loadStories();
-    }, []);
+    }, [t]);
 
     const loadStories = async () => {
         try {
@@ -83,17 +86,20 @@ export default function StoriesPage() {
                 const data = await res.json();
                 if (data.success && data.data?.stories?.length > 0) {
                     setStories(data.data.stories);
+                } else {
+                    setStories(getFallbackStories(t));
                 }
-                // else keep fallback stories
+            } else {
+                setStories(getFallbackStories(t));
             }
         } catch {
-            // Keep fallback stories on error
+            setStories(getFallbackStories(t));
         }
     };
 
     const handleOpenForm = () => {
         if (!session?.user) {
-            toast.error('Hikaye paylaşmak için giriş yapmalısınız');
+            toast.error(t('pages.stories.toasts.loginRequired'));
             router.push('/login');
             return;
         }
@@ -105,11 +111,11 @@ export default function StoriesPage() {
         if (submitting) return;
 
         if (formData.quote.trim().length < 10) {
-            toast.error('Hikayeniz en az 10 karakter olmalıdır');
+            toast.error(t('pages.stories.toasts.minLength'));
             return;
         }
         if (!formData.university.trim() || !formData.field.trim()) {
-            toast.error('Üniversite ve bölüm bilgisi gereklidir');
+            toast.error(t('pages.stories.toasts.universityFieldRequired'));
             return;
         }
 
@@ -119,7 +125,7 @@ export default function StoriesPage() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    title: formData.title || 'Başarı Hikayem',
+                    title: formData.title || t('pages.stories.form.defaultTitle'),
                     quote: formData.quote,
                     university: formData.university,
                     field: formData.field,
@@ -129,14 +135,14 @@ export default function StoriesPage() {
 
             const data = await res.json();
             if (data.success) {
-                toast.success('Hikayeniz gönderildi! Onaylandıktan sonra yayınlanacaktır. 🎉');
+                toast.success(t('pages.stories.toasts.submitSuccess'));
                 setShowForm(false);
                 setFormData({ title: '', quote: '', university: '', field: '', funded_amount: '' });
             } else {
-                toast.error(data.error?.message || 'Bir hata oluştu');
+                toast.error(data.error?.message || t('pages.stories.toasts.genericError'));
             }
         } catch {
-            toast.error('Bağlantı hatası. Lütfen tekrar deneyin.');
+            toast.error(t('pages.stories.toasts.networkError'));
         } finally {
             setSubmitting(false);
         }
@@ -248,7 +254,7 @@ export default function StoriesPage() {
                             <button
                                 onClick={() => setShowForm(false)}
                                 className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-                                aria-label="Kapat"
+                                aria-label={t('common.close')}
                             >
                                 <X className="h-5 w-5 text-gray-400" />
                             </button>
@@ -258,7 +264,7 @@ export default function StoriesPage() {
                         <form onSubmit={handleSubmit} className="p-6 space-y-5">
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                                    {t('app.page.ba_l_k')}<span className="text-gray-400">(opsiyonel)</span>
+                                    {t('app.page.ba_l_k')}<span className="text-gray-400">({t('pages.stories.form.optional')})</span>
                                 </label>
                                 <input
                                     type="text"
@@ -319,7 +325,7 @@ export default function StoriesPage() {
 
                             <div>
                                 <label className="block text-sm font-medium text-gray-700 mb-1.5">
-                                    {t('app.page.toplanan_destek')}<span className="text-gray-400">(opsiyonel)</span>
+                                    {t('app.page.toplanan_destek')}<span className="text-gray-400">({t('pages.stories.form.optional')})</span>
                                 </label>
                                 <input
                                     type="number"

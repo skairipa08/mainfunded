@@ -12,6 +12,9 @@ import Footer from '@/components/Footer';
 import { getCategories, getCountries, getFieldsOfStudy } from '@/lib/api';
 import { EDUCATION_LEVELS, APPLICANT_TYPES, TURKEY_CITIES, URGENCY_LEVELS } from '@/lib/constants';
 import { useTranslation } from "@/lib/i18n/context";
+import RewardTierEditor from '@/components/campaigns/RewardTierEditor';
+import { upsertRewardTiers } from '@/lib/services/rewardService';
+import type { RewardTierFormData } from '@/types/rewards';
 
 interface CreateCampaignFormProps {
   user: {
@@ -30,6 +33,7 @@ export default function CreateCampaignForm({ user }: CreateCampaignFormProps) {
   const [countries, setCountries] = useState<Array<{ value: string; label: string }>>([]);
   const [fieldsOfStudy, setFieldsOfStudy] = useState<Array<{ value: string; label: string }>>([]);
   const [error, setError] = useState<string | null>(null);
+  const [rewardTiers, setRewardTiers] = useState<RewardTierFormData[]>([]);
 
   const [formData, setFormData] = useState({
     title: '',
@@ -101,6 +105,16 @@ export default function CreateCampaignForm({ user }: CreateCampaignFormProps) {
       }
 
       if (result.success && result.data) {
+        // Save reward tiers after campaign is created
+        if (rewardTiers.length > 0) {
+          const tiersResult = await upsertRewardTiers(result.data.campaign_id, rewardTiers);
+          if (!tiersResult.success) {
+            setError(`Kampanya oluşturuldu fakat ödül kademeleri kaydedilemedi: ${tiersResult.error || 'Bilinmeyen hata'}. Kampanya sayfasından tekrar deneyebilirsiniz.`);
+            setLoading(false);
+            router.push(`/campaign/${result.data.campaign_id}`);
+            return;
+          }
+        }
         router.push(`/campaign/${result.data.campaign_id}`);
       } else {
         throw new Error('Unexpected response format');
@@ -359,6 +373,11 @@ export default function CreateCampaignForm({ user }: CreateCampaignFormProps) {
                   onChange={(e) => setFormData({ ...formData, cover_image: e.target.value })}
                   placeholder="https://example.com/image.jpg"
                 />
+              </div>
+
+              {/* Reward Tiers */}
+              <div className="border border-gray-100 rounded-2xl p-6 bg-gradient-to-br from-slate-50 to-indigo-50/30">
+                <RewardTierEditor value={rewardTiers} onChange={setRewardTiers} />
               </div>
 
               <div className="flex gap-4 pt-4">

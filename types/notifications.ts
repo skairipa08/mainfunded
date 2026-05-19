@@ -26,6 +26,24 @@ export interface Notification {
   metadata?: Record<string, unknown>;
 }
 
+export type ReminderInstruction = 'notify_only' | 'auto_payment_instruction';
+
+export type ReminderRuleType = 'monthly' | 'special_day';
+
+export interface ReminderRule {
+  id: string;
+  type: ReminderRuleType;
+  title: string;
+  enabled: boolean;
+  instruction: ReminderInstruction;
+  dayOfMonth?: number;
+  monthDay?: string; // MM-DD
+  specialDayDate?: string; // YYYY-MM-DD
+  specialDayTitle?: string;
+  lastTriggeredAt?: string | null;
+  createdAt?: string;
+}
+
 export interface NotificationPreferences {
   userId: string;
   email: boolean;
@@ -36,6 +54,8 @@ export interface NotificationPreferences {
   impactReports: boolean;
   calendarReminders: boolean;
   reminderDay: number;      // Aylık hatırlatma günü (1-28)
+  lastReminderSentAt?: string | null;
+  reminderRules?: ReminderRule[];
 }
 
 export type CalendarEventType =
@@ -61,6 +81,23 @@ export interface DonationStreak {
   longestStreak: number;
   totalDonations: number;
   lastDonationDate: string | null;
+}
+
+export function resolveSpecialDayDateForYear(
+  specialDay: Omit<CalendarEvent, 'id'>,
+  year: number,
+): string {
+  const metadata = specialDay.metadata;
+  if (metadata && typeof metadata === 'object' && 'yearlyDates' in metadata) {
+    const yearlyDates = (metadata as { yearlyDates?: Record<string, string> }).yearlyDates;
+    const mappedDate = yearlyDates?.[String(year)];
+    if (mappedDate) {
+      return mappedDate;
+    }
+  }
+
+  const [, month, day] = specialDay.date.split('-');
+  return `${year}-${month}-${day}`;
 }
 
 // Special days for Turkey / education-related
@@ -120,6 +157,36 @@ export const SPECIAL_DAYS: Omit<CalendarEvent, 'id'>[] = [
     type: 'special_day',
     emoji: '🏃',
     link: '/campaigns',
+  },
+  {
+    date: '2026-03-20',
+    title: 'Ramazan Bayramı',
+    description: 'Paylaşmanın ve dayanışmanın bayramı. Bir öğrencinin eğitimine destek olun.',
+    type: 'special_day',
+    emoji: '🌙',
+    link: '/campaigns',
+    metadata: {
+      yearlyDates: {
+        '2025': '2025-03-30',
+        '2026': '2026-03-20',
+        '2027': '2027-03-10',
+      },
+    },
+  },
+  {
+    date: '2026-05-27',
+    title: 'Kurban Bayramı',
+    description: 'Paylaştıkça çoğalan iyilik için bugün de bir öğrenciye umut olun.',
+    type: 'special_day',
+    emoji: '🕌',
+    link: '/campaigns',
+    metadata: {
+      yearlyDates: {
+        '2025': '2025-06-06',
+        '2026': '2026-05-27',
+        '2027': '2027-05-17',
+      },
+    },
   },
 
   // ── Dünya Günleri — Eğitim, Gençlik & Duygusal ──────────────

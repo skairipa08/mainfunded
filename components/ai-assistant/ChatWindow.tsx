@@ -168,9 +168,10 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
         }
       } else {
         await addBotMessage(
-          botMessage('Hmm, bunu tam anlayamadım 🤔 Başka türlü sormayı dener misiniz?', [
+          botMessage('Bu konuyu bilgi tabanımda bulamadım 🤔\n\nDestek ekibimize yazın: getsfunded@gmail.com', [
+            { label: '📧 Mail gönder', value: 'support_email' },
             { label: '🎯 Öğrenci bul', value: 'find_student' },
-            { label: '❓ Nasıl çalışır?', value: 'ask_how' },
+            { label: '🏠 Ana menü', value: 'home' },
           ]),
           500,
         );
@@ -198,6 +199,17 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
       return;
     }
 
+    if (value === 'support_email') {
+      window.location.href = 'mailto:getsfunded@gmail.com';
+      await addBotMessage(
+        botMessage('Destek ekibimize ulaşabilirsiniz 📧\n\ngetsfunded@gmail.com', [
+          { label: '🎯 Öğrenci bul', value: 'find_student' },
+          { label: '🏠 Ana menü', value: 'home' },
+        ])
+      );
+      return;
+    }
+
     if (value === 'find_student') {
       // Reset preferences and start flow
       setPreferences({});
@@ -219,6 +231,11 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
 
     if (value === 'ask_trust') {
       await fetchChatResponse('FundEd güvenilir mi?');
+      return;
+    }
+
+    if (value === 'ask_payment') {
+      await fetchChatResponse('Hangi kartlarla ödeme yapabilirim?');
       return;
     }
 
@@ -281,17 +298,11 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
       case 'ask_field':
         newPrefs.field = value;
         break;
-      case 'ask_gender':
-        newPrefs.gender = value;
-        break;
       case 'ask_budget':
         newPrefs.budget = value;
         break;
       case 'ask_priority':
         newPrefs.priority = value;
-        break;
-      case 'ask_country':
-        newPrefs.country = value;
         break;
     }
 
@@ -299,7 +310,7 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
 
     const nextStep = getNextStep(currentStep);
 
-    if (nextStep === 'searching' || currentStep === 'ask_country') {
+    if (nextStep === 'searching' || currentStep === 'ask_priority') {
       // All questions answered — fetch recommendations
       setCurrentStep('searching');
       await addBotMessage(getSearchingMessage(), 400);
@@ -328,6 +339,19 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
+    }
+  };
+
+  /** Handle thumbs up/down feedback on bot messages */
+  const handleFeedback = async (messageId: string, type: 'positive' | 'negative') => {
+    console.log('chatbot_feedback', { type, messageId, timestamp: Date.now() });
+    if (type === 'negative') {
+      await addBotMessage(
+        botMessage(
+          'Üzgünüm 😔 Daha iyi yardım için destek ekibimize yazabilirsiniz: getsfunded@gmail.com',
+          [{ label: '📧 Mail gönder', value: 'support_email' }]
+        )
+      );
     }
   };
 
@@ -392,7 +416,7 @@ export function ChatWindow({ isOpen, onClose, onMinimize }: ChatWindowProps) {
         className="flex-1 overflow-y-auto p-4 space-y-1 scroll-smooth"
       >
         {messages.map((msg) => (
-          <MessageBubble key={msg.id} message={msg} />
+          <MessageBubble key={msg.id} message={msg} onFeedback={handleFeedback} />
         ))}
 
         {/* Recommendations */}

@@ -1047,3 +1047,69 @@ export function renderSubscriptionCancelledEmail(data: {
 </body></html>
   `.trim();
 }
+
+/**
+ * Email template: Donor expenditure update
+ */
+export function renderExpenditureApprovedEmail(data: {
+  donorName: string;
+  campaignTitle: string;
+  campaignId: string;
+  category: string;
+  amount: number;
+  currency?: string;
+  description: string;
+  publishedAt: string;
+  campaignUrl?: string;
+}): string {
+  const campaignUrl = data.campaignUrl || `${process.env.AUTH_URL || 'http://localhost:3000'}/campaign/${data.campaignId}`;
+  const formattedAmount = new Intl.NumberFormat('tr-TR', {
+    style: 'currency',
+    currency: data.currency || 'TRY',
+  }).format(data.amount);
+
+  return `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
+  <div style="background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%); padding: 30px; text-align: center; border-radius: 8px 8px 0 0;">
+    <h1 style="color: white; margin: 0; font-size: 26px;">🧾 Harcama Güncellemesi</h1>
+  </div>
+
+  <div style="background: #ffffff; padding: 30px; border: 1px solid #e5e7eb; border-top: none; border-radius: 0 0 8px 8px;">
+    <p style="font-size: 16px; margin-bottom: 20px;">Merhaba ${escapeHtml(data.donorName)},</p>
+
+    <p style="font-size: 16px; margin-bottom: 20px;">
+      Desteklediğiniz <strong>${escapeHtml(data.campaignTitle)}</strong> kampanyasına yeni bir harcama kalemi eklendi ve onaylandı.
+    </p>
+
+    <div style="background: #eff6ff; border-left: 4px solid #2563eb; padding: 15px; margin: 20px 0;">
+      <p style="margin: 0 0 8px 0; font-size: 14px; color: #1e40af;"><strong>Kategori:</strong> ${escapeHtml(data.category)}</p>
+      <p style="margin: 0 0 8px 0; font-size: 14px; color: #1e40af;"><strong>Tutar:</strong> ${formattedAmount}</p>
+      <p style="margin: 0 0 8px 0; font-size: 14px; color: #1e40af;"><strong>Açıklama:</strong> ${escapeHtml(data.description)}</p>
+      <p style="margin: 0; font-size: 14px; color: #1e40af;"><strong>Tarih:</strong> ${new Date(data.publishedAt).toLocaleDateString('tr-TR')}</p>
+    </div>
+
+    <div style="text-align: center; margin: 30px 0;">
+      <a href="${campaignUrl}"
+         style="display: inline-block; background: #2563eb; color: white; padding: 12px 30px; text-decoration: none; border-radius: 6px; font-weight: 600;">
+        Kampanya Detayını Gör
+      </a>
+    </div>
+
+    <p style="font-size: 14px; color: #6b7280; margin-top: 30px; border-top: 1px solid #e5e7eb; padding-top: 20px;">
+      Şeffaf destek için teşekkürler. Bağışınızın etkisini birlikte büyütüyoruz.
+    </p>
+  </div>
+
+  <div style="text-align: center; margin-top: 20px; color: #9ca3af; font-size: 12px;">
+    <p>© ${new Date().getFullYear()} FundEd. Tüm hakları saklıdır.</p>
+  </div>
+</body>
+</html>
+  `.trim();
+}

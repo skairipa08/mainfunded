@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import {
   ChevronLeft,
@@ -9,12 +9,24 @@ import {
   Heart,
   Megaphone,
   CalendarDays,
+  BellRing,
+  Sparkles,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { Button } from '@/components/ui/button';
+import {
+  ensureBrowserNotificationsEnabled,
+  showBrowserNotificationPreview,
+} from '@/lib/browser-notifications';
 import CampaignCountdown from './CampaignCountdown';
-import type { CalendarEvent, CalendarEventType, DonationStreak } from '@/types/notifications';
-import { SPECIAL_DAYS } from '@/types/notifications';
+import type {
+  CalendarEvent,
+  CalendarEventType,
+  DonationStreak,
+  ReminderInstruction,
+  ReminderRule,
+} from '@/types/notifications';
+import { SPECIAL_DAYS, resolveSpecialDayDateForYear } from '@/types/notifications';
 import { useTranslation } from "@/lib/i18n/context";
 
 // ═══════════════════════════════════════════════════════
@@ -90,12 +102,44 @@ export default function DonationCalendar({
   campaigns = [],
   streak,
 }: DonationCalendarProps) {
-    const { t } = useTranslation();
+  const { t } = useTranslation();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [reminderDay, setReminderDay] = useState<number | null>(null);
+  const [reminderRules, setReminderRules] = useState<ReminderRule[]>([]);
+  const [isSavingReminder, setIsSavingReminder] = useState(false);
+  const [reminderFeedback, setReminderFeedback] = useState<string | null>(null);
+  const [reminderError, setReminderError] = useState<string | null>(null);
 
   const year = currentDate.getFullYear();
   const month = currentDate.getMonth();
+
+  useEffect(() => {
+    let active = true;
+
+    const fetchReminderPreference = async () => {
+      try {
+        const res = await fetch('/api/notifications/preferences');
+        if (!res.ok) return;
+        const data = await res.json();
+        const day = data?.preferences?.reminderDay;
+        if (active && typeof day === 'number') {
+          setReminderDay(Math.min(28, Math.max(1, Math.trunc(day))));
+        }
+
+        if (active && Array.isArray(data?.preferences?.reminderRules)) {
+          setReminderRules(data.preferences.reminderRules);
+        }
+      } catch {
+        // no-op
+      }
+    };
+
+    fetchReminderPreference();
+    return () => {
+      active = false;
+    };
+  }, []);
 
   // Build all calendar events
   const allEvents = useMemo(() => {
@@ -103,13 +147,10 @@ export default function DonationCalendar({
 
     // Add special days (use year-agnostic matching)
     SPECIAL_DAYS.forEach((sd, i) => {
-      const sdDate = new Date(sd.date);
-      // Generate for the displayed year
-      const dateStr = `${year}-${String(sdDate.getMonth() + 1).padStart(2, '0')}-${String(sdDate.getDate()).padStart(2, '0')}`;
       events.push({
         ...sd,
         id: `special-${i}`,
-        date: dateStr,
+        date: resolveSpecialDayDateForYear(sd, year),
       });
     });
 
@@ -143,8 +184,46 @@ export default function DonationCalendar({
       });
     });
 
+    if (reminderDay != null) {
+      const dayInCurrentMonth = Math.min(
+        reminderDay,
+        new Date(year, month + 1, 0).getDate()
+      );
+      events.push({
+        id: `reminder-${year}-${month + 1}`,
+        date: `${year}-${String(month + 1).padStart(2, '0')}-${String(dayInCurrentMonth).padStart(2, '0')}`,
+        title: 'Aylık Bağış Hatırlatıcısı',
+        description: 'Bu ay eğitim için düzenli destek gününüz.',
+        type: 'reminder',
+        emoji: '🔔',
+        link: '/campaigns',
+      });
+    }
+
+    reminderRules
+      .filter((rule) => rule.type === 'special_day' && rule.enabled && rule.monthDay)
+      .forEach((rule) => {
+        const [ruleMonth, ruleDay] = (rule.monthDay ?? '01-01').split('-').map((value) => Number(value));
+        const safeMonth = Math.min(12, Math.max(1, ruleMonth));
+        const safeDay = Math.min(31, Math.max(1, ruleDay));
+        const normalizedDate = `${year}-${String(safeMonth).padStart(2, '0')}-${String(safeDay).padStart(2, '0')}`;
+
+        events.push({
+          id: `special-reminder-${rule.id}`,
+          date: normalizedDate,
+          title: `${rule.specialDayTitle ?? rule.title} Hatırlatıcısı`,
+          description:
+            rule.instruction === 'auto_payment_instruction'
+              ? 'Otomatik ödeme talimatı seçeneği açık.'
+              : 'Bu özel gün için bağış hatırlatıcınız aktif.',
+          type: 'reminder',
+          emoji: '🔔',
+          link: '/campaigns',
+        });
+      });
+
     return events;
-  }, [donations, campaigns, year]);
+  }, [donations, campaigns, year, month, reminderDay, reminderRules]);
 
   // Calendar grid days
   const calendarDays = useMemo(() => {
@@ -191,7 +270,135 @@ export default function DonationCalendar({
     setSelectedDate(new Date());
   };
 
+  const handleSetDonationReminder = async () => {
+    if (!selectedDate) return;
+
+    const selectedReminderDay = Math.min(28, Math.max(1, selectedDate.getDate()));
+    setIsSavingReminder(true);
+    setReminderError(null);
+    setReminderFeedback(null);
+
+    try {
+      const browserNotification = await ensureBrowserNotificationsEnabled();
+
+      const res = await fetch('/api/notifications/preferences', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          donationReminders: true,
+          calendarReminders: true,
+          reminderDay: selectedReminderDay,
+        }),
+      });
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(errorText || 'Hatırlatıcı kaydedilemedi');
+      }
+
+      const data = await res.json();
+      setReminderDay(selectedReminderDay);
+      if (Array.isArray(data?.preferences?.reminderRules)) {
+        setReminderRules(data.preferences.reminderRules);
+      }
+
+      const browserMessage = !browserNotification.supported
+        ? ' Bu tarayıcı bildirimleri desteklemiyor.'
+        : browserNotification.permission === 'granted'
+          ? ' Tarayıcı bildirimleri açıldı.'
+          : browserNotification.permission === 'denied'
+            ? ' Tarayıcı bildirim izni reddedildi; tarayıcı ayarlarından açabilirsiniz.'
+            : ' Tarayıcı bildirimi için izin verilmedi.';
+
+      if (browserNotification.permission === 'granted') {
+        showBrowserNotificationPreview(
+          'FundEd hatırlatıcı aktif ✅',
+          `Her ayın ${selectedReminderDay}. günü bağış hatırlatıcısı alacaksınız.`
+        );
+      }
+
+      setReminderFeedback(`Hatırlatıcı her ayın ${selectedReminderDay}. günü için aktif edildi.${browserMessage}`);
+    } catch {
+      setReminderError('Hatırlatıcı ayarlanırken bir sorun oluştu. Lütfen giriş yaptığınızdan emin olup tekrar deneyin.');
+    } finally {
+      setIsSavingReminder(false);
+    }
+  };
+
+  const handleSetSpecialDayReminder = async (instruction: ReminderInstruction) => {
+    if (!selectedDate) return;
+
+    const specialDayEvent = selectedEvents.find((event) => event.type === 'special_day');
+    if (!specialDayEvent) {
+      setReminderError('Seçili tarih özel gün içermiyor.');
+      return;
+    }
+
+    const monthDay = `${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`;
+
+    setIsSavingReminder(true);
+    setReminderError(null);
+    setReminderFeedback(null);
+
+    try {
+      const browserNotification = await ensureBrowserNotificationsEnabled();
+
+      const res = await fetch('/api/notifications/reminder-rules', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: `special-${monthDay}`,
+          type: 'special_day',
+          title: specialDayEvent.title,
+          specialDayTitle: specialDayEvent.title,
+          specialDayDate: `${selectedDate.getFullYear()}-${monthDay}`,
+          monthDay,
+          instruction,
+          enabled: true,
+        }),
+      });
+
+      if (!res.ok) {
+        const errorText = await res.text();
+        throw new Error(errorText || 'Özel gün hatırlatıcısı kaydedilemedi');
+      }
+
+      const data = await res.json();
+      if (Array.isArray(data?.rules)) {
+        setReminderRules(data.rules);
+      }
+
+      const browserMessage = !browserNotification.supported
+        ? ' Tarayıcı bildirimi desteklenmiyor.'
+        : browserNotification.permission === 'granted'
+          ? ' Tarayıcı bildirimi açıldı.'
+          : browserNotification.permission === 'denied'
+            ? ' Tarayıcı bildirim izni reddedildi.'
+            : ' Tarayıcı bildirimi için izin verilmedi.';
+
+      if (browserNotification.permission === 'granted') {
+        showBrowserNotificationPreview(
+          `${specialDayEvent.title} hatırlatıcısı aktif ✨`,
+          instruction === 'auto_payment_instruction'
+            ? 'Otomatik ödeme talimatı önerisi ile özel gün bildirimi kurulmuştur.'
+            : 'Özel gün için hatırlatıcı bildirimi kurulmuştur.'
+        );
+      }
+
+      setReminderFeedback(
+        instruction === 'auto_payment_instruction'
+          ? `${specialDayEvent.title} için otomatik ödeme talimatı seçeneğiyle hatırlatıcı kuruldu.${browserMessage}`
+          : `${specialDayEvent.title} için özel gün hatırlatıcısı kuruldu.${browserMessage}`
+      );
+    } catch {
+      setReminderError('Özel gün hatırlatıcısı ayarlanamadı. Lütfen tekrar deneyin.');
+    } finally {
+      setIsSavingReminder(false);
+    }
+  };
+
   const selectedEvents = selectedDate ? getEventsForDate(selectedDate) : [];
+  const hasSpecialDayEvent = selectedEvents.some((event) => event.type === 'special_day');
 
   // Compute streak from donations
   const donationStreak = useMemo(() => {
@@ -405,10 +612,23 @@ export default function DonationCalendar({
             <div className="text-center py-6">
               <p className="text-sm text-gray-400">
                 {t('components.donationcalendar.bu_tarihte_etkinlik_bulunmuyor')}</p>
-              <Link href="/donate">
-                <Button variant="outline" size="sm" className="mt-3">
-                  {t('components.donationcalendar.ba_hat_rlat_c_s_kur')}</Button>
-              </Link>
+              <Button
+                variant="outline"
+                size="sm"
+                className="mt-3"
+                disabled={isSavingReminder}
+                onClick={handleSetDonationReminder}
+              >
+                {isSavingReminder
+                  ? 'Kaydediliyor...'
+                  : t('components.donationcalendar.ba_hat_rlat_c_s_kur')}
+              </Button>
+              {reminderFeedback && (
+                <p className="text-xs text-emerald-600 mt-2">{reminderFeedback}</p>
+              )}
+              {reminderError && (
+                <p className="text-xs text-red-600 mt-2">{reminderError}</p>
+              )}
             </div>
           ) : (
             <div className="space-y-2">
@@ -448,6 +668,43 @@ export default function DonationCalendar({
               ))}
             </div>
           )}
+
+          {hasSpecialDayEvent && (
+            <div className="mt-4 border-t border-gray-100 pt-4">
+              <div className="flex items-center justify-between gap-3 flex-wrap">
+                <div className="flex items-start gap-2">
+                  <Sparkles className="h-4 w-4 text-amber-500 mt-0.5" />
+                  <div>
+                    <p className="text-sm font-semibold text-gray-900">Özel Gün Hatırlatıcısı</p>
+                    <p className="text-xs text-gray-500">Bu özel gün için yıllık tekrar eden hatırlatma kurun.</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2 flex-wrap">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={isSavingReminder}
+                    onClick={() => handleSetSpecialDayReminder('notify_only')}
+                  >
+                    <BellRing className="h-3.5 w-3.5 mr-1" />
+                    Sadece Hatırlat
+                  </Button>
+                  <Button
+                    variant="default"
+                    size="sm"
+                    disabled={isSavingReminder}
+                    className="bg-purple-600 hover:bg-purple-700"
+                    onClick={() => handleSetSpecialDayReminder('auto_payment_instruction')}
+                  >
+                    Otomatik Ödeme Talimatı
+                  </Button>
+                </div>
+              </div>
+              <Link href="/calendar/reminders" className="inline-block mt-3 text-xs text-blue-600 hover:text-blue-700 font-medium">
+                Tüm hatırlatıcı talimatlarını yönet →
+              </Link>
+            </div>
+          )}
         </div>
       )}
 
@@ -458,6 +715,7 @@ export default function DonationCalendar({
           { type: 'campaign_end' as CalendarEventType, label: 'Kampanya Bitişi' },
           { type: 'special_day' as CalendarEventType, label: 'Özel Günler' },
           { type: 'school' as CalendarEventType, label: 'Okul Takvimi' },
+          { type: 'reminder' as CalendarEventType, label: 'Hatırlatıcılar' },
         ].map(({ type, label }) => (
           <div key={type} className="flex items-center gap-1.5">
             <div

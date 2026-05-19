@@ -142,10 +142,11 @@ export function getFaqPrompt(): ChatMessage {
 
 export function getFaqNotFound(): ChatMessage {
   return botMessage(
-    'Bu konuda kesin bir cevabım yok 😅 Ama destek ekibimiz sana yardımcı olabilir. Başka bir sorun var mı?',
+    'Bu konuyu bilgi tabanımda bulamadım 🤔\n\nDestek ekibimize yazın: getsfunded@gmail.com',
     [
-      { label: '🎓 Öğrenci bul', value: 'find_student' },
-      { label: '❓ Başka sorum var', value: 'ask_faq' },
+      { label: '📧 Mail gönder', value: 'support_email' },
+      { label: '🎯 Öğrenci bul', value: 'find_student' },
+      { label: '🏠 Ana menü', value: 'home' },
     ]
   );
 }
@@ -166,10 +167,8 @@ export function getNextStep(currentStep: ChatStep): ChatStep {
   const flow: ChatStep[] = [
     'welcome',
     'ask_field',
-    'ask_gender',
     'ask_budget',
     'ask_priority',
-    'ask_country',
     'searching',
     'results',
   ];

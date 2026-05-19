@@ -6,7 +6,7 @@ export interface SessionUser {
   email: string;
   name: string;
   image?: string;
-  role: 'user' | 'admin';
+  role: 'user' | 'admin' | 'company_owner';
 }
 
 export interface VerifiedStudent extends SessionUser {
@@ -106,4 +106,43 @@ export async function requireVerifiedStudent(): Promise<VerifiedStudent> {
       updatedAt: studentProfile.updatedAt || studentProfile.updated_at,
     },
   };
+}
+
+// === Corporate matching helpers (Phase 1) ===
+// requireAdmin already exists above (line 62). Do not redefine it.
+
+import { prisma } from '@/lib/prisma';
+import type { Company } from '@prisma/client';
+
+export interface CompanyOwnerContext {
+  user: SessionUser;
+  company: Company;
+}
+
+export async function requireCompanyOwner(): Promise<CompanyOwnerContext> {
+  const user = await requireUser();
+  if (user.role !== 'company_owner') {
+    const err: any = new Error('Forbidden');
+    err.statusCode = 403;
+    throw err;
+  }
+  const company = await prisma.company.findUnique({
+    where: { ownerUserId: user.id },
+  });
+  if (!company) {
+    const err: any = new Error('Forbidden');
+    err.statusCode = 403;
+    throw err;
+  }
+  return { user, company };
+}
+
+export async function requireApprovedCompanyOwner(): Promise<CompanyOwnerContext> {
+  const ctx = await requireCompanyOwner();
+  if (ctx.company.status !== 'APPROVED') {
+    const err: any = new Error('CompanyNotApproved');
+    err.statusCode = 403;
+    throw err;
+  }
+  return ctx;
 }

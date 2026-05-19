@@ -1,0 +1,111 @@
+<h2>Blog Yazısı İç Sayfa Düzeni</h2>
+<p class="subtitle">Makale içerik sayfaları nasıl görünmeli? Her seçenek aynı içeriği farklı şekilde sunar.</p>
+
+<div class="cards">
+
+  <!-- Option A: Centered prose with sticky ToC -->
+  <div class="card" data-choice="centered-toc" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8fafc;padding:12px;border-radius:8px;min-height:200px;">
+      <div style="display:flex;gap:10px;">
+        <!-- ToC sidebar -->
+        <div style="width:90px;flex-shrink:0;">
+          <div style="background:white;border:1px solid #e2e8f0;border-radius:6px;padding:8px;">
+            <div style="font-size:7px;font-weight:700;color:#64748b;text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px;">İçindekiler</div>
+            <div style="font-size:8px;color:#10b981;margin-bottom:3px;padding-left:4px;border-left:2px solid #10b981;">Platform Tablosu</div>
+            <div style="font-size:8px;color:#64748b;margin-bottom:3px;padding-left:4px;">1. FundEd</div>
+            <div style="font-size:8px;color:#64748b;margin-bottom:3px;padding-left:4px;">2. GoFundMe</div>
+            <div style="font-size:8px;color:#64748b;margin-bottom:3px;padding-left:4px;">3. DonorsChoose</div>
+            <div style="font-size:8px;color:#64748b;padding-left:4px;">Sonuç</div>
+          </div>
+        </div>
+        <!-- Article content -->
+        <div style="flex:1;">
+          <div style="font-size:7px;color:#10b981;font-weight:600;text-transform:uppercase;margin-bottom:4px;">Platform Karşılaştırması · 6 dk</div>
+          <div style="font-weight:800;font-size:12px;color:#0f172a;line-height:1.3;margin-bottom:6px;">Eğitim Fonlaması İçin En İyi GoFundMe Alternatifleri</div>
+          <div style="font-size:8px;color:#475569;line-height:1.5;margin-bottom:8px;">GoFundMe, genel kitle fonlaması için iyi bilinse de eğitim odaklı platformlar çok daha iyi bir seçenek sunabilir...</div>
+          <!-- Mini table -->
+          <div style="background:white;border:1px solid #e2e8f0;border-radius:6px;overflow:hidden;">
+            <div style="background:#0f172a;color:white;font-size:7px;padding:4px 8px;font-weight:600;">Platform Karşılaştırması</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;font-size:7px;">
+              <div style="padding:4px 6px;background:#f8fafc;font-weight:600;color:#0f172a;border-bottom:1px solid #e2e8f0;">FundEd ✅</div>
+              <div style="padding:4px 6px;background:#f8fafc;color:#64748b;border-bottom:1px solid #e2e8f0;">Eğitim</div>
+              <div style="padding:4px 6px;background:#f8fafc;color:#64748b;border-bottom:1px solid #e2e8f0;">ESG ✅</div>
+              <div style="padding:4px 6px;color:#0f172a;font-weight:500;">GoFundMe</div>
+              <div style="padding:4px 6px;color:#64748b;">Genel</div>
+              <div style="padding:4px 6px;color:#64748b;">❌</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A — Kenarda İçindekiler (ToC)</h3>
+      <p>Sol tarafta sticky içindekiler + ortada makale. Uzun okumalar için çok kullanışlı, Wikipedia/Notion hissi.</p>
+    </div>
+  </div>
+
+  <!-- Option B: Full-width dark hero + centered content -->
+  <div class="card" data-choice="dark-hero" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8fafc;padding:0;border-radius:8px;overflow:hidden;min-height:200px;">
+      <!-- Dark hero header -->
+      <div style="background:linear-gradient(135deg,#0f172a,#1e3a5f);padding:14px 16px;color:white;">
+        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
+          <span style="font-size:7px;background:#10b981;color:white;padding:2px 6px;border-radius:10px;font-weight:600;">Platform Karşılaştırması</span>
+          <span style="font-size:7px;color:#94a3b8;">· 6 dk okuma</span>
+        </div>
+        <div style="font-weight:800;font-size:13px;line-height:1.3;margin-bottom:5px;">Eğitim Fonlaması İçin En İyi GoFundMe Alternatifleri</div>
+        <div style="font-size:8px;color:#cbd5e1;line-height:1.4;">7 platformun dürüst karşılaştırması — ve şeffaflığın neden önemli olduğu.</div>
+      </div>
+      <!-- Breadcrumb bar -->
+      <div style="background:white;border-bottom:1px solid #e2e8f0;padding:5px 16px;font-size:7px;color:#94a3b8;">
+        Ana Sayfa → Blog → <span style="color:#0f172a;font-weight:600;">GoFundMe Alternatifleri</span>
+      </div>
+      <!-- Content -->
+      <div style="padding:12px 16px;background:white;">
+        <div style="font-size:8px;color:#475569;line-height:1.5;margin-bottom:8px;">GoFundMe, genel kitle fonlaması için iyi bilinse de eğitim odaklı platformlar çok daha iyi bir seçenek sunabilir. İşte 7 platformun dürüst karşılaştırması.</div>
+        <div style="background:#f8fafc;border-radius:6px;padding:8px;border:1px solid #e2e8f0;">
+          <div style="font-size:7px;font-weight:700;color:#0f172a;margin-bottom:5px;">✅ FundEd — En İyi ESG Uyumlu Eğitim Fonlama</div>
+          <div style="font-size:7px;color:#64748b;">Doğrulanmış öğrenciler · ESG raporları · Global erişim · Şeffaf takip</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B — Koyu Hero + İçerik</h3>
+      <p>Blog listesi C seçeneğiyle uyumlu: koyu hero başlık + breadcrumb + altında beyaz makale alanı.</p>
+    </div>
+  </div>
+
+  <!-- Option C: Magazine article with pull quotes -->
+  <div class="card" data-choice="magazine-article" onclick="toggleSelect(this)">
+    <div class="card-image" style="background:#f8fafc;padding:12px;border-radius:8px;min-height:200px;">
+      <!-- Top bar with meta -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;padding-bottom:8px;border-bottom:2px solid #0f172a;">
+        <div style="display:flex;align-items:center;gap:6px;">
+          <span style="font-size:7px;background:#dcfce7;color:#065f46;padding:2px 6px;border-radius:10px;font-weight:600;">Platform Karşılaştırması</span>
+        </div>
+        <div style="font-size:7px;color:#94a3b8;">15 Mart 2026 · 6 dk</div>
+      </div>
+      <div style="font-weight:800;font-size:13px;color:#0f172a;line-height:1.3;margin-bottom:6px;">Eğitim Fonlaması İçin En İyi GoFundMe Alternatifleri</div>
+      <!-- Pull quote -->
+      <div style="border-left:3px solid #10b981;padding-left:8px;margin:8px 0;background:#f0fdf4;padding:8px 8px 8px 10px;border-radius:0 6px 6px 0;">
+        <div style="font-size:9px;font-style:italic;color:#0f172a;line-height:1.4;">"Eğitim odaklı platformlar, genel bağış sitelerine kıyasla doğrulama ve etki takibinde çok daha ileride."</div>
+      </div>
+      <div style="font-size:8px;color:#475569;line-height:1.5;">GoFundMe, genel kitle fonlaması için iyi bilinse de eğitim odaklı platformlar çok daha iyi bir seçenek sunabilir...</div>
+      <!-- Highlight box -->
+      <div style="margin-top:8px;background:white;border:1px solid #e2e8f0;border-radius:6px;padding:7px 10px;display:flex;align-items:center;gap:8px;">
+        <div style="font-size:16px;">🏆</div>
+        <div>
+          <div style="font-size:8px;font-weight:700;color:#0f172a;">FundEd — Editör Seçimi</div>
+          <div style="font-size:7px;color:#64748b;">ESG uyumlu · Doğrulanmış · Global</div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C — Magazin Makalesi</h3>
+      <p>Pull-quote, editör seçimi kutusu, güçlü tipografi. Gazete/Medium hissi, otorite kazandırır.</p>
+    </div>
+  </div>
+
+</div>
+
+<p class="subtitle" style="margin-top:24px;">Birini seçin veya terminalde yazın — kombinasyon da söyleyebilirsiniz.</p>

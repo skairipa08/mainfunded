@@ -10,7 +10,7 @@ import { useRouter } from 'next/navigation';
 import { useTranslation } from "@/lib/i18n/context";
 
 // Pages that don't require auth (login/register page)
-const publicPaths = ['/corporate/auth'];
+const publicPaths = ['/corporate/auth', '/corporate/login'];
 
 export default function CorporateLayout({
     children,

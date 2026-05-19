@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { mockNotifications } from '@/lib/corporate/mock-data';
+import { requireUser } from '@/lib/authz';
+import { withRateLimit, RATE_LIMITS } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
 
@@ -13,6 +15,11 @@ export const runtime = 'nodejs';
  */
 export async function GET(request: NextRequest) {
     try {
+        const rateLimitResponse = withRateLimit(request, RATE_LIMITS.api);
+        if (rateLimitResponse) return rateLimitResponse;
+
+        await requireUser();
+
         const searchParams = request.nextUrl.searchParams;
         const type = searchParams.get('type');
         const unread = searchParams.get('unread');
@@ -44,13 +51,15 @@ export async function GET(request: NextRequest) {
                 version: '1.0',
             },
         });
-    } catch (error) {
+    } catch (error: any) {
+        const message = error?.message || 'Failed to fetch notifications';
+        const status = message === 'Unauthorized' ? 401 : 500;
         return NextResponse.json(
             {
                 success: false,
-                error: 'Failed to fetch notifications',
+                error: message,
             },
-            { status: 500 }
+            { status }
         );
     }
 }
@@ -61,6 +70,11 @@ export async function GET(request: NextRequest) {
  */
 export async function PATCH(request: NextRequest) {
     try {
+        const rateLimitResponse = withRateLimit(request, RATE_LIMITS.api);
+        if (rateLimitResponse) return rateLimitResponse;
+
+        await requireUser();
+
         const body = await request.json();
 
         if (!body.ids || !Array.isArray(body.ids)) {
@@ -85,13 +99,15 @@ export async function PATCH(request: NextRequest) {
                 version: '1.0',
             },
         });
-    } catch (error) {
+    } catch (error: any) {
+        const message = error?.message || 'Failed to update notifications';
+        const status = message === 'Unauthorized' ? 401 : 500;
         return NextResponse.json(
             {
                 success: false,
-                error: 'Failed to update notifications',
+                error: message,
             },
-            { status: 500 }
+            { status }
         );
     }
 }

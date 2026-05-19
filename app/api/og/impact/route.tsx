@@ -1,24 +1,8 @@
 import { ImageResponse } from 'next/og';
 import { NextRequest } from 'next/server';
+import { getOgImpactTranslations } from '@/lib/og-impact-translations';
 
 export const runtime = 'edge';
-
-// We fetch language translations from our basic key/value store
-// Or hardcode translations for OG since we can't easily run next-intl in Edge sometimes without extra setup.
-const translations: Record<string, any> = {
-    en: {
-        badge: 'ANNIVERSARY',
-        impact: '1 Year of Impact',
-        supporter: 'Proud Supporter of',
-        thanks: 'Thank you for making a difference!',
-    },
-    tr: {
-        badge: 'YIL DÖNÜMÜ',
-        impact: '1 Yıllık Etki',
-        supporter: 'Gururlu Destekçisi:',
-        thanks: 'Fark yarattığınız için teşekkürler!',
-    }
-};
 
 export async function GET(request: NextRequest) {
     try {
@@ -27,8 +11,7 @@ export async function GET(request: NextRequest) {
         const studentName = searchParams.get('studentName') || 'a Student';
         const lang = searchParams.get('lang') || 'en';
 
-        // Fallback to English if lang not found
-        const t = translations[lang] || translations['en'];
+        const t = getOgImpactTranslations(lang);
 
         return new ImageResponse(
             (

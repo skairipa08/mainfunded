@@ -34,7 +34,7 @@ export async function generateMetadata({
   }
 }
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 120;
 
 async function getHomepageData() {
   try {

@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { mockStudents } from '@/lib/corporate/mock-data';
+import { requireUser } from '@/lib/authz';
+import { withRateLimit, RATE_LIMITS } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
 
@@ -14,6 +16,11 @@ export const runtime = 'nodejs';
  */
 export async function GET(request: NextRequest) {
     try {
+        const rateLimitResponse = withRateLimit(request, RATE_LIMITS.api);
+        if (rateLimitResponse) return rateLimitResponse;
+
+        await requireUser();
+
         const searchParams = request.nextUrl.searchParams;
         const status = searchParams.get('status');
         const faculty = searchParams.get('faculty');
@@ -45,13 +52,15 @@ export async function GET(request: NextRequest) {
                 version: '1.0',
             },
         });
-    } catch (error) {
+    } catch (error: any) {
+        const message = error?.message || 'Failed to fetch students';
+        const status = message === 'Unauthorized' ? 401 : 500;
         return NextResponse.json(
             {
                 success: false,
-                error: 'Failed to fetch students',
+                error: message,
             },
-            { status: 500 }
+            { status }
         );
     }
 }

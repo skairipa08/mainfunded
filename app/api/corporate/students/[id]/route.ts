@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { mockStudents } from '@/lib/corporate/mock-data';
+import { requireUser } from '@/lib/authz';
+import { withRateLimit, RATE_LIMITS } from '@/lib/rate-limit';
 
 export const runtime = 'nodejs';
 
@@ -12,6 +14,11 @@ export async function GET(
     { params }: { params: { id: string } }
 ) {
     try {
+        const rateLimitResponse = withRateLimit(request, RATE_LIMITS.api);
+        if (rateLimitResponse) return rateLimitResponse;
+
+        await requireUser();
+
         const student = mockStudents.find((s) => s.id === params.id);
 
         if (!student) {
@@ -32,13 +39,15 @@ export async function GET(
                 version: '1.0',
             },
         });
-    } catch (error) {
+    } catch (error: any) {
+        const message = error?.message || 'Failed to fetch student details';
+        const status = message === 'Unauthorized' ? 401 : 500;
         return NextResponse.json(
             {
                 success: false,
-                error: 'Failed to fetch student details',
+                error: message,
             },
-            { status: 500 }
+            { status }
         );
     }
 }

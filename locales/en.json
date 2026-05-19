@@ -1273,6 +1273,17 @@
       "pending": "Pending",
       "approved": "Approved",
       "rejected": "Rejected"
+    },
+    "corporate": {
+      "title": "Company Approval Queue",
+      "name": "Company",
+      "taxId": "Tax ID",
+      "contactEmail": "Email",
+      "createdAt": "Registered",
+      "approve": "Approve",
+      "reject": "Reject",
+      "rejectReason": "Rejection Reason",
+      "noPending": "No companies awaiting approval"
     }
   },
   "footer": {
@@ -1667,7 +1678,32 @@
       "twoFASetup": "2FA Setup",
       "qrCode": "QR Code",
       "scanQR": "Scan with Google Authenticator or similar app",
-      "secretKey": "Secret Key for Manual Entry"
+      "secretKey": "Secret Key for Manual Entry",
+      "profile": {
+        "title": "Company Profile",
+        "save": "Save",
+        "saved": "Profile updated"
+      },
+      "matchingRule": {
+        "title": "Matching Rule",
+        "ratio": "Matching Ratio",
+        "ratio1x": "1x",
+        "ratio2x": "2x",
+        "ratio3x": "3x",
+        "monthlyBudget": "Monthly Budget (TRY)",
+        "categories": "Eligible Categories",
+        "active": "Active",
+        "save": "Save",
+        "saved": "Rule updated",
+        "categoryLabels": {
+          "tuition": "Tuition",
+          "books": "Books",
+          "laptop": "Laptop",
+          "housing": "Housing",
+          "travel": "Travel",
+          "emergency": "Emergency"
+        }
+      }
     },
     "notifications": {
       "title": "Notifications",
@@ -1728,7 +1764,10 @@
       "credentialsNote": "Your username and password for the corporate panel will be sent to your email. Only for corporate customers.",
       "invalidCredentials": "Invalid email or password",
       "backToHome": "Back to Home",
-      "demoCredentials": "Demo Credentials"
+      "demoCredentials": "Demo Credentials",
+      "submit": "Sign In",
+      "rejected": "Your account has been rejected",
+      "suspended": "Your account has been suspended"
     },
     "students": {
       "title": "Students",
@@ -1781,6 +1820,29 @@
       "addToCart": "Add to Cart",
       "individualStudents": "Individual Students",
       "add": "Add"
+    },
+    "signup": {
+      "title": "Create Company Account",
+      "name": "Company Name",
+      "legalName": "Legal Name",
+      "taxId": "Tax ID",
+      "contactEmail": "Contact Email",
+      "contactPhone": "Phone",
+      "websiteUrl": "Website",
+      "logoUrl": "Logo URL",
+      "password": "Password",
+      "submit": "Sign Up",
+      "successTitle": "Registration Received",
+      "successBody": "Your company account has been submitted for admin approval.",
+      "errors": {
+        "EMAIL_TAKEN": "This email is already in use",
+        "TAX_ID_TAKEN": "This tax ID is already registered",
+        "SIGNUP_FAILED": "An error occurred during registration"
+      }
+    },
+    "pending": {
+      "title": "Awaiting Approval",
+      "body": "Your company account is awaiting admin approval. You will be notified once approved."
     }
   },
   "mentorApplication": {
@@ -4628,5 +4690,134 @@
   "app.page.g_ncellemelerim": "[en] Güncellemelerim",
   "app.page.topland": "[en] toplandı",
   "app.page.ba_lerlemesi": "[en] Bağış İlerlemesi",
-  "app.page.kampanyalar_ma_d_n": "[en] Kampanyalarıma Dön"
+  "app.page.kampanyalar_ma_d_n": "[en] Kampanyalarıma Dön",
+  "studentPassport": {
+    "title": "Student Profile",
+    "age": "Age",
+    "schoolName": "School Name",
+    "grade": "Grade",
+    "major": "Major/Department",
+    "careerGoal": "Career Goal",
+    "hobbies": "Hobiler",
+    "shortStory": "Short Story",
+    "gpa": "GPA",
+    "verifications": {
+      "title": "Verifications",
+      "idVerified": "Student ID Verified",
+      "schoolApproved": "School Approved",
+      "teacherReference": "Teacher Reference Available"
+    },
+    "timeline": {
+      "title": "Achievement Timeline",
+      "receivedScholarship": "Received Scholarship",
+      "passedClass": "Successfully Passed Class",
+      "graduated": "Graduated"
+    },
+    "privacy": {
+      "everyone": "Everyone",
+      "donorsOnly": "My Donors Only",
+      "hidden": "Hidden",
+      "restricted": "This information is private"
+    },
+    "messaging": {
+      "title": "Message the Student",
+      "placeholder": "Write your message of support here...",
+      "send": "Send Message",
+      "sending": "Sending...",
+      "success": "Message sent successfully!",
+      "errorRateLimit": "You have sent too many messages. Please try again later.",
+      "errorModeration": "Your message contains inappropriate content. Please revise.",
+      "error": "Failed to send message."
+    }
+  },
+  "email": {
+    "impactReport": {
+      "header": "Impact Report: {years} Year(s) of Support",
+      "greeting": "Dear {donorName},",
+      "intro": "You have been supporting {studentName} for {years} year(s). Here is the impact you've made together:",
+      "achievementsTitle": "New Achievements",
+      "gpaProgress": "GPA Change:",
+      "followPrompt": "Follow {studentName} to get regular updates.",
+      "followButton": "Follow Student",
+      "sharePrompt": "Share this impact with your network!",
+      "viewCampaign": "View Original Campaign",
+      "footerRight": "All rights reserved."
+    }
+  },
+  "corporateDashboard": {
+    "loading": "Loading...",
+    "loadError": "Failed to load dashboard data.",
+    "pendingApproval": "Pending Approval",
+    "rejectedSuffix": "{count} rejected",
+    "approvedSuffix": "{count} approved transactions",
+    "budgetUsage": "Budget Usage",
+    "noTrend": "No approved matches yet.",
+    "matchedTooltip": "Matched",
+    "transactionsTitle": "Matching Transactions",
+    "transactionsSummary": "{pending} pending, {approved} approved, {rejected} rejected.",
+    "viewAll": "View all",
+    "esgTitle": "ESG Annual Report",
+    "esgDownload": "Download PDF",
+    "esgBlurb": "Download the annual report automatically generated from your approved matches."
+  },
+  "corporateP2": {
+    "join": {
+      "title": "Join Company Matching Program",
+      "code": "Activation Code",
+      "submit": "Join",
+      "success": "You joined the company program: {company}",
+      "errors": {
+        "INVALID_CODE": "Invalid code",
+        "COMPANY_NOT_APPROVED": "Company is not yet approved",
+        "ALREADY_AFFILIATED": "You are already affiliated with another company"
+      }
+    },
+    "code": {
+      "title": "Activation Code",
+      "current": "Current Code",
+      "rotate": "Generate New Code",
+      "rotateConfirm": "The current code will be invalidated. Continue?",
+      "noCode": "No code generated yet"
+    },
+    "transactions": {
+      "title": "Matching Transactions",
+      "filterStatus": "Status",
+      "all": "All",
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "donor": "Donor",
+      "amount": "Donation",
+      "matched": "Matched",
+      "category": "Category",
+      "date": "Date",
+      "approve": "Approve",
+      "reject": "Reject",
+      "rejectReason": "Rejection Reason",
+      "noTransactions": "No transactions in this state"
+    }
+  },
+  "pages.stories.fallback.demo1.name": "Ayşe Yılmaz",
+  "pages.stories.fallback.demo1.title": "I Achieved My Dreams",
+  "pages.stories.fallback.demo1.university": "Boğaziçi University",
+  "pages.stories.fallback.demo1.field": "Computer Engineering",
+  "pages.stories.fallback.demo1.quote": "Thanks to FundEd, I achieved my dreams. Now I am interning at Google!",
+  "pages.stories.fallback.demo2.name": "Mehmet Kaya",
+  "pages.stories.fallback.demo2.title": "My Family Could Not Support Me",
+  "pages.stories.fallback.demo2.university": "METU",
+  "pages.stories.fallback.demo2.field": "Electrical and Electronics",
+  "pages.stories.fallback.demo2.quote": "My family could not support me. Without the FundEd family, I would not be here.",
+  "pages.stories.fallback.demo3.name": "Zeynep Demir",
+  "pages.stories.fallback.demo3.title": "Financial and Moral Support",
+  "pages.stories.fallback.demo3.university": "ITU",
+  "pages.stories.fallback.demo3.field": "Architecture",
+  "pages.stories.fallback.demo3.quote": "Donor support is valuable not only financially but also morally.",
+  "pages.stories.toasts.loginRequired": "You need to sign in to share a story",
+  "pages.stories.toasts.minLength": "Your story must be at least 10 characters",
+  "pages.stories.toasts.universityFieldRequired": "University and department information are required",
+  "pages.stories.toasts.submitSuccess": "Your story has been submitted! It will be published after approval. 🎉",
+  "pages.stories.toasts.genericError": "An error occurred",
+  "pages.stories.toasts.networkError": "Connection error. Please try again.",
+  "pages.stories.form.defaultTitle": "My Success Story",
+  "pages.stories.form.optional": "optional"
 }

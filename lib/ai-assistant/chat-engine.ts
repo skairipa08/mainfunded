@@ -10,6 +10,7 @@ import {
   getUpcomingSpecialDay,
   getTodaySpecialDay,
   getRandomMotivation,
+  MIN_CONFIDENCE_SCORE,
   type KnowledgeEntry,
   type SpecialDayInfo,
 } from './knowledge-base';
@@ -109,7 +110,9 @@ export function generateWelcomeResponse(): ChatEngineResponse {
       { label: '🎯 Öğrenci bul', value: 'find_student' },
       { label: '❓ Nasıl çalışır?', value: 'ask_how' },
       { label: '🔒 Güvenilir mi?', value: 'ask_trust' },
+      { label: '💳 Ödeme yöntemleri', value: 'ask_payment' },
       { label: '📋 Kampanyaları gör', value: 'browse' },
+      { label: '📧 Destek', value: 'support_email' },
     ],
   };
 }
@@ -247,15 +250,15 @@ export function processUserMessage(
 // ─── Knowledge base sorgusu ──────────────────────────────────
 
 function processKnowledgeQuery(query: string): ChatEngineResponse {
-  const { entry, related } = searchKnowledge(query);
+  const { entry, related, score } = searchKnowledge(query);
 
-  if (!entry) {
+  if (!entry || score < MIN_CONFIDENCE_SCORE) {
     return {
       messages: [botMessage(getFallbackResponse())],
       quickReplies: [
+        { label: '📧 Mail gönder', value: 'support_email' },
         { label: '🎯 Öğrenci bul', value: 'find_student' },
-        { label: '❓ Nasıl çalışır?', value: 'ask_how' },
-        { label: '🔒 Güvenilir mi?', value: 'ask_trust' },
+        { label: '🏠 Ana menü', value: 'home' },
       ],
     };
   }
@@ -294,6 +297,11 @@ export function getKnowledgeById(id: string): ChatEngineResponse {
   if (!entry) {
     return {
       messages: [botMessage(getFallbackResponse())],
+      quickReplies: [
+        { label: '📧 Mail gönder', value: 'support_email' },
+        { label: '🎯 Öğrenci bul', value: 'find_student' },
+        { label: '🏠 Ana menü', value: 'home' },
+      ],
     };
   }
 

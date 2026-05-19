@@ -32,19 +32,6 @@ export async function GET(
                 {
                     projection: {
                         _id: 1,
-                        fullName: 1,
-                        email: 1,
-                        country: 1,
-                        educationLevel: 1,
-                        needSummary: 1,
-                        // New fields
-                        targetAmount: 1,
-                        classYear: 1,
-                        faculty: 1,
-                        department: 1,
-                        goalAmount: 1,
-                        story: 1,
-
                         status: 1,
                         createdAt: 1,
                         updatedAt: 1,
@@ -59,19 +46,6 @@ export async function GET(
                     projection: {
                         _id: 1,
                         id: 1,
-                        fullName: 1,
-                        email: 1,
-                        country: 1,
-                        educationLevel: 1,
-                        needSummary: 1,
-                        // New fields
-                        targetAmount: 1,
-                        classYear: 1,
-                        faculty: 1,
-                        department: 1,
-                        goalAmount: 1,
-                        story: 1,
-
                         status: 1,
                         createdAt: 1,
                         updatedAt: 1,

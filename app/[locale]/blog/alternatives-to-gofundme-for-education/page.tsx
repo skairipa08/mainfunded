@@ -25,6 +25,66 @@ export async function generateMetadata({ params: { locale } }: Props): Promise<M
   }
 }
 
+const competitors = [
+  { name: 'DonorsChoose',  score: 7.0, color: '#6366f1', noteTr: 'Sınıf odaklı · Sadece ABD',             noteEn: 'Classroom-focused · US only' },
+  { name: 'GlobalGiving',  score: 7.5, color: '#8b5cf6', noteTr: 'Kurum bazlı · Global',                  noteEn: 'Org-level · Global' },
+  { name: 'Kiva',          score: 6.5, color: '#f59e0b', noteTr: 'Mikro kredi · Geri ödeme odaklı',        noteEn: 'Microloans · Repayment-focused' },
+  { name: 'ScholarshipOwl',score: 6.0, color: '#0ea5e9', noteTr: 'Burs odaklı · ABD ağırlıklı',            noteEn: 'Scholarship-focused · US-heavy' },
+  { name: 'GoFundMe',      score: 5.0, color: '#94a3b8', noteTr: 'Genel amaçlı · Doğrulama yok',          noteEn: 'General purpose · No verification' },
+  { name: 'JustGiving',    score: 4.5, color: '#cbd5e1', noteTr: 'Minimal doğrulama · İngiltere',          noteEn: 'Minimal verification · UK-based' },
+]
+
+function ComparisonBlock({ isTr }: { isTr: boolean }) {
+  return (
+    <div className="my-10">
+      {/* FundEd winner card */}
+      <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-6 mb-4 flex flex-col sm:flex-row items-start justify-between gap-5">
+        <div>
+          <p className="text-emerald-400 text-xs font-bold uppercase tracking-widest mb-2">
+            ⭐ {isTr ? 'Önerilen Platform' : 'Recommended Platform'}
+          </p>
+          <p className="text-2xl font-black text-white mb-1">FundEd</p>
+          <p className="text-slate-400 text-sm">
+            {isTr ? 'Eğitim · Global · ESG Uyumlu' : 'Education · Global · ESG-Aligned'}
+          </p>
+        </div>
+        <div className="space-y-2 text-sm flex-shrink-0">
+          <p className="text-emerald-400">✅ {isTr ? 'Tam Öğrenci Doğrulaması' : 'Full Student Verification'}</p>
+          <p className="text-emerald-400">✅ {isTr ? 'ESG Raporlaması' : 'ESG Reporting'}</p>
+          <p className="text-emerald-400">✅ {isTr ? 'Şeffaf Fon Takibi' : 'Transparent Fund Tracking'}</p>
+          <p className="text-emerald-400">✅ {isTr ? 'Global Erişim' : 'Global Reach'}</p>
+        </div>
+      </div>
+
+      {/* Competitor score bars */}
+      <div className="bg-white rounded-2xl border border-slate-200 p-6">
+        <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">
+          {isTr ? 'Diğer Platformlar (Eğitim Uyum Puanı)' : 'Other Platforms (Education Fit Score)'}
+        </p>
+        <div className="space-y-5">
+          {competitors.map(p => (
+            <div key={p.name}>
+              <div className="flex items-center justify-between mb-2 gap-2">
+                <div className="flex items-center gap-2 min-w-0">
+                  <span className="text-sm font-semibold text-slate-800 flex-shrink-0">{p.name}</span>
+                  <span className="text-xs text-slate-400 truncate">{isTr ? p.noteTr : p.noteEn}</span>
+                </div>
+                <span className="text-sm font-bold text-slate-500 flex-shrink-0">{p.score}/10</span>
+              </div>
+              <div className="bg-slate-100 rounded-full h-2 overflow-hidden">
+                <div
+                  className="h-full rounded-full transition-all"
+                  style={{ width: `${p.score * 10}%`, backgroundColor: p.color }}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export default function BlogPostAlternatives({ params: { locale } }: Props) {
   const isTr = locale === 'tr'
   const base = `https://fund-ed.com/${locale}`
@@ -46,105 +106,154 @@ export default function BlogPostAlternatives({ params: { locale } }: Props) {
       <JsonLd schema={breadcrumbSchema(crumbs)} />
       <div className="min-h-screen flex flex-col bg-white">
         <Navbar />
-        <main className="flex-grow max-w-3xl mx-auto px-4 py-20 w-full prose prose-slate">
-          {isTr ? (
-            <>
-              <h1>Eğitim Fonlaması İçin En İyi GoFundMe Alternatifleri (2026)</h1>
-              <p className="lead">GoFundMe, genel kitle fonlaması için iyi bilinse de eğitim odaklı platformlar — özellikle doğrulama ve etki takibi sunanlar — çok daha iyi bir seçenek sunabilir. İşte 7 platformun dürüst karşılaştırması.</p>
 
-              <h2>Platform Karşılaştırma Tablosu</h2>
-              <table>
-                <thead><tr><th>Platform</th><th>Odak</th><th>Doğrulama</th><th>ESG/Etki</th><th>Kapsam</th></tr></thead>
-                <tbody>
-                  <tr><td><strong>FundEd</strong></td><td>Eğitim</td><td>✅ Tam doğrulama</td><td>✅ ESG raporları</td><td>Global</td></tr>
-                  <tr><td>GoFundMe</td><td>Genel</td><td>❌ Yok</td><td>❌ Yok</td><td>Global</td></tr>
-                  <tr><td>DonorsChoose</td><td>Sınıf projeleri</td><td>✅ Öğretmen odaklı</td><td>⚠️ Temel</td><td>Sadece ABD</td></tr>
-                  <tr><td>Kiva</td><td>Mikro kredi</td><td>✅ Ortak doğrulama</td><td>⚠️ Geri ödeme odaklı</td><td>Global</td></tr>
-                  <tr><td>GlobalGiving</td><td>Kar amacı gütmeyenler</td><td>✅ Kurum bazlı</td><td>✅ İlerleme raporları</td><td>Global</td></tr>
-                  <tr><td>JustGiving</td><td>Hayır kurumu/bireysel</td><td>❌ Minimal</td><td>❌ Yok</td><td>Büyük ölçüde İngiltere</td></tr>
-                  <tr><td>ScholarshipOwl</td><td>Burslar</td><td>✅ Burs odaklı</td><td>❌ Yok</td><td>ABD ağırlıklı</td></tr>
-                </tbody>
-              </table>
+        {/* Hero */}
+        <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+          <div className="max-w-3xl mx-auto px-6 pt-16 pb-12">
+            <div className="flex items-center gap-3 mb-5 flex-wrap">
+              <span className="bg-emerald-900/60 text-emerald-300 text-xs px-3 py-1 rounded-full border border-emerald-800/60 font-semibold">
+                {isTr ? 'Platform Karşılaştırması' : 'Platform Comparison'}
+              </span>
+              <span className="text-slate-500 text-xs">· {isTr ? '6 dk okuma' : '6 min read'}</span>
+            </div>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-white leading-tight mb-4">
+              {isTr
+                ? 'Eğitim Fonlaması İçin En İyi GoFundMe Alternatifleri (2026)'
+                : 'Best Alternatives to GoFundMe for Education Funding (2026)'}
+            </h1>
+            <p className="text-slate-400 text-base leading-relaxed max-w-2xl">
+              {isTr
+                ? 'GoFundMe, genel kitle fonlaması için iyi bilinse de eğitim odaklı platformlar çok daha iyi bir seçenek sunabilir. İşte 7 platformun dürüst karşılaştırması.'
+                : "While GoFundMe is well-known for general crowdfunding, education-focused platforms can be far better choices. Here's an honest comparison of 7 platforms."}
+            </p>
+          </div>
+        </div>
 
-              <h2>1. FundEd — En İyi ESG Uyumlu Eğitim Fonlama</h2>
-              <p>FundEd, eğitim fonlamasına odaklanan, tam öğrenci doğrulaması, canlı etki takibi ve ESG raporlaması sunan bir platformdur. Küresel olarak çalışır ve bireysel ile kurumsal bağışçıları destekler.</p>
-              <p><strong>Avantajlar:</strong> Doğrulanmış öğrenciler, ESG uyumlu raporlama, şeffaf fon takibi, global erişim.</p>
-              <p><strong>Dezavantajlar:</strong> GoFundMe kadar geniş marka tanınırlığına sahip değil (henüz).</p>
+        {/* Breadcrumb */}
+        <div className="bg-white border-b border-slate-100">
+          <div className="max-w-3xl mx-auto px-6 py-3 flex items-center gap-2 text-xs text-slate-400">
+            <Link href={`/${locale}`} className="hover:text-slate-700 transition-colors">
+              {isTr ? 'Ana Sayfa' : 'Home'}
+            </Link>
+            <span>›</span>
+            <Link href={`/${locale}/blog`} className="hover:text-slate-700 transition-colors">Blog</Link>
+            <span>›</span>
+            <span className="text-slate-700 font-medium">
+              {isTr ? 'GoFundMe Alternatifleri' : 'GoFundMe Alternatives'}
+            </span>
+          </div>
+        </div>
 
-              <h2>2. GoFundMe — Genel Amaçlı, Eğitim Odaklı Değil</h2>
-              <p>GoFundMe, genel bağış toplama için en büyük platformdur. Ancak öğrenci doğrulaması yoktur, fonların nasıl kullanıldığının takibi yapılamaz ve ESG raporlaması mevcut değildir. Eğitim bağışçıları için şeffaflık eksikliği önemli bir dezavantajdır.</p>
+        {/* Content */}
+        <main className="flex-grow">
+          <div className="max-w-3xl mx-auto px-4 py-10 w-full">
 
-              <h2>3. DonorsChoose — ABD Sınıfları İçin Harika</h2>
-              <p>DonorsChoose, ABD&apos;deki öğretmenlerin sınıf projeleri için kaynak toplamasına olanak tanır. Mükemmel bir doğrulama sürecine sahiptir ancak ABD dışındaki öğrencileri veya genel eğitim ihtiyaçlarını desteklemez.</p>
+            {/* Comparison section */}
+            <h2 className="text-xl font-extrabold text-slate-900 mb-2">
+              {isTr ? 'Platform Karşılaştırması' : 'Platform Comparison'}
+            </h2>
+            <ComparisonBlock isTr={isTr} />
 
-              <h2>Hangi Platformu Seçmelisiniz?</h2>
-              <p>Eğitime özel, doğrulanmış ve etkisi ölçülebilir bir bağış yapmak istiyorsanız: <Link href={`/${locale}/fund-a-student`}>FundEd</Link>&apos;i tercih edin. Sadece ABD&apos;deki sınıf materyalleri için: DonorsChoose ideal. Mikro kredi + eğitim karışımı için: Kiva değerlendirilebilir.</p>
+            {/* Prose content */}
+            {isTr ? (
+              <div className="prose prose-slate max-w-none prose-headings:font-extrabold prose-a:text-emerald-600 prose-a:no-underline hover:prose-a:underline">
+                <h2>1. FundEd — En İyi ESG Uyumlu Eğitim Fonlama</h2>
+                <p>FundEd, eğitim fonlamasına odaklanan, tam öğrenci doğrulaması, canlı etki takibi ve ESG raporlaması sunan bir platformdur. Küresel olarak çalışır ve bireysel ile kurumsal bağışçıları destekler.</p>
+                <p><strong>Avantajlar:</strong> Doğrulanmış öğrenciler, ESG uyumlu raporlama, şeffaf fon takibi, global erişim.</p>
+                <p><strong>Dezavantajlar:</strong> GoFundMe kadar geniş marka tanınırlığına sahip değil (henüz).</p>
 
-              <h2>Şeffaflık Neden Önemli?</h2>
-              <p>GoFundMe gibi genel platformlarda bağışınızın gerçekten eğitime gittiğini doğrulamanın yolu yoktur. <Link href={`/${locale}/transparency`}>Şeffaflık sayfamızda</Link> FundEd&apos;in her bağışı nasıl izlediğini görebilirsiniz.</p>
+                <h2>2. GoFundMe — Genel Amaçlı, Eğitim Odaklı Değil</h2>
+                <p>GoFundMe, genel bağış toplama için en büyük platformdur. Ancak öğrenci doğrulaması yoktur, fonların nasıl kullanıldığının takibi yapılamaz ve ESG raporlaması mevcut değildir. Eğitim bağışçıları için şeffaflık eksikliği önemli bir dezavantajdır.</p>
 
-              <h2>Sonuç</h2>
-              <p>Eğitim odaklı, güvenli ve etkisi doğrulanmış bir bağış platformu arıyorsanız, FundEd en iyi seçenektir. <Link href={`/${locale}/how-it-works`}>Nasıl çalıştığını öğrenin</Link> ve bugün bir öğrencinin eğitimine katkıda bulunun.</p>
-            </>
-          ) : (
-            <>
-              <h1>Best Alternatives to GoFundMe for Education Funding (2026)</h1>
-              <p className="lead">While GoFundMe is well-known for general crowdfunding, education-focused platforms — especially those offering verification and impact tracking — can be far better choices. Here&apos;s an honest comparison of 7 platforms.</p>
+                <h2>3. DonorsChoose — ABD Sınıfları İçin Harika</h2>
+                <p>DonorsChoose, ABD&apos;deki öğretmenlerin sınıf projeleri için kaynak toplamasına olanak tanır. Mükemmel bir doğrulama sürecine sahiptir ancak ABD dışındaki öğrencileri veya genel eğitim ihtiyaçlarını desteklemez.</p>
 
-              <h2>Platform Comparison Table</h2>
-              <table>
-                <thead><tr><th>Platform</th><th>Focus</th><th>Verification</th><th>ESG/Impact</th><th>Scope</th></tr></thead>
-                <tbody>
-                  <tr><td><strong>FundEd</strong></td><td>Education</td><td>✅ Full verification</td><td>✅ ESG reports</td><td>Global</td></tr>
-                  <tr><td>GoFundMe</td><td>General</td><td>❌ None</td><td>❌ None</td><td>Global</td></tr>
-                  <tr><td>DonorsChoose</td><td>Classroom projects</td><td>✅ Teacher-focused</td><td>⚠️ Basic</td><td>US only</td></tr>
-                  <tr><td>Kiva</td><td>Microloans</td><td>✅ Partner-verified</td><td>⚠️ Repayment-focused</td><td>Global</td></tr>
-                  <tr><td>GlobalGiving</td><td>Nonprofits</td><td>✅ Org-level</td><td>✅ Progress reports</td><td>Global</td></tr>
-                  <tr><td>JustGiving</td><td>Charity/personal</td><td>❌ Minimal</td><td>❌ None</td><td>Mostly UK</td></tr>
-                  <tr><td>ScholarshipOwl</td><td>Scholarships</td><td>✅ Scholarship-focused</td><td>❌ None</td><td>US-heavy</td></tr>
-                </tbody>
-              </table>
+                <h2>Hangi Platformu Seçmelisiniz?</h2>
+                <p>Eğitime özel, doğrulanmış ve etkisi ölçülebilir bir bağış yapmak istiyorsanız: <Link href={`/${locale}/fund-a-student`}>FundEd</Link>&apos;i tercih edin. Sadece ABD&apos;deki sınıf materyalleri için: DonorsChoose ideal. Mikro kredi + eğitim karışımı için: Kiva değerlendirilebilir.</p>
 
-              <h2>1. FundEd — Best ESG-Aligned Education Platform</h2>
-              <p>FundEd is purpose-built for education funding, offering full student verification, live impact tracking, and ESG reporting. It operates globally and supports individual and corporate donors.</p>
-              <p><strong>Pros:</strong> Verified students, ESG-compliant reporting, transparent fund tracking, global reach.</p>
-              <p><strong>Cons:</strong> Doesn&apos;t have GoFundMe&apos;s brand recognition (yet).</p>
+                <h2>Şeffaflık Neden Önemli?</h2>
+                <p>GoFundMe gibi genel platformlarda bağışınızın gerçekten eğitime gittiğini doğrulamanın yolu yoktur. <Link href={`/${locale}/transparency`}>Şeffaflık sayfamızda</Link> FundEd&apos;in her bağışı nasıl izlediğini görebilirsiniz.</p>
 
-              <h2>2. GoFundMe — General Purpose, Not Education-Focused</h2>
-              <p>GoFundMe is the largest general fundraising platform. However, it has no student verification, no tracking of how funds are used, and no ESG reporting. The lack of transparency is a significant drawback for education donors.</p>
+                <h2>Sonuç</h2>
+                <p>Eğitim odaklı, güvenli ve etkisi doğrulanmış bir bağış platformu arıyorsanız, FundEd en iyi seçenektir. <Link href={`/${locale}/how-it-works`}>Nasıl çalıştığını öğrenin</Link> ve bugün bir öğrencinin eğitimine katkıda bulunun.</p>
+              </div>
+            ) : (
+              <div className="prose prose-slate max-w-none prose-headings:font-extrabold prose-a:text-emerald-600 prose-a:no-underline hover:prose-a:underline">
+                <h2>1. FundEd — Best ESG-Aligned Education Platform</h2>
+                <p>FundEd is purpose-built for education funding, offering full student verification, live impact tracking, and ESG reporting. It operates globally and supports individual and corporate donors.</p>
+                <p><strong>Pros:</strong> Verified students, ESG-compliant reporting, transparent fund tracking, global reach.</p>
+                <p><strong>Cons:</strong> Doesn&apos;t have GoFundMe&apos;s brand recognition (yet).</p>
 
-              <h2>3. DonorsChoose — Great for US Classrooms</h2>
-              <p>DonorsChoose lets US teachers raise funds for classroom projects. It has an excellent verification process but doesn&apos;t support students outside the US or general educational needs.</p>
+                <h2>2. GoFundMe — General Purpose, Not Education-Focused</h2>
+                <p>GoFundMe is the largest general fundraising platform. However, it has no student verification, no tracking of how funds are used, and no ESG reporting. The lack of transparency is a significant drawback for education donors.</p>
 
-              <h2>Which Platform Should You Choose?</h2>
-              <p>For verified, impact-tracked education donations: choose <Link href={`/${locale}/fund-a-student`}>FundEd</Link>. For US classroom supplies only: DonorsChoose is ideal. For microloans with an education component: Kiva is worth considering.</p>
+                <h2>3. DonorsChoose — Great for US Classrooms</h2>
+                <p>DonorsChoose lets US teachers raise funds for classroom projects. It has an excellent verification process but doesn&apos;t support students outside the US or general educational needs.</p>
 
-              <h2>Why Transparency Matters</h2>
-              <p>On general platforms like GoFundMe, there&apos;s no way to verify your donation actually went to education. See <Link href={`/${locale}/transparency`}>our transparency page</Link> for how FundEd tracks every donation.</p>
+                <h2>Which Platform Should You Choose?</h2>
+                <p>For verified, impact-tracked education donations: choose <Link href={`/${locale}/fund-a-student`}>FundEd</Link>. For US classroom supplies only: DonorsChoose is ideal. For microloans with an education component: Kiva is worth considering.</p>
 
-              <h2>Conclusion</h2>
-              <p>If you want an education-focused, secure, and impact-verified donation platform, FundEd is the best choice. <Link href={`/${locale}/how-it-works`}>See how it works</Link> and start funding a student&apos;s education today.</p>
-            </>
-          )}
+                <h2>Why Transparency Matters</h2>
+                <p>On general platforms like GoFundMe, there&apos;s no way to verify your donation actually went to education. See <Link href={`/${locale}/transparency`}>our transparency page</Link> for how FundEd tracks every donation.</p>
 
-          <div className="not-prose mt-10 border-t border-slate-100 pt-8">
-            <p className="font-semibold text-slate-700 mb-4">{isTr ? 'İlgili Makaleler' : 'Related Articles'}</p>
-            <div className="flex flex-col gap-2">
-              <Link href={`/${locale}/blog/scholarship-vs-crowdfunding-vs-sponsorship`} className="text-emerald-600 underline underline-offset-4">
-                {isTr ? 'Burs, Kitle Fonlaması, Sponsorluk: Hangisi Daha İyi?' : 'Scholarship vs. Crowdfunding vs. Sponsorship: Which Is Best?'}
-              </Link>
-              <Link href={`/${locale}/blog/esg-education-impact`} className="text-emerald-600 underline underline-offset-4">
-                {isTr ? 'ESG Uyumlu Eğitim Bağışı Nedir?' : 'What Is ESG-Aligned Giving in Education?'}
+                <h2>Conclusion</h2>
+                <p>If you want an education-focused, secure, and impact-verified donation platform, FundEd is the best choice. <Link href={`/${locale}/how-it-works`}>See how it works</Link> and start funding a student&apos;s education today.</p>
+              </div>
+            )}
+
+            {/* Related Articles */}
+            <div className="mt-14 pt-10 border-t border-slate-100">
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-5">
+                {isTr ? 'İlgili Makaleler' : 'Related Articles'}
+              </p>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <Link
+                  href={`/${locale}/blog/scholarship-vs-crowdfunding-vs-sponsorship`}
+                  className="group flex items-start gap-3 p-4 border border-slate-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50 transition-all"
+                >
+                  <span className="text-emerald-500 text-lg mt-0.5 flex-shrink-0 group-hover:translate-x-1 transition-transform">→</span>
+                  <span className="text-sm font-semibold text-slate-700 group-hover:text-emerald-700 transition-colors leading-snug">
+                    {isTr ? 'Burs, Kitle Fonlaması, Sponsorluk: Hangisi Daha İyi?' : 'Scholarship vs. Crowdfunding vs. Sponsorship: Which Is Best?'}
+                  </span>
+                </Link>
+                <Link
+                  href={`/${locale}/blog/esg-education-impact`}
+                  className="group flex items-start gap-3 p-4 border border-slate-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50 transition-all"
+                >
+                  <span className="text-emerald-500 text-lg mt-0.5 flex-shrink-0 group-hover:translate-x-1 transition-transform">→</span>
+                  <span className="text-sm font-semibold text-slate-700 group-hover:text-emerald-700 transition-colors leading-snug">
+                    {isTr ? 'ESG Uyumlu Eğitim Bağışı Nedir?' : 'What Is ESG-Aligned Giving in Education?'}
+                  </span>
+                </Link>
+              </div>
+            </div>
+
+            {/* CTA */}
+            <div className="mt-8 mb-8 bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+              <div>
+                <p className="text-emerald-400 text-xs font-bold uppercase tracking-widest mb-2">
+                  {isTr ? 'Hemen Başlayın' : 'Get Started Now'}
+                </p>
+                <p className="text-white font-bold text-xl mb-1">
+                  {isTr ? 'Doğrulanmış bir öğrenciyi destekle' : 'Fund a verified student'}
+                </p>
+                <p className="text-slate-400 text-sm">
+                  {isTr
+                    ? 'ESG uyumlu, şeffaf, anlık etki takibi ile.'
+                    : 'ESG-aligned, transparent, with live impact tracking.'}
+                </p>
+              </div>
+              <Link
+                href={`/${locale}/fund-a-student`}
+                className="flex-shrink-0 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold px-6 py-3 rounded-xl transition-colors whitespace-nowrap"
+              >
+                {isTr ? 'Bir öğrenciyi destekle →' : 'Fund a student →'}
               </Link>
             </div>
-          </div>
-          <div className="not-prose mt-8 p-6 bg-emerald-50 rounded-2xl">
-            <p className="font-semibold text-slate-900 mb-2">{isTr ? 'Hemen başlayın' : 'Get started now'}</p>
-            <Link href={`/${locale}/fund-a-student`} className="inline-block bg-emerald-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-emerald-700 transition-colors">
-              {isTr ? 'Bir öğrenciyi destekle →' : 'Fund a student →'}
-            </Link>
+
           </div>
         </main>
+
         <Footer />
       </div>
     </>

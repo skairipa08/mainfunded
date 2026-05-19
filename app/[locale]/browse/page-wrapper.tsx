@@ -8,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue, SelectSeparator, SelectLabel, SelectGroup } from '@/components/ui/select';
 import CampaignCard from '@/components/CampaignCard';
 import { getCampaigns, getCategories, getCountries, getFieldsOfStudy } from '@/lib/api';
+import { getDemoCampaigns } from '@/lib/demo-data';
 import { APPLICANT_TYPES, EDUCATION_LEVELS } from '@/lib/constants';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -25,7 +26,11 @@ export default function BrowsePageContent() {
   const [countries, setCountries] = useState<any[]>([]);
   const [fieldsOfStudy, setFieldsOfStudy] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
   const [pagination, setPagination] = useState({ total: 0, page: 1, total_pages: 0 });
+  const [sponsorsMap, setSponsorsMap] = useState<
+    Record<string, Array<{ id: string; name: string; logoUrl: string | null }>>
+  >({});
 
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
   const [selectedCategory, setSelectedCategory] = useState(searchParams.get('category') || 'all');
@@ -33,6 +38,40 @@ export default function BrowsePageContent() {
   const [selectedField, setSelectedField] = useState(searchParams.get('field_of_study') || 'all');
   const [selectedApplicantType, setSelectedApplicantType] = useState(searchParams.get('applicant_type') || 'all');
   const [selectedEducationLevel, setSelectedEducationLevel] = useState(searchParams.get('education_level') || 'all');
+
+  // After campaigns load, fetch corporate sponsors for the visible set.
+  // Only ObjectId-shaped IDs are eligible; static story IDs are ignored.
+  useEffect(() => {
+    if (campaigns.length === 0) {
+      setSponsorsMap({});
+      return;
+    }
+    const objectIdRe = /^[a-f0-9]{24}$/i;
+    const ids = campaigns
+      .map((c: any) => c.campaign_id)
+      .filter((id: unknown): id is string => typeof id === 'string' && objectIdRe.test(id));
+    if (ids.length === 0) {
+      setSponsorsMap({});
+      return;
+    }
+    let cancelled = false;
+    fetch('/api/campaigns/sponsors', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ campaignIds: ids }),
+    })
+      .then((r) => r.json())
+      .then((json) => {
+        if (cancelled || !json?.success) return;
+        setSponsorsMap(json.data ?? {});
+      })
+      .catch(() => {
+        // Silent — sponsors are decorative; never block the page on failure
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [campaigns]);
 
   // Load static data on mount
   useEffect(() => {
@@ -57,86 +96,91 @@ export default function BrowsePageContent() {
   useEffect(() => {
     const loadCampaigns = async () => {
       setLoading(true);
+      setLoadError(false);
+
+      const params: any = {
+        page: 1,
+        limit: 12,
+      };
+
+      if (searchQuery) params.search = searchQuery;
+      if (selectedCategory !== 'all') params.category = selectedCategory;
+      if (selectedCountry !== 'all') params.country = selectedCountry;
+      if (selectedField !== 'all') params.field_of_study = selectedField;
+      if (selectedApplicantType !== 'all') params.applicant_type = selectedApplicantType;
+      if (selectedEducationLevel !== 'all') params.education_level = selectedEducationLevel;
+
+      // Build static stories independently so they always show on page 1,
+      // even when the API/DB call fails.
+      let baseStories: any[] = [];
+      if (params.page === 1) {
+        const staticStories = [
+          {
+            campaign_id: 'special-needs-story-Elif',
+            title: t('specialNeeds.stories.condition1') !== 'specialNeeds.stories.condition1' ? t('specialNeeds.stories.condition1') + ' / Elif' : 'Otizm / Elif',
+            status: 'published',
+            student: { name: 'Elif', country: t('specialNeeds.stories.country1') !== 'specialNeeds.stories.country1' ? t('specialNeeds.stories.country1') : 'Türkiye', verification_status: 'verified' },
+            raised_amount: 0,
+            goal_amount: 50000,
+            donor_count: 0,
+            category: 'special-needs',
+            cover_image: 'https://images.unsplash.com/photo-1491013516836-7db643ee125a?w=800&q=80&auto=format&fit=crop',
+            story: t('specialNeeds.stories.quote1') !== 'specialNeeds.stories.quote1' ? t('specialNeeds.stories.quote1') : '',
+            condition: t('specialNeeds.stories.condition1') !== 'specialNeeds.stories.condition1' ? t('specialNeeds.stories.condition1') : 'Otizm',
+            isPublished: true,
+            tier_approved: 1
+          },
+          {
+            campaign_id: 'special-needs-story-Yusuf',
+            title: t('specialNeeds.stories.condition2') !== 'specialNeeds.stories.condition2' ? t('specialNeeds.stories.condition2') + ' / Yusuf' : 'İşitme Engelli / Yusuf',
+            status: 'published',
+            student: { name: 'Yusuf', country: t('specialNeeds.stories.country2') !== 'specialNeeds.stories.country2' ? t('specialNeeds.stories.country2') : 'Suriye', verification_status: 'verified' },
+            raised_amount: 0,
+            goal_amount: 50000,
+            donor_count: 0,
+            category: 'special-needs',
+            cover_image: 'https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=800&q=80&auto=format&fit=crop',
+            story: t('specialNeeds.stories.quote2') !== 'specialNeeds.stories.quote2' ? t('specialNeeds.stories.quote2') : '',
+            condition: t('specialNeeds.stories.condition2') !== 'specialNeeds.stories.condition2' ? t('specialNeeds.stories.condition2') : 'İşitme Engelli',
+            isPublished: true,
+            tier_approved: 1
+          },
+          {
+            campaign_id: 'special-needs-story-Zeynep',
+            title: t('specialNeeds.stories.condition3') !== 'specialNeeds.stories.condition3' ? t('specialNeeds.stories.condition3') + ' / Zeynep' : 'Görme Engelli / Zeynep',
+            status: 'published',
+            student: { name: 'Zeynep', country: t('specialNeeds.stories.country3') !== 'specialNeeds.stories.country3' ? t('specialNeeds.stories.country3') : 'Türkiye', verification_status: 'verified' },
+            raised_amount: 0,
+            goal_amount: 50000,
+            donor_count: 0,
+            category: 'special-needs',
+            cover_image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&q=80&auto=format&fit=crop',
+            story: t('specialNeeds.stories.quote3') !== 'specialNeeds.stories.quote3' ? t('specialNeeds.stories.quote3') : '',
+            condition: t('specialNeeds.stories.condition3') !== 'specialNeeds.stories.condition3' ? t('specialNeeds.stories.condition3') : 'Görme Engelli',
+            isPublished: true,
+            tier_approved: 1
+          }
+        ];
+
+        baseStories = staticStories.filter(story => {
+          if (params.category && params.category !== "all" && story.category !== params.category) return false;
+          if (params.search && !story.student.name.toLowerCase().includes(params.search.toLowerCase()) && !story.title.toLowerCase().includes(params.search.toLowerCase()) && !story.condition.toLowerCase().includes(params.search.toLowerCase())) return false;
+          return true;
+        });
+
+        const demoCampaigns = getDemoCampaigns(params);
+        baseStories = [...baseStories, ...demoCampaigns];
+      }
+
       try {
-        const params: any = {
-          page: 1,
-          limit: 12,
-        };
-
-        if (searchQuery) params.search = searchQuery;
-        if (selectedCategory !== 'all') params.category = selectedCategory;
-        if (selectedCountry !== 'all') params.country = selectedCountry;
-        if (selectedField !== 'all') params.field_of_study = selectedField;
-        if (selectedApplicantType !== 'all') params.applicant_type = selectedApplicantType;
-        if (selectedEducationLevel !== 'all') params.education_level = selectedEducationLevel;
-
         const res = await getCampaigns(params);
-        let fetchedCampaigns = res.data || [];
-
-        // --- Inject special needs stories if we are on page 1 and they match filters ---
-        if (params.page === 1) {
-          const staticStories = [
-            {
-              campaign_id: 'special-needs-story-Elif',
-              title: t('specialNeeds.stories.condition1') !== 'specialNeeds.stories.condition1' ? t('specialNeeds.stories.condition1') + ' / Elif' : 'Otizm / Elif',
-              status: 'published',
-              student: { name: 'Elif', country: t('specialNeeds.stories.country1') !== 'specialNeeds.stories.country1' ? t('specialNeeds.stories.country1') : 'Türkiye', verification_status: 'verified' },
-              raised_amount: 0,
-              goal_amount: 50000,
-              donor_count: 0,
-              category: 'special-needs',
-              cover_image: 'https://images.unsplash.com/photo-1491013516836-7db643ee125a?w=800&q=80&auto=format&fit=crop',
-              story: t('specialNeeds.stories.quote1') !== 'specialNeeds.stories.quote1' ? t('specialNeeds.stories.quote1') : '',
-              condition: t('specialNeeds.stories.condition1') !== 'specialNeeds.stories.condition1' ? t('specialNeeds.stories.condition1') : 'Otizm',
-              isPublished: true,
-              tier_approved: 1
-            },
-            {
-              campaign_id: 'special-needs-story-Yusuf',
-              title: t('specialNeeds.stories.condition2') !== 'specialNeeds.stories.condition2' ? t('specialNeeds.stories.condition2') + ' / Yusuf' : 'İşitme Engelli / Yusuf',
-              status: 'published',
-              student: { name: 'Yusuf', country: t('specialNeeds.stories.country2') !== 'specialNeeds.stories.country2' ? t('specialNeeds.stories.country2') : 'Suriye', verification_status: 'verified' },
-              raised_amount: 0,
-              goal_amount: 50000,
-              donor_count: 0,
-              category: 'special-needs',
-              cover_image: 'https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?w=800&q=80&auto=format&fit=crop',
-              story: t('specialNeeds.stories.quote2') !== 'specialNeeds.stories.quote2' ? t('specialNeeds.stories.quote2') : '',
-              condition: t('specialNeeds.stories.condition2') !== 'specialNeeds.stories.condition2' ? t('specialNeeds.stories.condition2') : 'İşitme Engelli',
-              isPublished: true,
-              tier_approved: 1
-            },
-            {
-              campaign_id: 'special-needs-story-Zeynep',
-              title: t('specialNeeds.stories.condition3') !== 'specialNeeds.stories.condition3' ? t('specialNeeds.stories.condition3') + ' / Zeynep' : 'Görme Engelli / Zeynep',
-              status: 'published',
-              student: { name: 'Zeynep', country: t('specialNeeds.stories.country3') !== 'specialNeeds.stories.country3' ? t('specialNeeds.stories.country3') : 'Türkiye', verification_status: 'verified' },
-              raised_amount: 0,
-              goal_amount: 50000,
-              donor_count: 0,
-              category: 'special-needs',
-              cover_image: 'https://images.unsplash.com/photo-1503454537195-1dcabb73ffb9?w=800&q=80&auto=format&fit=crop',
-              story: t('specialNeeds.stories.quote3') !== 'specialNeeds.stories.quote3' ? t('specialNeeds.stories.quote3') : '',
-              condition: t('specialNeeds.stories.condition3') !== 'specialNeeds.stories.condition3' ? t('specialNeeds.stories.condition3') : 'Görme Engelli',
-              isPublished: true,
-              tier_approved: 1
-            }
-          ];
-
-          const filteredStories = staticStories.filter(story => {
-            if (params.category && params.category !== "all" && story.category !== params.category) return false;
-            if (params.search && !story.student.name.toLowerCase().includes(params.search.toLowerCase()) && !story.title.toLowerCase().includes(params.search.toLowerCase()) && !story.condition.toLowerCase().includes(params.search.toLowerCase())) return false;
-            return true;
-          });
-
-          fetchedCampaigns = [...filteredStories, ...fetchedCampaigns];
-        }
-
-        setCampaigns(fetchedCampaigns);
+        const fetchedCampaigns = res.data || [];
+        setCampaigns([...baseStories, ...fetchedCampaigns]);
         setPagination(res.pagination || { total: 0, page: 1, total_pages: 0 });
       } catch (error) {
         console.error('Failed to load campaigns:', error);
-        setCampaigns([]);
+        setLoadError(true);
+        setCampaigns(baseStories);
       } finally {
         setLoading(false);
       }
@@ -275,15 +319,29 @@ export default function BrowsePageContent() {
             <div className="flex justify-center items-center py-12">
               <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
             </div>
+          ) : loadError && campaigns.length === 0 ? (
+            <div className="text-center py-12">
+              <p className="text-red-600 font-medium mb-2">{t('app.page_wrapper.error_loading_campaigns') || 'Kampanyalar yüklenirken bir hata oluştu.'}</p>
+              <p className="text-gray-500 text-sm">{t('app.page_wrapper.error_loading_campaigns_hint') || 'Lütfen sayfayı yenileyin veya daha sonra tekrar deneyin.'}</p>
+            </div>
           ) : campaigns.length === 0 ? (
             <div className="text-center py-12">
               <p className="text-gray-600">{t('app.page_wrapper.no_campaigns_found_try_adjusti')}</p>
             </div>
           ) : (
             <>
+              {loadError && (
+                <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-700">
+                  {t('app.page_wrapper.error_loading_campaigns_partial') || 'Bazı kampanyalar yüklenemedi. Aşağıdaki kampanyaların bir kısmı eksik olabilir.'}
+                </div>
+              )}
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
                 {campaigns.map((campaign) => (
-                  <CampaignCard key={campaign.campaign_id} campaign={campaign} />
+                  <CampaignCard
+                    key={campaign.campaign_id}
+                    campaign={campaign}
+                    sponsors={sponsorsMap[campaign.campaign_id]}
+                  />
                 ))}
               </div>
 

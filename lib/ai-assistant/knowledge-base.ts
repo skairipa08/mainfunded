@@ -3,6 +3,15 @@
 // Sitedeki tüm bilgilerden derlenen kapsamlı bilgi tabanı
 // ═══════════════════════════════════════════════════════════════
 
+import {
+  normalizeText,
+  stemTurkish,
+  expandSynonyms,
+  fuzzyMatchScore,
+  SYNONYM_GROUPS,
+} from './text-utils';
+export { normalizeText } from './text-utils';
+
 export interface KnowledgeEntry {
   id: string;
   category: KnowledgeCategory;
@@ -134,7 +143,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     category: 'donation',
     keywords: ['iade', 'geri', 'iptal', 'vazgeç', 'geri al', 'para iade', 'refund', 'cancel'],
     question: 'Bağışımı geri alabilir miyim?',
-    answer: 'FundEd bağış güvencesi kapsamında:\n\n✅ Bağış yaptığınız öğrenci doğrulanamazsa veya kampanya iptal edilirse, bağışınızın %100\'ü 5-7 iş günü içinde iade edilir.\n\n⚠️ Normal koşullarda bağışlar geri alınamaz çünkü doğrudan öğrenciye aktarılır.\n📧 Yanlışlıkla yapılan bağışlar için info@funded.com adresine yazabilirsiniz.\n\n🔒 Bağışınız %100 doğrudan seçtiğiniz öğrenciye ulaşır — platform işletme giderleri bağışlarınızdan kesilmez, ayrı kurumsal sponsorluklarla karşılanır.',
+    answer: 'FundEd bağış güvencesi kapsamında:\n\n✅ Bağış yaptığınız öğrenci doğrulanamazsa veya kampanya iptal edilirse, bağışınızın %100\'ü 5-7 iş günü içinde iade edilir.\n\n⚠️ Normal koşullarda bağışlar geri alınamaz çünkü doğrudan öğrenciye aktarılır.\n📧 Yanlışlıkla yapılan bağışlar için getsfunded@gmail.com adresine yazabilirsiniz.\n\n🔒 Bağışınız %100 doğrudan seçtiğiniz öğrenciye ulaşır — platform işletme giderleri bağışlarınızdan kesilmez, ayrı kurumsal sponsorluklarla karşılanır.',
     priority: 7,
   },
   {
@@ -160,7 +169,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     category: 'payment',
     keywords: ['vergi', 'vergi indirimi', 'makbuz', 'fatura', 'vergi avantajı', 'tax', 'receipt'],
     question: 'Vergi indirimi alabilir miyim?',
-    answer: 'FundEd bir kitlesel fonlama platformu olarak hizmet vermektedir. Vergi indirimi konusunda kesin bilgi için mali müşavirinize danışmanızı öneririz.\n\n📄 Bağış makbuzunuzu profil sayfanızdan indirebilirsiniz.\n📧 Detaylı bilgi için: info@funded.com',
+    answer: 'FundEd bir kitlesel fonlama platformu olarak hizmet vermektedir. Vergi indirimi konusunda kesin bilgi için mali müşavirinize danışmanızı öneririz.\n\n📄 Bağış makbuzunuzu profil sayfanızdan indirebilirsiniz.\n📧 Detaylı bilgi için: getsfunded@gmail.com',
     priority: 6,
   },
   {
@@ -417,7 +426,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     category: 'technical',
     keywords: ['hata', 'sorun', 'çalışmıyor', 'bug', 'problem', 'yardım', 'destek ekibi'],
     question: 'Bir sorun yaşıyorum, nasıl destek alabilirim?',
-    answer: 'Size yardımcı olmak istiyoruz! 🛠️\n\n📧 E-posta: info@funded.com\n🤖 AI Asistan: Bana sorabilirsiniz!\n\nSık yaşanan sorunlar:\n- Sayfa yüklenmiyorsa → Tarayıcı önbelleğini temizleyin\n- Ödeme hatası → Kart bilgilerinizi kontrol edin\n- Giriş sorunu → Şifre sıfırlama yapın\n\nSorunuzu detaylıca anlatırsanız yardımcı olmaya çalışırım!',
+    answer: 'Size yardımcı olmak istiyoruz! 🛠️\n\n📧 E-posta: getsfunded@gmail.com\n🤖 AI Asistan: Bana sorabilirsiniz!\n\nSık yaşanan sorunlar:\n- Sayfa yüklenmiyorsa → Tarayıcı önbelleğini temizleyin\n- Ödeme hatası → Kart bilgilerinizi kontrol edin\n- Giriş sorunu → Şifre sıfırlama yapın\n\nSorunuzu detaylıca anlatırsanız yardımcı olmaya çalışırım!',
     priority: 8,
   },
   {
@@ -515,7 +524,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     category: 'security',
     keywords: ['güvence', 'garanti', 'bağış güvencesi', '%100', 'korunma', 'charity guarantee'],
     question: 'Bağış güvencesi nedir?',
-    answer: 'FundEd %100 Bağış Güvencesi sunar! 🛡️\n\n✅ Bağışınız %100 doğrudan seçtiğiniz öğrenciye ulaşır.\n✅ Platform işletme giderleri bağışlarınızdan kesilmez — ayrı kurumsal sponsorluklarla karşılanır.\n✅ Öğrenci doğrulanamazsa veya kampanya iptal edilirse, bağışınızın %100\'ü 5-7 iş günü içinde iade edilir.\n\nGüvence Süreci:\n1️⃣ Bağış Yap → 2️⃣ Doğrulama → 3️⃣ Öğrenciye Ulaşım → 4️⃣ Rapor Al',
+    answer: 'FundEd %100 Bağış Güvencesi sunar! 🛡️\n\n✅ Bağışınız %100 doğrudan seçtiğiniz öğrenciye ulaşır.\n✅ Platform işletme giderleri bağışlarınızdan kesilmez — ayrı kurumsal sponsorluklarla karşılanır.\n✅ Şeffaf raporlama ve doğrulama sistemi ile bağışınızın nereye gittiğini takip edebilirsiniz.\n\nGüvence Süreci:\n1️⃣ Bağış Yap → 2️⃣ Doğrulama → 3️⃣ Öğrenciye Ulaşım → 4️⃣ Rapor Al',
     followUp: 'Güvenle bağış yapmak ister misiniz?',
     priority: 10,
   },
@@ -524,7 +533,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     category: 'security',
     keywords: ['iade süresi', 'geri ödeme', 'kaç gün', '5 gün', '7 gün', 'iade politikası'],
     question: 'İade süresi ne kadar?',
-    answer: 'FundEd iade politikası:\n\n⏱️ İade Süresi: 5-7 iş günü\n\nİade durumları:\n- Bağış yaptığınız öğrenci doğrulanamazsa\n- Kampanya iptal edilirse\n- Yanlışlıkla yapılan bağışlar (info@funded.com\'a yazın)\n\n💡 Normal şartlarda bağışlar geri alınamaz çünkü doğrudan öğrenciye aktarılır.',
+    answer: 'Bağış politikası hakkında detaylı bilgi için destek ekibimize yazabilirsiniz: getsfunded@gmail.com\n\n💡 Bağışlar doğrudan öğrenciye aktarılır. Özel durumlar için lütfen bizimle iletişime geçin.',
     priority: 7,
   },
   {
@@ -887,7 +896,7 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     category: 'technical',
     keywords: ['iletişim', 'destek', 'email', 'mail', 'contact', 'ulaşım', 'info'],
     question: 'FundEd\'e nasıl ulaşabilirim?',
-    answer: 'FundEd İletişim:\n\n📧 E-posta: info@funded.com\n🤖 AI Asistan: Ben her zaman buradayım!\n🌐 Website: funded.com\n\n📱 Sosyal Medya:\n🐦 Twitter\n📘 Facebook\n📸 Instagram\n\n© 2026 FundEd. Tüm hakları saklıdır.',
+    answer: 'FundEd İletişim:\n\n📧 E-posta: getsfunded@gmail.com\n🤖 AI Asistan: Ben her zaman buradayım!\n🌐 Website: funded.com\n\n📱 Sosyal Medya:\n🐦 Twitter\n📘 Facebook\n📸 Instagram\n\n© 2026 FundEd. Tüm hakları saklıdır.',
     priority: 7,
   },
 
@@ -958,25 +967,142 @@ export const KNOWLEDGE_BASE: KnowledgeEntry[] = [
     answer: '💙 Her bağış bir umut yeşertir — birlikte değişimi yaratıyoruz.\n\n🌟 Bağışınız sadece para değil:\n- Bir öğrencinin geleceğine yatırım\n- Bir ailenin umuduna katkı\n- Bir toplumun dönüşümüne destek\n\n📖 "Bir çocuğa eğitim vermek, bir yaşamı değiştirmek değildir. Bir nesli dönüştürmektir."\n\n🦋 Kelebek etkisi: Bir bağış → Bir mezuniyet → Bir kariyer → Yüzlerce hayata dokunuş\n\n"Eğitime erişimi demokratikleştiren topluluğumuza katılın." 🎓',
     priority: 9,
   },
+
+  // ─── ÖDEME ──────────────────────────────────────────────────
+  {
+    id: 'payment-1',
+    category: 'payment',
+    keywords: ['kart', 'kredi', 'banka', 'ödeme', 'ödeme yöntemi', 'hangi kart', 'visa', 'mastercard'],
+    question: 'Hangi kartlarla ödeme yapabilirim?',
+    answer: 'Visa, Mastercard ve Troy logolu tüm banka ve kredi kartlarıyla güvenle bağış yapabilirsiniz. Ödeme işlemleri 3D Secure teknolojisiyle korunur.',
+    followUp: 'Başka bir sorunuz var mı?',
+    priority: 8,
+  },
+  {
+    id: 'payment-2',
+    category: 'payment',
+    keywords: ['taksit', 'taksitli', 'aylık', 'peşin'],
+    question: 'Taksitli bağış yapabilir miyim?',
+    answer: 'Aylık düzenli bağış seçeneğimiz var! Kampanya sayfasında "Aylık bağış" seçeneğini işaretleyerek belirlediğiniz tutarı her ay otomatik olarak bağışlayabilirsiniz. Tek seferlik veya taksitli banka ödemesi için bankanızın kart taksit seçeneklerini kullanabilirsiniz.',
+    priority: 7,
+  },
+  {
+    id: 'payment-3',
+    category: 'payment',
+    keywords: ['yabancı kart', 'uluslararası', 'dolar', 'euro', 'döviz', 'türkiye dışı'],
+    question: 'Yurt dışındaki bir kartla bağış yapabilir miyim?',
+    answer: 'Evet! Uluslararası Visa ve Mastercard kartlarla yurt dışından bağış yapabilirsiniz. Ödeme Türk Lirası üzerinden gerçekleşir; döviz çevrimi bankanız tarafından yapılır.',
+    priority: 6,
+  },
+
+  // ─── HUKUKİ / VERGİ ─────────────────────────────────────────
+  {
+    id: 'legal-1',
+    category: 'legal',
+    keywords: ['makbuz', 'bağış makbuzu', 'dekont', 'fiş', 'belge', 'fatura'],
+    question: 'Bağış makbuzu alabilir miyim?',
+    answer: 'Her bağış sonrasında e-posta adresinize otomatik olarak bağış dekontu gönderilir. Hesabınızın "Bağışlarım" bölümünden geçmiş bağışlarınızın dekontlarına erişebilirsiniz.',
+    priority: 7,
+  },
+  {
+    id: 'legal-2',
+    category: 'legal',
+    keywords: ['vergi', 'vergi indirimi', 'vergi avantajı', 'beyanname', 'gelir vergisi'],
+    question: 'Vergi indirimi alabilir miyim?',
+    answer: 'Vergi avantajları bireysel durumunuza ve bağışın yapıldığı kuruma göre değişiklik gösterir. Bu konuda muhasebe danışmanınıza veya getsfunded@gmail.com adresine yazmanızı öneririz.',
+    priority: 6,
+  },
+
+  // ─── ÖĞRENCİ BAŞVURUSU ──────────────────────────────────────
+  {
+    id: 'student-apply-1',
+    category: 'student',
+    keywords: ['öğrenci başvuru', 'nasıl başvuru', 'başvurma', 'kayıt', 'kampanya aç', 'öğrenci olarak'],
+    question: 'Öğrenci olarak nasıl başvurabilirim?',
+    answer: 'Başvuru adımları:\n\n1️⃣ Ana sayfadan "Başvur" butonuna tıklayın\n2️⃣ Öğrenci formunu doldurun (kişisel bilgiler, okul, bölüm)\n3️⃣ Belgelerinizi yükleyin\n4️⃣ Ekibimiz başvurunuzu inceler (1-3 iş günü)\n5️⃣ Onay sonrası kampanyanız yayına girer\n\nDetaylı bilgi: getsfunded@gmail.com',
+    priority: 7,
+  },
+  {
+    id: 'student-apply-2',
+    category: 'student',
+    keywords: ['belge', 'evrak', 'gerekli', 'öğrenci belgesi', 'transkript', 'kayıt belgesi'],
+    question: 'Başvuru için hangi belgeler gerekiyor?',
+    answer: 'Başvuru için genellikle şunlar istenir:\n\n📄 Öğrenci belgesi (güncel)\n📊 Transkript veya not ortalaması belgesi\n🪪 Kimlik belgesi\n\nEk belgeler duruma göre talep edilebilir. Sorularınız için: getsfunded@gmail.com',
+    priority: 6,
+  },
+
+  // ─── BAĞIŞ / PARA TRANSFERİ ─────────────────────────────────
+  {
+    id: 'donation-transfer-1',
+    category: 'donation',
+    keywords: ['para nasıl', 'transfer', 'ulaşır', 'öğrenciye gider', 'nereye gidiyor', 'kim alır'],
+    question: 'Bağışım öğrenciye nasıl ulaşır?',
+    answer: 'Kampanya hedefine ulaştığında bağış tutarı, ekibimiz tarafından doğrulanmış öğrencinin banka hesabına aktarılır. Ödeme doğrudan öğrenciye yapılır; aracı kurum ücreti bağıştan kesilmez.',
+    followUp: 'Şeffaf sürecimiz hakkında başka sorunuz var mı?',
+    priority: 8,
+  },
+  {
+    id: 'donation-transfer-2',
+    category: 'donation',
+    keywords: ['ne zaman', 'kaç gün', 'süre', 'transfer süresi', 'bekleme'],
+    question: 'Bağışım ne zaman öğrenciye ulaşır?',
+    answer: 'Kampanya hedefine ulaştıktan sonra transfer işlemi genellikle 3-5 iş günü içinde tamamlanır. Süreç içinde hem bağışçıya hem öğrenciye bildirim gönderilir.',
+    priority: 7,
+  },
+
+  // ─── GÜVENLİK ───────────────────────────────────────────────
+  {
+    id: 'security-card-1',
+    category: 'security',
+    keywords: ['kart güvenli', 'kart bilgisi', 'güvende mi', 'çalınır mı', 'dolandırıcılık'],
+    question: 'Kart bilgilerim güvende mi?',
+    answer: 'Evet! Kart bilgileriniz FundEd sunucularında saklanmaz. Tüm ödeme işlemleri PCI-DSS sertifikalı ödeme altyapısı üzerinden gerçekleşir. Kart numaranız şifreli olarak yalnızca ödeme sağlayıcısına iletilir.',
+    priority: 9,
+  },
+  {
+    id: 'security-3dsecure-1',
+    category: 'security',
+    keywords: ['3d secure', '3ds', 'sms onay', 'doğrulama', 'şifre', 'ssl'],
+    question: '3D Secure ve SSL koruması var mı?',
+    answer: 'Evet, tüm ödemeler 256-bit SSL şifreleme ve 3D Secure ile korunur. Ödeme sırasında bankanızdan SMS veya uygulama onayı alırsınız. Bu sistem kartın gerçek sahibinin siz olduğunuzu doğrular.',
+    priority: 8,
+  },
+
+  // ─── KURUMSAL ───────────────────────────────────────────────
+  {
+    id: 'corporate-1',
+    category: 'corporate',
+    keywords: ['şirket', 'kurumsal', 'toplu bağış', 'firma', 'kurum', 'iş yeri', 'csr', 'sosyal sorumluluk'],
+    question: 'Şirket olarak toplu bağış yapabilir miyim?',
+    answer: 'Kesinlikle! Kurumsal bağış ve sosyal sorumluluk programları için özel çözümlerimiz var. Kurumsal Dashboard üzerinden toplu bağış yönetimi, etki raporları ve özel kampanyalar oluşturabilirsiniz.\n\nDetaylı bilgi için: getsfunded@gmail.com',
+    followUp: 'Kurumsal Dashboard hakkında bilgi almak ister misiniz?',
+    priority: 7,
+  },
+
+  // ─── MENTORLUK ──────────────────────────────────────────────
+  {
+    id: 'mentor-1',
+    category: 'mentor',
+    keywords: ['mentor', 'mentorluk', 'rehber', 'para değil', 'gönüllü', 'destek başka', 'tavsiye', 'yönlendirme'],
+    question: 'Para yerine mentorluk desteği verebilir miyim?',
+    answer: 'Evet! FundEd\'de mentorluk programı da var. Öğrencilere kariyer rehberliği, CV/mülakat hazırlığı veya alan uzmanlığınızla destek olabilirsiniz. Mentör olmak için getsfunded@gmail.com adresine yazın.',
+    priority: 6,
+  },
+
+  // ─── KAMPANYA İPTALİ ────────────────────────────────────────
+  {
+    id: 'campaign-cancel-1',
+    category: 'campaign',
+    keywords: ['kampanya iptal', 'iptal olursa', 'bağış geri', 'hedef dolmaz', 'başarısız kampanya'],
+    question: 'Kampanya hedefine ulaşamazsa ne olur?',
+    answer: 'Kampanya süresi dolduğunda hedefe ulaşılamamışsa bağışçılar bilgilendirilir. Detaylı politika için getsfunded@gmail.com adresine yazabilirsiniz.',
+    priority: 7,
+  },
 ];
 
 // ═══════════════════════════════════════════════════════════════
 // ARAMA MOTORU
 // ═══════════════════════════════════════════════════════════════
-
-/** Türkçe karakterleri normalize eder ve küçük harfe çevirir */
-function normalizeText(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/ı/g, 'i')
-    .replace(/ğ/g, 'g')
-    .replace(/ü/g, 'u')
-    .replace(/ş/g, 's')
-    .replace(/ö/g, 'o')
-    .replace(/ç/g, 'c')
-    .replace(/[^a-z0-9\s]/g, '')
-    .trim();
-}
 
 /** Birbiriyle ilişkili kategori grupları — aynı grup içindeki kategoriler related olabilir */
 const RELATED_CATEGORY_GROUPS: KnowledgeCategory[][] = [
@@ -1006,14 +1132,33 @@ function getRelatedCategories(category: KnowledgeCategory): KnowledgeCategory[] 
  * Hem keyword eşleşmesi hem de fuzzy matching kullanır.
  * İlgili sorular aynı veya yakın kategoriden seçilir.
  */
+export const MIN_CONFIDENCE_SCORE = 15;
+
 export function searchKnowledge(query: string): {
   entry: KnowledgeEntry | null;
   related: KnowledgeEntry[];
+  score: number;
 } {
   const normalizedQuery = normalizeText(query);
   const queryWords = normalizedQuery.split(/\s+/).filter((w) => w.length > 1);
 
-  if (queryWords.length === 0) return { entry: null, related: [] };
+  if (queryWords.length === 0) return { entry: null, related: [], score: 0 };
+
+  // Stem query words (run after normalization)
+  const stemmedQueryWords = queryWords.map(stemTurkish);
+
+  // Single-word synonym expansion
+  const expandedQueryWords = expandSynonyms(queryWords);
+
+  // Multi-word synonym expansion — check against full normalizedQuery
+  for (const group of SYNONYM_GROUPS) {
+    const multiWordHit = group.some(s => s.includes(' ') && normalizedQuery.includes(s));
+    if (multiWordHit) {
+      group
+        .filter(s => !s.includes(' '))
+        .forEach(s => { if (!expandedQueryWords.includes(s)) expandedQueryWords.push(s); });
+    }
+  }
 
   const scored: { entry: KnowledgeEntry; score: number; keywordHits: number }[] = [];
 
@@ -1031,10 +1176,10 @@ export function searchKnowledge(query: string): {
         keywordHits++;
       }
 
-      // Kelime bazlı eşleşme (tam kelime eşleşmeleri)
-      for (const word of queryWords) {
+      // Kelime bazlı eşleşme — sinonimlerle genişletilmiş kelime listesi kullanılır
+      for (const word of expandedQueryWords) {
         if (nk === word) {
-          score += 8;  // tam kelime eşleşmesi
+          score += 8;
           keywordHits++;
         } else if (nk.includes(word) && word.length >= 4) {
           score += 3;
@@ -1043,10 +1188,27 @@ export function searchKnowledge(query: string): {
           score += 3;
           keywordHits++;
         }
-        // Kök eşleşme: sadece 4+ karakter ve çok kısa olmayan kelimeler
-        // (3 karakter kök eşleşmesi çok fazla yanlış pozitif üretiyor)
         if (word.length >= 5 && nk.length >= 5 && word.substring(0, 4) === nk.substring(0, 4)) {
           score += 1;
+        }
+      }
+
+      // Stem eşleşmesi — +7 (exact-word +8 altında, partial +3 üstünde)
+      const nkStem = stemTurkish(nk);
+      for (const sw of stemmedQueryWords) {
+        if (sw.length >= 4 && nkStem === sw) {
+          score += 7;
+          keywordHits++;
+        }
+      }
+    }
+
+    // Fuzzy fallback — sadece hiç keyword hit yoksa devreye girer
+    if (keywordHits === 0) {
+      for (const word of queryWords) {
+        for (const kw of entry.keywords) {
+          const bonus = fuzzyMatchScore(word, normalizeText(kw));
+          if (bonus > 0) { score += bonus; }
         }
       }
     }
@@ -1068,15 +1230,15 @@ export function searchKnowledge(query: string): {
   scored.sort((a, b) => b.score - a.score);
 
   // Minimum eşik
-  const threshold = 5;
-  const best = scored[0]?.score >= threshold ? scored[0].entry : null;
+  const best = scored[0]?.score >= MIN_CONFIDENCE_SCORE ? scored[0].entry : null;
+  const topScore = scored[0]?.score ?? 0;
 
   // İlgili sorular: aynı veya yakın kategoriden seçilir
   // Farklı konudaki entry'ler önerilmez — bu sayede alakasız takip soruları engellenir
   let related: KnowledgeEntry[] = [];
   if (best) {
     const relatedCategories = getRelatedCategories(best.category);
-    const relatedThreshold = threshold * 1.5; // related için daha yüksek eşik
+    const relatedThreshold = MIN_CONFIDENCE_SCORE * 1.5; // related için daha yüksek eşik
 
     // Önce aynı kategoriden eşleşmeleri bul
     const sameCategoryEntries = scored.filter(
@@ -1104,7 +1266,7 @@ export function searchKnowledge(query: string): {
     ].slice(0, 2);
   }
 
-  return { entry: best, related };
+  return { entry: best, related, score: topScore };
 }
 
 /** Rastgele motivasyon mesajı döndür */
@@ -1115,9 +1277,9 @@ export function getRandomMotivation(): KnowledgeEntry {
 
 /** Bilinmeyen sorular için fallback cevaplar */
 const FALLBACK_RESPONSES = [
-  'Bu konuda kesin bir bilgim yok ama size başka konularda yardımcı olabilirim! 🤔\n\n💡 Şunları deneyebilirsiniz:\n- "Nasıl bağış yapabilirim?"\n- "Bana öğrenci öner"\n- "FundEd nedir?"',
-  'Hmm, bu soruyu tam anlayamadım. 🤔 Başka bir şekilde sormayı deneyebilir misiniz? Ya da şu konularda yardımcı olabilirim:\n\n🎯 Öğrenci eşleştirme\n💝 Bağış süreci\n🔒 Güvenlik bilgisi',
-  'Bu konuda detaylı bilgi için info@funded.com adresine yazabilirsiniz. 📧\n\nBen şu konularda yardımcı olabilirim:\n- Platform hakkında bilgi\n- Bağış süreci\n- Öğrenci önerisi\n\nNe sormak istersiniz? 😊',
+  'Bu konuyu bilgi tabanımda bulamadım 🤔\n\nDestek ekibimize yazın: getsfunded@gmail.com',
+  'Bu soruyu tam anlayamadım 🤔\n\nDestek ekibimize yazın: getsfunded@gmail.com',
+  'Bu konuda kesin bilgim yok 🤔\n\nDestek ekibimize yazın: getsfunded@gmail.com',
 ];
 
 export function getFallbackResponse(): string {
@@ -1134,7 +1296,7 @@ export function getTimeBasedGreeting(): string {
 }
 
 /** Tüm özel günler — SPECIAL_DAYS (notifications.ts) ile senkronize, tam liste */
-import { SPECIAL_DAYS } from '@/types/notifications';
+import { SPECIAL_DAYS, resolveSpecialDayDateForYear } from '@/types/notifications';
 
 export interface SpecialDayInfo {
   title: string;
@@ -1159,11 +1321,7 @@ export function getUpcomingSpecialDay(maxDaysAhead = 3): SpecialDayInfo | null {
   let closest: SpecialDayInfo | null = null;
 
   for (const sd of SPECIAL_DAYS) {
-    // SPECIAL_DAYS tarihlerinden ay-gün çıkar (yıl-bağımsız)
-    const parts = sd.date.split('-');
-    const month = parseInt(parts[1], 10) - 1;
-    const day = parseInt(parts[2], 10);
-    const eventDate = new Date(currentYear, month, day);
+    const eventDate = new Date(resolveSpecialDayDateForYear(sd, currentYear));
     eventDate.setHours(0, 0, 0, 0);
 
     const diffDays = Math.round(

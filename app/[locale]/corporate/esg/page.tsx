@@ -712,8 +712,14 @@ export default function ESGPage() {
                             {t('app.page.do_rulanm_ba_lar_n_z_ve_sosyal')}</p>
                     </div>
                     <div className="flex items-center gap-3 flex-shrink-0">
-                        <Button className="bg-white text-gray-900 hover:bg-gray-100 gap-2 font-semibold">
-                            <Download className="h-4 w-4" /> {t('app.page.esg_raporu_pdf')}</Button>
+                        <a
+                            href={`/api/corporate/esg/report?year=${new Date().getFullYear()}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <Button className="bg-white text-gray-900 hover:bg-gray-100 gap-2 font-semibold">
+                                <Download className="h-4 w-4" /> {t('app.page.esg_raporu_pdf')}</Button>
+                        </a>
                         <Button variant="outline" className="border-gray-500 text-gray-200 hover:bg-gray-700 gap-2">
                             <Stamp className="h-4 w-4" /> {t('app.page.makbuz_zeti')}</Button>
                     </div>

@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getDb } from '@/lib/db';
 import { auth } from '@/auth';
+import {
+  maybeCreateMonthlyDonationReminder,
+  maybeCreateSpecialDayReminders,
+} from '@/lib/notification-helpers';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -14,11 +18,17 @@ export async function GET(request: NextRequest) {
     }
 
     const userId = (session.user as any).id ?? session.user.email;
+    if (!userId) {
+      return NextResponse.json({ error: 'User id not found' }, { status: 400 });
+    }
     const { searchParams } = new URL(request.url);
     const limit = Math.min(parseInt(searchParams.get('limit') ?? '50'), 100);
     const unreadOnly = searchParams.get('unread') === 'true';
 
     const db = await getDb();
+
+    await maybeCreateMonthlyDonationReminder(userId);
+    await maybeCreateSpecialDayReminders(userId);
 
     const query: any = { userId };
     if (unreadOnly) query.read = false;
@@ -67,6 +77,9 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json();
     const userId = (session.user as any).id ?? session.user.email;
+    if (!userId) {
+      return NextResponse.json({ error: 'User id not found' }, { status: 400 });
+    }
 
     const notification = {
       id:

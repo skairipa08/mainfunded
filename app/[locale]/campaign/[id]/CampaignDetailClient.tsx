@@ -19,6 +19,9 @@ import { censorSurname } from '@/lib/privacy';
 import { useCurrency } from '@/lib/currency-context';
 import type { CampaignData } from './fetchCampaign';
 import { EmbedCodeModal } from '@/components/campaign/EmbedCodeModal';
+import ExpenditureTimeline from '@/components/campaign/ExpenditureTimeline';
+import RewardCards from '@/components/campaigns/RewardCards';
+import type { RewardTier } from '@/types/rewards';
 
 // Lazy-load the live donations widget so it never blocks initial page paint
 const CampaignLiveDonations = dynamic(
@@ -70,6 +73,10 @@ export default function CampaignDetailClient({ initialCampaign }: CampaignDetail
     const [showAllDonors, setShowAllDonors] = useState(false);
     const [donorFilter, setDonorFilter] = useState<'all' | 'top'>('all');
 
+    // Reward tiers
+    const [rewardTiers, setRewardTiers] = useState<RewardTier[]>([]);
+    const [selectedRewardTierId, setSelectedRewardTierId] = useState<string | null>(null);
+
     // Lightbox state
     const [lightboxOpen, setLightboxOpen] = useState(false);
     const [lightboxIndex, setLightboxIndex] = useState(0);
@@ -83,6 +90,17 @@ export default function CampaignDetailClient({ initialCampaign }: CampaignDetail
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchParams]);
+
+    // Fetch reward tiers for this campaign
+    useEffect(() => {
+        fetch(`/api/campaigns/${campaignId}/reward-tiers`)
+            .then((r) => r.json())
+            .then((data) => {
+                if (data.tiers) setRewardTiers(data.tiers);
+            })
+            .catch(() => {/* non-critical */});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [campaignId]);
 
     const checkPaymentStatus = async (sessionId: string, attempts = 0) => {
         const maxAttempts = 5;
@@ -427,6 +445,22 @@ export default function CampaignDetailClient({ initialCampaign }: CampaignDetail
                         <div className="prose prose-gray max-w-none">
                             <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">{campaign.story}</p>
                         </div>
+
+                        <ExpenditureTimeline campaignId={campaignId} />
+
+                        {/* Reward Tiers */}
+                        {rewardTiers.length > 0 && (
+                            <div className="border-t pt-6">
+                                <RewardCards
+                                    tiers={rewardTiers}
+                                    selectedTierId={selectedRewardTierId}
+                                    onSelect={(tierId, minAmount) => {
+                                        setSelectedRewardTierId(tierId);
+                                        router.push(`/campaign/${campaignId}/donate?min_amount=${minAmount}&reward_tier=${tierId}`);
+                                    }}
+                                />
+                            </div>
+                        )}
 
                         {/* Organizer Section */}
                         <div className="border-t pt-6">

@@ -34,7 +34,7 @@ function AdminLayoutContent({
       return;
     }
 
-    if ((session.user as any)?.role !== 'admin') {
+    if (!['admin', 'ops'].includes((session.user as any)?.role)) {
       router.replace('/unauthorized');
       return;
     }
@@ -52,7 +52,7 @@ function AdminLayoutContent({
     }
   }
 
-  if (!isPreviewMode && (!session || (session.user as any)?.role !== 'admin')) {
+  if (!isPreviewMode && (!session || !['admin', 'ops'].includes((session.user as any)?.role))) {
     return null;
   }
 
@@ -106,6 +106,12 @@ function AdminLayoutContent({
               className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100"
             >
               {t('app.layout.campaigns')}</Link>
+            <Link
+              href="/admin/expenditures"
+              className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100"
+            >
+              Harcama Onayı
+            </Link>
             <Link
               href="/admin/payouts"
               className="flex items-center px-4 py-2 text-sm font-medium text-gray-700 rounded-md hover:bg-gray-100"

@@ -19,6 +19,9 @@ import {
     updateIyzicoEventStatus
 } from '@/lib/verification/db';
 import { logger } from '@/lib/logger';
+import { onDonationCreated } from '@/lib/corporate/trigger';
+import { matchRewardTier, createRewardClaim } from '@/lib/services/rewardService';
+import { dispatchDelivery } from '@/lib/services/deliveryEngine';
 
 export const runtime = 'nodejs';
 
@@ -138,6 +141,68 @@ async function processSuccessfulPayment(
       { campaign_id: transaction.campaign_id },
       { $set: { status: 'completed' } }
     );
+  }
+
+  // Corporate matching trigger — fire and forget, never blocks the donation
+  if (donation.donor_id && campaign?.category) {
+    onDonationCreated({
+      donationId: donation.donation_id,
+      donorUserId: String(donation.donor_id),
+      campaignId: transaction.campaign_id,
+      amountTRY: Number(transaction.base_amount ?? transaction.amount),
+      category: String(campaign.category),
+    }).catch((err) => {
+      logger.error('[corporate.trigger.unhandled]', String(err));
+    });
+  }
+
+  // Reward tier assignment — fire and forget, never blocks payment
+  try {
+    const baseAmount = Math.floor(Number(transaction.base_amount ?? transaction.amount));
+    const matchedTier = await matchRewardTier(transaction.campaign_id, baseAmount);
+    // Only assign rewards to identified (non-anonymous) donors with a known user account
+    const hasDonorAccount = donation.donor_id && String(donation.donor_id) !== 'anonymous';
+    if (matchedTier && transaction.donor_email && !transaction.anonymous && hasDonorAccount) {
+      const donorFirstName = (transaction.donor_name || 'Bağışçı').split(' ')[0];
+      const claimResult = await createRewardClaim({
+        tierId: matchedTier.tier_id,
+        donationId: donation.donation_id,
+        donorId: String(donation.donor_id),
+        deliveryEmail: transaction.donor_email,
+        campaignTitle: campaign?.title || 'Kampanya',
+        donorFirstName,
+        rewardTitle: matchedTier.title,
+        rewardDescription: matchedTier.description,
+        deliveryType: matchedTier.delivery_type,
+        amountTl: baseAmount,
+        transactionId: paymentId,
+      });
+      if (claimResult.success && claimResult.claimId) {
+        const donationDate = new Date().toLocaleDateString('tr-TR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        });
+        dispatchDelivery({
+          claimId: claimResult.claimId,
+          donorEmail: transaction.donor_email,
+          donorFirstName,
+          campaignTitle: campaign?.title || 'Kampanya',
+          rewardTitle: matchedTier.title,
+          rewardDescription: matchedTier.description,
+          deliveryType: matchedTier.delivery_type,
+          amountTl: baseAmount,
+          transactionId: paymentId,
+          donationDate,
+        }).catch((err) => {
+          logger.error('[reward.delivery.unhandled]', String(err));
+        });
+      }
+    } else if (!matchedTier) {
+      logger.info(`[reward.assignment] No matching tier for campaign ${transaction.campaign_id} amount ₺${baseAmount}`);
+    }
+  } catch (rewardErr: any) {
+    logger.error('[reward.assignment.unhandled]', String(rewardErr));
   }
 
   if (transaction.donor_email && !transaction.anonymous) {
