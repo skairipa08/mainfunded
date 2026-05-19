@@ -4,6 +4,7 @@ import { requireUser } from '@/lib/authz'
 import { errorResponse, getStatusCode } from '@/lib/api-error'
 import { calculateRiskScore } from '@/lib/project-risk'
 import { sendAdvisorApprovalEmail } from '@/lib/email-service'
+import { ObjectId } from 'mongodb'
 import crypto from 'crypto'
 
 export const runtime = 'nodejs'
@@ -23,8 +24,11 @@ export async function POST(_req: NextRequest, { params }: { params: { id: string
 
     const members = await db.collection('project_members').find({ project_id: params.id }).toArray()
 
-    const accountCreatedAt = await db.collection('users')
-      .findOne({ _id: user.id }, { projection: { createdAt: 1 } })
+    let userObjId: ObjectId | null = null
+    try { userObjId = new ObjectId(user.id) } catch { /* non-ObjectId id */ }
+    const accountCreatedAt = userObjId
+      ? await db.collection('users').findOne({ _id: userObjId }, { projection: { createdAt: 1 } })
+      : null
     const accountAgeDays = accountCreatedAt?.createdAt
       ? Math.floor((Date.now() - new Date(accountCreatedAt.createdAt).getTime()) / 86400000)
       : 0
