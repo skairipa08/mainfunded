@@ -125,6 +125,57 @@ export async function notifyCampaignEndingSoon(params: {
   });
 }
 
+// In-memory throttle: userId → last triggered date string (resets on cold start)
+const reminderThrottle = new Map<string, string>();
+
+/**
+ * Fire-and-forget: sends campaign-ending-soon reminders for this user.
+ * Runs at most once per day per user (in-memory throttle).
+ */
+export async function maybeTriggerReminders(userId: string): Promise<void> {
+  const today = new Date().toISOString().slice(0, 10);
+  if (reminderThrottle.get(userId) === today) return;
+  reminderThrottle.set(userId, today);
+
+  const db = await getDb();
+  const threeDaysFromNow = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
+
+  const donations = await db
+    .collection('donations')
+    .aggregate([
+      { $match: { userId } },
+      {
+        $lookup: {
+          from: 'campaigns',
+          localField: 'campaignId',
+          foreignField: '_id',
+          as: 'campaign',
+        },
+      },
+      { $unwind: '$campaign' },
+      {
+        $match: {
+          'campaign.deadline': { $lte: threeDaysFromNow, $gte: new Date() },
+          'campaign.status': 'published',
+        },
+      },
+      { $group: { _id: '$campaign._id', campaign: { $first: '$campaign' } } },
+    ])
+    .toArray();
+
+  for (const { campaign } of donations) {
+    const daysLeft = Math.ceil(
+      (new Date(campaign.deadline).getTime() - Date.now()) / (1000 * 60 * 60 * 24)
+    );
+    await notifyCampaignEndingSoon({
+      userId,
+      campaignTitle: campaign.title,
+      campaignSlug: campaign.slug,
+      daysLeft,
+    });
+  }
+}
+
 /**
  * Notify about the impact of donations
  */
