@@ -10,6 +10,7 @@ import { getMessages } from 'next-intl/server';
 import { GoogleAnalytics } from '@next/third-parties/google';
 import { JsonLd } from '@/components/seo/JsonLd';
 import { organizationSchema, websiteSchema } from '@/lib/seo/schemas';
+import { WebVitalsTracker } from '@/components/analytics/WebVitalsTracker';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -79,6 +80,7 @@ export default async function RootLayout({
               <AiAssistantLoader />
             </Providers>
           </ErrorBoundary>
+          <WebVitalsTracker />
         </NextIntlClientProvider>
       </body>
     </html>
