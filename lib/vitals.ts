@@ -25,10 +25,25 @@ const THRESHOLDS: Record<string, { threshold: number; unit: string }> = {
 
 export async function saveVital(record: VitalRecord): Promise<void> {
   const db = await getDb()
-  await db.collection('vitals').insertOne({
-    ...record,
-    createdAt: new Date(),
-  })
+  const coll = db.collection('vitals')
+  // UTC day index — used to cap at 100 records per metric per calendar day
+  const dayBucket = Math.floor(record.timestamp / 86_400_000)
+
+  await coll.insertOne({ ...record, dayBucket, createdAt: new Date() })
+
+  // Enforce 100-record cap: delete oldest excess for this metric+day
+  const count = await coll.countDocuments({ metric: record.metric, dayBucket })
+  if (count > 100) {
+    const oldest = await coll
+      .find({ metric: record.metric, dayBucket })
+      .sort({ timestamp: 1 })
+      .limit(count - 100)
+      .project({ _id: 1 })
+      .toArray()
+    if (oldest.length > 0) {
+      await coll.deleteMany({ _id: { $in: oldest.map((d) => d._id) } })
+    }
+  }
 }
 
 export async function getVitalsSummary(): Promise<VitalSummary[]> {
