@@ -164,3 +164,49 @@ export function educationalOrgSchema() {
       'ESG-aligned education crowdfunding connecting donors with verified students globally.',
   }
 }
+
+/* ── CampaignPage (WebPage + DonateAction) ── */
+export interface CampaignSchemaProps {
+  title: string
+  description: string
+  url: string
+  imageUrl?: string
+  raisedAmount: number
+  goalAmount: number
+  studentName: string
+}
+export function campaignSchema({
+  title,
+  description,
+  url,
+  imageUrl,
+  raisedAmount,
+  goalAmount,
+  studentName,
+}: CampaignSchemaProps) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'WebPage',
+    name: title,
+    description,
+    url,
+    image: imageUrl,
+    potentialAction: {
+      '@type': 'DonateAction',
+      name: `Support ${studentName}`,
+      target: url,
+      recipient: {
+        '@type': 'Person',
+        name: studentName,
+      },
+    },
+    offers: {
+      '@type': 'Offer',
+      price: goalAmount - raisedAmount,
+      priceCurrency: 'TRY',
+      availability: raisedAmount >= goalAmount
+        ? 'https://schema.org/SoldOut'
+        : 'https://schema.org/InStock',
+    },
+  }
+}
