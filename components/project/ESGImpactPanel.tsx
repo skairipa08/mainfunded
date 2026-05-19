@@ -34,18 +34,18 @@ export function ESGImpactPanel() {
         ))}
       </div>
 
-      {metrics.completion_ratio !== undefined && (
+      {metrics.completed_projects_ratio !== undefined && (
         <div className="border rounded-xl p-4 bg-white dark:bg-gray-900">
           <p className="text-sm font-medium mb-2">Tamamlanma Oranı</p>
           <div className="flex items-center gap-3">
             <div className="flex-1 bg-muted rounded-full h-2">
               <div
                 className="bg-green-500 h-2 rounded-full transition-all"
-                style={{ width: `${Math.round(metrics.completion_ratio * 100)}%` }}
+                style={{ width: `${Math.round(metrics.completed_projects_ratio * 100)}%` }}
               />
             </div>
             <span className="text-sm font-semibold text-green-600">
-              %{Math.round(metrics.completion_ratio * 100)}
+              %{Math.round(metrics.completed_projects_ratio * 100)}
             </span>
           </div>
         </div>

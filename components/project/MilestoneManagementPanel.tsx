@@ -78,7 +78,7 @@ export function MilestoneManagementPanel({ projectId }: { projectId: string }) {
           <div className="flex items-center justify-between mb-3">
             <div>
               <span className="font-semibold">{ms.title}</span>
-              <span className="ml-2 text-xs text-muted-foreground">(%{ms.release_percentage} ödeme)</span>
+              <span className="ml-2 text-xs text-muted-foreground">(%{ms.percentage} ödeme)</span>
             </div>
             <span className="text-xs px-2 py-0.5 rounded-full bg-muted font-medium">
               {STATUS_LABELS[ms.status] ?? ms.status}

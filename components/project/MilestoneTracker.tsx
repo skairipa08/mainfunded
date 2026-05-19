@@ -60,10 +60,7 @@ export function MilestoneTracker({ milestones }: Props) {
               <p className="text-xs text-muted-foreground mt-0.5 line-clamp-2">{milestone.description}</p>
             )}
             <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
-              <span>%{milestone.release_percentage} ödeme</span>
-              {milestone.due_date && (
-                <span>Hedef: {new Date(milestone.due_date).toLocaleDateString('tr-TR')}</span>
-              )}
+              <span>%{milestone.percentage} ödeme</span>
             </div>
           </div>
         </div>
