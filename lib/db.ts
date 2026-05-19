@@ -165,6 +165,36 @@ export async function createIndexes() {
     await db.collection('subscription_payments').createIndex('payment_id', { unique: true });
     await db.collection('subscription_payments').createIndex({ subscription_id: 1, created_at: -1 });
     await db.collection('subscription_payments').createIndex('status');
+
+    // Project Module Indexes
+    await db.collection('projects').createIndex('project_id', { unique: true });
+    await db.collection('projects').createIndex('owner_id');
+    await db.collection('projects').createIndex('status');
+    await db.collection('projects').createIndex({ status: 1, risk_score: 1 });
+    await db.collection('projects').createIndex({ type: 1, status: 1 });
+    await db.collection('projects').createIndex({ school_level: 1, status: 1 });
+    await db.collection('projects').createIndex({ title: 'text', description: 'text' });
+
+    await db.collection('project_members').createIndex('member_id', { unique: true });
+    await db.collection('project_members').createIndex('project_id');
+    await db.collection('project_members').createIndex('user_id');
+
+    await db.collection('milestones').createIndex('milestone_id', { unique: true });
+    await db.collection('milestones').createIndex('project_id');
+    await db.collection('milestones').createIndex({ project_id: 1, order: 1 });
+    await db.collection('milestones').createIndex({ project_id: 1, status: 1 });
+
+    await db.collection('project_escrow').createIndex('project_id', { unique: true });
+
+    await db.collection('escrow_transactions').createIndex('tx_id', { unique: true });
+    await db.collection('escrow_transactions').createIndex('project_id');
+    await db.collection('escrow_transactions').createIndex({ project_id: 1, type: 1 });
+    await db.collection('escrow_transactions').createIndex('donor_id');
+
+    await db.collection('project_verification').createIndex('project_id', { unique: true });
+
+    await db.collection('sponsor_project_follows').createIndex({ donor_id: 1, project_id: 1 }, { unique: true });
+    await db.collection('sponsor_project_follows').createIndex('project_id');
   } catch (error: any) {
     if (error.code !== 85 && error.codeName !== 'IndexOptionsConflict') {
       console.error('Error creating indexes:', error);
