@@ -15,9 +15,7 @@ const SLUG = '/blog/esg-education-impact'
 export async function generateMetadata({ params: { locale } }: Props): Promise<Metadata> {
   const isTr = locale === 'tr'
   return {
-    title: isTr
-      ? 'ESG Uyumlu Eğitim Bağışı Nedir? | FundEd'
-      : 'What Is ESG-Aligned Giving in Education? | FundEd',
+    title: isTr ? 'ESG Uyumlu Eğitim Bağışı Nedir? | FundEd' : 'What Is ESG-Aligned Giving in Education? | FundEd',
     description: isTr
       ? 'Eğitim bağışları ESG çerçevelerine nasıl uyar, SDG 4 nedir ve kurumsal bağışçılar neden eğitimi tercih ediyor.'
       : 'How education donations fit into ESG frameworks, what SDG 4 means, and why corporate donors choose education.',
@@ -40,116 +38,251 @@ export default function BlogPostEsg({ params: { locale } }: Props) {
     datePublished: DATE,
   })
 
+  const sdgs = isTr ? [
+    { code: 'SDG 1', title: 'Yoksulluğun Sonu', desc: 'Eğitimli bireyler daha yüksek gelir kapasitesine sahip olur.', bg: 'bg-red-50', badge: 'bg-red-100 text-red-700', border: 'border-red-100' },
+    { code: 'SDG 5', title: 'Cinsiyet Eşitliği', desc: 'Kız çocuklarının eğitime erişimi toplumsal uçurumu kapatır.', bg: 'bg-orange-50', badge: 'bg-orange-100 text-orange-700', border: 'border-orange-100' },
+    { code: 'SDG 8', title: 'İnsana Yakışır İş', desc: 'Nitelikli iş gücü yerel ekonomileri güçlendirir.', bg: 'bg-purple-50', badge: 'bg-purple-100 text-purple-700', border: 'border-purple-100' },
+    { code: 'SDG 10', title: 'Eşitsizlik Azalır', desc: 'Dezavantajlı öğrencilere erişim yapısal uçurumları giderir.', bg: 'bg-pink-50', badge: 'bg-pink-100 text-pink-700', border: 'border-pink-100' },
+  ] : [
+    { code: 'SDG 1', title: 'No Poverty', desc: 'Educated individuals have higher lifetime earning potential.', bg: 'bg-red-50', badge: 'bg-red-100 text-red-700', border: 'border-red-100' },
+    { code: 'SDG 5', title: 'Gender Equality', desc: "Girls' access to education closes gender gaps systematically.", bg: 'bg-orange-50', badge: 'bg-orange-100 text-orange-700', border: 'border-orange-100' },
+    { code: 'SDG 8', title: 'Decent Work', desc: 'A skilled workforce strengthens local economies.', bg: 'bg-purple-50', badge: 'bg-purple-100 text-purple-700', border: 'border-purple-100' },
+    { code: 'SDG 10', title: 'Reduced Inequalities', desc: 'Funding disadvantaged students addresses structural inequality.', bg: 'bg-pink-50', badge: 'bg-pink-100 text-pink-700', border: 'border-pink-100' },
+  ]
+
+  const metrics = isTr ? [
+    'Desteklenen öğrenci sayısı ve profilleri',
+    'Tamamlanan eğitim süresi (gün/hafta/dönem)',
+    'Karşılanan ihtiyaçlar (kitap, yemek, malzeme)',
+    'SDG 4 hizalaması ve ilerleme raporu',
+    'Doğrulanmış öğrenci sonuçları',
+  ] : [
+    'Number of students supported and verified profiles',
+    'Education duration completed (days/weeks/semesters)',
+    'Specific needs met (textbooks, meals, supplies)',
+    'SDG 4 alignment and progress reporting',
+    'Verified student outcomes (grades, attendance)',
+  ]
+
+  const steps = isTr ? [
+    { n: '01', text: 'Doğrulanmış öğrenci profillerinden size uygun olanı seçin' },
+    { n: '02', text: 'Güvenli ödeme ile bağışınızı tamamlayın' },
+    { n: '03', text: 'Dashboard üzerinden öğrencinin ilerlemesini takip edin' },
+    { n: '04', text: 'Yıllık ESG özet raporunuzu indirin' },
+  ] : [
+    { n: '01', text: 'Browse verified student profiles and choose one that resonates' },
+    { n: '02', text: 'Complete your donation through secure payment' },
+    { n: '03', text: "Track the student's progress from your dashboard" },
+    { n: '04', text: 'Download your annual ESG summary report' },
+  ]
+
   return (
     <>
       <JsonLd schema={schema} />
       <JsonLd schema={breadcrumbSchema(crumbs)} />
       <div className="min-h-screen flex flex-col bg-white">
         <Navbar />
-        <main className="flex-grow max-w-3xl mx-auto px-4 py-20 w-full prose prose-slate">
-          {isTr ? (
-            <>
-              <h1>ESG Uyumlu Eğitim Bağışı Nedir?</h1>
-              <p className="lead">ESG (Çevre, Sosyal, Yönetişim) yatırımı artık bireysel bağışçılar ve kurumsal bağışçılar için standart bir çerçeve haline geliyor. Eğitim bağışları, özellikle &quot;Sosyal&quot; bileşen açısından güçlü bir ESG yatırımıdır. Bu makalede ESG&apos;nin ne olduğunu, eğitimin neden güçlü bir sosyal yatırım aracı olduğunu ve FundEd&apos;in bu çerçeveyle nasıl hizalandığını inceleyeceğiz.</p>
 
-              <h2>ESG Nedir?</h2>
-              <p>ESG, bir yatırımın veya bağışın üç boyutta değerlendirildiği bir çerçevedir: <strong>Çevresel (Environmental)</strong> etki, <strong>Sosyal (Social)</strong> etki ve <strong>Yönetişim (Governance)</strong> kalitesi. Bu çerçeve, kurumsal yatırım dünyasında başladı; ancak artık bireysel bağışçılar, vakıflar ve sivil toplum kuruluşları da ESG ilkelerini benimsemektedir.</p>
-              <p>Dünya genelinde ESG uyumlu yatırım pazarının 2035 yılına kadar 191 trilyon dolara ulaşması beklenmektedir. Bu büyüme, &quot;iyi hissetmek&quot; için değil, somut ve ölçülebilir etkiyi tercih eden bilinçli bağışçı ve yatırımcıların talebini yansıtmaktadır.</p>
+        <div className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
+          <div className="max-w-3xl mx-auto px-6 pt-16 pb-12">
+            <div className="flex items-center gap-3 mb-5 flex-wrap">
+              <span className="bg-amber-900/60 text-amber-300 text-xs px-3 py-1 rounded-full border border-amber-800/60 font-semibold">ESG</span>
+              <span className="text-slate-500 text-xs">· {isTr ? '7 dk okuma' : '7 min read'}</span>
+            </div>
+            <h1 className="text-3xl md:text-4xl font-extrabold text-white leading-tight mb-4">
+              {isTr ? 'ESG Uyumlu Eğitim Bağışı Nedir?' : 'What Is ESG-Aligned Giving in Education?'}
+            </h1>
+            <p className="text-slate-400 text-base leading-relaxed max-w-2xl">
+              {isTr
+                ? 'ESG yatırımı bireysel ve kurumsal bağışçılar için standart bir çerçeve haline geliyor. Eğitim bağışları, "Sosyal" bileşen açısından güçlü bir ESG yatırımıdır.'
+                : 'ESG investing is becoming standard for individual and corporate donors. Education donations represent a powerful ESG investment in the "Social" component.'}
+            </p>
+          </div>
+        </div>
 
-              <h2>Eğitim Neden Güçlü Bir ESG Yatırımıdır?</h2>
-              <p>Eğitim, BM&apos;nin Sürdürülebilir Kalkınma Hedefleri&apos;nden (SDG) 4. hedefe — &quot;Kaliteli Eğitim&quot; — doğrudan katkıda bulunur. Bunun yanı sıra eğitim yatırımının çok boyutlu etkileri vardır:</p>
-              <ul>
-                <li><strong>SDG 1 — Yoksulluğun Sona Erdirilmesi:</strong> Eğitimli bireyler daha yüksek gelir elde etme kapasitesine sahip olur.</li>
-                <li><strong>SDG 5 — Cinsiyet Eşitliği:</strong> Kız çocuklarının eğitime erişimi toplumsal cinsiyet uçurumunu kapatır.</li>
-                <li><strong>SDG 8 — İnsana Yakışır İş ve Ekonomik Büyüme:</strong> Nitelikli iş gücü oluşturarak yerel ekonomileri güçlendirir.</li>
-                <li><strong>SDG 10 — Eşitsizliklerin Azaltılması:</strong> Dezavantajlı öğrencilere erişim sağlamak, yapısal eşitsizlikleri giderir.</li>
-              </ul>
-              <p>Bu çok boyutlu etki, eğitim bağışlarını ESG portföyünde diğer sosyal yatırımlardan ayıran kritik özelliğidir.</p>
+        <div className="bg-white border-b border-slate-100">
+          <div className="max-w-3xl mx-auto px-6 py-3 flex items-center gap-2 text-xs text-slate-400">
+            <Link href={`/${locale}`} className="hover:text-slate-700 transition-colors">{isTr ? 'Ana Sayfa' : 'Home'}</Link>
+            <span>›</span>
+            <Link href={`/${locale}/blog`} className="hover:text-slate-700 transition-colors">Blog</Link>
+            <span>›</span>
+            <span className="text-slate-700 font-medium">{isTr ? 'ESG Eğitim Etkisi' : 'ESG Education Impact'}</span>
+          </div>
+        </div>
 
-              <h2>ESG Raporlamasında Eğitim Metrikler</h2>
-              <p>Kurumsal bağışçılar için en önemli soru şudur: &quot;Bu yatırımın etkisini nasıl belgeliyoruz?&quot; FundEd, her bağış için ölçülebilir çıktılar sağlar:</p>
-              <ul>
-                <li>Desteklenen öğrenci sayısı ve profilleri</li>
-                <li>Tamamlanan eğitim süresi (gün/hafta/dönem)</li>
-                <li>Karşılanan spesifik ihtiyaçlar (kitap, yemek, okul malzemeleri)</li>
-                <li>SDG 4 hizalaması ve ilerleme raporu</li>
-                <li>Doğrulanmış öğrenci sonuçları (sınıf geçme, devam oranı)</li>
-              </ul>
+        <main className="flex-grow">
+          <div className="max-w-3xl mx-auto px-4 w-full">
 
-              <h2>FundEd ESG Raporlamasını Nasıl Sağlar?</h2>
-              <p>FundEd Kurumsal, şirketlerin her bağış için otomatik ESG raporları almasını sağlar. Raporlar SDG hizalamasını, etki metriklerini ve doğrulanmış öğrenci sonuçlarını içerir. <Link href={`/${locale}/transparency`}>Şeffaflık sayfamızda</Link> metodolojimizi ve doğrulama sürecimizi ayrıntılı olarak inceleyebilirsiniz.</p>
-              <p>Bireysel bağışçılar da kişisel dashboard üzerinden her bağışlarının izini takip edebilir. Bu şeffaflık, FundEd&apos;i genel kitle fonlama platformlarından temelden ayırmaktadır.</p>
+            {/* E/S/G pillars */}
+            <section className="py-10 border-b border-slate-100">
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">{isTr ? 'ESG Nedir?' : 'What Is ESG?'}</p>
+              <div className="grid grid-cols-3 gap-3 mb-6">
+                {[
+                  { letter: 'E', label: isTr ? 'Çevresel' : 'Environmental', cls: 'bg-emerald-50 border-emerald-200 text-emerald-800', badge: 'bg-emerald-100 text-emerald-700' },
+                  { letter: 'S', label: isTr ? 'Sosyal' : 'Social', cls: 'bg-amber-50 border-amber-200 text-amber-800', badge: 'bg-amber-500 text-white', ring: true },
+                  { letter: 'G', label: isTr ? 'Yönetişim' : 'Governance', cls: 'bg-indigo-50 border-indigo-200 text-indigo-800', badge: 'bg-indigo-100 text-indigo-700' },
+                ].map(p => (
+                  <div key={p.letter} className={`border rounded-2xl p-4 text-center ${p.cls} ${p.ring ? 'ring-2 ring-amber-400 ring-offset-1' : ''}`}>
+                    <span className={`inline-block text-xs font-bold px-2 py-0.5 rounded-full mb-2 ${p.badge}`}>{p.letter}</span>
+                    <p className="text-sm font-bold">{p.label}</p>
+                    {p.ring && <p className="text-xs text-amber-600 mt-1 font-medium">{isTr ? '← Eğitim burada' : '← Education fits here'}</p>}
+                  </div>
+                ))}
+              </div>
+              <p className="text-slate-600 text-sm leading-relaxed">
+                {isTr
+                  ? 'ESG çerçevesi kurumsal yatırım dünyasında başladı; artık bireysel bağışçılar ve vakıflar da benimsemektedir. 2035\'e kadar $191 trilyon ESG uyumlu yatırım bekleniyor.'
+                  : 'The ESG framework originated in institutional investing and is now embraced by individual donors and foundations. $191 trillion in ESG-aligned investment expected by 2035.'}
+              </p>
+            </section>
 
-              <h2>Bireysel Bağışçılar Nasıl ESG Uyumlu Bağış Yapabilir?</h2>
-              <p>FundEd üzerinde <Link href={`/${locale}/fund-a-student`}>doğrulanmış bir öğrenciyi destekleyerek</Link> ESG &quot;S&quot; (Sosyal) bileşenine doğrudan katkıda bulunursunuz. Süreç şu şekilde işler:</p>
-              <ol>
-                <li>Doğrulanmış öğrenci profillerinden size uygun olanı seçin</li>
-                <li>Güvenli ödeme ile bağışınızı tamamlayın</li>
-                <li>Dashboard üzerinden öğrencinin ilerlemesini ve etki raporlarını takip edin</li>
-                <li>Yıllık ESG özet raporunuzu indirin (Kurumsal üyelerde otomatik)</li>
-              </ol>
-              <p>Her bağış takip edilir ve raporlanır. <Link href={`/${locale}/education-funding-calculator`}>Etki hesaplayıcımızla</Link> bağışınızın somut etkisini önceden görün — $25 bağış 3 ders kitabına, $100 bağış ise 20 tam eğitim gününe karşılık gelmektedir. <Link href={`/${locale}/how-it-works`}>Nasıl çalıştığını</Link> öğrenerek bugün başlayın.</p>
-            </>
-          ) : (
-            <>
-              <h1>What Is ESG-Aligned Giving in Education?</h1>
-              <p className="lead">ESG (Environmental, Social, Governance) investing is becoming standard for individual and corporate donors. Education donations, particularly for the &quot;Social&quot; component, represent a powerful ESG investment. In this article we examine what ESG is, why education is a strong social investment vehicle, and how FundEd aligns with this framework.</p>
+            {/* $191T stat */}
+            <section className="py-10 border-b border-slate-100">
+              <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-8 flex flex-col sm:flex-row items-center gap-6">
+                <div className="text-center sm:text-left flex-shrink-0">
+                  <p className="text-4xl md:text-5xl font-black text-white">$191T</p>
+                  <p className="text-amber-400 text-xs font-bold uppercase tracking-widest mt-1">2035</p>
+                </div>
+                <div className="w-px h-12 bg-slate-700 hidden sm:block flex-shrink-0" />
+                <p className="text-slate-300 text-sm leading-relaxed text-center sm:text-left">
+                  {isTr
+                    ? 'ESG uyumlu küresel yatırım pazarının 2035 yılına kadar ulaşması beklenen büyüklük. Somut ve ölçülebilir etkiyi tercih eden bilinçli yatırımcıların talebi bu büyümeyi yönlendiriyor.'
+                    : 'Projected size of the global ESG-aligned investment market by 2035. Demand from conscious investors who prefer concrete, measurable impact over vague narratives drives this growth.'}
+                </p>
+              </div>
+            </section>
 
-              <h2>What Is ESG?</h2>
-              <p>ESG is a framework for evaluating an investment or donation across three dimensions: <strong>Environmental</strong> impact, <strong>Social</strong> impact, and <strong>Governance</strong> quality. The framework originated in institutional investing but is now embraced by individual donors, foundations, and nonprofits as well.</p>
-              <p>The global ESG-aligned investment market is expected to reach $191 trillion by 2035. This growth reflects the demand from conscious donors and investors who prefer concrete, measurable impact over vague &quot;doing good&quot; narratives.</p>
+            {/* SDG section */}
+            <section className="py-10 border-b border-slate-100">
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
+                {isTr ? 'Neden Eğitim Güçlü Bir ESG Yatırımıdır?' : 'Why Education Is a Strong ESG Investment'}
+              </p>
+              <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                {isTr ? 'Eğitim, BM\'nin SDG 4 hedefine doğrudan katkıda bulunurken 4 ek hedefe daha etki eder.' : "Education directly contributes to UN SDG 4 — Quality Education — while impacting 4 additional goals."}
+              </p>
+              <div className="flex items-center gap-3 mb-5 p-4 bg-amber-50 border border-amber-200 rounded-2xl">
+                <span className="text-2xl font-black text-amber-600 flex-shrink-0">4</span>
+                <div>
+                  <p className="text-sm font-bold text-amber-900">{isTr ? 'SDG 4 — Kaliteli Eğitim' : 'SDG 4 — Quality Education'}</p>
+                  <p className="text-xs text-amber-700 mt-0.5">{isTr ? 'Eğitim bağışlarının doğrudan katkı sağladığı birincil hedef' : 'The primary goal education donations directly contribute to'}</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                {sdgs.map(s => (
+                  <div key={s.code} className={`${s.bg} border ${s.border} rounded-2xl p-4`}>
+                    <span className={`inline-block text-xs font-bold px-2 py-0.5 rounded-lg mb-2 ${s.badge}`}>{s.code}</span>
+                    <p className="text-sm font-bold text-slate-800 mb-1">{s.title}</p>
+                    <p className="text-xs text-slate-500 leading-relaxed">{s.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </section>
 
-              <h2>Why Education Is a Strong ESG Investment</h2>
-              <p>Education directly contributes to UN Sustainable Development Goal 4 — &quot;Quality Education.&quot; Beyond SDG 4, education investments have multi-dimensional impact:</p>
-              <ul>
-                <li><strong>SDG 1 — No Poverty:</strong> Educated individuals have higher lifetime earning potential.</li>
-                <li><strong>SDG 5 — Gender Equality:</strong> Girls&apos; access to education closes gender gaps systematically.</li>
-                <li><strong>SDG 8 — Decent Work and Economic Growth:</strong> A skilled workforce strengthens local economies.</li>
-                <li><strong>SDG 10 — Reduced Inequalities:</strong> Funding disadvantaged students directly addresses structural inequality.</li>
-              </ul>
-              <p>This multi-dimensional impact is what distinguishes education donations from other social investments in an ESG portfolio.</p>
+            {/* ESG Metrics */}
+            <section className="py-10 border-b border-slate-100">
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
+                {isTr ? 'ESG Raporlamasında Eğitim Metrikleri' : 'ESG Metrics in Education Reporting'}
+              </p>
+              <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                {isTr ? 'FundEd, kurumsal bağışçılar için her bağış başına ölçülebilir çıktılar sağlar.' : 'FundEd provides measurable outputs for every donation for corporate donors.'}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                {metrics.map((m, i) => (
+                  <span key={i} className="flex items-center gap-2 bg-slate-50 border border-slate-200 text-slate-700 text-xs px-3 py-2 rounded-xl font-medium">
+                    <span className="text-emerald-500">✓</span>{m}
+                  </span>
+                ))}
+              </div>
+            </section>
 
-              <h2>ESG Metrics in Education Reporting</h2>
-              <p>For corporate donors, the critical question is: &quot;How do we document this investment&apos;s impact?&quot; FundEd provides measurable outputs for every donation:</p>
-              <ul>
-                <li>Number of students supported and their verified profiles</li>
-                <li>Education duration completed (days/weeks/semesters)</li>
-                <li>Specific needs met (textbooks, meals, school supplies)</li>
-                <li>SDG 4 alignment and progress reporting</li>
-                <li>Verified student outcomes (grade completion, attendance rate)</li>
-              </ul>
+            {/* FundEd features */}
+            <section className="py-10 border-b border-slate-100">
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
+                {isTr ? 'FundEd ESG Raporlamasını Nasıl Sağlar?' : 'How FundEd Provides ESG Reporting'}
+              </p>
+              <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                {isTr
+                  ? 'FundEd Kurumsal, şirketlerin her bağış için otomatik ESG raporları almasını sağlar.'
+                  : 'FundEd Corporate allows companies to receive automatic ESG reports for every donation.'}
+              </p>
+              <div className="grid sm:grid-cols-2 gap-3">
+                {[
+                  { icon: '📊', label: isTr ? 'Otomatik ESG Raporları' : 'Automatic ESG Reports' },
+                  { icon: '🎯', label: isTr ? 'SDG Hizalama Belgesi' : 'SDG Alignment Documentation' },
+                  { icon: '🔍', label: isTr ? 'Doğrulanmış Öğrenci Sonuçları' : 'Verified Student Outcomes' },
+                  { icon: '📈', label: isTr ? 'Canlı Etki Takibi' : 'Live Impact Tracking' },
+                ].map(f => (
+                  <div key={f.label} className="flex items-center gap-3 p-4 bg-slate-50 border border-slate-200 rounded-xl">
+                    <span className="text-xl flex-shrink-0">{f.icon}</span>
+                    <span className="text-sm font-semibold text-slate-700">{f.label}</span>
+                  </div>
+                ))}
+              </div>
+              <p className="text-xs text-slate-400 mt-4">
+                {isTr ? <><Link href={`/${locale}/transparency`} className="text-emerald-600 hover:underline">Şeffaflık sayfamızda</Link> metodolojimizi ayrıntılı inceleyebilirsiniz.</> : <>See <Link href={`/${locale}/transparency`} className="text-emerald-600 hover:underline">our transparency page</Link> for our full methodology.</>}
+              </p>
+            </section>
 
-              <h2>How FundEd Provides ESG Reporting</h2>
-              <p>FundEd Corporate allows companies to receive automatic ESG reports for every donation. Reports include SDG alignment, impact metrics, and verified student outcomes. See <Link href={`/${locale}/transparency`}>our transparency page</Link> for our methodology and verification process in detail.</p>
-              <p>Individual donors can also track every donation&apos;s audit trail from their personal dashboard. This transparency is what fundamentally distinguishes FundEd from general crowdfunding platforms.</p>
+            {/* Steps + impact cards */}
+            <section className="py-10 border-b border-slate-100">
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">
+                {isTr ? 'Bireysel Bağışçılar Nasıl ESG Uyumlu Bağış Yapabilir?' : 'How Individual Donors Can Give in an ESG-Aligned Way'}
+              </p>
+              <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                {isTr ? 'FundEd üzerinde doğrulanmış bir öğrenciyi destekleyerek ESG "S" bileşenine doğrudan katkıda bulunursunuz.' : 'By supporting a verified student on FundEd, you directly contribute to the ESG "S" (Social) component.'}
+              </p>
+              <div className="space-y-3 mb-8">
+                {steps.map(s => (
+                  <div key={s.n} className="flex items-start gap-4">
+                    <span className="flex-shrink-0 w-9 h-9 rounded-xl bg-slate-900 text-white text-xs font-black flex items-center justify-center">{s.n}</span>
+                    <p className="text-sm text-slate-700 font-medium leading-relaxed pt-2">{s.text}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center">
+                  <p className="text-2xl font-black text-emerald-700">₺500</p>
+                  <p className="text-xs text-emerald-600 mt-1">{isTr ? '2 ders kitabı' : '2 textbooks'}</p>
+                </div>
+                <div className="bg-emerald-50 border border-emerald-200 rounded-2xl p-4 text-center">
+                  <p className="text-2xl font-black text-emerald-700">₺2.500</p>
+                  <p className="text-xs text-emerald-600 mt-1">{isTr ? '16 eğitim günü' : '16 education days'}</p>
+                </div>
+              </div>
+              <p className="text-xs text-slate-400 mt-4">
+                {isTr
+                  ? <><Link href={`/${locale}/education-funding-calculator`} className="text-emerald-600 hover:underline">Etki hesaplayıcımızla</Link> bağışınızın somut etkisini önceden görün. <Link href={`/${locale}/how-it-works`} className="text-emerald-600 hover:underline">Nasıl çalıştığını</Link> öğrenin.</>
+                  : <>Use our <Link href={`/${locale}/education-funding-calculator`} className="text-emerald-600 hover:underline">impact calculator</Link> to see concrete impact before you give. <Link href={`/${locale}/how-it-works`} className="text-emerald-600 hover:underline">Learn how it works</Link>.</>}
+              </p>
+            </section>
 
-              <h2>How Individual Donors Can Give in an ESG-Aligned Way</h2>
-              <p>By <Link href={`/${locale}/fund-a-student`}>supporting a verified student on FundEd</Link>, you directly contribute to the ESG &quot;S&quot; (Social) component. Here&apos;s how the process works:</p>
-              <ol>
-                <li>Browse verified student profiles and choose one that resonates with you</li>
-                <li>Complete your donation through secure payment</li>
-                <li>Track the student&apos;s progress and impact reports from your dashboard</li>
-                <li>Download your annual ESG summary report (automatic for Corporate members)</li>
-              </ol>
-              <p>Every donation is tracked and reported. Use our <Link href={`/${locale}/education-funding-calculator`}>impact calculator</Link> to see the concrete impact of your donation before you give — a $25 donation provides 3 textbooks, and a $100 donation covers 20 full days of education. <Link href={`/${locale}/how-it-works`}>Learn how it works</Link> and start today.</p>
-            </>
-          )}
+            {/* Related */}
+            <div className="pt-10 pb-4">
+              <p className="text-xs font-bold text-slate-400 uppercase tracking-widest mb-5">{isTr ? 'İlgili Makaleler' : 'Related Articles'}</p>
+              <div className="grid sm:grid-cols-2 gap-4">
+                <Link href={`/${locale}/blog/alternatives-to-gofundme-for-education`} className="group flex items-start gap-3 p-4 border border-slate-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50 transition-all">
+                  <span className="text-emerald-500 text-lg mt-0.5 flex-shrink-0 group-hover:translate-x-1 transition-transform">→</span>
+                  <span className="text-sm font-semibold text-slate-700 group-hover:text-emerald-700 transition-colors leading-snug">{isTr ? 'Eğitim için GoFundMe Alternatifleri (2026)' : 'Best Alternatives to GoFundMe for Education'}</span>
+                </Link>
+                <Link href={`/${locale}/blog/scholarship-vs-crowdfunding-vs-sponsorship`} className="group flex items-start gap-3 p-4 border border-slate-200 rounded-xl hover:border-emerald-300 hover:bg-emerald-50 transition-all">
+                  <span className="text-emerald-500 text-lg mt-0.5 flex-shrink-0 group-hover:translate-x-1 transition-transform">→</span>
+                  <span className="text-sm font-semibold text-slate-700 group-hover:text-emerald-700 transition-colors leading-snug">{isTr ? 'Burs, Kitle Fonlaması, Sponsorluk: Hangisi Daha İyi?' : 'Scholarship vs. Crowdfunding vs. Sponsorship'}</span>
+                </Link>
+              </div>
+            </div>
 
-          <div className="not-prose mt-10 border-t border-slate-100 pt-8">
-            <p className="font-semibold text-slate-700 mb-4">{isTr ? 'İlgili Makaleler' : 'Related Articles'}</p>
-            <div className="flex flex-col gap-2">
-              <Link href={`/${locale}/blog/alternatives-to-gofundme-for-education`} className="text-emerald-600 underline underline-offset-4">
-                {isTr ? 'Eğitim için GoFundMe Alternatifleri (2026)' : 'Best Alternatives to GoFundMe for Education (2026)'}
-              </Link>
-              <Link href={`/${locale}/blog/scholarship-vs-crowdfunding-vs-sponsorship`} className="text-emerald-600 underline underline-offset-4">
-                {isTr ? 'Burs, Kitle Fonlaması, Sponsorluk: Hangisi Daha İyi?' : 'Scholarship vs. Crowdfunding vs. Sponsorship: Which Is Best?'}
+            {/* CTA */}
+            <div className="mt-4 mb-12 bg-gradient-to-br from-slate-900 to-slate-800 rounded-2xl p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+              <div>
+                <p className="text-amber-400 text-xs font-bold uppercase tracking-widest mb-2">{isTr ? 'ESG Uyumlu Bağış' : 'ESG-Aligned Giving'}</p>
+                <p className="text-white font-bold text-xl mb-1">{isTr ? 'Ölçülebilir etki, doğrulanmış öğrenciler' : 'Measurable impact, verified students'}</p>
+                <p className="text-slate-400 text-sm">{isTr ? 'Her bağış takip edilir, raporlanır ve SDG 4\'e hizalanır.' : 'Every donation tracked, reported, and aligned to SDG 4.'}</p>
+              </div>
+              <Link href={`/${locale}/fund-a-student`} className="flex-shrink-0 bg-emerald-500 hover:bg-emerald-400 text-white font-semibold px-6 py-3 rounded-xl transition-colors whitespace-nowrap">
+                {isTr ? 'ESG uyumlu bağış yap →' : 'Make an ESG-aligned donation →'}
               </Link>
             </div>
-          </div>
-          <div className="not-prose mt-8 p-6 bg-emerald-50 rounded-2xl">
-            <Link href={`/${locale}/fund-a-student`} className="inline-block bg-emerald-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-emerald-700 transition-colors">
-              {isTr ? 'ESG uyumlu bağış yap →' : 'Make an ESG-aligned donation →'}
-            </Link>
+
           </div>
         </main>
         <Footer />
