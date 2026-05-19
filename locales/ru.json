@@ -81,7 +81,11 @@
       "missionVision": "Mission & Vision",
       "missionVisionDesc": "Our goals and mission",
       "aboutUs": "About Us",
-      "aboutUsDesc": "Get to know us"
+      "aboutUsDesc": "Get to know us",
+      "blog": "Блог",
+      "blogDesc": "Руководства по финансированию образования",
+      "impactCalculator": "Калькулятор воздействия",
+      "impactCalculatorDesc": "Узнайте о влиянии вашего пожертвования"
     }
   },
   "pages": {

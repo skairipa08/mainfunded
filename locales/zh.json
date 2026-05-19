@@ -81,7 +81,11 @@
       "missionVision": "Mission & Vision",
       "missionVisionDesc": "Our goals and mission",
       "aboutUs": "About Us",
-      "aboutUsDesc": "Get to know us"
+      "aboutUsDesc": "Get to know us",
+      "blog": "博客",
+      "blogDesc": "教育资助指南",
+      "impactCalculator": "影响计算器",
+      "impactCalculatorDesc": "查看您捐款的影响"
     }
   },
   "pages": {

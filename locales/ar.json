@@ -81,7 +81,11 @@
       "missionVision": "Mission & Vision",
       "missionVisionDesc": "Our goals and mission",
       "aboutUs": "About Us",
-      "aboutUsDesc": "Get to know us"
+      "aboutUsDesc": "Get to know us",
+      "blog": "المدونة",
+      "blogDesc": "أدلة تمويل التعليم",
+      "impactCalculator": "حاسبة الأثر",
+      "impactCalculatorDesc": "اكتشف تأثير تبرعك"
     }
   },
   "pages": {

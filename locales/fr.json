@@ -81,7 +81,11 @@
       "missionVision": "Mission & Vision",
       "missionVisionDesc": "Our goals and mission",
       "aboutUs": "About Us",
-      "aboutUsDesc": "Get to know us"
+      "aboutUsDesc": "Get to know us",
+      "blog": "Blog",
+      "blogDesc": "Guides de financement éducatif",
+      "impactCalculator": "Calculateur d'impact",
+      "impactCalculatorDesc": "Voir l'impact de votre don"
     }
   },
   "pages": {
