@@ -1,76 +1,123 @@
-import { notFound } from 'next/navigation';
-import { applyPrivacySettings, ViewerRole } from '@/lib/student-privacy';
-import { ProfileHeader } from '@/components/student-passport/ProfileHeader';
-import { VerificationBadges } from '@/components/student-passport/VerificationBadges';
-import { Timeline } from '@/components/student-passport/Timeline';
-import { MessageForm } from '@/components/student-passport/MessageForm';
+import { notFound } from 'next/navigation'
+import type { Metadata } from 'next'
+import { getDb } from '@/lib/db'
+import { ObjectId } from 'mongodb'
+import { applyPrivacySettings, ViewerRole } from '@/lib/student-privacy'
+import { ProfileHeader } from '@/components/student-passport/ProfileHeader'
+import { VerificationBadges } from '@/components/student-passport/VerificationBadges'
+import { Timeline } from '@/components/student-passport/Timeline'
+import { MessageForm } from '@/components/student-passport/MessageForm'
+import { JsonLd } from '@/components/seo/JsonLd'
+import { personSchema, breadcrumbSchema } from '@/lib/seo/schemas'
+import { studentMetadata, type StudentSeoData } from '@/lib/seo/generate-metadata'
 
-// Mock DB function - in a real app this would use Prisma client
 async function getStudentProfile(id: string) {
-    // Mock data for demo purposes
-    if (id !== '1') return null;
+  try {
+    const db = await getDb()
+    const [profile, user, verifications] = await Promise.all([
+      db.collection('student_profiles').findOne({ user_id: id }),
+      ObjectId.isValid(id)
+        ? db.collection('users').findOne(
+            { _id: new ObjectId(id) },
+            { projection: { name: 1, image: 1 } }
+          )
+        : null,
+      db.collection('verifications')
+        .find({ user_id: id, status: 'approved' }, { projection: { type: 1, status: 1 } })
+        .toArray(),
+    ])
+    if (!user) return null
 
+    const mappedProfile = {
+      ...(profile || {}),
+      photoUrl: user.image || null,
+      schoolName: profile?.university || null,
+      major: profile?.fieldOfStudy || profile?.field_of_study || null,
+      shortStory: profile?.shortStory || null,
+    }
+    const settings = {
+      ageVisibility: profile?.ageVisibility || 'EVERYONE',
+      gpaVisibility: profile?.gpaVisibility || 'DONORS_ONLY',
+      storyVisibility: profile?.storyVisibility || 'EVERYONE',
+    }
     return {
-        profile: {
-            id: '1',
-            userId: 'user-1',
-            photoUrl: 'https://images.unsplash.com/photo-1544717305-2782549b5136?q=80&w=200&auto=format&fit=crop',
-            age: 21,
-            schoolName: 'Bogazici University',
-            grade: '3rd Year',
-            major: 'Computer Engineering',
-            careerGoal: 'Software Engineer specializing in AI',
-            hobbies: ['Reading', 'Coding', 'Chess'],
-            shortStory: 'I grew up in a small town and always dreamed of building technology that helps people. Thanks to my donors, I am now able to focus entirely on my studies without worrying about financial constraints.',
-            gpa: 3.8,
-        },
-        settings: {
-            ageVisibility: 'EVERYONE',
-            gpaVisibility: 'DONORS_ONLY',
-            storyVisibility: 'EVERYONE'
-        },
-        verifications: [
-            { type: 'ID', status: 'APPROVED' },
-            { type: 'SCHOOL', status: 'APPROVED' },
-            { type: 'TEACHER', status: 'APPROVED' }
-        ],
-        achievements: [
-            { id: 'a1', type: 'SCHOLARSHIP', title: 'First Scholarship Received', date: new Date('2023-09-01') },
-            { id: 'a2', type: 'PASSED_CLASS', title: 'Finished 1st Year', date: new Date('2024-06-15') },
-            { id: 'a3', type: 'OTHER', title: 'Hackathon Winner', description: 'Won 1st place in national AI hackathon', date: new Date('2025-05-20') }
-        ]
-    };
+      profile: mappedProfile,
+      settings,
+      user,
+      verifications: verifications.map((v: any) => ({ type: v.type, status: 'APPROVED' })),
+      achievements: [],
+    }
+  } catch {
+    return null
+  }
 }
 
-export default async function StudentProfilePage({ params }: { params: { id: string } }) {
-    const data = await getStudentProfile(params.id);
+export async function generateMetadata(
+  { params }: { params: { id: string; locale: string } }
+): Promise<Metadata> {
+  const data = await getStudentProfile(params.id)
+  if (!data) return { title: 'Öğrenci Bulunamadı — FundEd' }
+  const p = data.profile as any
+  const seoData: StudentSeoData = {
+    userId: params.id,
+    name: data.user.name || 'Öğrenci',
+    image: data.user.image,
+    fieldOfStudy: p.fieldOfStudy || p.field_of_study,
+    university: p.university,
+    shortStory: p.shortStory,
+  }
+  return studentMetadata(seoData, params.locale)
+}
 
-    if (!data) {
-        notFound();
-    }
+export default async function StudentProfilePage({
+  params,
+}: { params: { id: string; locale: string } }) {
+  const data = await getStudentProfile(params.id)
+  if (!data) return notFound()
 
-    // Determine viewer role (in real app, get from auth session + db check if donor donated to this student)
-    const viewerRole: ViewerRole = 'EVERYONE'; // change to 'DONORS_ONLY' to see hidden fields like GPA
+  const { profile, settings, user, verifications, achievements } = data
+  const isTr = params.locale === 'tr'
+  const studentUrl = `https://fund-ed.com/${params.locale}/student/${params.id}`
 
-    // Apply privacy settings
-    const safeProfile = applyPrivacySettings(data.profile, data.settings, viewerRole);
+  const viewerRole: ViewerRole = 'EVERYONE'
+  const safeProfile = applyPrivacySettings(profile, settings, viewerRole)
 
-    return (
-        <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto">
-                <ProfileHeader profile={safeProfile} />
+  const schemas = [
+    personSchema({
+      name: user.name || 'Öğrenci',
+      description: safeProfile.shortStory || '',
+      imageUrl: user.image,
+      url: studentUrl,
+    }),
+    breadcrumbSchema(isTr
+      ? [
+          { name: 'Ana Sayfa', url: 'https://fund-ed.com/tr' },
+          { name: 'Öğrenci Profili', url: studentUrl },
+        ]
+      : [
+          { name: 'Home', url: 'https://fund-ed.com/en' },
+          { name: 'Student Profile', url: studentUrl },
+        ]
+    ),
+  ]
 
-                <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <div className="lg:col-span-2 space-y-6">
-                        <Timeline achievements={data.achievements} />
-                    </div>
-
-                    <div className="space-y-6">
-                        <VerificationBadges verifications={data.verifications} />
-                        <MessageForm studentId={data.profile.id} />
-                    </div>
-                </div>
+  return (
+    <>
+      {schemas.map((s, i) => <JsonLd key={i} schema={s} />)}
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <ProfileHeader profile={safeProfile} />
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <div className="lg:col-span-2 space-y-6">
+              <Timeline achievements={achievements} />
             </div>
+            <div className="space-y-6">
+              <VerificationBadges verifications={verifications} />
+              <MessageForm studentId={params.id} />
+            </div>
+          </div>
         </div>
-    );
+      </div>
+    </>
+  )
 }

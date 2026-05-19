@@ -5,9 +5,9 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import CampaignDetailClient from './CampaignDetailClient';
 import { fetchCampaignData } from './fetchCampaign';
-import { buildAlternates } from '@/lib/seo/metadata'
 import { JsonLd } from '@/components/seo/JsonLd'
-import { personSchema, educationalOrgSchema, breadcrumbSchema } from '@/lib/seo/schemas'
+import { personSchema, educationalOrgSchema, breadcrumbSchema, campaignSchema } from '@/lib/seo/schemas'
+import { campaignMetadata } from '@/lib/seo/generate-metadata'
 
 interface Props {
   params: { id: string; locale: string }
@@ -16,28 +16,7 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const campaign = await fetchCampaignData(params.id)
   if (!campaign) return { title: 'Campaign Not Found — FundEd' }
-
-  const description = campaign.story
-    ? campaign.story.substring(0, 160) + (campaign.story.length > 160 ? '...' : '')
-    : `Support ${campaign.student?.name}'s education on FundEd`
-
-  return {
-    title: `${campaign.title} — FundEd`,
-    description,
-    openGraph: {
-      title: campaign.title,
-      description,
-      type: 'article',
-      images: campaign.cover_image ? [{ url: campaign.cover_image, width: 1200, height: 630 }] : [],
-    },
-    twitter: {
-      card: 'summary_large_image',
-      title: campaign.title,
-      description,
-      images: campaign.cover_image ? [campaign.cover_image] : [],
-    },
-    alternates: buildAlternates(params.locale, '/campaign/' + params.id),
-  }
+  return campaignMetadata(campaign, params.locale)
 }
 
 function CampaignDetailLoading() {
@@ -77,6 +56,15 @@ export default async function CampaignDetailPage({ params }: Props) {
   const isTr = params.locale === 'tr'
 
   const schemas = [
+    campaignSchema({
+      title: campaign.title,
+      description: campaign.story?.substring(0, 200) || '',
+      url: `https://fund-ed.com/${params.locale}/campaign/${campaign.campaign_id}`,
+      imageUrl: `https://fund-ed.com/api/og/campaign/${campaign.campaign_id}`,
+      raisedAmount: campaign.raised_amount,
+      goalAmount: campaign.goal_amount,
+      studentName: campaign.student?.name || campaign.title,
+    }),
     personSchema({
       name: campaign.student?.name || campaign.title,
       description: campaign.story?.substring(0, 200) || '',
