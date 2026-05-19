@@ -2,8 +2,11 @@ import { Resend } from 'resend';
 import { render } from '@react-email/render';
 import ImpactReportEmail from '@/components/emails/ImpactReportEmail';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const EMAIL_FROM = process.env.EMAIL_FROM || 'FundEd <onboarding@resend.dev>';
+
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY || 're_placeholder');
+}
 
 export async function sendImpactReportEmail({
     to,
@@ -48,7 +51,7 @@ export async function sendImpactReportEmail({
     const subject = t('email.impactReport.header', { years: yearsSupported });
 
     try {
-        const data = await resend.emails.send({
+        const data = await getResend().emails.send({
             from: EMAIL_FROM,
             to,
             subject,

@@ -6,8 +6,11 @@ import {
   BudgetThresholdReachedEmail,
 } from './email-templates';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 const EMAIL_FROM = process.env.EMAIL_FROM || 'FundEd <onboarding@resend.dev>';
+
+function getResend() {
+  return new Resend(process.env.RESEND_API_KEY || 're_placeholder');
+}
 
 type AlertKind = '80' | '100';
 
@@ -40,7 +43,7 @@ export async function sendBudgetAlert(
               limitTRY,
             })
           );
-    await resend.emails.send({
+    await getResend().emails.send({
       from: EMAIL_FROM,
       to: company.contactEmail,
       subject,
