@@ -20,3 +20,8 @@ tsconfig.tsbuildinfo
 
 # Worktrees
 .worktrees/
+
+# Internal tooling
+.claude/
+.superpowers/
+
