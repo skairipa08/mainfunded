@@ -9,7 +9,12 @@ export async function GET(
   _req: NextRequest,
   { params }: { params: { id: string } }
 ) {
-  const campaign = await fetchCampaignData(params.id)
+  let campaign
+  try {
+    campaign = await fetchCampaignData(params.id)
+  } catch {
+    campaign = null
+  }
 
   if (!campaign) {
     // Branded fallback

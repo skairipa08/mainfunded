@@ -19,7 +19,7 @@ export async function POST(req: NextRequest) {
 export async function GET() {
   try {
     const session = await auth()
-    if ((session?.user as any)?.role !== 'ADMIN') {
+    if ((session?.user as any)?.role !== 'admin') {
       return NextResponse.json({ error: 'forbidden' }, { status: 403 })
     }
     const summary = await getVitalsSummary()

@@ -1,8 +1,5 @@
-interface Props {
-  params: { id: string };
-  children: React.ReactNode;
-}
+import type { ReactNode } from 'react'
 
-export default function CampaignLayout({ children }: Props) {
-  return children;
+export default function CampaignLayout({ children }: { children: ReactNode }) {
+  return children
 }
