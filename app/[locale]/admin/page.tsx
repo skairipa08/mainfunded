@@ -6,7 +6,7 @@ import Link from 'next/link';
 import { StatCard } from '@/components/ui/StatCard';
 import { Button } from '@/components/ui/button';
 import { toast } from 'sonner';
-import { Users, ShieldAlert, Megaphone, DollarSign, Wallet, FileText, RefreshCcw } from 'lucide-react';
+import { Users, ShieldAlert, Megaphone, DollarSign, Wallet, FileText, RefreshCcw, FolderKanban } from 'lucide-react';
 import { useCurrency } from '@/lib/currency-context';
 import { useTranslation } from "@/lib/i18n/context";
 
@@ -130,6 +130,9 @@ export default function AdminDashboard() {
           </Link>
           <Link href="/admin/audit">
             <Button variant="outline"><FileText className="h-4 w-4 mr-2" /> {t('app.page.denetim_kay_tlar')}</Button>
+          </Link>
+          <Link href="/admin/projects">
+            <Button variant="outline"><FolderKanban className="h-4 w-4 mr-2" /> Projeler</Button>
           </Link>
         </div>
       </div>

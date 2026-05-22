@@ -50,6 +50,7 @@
     "@radix-ui/react-tooltip": "^1.2.4",
     "@react-email/components": "^1.0.8",
     "@react-email/render": "^2.0.4",
+    "@swc/helpers": "^0.5.21",
     "@types/react-datepicker": "^6.2.0",
     "axios": "^1.8.4",
     "bcryptjs": "^3.0.3",
