@@ -15,18 +15,19 @@ export async function generateMetadata({
   const isTr = locale === 'tr'
   return {
     title: isTr
-      ? 'Bir Öğrenciyi Destekle | FundEd'
+      ? 'Doğrulanmış Öğrenci Destekle, Eğitim Bağışı | FundEd'
       : "Fund a Student's Education | FundEd",
     description: isTr
       ? 'Doğrulanmış öğrencileri küresel çapta destekleyin. ESG uyumlu ilk eğitim fonlama platformu. Gerçek etkiyi takip edin.'
       : 'Sponsor verified students globally on the first ESG-aligned education funding platform. Track real impact.',
     openGraph: {
       title: isTr
-        ? 'Bir Öğrenciyi Destekle | FundEd'
+        ? 'Doğrulanmış Öğrenci Destekle, Eğitim Bağışı | FundEd'
         : "Fund a Student's Education | FundEd",
       description: isTr
         ? 'Doğrulanmış öğrencileri küresel çapta destekleyin. ESG uyumlu ilk eğitim fonlama platformu.'
         : 'Sponsor verified students globally on the first ESG-aligned education funding platform.',
+      url: isTr ? 'https://www.fund-ed.com/tr/' : 'https://www.fund-ed.com/en/',
       images: ['/og-image.png'],
       locale: isTr ? 'tr_TR' : 'en_US',
     },

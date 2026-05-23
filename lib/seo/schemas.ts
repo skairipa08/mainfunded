@@ -1,19 +1,29 @@
 // lib/seo/schemas.ts
 
-const BASE = 'https://fund-ed.com'
+const BASE = 'https://www.fund-ed.com'
 const BRAND = 'FundEd'
 
 /* ── Organization (sitewide) ── */
-export function organizationSchema() {
+export function organizationSchema(locale = 'tr') {
+  const isTr = locale === 'tr'
   return {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: BRAND,
     url: BASE,
     logo: `${BASE}/logo.png`,
-    sameAs: [],
-    description:
-      'FundEd is the first ESG-aligned education crowdfunding platform with verified student outcomes.',
+    sameAs: [
+      'https://www.linkedin.com/company/funded-platform',
+      'https://twitter.com/FundEdPlatform',
+      'https://www.instagram.com/funded.platform',
+      'https://www.facebook.com/FundEdPlatform',
+    ],
+    description: {
+      '@value': isTr
+        ? 'FundEd, doğrulanmış öğrenci sonuçlarına sahip ilk ESG uyumlu eğitim kitle fonlama platformudur.'
+        : 'FundEd is the first ESG-aligned education crowdfunding platform with verified student outcomes.',
+      '@language': locale,
+    },
   }
 }
 

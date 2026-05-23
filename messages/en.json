@@ -3833,7 +3833,7 @@
   "components.impactmetricscards.desteklenen_renci_say_s": "[en] Desteklenen Öğrenci Sayısı",
   "components.impactmetricscards.sosyal_etki_sdg_1_10": "[en] Sosyal Etki (SDG 1 & 10)",
   "components.notificationpanel.t_m_bildirimleri_g_r": "[en] Tüm bildirimleri gör →",
-  "components.notificationpanel.ba_takvimi": "[en] Bağış Takvimi",
+  "components.notificationpanel.ba_takvimi": "Donation Calendar",
   "components.notificationpanel.ba_yapt_n_zda_burada_g_ncellem": "[en] Bağış yaptığınızda burada güncellemeler göreceksiniz",
   "components.notificationpanel.hen_z_bildiriminiz_yok": "[en] Henüz bildiriminiz yok",
   "components.notificationpanel.y_kleniyor": "[en] Yükleniyor...",

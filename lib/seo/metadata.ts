@@ -1,6 +1,6 @@
 // lib/seo/metadata.ts
 
-const BASE = 'https://fund-ed.com'
+const BASE = 'https://www.fund-ed.com'
 
 /**
  * Generates canonical + hreflang alternates for every page.

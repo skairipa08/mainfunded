@@ -25,8 +25,8 @@ export async function generateMetadata({ params: { locale } }: Props): Promise<M
 export default function WhoWeArePage({ params: { locale } }: Props) {
   const isTr = locale === 'tr'
   const breadcrumbs = isTr
-    ? [{ name: 'Ana Sayfa', url: 'https://fund-ed.com/tr' }, { name: 'Hakkımızda', url: 'https://fund-ed.com/tr/who-we-are' }]
-    : [{ name: 'Home', url: 'https://fund-ed.com/en' }, { name: 'About', url: 'https://fund-ed.com/en/who-we-are' }]
+    ? [{ name: 'Ana Sayfa', url: 'https://www.fund-ed.com/tr' }, { name: 'Hakkımızda', url: 'https://www.fund-ed.com/tr/who-we-are' }]
+    : [{ name: 'Home', url: 'https://www.fund-ed.com/en' }, { name: 'About', url: 'https://www.fund-ed.com/en/who-we-are' }]
 
   return (
     <>

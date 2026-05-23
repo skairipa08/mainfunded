@@ -52,6 +52,17 @@ const nextConfig = {
     }
     return config;
   },
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'fund-ed.com' }],
+        destination: 'https://www.fund-ed.com/:path*',
+        permanent: true,
+      },
+    ]
+  },
+
   async headers() {
     return [
       {

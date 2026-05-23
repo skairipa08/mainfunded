@@ -77,7 +77,7 @@ export default async function StudentProfilePage({
 
   const { profile, settings, user, verifications, achievements } = data
   const isTr = params.locale === 'tr'
-  const studentUrl = `https://fund-ed.com/${params.locale}/student/${params.id}`
+  const studentUrl = `https://www.fund-ed.com/${params.locale}/student/${params.id}`
 
   const viewerRole: ViewerRole = 'EVERYONE'
   const safeProfile = applyPrivacySettings(profile, settings, viewerRole)
@@ -91,11 +91,11 @@ export default async function StudentProfilePage({
     }),
     breadcrumbSchema(isTr
       ? [
-          { name: 'Ana Sayfa', url: 'https://fund-ed.com/tr' },
+          { name: 'Ana Sayfa', url: 'https://www.fund-ed.com/tr' },
           { name: 'Öğrenci Profili', url: studentUrl },
         ]
       : [
-          { name: 'Home', url: 'https://fund-ed.com/en' },
+          { name: 'Home', url: 'https://www.fund-ed.com/en' },
           { name: 'Student Profile', url: studentUrl },
         ]
     ),

@@ -42,8 +42,8 @@ export default function TransparencyPage({ params: { locale } }: Props) {
   const isTr = locale === 'tr'
   const faqs = isTr ? faqTr : faqEn
   const breadcrumbs = isTr
-    ? [{ name: 'Ana Sayfa', url: 'https://fund-ed.com/tr' }, { name: 'Şeffaflık', url: 'https://fund-ed.com/tr/transparency' }]
-    : [{ name: 'Home', url: 'https://fund-ed.com/en' }, { name: 'Transparency', url: 'https://fund-ed.com/en/transparency' }]
+    ? [{ name: 'Ana Sayfa', url: 'https://www.fund-ed.com/tr' }, { name: 'Şeffaflık', url: 'https://www.fund-ed.com/tr/transparency' }]
+    : [{ name: 'Home', url: 'https://www.fund-ed.com/en' }, { name: 'Transparency', url: 'https://www.fund-ed.com/en/transparency' }]
 
   return (
     <>

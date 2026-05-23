@@ -42,8 +42,8 @@ export default function HowItWorksPage({ params: { locale } }: Props) {
   const isTr = locale === 'tr'
   const faqs = isTr ? faqTr : faqEn
   const breadcrumbs = isTr
-    ? [{ name: 'Ana Sayfa', url: 'https://fund-ed.com/tr' }, { name: 'Nasıl Çalışır', url: 'https://fund-ed.com/tr/how-it-works' }]
-    : [{ name: 'Home', url: 'https://fund-ed.com/en' }, { name: 'How It Works', url: 'https://fund-ed.com/en/how-it-works' }]
+    ? [{ name: 'Ana Sayfa', url: 'https://www.fund-ed.com/tr' }, { name: 'Nasıl Çalışır', url: 'https://www.fund-ed.com/tr/how-it-works' }]
+    : [{ name: 'Home', url: 'https://www.fund-ed.com/en' }, { name: 'How It Works', url: 'https://www.fund-ed.com/en/how-it-works' }]
 
   return (
     <>

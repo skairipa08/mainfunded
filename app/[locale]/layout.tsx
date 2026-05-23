@@ -15,7 +15,7 @@ import { WebVitalsTracker } from '@/components/analytics/WebVitalsTracker';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://fund-ed.com'),
+  metadataBase: new URL('https://www.fund-ed.com'),
   title: {
     default: 'FundEd - Eğitim Kitle Fonlama Platformu',
     template: '%s | FundEd',
@@ -64,7 +64,7 @@ export default async function RootLayout({
   return (
     <html lang={locale}>
       <body className={inter.className}>
-        <JsonLd schema={organizationSchema()} />
+        <JsonLd schema={organizationSchema(locale)} />
         <JsonLd schema={websiteSchema()} />
         <GoogleAnalytics gaId="G-NRN6MW6SDF" />
         <NextIntlClientProvider messages={messages}>

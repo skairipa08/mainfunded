@@ -3,7 +3,7 @@ import type { Metadata } from 'next'
 import { buildAlternates } from '@/lib/seo/metadata'
 import type { CampaignData } from '@/app/[locale]/campaign/[id]/fetchCampaign'
 
-const BASE = 'https://fund-ed.com'
+const BASE = 'https://www.fund-ed.com'
 
 function truncate(text: string, max = 157): string {
   if (!text) return ''
